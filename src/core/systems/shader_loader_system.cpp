@@ -4,7 +4,6 @@
 #include "../../../include/core/components/shader_component.h"
 
 std::shared_ptr<ShaderLoaderSystem> ShaderLoaderSystem::instance = 0;
-Signature ShaderLoaderSystem::signature = 0;
 
 std::shared_ptr<ShaderLoaderSystem> ShaderLoaderSystem::Get()
 {
@@ -28,6 +27,8 @@ void ShaderLoaderSystem::InitShaders()
 
     // A list of entities that have a ShaderComponent, but have not loaded their shaders to the gpu yet
     std::set<Entity> entities_with_unloaded_shader{};
+    Signature signature;
+    signature.set(Coordinator::Get()->GetComponentType<ShaderComponent>(), true);
     for (Entity entity : Coordinator::Get()->GetEntities(signature))
     {
         auto &shader_component = Coordinator::Get()->GetComponent<ShaderComponent>(entity);
@@ -82,7 +83,5 @@ void ShaderLoaderSystem::InitShaders()
 std::shared_ptr<ShaderLoaderSystem> ShaderLoaderSystem::RegisterSystem()
 {
     std::shared_ptr<ShaderLoaderSystem> ptr = Coordinator::Get()->RegisterSystem<ShaderLoaderSystem>();
-    signature.set(Coordinator::Get()->GetComponentType<ShaderComponent>(), true);
-    Coordinator::Get()->SetSystemSignature<ShaderLoaderSystem>(signature);
     return ptr;
 }

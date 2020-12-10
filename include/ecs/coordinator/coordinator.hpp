@@ -30,8 +30,6 @@ public:
         entity_manager->DestroyEntity(entity);
 
         component_manager->EntityDestroyed(entity);
-
-        // system_manager->EntityDestroyed(entity);
     }
 
     std::set<Entity> GetEntities(Signature signature)
@@ -54,8 +52,6 @@ public:
         auto signature = entity_manager->GetSignature(entity);
         signature.set(component_manager->GetComponentType<T>(), true);
         entity_manager->SetSignature(entity, signature);
-
-        // system_manager->EntitySignatureChanged(entity, signature);
     }
 
     template <typename T>
@@ -66,8 +62,6 @@ public:
         auto signature = entity_manager->GetSignature(entity);
         signature.set(component_manager->GetComponent<T>(), false);
         entity_manager->SetSignature(entity, signature);
-
-        // system_manager->EntitySignatureChanged(entity, signature);
     }
 
     template <typename T>
@@ -98,12 +92,6 @@ public:
     void DeregisterSystem()
     {
         return system_manager->DeregisterSystem<T>();
-    }
-
-    template <typename T>
-    void SetSystemSignature(Signature signature)
-    {
-        // system_manager->SetSignature<T>(signature);
     }
 
 private:

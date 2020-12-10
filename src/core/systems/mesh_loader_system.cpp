@@ -9,7 +9,6 @@
 #include <vector>
 #include <string.h>
 std::shared_ptr<MeshLoaderSystem> MeshLoaderSystem::instance = nullptr;
-Signature MeshLoaderSystem::signature = 0;
 
 std::shared_ptr<MeshLoaderSystem> MeshLoaderSystem::Get()
 {
@@ -24,8 +23,6 @@ std::shared_ptr<MeshLoaderSystem> MeshLoaderSystem::Get()
 std::shared_ptr<MeshLoaderSystem> MeshLoaderSystem::RegisterSystem()
 {
     std::shared_ptr<MeshLoaderSystem> ptr = Coordinator::Get()->RegisterSystem<MeshLoaderSystem>();
-    signature.set(Coordinator::Get()->GetComponentType<StaticMeshComponent>());
-    Coordinator::Get()->SetSystemSignature<MeshLoaderSystem>(signature);
     return ptr;
 }
 void MeshLoaderSystem::DestroyEntity(Entity entity)
@@ -34,6 +31,8 @@ void MeshLoaderSystem::DestroyEntity(Entity entity)
 
 void MeshLoaderSystem::Update()
 {
+    Signature signature;
+    signature.set(Coordinator::Get()->GetComponentType<StaticMeshComponent>());
     for (Entity entity : Coordinator::Get()->GetEntities(signature))
     {
         auto &component = Coordinator::Get()->GetComponent<StaticMeshComponent>(entity);

@@ -2,10 +2,12 @@
 #include "../../../include/ecs/coordinator/coordinator.hpp"
 
 std::shared_ptr<CameraSystem> CameraSystem::instance = 0;
-Signature CameraSystem::signature = 0;
 
 void CameraSystem::Update()
 {
+    Signature signature;
+    signature.set(Coordinator::Get()->GetComponentType<CameraComponent>());
+    signature.set(Coordinator::Get()->GetComponentType<TransformComponent>());
     for (Entity entity : Coordinator::Get()->GetEntities(signature))
     {
         CameraComponent &camera_component = Coordinator::Get()->GetComponent<CameraComponent>(entity);
@@ -29,8 +31,5 @@ std::shared_ptr<CameraSystem> CameraSystem::Get()
 std::shared_ptr<CameraSystem> CameraSystem::RegisterSystem()
 {
     std::shared_ptr<CameraSystem> ptr = Coordinator::Get()->RegisterSystem<CameraSystem>();
-    signature.set(Coordinator::Get()->GetComponentType<CameraComponent>());
-    signature.set(Coordinator::Get()->GetComponentType<TransformComponent>());
-    Coordinator::Get()->SetSystemSignature<CameraSystem>(signature);
     return ptr;
 }

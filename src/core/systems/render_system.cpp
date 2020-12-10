@@ -13,7 +13,6 @@
 #include <glm/gtx/quaternion.hpp>
 
 std::shared_ptr<RenderSystem> RenderSystem::instance = 0;
-Signature RenderSystem::signature = 0;
 
 std::shared_ptr<RenderSystem> RenderSystem::Get()
 {
@@ -38,7 +37,6 @@ void RenderSystem::Update(float delta_time)
     Signature camera_signature;
     camera_signature.set(Coordinator::Get()->GetComponentType<CameraComponent>(), true);
     camera_signature.set(Coordinator::Get()->GetComponentType<TransformComponent>(), true);
-    // camera_signature.set(Coordinator::Get()->GetComponentType<ControllerComponent>(), true);
     Entity camera = -1;
     for (Entity entity : Coordinator::Get()->GetEntities(camera_signature))
     {
@@ -46,13 +44,7 @@ void RenderSystem::Update(float delta_time)
         auto &transform_component = Coordinator::Get()->GetComponent<TransformComponent>(entity);
         if (camera_component.enabled)
         {
-            float horizontal_angle = delta_time * 45;
-            glm::vec3 direction(
-                cos(0) * sin(horizontal_angle),
-                sin(0),
-                cos(0) * cos(horizontal_angle));
-            glm::mat4 forward = glm::toMat4(transform_component.rotation) * glm::translate(glm::mat4(1.0f), transform_component.position);
-            camera_component.view_matrix = glm::lookAt(transform_component.position, transform_component.position, glm::vec3(0, 1, 0));
+            camera_component.view_matrix = glm::lookAt(transform_component.position, transform_component.position + transform_component.Forward(), glm::vec3(0, 1, 0));
             camera = entity;
             break;
         }
@@ -65,6 +57,11 @@ void RenderSystem::Update(float delta_time)
         return;
     }
 
+    Signature signature;
+    signature.set(Coordinator::Get()->GetComponentType<StaticMeshComponent>(), true);
+    signature.set(Coordinator::Get()->GetComponentType<TransformComponent>(), true);
+    signature.set(Coordinator::Get()->GetComponentType<ShaderComponent>(), true);
+
     for (Entity entity : Coordinator::Get()->GetEntities(signature))
     {
         auto &static_mesh_component = Coordinator::Get()->GetComponent<StaticMeshComponent>(entity);
@@ -72,7 +69,12 @@ void RenderSystem::Update(float delta_time)
         auto &shader_component = Coordinator::Get()->GetComponent<ShaderComponent>(entity);
         auto &camera_component = Coordinator::Get()->GetComponent<CameraComponent>(camera);
         if (shader_component.shader == 0)
+        {
+
+            std::cout << "Entity " << entity << " encountered an error: "
+                      << "Shader not found!" << std::endl;
             continue;
+        }
 
         // If the static_mesh_component does not have a vao, it means that it has not been bound to a buffer yet
         // We will do that here
@@ -145,7 +147,7 @@ void RenderSystem::Update(float delta_time)
 
         glBindVertexArray(static_mesh_component.vao);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, static_mesh_component.ibo);
-        glDrawElements(GL_TRIANGLES, static_mesh_component.indices.size(), GL_UNSIGNED_SHORT, (void *)0);
+        glDrawElements(GL_TRIANGLES, static_mesh_component.indices.size() * sizeof(unsigned short), GL_UNSIGNED_SHORT, (void *)0);
     }
 }
 
@@ -153,9 +155,5 @@ void RenderSystem::Update(float delta_time)
 std::shared_ptr<RenderSystem> RenderSystem::RegisterSystem()
 {
     std::shared_ptr<RenderSystem> ptr = Coordinator::Get()->RegisterSystem<RenderSystem>();
-    signature.set(Coordinator::Get()->GetComponentType<StaticMeshComponent>(), true);
-    signature.set(Coordinator::Get()->GetComponentType<TransformComponent>(), true);
-    signature.set(Coordinator::Get()->GetComponentType<ShaderComponent>(), true);
-    Coordinator::Get()->SetSystemSignature<RenderSystem>(signature);
     return ptr;
 }

@@ -49,18 +49,6 @@ int main(void)
 
     Coordinator::Get()->AddComponent(camera, ControllerComponent{});
 
-    Entity cube = Coordinator::Get()->CreateEntity();
-
-    Coordinator::Get()->AddComponent(
-        cube, StaticMeshComponent{
-                  .path = "res/models/cube.obj"});
-    Coordinator::Get()->AddComponent(
-        cube, TransformComponent{});
-    Coordinator::Get()->AddComponent(
-        cube, ShaderComponent{
-                  .shader_path = "res/shaders/Basic.shader",
-              });
-
     GLFWwindow *window;
 
     /* Initialize the library */
@@ -106,7 +94,7 @@ int main(void)
         ControllerSystem::Get()->Update(deltaTime);
         MeshLoaderSystem::Get()->Update();
         ShaderLoaderSystem::Get()->InitShaders();
-        CameraSystem::Get()->Update();
+        // CameraSystem::Get()->Update();
         RenderSystem::Get()->Update(t);
 
         /* Swap front and back buffers */
