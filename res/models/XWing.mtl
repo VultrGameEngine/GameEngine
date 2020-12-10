@@ -1,0 +1,121 @@
+# Blender MTL File: 'None'
+# Material Count: 11
+
+newmtl blinn1SG
+Ns 0.000000
+Ka 0.120000 0.120000 0.120000
+Kd 0.000000 0.000000 0.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 3
+map_Kd /home/brandon/Downloads/XWing/source/Nose.jpg
+
+newmtl blinn2SG
+Ns 0.000000
+Ka 0.330000 0.330000 0.330000
+Kd 0.000000 0.000000 0.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 3
+map_Kd /home/brandon/Downloads/XWing/source/R2.jpg
+
+newmtl blinn5SG
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.000000 0.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 1
+map_Kd /home/brandon/Downloads/XWing/source/XwingEngineFire.jpg
+
+newmtl blinn8SG
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Kd 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+
+newmtl blinn9SG
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Kd 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+
+newmtl initialShadingGroup
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.000000 0.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 1
+map_Kd /home/brandon/Downloads/XWing/source/R2.psd
+
+newmtl lambert2SG
+Ns 0.000000
+Ka 0.160000 0.160000 0.160000
+Kd 0.000000 0.000000 0.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 1
+map_Kd /home/brandon/Downloads/XWing/source/XwingFuselage.jpg
+
+newmtl lambert3SG
+Ns 0.000000
+Ka 0.330000 0.330000 0.330000
+Kd 0.000000 0.000000 0.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 1
+map_Kd /home/brandon/Downloads/XWing/source/Canopy.jpg
+
+newmtl lambert4SG
+Ns 0.000000
+Ka 0.160000 0.160000 0.160000
+Kd 0.000000 0.000000 0.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 1
+map_Kd /home/brandon/Downloads/XWing/source/XwingWing.jpg
+
+newmtl lambert6SG
+Ns 0.000000
+Ka 0.190000 0.190000 0.190000
+Kd 0.000000 0.000000 0.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 1
+map_Kd /home/brandon/Downloads/XWing/source/XwingEngineIntake.jpg
+
+newmtl lambert7SG
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.000000 0.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 1
+map_Kd /home/brandon/Downloads/XWing/source/XwingEngineAft.jpg
