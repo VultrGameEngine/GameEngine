@@ -28,21 +28,6 @@ void ControllerSystem::Update(float delta_time)
 
     glfwSetCursorPos(window, width / 2, height / 2);
 
-    // this->horizontalAngle += ;
-    // this->verticalAngle += this->sens * delta_time * float(this->height / 2 - ypos);
-
-    // Spherical cordinates to Cartesian coordinates conversion
-    //     glm::vec3 direction(
-    //         cos(this->verticalAngle) * sin(this->horizontalAngle),
-    //         sin(this->verticalAngle),
-    //         cos(this->verticalAngle) * cos(this->horizontalAngle));
-
-    // // Right vector
-    // glm::vec3 right = glm::vec3(sin(this->horizontalAngle - 3.14f / 2.0f), 0, cos(this->horizontalAngle - 3.14f / 2.0f));
-
-    // // Up vector: perpendicular to both direction and right
-    // glm::vec3 up = glm::cross(right, direction);
-
     Signature signature;
     signature.set(Coordinator::Get()->GetComponentType<ControllerComponent>());
     signature.set(Coordinator::Get()->GetComponentType<TransformComponent>());
@@ -51,7 +36,7 @@ void ControllerSystem::Update(float delta_time)
         auto &transform_component = Coordinator::Get()->GetComponent<TransformComponent>(entity);
         auto &controller_component = Coordinator::Get()->GetComponent<ControllerComponent>(entity);
         glm::quat rotation_horiz = glm::angleAxis(controller_component.sens * delta_time * float(width / 2 - xpos), glm::vec3(0, 1, 0));
-        glm::quat rotation_vert = glm::angleAxis(controller_component.sens * delta_time * float(height / 2 - ypos), glm::vec3(1, 0, 0));
+        glm::quat rotation_vert = glm::angleAxis(controller_component.sens * delta_time * float(height / 2 - ypos), transform_component.Right());
         transform_component.rotation = rotation_horiz * rotation_vert * transform_component.rotation;
 
         glm::vec3 speed = glm::vec3(3, 3, 3);
