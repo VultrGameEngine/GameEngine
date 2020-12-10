@@ -14,4 +14,4 @@ struct CubemapComponent
         files[4] = pos_z;
         files[5] = neg_z;
     }
-}
+};

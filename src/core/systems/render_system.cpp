@@ -5,6 +5,7 @@
 #include "../../../include/core/components/transform_component.h"
 #include "../../../include/core/components/shader_component.h"
 #include "../../../include/core/components/camera_component.h"
+#include "../../../include/core/components/controller_component.h"
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -37,6 +38,7 @@ void RenderSystem::Update(float delta_time)
     Signature camera_signature;
     camera_signature.set(Coordinator::Get()->GetComponentType<CameraComponent>(), true);
     camera_signature.set(Coordinator::Get()->GetComponentType<TransformComponent>(), true);
+    // camera_signature.set(Coordinator::Get()->GetComponentType<ControllerComponent>(), true);
     Entity camera = -1;
     for (Entity entity : Coordinator::Get()->GetEntities(camera_signature))
     {

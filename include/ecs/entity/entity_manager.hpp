@@ -74,9 +74,10 @@ public:
     std::set<Entity> GetEntities(Signature signature)
     {
         std::set<Entity> entities{};
+
         for (Entity entity = 0; entity < signatures.size(); ++entity)
         {
-            if (signatures[entity] == signature)
+            if ((signatures[entity] & signature) == signature)
             {
                 entities.insert(entity);
             }
