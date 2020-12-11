@@ -14,7 +14,7 @@ struct TransformComponent
 
     inline glm::vec3 Right()
     {
-        return rotation * glm::vec3(-1, 0, 0);
+        return rotation * glm::vec3(1, 0, 0);
     }
     inline glm::vec3 Up()
     {

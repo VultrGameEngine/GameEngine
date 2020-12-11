@@ -16,6 +16,7 @@ public:
     void Update(float delta_time);
     void DestroyEntity(Entity entity) override {}
     static std::shared_ptr<ControllerSystem> RegisterSystem();
+    static void WindowFocusCallback(GLFWwindow *window, int focused);
 
 private:
     GLFWwindow *window;
@@ -23,4 +24,5 @@ private:
     static Signature signature;
     int width;
     int height;
+    bool focused = false;
 };

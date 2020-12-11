@@ -23,6 +23,8 @@ std::shared_ptr<ControllerSystem> ControllerSystem::Get()
 
 void ControllerSystem::Update(float delta_time)
 {
+    if (!this->focused)
+        return;
     double xpos, ypos;
     glfwGetCursorPos(window, &xpos, &ypos);
 
@@ -72,6 +74,10 @@ void ControllerSystem::Update(float delta_time)
             transform_component.position -= transform_component.Up() * delta_time * speed;
         }
     }
+}
+void ControllerSystem::WindowFocusCallback(GLFWwindow *window, int focused)
+{
+    instance->focused = focused;
 }
 
 std::shared_ptr<ControllerSystem> ControllerSystem::RegisterSystem()

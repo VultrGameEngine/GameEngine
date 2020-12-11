@@ -6,4 +6,4 @@
 using Entity = uint32_t;
 
 // Used to define the size of the arrays to hold all of these entities
-const Entity MAX_ENTITIES = 5000;
+const Entity MAX_ENTITIES = 100000;

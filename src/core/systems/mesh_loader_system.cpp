@@ -8,7 +8,10 @@
 #include <sstream>
 #include <vector>
 #include <string.h>
+#include <thread>
+
 std::shared_ptr<MeshLoaderSystem> MeshLoaderSystem::instance = nullptr;
+StaticMeshCache MeshLoaderSystem::state = {};
 
 std::shared_ptr<MeshLoaderSystem> MeshLoaderSystem::Get()
 {
@@ -36,13 +39,28 @@ void MeshLoaderSystem::Update()
     for (Entity entity : Coordinator::Get()->GetEntities(signature))
     {
         auto &component = Coordinator::Get()->GetComponent<StaticMeshComponent>(entity);
-        if (!component.loaded)
+        if (!isLoaded(component.path))
         {
-            std::cout << "Loading component from path " << component.path << std::endl;
-            Import(component.path, component);
-            std::cout << "Loaded static mesh component with vertices " << component.vertices.size() << std::endl;
-            component.loaded = true;
+            state.meshes[component.path] = {};
+            std::thread loadingThread(Import, component.path, std::ref(state.meshes[component.path]));
+            loadingThread.detach();
         }
+        else
+        {
+            std::cout << "Skipping loading " << component.path << std::endl;
+        }
+    }
+}
+LoadedStaticMesh MeshLoaderSystem::GetMesh(std::string mesh)
+{
+    if (isLoaded(mesh))
+    {
+        return state.meshes[mesh];
+    }
+    else
+    {
+        return {
+            .loaded = notLoaded};
     }
 }
 
@@ -56,6 +74,11 @@ struct Vertex
         return memcmp((void *)this, (void *)&that, sizeof(Vertex)) > 0;
     };
 };
+
+bool MeshLoaderSystem::isLoaded(std::string model)
+{
+    return state.meshes.find(model) != state.meshes.end();
+}
 
 bool GetSimilarVertexIndex(Vertex &vertex, std::map<Vertex, unsigned short> &VertexToOutIndex, unsigned short &result)
 {
@@ -74,8 +97,9 @@ bool GetSimilarVertexIndex(Vertex &vertex, std::map<Vertex, unsigned short> &Ver
     }
 }
 
-void MeshLoaderSystem::Import(std::string filepath, StaticMeshComponent &component)
+void MeshLoaderSystem::Import(std::string filepath, LoadedStaticMesh &mesh)
 {
+    std::cout << "Loading component from path " << filepath << std::endl;
     std::ifstream stream(filepath);
     std::string line;
     if (!stream.is_open())
@@ -191,10 +215,12 @@ void MeshLoaderSystem::Import(std::string filepath, StaticMeshComponent &compone
     std::vector<unsigned short> out_index_buffer;
 
     MeshLoaderSystem::IndexVBO(temp_out_vertices, temp_out_uvs, temp_out_normals, out_index_buffer, out_vertices, out_uvs, out_normals);
-    component.vertices = out_vertices;
-    component.uvs = out_uvs;
-    component.normals = out_normals;
-    component.indices = out_index_buffer;
+    mesh.loaded = loaded;
+    mesh.vertices = out_vertices;
+    mesh.uvs = out_uvs;
+    mesh.normals = out_normals;
+    mesh.indices = out_index_buffer;
+    std::cout << "Loaded static mesh component with vertices " << mesh.vertices.size() << std::endl;
 }
 
 void MeshLoaderSystem::IndexVBO(std::vector<glm::vec3> &in_vertices, std::vector<glm::vec2> &in_uvs, std::vector<glm::vec3> &in_normals, std::vector<unsigned short> &out_indices, std::vector<glm::vec3> &out_vertices, std::vector<glm::vec2> &out_uvs, std::vector<glm::vec3> &out_normals)

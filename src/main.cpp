@@ -23,18 +23,26 @@ int main(void)
     ShaderLoaderSystem::Get();
     ControllerSystem::Get();
     CameraSystem::Get();
-    Entity xwing = Coordinator::Get()->CreateEntity();
 
-    Coordinator::Get()->AddComponent(
-        xwing, StaticMeshComponent{
-                   .path = "res/models/XWing.obj",
-               });
-    Coordinator::Get()->AddComponent(
-        xwing, TransformComponent{});
-    Coordinator::Get()->AddComponent(
-        xwing, ShaderComponent{
-                   .shader_path = "res/shaders/Basic.shader",
-               });
+    for (int i = 0; i < 10; i++)
+    {
+        for (int j = 0; j < 10; j++)
+        {
+            Entity xwing = Coordinator::Get()->CreateEntity();
+
+            Coordinator::Get()->AddComponent(
+                xwing, StaticMeshComponent{
+                           .path = "res/models/XWing.obj",
+                       });
+            Coordinator::Get()->AddComponent(
+                xwing, TransformComponent{
+                           .position = glm::vec3(i * 3, 0, j * 5)});
+            Coordinator::Get()->AddComponent(
+                xwing, ShaderComponent{
+                           .shader_path = "res/shaders/Basic.shader",
+                       });
+        }
+    }
 
     Entity camera = Coordinator::Get()->CreateEntity();
 
@@ -73,10 +81,11 @@ int main(void)
     }
 
     float lastTime = 0;
-    // Controller *controller = new Controller(window, glm::vec3(0, 0, 0), 3.14f, 0.0f, 45.0f, 3.0f, 1.0f, 1920, 1080);
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_DEPTH_BUFFER);
+
+    glfwSetWindowFocusCallback(window, ControllerSystem::WindowFocusCallback);
     ControllerSystem::Get()->Init(window, 1920, 1080);
 
     /* Loop until the user closes the window */
@@ -94,7 +103,6 @@ int main(void)
         ControllerSystem::Get()->Update(deltaTime);
         MeshLoaderSystem::Get()->Update();
         ShaderLoaderSystem::Get()->InitShaders();
-        // CameraSystem::Get()->Update();
         RenderSystem::Get()->Update(t);
 
         /* Swap front and back buffers */

@@ -1,4 +1,5 @@
 #include "../../../include/core/systems/render_system.h"
+#include "../../../include/core/systems/mesh_loader_system.h"
 #include "../../../include/ecs/coordinator/coordinator.hpp"
 #include "../../../include/ecs/component/component.hpp"
 #include "../../../include/core/components/static_mesh_component.h"
@@ -6,6 +7,7 @@
 #include "../../../include/core/components/shader_component.h"
 #include "../../../include/core/components/camera_component.h"
 #include "../../../include/core/components/controller_component.h"
+#include "../../../include/core/components/static_mesh_cache.h"
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -75,6 +77,12 @@ void RenderSystem::Update(float delta_time)
                       << "Shader not found!" << std::endl;
             continue;
         }
+        LoadedStaticMesh mesh = MeshLoaderSystem::GetMesh(static_mesh_component.path);
+        if (mesh.loaded != loaded)
+        {
+            continue;
+        }
+        transform_component.position += transform_component.Forward() * delta_time * 0.01f;
 
         // If the static_mesh_component does not have a vao, it means that it has not been bound to a buffer yet
         // We will do that here
@@ -98,7 +106,7 @@ void RenderSystem::Update(float delta_time)
             glBindBuffer(GL_ARRAY_BUFFER, static_mesh_component.vbo);
 
             // Set the buffer data for the vertex buffer
-            glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * static_mesh_component.vertices.size(), &(static_mesh_component.vertices[0]), GL_STATIC_DRAW);
+            glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * mesh.vertices.size(), &(mesh.vertices[0]), GL_STATIC_DRAW);
 
             // Enable vertex data
             glEnableVertexAttribArray(0);
@@ -116,7 +124,7 @@ void RenderSystem::Update(float delta_time)
             glBindBuffer(GL_ARRAY_BUFFER, static_mesh_component.nbo);
 
             // Set the buffer data for the normal buffer
-            glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * static_mesh_component.normals.size(), &(static_mesh_component.normals[0]), GL_STATIC_DRAW);
+            glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * mesh.normals.size(), &(mesh.normals[0]), GL_STATIC_DRAW);
 
             // Enable normal data
             glEnableVertexAttribArray(1);
@@ -134,7 +142,7 @@ void RenderSystem::Update(float delta_time)
             glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, static_mesh_component.ibo);
 
             // Set the buffer data for the index buffer
-            glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned short) * static_mesh_component.indices.size(), &(static_mesh_component.indices[0]), GL_STATIC_DRAW);
+            glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned short) * mesh.indices.size(), &(mesh.indices[0]), GL_STATIC_DRAW);
         }
         glm::mat4 ProjectionViewModelMatrix = camera_component.GetProjectionMatrix() * camera_component.view_matrix * glm::translate(transform_component.position);
 
@@ -147,7 +155,7 @@ void RenderSystem::Update(float delta_time)
 
         glBindVertexArray(static_mesh_component.vao);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, static_mesh_component.ibo);
-        glDrawElements(GL_TRIANGLES, static_mesh_component.indices.size() * sizeof(unsigned short), GL_UNSIGNED_SHORT, (void *)0);
+        glDrawElements(GL_TRIANGLES, mesh.indices.size() * sizeof(unsigned short), GL_UNSIGNED_SHORT, (void *)0);
     }
 }
 
