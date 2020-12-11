@@ -15,7 +15,7 @@ public:
     void Update();
     void DestroyEntity(Entity entity) override;
     static std::shared_ptr<MeshLoaderSystem> RegisterSystem();
-    static LoadedStaticMesh GetMesh(std::string mesh);
+    static LoadedStaticMesh *GetMesh(std::string mesh);
 
 private:
     static std::shared_ptr<MeshLoaderSystem> instance;

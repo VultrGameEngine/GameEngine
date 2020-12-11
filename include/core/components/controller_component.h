@@ -1,5 +1,5 @@
 #pragma once
 struct ControllerComponent
 {
-    float sens = 0.3;
+    float sens = 0.01;
 };

@@ -369,3 +369,19 @@ Parsed CXX implicit link information from above output:
   implicit fwks: []
 
 
+Determining if the include file pthread.h exists passed with the following output:
+Change Dir: /home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/home/brandon/depot_tools/ninja cmTC_6289d && [1/2] Building C object CMakeFiles/cmTC_6289d.dir/CheckIncludeFile.c.o
+[2/2] Linking C executable cmTC_6289d
+
+
+
+Determining if the function pthread_create exists in the pthread passed with the following output:
+Change Dir: /home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/home/brandon/depot_tools/ninja cmTC_c0335 && [1/2] Building C object CMakeFiles/cmTC_c0335.dir/CheckFunctionExists.c.o
+[2/2] Linking C executable cmTC_c0335
+
+
+

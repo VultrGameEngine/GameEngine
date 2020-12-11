@@ -11,8 +11,11 @@ file(GLOB_RECURSE GameEngine_SRC
     "include/*.cpp"
 )
 
+find_package(GTest REQUIRED)
+include_directories(${GTEST_INCLUDE_DIRS})
+
 add_executable(GameEngine ${GameEngine_SRC})
-target_link_libraries(GameEngine GL GLU glfw3 X11 Xxf86vm Xrandr pthread Xi dl GLEW)
+target_link_libraries(GameEngine GL GLU glfw3 X11 Xxf86vm Xrandr pthread Xi dl GLEW gtest gtest_main)
 FILE(COPY res/shaders/Basic.shader DESTINATION "${CMAKE_BINARY_DIR}/res/shaders")
 FILE(COPY res/models/cube.obj DESTINATION "${CMAKE_BINARY_DIR}/res/models")
 FILE(COPY res/models/XWing.obj DESTINATION "${CMAKE_BINARY_DIR}/res/models")

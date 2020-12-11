@@ -24,7 +24,7 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 14,
+				"line" : 17,
 				"parent" : 0
 			}
 		]
@@ -41,15 +41,15 @@
 			"language" : "CXX",
 			"sourceIndexes" : 
 			[
-				17,
-				27,
+				18,
 				28,
 				29,
 				30,
 				31,
 				32,
 				33,
-				34
+				34,
+				35
 			]
 		}
 	],
@@ -105,6 +105,14 @@
 			{
 				"fragment" : "-lGLEW",
 				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lgtest",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lgtest_main",
+				"role" : "libraries"
 			}
 		],
 		"language" : "CXX"
@@ -139,7 +147,7 @@
 				14,
 				15,
 				16,
-				18,
+				17,
 				19,
 				20,
 				21,
@@ -147,22 +155,23 @@
 				23,
 				24,
 				25,
-				26
+				26,
+				27
 			]
 		},
 		{
 			"name" : "Source Files",
 			"sourceIndexes" : 
 			[
-				17,
-				27,
+				18,
 				28,
 				29,
 				30,
 				31,
 				32,
 				33,
-				34
+				34,
+				35
 			]
 		}
 	],
@@ -186,6 +195,11 @@
 		{
 			"backtrace" : 1,
 			"path" : "include/core/components/shader_component.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/core/components/static_mesh_cache.h",
 			"sourceGroupIndex" : 0
 		},
 		{

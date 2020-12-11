@@ -85,8 +85,8 @@ int main(void)
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_DEPTH_BUFFER);
 
-    glfwSetWindowFocusCallback(window, ControllerSystem::WindowFocusCallback);
     ControllerSystem::Get()->Init(window, 1920, 1080);
+    glfwSetWindowFocusCallback(window, ControllerSystem::WindowFocusCallback);
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
@@ -94,6 +94,8 @@ int main(void)
         float t = glfwGetTime();
         float deltaTime = t - lastTime;
         lastTime = t;
+        double fps = 1.0f / deltaTime;
+        std::cout << "FPS:" << fps << std::endl;
 
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

@@ -45,22 +45,17 @@ void MeshLoaderSystem::Update()
             std::thread loadingThread(Import, component.path, std::ref(state.meshes[component.path]));
             loadingThread.detach();
         }
-        else
-        {
-            std::cout << "Skipping loading " << component.path << std::endl;
         }
-    }
 }
-LoadedStaticMesh MeshLoaderSystem::GetMesh(std::string mesh)
+LoadedStaticMesh *MeshLoaderSystem::GetMesh(std::string mesh)
 {
     if (isLoaded(mesh))
     {
-        return state.meshes[mesh];
+        return &(state.meshes[mesh]);
     }
     else
     {
-        return {
-            .loaded = notLoaded};
+        return nullptr;
     }
 }
 

@@ -78,6 +78,10 @@ void ControllerSystem::Update(float delta_time)
 void ControllerSystem::WindowFocusCallback(GLFWwindow *window, int focused)
 {
     instance->focused = focused;
+    if (instance->focused)
+    {
+        glfwSetCursorPos(window, instance->width / 2, instance->height / 2);
+    }
 }
 
 std::shared_ptr<ControllerSystem> ControllerSystem::RegisterSystem()
