@@ -181,7 +181,7 @@ void RenderSystem::Update(float delta_time)
         }
 
         glUseProgram(shader_component.shader);
-        glUniformMatrix4fv(shader_component.Model, 1, GL_FALSE, glm::value_ptr(glm::translate(transform_component.position)));
+        glUniformMatrix4fv(shader_component.Model, 1, GL_FALSE, glm::value_ptr(transform_component.Matrix()));
         glUniformMatrix4fv(shader_component.View, 1, GL_FALSE, glm::value_ptr(camera_component.view_matrix));
         glUniformMatrix4fv(shader_component.Projection, 1, GL_FALSE, glm::value_ptr(camera_component.GetProjectionMatrix()));
         glUniform3f(shader_component.LightPosition, light_position.x, light_position.y, light_position.z);
