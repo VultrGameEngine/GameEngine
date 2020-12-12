@@ -1,5 +1,6 @@
 #include "../../../include/core/systems/render_system.h"
 #include "../../../include/core/systems/mesh_loader_system.h"
+#include "../../../include/core/systems/texture_loader_system.h"
 #include "../../../include/ecs/coordinator/coordinator.hpp"
 #include "../../../include/ecs/component/component.hpp"
 #include "../../../include/core/components/static_mesh_component.h"
@@ -147,6 +148,23 @@ void RenderSystem::Update(float delta_time)
             glEnableVertexAttribArray(1);
             glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, 0);
         }
+        // If the static_mesh_component does not have a uvbo, it means that it has not been bound to a buffer yet
+        // We will do that here
+        if (static_mesh_component.uvbo == 0)
+        {
+            // Create the UV buffer
+            glGenBuffers(1, &static_mesh_component.uvbo);
+
+            // Bind the UV buffer
+            glBindBuffer(GL_ARRAY_BUFFER, static_mesh_component.uvbo);
+
+            // Set the buffer data for the UV buffer
+            glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec2) * mesh->uvs.size(), &(mesh->uvs[0]), GL_STATIC_DRAW);
+
+            // Enable normal data
+            glEnableVertexAttribArray(2);
+            glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, 0);
+        }
 
         // If the static_mesh_component does not have a ibo, it means that it has not been bound to a buffer yet
         // We will do that here
@@ -170,6 +188,22 @@ void RenderSystem::Update(float delta_time)
         glUniform3f(shader_component.LightColor, 1.0f, 1.0f, 1.0f);
         glUniform3f(shader_component.ObjectColor, 1.0f, 1.0f, 1.0f);
         glUniform3f(shader_component.ViewPosition, camera_transform.position.x, camera_transform.position.y, camera_transform.position.z);
+
+        // If there is a texture attached to an entity
+        Signature texture_signature;
+        texture_signature.set(Coordinator::Get()->GetComponentType<TextureComponent>(), true);
+        if ((Coordinator::Get()->GetSignature(entity) & texture_signature) == texture_signature)
+        {
+            auto &texture_component = Coordinator::Get()->GetComponent<TextureComponent>(entity);
+            LoadedTexture *texture = TextureLoaderSystem::Get()->GetTexture(texture_component.path);
+            // If we have loaded the bytes into memory
+            if (texture != nullptr && texture->loaded == loaded)
+            {
+                glActiveTexture(GL_TEXTURE0);
+                glBindTexture(GL_TEXTURE_2D, texture->id);
+                glUniform1i(shader_component.TextureSampler, 0);
+            }
+        }
 
         glBindVertexArray(static_mesh_component.vao);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, static_mesh_component.ibo);

@@ -16,6 +16,7 @@ public:
     void Update();
     void DestroyEntity(Entity entity) override;
     static std::shared_ptr<TextureLoaderSystem> RegisterSystem();
+    static void Import(std::string path, LoadedTexture &texture);
     static LoadedTexture *GetTexture(std::string mesh);
 
 private:

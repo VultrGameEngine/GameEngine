@@ -74,6 +74,7 @@ void ShaderLoaderSystem::InitShaders()
             GLuint ViewPosition = glGetUniformLocation(shader, "viewPos");
             GLuint ObjectColor = glGetUniformLocation(shader, "objectColor");
             GLuint LightColor = glGetUniformLocation(shader, "lightColor");
+            GLuint TextureSampler = glGetUniformLocation(shader, "textureSampler");
             shader_component.shader = shader;
             shader_component.Model = Model;
             shader_component.View = View;
@@ -82,6 +83,7 @@ void ShaderLoaderSystem::InitShaders()
             shader_component.ViewPosition = ViewPosition;
             shader_component.ObjectColor = ObjectColor;
             shader_component.LightColor = LightColor;
+            shader_component.TextureSampler = TextureSampler;
         }
     }
 }

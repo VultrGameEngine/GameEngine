@@ -41,6 +41,10 @@ int main(void)
                 xwing, TransformComponent{
                            .position = glm::vec3(i * 3, 0, j * 5)});
             Coordinator::Get()->AddComponent(
+                xwing, TextureComponent{
+                           .path = "res/textures/XWing.png",
+                       });
+            Coordinator::Get()->AddComponent(
                 xwing, ShaderComponent{
                            .shader_path = "res/shaders/material.glsl",
                        });
@@ -114,6 +118,7 @@ int main(void)
 
         ControllerSystem::Get()->Update(deltaTime);
         MeshLoaderSystem::Get()->Update();
+        TextureLoaderSystem::Get()->Update();
         ShaderLoaderSystem::Get()->InitShaders();
         RenderSystem::Get()->Update(t);
 

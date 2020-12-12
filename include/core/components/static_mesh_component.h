@@ -10,4 +10,5 @@ struct StaticMeshComponent
     unsigned int ibo = 0;
     unsigned int vbo = 0;
     unsigned int nbo = 0;
+    unsigned int uvbo = 0;
 };

@@ -14,4 +14,5 @@ struct ShaderComponent
     GLuint ViewPosition;
     GLuint ObjectColor;
     GLuint LightColor;
+    GLuint TextureSampler;
 };

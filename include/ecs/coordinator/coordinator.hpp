@@ -37,6 +37,11 @@ public:
         return entity_manager->GetEntities(signature);
     }
 
+    Signature GetSignature(Entity entity)
+    {
+        return entity_manager->GetSignature(entity);
+    }
+
     // Component methods
     template <typename T>
     void RegisterComponent()

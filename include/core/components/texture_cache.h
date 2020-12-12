@@ -4,11 +4,12 @@
 
 struct LoadedTexture
 {
+    unsigned char *buffer;
+    unsigned int id = 0;
     LoadingState loaded = notLoaded;
     int width;
     int height;
     int bpp;
-    unsigned char *buffer;
 };
 
 struct TextureCache
