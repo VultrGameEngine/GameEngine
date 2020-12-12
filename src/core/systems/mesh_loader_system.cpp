@@ -1,6 +1,7 @@
 #include "../../../include/core/systems/mesh_loader_system.h"
 #include "../../../include/core/components/static_mesh_component.h"
 #include "../../../include/ecs/coordinator/coordinator.hpp"
+#include "../../../include/helpers/loading_state.h"
 #include <map>
 #include <string>
 #include <iostream>
@@ -45,7 +46,7 @@ void MeshLoaderSystem::Update()
             std::thread loadingThread(Import, component.path, std::ref(state.meshes[component.path]));
             loadingThread.detach();
         }
-        }
+    }
 }
 LoadedStaticMesh *MeshLoaderSystem::GetMesh(std::string mesh)
 {

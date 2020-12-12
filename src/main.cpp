@@ -15,6 +15,7 @@ int main(void)
     Coordinator::Get()->Init();
     Coordinator::Get()->RegisterComponent<StaticMeshComponent>();
     Coordinator::Get()->RegisterComponent<TransformComponent>();
+    Coordinator::Get()->RegisterComponent<LightComponent>();
     Coordinator::Get()->RegisterComponent<ShaderComponent>();
     Coordinator::Get()->RegisterComponent<CameraComponent>();
     Coordinator::Get()->RegisterComponent<ControllerComponent>();
@@ -32,14 +33,14 @@ int main(void)
 
             Coordinator::Get()->AddComponent(
                 xwing, StaticMeshComponent{
-                           .path = "res/models/XWing.obj",
+                           .path = "res/models/cube.obj",
                        });
             Coordinator::Get()->AddComponent(
                 xwing, TransformComponent{
                            .position = glm::vec3(i * 3, 0, j * 5)});
             Coordinator::Get()->AddComponent(
                 xwing, ShaderComponent{
-                           .shader_path = "res/shaders/Basic.shader",
+                           .shader_path = "res/shaders/material.glsl",
                        });
         }
     }
@@ -53,9 +54,11 @@ int main(void)
 
     Coordinator::Get()->AddComponent(
         camera, TransformComponent{
-                    .position = glm::vec3(0, 0, 5)});
+                    .position = glm::vec3(4, 4, 4)});
 
     Coordinator::Get()->AddComponent(camera, ControllerComponent{});
+    Coordinator::Get()->AddComponent(
+        camera, LightComponent{});
 
     GLFWwindow *window;
 
@@ -64,7 +67,7 @@ int main(void)
         return -1;
 
     /* Create a windowed mode window and its OpenGL context */
-    window = glfwCreateWindow(1920, 1080, "Joe", NULL, NULL);
+    window = glfwCreateWindow(1920, 1080, "GameEngine", NULL, NULL);
     if (!window)
     {
         glfwTerminate();
@@ -86,6 +89,7 @@ int main(void)
     glEnable(GL_DEPTH_BUFFER);
 
     ControllerSystem::Get()->Init(window, 1920, 1080);
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
     glfwSetWindowFocusCallback(window, ControllerSystem::WindowFocusCallback);
 
     /* Loop until the user closes the window */
@@ -99,8 +103,6 @@ int main(void)
 
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-        // controller->Update(deltaTime);
 
         ControllerSystem::Get()->Update(deltaTime);
         MeshLoaderSystem::Get()->Update();

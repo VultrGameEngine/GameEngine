@@ -241,6 +241,12 @@ build CMakeFiles/GameEngine.dir/src/core/systems/shader_loader_system.cpp.o: CXX
   OBJECT_DIR = CMakeFiles/GameEngine.dir
   OBJECT_FILE_DIR = CMakeFiles/GameEngine.dir/src/core/systems
 
+build CMakeFiles/GameEngine.dir/src/core/systems/texture_loader_system.cpp.o: CXX_COMPILER__GameEngine ../src/core/systems/texture_loader_system.cpp || cmake_object_order_depends_target_GameEngine
+  DEP_FILE = CMakeFiles/GameEngine.dir/src/core/systems/texture_loader_system.cpp.o.d
+  FLAGS = -g
+  OBJECT_DIR = CMakeFiles/GameEngine.dir
+  OBJECT_FILE_DIR = CMakeFiles/GameEngine.dir/src/core/systems
+
 build CMakeFiles/GameEngine.dir/src/helpers/controls.cpp.o: CXX_COMPILER__GameEngine ../src/helpers/controls.cpp || cmake_object_order_depends_target_GameEngine
   DEP_FILE = CMakeFiles/GameEngine.dir/src/helpers/controls.cpp.o.d
   FLAGS = -g
@@ -259,6 +265,12 @@ build CMakeFiles/GameEngine.dir/src/models/Mesh.cpp.o: CXX_COMPILER__GameEngine 
   OBJECT_DIR = CMakeFiles/GameEngine.dir
   OBJECT_FILE_DIR = CMakeFiles/GameEngine.dir/src/models
 
+build CMakeFiles/GameEngine.dir/vendor/stb_image/stb_image.cpp.o: CXX_COMPILER__GameEngine ../vendor/stb_image/stb_image.cpp || cmake_object_order_depends_target_GameEngine
+  DEP_FILE = CMakeFiles/GameEngine.dir/vendor/stb_image/stb_image.cpp.o.d
+  FLAGS = -g
+  OBJECT_DIR = CMakeFiles/GameEngine.dir
+  OBJECT_FILE_DIR = CMakeFiles/GameEngine.dir/vendor/stb_image
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target GameEngine
@@ -267,7 +279,7 @@ build CMakeFiles/GameEngine.dir/src/models/Mesh.cpp.o: CXX_COMPILER__GameEngine 
 #############################################
 # Link the executable GameEngine
 
-build GameEngine: CXX_EXECUTABLE_LINKER__GameEngine CMakeFiles/GameEngine.dir/include/ecs/coordinator/coordinator.cpp.o CMakeFiles/GameEngine.dir/src/core/systems/camera_system.cpp.o CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o CMakeFiles/GameEngine.dir/src/core/systems/mesh_loader_system.cpp.o CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o CMakeFiles/GameEngine.dir/src/core/systems/shader_loader_system.cpp.o CMakeFiles/GameEngine.dir/src/helpers/controls.cpp.o CMakeFiles/GameEngine.dir/src/main.cpp.o CMakeFiles/GameEngine.dir/src/models/Mesh.cpp.o
+build GameEngine: CXX_EXECUTABLE_LINKER__GameEngine CMakeFiles/GameEngine.dir/include/ecs/coordinator/coordinator.cpp.o CMakeFiles/GameEngine.dir/src/core/systems/camera_system.cpp.o CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o CMakeFiles/GameEngine.dir/src/core/systems/mesh_loader_system.cpp.o CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o CMakeFiles/GameEngine.dir/src/core/systems/shader_loader_system.cpp.o CMakeFiles/GameEngine.dir/src/core/systems/texture_loader_system.cpp.o CMakeFiles/GameEngine.dir/src/helpers/controls.cpp.o CMakeFiles/GameEngine.dir/src/main.cpp.o CMakeFiles/GameEngine.dir/src/models/Mesh.cpp.o CMakeFiles/GameEngine.dir/vendor/stb_image/stb_image.cpp.o
   FLAGS = -g
   LINK_FLAGS = -rdynamic
   LINK_LIBRARIES = -lGL  -lGLU  -lglfw3  -lX11  -lXxf86vm  -lXrandr  -lpthread  -lXi  -ldl  -lGLEW  -lgtest  -lgtest_main

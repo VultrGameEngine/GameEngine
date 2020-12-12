@@ -3,11 +3,15 @@
 #include "../../../include/ecs/coordinator/coordinator.hpp"
 #include "../../../include/ecs/component/component.hpp"
 #include "../../../include/core/components/static_mesh_component.h"
+#include "../../../include/core/components/texture_component.h"
 #include "../../../include/core/components/transform_component.h"
 #include "../../../include/core/components/shader_component.h"
 #include "../../../include/core/components/camera_component.h"
 #include "../../../include/core/components/controller_component.h"
 #include "../../../include/core/components/static_mesh_cache.h"
+#include "../../../include/core/components/texture_cache.h"
+#include "../../../include/core/components/light_component.h"
+#include "../../../include/helpers/loading_state.h"
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -59,6 +63,19 @@ void RenderSystem::Update(float delta_time)
         return;
     }
 
+    glm::vec3 light_position = glm::vec3(0, 0, 0);
+    Entity light;
+    Signature light_signature;
+    light_signature.set(Coordinator::Get()->GetComponentType<LightComponent>(), true);
+    camera_signature.set(Coordinator::Get()->GetComponentType<TransformComponent>(), true);
+    for (Entity entity : Coordinator::Get()->GetEntities(light_signature))
+    {
+        auto &transform_component = Coordinator::Get()->GetComponent<TransformComponent>(entity);
+        light = entity;
+        light_position = transform_component.position;
+        break;
+    }
+
     Signature signature;
     signature.set(Coordinator::Get()->GetComponentType<StaticMeshComponent>(), true);
     signature.set(Coordinator::Get()->GetComponentType<TransformComponent>(), true);
@@ -70,6 +87,7 @@ void RenderSystem::Update(float delta_time)
         auto &transform_component = Coordinator::Get()->GetComponent<TransformComponent>(entity);
         auto &shader_component = Coordinator::Get()->GetComponent<ShaderComponent>(entity);
         auto &camera_component = Coordinator::Get()->GetComponent<CameraComponent>(camera);
+
         if (shader_component.shader == 0)
         {
 
@@ -147,8 +165,8 @@ void RenderSystem::Update(float delta_time)
         glUniformMatrix4fv(shader_component.ViewProjection_location, 1, GL_FALSE, &ProjectionViewModelMatrix[0][0]);
         glUniformMatrix4fv(shader_component.ModelMatrix, 1, GL_FALSE, &glm::mat4(1.0)[0][0]);
         glUniformMatrix4fv(shader_component.ViewMatrix, 1, GL_FALSE, &camera_component.view_matrix[0][0]);
-        glm::vec3 lightPos = glm::vec3(4, 4, 4);
-        glUniform3f(shader_component.LightID, lightPos.x, lightPos.y, lightPos.z);
+
+        glUniform3f(shader_component.LightID, light_position.x, light_position.y, light_position.z);
 
         glBindVertexArray(static_mesh_component.vao);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, static_mesh_component.ibo);

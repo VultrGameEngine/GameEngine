@@ -37,6 +37,12 @@
 
 {
   "directory": "/home/brandon/Desktop/Dev/GameEngine/build",
+  "command": "/bin/clang++-11    -g   -o CMakeFiles/GameEngine.dir/src/core/systems/texture_loader_system.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/src/core/systems/texture_loader_system.cpp",
+  "file": "/home/brandon/Desktop/Dev/GameEngine/src/core/systems/texture_loader_system.cpp"
+},
+
+{
+  "directory": "/home/brandon/Desktop/Dev/GameEngine/build",
   "command": "/bin/clang++-11    -g   -o CMakeFiles/GameEngine.dir/src/helpers/controls.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/src/helpers/controls.cpp",
   "file": "/home/brandon/Desktop/Dev/GameEngine/src/helpers/controls.cpp"
 },
@@ -51,5 +57,11 @@
   "directory": "/home/brandon/Desktop/Dev/GameEngine/build",
   "command": "/bin/clang++-11    -g   -o CMakeFiles/GameEngine.dir/src/models/Mesh.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/src/models/Mesh.cpp",
   "file": "/home/brandon/Desktop/Dev/GameEngine/src/models/Mesh.cpp"
+},
+
+{
+  "directory": "/home/brandon/Desktop/Dev/GameEngine/build",
+  "command": "/bin/clang++-11    -g   -o CMakeFiles/GameEngine.dir/vendor/stb_image/stb_image.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/vendor/stb_image/stb_image.cpp",
+  "file": "/home/brandon/Desktop/Dev/GameEngine/vendor/stb_image/stb_image.cpp"
 }
 ]

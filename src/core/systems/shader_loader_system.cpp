@@ -64,7 +64,7 @@ void ShaderLoaderSystem::InitShaders()
         // If there is no existing shader with that path, then we need to create it
         else
         {
-            ShaderProgramSource source = ParseShader("res/shaders/Basic.shader");
+            ShaderProgramSource source = ParseShader(shader_component.shader_path);
             unsigned int shader = CreateShader(source.VertexSource, source.FragmentSource);
 
             GLuint ViewProjection_location = glGetUniformLocation(shader, "ViewProjection");
