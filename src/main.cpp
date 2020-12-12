@@ -14,6 +14,7 @@ int main(void)
 {
     Coordinator::Get()->Init();
     Coordinator::Get()->RegisterComponent<StaticMeshComponent>();
+    Coordinator::Get()->RegisterComponent<TextureComponent>();
     Coordinator::Get()->RegisterComponent<TransformComponent>();
     Coordinator::Get()->RegisterComponent<LightComponent>();
     Coordinator::Get()->RegisterComponent<ShaderComponent>();
@@ -22,6 +23,7 @@ int main(void)
     RenderSystem::Get();
     MeshLoaderSystem::Get();
     ShaderLoaderSystem::Get();
+    TextureLoaderSystem::Get();
     ControllerSystem::Get();
     CameraSystem::Get();
 
@@ -33,7 +35,7 @@ int main(void)
 
             Coordinator::Get()->AddComponent(
                 xwing, StaticMeshComponent{
-                           .path = "res/models/cube.obj",
+                           .path = "res/models/XWing.obj",
                        });
             Coordinator::Get()->AddComponent(
                 xwing, TransformComponent{
@@ -57,8 +59,14 @@ int main(void)
                     .position = glm::vec3(4, 4, 4)});
 
     Coordinator::Get()->AddComponent(camera, ControllerComponent{});
+    Entity light = Coordinator::Get()->CreateEntity();
+
     Coordinator::Get()->AddComponent(
-        camera, LightComponent{});
+        light, LightComponent{});
+
+    Coordinator::Get()->AddComponent(
+        light, TransformComponent{
+                   .position = glm::vec3(4, 4, 4)});
 
     GLFWwindow *window;
 
@@ -99,7 +107,7 @@ int main(void)
         float deltaTime = t - lastTime;
         lastTime = t;
         double fps = 1.0f / deltaTime;
-        std::cout << "FPS:" << fps << std::endl;
+        // std::cout << "FPS:" << fps << std::endl;
 
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

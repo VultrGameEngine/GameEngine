@@ -67,15 +67,21 @@ void ShaderLoaderSystem::InitShaders()
             ShaderProgramSource source = ParseShader(shader_component.shader_path);
             unsigned int shader = CreateShader(source.VertexSource, source.FragmentSource);
 
-            GLuint ViewProjection_location = glGetUniformLocation(shader, "ViewProjection");
-            GLuint ViewMatrix = glGetUniformLocation(shader, "V");
-            GLuint ModelMatrix = glGetUniformLocation(shader, "M");
-            GLuint LightID = glGetUniformLocation(shader, "lightposition");
+            GLuint Model = glGetUniformLocation(shader, "model");
+            GLuint View = glGetUniformLocation(shader, "view");
+            GLuint Projection = glGetUniformLocation(shader, "projection");
+            GLuint LightPosition = glGetUniformLocation(shader, "lightPos");
+            GLuint ViewPosition = glGetUniformLocation(shader, "viewPos");
+            GLuint ObjectColor = glGetUniformLocation(shader, "objectColor");
+            GLuint LightColor = glGetUniformLocation(shader, "lightColor");
             shader_component.shader = shader;
-            shader_component.ViewProjection_location = ViewProjection_location;
-            shader_component.ViewMatrix = ViewMatrix;
-            shader_component.ModelMatrix = ModelMatrix;
-            shader_component.LightID = LightID;
+            shader_component.Model = Model;
+            shader_component.View = View;
+            shader_component.Projection = Projection;
+            shader_component.LightPosition = LightPosition;
+            shader_component.ViewPosition = ViewPosition;
+            shader_component.ObjectColor = ObjectColor;
+            shader_component.LightColor = LightColor;
         }
     }
 }

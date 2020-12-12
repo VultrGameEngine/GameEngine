@@ -7,6 +7,8 @@ struct LoadedTexture
     LoadingState loaded = notLoaded;
     int width;
     int height;
+    int bpp;
+    unsigned char *buffer;
 };
 
 struct TextureCache

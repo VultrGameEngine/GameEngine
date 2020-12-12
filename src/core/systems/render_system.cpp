@@ -17,6 +17,7 @@
 #include <GLFW/glfw3.h>
 #include <glm/gtx/transform.hpp>
 #include <glm/gtx/quaternion.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 std::shared_ptr<RenderSystem> RenderSystem::instance = 0;
 
@@ -81,6 +82,7 @@ void RenderSystem::Update(float delta_time)
     signature.set(Coordinator::Get()->GetComponentType<TransformComponent>(), true);
     signature.set(Coordinator::Get()->GetComponentType<ShaderComponent>(), true);
 
+    auto &camera_transform = Coordinator::Get()->GetComponent<TransformComponent>(camera);
     for (Entity entity : Coordinator::Get()->GetEntities(signature))
     {
         auto &static_mesh_component = Coordinator::Get()->GetComponent<StaticMeshComponent>(entity);
@@ -159,14 +161,15 @@ void RenderSystem::Update(float delta_time)
             // Set the buffer data for the index buffer
             glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned short) * mesh->indices.size(), &(mesh->indices[0]), GL_STATIC_DRAW);
         }
-        glm::mat4 ProjectionViewModelMatrix = camera_component.GetProjectionMatrix() * camera_component.view_matrix * glm::translate(transform_component.position);
 
         glUseProgram(shader_component.shader);
-        glUniformMatrix4fv(shader_component.ViewProjection_location, 1, GL_FALSE, &ProjectionViewModelMatrix[0][0]);
-        glUniformMatrix4fv(shader_component.ModelMatrix, 1, GL_FALSE, &glm::mat4(1.0)[0][0]);
-        glUniformMatrix4fv(shader_component.ViewMatrix, 1, GL_FALSE, &camera_component.view_matrix[0][0]);
-
-        glUniform3f(shader_component.LightID, light_position.x, light_position.y, light_position.z);
+        glUniformMatrix4fv(shader_component.Model, 1, GL_FALSE, glm::value_ptr(glm::translate(transform_component.position)));
+        glUniformMatrix4fv(shader_component.View, 1, GL_FALSE, glm::value_ptr(camera_component.view_matrix));
+        glUniformMatrix4fv(shader_component.Projection, 1, GL_FALSE, glm::value_ptr(camera_component.GetProjectionMatrix()));
+        glUniform3f(shader_component.LightPosition, light_position.x, light_position.y, light_position.z);
+        glUniform3f(shader_component.LightColor, 1.0f, 1.0f, 1.0f);
+        glUniform3f(shader_component.ObjectColor, 1.0f, 1.0f, 1.0f);
+        glUniform3f(shader_component.ViewPosition, camera_transform.position.x, camera_transform.position.y, camera_transform.position.z);
 
         glBindVertexArray(static_mesh_component.vao);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, static_mesh_component.ibo);

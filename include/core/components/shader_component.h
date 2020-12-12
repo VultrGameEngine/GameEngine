@@ -7,8 +7,11 @@ struct ShaderComponent
     unsigned int shader = 0;
     std::string shader_path;
 
-    GLuint ViewProjection_location;
-    GLuint ViewMatrix;
-    GLuint ModelMatrix;
-    GLuint LightID;
+    GLuint Model;
+    GLuint View;
+    GLuint Projection;
+    GLuint LightPosition;
+    GLuint ViewPosition;
+    GLuint ObjectColor;
+    GLuint LightColor;
 };
