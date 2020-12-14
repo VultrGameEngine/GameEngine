@@ -20,8 +20,6 @@ public:
 
 private:
     GLFWwindow *window;
-    static std::shared_ptr<ControllerSystem> instance;
-    static Signature signature;
     int width;
     int height;
     bool focused = false;

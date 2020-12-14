@@ -9,6 +9,8 @@ struct CameraComponent
     float znear = 0.1f;
     float zfar = 100.0f;
 
+    unsigned int skybox = 0;
+
     glm::mat4 view_matrix;
 
     inline glm::mat4 GetProjectionMatrix()

@@ -3,10 +3,9 @@
 #include "../../../include/ecs/coordinator/coordinator.hpp"
 #include "../../../include/core/components/shader_component.h"
 
-std::shared_ptr<ShaderLoaderSystem> ShaderLoaderSystem::instance = 0;
-
 std::shared_ptr<ShaderLoaderSystem> ShaderLoaderSystem::Get()
 {
+    static std::shared_ptr<ShaderLoaderSystem> instance;
     if (instance == 0)
         instance = RegisterSystem();
     return instance;

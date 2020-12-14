@@ -17,10 +17,6 @@ public:
     void InitShaders();
     void DestroyEntity(Entity entity) override;
     static std::shared_ptr<ShaderLoaderSystem> RegisterSystem();
-
-private:
-    static std::shared_ptr<ShaderLoaderSystem> instance;
-    static Signature signature;
 };
 
 struct ShaderProgramSource

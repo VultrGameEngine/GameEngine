@@ -13,6 +13,7 @@
 #include "../../../include/core/components/texture_cache.h"
 #include "../../../include/core/components/light_component.h"
 #include "../../../include/helpers/loading_state.h"
+#include "../../../include/core/components/sky_box_component.h"
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -20,10 +21,9 @@
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-std::shared_ptr<RenderSystem> RenderSystem::instance = 0;
-
 std::shared_ptr<RenderSystem> RenderSystem::Get()
 {
+    static std::shared_ptr<RenderSystem> instance;
     if (instance == 0)
     {
         instance = RenderSystem::RegisterSystem();
@@ -64,6 +64,8 @@ void RenderSystem::Update(float delta_time)
         std::cout << "NO CAMERA FOUND" << std::endl;
         return;
     }
+    auto &camera_transform = Coordinator::Get()->GetComponent<TransformComponent>(camera);
+    auto &camera_component = Coordinator::Get()->GetComponent<CameraComponent>(camera);
 
     glm::vec3 light_position = glm::vec3(0, 0, 0);
     Entity light;
@@ -78,18 +80,60 @@ void RenderSystem::Update(float delta_time)
         break;
     }
 
+    glDepthFunc(GL_LEQUAL); // Ensure depth test passes when values are equal to the depth buffer's content
+    glm::mat4(glm::mat3(camera_component.view_matrix));
+    Signature skybox_signature;
+    skybox_signature.set(Coordinator::Get()->GetComponentType<SkyBoxComponent>(), true);
+    skybox_signature.set(Coordinator::Get()->GetComponentType<ShaderComponent>(), true);
+
+    // If the camera has a texture, that means it has a skybox
+    if ((Coordinator::Get()->GetSignature(camera) & skybox_signature) == skybox_signature)
+    {
+        auto &shader_component = Coordinator::Get()->GetComponent<ShaderComponent>(camera);
+        auto &skybox_component = Coordinator::Get()->GetComponent<SkyBoxComponent>(camera);
+        LoadedTexture *texture = TextureLoaderSystem::Get()->GetTexture(skybox_component.identifier);
+        // If we have loaded the bytes into memory
+        if (texture != nullptr && texture->loaded == loaded)
+        {
+            glDepthMask(GL_FALSE);
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_CUBE_MAP, texture->id);
+
+            glUseProgram(shader_component.shader);
+            unsigned int SkyBox = glGetUniformLocation(shader_component.shader, "skybox");
+            glUniform1i(SkyBox, 0);
+            glUniformMatrix4fv(shader_component.View, 1, GL_FALSE, glm::value_ptr(glm::mat4(glm::mat3(camera_component.view_matrix))));
+            glUniformMatrix4fv(shader_component.Projection, 1, GL_FALSE, glm::value_ptr(camera_component.GetProjectionMatrix()));
+
+            if (skybox_component.vbo == 0 || skybox_component.vao == 0)
+            {
+                glGenVertexArrays(1, &skybox_component.vao);
+                glGenBuffers(1, &skybox_component.vbo);
+                glBindVertexArray(skybox_component.vao);
+                glBindBuffer(GL_ARRAY_BUFFER, skybox_component.vbo);
+                glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * skybox_component.GetVertices().size(), &(skybox_component.GetVertices()[0]), GL_STATIC_DRAW);
+                glEnableVertexAttribArray(0);
+                glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+            }
+
+            glBindVertexArray(skybox_component.vao);
+            glBindBuffer(GL_ARRAY_BUFFER, skybox_component.vbo);
+            glDrawArrays(GL_TRIANGLES, 0, skybox_component.GetVertices().size());
+            glDepthMask(GL_TRUE);
+        }
+    }
+    glDepthFunc(GL_LESS); // Reset depth test
+
     Signature signature;
     signature.set(Coordinator::Get()->GetComponentType<StaticMeshComponent>(), true);
     signature.set(Coordinator::Get()->GetComponentType<TransformComponent>(), true);
     signature.set(Coordinator::Get()->GetComponentType<ShaderComponent>(), true);
 
-    auto &camera_transform = Coordinator::Get()->GetComponent<TransformComponent>(camera);
     for (Entity entity : Coordinator::Get()->GetEntities(signature))
     {
         auto &static_mesh_component = Coordinator::Get()->GetComponent<StaticMeshComponent>(entity);
         auto &transform_component = Coordinator::Get()->GetComponent<TransformComponent>(entity);
         auto &shader_component = Coordinator::Get()->GetComponent<ShaderComponent>(entity);
-        auto &camera_component = Coordinator::Get()->GetComponent<CameraComponent>(camera);
 
         if (shader_component.shader == 0)
         {

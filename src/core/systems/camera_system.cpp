@@ -1,8 +1,6 @@
 #include "../../../include/core/systems/camera_system.h"
 #include "../../../include/ecs/coordinator/coordinator.hpp"
 
-std::shared_ptr<CameraSystem> CameraSystem::instance = 0;
-
 void CameraSystem::Update()
 {
     Signature signature;
@@ -21,6 +19,7 @@ void CameraSystem::Update()
 
 std::shared_ptr<CameraSystem> CameraSystem::Get()
 {
+    static std::shared_ptr<CameraSystem> instance;
     if (instance == 0)
     {
         instance = RegisterSystem();

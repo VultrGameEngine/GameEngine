@@ -14,8 +14,4 @@ public:
     void Update();
     void DestroyEntity(Entity entity) override{};
     static std::shared_ptr<CameraSystem> RegisterSystem();
-
-private:
-    static std::shared_ptr<CameraSystem> instance;
-    static Signature signature;
 };

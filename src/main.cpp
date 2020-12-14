@@ -20,6 +20,7 @@ int main(void)
     Coordinator::Get()->RegisterComponent<ShaderComponent>();
     Coordinator::Get()->RegisterComponent<CameraComponent>();
     Coordinator::Get()->RegisterComponent<ControllerComponent>();
+    Coordinator::Get()->RegisterComponent<SkyBoxComponent>();
     RenderSystem::Get();
     MeshLoaderSystem::Get();
     ShaderLoaderSystem::Get();
@@ -63,6 +64,18 @@ int main(void)
                     .position = glm::vec3(4, 4, 4)});
 
     Coordinator::Get()->AddComponent(camera, ControllerComponent{});
+    Coordinator::Get()->AddComponent(camera, SkyBoxComponent{
+                                                 .identifier = "default",
+                                                 .front = "res/textures/skybox/front.jpg",
+                                                 .back = "res/textures/skybox/back.jpg",
+                                                 .top = "res/textures/skybox/top.jpg",
+                                                 .bottom = "res/textures/skybox/bottom.jpg",
+                                                 .left = "res/textures/skybox/left.jpg",
+                                                 .right = "res/textures/skybox/right.jpg",
+                                             });
+    Coordinator::Get()->AddComponent(camera, ShaderComponent{
+                                                 .shader_path = "res/shaders/skybox.glsl",
+                                             });
     Entity light = Coordinator::Get()->CreateEntity();
 
     Coordinator::Get()->AddComponent(
@@ -98,7 +111,7 @@ int main(void)
     float lastTime = 0;
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
-    glEnable(GL_DEPTH_BUFFER);
+    // glEnable(GL_DEPTH_BUFFER);
 
     ControllerSystem::Get()->Init(window, 1920, 1080);
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);

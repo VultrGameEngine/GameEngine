@@ -8,3 +8,4 @@
 #include "components/shader_component.h"
 #include "components/camera_component.h"
 #include "components/controller_component.h"
+#include "components/sky_box_component.h"

@@ -13,8 +13,4 @@ public:
     void Update(float delta_time);
     void DestroyEntity(Entity entity) override;
     static std::shared_ptr<RenderSystem> RegisterSystem();
-
-private:
-    static std::shared_ptr<RenderSystem> instance;
-    static Signature signature;
 };

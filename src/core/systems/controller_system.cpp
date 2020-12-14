@@ -3,8 +3,7 @@
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtc/quaternion.hpp>
 
-std::shared_ptr<ControllerSystem> ControllerSystem::instance = 0;
-
+static std::shared_ptr<ControllerSystem> instance;
 void ControllerSystem::Init(GLFWwindow *window, int width, int height)
 {
     this->window = window;

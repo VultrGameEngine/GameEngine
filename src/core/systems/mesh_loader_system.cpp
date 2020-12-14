@@ -11,11 +11,11 @@
 #include <string.h>
 #include <thread>
 
-std::shared_ptr<MeshLoaderSystem> MeshLoaderSystem::instance = nullptr;
 StaticMeshCache MeshLoaderSystem::state = {};
 
 std::shared_ptr<MeshLoaderSystem> MeshLoaderSystem::Get()
 {
+    static std::shared_ptr<MeshLoaderSystem> instance;
     if (instance == 0)
     {
 
@@ -35,18 +35,20 @@ void MeshLoaderSystem::DestroyEntity(Entity entity)
 
 void MeshLoaderSystem::Update()
 {
-    Signature signature;
-    signature.set(Coordinator::Get()->GetComponentType<StaticMeshComponent>());
-    for (Entity entity : Coordinator::Get()->GetEntities(signature))
-    {
-        auto &component = Coordinator::Get()->GetComponent<StaticMeshComponent>(entity);
+    // Signature signature;
+    // signature.set(Coordinator::Get()->GetComponentType<StaticMeshComponent>());
+    // for (Entity entity : Coordinator::Get()->GetEntities(signature))
+    // {
+    //     auto &component = Coordinator::Get()->GetComponent<StaticMeshComponent>(entity);
+    // }
+    Every([](StaticMeshComponent &component) {
         if (!isLoaded(component.path))
         {
             state.meshes[component.path] = {};
             std::thread loadingThread(Import, component.path, std::ref(state.meshes[component.path]));
             loadingThread.detach();
         }
-    }
+    });
 }
 LoadedStaticMesh *MeshLoaderSystem::GetMesh(std::string mesh)
 {
