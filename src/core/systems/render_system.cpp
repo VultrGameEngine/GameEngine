@@ -1,7 +1,7 @@
 #include "../../../include/core/systems/render_system.h"
 #include "../../../include/core/systems/mesh_loader_system.h"
 #include "../../../include/core/systems/texture_loader_system.h"
-#include "../../../include/ecs/coordinator/coordinator.hpp"
+#include "../../../include/ecs/world/world.hpp"
 #include "../../../include/ecs/component/component.hpp"
 #include "../../../include/core/components/static_mesh_component.h"
 #include "../../../include/core/components/texture_component.h"
@@ -32,7 +32,7 @@ std::shared_ptr<RenderSystem> RenderSystem::Get()
 }
 void RenderSystem::DestroyEntity(Entity entity)
 {
-    auto &static_mesh_component = Coordinator::Get()->GetComponent<StaticMeshComponent>(entity);
+    auto &static_mesh_component = World::Get()->GetComponent<StaticMeshComponent>(entity);
     glDeleteBuffers(1, &static_mesh_component.vbo);
     glDeleteBuffers(1, &static_mesh_component.nbo);
     glDeleteBuffers(1, &static_mesh_component.ibo);
@@ -43,13 +43,13 @@ void RenderSystem::DestroyEntity(Entity entity)
 void RenderSystem::Update(float delta_time)
 {
     Signature camera_signature;
-    camera_signature.set(Coordinator::Get()->GetComponentType<CameraComponent>(), true);
-    camera_signature.set(Coordinator::Get()->GetComponentType<TransformComponent>(), true);
+    camera_signature.set(World::Get()->GetComponentType<CameraComponent>(), true);
+    camera_signature.set(World::Get()->GetComponentType<TransformComponent>(), true);
     Entity camera = -1;
-    for (Entity entity : Coordinator::Get()->GetEntities(camera_signature))
+    for (Entity entity : World::Get()->GetEntities(camera_signature))
     {
-        auto &camera_component = Coordinator::Get()->GetComponent<CameraComponent>(entity);
-        auto &transform_component = Coordinator::Get()->GetComponent<TransformComponent>(entity);
+        auto &camera_component = World::Get()->GetComponent<CameraComponent>(entity);
+        auto &transform_component = World::Get()->GetComponent<TransformComponent>(entity);
         if (camera_component.enabled)
         {
             camera_component.view_matrix = glm::lookAt(transform_component.position, transform_component.position + transform_component.Forward(), glm::vec3(0, 1, 0));
@@ -64,17 +64,17 @@ void RenderSystem::Update(float delta_time)
         std::cout << "NO CAMERA FOUND" << std::endl;
         return;
     }
-    auto &camera_transform = Coordinator::Get()->GetComponent<TransformComponent>(camera);
-    auto &camera_component = Coordinator::Get()->GetComponent<CameraComponent>(camera);
+    auto &camera_transform = World::Get()->GetComponent<TransformComponent>(camera);
+    auto &camera_component = World::Get()->GetComponent<CameraComponent>(camera);
 
     glm::vec3 light_position = glm::vec3(0, 0, 0);
     Entity light;
     Signature light_signature;
-    light_signature.set(Coordinator::Get()->GetComponentType<LightComponent>(), true);
-    camera_signature.set(Coordinator::Get()->GetComponentType<TransformComponent>(), true);
-    for (Entity entity : Coordinator::Get()->GetEntities(light_signature))
+    light_signature.set(World::Get()->GetComponentType<LightComponent>(), true);
+    camera_signature.set(World::Get()->GetComponentType<TransformComponent>(), true);
+    for (Entity entity : World::Get()->GetEntities(light_signature))
     {
-        auto &transform_component = Coordinator::Get()->GetComponent<TransformComponent>(entity);
+        auto &transform_component = World::Get()->GetComponent<TransformComponent>(entity);
         light = entity;
         light_position = transform_component.position;
         break;
@@ -83,14 +83,14 @@ void RenderSystem::Update(float delta_time)
     glDepthFunc(GL_LEQUAL); // Ensure depth test passes when values are equal to the depth buffer's content
     glm::mat4(glm::mat3(camera_component.view_matrix));
     Signature skybox_signature;
-    skybox_signature.set(Coordinator::Get()->GetComponentType<SkyBoxComponent>(), true);
-    skybox_signature.set(Coordinator::Get()->GetComponentType<ShaderComponent>(), true);
+    skybox_signature.set(World::Get()->GetComponentType<SkyBoxComponent>(), true);
+    skybox_signature.set(World::Get()->GetComponentType<ShaderComponent>(), true);
 
     // If the camera has a texture, that means it has a skybox
-    if ((Coordinator::Get()->GetSignature(camera) & skybox_signature) == skybox_signature)
+    if ((World::Get()->GetSignature(camera) & skybox_signature) == skybox_signature)
     {
-        auto &shader_component = Coordinator::Get()->GetComponent<ShaderComponent>(camera);
-        auto &skybox_component = Coordinator::Get()->GetComponent<SkyBoxComponent>(camera);
+        auto &shader_component = World::Get()->GetComponent<ShaderComponent>(camera);
+        auto &skybox_component = World::Get()->GetComponent<SkyBoxComponent>(camera);
         LoadedTexture *texture = TextureLoaderSystem::Get()->GetTexture(skybox_component.identifier);
         // If we have loaded the bytes into memory
         if (texture != nullptr && texture->loaded == loaded)
@@ -125,15 +125,15 @@ void RenderSystem::Update(float delta_time)
     glDepthFunc(GL_LESS); // Reset depth test
 
     Signature signature;
-    signature.set(Coordinator::Get()->GetComponentType<StaticMeshComponent>(), true);
-    signature.set(Coordinator::Get()->GetComponentType<TransformComponent>(), true);
-    signature.set(Coordinator::Get()->GetComponentType<ShaderComponent>(), true);
+    signature.set(World::Get()->GetComponentType<StaticMeshComponent>(), true);
+    signature.set(World::Get()->GetComponentType<TransformComponent>(), true);
+    signature.set(World::Get()->GetComponentType<ShaderComponent>(), true);
 
-    for (Entity entity : Coordinator::Get()->GetEntities(signature))
+    for (Entity entity : World::Get()->GetEntities(signature))
     {
-        auto &static_mesh_component = Coordinator::Get()->GetComponent<StaticMeshComponent>(entity);
-        auto &transform_component = Coordinator::Get()->GetComponent<TransformComponent>(entity);
-        auto &shader_component = Coordinator::Get()->GetComponent<ShaderComponent>(entity);
+        auto &static_mesh_component = World::Get()->GetComponent<StaticMeshComponent>(entity);
+        auto &transform_component = World::Get()->GetComponent<TransformComponent>(entity);
+        auto &shader_component = World::Get()->GetComponent<ShaderComponent>(entity);
 
         if (shader_component.shader == 0)
         {
@@ -235,10 +235,10 @@ void RenderSystem::Update(float delta_time)
 
         // If there is a texture attached to an entity
         Signature texture_signature;
-        texture_signature.set(Coordinator::Get()->GetComponentType<TextureComponent>(), true);
-        if ((Coordinator::Get()->GetSignature(entity) & texture_signature) == texture_signature)
+        texture_signature.set(World::Get()->GetComponentType<TextureComponent>(), true);
+        if ((World::Get()->GetSignature(entity) & texture_signature) == texture_signature)
         {
-            auto &texture_component = Coordinator::Get()->GetComponent<TextureComponent>(entity);
+            auto &texture_component = World::Get()->GetComponent<TextureComponent>(entity);
             LoadedTexture *texture = TextureLoaderSystem::Get()->GetTexture(texture_component.path);
             // If we have loaded the bytes into memory
             if (texture != nullptr && texture->loaded == loaded)
@@ -258,6 +258,6 @@ void RenderSystem::Update(float delta_time)
 // Internal private helper methods
 std::shared_ptr<RenderSystem> RenderSystem::RegisterSystem()
 {
-    std::shared_ptr<RenderSystem> ptr = Coordinator::Get()->RegisterSystem<RenderSystem>();
+    std::shared_ptr<RenderSystem> ptr = World::Get()->RegisterSystem<RenderSystem>();
     return ptr;
 }

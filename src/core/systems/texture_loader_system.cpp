@@ -1,5 +1,5 @@
 #include "../../../include/core/systems/texture_loader_system.h"
-#include "../../../include/ecs/coordinator/coordinator.hpp"
+#include "../../../include/ecs/world/world.hpp"
 #include "../../../include/helpers/loading_state.h"
 #include "../../../vendor/stb_image/stb_image.h"
 #include <map>
@@ -27,7 +27,7 @@ std::shared_ptr<TextureLoaderSystem> TextureLoaderSystem::Get()
 
 std::shared_ptr<TextureLoaderSystem> TextureLoaderSystem::RegisterSystem()
 {
-    std::shared_ptr<TextureLoaderSystem> ptr = Coordinator::Get()->RegisterSystem<TextureLoaderSystem>();
+    std::shared_ptr<TextureLoaderSystem> ptr = World::Get()->RegisterSystem<TextureLoaderSystem>();
     return ptr;
 }
 void TextureLoaderSystem::DestroyEntity(Entity entity)
@@ -37,10 +37,10 @@ void TextureLoaderSystem::DestroyEntity(Entity entity)
 void TextureLoaderSystem::Update()
 {
     Signature signature;
-    signature.set(Coordinator::Get()->GetComponentType<TextureComponent>());
-    for (Entity entity : Coordinator::Get()->GetEntities(signature))
+    signature.set(World::Get()->GetComponentType<TextureComponent>());
+    for (Entity entity : World::Get()->GetEntities(signature))
     {
-        auto &component = Coordinator::Get()->GetComponent<TextureComponent>(entity);
+        auto &component = World::Get()->GetComponent<TextureComponent>(entity);
         if (!isLoaded(component.path))
         {
             state.textures[component.path] = {};
@@ -48,10 +48,10 @@ void TextureLoaderSystem::Update()
         }
     }
     Signature skybox_signature;
-    skybox_signature.set(Coordinator::Get()->GetComponentType<SkyBoxComponent>());
-    for (Entity entity : Coordinator::Get()->GetEntities(skybox_signature))
+    skybox_signature.set(World::Get()->GetComponentType<SkyBoxComponent>());
+    for (Entity entity : World::Get()->GetEntities(skybox_signature))
     {
-        auto &component = Coordinator::Get()->GetComponent<SkyBoxComponent>(entity);
+        auto &component = World::Get()->GetComponent<SkyBoxComponent>(entity);
         if (!isLoaded(component.identifier))
         {
             state.textures[component.identifier] = {};

@@ -30,12 +30,12 @@ void ControllerSystem::Update(float delta_time)
     glfwSetCursorPos(window, width / 2, height / 2);
 
     Signature signature;
-    signature.set(Coordinator::Get()->GetComponentType<ControllerComponent>());
-    signature.set(Coordinator::Get()->GetComponentType<TransformComponent>());
-    for (Entity entity : Coordinator::Get()->GetEntities(signature))
+    signature.set(World::Get()->GetComponentType<ControllerComponent>());
+    signature.set(World::Get()->GetComponentType<TransformComponent>());
+    for (Entity entity : World::Get()->GetEntities(signature))
     {
-        auto &transform_component = Coordinator::Get()->GetComponent<TransformComponent>(entity);
-        auto &controller_component = Coordinator::Get()->GetComponent<ControllerComponent>(entity);
+        auto &transform_component = World::Get()->GetComponent<TransformComponent>(entity);
+        auto &controller_component = World::Get()->GetComponent<ControllerComponent>(entity);
         glm::quat rotation_horiz = glm::angleAxis(controller_component.sens * delta_time * float(width / 2 - xpos), glm::vec3(0, 1, 0));
         glm::quat rotation_vert = glm::angleAxis(controller_component.sens * delta_time * float(height / 2 - ypos), transform_component.Right());
         transform_component.rotation = rotation_horiz * rotation_vert * transform_component.rotation;
@@ -85,6 +85,6 @@ void ControllerSystem::WindowFocusCallback(GLFWwindow *window, int focused)
 
 std::shared_ptr<ControllerSystem> ControllerSystem::RegisterSystem()
 {
-    std::shared_ptr<ControllerSystem> ptr = Coordinator::Get()->RegisterSystem<ControllerSystem>();
+    std::shared_ptr<ControllerSystem> ptr = World::Get()->RegisterSystem<ControllerSystem>();
     return ptr;
 }

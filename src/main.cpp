@@ -12,15 +12,15 @@
 
 int main(void)
 {
-    Coordinator::Get()->Init();
-    Coordinator::Get()->RegisterComponent<StaticMeshComponent>();
-    Coordinator::Get()->RegisterComponent<TextureComponent>();
-    Coordinator::Get()->RegisterComponent<TransformComponent>();
-    Coordinator::Get()->RegisterComponent<LightComponent>();
-    Coordinator::Get()->RegisterComponent<ShaderComponent>();
-    Coordinator::Get()->RegisterComponent<CameraComponent>();
-    Coordinator::Get()->RegisterComponent<ControllerComponent>();
-    Coordinator::Get()->RegisterComponent<SkyBoxComponent>();
+    World::Get()->Init();
+    World::Get()->RegisterComponent<StaticMeshComponent>();
+    World::Get()->RegisterComponent<TextureComponent>();
+    World::Get()->RegisterComponent<TransformComponent>();
+    World::Get()->RegisterComponent<LightComponent>();
+    World::Get()->RegisterComponent<ShaderComponent>();
+    World::Get()->RegisterComponent<CameraComponent>();
+    World::Get()->RegisterComponent<ControllerComponent>();
+    World::Get()->RegisterComponent<SkyBoxComponent>();
     RenderSystem::Get();
     MeshLoaderSystem::Get();
     ShaderLoaderSystem::Get();
@@ -28,60 +28,60 @@ int main(void)
     ControllerSystem::Get();
     CameraSystem::Get();
 
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < 100; i++)
     {
         for (int j = 0; j < 10; j++)
         {
-            Entity xwing = Coordinator::Get()->CreateEntity();
+            Entity xwing = World::Get()->CreateEntity();
 
-            Coordinator::Get()->AddComponent(
+            World::Get()->AddComponent(
                 xwing, StaticMeshComponent{
                            .path = "res/models/XWing.obj",
                        });
-            Coordinator::Get()->AddComponent(
+            World::Get()->AddComponent(
                 xwing, TransformComponent{
                            .position = glm::vec3(i * 3, 0, j * 5)});
-            Coordinator::Get()->AddComponent(
+            World::Get()->AddComponent(
                 xwing, TextureComponent{
                            .path = "res/textures/XWing.png",
                        });
-            Coordinator::Get()->AddComponent(
+            World::Get()->AddComponent(
                 xwing, ShaderComponent{
                            .shader_path = "res/shaders/material.glsl",
                        });
         }
     }
 
-    Entity camera = Coordinator::Get()->CreateEntity();
+    Entity camera = World::Get()->CreateEntity();
 
-    Coordinator::Get()->AddComponent(
+    World::Get()->AddComponent(
         camera, CameraComponent{
                     .enabled = true,
                 });
 
-    Coordinator::Get()->AddComponent(
+    World::Get()->AddComponent(
         camera, TransformComponent{
                     .position = glm::vec3(4, 4, 4)});
 
-    Coordinator::Get()->AddComponent(camera, ControllerComponent{});
-    Coordinator::Get()->AddComponent(camera, SkyBoxComponent{
-                                                 .identifier = "default",
-                                                 .front = "res/textures/skybox/front.jpg",
-                                                 .back = "res/textures/skybox/back.jpg",
-                                                 .top = "res/textures/skybox/top.jpg",
-                                                 .bottom = "res/textures/skybox/bottom.jpg",
-                                                 .left = "res/textures/skybox/left.jpg",
-                                                 .right = "res/textures/skybox/right.jpg",
-                                             });
-    Coordinator::Get()->AddComponent(camera, ShaderComponent{
-                                                 .shader_path = "res/shaders/skybox.glsl",
-                                             });
-    Entity light = Coordinator::Get()->CreateEntity();
+    World::Get()->AddComponent(camera, ControllerComponent{});
+    World::Get()->AddComponent(camera, SkyBoxComponent{
+                                           .identifier = "default",
+                                           .front = "res/textures/skybox/front.jpg",
+                                           .back = "res/textures/skybox/back.jpg",
+                                           .top = "res/textures/skybox/top.jpg",
+                                           .bottom = "res/textures/skybox/bottom.jpg",
+                                           .left = "res/textures/skybox/left.jpg",
+                                           .right = "res/textures/skybox/right.jpg",
+                                       });
+    World::Get()->AddComponent(camera, ShaderComponent{
+                                           .shader_path = "res/shaders/skybox.glsl",
+                                       });
+    Entity light = World::Get()->CreateEntity();
 
-    Coordinator::Get()->AddComponent(
+    World::Get()->AddComponent(
         light, LightComponent{});
 
-    Coordinator::Get()->AddComponent(
+    World::Get()->AddComponent(
         light, TransformComponent{
                    .position = glm::vec3(4, 4, 4)});
 

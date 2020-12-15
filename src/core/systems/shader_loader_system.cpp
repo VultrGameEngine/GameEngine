@@ -1,6 +1,6 @@
 #include "../../../include/core/systems/shader_loader_system.h"
 #include "../../../include/ecs/component/component.hpp"
-#include "../../../include/ecs/coordinator/coordinator.hpp"
+#include "../../../include/ecs/world/world.hpp"
 #include "../../../include/core/components/shader_component.h"
 
 std::shared_ptr<ShaderLoaderSystem> ShaderLoaderSystem::Get()
@@ -12,7 +12,7 @@ std::shared_ptr<ShaderLoaderSystem> ShaderLoaderSystem::Get()
 }
 void ShaderLoaderSystem::DestroyEntity(Entity entity)
 {
-    auto &shader_component = Coordinator::Get()->GetComponent<ShaderComponent>(entity);
+    auto &shader_component = World::Get()->GetComponent<ShaderComponent>(entity);
     if (shader_component.shader != 0)
     {
         glDeleteProgram(shader_component.shader);
@@ -27,10 +27,10 @@ void ShaderLoaderSystem::InitShaders()
     // A list of entities that have a ShaderComponent, but have not loaded their shaders to the gpu yet
     std::set<Entity> entities_with_unloaded_shader{};
     Signature signature;
-    signature.set(Coordinator::Get()->GetComponentType<ShaderComponent>(), true);
-    for (Entity entity : Coordinator::Get()->GetEntities(signature))
+    signature.set(World::Get()->GetComponentType<ShaderComponent>(), true);
+    for (Entity entity : World::Get()->GetEntities(signature))
     {
-        auto &shader_component = Coordinator::Get()->GetComponent<ShaderComponent>(entity);
+        auto &shader_component = World::Get()->GetComponent<ShaderComponent>(entity);
 
         // If the shader has been initialized, then we can add it to the path_to_shader_map
         if (shader_component.shader != 0)
@@ -50,7 +50,7 @@ void ShaderLoaderSystem::InitShaders()
     }
     for (Entity entity_with_unloaded_shader : entities_with_unloaded_shader)
     {
-        auto &shader_component = Coordinator::Get()->GetComponent<ShaderComponent>(entity_with_unloaded_shader);
+        auto &shader_component = World::Get()->GetComponent<ShaderComponent>(entity_with_unloaded_shader);
 
         // If there is an existing shader with the same path and it has already loaded
         // we can just use that shader id in this entity
@@ -89,6 +89,6 @@ void ShaderLoaderSystem::InitShaders()
 
 std::shared_ptr<ShaderLoaderSystem> ShaderLoaderSystem::RegisterSystem()
 {
-    std::shared_ptr<ShaderLoaderSystem> ptr = Coordinator::Get()->RegisterSystem<ShaderLoaderSystem>();
+    std::shared_ptr<ShaderLoaderSystem> ptr = World::Get()->RegisterSystem<ShaderLoaderSystem>();
     return ptr;
 }

@@ -1,15 +1,15 @@
 #include "../../../include/core/systems/camera_system.h"
-#include "../../../include/ecs/coordinator/coordinator.hpp"
+#include "../../../include/ecs/world/world.hpp"
 
 void CameraSystem::Update()
 {
     Signature signature;
-    signature.set(Coordinator::Get()->GetComponentType<CameraComponent>());
-    signature.set(Coordinator::Get()->GetComponentType<TransformComponent>());
-    for (Entity entity : Coordinator::Get()->GetEntities(signature))
+    signature.set(World::Get()->GetComponentType<CameraComponent>());
+    signature.set(World::Get()->GetComponentType<TransformComponent>());
+    for (Entity entity : World::Get()->GetEntities(signature))
     {
-        CameraComponent &camera_component = Coordinator::Get()->GetComponent<CameraComponent>(entity);
-        TransformComponent &transform_component = Coordinator::Get()->GetComponent<TransformComponent>(entity);
+        CameraComponent &camera_component = World::Get()->GetComponent<CameraComponent>(entity);
+        TransformComponent &transform_component = World::Get()->GetComponent<TransformComponent>(entity);
 
         // Projection matrix
         // camera_component.projection_matrix =
@@ -29,6 +29,6 @@ std::shared_ptr<CameraSystem> CameraSystem::Get()
 
 std::shared_ptr<CameraSystem> CameraSystem::RegisterSystem()
 {
-    std::shared_ptr<CameraSystem> ptr = Coordinator::Get()->RegisterSystem<CameraSystem>();
+    std::shared_ptr<CameraSystem> ptr = World::Get()->RegisterSystem<CameraSystem>();
     return ptr;
 }

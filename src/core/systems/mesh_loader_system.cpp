@@ -1,6 +1,6 @@
 #include "../../../include/core/systems/mesh_loader_system.h"
 #include "../../../include/core/components/static_mesh_component.h"
-#include "../../../include/ecs/coordinator/coordinator.hpp"
+#include "../../../include/ecs/world/world.hpp"
 #include "../../../include/helpers/loading_state.h"
 #include <map>
 #include <string>
@@ -26,7 +26,7 @@ std::shared_ptr<MeshLoaderSystem> MeshLoaderSystem::Get()
 
 std::shared_ptr<MeshLoaderSystem> MeshLoaderSystem::RegisterSystem()
 {
-    std::shared_ptr<MeshLoaderSystem> ptr = Coordinator::Get()->RegisterSystem<MeshLoaderSystem>();
+    std::shared_ptr<MeshLoaderSystem> ptr = World::Get()->RegisterSystem<MeshLoaderSystem>();
     return ptr;
 }
 void MeshLoaderSystem::DestroyEntity(Entity entity)
@@ -36,10 +36,10 @@ void MeshLoaderSystem::DestroyEntity(Entity entity)
 void MeshLoaderSystem::Update()
 {
     // Signature signature;
-    // signature.set(Coordinator::Get()->GetComponentType<StaticMeshComponent>());
-    // for (Entity entity : Coordinator::Get()->GetEntities(signature))
+    // signature.set(World::Get()->GetComponentType<StaticMeshComponent>());
+    // for (Entity entity : World::Get()->GetEntities(signature))
     // {
-    //     auto &component = Coordinator::Get()->GetComponent<StaticMeshComponent>(entity);
+    //     auto &component = World::Get()->GetComponent<StaticMeshComponent>(entity);
     // }
     Every([](StaticMeshComponent &component) {
         if (!isLoaded(component.path))

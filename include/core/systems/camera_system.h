@@ -4,7 +4,7 @@
 #include "../../ecs/system/system.hpp"
 #include "../components/transform_component.h"
 #include "../components/camera_component.h"
-#include "../../ecs/coordinator/coordinator.hpp"
+#include "../../ecs/world/world.hpp"
 #include <memory>
 
 class CameraSystem : public System

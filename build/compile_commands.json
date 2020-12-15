@@ -1,8 +1,8 @@
 [
 {
   "directory": "/home/brandon/Desktop/Dev/GameEngine/build",
-  "command": "/bin/clang++-11    -g   -o CMakeFiles/GameEngine.dir/include/ecs/coordinator/coordinator.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/include/ecs/coordinator/coordinator.cpp",
-  "file": "/home/brandon/Desktop/Dev/GameEngine/include/ecs/coordinator/coordinator.cpp"
+  "command": "/bin/clang++-11    -g   -o CMakeFiles/GameEngine.dir/include/ecs/world/world.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/include/ecs/world/world.cpp",
+  "file": "/home/brandon/Desktop/Dev/GameEngine/include/ecs/world/world.cpp"
 },
 
 {

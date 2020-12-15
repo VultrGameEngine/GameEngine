@@ -4,7 +4,7 @@
 
 #pragma once
 #include "../../ecs/system/system.hpp"
-#include "../../ecs/coordinator/coordinator.hpp"
+#include "../../ecs/world/world.hpp"
 
 class RenderSystem : public System
 {

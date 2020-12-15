@@ -6,7 +6,7 @@
 #include "../components/texture_component.h"
 #include "../components/sky_box_component.h"
 #include "../components/texture_cache.h"
-#include "../../ecs/coordinator/coordinator.hpp"
+#include "../../ecs/world/world.hpp"
 #include <glm/glm.hpp>
 #include <memory>
 

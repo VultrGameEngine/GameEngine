@@ -5,7 +5,7 @@
 #include "../../ecs/system/system.hpp"
 #include "../components/static_mesh_component.h"
 #include "../components/static_mesh_cache.h"
-#include "../../ecs/coordinator/coordinator.hpp"
+#include "../../ecs/world/world.hpp"
 #include <memory>
 
 class MeshLoaderSystem : public System
@@ -27,10 +27,10 @@ private:
     static void Every(void (*execute)(StaticMeshComponent &))
     {
         Signature signature;
-        signature.set(Coordinator::Get()->GetComponentType<StaticMeshComponent>());
-        for (Entity entity : Coordinator::Get()->GetEntities(signature))
+        signature.set(World::Get()->GetComponentType<StaticMeshComponent>());
+        for (Entity entity : World::Get()->GetEntities(signature))
         {
-            auto &component = Coordinator::Get()->GetComponent<StaticMeshComponent>(entity);
+            auto &component = World::Get()->GetComponent<StaticMeshComponent>(entity);
             execute(component);
         }
     }

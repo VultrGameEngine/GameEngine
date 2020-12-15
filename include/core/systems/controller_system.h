@@ -3,7 +3,7 @@
 #include "../../ecs/system/system.hpp"
 #include "../components/transform_component.h"
 #include "../components/controller_component.h"
-#include "../../ecs/coordinator/coordinator.hpp"
+#include "../../ecs/world/world.hpp"
 #include <memory>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
