@@ -73,6 +73,12 @@
 
 {
   "directory": "/home/brandon/Desktop/Dev/GameEngine/build",
+  "command": "/bin/clang++-11    -g   -o CMakeFiles/GameEngine.dir/vendor/imgui/imgui_tables.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui_tables.cpp",
+  "file": "/home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui_tables.cpp"
+},
+
+{
+  "directory": "/home/brandon/Desktop/Dev/GameEngine/build",
   "command": "/bin/clang++-11    -g   -o CMakeFiles/GameEngine.dir/vendor/imgui/imgui_widgets.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui_widgets.cpp",
   "file": "/home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui_widgets.cpp"
 },
