@@ -26,7 +26,7 @@ std::shared_ptr<MeshLoaderSystem> MeshLoaderSystem::Get()
 
 std::shared_ptr<MeshLoaderSystem> MeshLoaderSystem::RegisterSystem()
 {
-    std::shared_ptr<MeshLoaderSystem> ptr = World::Get()->RegisterSystem<MeshLoaderSystem>();
+    std::shared_ptr<MeshLoaderSystem> ptr = World::RegisterSystem<MeshLoaderSystem>();
     return ptr;
 }
 void MeshLoaderSystem::DestroyEntity(Entity entity)
@@ -36,10 +36,10 @@ void MeshLoaderSystem::DestroyEntity(Entity entity)
 void MeshLoaderSystem::Update()
 {
     // Signature signature;
-    // signature.set(World::Get()->GetComponentType<StaticMeshComponent>());
-    // for (Entity entity : World::Get()->GetEntities(signature))
+    // signature.set(World::GetComponentType<StaticMeshComponent>());
+    // for (Entity entity : World::GetEntities(signature))
     // {
-    //     auto &component = World::Get()->GetComponent<StaticMeshComponent>(entity);
+    //     auto &component = World::GetComponent<StaticMeshComponent>(entity);
     // }
     Every([](StaticMeshComponent &component) {
         if (!isLoaded(component.path))

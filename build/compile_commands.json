@@ -43,20 +43,38 @@
 
 {
   "directory": "/home/brandon/Desktop/Dev/GameEngine/build",
-  "command": "/bin/clang++-11    -g   -o CMakeFiles/GameEngine.dir/src/helpers/controls.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/src/helpers/controls.cpp",
-  "file": "/home/brandon/Desktop/Dev/GameEngine/src/helpers/controls.cpp"
-},
-
-{
-  "directory": "/home/brandon/Desktop/Dev/GameEngine/build",
   "command": "/bin/clang++-11    -g   -o CMakeFiles/GameEngine.dir/src/main.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/src/main.cpp",
   "file": "/home/brandon/Desktop/Dev/GameEngine/src/main.cpp"
 },
 
 {
   "directory": "/home/brandon/Desktop/Dev/GameEngine/build",
-  "command": "/bin/clang++-11    -g   -o CMakeFiles/GameEngine.dir/src/models/Mesh.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/src/models/Mesh.cpp",
-  "file": "/home/brandon/Desktop/Dev/GameEngine/src/models/Mesh.cpp"
+  "command": "/bin/clang++-11    -g   -o CMakeFiles/GameEngine.dir/vendor/imgui/imgui.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui.cpp",
+  "file": "/home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui.cpp"
+},
+
+{
+  "directory": "/home/brandon/Desktop/Dev/GameEngine/build",
+  "command": "/bin/clang++-11    -g   -o CMakeFiles/GameEngine.dir/vendor/imgui/imgui_draw.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui_draw.cpp",
+  "file": "/home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui_draw.cpp"
+},
+
+{
+  "directory": "/home/brandon/Desktop/Dev/GameEngine/build",
+  "command": "/bin/clang++-11    -g   -o CMakeFiles/GameEngine.dir/vendor/imgui/imgui_impl_glfw.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui_impl_glfw.cpp",
+  "file": "/home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui_impl_glfw.cpp"
+},
+
+{
+  "directory": "/home/brandon/Desktop/Dev/GameEngine/build",
+  "command": "/bin/clang++-11    -g   -o CMakeFiles/GameEngine.dir/vendor/imgui/imgui_impl_opengl3.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui_impl_opengl3.cpp",
+  "file": "/home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui_impl_opengl3.cpp"
+},
+
+{
+  "directory": "/home/brandon/Desktop/Dev/GameEngine/build",
+  "command": "/bin/clang++-11    -g   -o CMakeFiles/GameEngine.dir/vendor/imgui/imgui_widgets.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui_widgets.cpp",
+  "file": "/home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui_widgets.cpp"
 },
 
 {

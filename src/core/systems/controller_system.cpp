@@ -24,18 +24,24 @@ void ControllerSystem::Update(float delta_time)
 {
     if (!this->focused)
         return;
+    if (!glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT))
+    {
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+        return;
+    }
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
     double xpos, ypos;
     glfwGetCursorPos(window, &xpos, &ypos);
 
     glfwSetCursorPos(window, width / 2, height / 2);
 
     Signature signature;
-    signature.set(World::Get()->GetComponentType<ControllerComponent>());
-    signature.set(World::Get()->GetComponentType<TransformComponent>());
-    for (Entity entity : World::Get()->GetEntities(signature))
+    signature.set(World::GetComponentType<ControllerComponent>());
+    signature.set(World::GetComponentType<TransformComponent>());
+    for (Entity entity : World::GetEntities(signature))
     {
-        auto &transform_component = World::Get()->GetComponent<TransformComponent>(entity);
-        auto &controller_component = World::Get()->GetComponent<ControllerComponent>(entity);
+        auto &transform_component = World::GetComponent<TransformComponent>(entity);
+        auto &controller_component = World::GetComponent<ControllerComponent>(entity);
         glm::quat rotation_horiz = glm::angleAxis(controller_component.sens * delta_time * float(width / 2 - xpos), glm::vec3(0, 1, 0));
         glm::quat rotation_vert = glm::angleAxis(controller_component.sens * delta_time * float(height / 2 - ypos), transform_component.Right());
         transform_component.rotation = rotation_horiz * rotation_vert * transform_component.rotation;
@@ -85,6 +91,6 @@ void ControllerSystem::WindowFocusCallback(GLFWwindow *window, int focused)
 
 std::shared_ptr<ControllerSystem> ControllerSystem::RegisterSystem()
 {
-    std::shared_ptr<ControllerSystem> ptr = World::Get()->RegisterSystem<ControllerSystem>();
+    std::shared_ptr<ControllerSystem> ptr = World::RegisterSystem<ControllerSystem>();
     return ptr;
 }

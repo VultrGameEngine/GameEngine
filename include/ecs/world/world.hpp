@@ -10,98 +10,95 @@
 class World
 {
 public:
-    static World *Get();
-
-    void Init()
+    static void Init()
     {
-        component_manager = std::make_unique<ComponentManager>();
-        entity_manager = std::make_unique<EntityManager>();
-        system_manager = std::make_unique<SystemManager>();
+        Get()->component_manager = std::make_unique<ComponentManager>();
+        Get()->entity_manager = std::make_unique<EntityManager>();
+        Get()->system_manager = std::make_unique<SystemManager>();
     }
 
     // Entity methods
-    Entity CreateEntity()
+    static Entity CreateEntity()
     {
-        return entity_manager->CreateEntity();
+        return Get()->entity_manager->CreateEntity();
     }
 
-    void DestroyEntity(Entity entity)
+    static void DestroyEntity(Entity entity)
     {
-        entity_manager->DestroyEntity(entity);
+        Get()->entity_manager->DestroyEntity(entity);
 
-        component_manager->EntityDestroyed(entity);
+        Get()->component_manager->EntityDestroyed(entity);
     }
 
-    std::set<Entity> GetEntities(Signature signature)
+    static std::set<Entity> GetEntities(Signature signature)
     {
-        return entity_manager->GetEntities(signature);
+        return Get()->entity_manager->GetEntities(signature);
     }
 
-    Signature GetSignature(Entity entity)
+    static Signature GetSignature(Entity entity)
     {
-        return entity_manager->GetSignature(entity);
+        return Get()->entity_manager->GetSignature(entity);
     }
 
     // Component methods
     template <typename T>
-    void RegisterComponent()
+    static void RegisterComponent()
     {
-        component_manager->RegisterComponent<T>();
+        Get()->component_manager->RegisterComponent<T>();
     }
 
     template <typename T>
-    void AddComponent(Entity entity, T component)
+    static void AddComponent(Entity entity, T component)
     {
-        component_manager->AddComponent<T>(entity, component);
+        Get()->component_manager->AddComponent<T>(entity, component);
 
-        auto signature = entity_manager->GetSignature(entity);
-        signature.set(component_manager->GetComponentType<T>(), true);
-        entity_manager->SetSignature(entity, signature);
+        auto signature = Get()->entity_manager->GetSignature(entity);
+        signature.set(Get()->component_manager->GetComponentType<T>(), true);
+        Get()->entity_manager->SetSignature(entity, signature);
     }
 
     template <typename T>
-    void RemoveComponent(Entity entity)
+    static void RemoveComponent(Entity entity)
     {
-        component_manager->RemoveComponent<T>(entity);
+        Get()->component_manager->RemoveComponent<T>(entity);
 
-        auto signature = entity_manager->GetSignature(entity);
-        signature.set(component_manager->GetComponent<T>(), false);
-        entity_manager->SetSignature(entity, signature);
+        auto signature = Get()->entity_manager->GetSignature(entity);
+        signature.set(Get()->component_manager->GetComponent<T>(), false);
+        Get()->entity_manager->SetSignature(entity, signature);
     }
 
     template <typename T>
-    T &GetComponent(Entity entity)
+    static T &GetComponent(Entity entity)
     {
-        return component_manager->GetComponent<T>(entity);
+        return Get()->component_manager->GetComponent<T>(entity);
     }
     template <typename T>
-    std::shared_ptr<ComponentArray<T>> GetComponents()
+    static std::shared_ptr<ComponentArray<T>> GetComponents()
     {
-        return component_manager->GetComponents<T>();
+        return Get()->component_manager->GetComponents<T>();
     }
 
     template <typename T>
-    ComponentType GetComponentType()
+    static ComponentType GetComponentType()
     {
-        return component_manager->GetComponentType<T>();
+        return Get()->component_manager->GetComponentType<T>();
     }
 
     // System methods
     template <typename T>
-    std::shared_ptr<T> RegisterSystem()
+    static std::shared_ptr<T> RegisterSystem()
     {
-        return system_manager->RegisterSystem<T>();
+        return Get()->system_manager->RegisterSystem<T>();
     }
 
     template <typename T>
-    void DeregisterSystem()
+    static void DeregisterSystem()
     {
-        return system_manager->DeregisterSystem<T>();
+        return Get()->system_manager->DeregisterSystem<T>();
     }
 
 private:
-    static World *instance;
-
+    static World *Get();
     std::unique_ptr<ComponentManager> component_manager;
     std::unique_ptr<EntityManager> entity_manager;
     std::unique_ptr<SystemManager> system_manager;

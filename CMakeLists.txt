@@ -9,8 +9,8 @@ file(GLOB_RECURSE GameEngine_SRC
     "include/*.h"
     "include/*.hpp"
     "include/*.cpp"
-    "vendor/stb_image/*.h"
-    "vendor/stb_image/*.cpp"
+    "vendor/*.h"
+    "vendor/*.cpp"
 )
 
 find_package(GTest REQUIRED)

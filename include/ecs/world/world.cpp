@@ -1,14 +1,12 @@
 #include "world.hpp"
 
-World *World::instance = 0;
-
 World *World::Get()
 {
+    static World *instance;
 
     if (instance == 0)
     {
         instance = new World();
-        instance->Init();
     }
     return instance;
 }

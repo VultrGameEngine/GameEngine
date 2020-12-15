@@ -27,10 +27,10 @@ private:
     static void Every(void (*execute)(StaticMeshComponent &))
     {
         Signature signature;
-        signature.set(World::Get()->GetComponentType<StaticMeshComponent>());
-        for (Entity entity : World::Get()->GetEntities(signature))
+        signature.set(World::GetComponentType<StaticMeshComponent>());
+        for (Entity entity : World::GetEntities(signature))
         {
-            auto &component = World::Get()->GetComponent<StaticMeshComponent>(entity);
+            auto &component = World::GetComponent<StaticMeshComponent>(entity);
             execute(component);
         }
     }

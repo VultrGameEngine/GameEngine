@@ -5,22 +5,22 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <array>
-#include "../include/models/Vertex.h"
-#include "../include/helpers/controls.h"
-#include "../include/models/Mesh.h"
 #include "../include/core/core.h"
+#include "../vendor/imgui/imgui.h"
+#include "../vendor/imgui/imgui_impl_glfw.h"
+#include "../vendor/imgui/imgui_impl_opengl3.h"
 
 int main(void)
 {
-    World::Get()->Init();
-    World::Get()->RegisterComponent<StaticMeshComponent>();
-    World::Get()->RegisterComponent<TextureComponent>();
-    World::Get()->RegisterComponent<TransformComponent>();
-    World::Get()->RegisterComponent<LightComponent>();
-    World::Get()->RegisterComponent<ShaderComponent>();
-    World::Get()->RegisterComponent<CameraComponent>();
-    World::Get()->RegisterComponent<ControllerComponent>();
-    World::Get()->RegisterComponent<SkyBoxComponent>();
+    World::Init();
+    World::RegisterComponent<StaticMeshComponent>();
+    World::RegisterComponent<TextureComponent>();
+    World::RegisterComponent<TransformComponent>();
+    World::RegisterComponent<LightComponent>();
+    World::RegisterComponent<ShaderComponent>();
+    World::RegisterComponent<CameraComponent>();
+    World::RegisterComponent<ControllerComponent>();
+    World::RegisterComponent<SkyBoxComponent>();
     RenderSystem::Get();
     MeshLoaderSystem::Get();
     ShaderLoaderSystem::Get();
@@ -32,56 +32,56 @@ int main(void)
     {
         for (int j = 0; j < 10; j++)
         {
-            Entity xwing = World::Get()->CreateEntity();
+            Entity xwing = World::CreateEntity();
 
-            World::Get()->AddComponent(
+            World::AddComponent(
                 xwing, StaticMeshComponent{
                            .path = "res/models/XWing.obj",
                        });
-            World::Get()->AddComponent(
+            World::AddComponent(
                 xwing, TransformComponent{
                            .position = glm::vec3(i * 3, 0, j * 5)});
-            World::Get()->AddComponent(
+            World::AddComponent(
                 xwing, TextureComponent{
                            .path = "res/textures/XWing.png",
                        });
-            World::Get()->AddComponent(
+            World::AddComponent(
                 xwing, ShaderComponent{
                            .shader_path = "res/shaders/material.glsl",
                        });
         }
     }
 
-    Entity camera = World::Get()->CreateEntity();
+    Entity camera = World::CreateEntity();
 
-    World::Get()->AddComponent(
+    World::AddComponent(
         camera, CameraComponent{
                     .enabled = true,
                 });
 
-    World::Get()->AddComponent(
+    World::AddComponent(
         camera, TransformComponent{
                     .position = glm::vec3(4, 4, 4)});
 
-    World::Get()->AddComponent(camera, ControllerComponent{});
-    World::Get()->AddComponent(camera, SkyBoxComponent{
-                                           .identifier = "default",
-                                           .front = "res/textures/skybox/front.jpg",
-                                           .back = "res/textures/skybox/back.jpg",
-                                           .top = "res/textures/skybox/top.jpg",
-                                           .bottom = "res/textures/skybox/bottom.jpg",
-                                           .left = "res/textures/skybox/left.jpg",
-                                           .right = "res/textures/skybox/right.jpg",
-                                       });
-    World::Get()->AddComponent(camera, ShaderComponent{
-                                           .shader_path = "res/shaders/skybox.glsl",
-                                       });
-    Entity light = World::Get()->CreateEntity();
+    World::AddComponent(camera, ControllerComponent{});
+    World::AddComponent(camera, SkyBoxComponent{
+                                    .identifier = "default",
+                                    .front = "res/textures/skybox/front.jpg",
+                                    .back = "res/textures/skybox/back.jpg",
+                                    .top = "res/textures/skybox/top.jpg",
+                                    .bottom = "res/textures/skybox/bottom.jpg",
+                                    .left = "res/textures/skybox/left.jpg",
+                                    .right = "res/textures/skybox/right.jpg",
+                                });
+    World::AddComponent(camera, ShaderComponent{
+                                    .shader_path = "res/shaders/skybox.glsl",
+                                });
+    Entity light = World::CreateEntity();
 
-    World::Get()->AddComponent(
+    World::AddComponent(
         light, LightComponent{});
 
-    World::Get()->AddComponent(
+    World::AddComponent(
         light, TransformComponent{
                    .position = glm::vec3(4, 4, 4)});
 
@@ -114,8 +114,16 @@ int main(void)
     // glEnable(GL_DEPTH_BUFFER);
 
     ControllerSystem::Get()->Init(window, 1920, 1080);
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
     glfwSetWindowFocusCallback(window, ControllerSystem::WindowFocusCallback);
+
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO &io = ImGui::GetIO();
+    ImGui::StyleColorsDark();
+    ImGui_ImplGlfw_InitForOpenGL(window, true);
+    ImGui_ImplOpenGL3_Init((char *)glGetString(GL_NUM_SHADING_LANGUAGE_VERSIONS));
+
+    ImGui::StyleColorsDark();
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
@@ -124,7 +132,7 @@ int main(void)
         float deltaTime = t - lastTime;
         lastTime = t;
         double fps = 1.0f / deltaTime;
-        // std::cout << "FPS:" << fps << std::endl;
+        std::cout << "FPS:" << fps << std::endl;
 
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -135,12 +143,44 @@ int main(void)
         ShaderLoaderSystem::Get()->InitShaders();
         RenderSystem::Get()->Update(t);
 
-        /* Swap front and back buffers */
-        glfwSwapBuffers(window);
-
         /* Poll for and process events */
         glfwPollEvents();
+
+        ImGui_ImplOpenGL3_NewFrame();
+
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
+        static float f = 0.0f;
+        static int counter = 0;
+
+        ImGui::Begin("Hello, world!"); // Create a window called "Hello, world!" and append into it.
+
+        ImGui::Text("This is some useful text."); // Display some text (you can use a format strings too)
+        // ImGui::Checkbox("Demo Window", &show_demo_window); // Edit bools storing our window open/close state
+        // ImGui::Checkbox("Another Window", &show_another_window);
+
+        ImGui::SliderFloat("float", &f, 0.0f, 1.0f); // Edit 1 float using a slider from 0.0f to 1.0f
+        // ImGui::ColorEdit3("clear color", (float *)&clear_color); // Edit 3 floats representing a color
+
+        if (ImGui::Button("Button")) // Buttons return true when clicked (most widgets return true when edited/activated)
+            counter++;
+        ImGui::SameLine();
+        ImGui::Text("counter = %d", counter);
+
+        ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+        ImGui::End();
+
+        ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+        /* Swap front and back buffers */
+        glfwSwapBuffers(window);
     }
+
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+
+    ImGui::DestroyContext();
 
     glfwTerminate();
     return 0;
