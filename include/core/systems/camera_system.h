@@ -15,4 +15,9 @@ public:
     void DestroyEntity(Entity entity) override{};
     static std::shared_ptr<CameraSystem> RegisterSystem();
     Entity camera = -1;
+    struct Camera
+    {
+        TransformComponent transform_component;
+        CameraComponent camera_component;
+    } scene_camera;
 };

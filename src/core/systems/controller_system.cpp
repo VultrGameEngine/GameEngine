@@ -28,7 +28,7 @@ void ControllerSystem::Update(float delta_time)
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
         return;
     }
-    glm::vec2 dimensions = RenderSystem::GetDimensions();
+    glm::vec2 dimensions = RenderSystem::GetDimensions(GAME);
 
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
     double xpos, ypos;
@@ -86,7 +86,7 @@ void ControllerSystem::WindowFocusCallback(GLFWwindow *window, int focused)
     instance->focused = focused;
     if (instance->focused)
     {
-        glfwSetCursorPos(window, RenderSystem::GetDimensions().x / 2, RenderSystem::GetDimensions().y / 2);
+        glfwSetCursorPos(window, RenderSystem::GetDimensions(GAME).x / 2, RenderSystem::GetDimensions(GAME).y / 2);
     }
 }
 

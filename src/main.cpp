@@ -27,7 +27,6 @@ int main(void)
     TextureLoaderSystem::Get();
     ControllerSystem::Get();
     CameraSystem::Get();
-    SkyboxSystem::Get();
 
     for (int i = 0; i < 10; i++)
     {

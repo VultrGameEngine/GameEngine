@@ -1,6 +1,5 @@
 #pragma once
 #include <glm/glm.hpp>
-#include "../systems/render_system.h"
 
 struct CameraComponent
 {
@@ -14,8 +13,8 @@ struct CameraComponent
 
     glm::mat4 view_matrix;
 
-    inline glm::mat4 GetProjectionMatrix()
+    inline glm::mat4 GetProjectionMatrix(float width, float height)
     {
-        return glm::perspective(fov, RenderSystem::GetDimensions().x / RenderSystem::GetDimensions().y, znear, zfar);
+        return glm::perspective(fov, width / height, znear, zfar);
     }
 };

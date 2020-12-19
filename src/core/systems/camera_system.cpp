@@ -1,4 +1,5 @@
 #include "../../../include/core/systems/camera_system.h"
+#include "../../../include/editor/editor.hpp"
 #include "../../../include/ecs/world/world.hpp"
 
 void CameraSystem::Update()
@@ -17,6 +18,9 @@ void CameraSystem::Update()
             break;
         }
     }
+    auto &camera_component = CameraSystem::Get()->scene_camera.camera_component;
+    auto &transform_component = CameraSystem::Get()->scene_camera.transform_component;
+    camera_component.view_matrix = glm::lookAt(transform_component.position, transform_component.position + transform_component.Forward(), glm::vec3(0, 1, 0));
 }
 
 std::shared_ptr<CameraSystem> CameraSystem::Get()

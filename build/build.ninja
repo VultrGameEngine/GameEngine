@@ -247,17 +247,17 @@ build CMakeFiles/GameEngine.dir/src/core/systems/shader_loader_system.cpp.o: CXX
   OBJECT_DIR = CMakeFiles/GameEngine.dir
   OBJECT_FILE_DIR = CMakeFiles/GameEngine.dir/src/core/systems
 
-build CMakeFiles/GameEngine.dir/src/core/systems/skybox_system.cpp.o: CXX_COMPILER__GameEngine ../src/core/systems/skybox_system.cpp || cmake_object_order_depends_target_GameEngine
-  DEP_FILE = CMakeFiles/GameEngine.dir/src/core/systems/skybox_system.cpp.o.d
-  FLAGS = -g
-  OBJECT_DIR = CMakeFiles/GameEngine.dir
-  OBJECT_FILE_DIR = CMakeFiles/GameEngine.dir/src/core/systems
-
 build CMakeFiles/GameEngine.dir/src/core/systems/texture_loader_system.cpp.o: CXX_COMPILER__GameEngine ../src/core/systems/texture_loader_system.cpp || cmake_object_order_depends_target_GameEngine
   DEP_FILE = CMakeFiles/GameEngine.dir/src/core/systems/texture_loader_system.cpp.o.d
   FLAGS = -g
   OBJECT_DIR = CMakeFiles/GameEngine.dir
   OBJECT_FILE_DIR = CMakeFiles/GameEngine.dir/src/core/systems
+
+build CMakeFiles/GameEngine.dir/src/editor/core/windows/game_window.cpp.o: CXX_COMPILER__GameEngine ../src/editor/core/windows/game_window.cpp || cmake_object_order_depends_target_GameEngine
+  DEP_FILE = CMakeFiles/GameEngine.dir/src/editor/core/windows/game_window.cpp.o.d
+  FLAGS = -g
+  OBJECT_DIR = CMakeFiles/GameEngine.dir
+  OBJECT_FILE_DIR = CMakeFiles/GameEngine.dir/src/editor/core/windows
 
 build CMakeFiles/GameEngine.dir/src/editor/core/windows/scene_window.cpp.o: CXX_COMPILER__GameEngine ../src/editor/core/windows/scene_window.cpp || cmake_object_order_depends_target_GameEngine
   DEP_FILE = CMakeFiles/GameEngine.dir/src/editor/core/windows/scene_window.cpp.o.d
@@ -327,7 +327,7 @@ build CMakeFiles/GameEngine.dir/vendor/stb_image/stb_image.cpp.o: CXX_COMPILER__
 #############################################
 # Link the executable GameEngine
 
-build GameEngine: CXX_EXECUTABLE_LINKER__GameEngine CMakeFiles/GameEngine.dir/include/ecs/world/world.cpp.o CMakeFiles/GameEngine.dir/src/core/systems/camera_system.cpp.o CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o CMakeFiles/GameEngine.dir/src/core/systems/light_system.cpp.o CMakeFiles/GameEngine.dir/src/core/systems/mesh_loader_system.cpp.o CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o CMakeFiles/GameEngine.dir/src/core/systems/shader_loader_system.cpp.o CMakeFiles/GameEngine.dir/src/core/systems/skybox_system.cpp.o CMakeFiles/GameEngine.dir/src/core/systems/texture_loader_system.cpp.o CMakeFiles/GameEngine.dir/src/editor/core/windows/scene_window.cpp.o CMakeFiles/GameEngine.dir/src/editor/editor.cpp.o CMakeFiles/GameEngine.dir/src/main.cpp.o CMakeFiles/GameEngine.dir/vendor/imgui/imgui.cpp.o CMakeFiles/GameEngine.dir/vendor/imgui/imgui_draw.cpp.o CMakeFiles/GameEngine.dir/vendor/imgui/imgui_impl_glfw.cpp.o CMakeFiles/GameEngine.dir/vendor/imgui/imgui_impl_opengl3.cpp.o CMakeFiles/GameEngine.dir/vendor/imgui/imgui_tables.cpp.o CMakeFiles/GameEngine.dir/vendor/imgui/imgui_widgets.cpp.o CMakeFiles/GameEngine.dir/vendor/stb_image/stb_image.cpp.o
+build GameEngine: CXX_EXECUTABLE_LINKER__GameEngine CMakeFiles/GameEngine.dir/include/ecs/world/world.cpp.o CMakeFiles/GameEngine.dir/src/core/systems/camera_system.cpp.o CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o CMakeFiles/GameEngine.dir/src/core/systems/light_system.cpp.o CMakeFiles/GameEngine.dir/src/core/systems/mesh_loader_system.cpp.o CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o CMakeFiles/GameEngine.dir/src/core/systems/shader_loader_system.cpp.o CMakeFiles/GameEngine.dir/src/core/systems/texture_loader_system.cpp.o CMakeFiles/GameEngine.dir/src/editor/core/windows/game_window.cpp.o CMakeFiles/GameEngine.dir/src/editor/core/windows/scene_window.cpp.o CMakeFiles/GameEngine.dir/src/editor/editor.cpp.o CMakeFiles/GameEngine.dir/src/main.cpp.o CMakeFiles/GameEngine.dir/vendor/imgui/imgui.cpp.o CMakeFiles/GameEngine.dir/vendor/imgui/imgui_draw.cpp.o CMakeFiles/GameEngine.dir/vendor/imgui/imgui_impl_glfw.cpp.o CMakeFiles/GameEngine.dir/vendor/imgui/imgui_impl_opengl3.cpp.o CMakeFiles/GameEngine.dir/vendor/imgui/imgui_tables.cpp.o CMakeFiles/GameEngine.dir/vendor/imgui/imgui_widgets.cpp.o CMakeFiles/GameEngine.dir/vendor/stb_image/stb_image.cpp.o
   FLAGS = -g
   LINK_FLAGS = -rdynamic
   LINK_LIBRARIES = -lGL  -lGLU  -lglfw3  -lX11  -lXxf86vm  -lXrandr  -lpthread  -lXi  -ldl  -lGLEW  -lgtest  -lgtest_main

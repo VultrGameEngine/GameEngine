@@ -1,6 +1,8 @@
 #pragma once
 #include "imgui/window.hpp"
 #include <vector>
+// #include "../core/components/camera_component.h"
+// #include "../core/components/transform_component.h"
 
 namespace Editor
 {

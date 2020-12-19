@@ -4,6 +4,7 @@
 #include "../../../include/core/systems/mesh_loader_system.h"
 #include "../../../include/core/systems/texture_loader_system.h"
 #include "../../../include/ecs/world/world.hpp"
+#include "../../../include/editor/editor.hpp"
 #include "../../../include/ecs/component/component.hpp"
 #include "../../../include/core/components/static_mesh_component.h"
 #include "../../../include/core/components/texture_component.h"
@@ -46,30 +47,39 @@ void RenderSystem::DestroyEntity(Entity entity)
 void RenderSystem::Update(float delta_time)
 {
     Entity camera = CameraSystem::Get()->camera;
-
-    // If no camera is in the scene, then something is wrong and we can't render
-    if (camera == -1)
-    {
-        std::cout << "NO CAMERA FOUND" << std::endl;
-        return;
-    }
-
     Entity light = LightSystem::Get()->light;
     if (light == -1)
         return;
-    TransformComponent &light_transform = World::GetComponent<TransformComponent>(light);
 
-    glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+    // If no camera is in the scene, then something is wrong and we can't render
+    if (camera != -1)
+    {
+
+        glBindFramebuffer(GL_FRAMEBUFFER, Get()->game.fbo);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        auto &camera_transform = World::GetComponent<TransformComponent>(camera);
+        auto &camera_component = World::GetComponent<CameraComponent>(camera);
+        glViewport(0, 0, game.dimensions.x, game.dimensions.y);
+        RenderSkybox(GAME, camera_transform, camera_component);
+        RenderElements(GAME, camera_transform, camera_component, light);
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    }
+    else
+    {
+        std::cout << "NO CAMERA FOUND" << std::endl;
+    }
+    glBindFramebuffer(GL_FRAMEBUFFER, Get()->scene.fbo);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    RenderSkybox(camera);
-    RenderElements(camera, light);
+    auto &camera_transform = CameraSystem::Get()->scene_camera.transform_component;
+    auto &camera_component = CameraSystem::Get()->scene_camera.camera_component;
+    glViewport(0, 0, scene.dimensions.x, scene.dimensions.y);
+    RenderSkybox(SCENE, camera_transform, camera_component);
+    RenderElements(SCENE, camera_transform, camera_component, light);
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-void RenderSystem::RenderElements(Entity camera, Entity light)
+void RenderSystem::RenderElements(unsigned int type, TransformComponent camera_transform, CameraComponent camera_component, Entity light)
 {
-    auto &camera_transform = World::GetComponent<TransformComponent>(camera);
-    auto &camera_component = World::GetComponent<CameraComponent>(camera);
     auto &light_transform = World::GetComponent<TransformComponent>(light);
 
     Signature signature;
@@ -175,7 +185,7 @@ void RenderSystem::RenderElements(Entity camera, Entity light)
         glUseProgram(shader_component.shader);
         glUniformMatrix4fv(shader_component.Model, 1, GL_FALSE, glm::value_ptr(transform_component.Matrix()));
         glUniformMatrix4fv(shader_component.View, 1, GL_FALSE, glm::value_ptr(camera_component.view_matrix));
-        glUniformMatrix4fv(shader_component.Projection, 1, GL_FALSE, glm::value_ptr(camera_component.GetProjectionMatrix()));
+        glUniformMatrix4fv(shader_component.Projection, 1, GL_FALSE, glm::value_ptr(camera_component.GetProjectionMatrix(GetDimensions(type).x, GetDimensions(type).y)));
         glUniform3f(shader_component.LightPosition, light_transform.position.x, light_transform.position.y, light_transform.position.z);
         glUniform3f(shader_component.LightColor, 1.0f, 1.0f, 1.0f);
         glUniform3f(shader_component.ObjectColor, 1.0f, 1.0f, 1.0f);
@@ -203,11 +213,11 @@ void RenderSystem::RenderElements(Entity camera, Entity light)
     }
 }
 
-void RenderSystem::RenderSkybox(Entity camera)
+void RenderSystem::RenderSkybox(unsigned int type, TransformComponent camera_transform, CameraComponent camera_component)
 {
-    auto &camera_transform = World::GetComponent<TransformComponent>(camera);
-    auto &camera_component = World::GetComponent<CameraComponent>(camera);
-
+    Entity camera = CameraSystem::Get()->camera;
+    if (camera == -1)
+        return;
     glDepthFunc(GL_LEQUAL); // Ensure depth test passes when values are equal to the depth buffer's content
     Signature skybox_signature;
     skybox_signature.set(World::GetComponentType<SkyBoxComponent>(), true);
@@ -230,7 +240,7 @@ void RenderSystem::RenderSkybox(Entity camera)
             unsigned int SkyBox = glGetUniformLocation(shader_component.shader, "skybox");
             glUniform1i(SkyBox, 0);
             glUniformMatrix4fv(shader_component.View, 1, GL_FALSE, glm::value_ptr(glm::mat4(glm::mat3(camera_component.view_matrix))));
-            glUniformMatrix4fv(shader_component.Projection, 1, GL_FALSE, glm::value_ptr(camera_component.GetProjectionMatrix()));
+            glUniformMatrix4fv(shader_component.Projection, 1, GL_FALSE, glm::value_ptr(camera_component.GetProjectionMatrix(GetDimensions(type).x, GetDimensions(type).y)));
 
             if (skybox_component.vbo == 0 || skybox_component.vao == 0)
             {
@@ -259,45 +269,68 @@ std::shared_ptr<RenderSystem> RenderSystem::RegisterSystem()
     return ptr;
 }
 
-void RenderSystem::Resize(int width, int height)
+void RenderSystem::Resize(int width, int height, unsigned int type)
 {
-    if (Get()->dimensions == glm::vec2(width, height))
+    if (type == GAME)
     {
-        return;
+        if (Get()->game.dimensions == glm::vec2(width, height))
+        {
+            return;
+        }
+        Get()->game.dimensions = glm::vec2(width, height);
+        GenerateRenderTexture(&Get()->game.fbo, &Get()->game.render_texture, &Get()->game.rbo, width, height);
     }
-    Get()->dimensions = glm::vec2(width, height);
-    if (Get()->fbo != 0)
+    else if (type == SCENE)
     {
-        glDeleteFramebuffers(1, &Get()->fbo);
-        glDeleteTextures(1, &Get()->render_texture);
-        glDeleteRenderbuffers(1, &Get()->rbo);
+        if (Get()->scene.dimensions == glm::vec2(width, height))
+        {
+            return;
+        }
+        Get()->scene.dimensions = glm::vec2(width, height);
+        GenerateRenderTexture(&Get()->scene.fbo, &Get()->scene.render_texture, &Get()->scene.rbo, width, height);
     }
-    glCreateFramebuffers(1, &Get()->fbo);
-    glBindFramebuffer(GL_FRAMEBUFFER, Get()->fbo);
+}
 
-    glCreateTextures(GL_TEXTURE_2D, 1, &Get()->render_texture);
-    glBindTexture(GL_TEXTURE_2D, Get()->render_texture);
+glm::vec2 RenderSystem::GetDimensions(unsigned int type)
+{
+    if (type == SCENE)
+    {
+        return Get()->scene.dimensions;
+    }
+    else
+    {
+        return Get()->game.dimensions;
+    }
+}
+
+void RenderSystem::GenerateRenderTexture(unsigned int *fbo, unsigned int *render_texture, unsigned int *rbo, int width, int height)
+{
+    if (*fbo != 0)
+    {
+        glDeleteFramebuffers(1, fbo);
+        glDeleteTextures(1, render_texture);
+        glDeleteRenderbuffers(1, rbo);
+    }
+    glCreateFramebuffers(1, fbo);
+    glBindFramebuffer(GL_FRAMEBUFFER, *fbo);
+
+    glCreateTextures(GL_TEXTURE_2D, 1, render_texture);
+    glBindTexture(GL_TEXTURE_2D, *render_texture);
 
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, Get()->render_texture, 0);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, *render_texture, 0);
 
-    glCreateRenderbuffers(1, &Get()->rbo);
-    glBindRenderbuffer(GL_RENDERBUFFER, Get()->rbo);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);                          // use a single renderbuffer object for both a depth AND stencil buffer.
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, Get()->rbo); // now actually attach it
+    glCreateRenderbuffers(1, rbo);
+    glBindRenderbuffer(GL_RENDERBUFFER, *rbo);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);                    // use a single renderbuffer object for both a depth AND stencil buffer.
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, *rbo); // now actually attach it
     if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
     {
         std::cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << std::endl;
     }
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    glViewport(0, 0, width, height);
-}
-
-glm::vec2 RenderSystem::GetDimensions()
-{
-    return Get()->dimensions;
 }
