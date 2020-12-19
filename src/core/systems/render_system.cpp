@@ -42,6 +42,9 @@ void RenderSystem::DestroyEntity(Entity entity)
 // Used in the actual update loop in main
 void RenderSystem::Update(float delta_time)
 {
+    glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+    /* Render here */
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     Signature camera_signature;
     camera_signature.set(World::GetComponentType<CameraComponent>(), true);
     camera_signature.set(World::GetComponentType<TransformComponent>(), true);
@@ -253,6 +256,7 @@ void RenderSystem::Update(float delta_time)
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, static_mesh_component.ibo);
         glDrawElements(GL_TRIANGLES, mesh->indices.size() * sizeof(unsigned short), GL_UNSIGNED_SHORT, (void *)0);
     }
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 // Internal private helper methods
@@ -260,4 +264,47 @@ std::shared_ptr<RenderSystem> RenderSystem::RegisterSystem()
 {
     std::shared_ptr<RenderSystem> ptr = World::RegisterSystem<RenderSystem>();
     return ptr;
+}
+
+void RenderSystem::Resize(int width, int height)
+{
+    if (Get()->dimensions == glm::vec2(width, height))
+    {
+        return;
+    }
+    Get()->dimensions = glm::vec2(width, height);
+    if (Get()->fbo != 0)
+    {
+        glDeleteFramebuffers(1, &Get()->fbo);
+        glDeleteTextures(1, &Get()->render_texture);
+        glDeleteRenderbuffers(1, &Get()->rbo);
+    }
+    glCreateFramebuffers(1, &Get()->fbo);
+    glBindFramebuffer(GL_FRAMEBUFFER, Get()->fbo);
+
+    glCreateTextures(GL_TEXTURE_2D, 1, &Get()->render_texture);
+    glBindTexture(GL_TEXTURE_2D, Get()->render_texture);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, Get()->render_texture, 0);
+
+    glCreateRenderbuffers(1, &Get()->rbo);
+    glBindRenderbuffer(GL_RENDERBUFFER, Get()->rbo);
+    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width, height);                          // use a single renderbuffer object for both a depth AND stencil buffer.
+    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, Get()->rbo); // now actually attach it
+    if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+    {
+        std::cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << std::endl;
+    }
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    glViewport(0, 0, width, height);
+}
+
+glm::vec2 RenderSystem::GetDimensions()
+{
+    return Get()->dimensions;
 }

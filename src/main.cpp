@@ -6,6 +6,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <array>
 #include "../include/core/core.h"
+#include "../include/editor/editor.hpp"
 #include "../vendor/imgui/imgui.h"
 #include "../vendor/imgui/imgui_impl_glfw.h"
 #include "../vendor/imgui/imgui_impl_opengl3.h"
@@ -21,14 +22,13 @@ int main(void)
     World::RegisterComponent<CameraComponent>();
     World::RegisterComponent<ControllerComponent>();
     World::RegisterComponent<SkyBoxComponent>();
-    RenderSystem::Get();
     MeshLoaderSystem::Get();
     ShaderLoaderSystem::Get();
     TextureLoaderSystem::Get();
     ControllerSystem::Get();
     CameraSystem::Get();
 
-    for (int i = 0; i < 100; i++)
+    for (int i = 0; i < 10; i++)
     {
         for (int j = 0; j < 10; j++)
         {
@@ -107,13 +107,13 @@ int main(void)
         printf("Failed to initialze glue\n");
         return -1;
     }
+    RenderSystem::Get();
 
     float lastTime = 0;
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
-    // glEnable(GL_DEPTH_BUFFER);
 
-    ControllerSystem::Get()->Init(window, 1920, 1080);
+    ControllerSystem::Get()->Init(window);
     glfwSetWindowFocusCallback(window, ControllerSystem::WindowFocusCallback);
 
     IMGUI_CHECKVERSION();
@@ -135,10 +135,7 @@ int main(void)
         lastTime = t;
         double fps = 1.0f / deltaTime;
         std::cout << "FPS:" << fps << std::endl;
-
-        /* Render here */
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
         ControllerSystem::Get()->Update(deltaTime);
         MeshLoaderSystem::Get()->Update();
         TextureLoaderSystem::Get()->Update();
@@ -147,40 +144,7 @@ int main(void)
 
         /* Poll for and process events */
         glfwPollEvents();
-
-        ImGui_ImplOpenGL3_NewFrame();
-
-        ImGui_ImplGlfw_NewFrame();
-        ImGui::NewFrame();
-        static float f = 0.0f;
-        static int counter = 0;
-
-        ImGui::Begin("Hello, world!"); // Create a window called "Hello, world!" and append into it.
-
-        ImGui::Text("This is some useful text."); // Display some text (you can use a format strings too)
-        // ImGui::Checkbox("Demo Window", &show_demo_window); // Edit bools storing our window open/close state
-        // ImGui::Checkbox("Another Window", &show_another_window);
-
-        ImGui::SliderFloat("float", &f, 0.0f, 1.0f); // Edit 1 float using a slider from 0.0f to 1.0f
-        // ImGui::ColorEdit3("clear color", (float *)&clear_color); // Edit 3 floats representing a color
-
-        if (ImGui::Button("Button")) // Buttons return true when clicked (most widgets return true when edited/activated)
-            counter++;
-        ImGui::SameLine();
-        ImGui::Text("counter = %d", counter);
-
-        ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-        ImGui::End();
-        ImGui::Begin("Another Window");
-        ImGui::Text("Hello from another window!");
-        ImGui::End();
-
-        ImGui::Render();
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-        GLFWwindow *backup_current_context = glfwGetCurrentContext();
-        ImGui::UpdatePlatformWindows();
-        ImGui::RenderPlatformWindowsDefault();
-        glfwMakeContextCurrent(backup_current_context);
+        Editor::Editor::Get()->Render();
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);

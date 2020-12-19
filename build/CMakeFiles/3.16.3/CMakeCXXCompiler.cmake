@@ -1,7 +1,7 @@
-set(CMAKE_CXX_COMPILER "/bin/clang++-11")
+set(CMAKE_CXX_COMPILER "/bin/clang++-9")
 set(CMAKE_CXX_COMPILER_ARG1 "")
 set(CMAKE_CXX_COMPILER_ID "Clang")
-set(CMAKE_CXX_COMPILER_VERSION "11.0.0")
+set(CMAKE_CXX_COMPILER_VERSION "9.0.1")
 set(CMAKE_CXX_COMPILER_VERSION_INTERNAL "")
 set(CMAKE_CXX_COMPILER_WRAPPER "")
 set(CMAKE_CXX_STANDARD_COMPUTED_DEFAULT "14")
@@ -20,9 +20,9 @@ set(CMAKE_CXX_SIMULATE_VERSION "")
 
 
 set(CMAKE_AR "/bin/ar")
-set(CMAKE_CXX_COMPILER_AR "/usr/lib/llvm-11/bin/llvm-ar")
+set(CMAKE_CXX_COMPILER_AR "/usr/lib/llvm-9/bin/llvm-ar")
 set(CMAKE_RANLIB "/bin/ranlib")
-set(CMAKE_CXX_COMPILER_RANLIB "/usr/lib/llvm-11/bin/llvm-ranlib")
+set(CMAKE_CXX_COMPILER_RANLIB "/usr/lib/llvm-9/bin/llvm-ranlib")
 set(CMAKE_LINKER "/bin/ld")
 set(CMAKE_MT "")
 set(CMAKE_COMPILER_IS_GNUCXX )
@@ -82,7 +82,7 @@ endif()
 
 
 
-set(CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES "/include/c++/9;/include/x86_64-linux-gnu/c++/9;/include/c++/9/backward;/usr/local/include;/usr/lib/llvm-11/lib/clang/11.0.0/include;/usr/include/x86_64-linux-gnu;/usr/include")
+set(CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES "/include/c++/9;/include/x86_64-linux-gnu/c++/9;/include/c++/9/backward;/usr/local/include;/usr/lib/llvm-9/lib/clang/9.0.1/include;/usr/include/x86_64-linux-gnu;/usr/include")
 set(CMAKE_CXX_IMPLICIT_LINK_LIBRARIES "stdc++;m;gcc_s;gcc;c;gcc_s;gcc")
-set(CMAKE_CXX_IMPLICIT_LINK_DIRECTORIES "/lib/gcc/x86_64-linux-gnu/9;/lib/x86_64-linux-gnu;/lib64;/usr/lib/x86_64-linux-gnu;/usr/lib64;/lib;/usr/lib/llvm-11/lib;/usr/lib")
+set(CMAKE_CXX_IMPLICIT_LINK_DIRECTORIES "/lib/gcc/x86_64-linux-gnu/9;/lib/x86_64-linux-gnu;/lib64;/usr/lib/x86_64-linux-gnu;/usr/lib64;/lib;/usr/lib/llvm-9/lib;/usr/lib")
 set(CMAKE_CXX_IMPLICIT_LINK_FRAMEWORK_DIRECTORIES "")

@@ -1,14 +1,13 @@
 #include "../../../include/core/systems/controller_system.h"
+#include "../../../include/core/systems/render_system.h"
 #include <glm/glm.hpp>
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtc/quaternion.hpp>
 
 static std::shared_ptr<ControllerSystem> instance;
-void ControllerSystem::Init(GLFWwindow *window, int width, int height)
+void ControllerSystem::Init(GLFWwindow *window)
 {
     this->window = window;
-    this->width = width;
-    this->height = height;
 }
 
 std::shared_ptr<ControllerSystem> ControllerSystem::Get()
@@ -29,11 +28,13 @@ void ControllerSystem::Update(float delta_time)
         glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
         return;
     }
+    glm::vec2 dimensions = RenderSystem::GetDimensions();
+
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
     double xpos, ypos;
     glfwGetCursorPos(window, &xpos, &ypos);
 
-    glfwSetCursorPos(window, width / 2, height / 2);
+    glfwSetCursorPos(window, dimensions.x / 2, dimensions.y / 2);
 
     Signature signature;
     signature.set(World::GetComponentType<ControllerComponent>());
@@ -42,8 +43,8 @@ void ControllerSystem::Update(float delta_time)
     {
         auto &transform_component = World::GetComponent<TransformComponent>(entity);
         auto &controller_component = World::GetComponent<ControllerComponent>(entity);
-        glm::quat rotation_horiz = glm::angleAxis(controller_component.sens * delta_time * float(width / 2 - xpos), glm::vec3(0, 1, 0));
-        glm::quat rotation_vert = glm::angleAxis(controller_component.sens * delta_time * float(height / 2 - ypos), transform_component.Right());
+        glm::quat rotation_horiz = glm::angleAxis(controller_component.sens * delta_time * float(dimensions.x / 2 - xpos), glm::vec3(0, 1, 0));
+        glm::quat rotation_vert = glm::angleAxis(controller_component.sens * delta_time * float(dimensions.y / 2 - ypos), transform_component.Right());
         transform_component.rotation = rotation_horiz * rotation_vert * transform_component.rotation;
 
         glm::vec3 speed = glm::vec3(3, 3, 3);
@@ -85,7 +86,7 @@ void ControllerSystem::WindowFocusCallback(GLFWwindow *window, int focused)
     instance->focused = focused;
     if (instance->focused)
     {
-        glfwSetCursorPos(window, instance->width / 2, instance->height / 2);
+        glfwSetCursorPos(window, RenderSystem::GetDimensions().x / 2, RenderSystem::GetDimensions().y / 2);
     }
 }
 

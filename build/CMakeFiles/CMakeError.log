@@ -1,11 +1,11 @@
 Performing C SOURCE FILE Test CMAKE_HAVE_LIBC_PTHREAD failed with the following output:
 Change Dir: /home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/home/brandon/depot_tools/ninja cmTC_87279 && [1/2] Building C object CMakeFiles/cmTC_87279.dir/src.c.o
-[2/2] Linking C executable cmTC_87279
-FAILED: cmTC_87279 
-: && /bin/clang-11 -DCMAKE_HAVE_LIBC_PTHREAD  -rdynamic CMakeFiles/cmTC_87279.dir/src.c.o  -o cmTC_87279   && :
-/bin/ld: CMakeFiles/cmTC_87279.dir/src.c.o: in function `main':
+Run Build Command(s):/home/brandon/depot_tools/ninja cmTC_12213 && [1/2] Building C object CMakeFiles/cmTC_12213.dir/src.c.o
+[2/2] Linking C executable cmTC_12213
+FAILED: cmTC_12213 
+: && /bin/clang-9 -DCMAKE_HAVE_LIBC_PTHREAD  -rdynamic CMakeFiles/cmTC_12213.dir/src.c.o  -o cmTC_12213   && :
+/bin/ld: CMakeFiles/cmTC_12213.dir/src.c.o: in function `main':
 src.c:(.text+0x35): undefined reference to `pthread_create'
 /bin/ld: src.c:(.text+0x41): undefined reference to `pthread_detach'
 /bin/ld: src.c:(.text+0x53): undefined reference to `pthread_join'
@@ -36,10 +36,10 @@ int main(void)
 Determining if the function pthread_create exists in the pthreads failed with the following output:
 Change Dir: /home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/home/brandon/depot_tools/ninja cmTC_d5898 && [1/2] Building C object CMakeFiles/cmTC_d5898.dir/CheckFunctionExists.c.o
-[2/2] Linking C executable cmTC_d5898
-FAILED: cmTC_d5898 
-: && /bin/clang-11 -DCHECK_FUNCTION_EXISTS=pthread_create  -rdynamic CMakeFiles/cmTC_d5898.dir/CheckFunctionExists.c.o  -o cmTC_d5898  -lpthreads && :
+Run Build Command(s):/home/brandon/depot_tools/ninja cmTC_cbb14 && [1/2] Building C object CMakeFiles/cmTC_cbb14.dir/CheckFunctionExists.c.o
+[2/2] Linking C executable cmTC_cbb14
+FAILED: cmTC_cbb14 
+: && /bin/clang-9 -DCHECK_FUNCTION_EXISTS=pthread_create  -rdynamic CMakeFiles/cmTC_cbb14.dir/CheckFunctionExists.c.o  -o cmTC_cbb14  -lpthreads && :
 /bin/ld: cannot find -lpthreads
 clang: error: linker command failed with exit code 1 (use -v to see invocation)
 ninja: build stopped: subcommand failed.

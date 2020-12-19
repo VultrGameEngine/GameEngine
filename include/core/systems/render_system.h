@@ -5,6 +5,7 @@
 #pragma once
 #include "../../ecs/system/system.hpp"
 #include "../../ecs/world/world.hpp"
+#include <glm/glm.hpp>
 
 class RenderSystem : public System
 {
@@ -13,4 +14,12 @@ public:
     void Update(float delta_time);
     void DestroyEntity(Entity entity) override;
     static std::shared_ptr<RenderSystem> RegisterSystem();
+    static void Resize(int width, int height);
+    static glm::vec2 GetDimensions();
+    unsigned int fbo;
+    unsigned int render_texture;
+    unsigned int rbo;
+
+private:
+    glm::vec2 dimensions = glm::vec2(1920, 1080);
 };

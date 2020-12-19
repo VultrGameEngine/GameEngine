@@ -3,18 +3,6 @@
 
 void CameraSystem::Update()
 {
-    Signature signature;
-    signature.set(World::GetComponentType<CameraComponent>());
-    signature.set(World::GetComponentType<TransformComponent>());
-    for (Entity entity : World::GetEntities(signature))
-    {
-        CameraComponent &camera_component = World::GetComponent<CameraComponent>(entity);
-        TransformComponent &transform_component = World::GetComponent<TransformComponent>(entity);
-
-        // Projection matrix
-        // camera_component.projection_matrix =
-        camera_component.view_matrix = glm::lookAt(transform_component.position, transform_component.position, glm::vec3(0, 1, 0));
-    }
 }
 
 std::shared_ptr<CameraSystem> CameraSystem::Get()

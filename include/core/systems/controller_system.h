@@ -11,7 +11,7 @@
 class ControllerSystem : public System
 {
 public:
-    void Init(GLFWwindow *window, int width, int height);
+    void Init(GLFWwindow *window);
     static std::shared_ptr<ControllerSystem> Get();
     void Update(float delta_time);
     void DestroyEntity(Entity entity) override {}
@@ -20,7 +20,5 @@ public:
 
 private:
     GLFWwindow *window;
-    int width;
-    int height;
     bool focused = false;
 };
