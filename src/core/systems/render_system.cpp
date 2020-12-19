@@ -1,4 +1,6 @@
 #include "../../../include/core/systems/render_system.h"
+#include "../../../include/core/systems/camera_system.h"
+#include "../../../include/core/systems/light_system.h"
 #include "../../../include/core/systems/mesh_loader_system.h"
 #include "../../../include/core/systems/texture_loader_system.h"
 #include "../../../include/ecs/world/world.hpp"
@@ -30,6 +32,7 @@ std::shared_ptr<RenderSystem> RenderSystem::Get()
     }
     return instance;
 }
+
 void RenderSystem::DestroyEntity(Entity entity)
 {
     auto &static_mesh_component = World::GetComponent<StaticMeshComponent>(entity);
@@ -42,24 +45,7 @@ void RenderSystem::DestroyEntity(Entity entity)
 // Used in the actual update loop in main
 void RenderSystem::Update(float delta_time)
 {
-    glBindFramebuffer(GL_FRAMEBUFFER, fbo);
-    /* Render here */
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    Signature camera_signature;
-    camera_signature.set(World::GetComponentType<CameraComponent>(), true);
-    camera_signature.set(World::GetComponentType<TransformComponent>(), true);
-    Entity camera = -1;
-    for (Entity entity : World::GetEntities(camera_signature))
-    {
-        auto &camera_component = World::GetComponent<CameraComponent>(entity);
-        auto &transform_component = World::GetComponent<TransformComponent>(entity);
-        if (camera_component.enabled)
-        {
-            camera_component.view_matrix = glm::lookAt(transform_component.position, transform_component.position + transform_component.Forward(), glm::vec3(0, 1, 0));
-            camera = entity;
-            break;
-        }
-    }
+    Entity camera = CameraSystem::Get()->camera;
 
     // If no camera is in the scene, then something is wrong and we can't render
     if (camera == -1)
@@ -67,65 +53,24 @@ void RenderSystem::Update(float delta_time)
         std::cout << "NO CAMERA FOUND" << std::endl;
         return;
     }
+
+    Entity light = LightSystem::Get()->light;
+    if (light == -1)
+        return;
+    TransformComponent &light_transform = World::GetComponent<TransformComponent>(light);
+
+    glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    RenderSkybox(camera);
+    RenderElements(camera, light);
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+void RenderSystem::RenderElements(Entity camera, Entity light)
+{
     auto &camera_transform = World::GetComponent<TransformComponent>(camera);
     auto &camera_component = World::GetComponent<CameraComponent>(camera);
-
-    glm::vec3 light_position = glm::vec3(0, 0, 0);
-    Entity light;
-    Signature light_signature;
-    light_signature.set(World::GetComponentType<LightComponent>(), true);
-    camera_signature.set(World::GetComponentType<TransformComponent>(), true);
-    for (Entity entity : World::GetEntities(light_signature))
-    {
-        auto &transform_component = World::GetComponent<TransformComponent>(entity);
-        light = entity;
-        light_position = transform_component.position;
-        break;
-    }
-
-    glDepthFunc(GL_LEQUAL); // Ensure depth test passes when values are equal to the depth buffer's content
-    glm::mat4(glm::mat3(camera_component.view_matrix));
-    Signature skybox_signature;
-    skybox_signature.set(World::GetComponentType<SkyBoxComponent>(), true);
-    skybox_signature.set(World::GetComponentType<ShaderComponent>(), true);
-
-    // If the camera has a texture, that means it has a skybox
-    if ((World::GetSignature(camera) & skybox_signature) == skybox_signature)
-    {
-        auto &shader_component = World::GetComponent<ShaderComponent>(camera);
-        auto &skybox_component = World::GetComponent<SkyBoxComponent>(camera);
-        LoadedTexture *texture = TextureLoaderSystem::Get()->GetTexture(skybox_component.identifier);
-        // If we have loaded the bytes into memory
-        if (texture != nullptr && texture->loaded == loaded)
-        {
-            glDepthMask(GL_FALSE);
-            glActiveTexture(GL_TEXTURE0);
-            glBindTexture(GL_TEXTURE_CUBE_MAP, texture->id);
-
-            glUseProgram(shader_component.shader);
-            unsigned int SkyBox = glGetUniformLocation(shader_component.shader, "skybox");
-            glUniform1i(SkyBox, 0);
-            glUniformMatrix4fv(shader_component.View, 1, GL_FALSE, glm::value_ptr(glm::mat4(glm::mat3(camera_component.view_matrix))));
-            glUniformMatrix4fv(shader_component.Projection, 1, GL_FALSE, glm::value_ptr(camera_component.GetProjectionMatrix()));
-
-            if (skybox_component.vbo == 0 || skybox_component.vao == 0)
-            {
-                glGenVertexArrays(1, &skybox_component.vao);
-                glGenBuffers(1, &skybox_component.vbo);
-                glBindVertexArray(skybox_component.vao);
-                glBindBuffer(GL_ARRAY_BUFFER, skybox_component.vbo);
-                glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * skybox_component.GetVertices().size(), &(skybox_component.GetVertices()[0]), GL_STATIC_DRAW);
-                glEnableVertexAttribArray(0);
-                glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
-            }
-
-            glBindVertexArray(skybox_component.vao);
-            glBindBuffer(GL_ARRAY_BUFFER, skybox_component.vbo);
-            glDrawArrays(GL_TRIANGLES, 0, skybox_component.GetVertices().size());
-            glDepthMask(GL_TRUE);
-        }
-    }
-    glDepthFunc(GL_LESS); // Reset depth test
+    auto &light_transform = World::GetComponent<TransformComponent>(light);
 
     Signature signature;
     signature.set(World::GetComponentType<StaticMeshComponent>(), true);
@@ -231,7 +176,7 @@ void RenderSystem::Update(float delta_time)
         glUniformMatrix4fv(shader_component.Model, 1, GL_FALSE, glm::value_ptr(transform_component.Matrix()));
         glUniformMatrix4fv(shader_component.View, 1, GL_FALSE, glm::value_ptr(camera_component.view_matrix));
         glUniformMatrix4fv(shader_component.Projection, 1, GL_FALSE, glm::value_ptr(camera_component.GetProjectionMatrix()));
-        glUniform3f(shader_component.LightPosition, light_position.x, light_position.y, light_position.z);
+        glUniform3f(shader_component.LightPosition, light_transform.position.x, light_transform.position.y, light_transform.position.z);
         glUniform3f(shader_component.LightColor, 1.0f, 1.0f, 1.0f);
         glUniform3f(shader_component.ObjectColor, 1.0f, 1.0f, 1.0f);
         glUniform3f(shader_component.ViewPosition, camera_transform.position.x, camera_transform.position.y, camera_transform.position.z);
@@ -256,7 +201,55 @@ void RenderSystem::Update(float delta_time)
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, static_mesh_component.ibo);
         glDrawElements(GL_TRIANGLES, mesh->indices.size() * sizeof(unsigned short), GL_UNSIGNED_SHORT, (void *)0);
     }
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
+void RenderSystem::RenderSkybox(Entity camera)
+{
+    auto &camera_transform = World::GetComponent<TransformComponent>(camera);
+    auto &camera_component = World::GetComponent<CameraComponent>(camera);
+
+    glDepthFunc(GL_LEQUAL); // Ensure depth test passes when values are equal to the depth buffer's content
+    Signature skybox_signature;
+    skybox_signature.set(World::GetComponentType<SkyBoxComponent>(), true);
+    skybox_signature.set(World::GetComponentType<ShaderComponent>(), true);
+
+    // If the camera has a texture, that means it has a skybox
+    if ((World::GetSignature(camera) & skybox_signature) == skybox_signature)
+    {
+        auto &shader_component = World::GetComponent<ShaderComponent>(camera);
+        auto &skybox_component = World::GetComponent<SkyBoxComponent>(camera);
+        LoadedTexture *texture = TextureLoaderSystem::Get()->GetTexture(skybox_component.identifier);
+        // If we have loaded the bytes into memory
+        if (texture != nullptr && texture->loaded == loaded)
+        {
+            glDepthMask(GL_FALSE);
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_CUBE_MAP, texture->id);
+
+            glUseProgram(shader_component.shader);
+            unsigned int SkyBox = glGetUniformLocation(shader_component.shader, "skybox");
+            glUniform1i(SkyBox, 0);
+            glUniformMatrix4fv(shader_component.View, 1, GL_FALSE, glm::value_ptr(glm::mat4(glm::mat3(camera_component.view_matrix))));
+            glUniformMatrix4fv(shader_component.Projection, 1, GL_FALSE, glm::value_ptr(camera_component.GetProjectionMatrix()));
+
+            if (skybox_component.vbo == 0 || skybox_component.vao == 0)
+            {
+                glGenVertexArrays(1, &skybox_component.vao);
+                glGenBuffers(1, &skybox_component.vbo);
+                glBindVertexArray(skybox_component.vao);
+                glBindBuffer(GL_ARRAY_BUFFER, skybox_component.vbo);
+                glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * skybox_component.GetVertices().size(), &(skybox_component.GetVertices()[0]), GL_STATIC_DRAW);
+                glEnableVertexAttribArray(0);
+                glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+            }
+
+            glBindVertexArray(skybox_component.vao);
+            glBindBuffer(GL_ARRAY_BUFFER, skybox_component.vbo);
+            glDrawArrays(GL_TRIANGLES, 0, skybox_component.GetVertices().size());
+            glDepthMask(GL_TRUE);
+        }
+    }
+    glDepthFunc(GL_LESS); // Reset depth test
 }
 
 // Internal private helper methods

@@ -19,6 +19,12 @@
 
 {
   "directory": "/home/brandon/Desktop/Dev/GameEngine/build",
+  "command": "/bin/clang++-9    -g   -o CMakeFiles/GameEngine.dir/src/core/systems/light_system.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/src/core/systems/light_system.cpp",
+  "file": "/home/brandon/Desktop/Dev/GameEngine/src/core/systems/light_system.cpp"
+},
+
+{
+  "directory": "/home/brandon/Desktop/Dev/GameEngine/build",
   "command": "/bin/clang++-9    -g   -o CMakeFiles/GameEngine.dir/src/core/systems/mesh_loader_system.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/src/core/systems/mesh_loader_system.cpp",
   "file": "/home/brandon/Desktop/Dev/GameEngine/src/core/systems/mesh_loader_system.cpp"
 },
@@ -33,6 +39,12 @@
   "directory": "/home/brandon/Desktop/Dev/GameEngine/build",
   "command": "/bin/clang++-9    -g   -o CMakeFiles/GameEngine.dir/src/core/systems/shader_loader_system.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/src/core/systems/shader_loader_system.cpp",
   "file": "/home/brandon/Desktop/Dev/GameEngine/src/core/systems/shader_loader_system.cpp"
+},
+
+{
+  "directory": "/home/brandon/Desktop/Dev/GameEngine/build",
+  "command": "/bin/clang++-9    -g   -o CMakeFiles/GameEngine.dir/src/core/systems/skybox_system.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/src/core/systems/skybox_system.cpp",
+  "file": "/home/brandon/Desktop/Dev/GameEngine/src/core/systems/skybox_system.cpp"
 },
 
 {

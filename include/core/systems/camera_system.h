@@ -14,4 +14,5 @@ public:
     void Update();
     void DestroyEntity(Entity entity) override{};
     static std::shared_ptr<CameraSystem> RegisterSystem();
+    Entity camera = -1;
 };

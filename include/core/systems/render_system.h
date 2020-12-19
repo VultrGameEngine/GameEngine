@@ -21,5 +21,7 @@ public:
     unsigned int rbo;
 
 private:
+    void RenderElements(Entity camera, Entity light);
+    void RenderSkybox(Entity camera);
     glm::vec2 dimensions = glm::vec2(1920, 1080);
 };

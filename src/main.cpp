@@ -27,6 +27,7 @@ int main(void)
     TextureLoaderSystem::Get();
     ControllerSystem::Get();
     CameraSystem::Get();
+    SkyboxSystem::Get();
 
     for (int i = 0; i < 10; i++)
     {
@@ -140,6 +141,8 @@ int main(void)
         MeshLoaderSystem::Get()->Update();
         TextureLoaderSystem::Get()->Update();
         ShaderLoaderSystem::Get()->InitShaders();
+        CameraSystem::Get()->Update();
+        LightSystem::Get()->Update();
         RenderSystem::Get()->Update(t);
 
         /* Poll for and process events */
