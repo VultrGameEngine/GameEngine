@@ -28,15 +28,24 @@ The CXX compiler identification is Clang, found in "/home/brandon/Desktop/Dev/Ga
 Determining if the C compiler works passed with the following output:
 Change Dir: /home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/home/brandon/depot_tools/ninja cmTC_559ff && [1/2] Building C object CMakeFiles/cmTC_559ff.dir/testCCompiler.c.o
-[2/2] Linking C executable cmTC_559ff
+Run Build Command(s):/usr/bin/make cmTC_75c60/fast && /usr/bin/make -f CMakeFiles/cmTC_75c60.dir/build.make CMakeFiles/cmTC_75c60.dir/build
+make[1]: Entering directory '/home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_75c60.dir/testCCompiler.c.o
+/bin/clang-9    -o CMakeFiles/cmTC_75c60.dir/testCCompiler.c.o   -c /home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles/CMakeTmp/testCCompiler.c
+Linking C executable cmTC_75c60
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_75c60.dir/link.txt --verbose=1
+/bin/clang-9      -rdynamic CMakeFiles/cmTC_75c60.dir/testCCompiler.c.o  -o cmTC_75c60 
+make[1]: Leaving directory '/home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles/CMakeTmp'
 
 
 
 Detecting C compiler ABI info compiled with the following output:
 Change Dir: /home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/home/brandon/depot_tools/ninja cmTC_c6489 && [1/2] Building C object CMakeFiles/cmTC_c6489.dir/CMakeCCompilerABI.c.o
+Run Build Command(s):/usr/bin/make cmTC_3ea1f/fast && /usr/bin/make -f CMakeFiles/cmTC_3ea1f.dir/build.make CMakeFiles/cmTC_3ea1f.dir/build
+make[1]: Entering directory '/home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_3ea1f.dir/CMakeCCompilerABI.c.o
+/bin/clang-9   -v -o CMakeFiles/cmTC_3ea1f.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake-3.16/Modules/CMakeCCompilerABI.c
 clang version 9.0.1-12 
 Target: x86_64-pc-linux-gnu
 Thread model: posix
@@ -48,7 +57,7 @@ Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/9
 Selected GCC installation: /bin/../lib/gcc/x86_64-linux-gnu/9
 Candidate multilib: .;@m64
 Selected multilib: .;@m64
- "/usr/lib/llvm-9/bin/clang" -cc1 -triple x86_64-pc-linux-gnu -emit-obj -mrelax-all -disable-free -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model static -mthread-model posix -mdisable-fp-elim -fmath-errno -masm-verbose -mconstructor-aliases -munwind-tables -fuse-init-array -target-cpu x86-64 -dwarf-column-info -debugger-tuning=gdb -v -coverage-notes-file /home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles/CMakeTmp/CMakeFiles/cmTC_c6489.dir/CMakeCCompilerABI.c.gcno -resource-dir /usr/lib/llvm-9/lib/clang/9.0.1 -internal-isystem /usr/local/include -internal-isystem /usr/lib/llvm-9/lib/clang/9.0.1/include -internal-externc-isystem /usr/include/x86_64-linux-gnu -internal-externc-isystem /include -internal-externc-isystem /usr/include -fdebug-compilation-dir /home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles/CMakeTmp -ferror-limit 19 -fmessage-length 0 -fobjc-runtime=gcc -fdiagnostics-show-option -faddrsig -o CMakeFiles/cmTC_c6489.dir/CMakeCCompilerABI.c.o -x c /usr/share/cmake-3.16/Modules/CMakeCCompilerABI.c
+ "/usr/lib/llvm-9/bin/clang" -cc1 -triple x86_64-pc-linux-gnu -emit-obj -mrelax-all -disable-free -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model static -mthread-model posix -mdisable-fp-elim -fmath-errno -masm-verbose -mconstructor-aliases -munwind-tables -fuse-init-array -target-cpu x86-64 -dwarf-column-info -debugger-tuning=gdb -v -coverage-notes-file /home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles/CMakeTmp/CMakeFiles/cmTC_3ea1f.dir/CMakeCCompilerABI.c.gcno -resource-dir /usr/lib/llvm-9/lib/clang/9.0.1 -internal-isystem /usr/local/include -internal-isystem /usr/lib/llvm-9/lib/clang/9.0.1/include -internal-externc-isystem /usr/include/x86_64-linux-gnu -internal-externc-isystem /include -internal-externc-isystem /usr/include -fdebug-compilation-dir /home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles/CMakeTmp -ferror-limit 19 -fmessage-length 0 -fobjc-runtime=gcc -fdiagnostics-show-option -faddrsig -o CMakeFiles/cmTC_3ea1f.dir/CMakeCCompilerABI.c.o -x c /usr/share/cmake-3.16/Modules/CMakeCCompilerABI.c
 clang -cc1 version 9.0.1 based upon LLVM 9.0.1 default target x86_64-pc-linux-gnu
 ignoring nonexistent directory "/include"
 #include "..." search starts here:
@@ -58,7 +67,9 @@ ignoring nonexistent directory "/include"
  /usr/include/x86_64-linux-gnu
  /usr/include
 End of search list.
-[2/2] Linking C executable cmTC_c6489
+Linking C executable cmTC_3ea1f
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_3ea1f.dir/link.txt --verbose=1
+/bin/clang-9     -v -rdynamic CMakeFiles/cmTC_3ea1f.dir/CMakeCCompilerABI.c.o  -o cmTC_3ea1f 
 clang version 9.0.1-12 
 Target: x86_64-pc-linux-gnu
 Thread model: posix
@@ -70,7 +81,8 @@ Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/9
 Selected GCC installation: /bin/../lib/gcc/x86_64-linux-gnu/9
 Candidate multilib: .;@m64
 Selected multilib: .;@m64
- "/bin/ld" -export-dynamic --hash-style=both --build-id --eh-frame-hdr -m elf_x86_64 -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_c6489 /bin/../lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crt1.o /bin/../lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crti.o /bin/../lib/gcc/x86_64-linux-gnu/9/crtbegin.o -L/bin/../lib/gcc/x86_64-linux-gnu/9 -L/bin/../lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu -L/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../lib64 -L/lib/x86_64-linux-gnu -L/lib/../lib64 -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib64 -L/usr/lib/x86_64-linux-gnu/../../lib64 -L/bin/../lib/gcc/x86_64-linux-gnu/9/../../.. -L/usr/lib/llvm-9/bin/../lib -L/lib -L/usr/lib CMakeFiles/cmTC_c6489.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /bin/../lib/gcc/x86_64-linux-gnu/9/crtend.o /bin/../lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crtn.o
+ "/bin/ld" -export-dynamic --hash-style=both --build-id --eh-frame-hdr -m elf_x86_64 -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_3ea1f /bin/../lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crt1.o /bin/../lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crti.o /bin/../lib/gcc/x86_64-linux-gnu/9/crtbegin.o -L/bin/../lib/gcc/x86_64-linux-gnu/9 -L/bin/../lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu -L/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../lib64 -L/lib/x86_64-linux-gnu -L/lib/../lib64 -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib64 -L/usr/lib/x86_64-linux-gnu/../../lib64 -L/bin/../lib/gcc/x86_64-linux-gnu/9/../../.. -L/usr/lib/llvm-9/bin/../lib -L/lib -L/usr/lib CMakeFiles/cmTC_3ea1f.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /bin/../lib/gcc/x86_64-linux-gnu/9/crtend.o /bin/../lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crtn.o
+make[1]: Leaving directory '/home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles/CMakeTmp'
 
 
 
@@ -93,7 +105,10 @@ Parsed C implicit link information from above output:
   link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
   ignore line: [Change Dir: /home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles/CMakeTmp]
   ignore line: []
-  ignore line: [Run Build Command(s):/home/brandon/depot_tools/ninja cmTC_c6489 && [1/2] Building C object CMakeFiles/cmTC_c6489.dir/CMakeCCompilerABI.c.o]
+  ignore line: [Run Build Command(s):/usr/bin/make cmTC_3ea1f/fast && /usr/bin/make -f CMakeFiles/cmTC_3ea1f.dir/build.make CMakeFiles/cmTC_3ea1f.dir/build]
+  ignore line: [make[1]: Entering directory '/home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles/CMakeTmp']
+  ignore line: [Building C object CMakeFiles/cmTC_3ea1f.dir/CMakeCCompilerABI.c.o]
+  ignore line: [/bin/clang-9   -v -o CMakeFiles/cmTC_3ea1f.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake-3.16/Modules/CMakeCCompilerABI.c]
   ignore line: [clang version 9.0.1-12 ]
   ignore line: [Target: x86_64-pc-linux-gnu]
   ignore line: [Thread model: posix]
@@ -107,7 +122,7 @@ Parsed C implicit link information from above output:
   ignore line: [@m64]
   ignore line: [Selected multilib: .]
   ignore line: [@m64]
-  ignore line: [ "/usr/lib/llvm-9/bin/clang" -cc1 -triple x86_64-pc-linux-gnu -emit-obj -mrelax-all -disable-free -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model static -mthread-model posix -mdisable-fp-elim -fmath-errno -masm-verbose -mconstructor-aliases -munwind-tables -fuse-init-array -target-cpu x86-64 -dwarf-column-info -debugger-tuning=gdb -v -coverage-notes-file /home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles/CMakeTmp/CMakeFiles/cmTC_c6489.dir/CMakeCCompilerABI.c.gcno -resource-dir /usr/lib/llvm-9/lib/clang/9.0.1 -internal-isystem /usr/local/include -internal-isystem /usr/lib/llvm-9/lib/clang/9.0.1/include -internal-externc-isystem /usr/include/x86_64-linux-gnu -internal-externc-isystem /include -internal-externc-isystem /usr/include -fdebug-compilation-dir /home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles/CMakeTmp -ferror-limit 19 -fmessage-length 0 -fobjc-runtime=gcc -fdiagnostics-show-option -faddrsig -o CMakeFiles/cmTC_c6489.dir/CMakeCCompilerABI.c.o -x c /usr/share/cmake-3.16/Modules/CMakeCCompilerABI.c]
+  ignore line: [ "/usr/lib/llvm-9/bin/clang" -cc1 -triple x86_64-pc-linux-gnu -emit-obj -mrelax-all -disable-free -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model static -mthread-model posix -mdisable-fp-elim -fmath-errno -masm-verbose -mconstructor-aliases -munwind-tables -fuse-init-array -target-cpu x86-64 -dwarf-column-info -debugger-tuning=gdb -v -coverage-notes-file /home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles/CMakeTmp/CMakeFiles/cmTC_3ea1f.dir/CMakeCCompilerABI.c.gcno -resource-dir /usr/lib/llvm-9/lib/clang/9.0.1 -internal-isystem /usr/local/include -internal-isystem /usr/lib/llvm-9/lib/clang/9.0.1/include -internal-externc-isystem /usr/include/x86_64-linux-gnu -internal-externc-isystem /include -internal-externc-isystem /usr/include -fdebug-compilation-dir /home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles/CMakeTmp -ferror-limit 19 -fmessage-length 0 -fobjc-runtime=gcc -fdiagnostics-show-option -faddrsig -o CMakeFiles/cmTC_3ea1f.dir/CMakeCCompilerABI.c.o -x c /usr/share/cmake-3.16/Modules/CMakeCCompilerABI.c]
   ignore line: [clang -cc1 version 9.0.1 based upon LLVM 9.0.1 default target x86_64-pc-linux-gnu]
   ignore line: [ignoring nonexistent directory "/include"]
   ignore line: [#include "..." search starts here:]
@@ -117,7 +132,9 @@ Parsed C implicit link information from above output:
   ignore line: [ /usr/include/x86_64-linux-gnu]
   ignore line: [ /usr/include]
   ignore line: [End of search list.]
-  ignore line: [[2/2] Linking C executable cmTC_c6489]
+  ignore line: [Linking C executable cmTC_3ea1f]
+  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_3ea1f.dir/link.txt --verbose=1]
+  ignore line: [/bin/clang-9     -v -rdynamic CMakeFiles/cmTC_3ea1f.dir/CMakeCCompilerABI.c.o  -o cmTC_3ea1f ]
   ignore line: [clang version 9.0.1-12 ]
   ignore line: [Target: x86_64-pc-linux-gnu]
   ignore line: [Thread model: posix]
@@ -131,7 +148,7 @@ Parsed C implicit link information from above output:
   ignore line: [@m64]
   ignore line: [Selected multilib: .]
   ignore line: [@m64]
-  link line: [ "/bin/ld" -export-dynamic --hash-style=both --build-id --eh-frame-hdr -m elf_x86_64 -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_c6489 /bin/../lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crt1.o /bin/../lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crti.o /bin/../lib/gcc/x86_64-linux-gnu/9/crtbegin.o -L/bin/../lib/gcc/x86_64-linux-gnu/9 -L/bin/../lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu -L/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../lib64 -L/lib/x86_64-linux-gnu -L/lib/../lib64 -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib64 -L/usr/lib/x86_64-linux-gnu/../../lib64 -L/bin/../lib/gcc/x86_64-linux-gnu/9/../../.. -L/usr/lib/llvm-9/bin/../lib -L/lib -L/usr/lib CMakeFiles/cmTC_c6489.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /bin/../lib/gcc/x86_64-linux-gnu/9/crtend.o /bin/../lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crtn.o]
+  link line: [ "/bin/ld" -export-dynamic --hash-style=both --build-id --eh-frame-hdr -m elf_x86_64 -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_3ea1f /bin/../lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crt1.o /bin/../lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crti.o /bin/../lib/gcc/x86_64-linux-gnu/9/crtbegin.o -L/bin/../lib/gcc/x86_64-linux-gnu/9 -L/bin/../lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu -L/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../lib64 -L/lib/x86_64-linux-gnu -L/lib/../lib64 -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib64 -L/usr/lib/x86_64-linux-gnu/../../lib64 -L/bin/../lib/gcc/x86_64-linux-gnu/9/../../.. -L/usr/lib/llvm-9/bin/../lib -L/lib -L/usr/lib CMakeFiles/cmTC_3ea1f.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /bin/../lib/gcc/x86_64-linux-gnu/9/crtend.o /bin/../lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crtn.o]
     arg [/bin/ld] ==> ignore
     arg [-export-dynamic] ==> ignore
     arg [--hash-style=both] ==> ignore
@@ -143,7 +160,7 @@ Parsed C implicit link information from above output:
     arg [-dynamic-linker] ==> ignore
     arg [/lib64/ld-linux-x86-64.so.2] ==> ignore
     arg [-o] ==> ignore
-    arg [cmTC_c6489] ==> ignore
+    arg [cmTC_3ea1f] ==> ignore
     arg [/bin/../lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crt1.o] ==> ignore
     arg [/bin/../lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crti.o] ==> ignore
     arg [/bin/../lib/gcc/x86_64-linux-gnu/9/crtbegin.o] ==> ignore
@@ -159,7 +176,7 @@ Parsed C implicit link information from above output:
     arg [-L/usr/lib/llvm-9/bin/../lib] ==> dir [/usr/lib/llvm-9/bin/../lib]
     arg [-L/lib] ==> dir [/lib]
     arg [-L/usr/lib] ==> dir [/usr/lib]
-    arg [CMakeFiles/cmTC_c6489.dir/CMakeCCompilerABI.c.o] ==> ignore
+    arg [CMakeFiles/cmTC_3ea1f.dir/CMakeCCompilerABI.c.o] ==> ignore
     arg [-lgcc] ==> lib [gcc]
     arg [--as-needed] ==> ignore
     arg [-lgcc_s] ==> lib [gcc_s]
@@ -191,15 +208,24 @@ Parsed C implicit link information from above output:
 Determining if the CXX compiler works passed with the following output:
 Change Dir: /home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/home/brandon/depot_tools/ninja cmTC_26dc6 && [1/2] Building CXX object CMakeFiles/cmTC_26dc6.dir/testCXXCompiler.cxx.o
-[2/2] Linking CXX executable cmTC_26dc6
+Run Build Command(s):/usr/bin/make cmTC_2acdd/fast && /usr/bin/make -f CMakeFiles/cmTC_2acdd.dir/build.make CMakeFiles/cmTC_2acdd.dir/build
+make[1]: Entering directory '/home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_2acdd.dir/testCXXCompiler.cxx.o
+/bin/clang++-9     -o CMakeFiles/cmTC_2acdd.dir/testCXXCompiler.cxx.o -c /home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles/CMakeTmp/testCXXCompiler.cxx
+Linking CXX executable cmTC_2acdd
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_2acdd.dir/link.txt --verbose=1
+/bin/clang++-9       -rdynamic CMakeFiles/cmTC_2acdd.dir/testCXXCompiler.cxx.o  -o cmTC_2acdd 
+make[1]: Leaving directory '/home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles/CMakeTmp'
 
 
 
 Detecting CXX compiler ABI info compiled with the following output:
 Change Dir: /home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/home/brandon/depot_tools/ninja cmTC_648ec && [1/2] Building CXX object CMakeFiles/cmTC_648ec.dir/CMakeCXXCompilerABI.cpp.o
+Run Build Command(s):/usr/bin/make cmTC_ab172/fast && /usr/bin/make -f CMakeFiles/cmTC_ab172.dir/build.make CMakeFiles/cmTC_ab172.dir/build
+make[1]: Entering directory '/home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_ab172.dir/CMakeCXXCompilerABI.cpp.o
+/bin/clang++-9    -v -o CMakeFiles/cmTC_ab172.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.16/Modules/CMakeCXXCompilerABI.cpp
 clang version 9.0.1-12 
 Target: x86_64-pc-linux-gnu
 Thread model: posix
@@ -211,7 +237,7 @@ Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/9
 Selected GCC installation: /bin/../lib/gcc/x86_64-linux-gnu/9
 Candidate multilib: .;@m64
 Selected multilib: .;@m64
- "/usr/lib/llvm-9/bin/clang" -cc1 -triple x86_64-pc-linux-gnu -emit-obj -mrelax-all -disable-free -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model static -mthread-model posix -mdisable-fp-elim -fmath-errno -masm-verbose -mconstructor-aliases -munwind-tables -fuse-init-array -target-cpu x86-64 -dwarf-column-info -debugger-tuning=gdb -v -coverage-notes-file /home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles/CMakeTmp/CMakeFiles/cmTC_648ec.dir/CMakeCXXCompilerABI.cpp.gcno -resource-dir /usr/lib/llvm-9/lib/clang/9.0.1 -internal-isystem /bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9 -internal-isystem /bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/x86_64-linux-gnu/c++/9 -internal-isystem /bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/x86_64-linux-gnu/c++/9 -internal-isystem /bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/backward -internal-isystem /usr/local/include -internal-isystem /usr/lib/llvm-9/lib/clang/9.0.1/include -internal-externc-isystem /usr/include/x86_64-linux-gnu -internal-externc-isystem /include -internal-externc-isystem /usr/include -fdeprecated-macro -fdebug-compilation-dir /home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles/CMakeTmp -ferror-limit 19 -fmessage-length 0 -fobjc-runtime=gcc -fcxx-exceptions -fexceptions -fdiagnostics-show-option -faddrsig -o CMakeFiles/cmTC_648ec.dir/CMakeCXXCompilerABI.cpp.o -x c++ /usr/share/cmake-3.16/Modules/CMakeCXXCompilerABI.cpp
+ "/usr/lib/llvm-9/bin/clang" -cc1 -triple x86_64-pc-linux-gnu -emit-obj -mrelax-all -disable-free -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model static -mthread-model posix -mdisable-fp-elim -fmath-errno -masm-verbose -mconstructor-aliases -munwind-tables -fuse-init-array -target-cpu x86-64 -dwarf-column-info -debugger-tuning=gdb -v -coverage-notes-file /home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles/CMakeTmp/CMakeFiles/cmTC_ab172.dir/CMakeCXXCompilerABI.cpp.gcno -resource-dir /usr/lib/llvm-9/lib/clang/9.0.1 -internal-isystem /bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9 -internal-isystem /bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/x86_64-linux-gnu/c++/9 -internal-isystem /bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/x86_64-linux-gnu/c++/9 -internal-isystem /bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/backward -internal-isystem /usr/local/include -internal-isystem /usr/lib/llvm-9/lib/clang/9.0.1/include -internal-externc-isystem /usr/include/x86_64-linux-gnu -internal-externc-isystem /include -internal-externc-isystem /usr/include -fdeprecated-macro -fdebug-compilation-dir /home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles/CMakeTmp -ferror-limit 19 -fmessage-length 0 -fobjc-runtime=gcc -fcxx-exceptions -fexceptions -fdiagnostics-show-option -faddrsig -o CMakeFiles/cmTC_ab172.dir/CMakeCXXCompilerABI.cpp.o -x c++ /usr/share/cmake-3.16/Modules/CMakeCXXCompilerABI.cpp
 clang -cc1 version 9.0.1 based upon LLVM 9.0.1 default target x86_64-pc-linux-gnu
 ignoring nonexistent directory "/include"
 ignoring duplicate directory "/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/x86_64-linux-gnu/c++/9"
@@ -225,7 +251,9 @@ ignoring duplicate directory "/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../inc
  /usr/include/x86_64-linux-gnu
  /usr/include
 End of search list.
-[2/2] Linking CXX executable cmTC_648ec
+Linking CXX executable cmTC_ab172
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ab172.dir/link.txt --verbose=1
+/bin/clang++-9      -v -rdynamic CMakeFiles/cmTC_ab172.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_ab172 
 clang version 9.0.1-12 
 Target: x86_64-pc-linux-gnu
 Thread model: posix
@@ -237,7 +265,8 @@ Found candidate GCC installation: /usr/lib/gcc/x86_64-linux-gnu/9
 Selected GCC installation: /bin/../lib/gcc/x86_64-linux-gnu/9
 Candidate multilib: .;@m64
 Selected multilib: .;@m64
- "/bin/ld" -export-dynamic --hash-style=both --build-id --eh-frame-hdr -m elf_x86_64 -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_648ec /bin/../lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crt1.o /bin/../lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crti.o /bin/../lib/gcc/x86_64-linux-gnu/9/crtbegin.o -L/bin/../lib/gcc/x86_64-linux-gnu/9 -L/bin/../lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu -L/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../lib64 -L/lib/x86_64-linux-gnu -L/lib/../lib64 -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib64 -L/usr/lib/x86_64-linux-gnu/../../lib64 -L/bin/../lib/gcc/x86_64-linux-gnu/9/../../.. -L/usr/lib/llvm-9/bin/../lib -L/lib -L/usr/lib CMakeFiles/cmTC_648ec.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /bin/../lib/gcc/x86_64-linux-gnu/9/crtend.o /bin/../lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crtn.o
+ "/bin/ld" -export-dynamic --hash-style=both --build-id --eh-frame-hdr -m elf_x86_64 -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_ab172 /bin/../lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crt1.o /bin/../lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crti.o /bin/../lib/gcc/x86_64-linux-gnu/9/crtbegin.o -L/bin/../lib/gcc/x86_64-linux-gnu/9 -L/bin/../lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu -L/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../lib64 -L/lib/x86_64-linux-gnu -L/lib/../lib64 -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib64 -L/usr/lib/x86_64-linux-gnu/../../lib64 -L/bin/../lib/gcc/x86_64-linux-gnu/9/../../.. -L/usr/lib/llvm-9/bin/../lib -L/lib -L/usr/lib CMakeFiles/cmTC_ab172.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /bin/../lib/gcc/x86_64-linux-gnu/9/crtend.o /bin/../lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crtn.o
+make[1]: Leaving directory '/home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles/CMakeTmp'
 
 
 
@@ -266,7 +295,10 @@ Parsed CXX implicit link information from above output:
   link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
   ignore line: [Change Dir: /home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles/CMakeTmp]
   ignore line: []
-  ignore line: [Run Build Command(s):/home/brandon/depot_tools/ninja cmTC_648ec && [1/2] Building CXX object CMakeFiles/cmTC_648ec.dir/CMakeCXXCompilerABI.cpp.o]
+  ignore line: [Run Build Command(s):/usr/bin/make cmTC_ab172/fast && /usr/bin/make -f CMakeFiles/cmTC_ab172.dir/build.make CMakeFiles/cmTC_ab172.dir/build]
+  ignore line: [make[1]: Entering directory '/home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles/CMakeTmp']
+  ignore line: [Building CXX object CMakeFiles/cmTC_ab172.dir/CMakeCXXCompilerABI.cpp.o]
+  ignore line: [/bin/clang++-9    -v -o CMakeFiles/cmTC_ab172.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.16/Modules/CMakeCXXCompilerABI.cpp]
   ignore line: [clang version 9.0.1-12 ]
   ignore line: [Target: x86_64-pc-linux-gnu]
   ignore line: [Thread model: posix]
@@ -280,7 +312,7 @@ Parsed CXX implicit link information from above output:
   ignore line: [@m64]
   ignore line: [Selected multilib: .]
   ignore line: [@m64]
-  ignore line: [ "/usr/lib/llvm-9/bin/clang" -cc1 -triple x86_64-pc-linux-gnu -emit-obj -mrelax-all -disable-free -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model static -mthread-model posix -mdisable-fp-elim -fmath-errno -masm-verbose -mconstructor-aliases -munwind-tables -fuse-init-array -target-cpu x86-64 -dwarf-column-info -debugger-tuning=gdb -v -coverage-notes-file /home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles/CMakeTmp/CMakeFiles/cmTC_648ec.dir/CMakeCXXCompilerABI.cpp.gcno -resource-dir /usr/lib/llvm-9/lib/clang/9.0.1 -internal-isystem /bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9 -internal-isystem /bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/x86_64-linux-gnu/c++/9 -internal-isystem /bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/x86_64-linux-gnu/c++/9 -internal-isystem /bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/backward -internal-isystem /usr/local/include -internal-isystem /usr/lib/llvm-9/lib/clang/9.0.1/include -internal-externc-isystem /usr/include/x86_64-linux-gnu -internal-externc-isystem /include -internal-externc-isystem /usr/include -fdeprecated-macro -fdebug-compilation-dir /home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles/CMakeTmp -ferror-limit 19 -fmessage-length 0 -fobjc-runtime=gcc -fcxx-exceptions -fexceptions -fdiagnostics-show-option -faddrsig -o CMakeFiles/cmTC_648ec.dir/CMakeCXXCompilerABI.cpp.o -x c++ /usr/share/cmake-3.16/Modules/CMakeCXXCompilerABI.cpp]
+  ignore line: [ "/usr/lib/llvm-9/bin/clang" -cc1 -triple x86_64-pc-linux-gnu -emit-obj -mrelax-all -disable-free -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model static -mthread-model posix -mdisable-fp-elim -fmath-errno -masm-verbose -mconstructor-aliases -munwind-tables -fuse-init-array -target-cpu x86-64 -dwarf-column-info -debugger-tuning=gdb -v -coverage-notes-file /home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles/CMakeTmp/CMakeFiles/cmTC_ab172.dir/CMakeCXXCompilerABI.cpp.gcno -resource-dir /usr/lib/llvm-9/lib/clang/9.0.1 -internal-isystem /bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9 -internal-isystem /bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/x86_64-linux-gnu/c++/9 -internal-isystem /bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/x86_64-linux-gnu/c++/9 -internal-isystem /bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/c++/9/backward -internal-isystem /usr/local/include -internal-isystem /usr/lib/llvm-9/lib/clang/9.0.1/include -internal-externc-isystem /usr/include/x86_64-linux-gnu -internal-externc-isystem /include -internal-externc-isystem /usr/include -fdeprecated-macro -fdebug-compilation-dir /home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles/CMakeTmp -ferror-limit 19 -fmessage-length 0 -fobjc-runtime=gcc -fcxx-exceptions -fexceptions -fdiagnostics-show-option -faddrsig -o CMakeFiles/cmTC_ab172.dir/CMakeCXXCompilerABI.cpp.o -x c++ /usr/share/cmake-3.16/Modules/CMakeCXXCompilerABI.cpp]
   ignore line: [clang -cc1 version 9.0.1 based upon LLVM 9.0.1 default target x86_64-pc-linux-gnu]
   ignore line: [ignoring nonexistent directory "/include"]
   ignore line: [ignoring duplicate directory "/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../include/x86_64-linux-gnu/c++/9"]
@@ -294,7 +326,9 @@ Parsed CXX implicit link information from above output:
   ignore line: [ /usr/include/x86_64-linux-gnu]
   ignore line: [ /usr/include]
   ignore line: [End of search list.]
-  ignore line: [[2/2] Linking CXX executable cmTC_648ec]
+  ignore line: [Linking CXX executable cmTC_ab172]
+  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ab172.dir/link.txt --verbose=1]
+  ignore line: [/bin/clang++-9      -v -rdynamic CMakeFiles/cmTC_ab172.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_ab172 ]
   ignore line: [clang version 9.0.1-12 ]
   ignore line: [Target: x86_64-pc-linux-gnu]
   ignore line: [Thread model: posix]
@@ -308,7 +342,7 @@ Parsed CXX implicit link information from above output:
   ignore line: [@m64]
   ignore line: [Selected multilib: .]
   ignore line: [@m64]
-  link line: [ "/bin/ld" -export-dynamic --hash-style=both --build-id --eh-frame-hdr -m elf_x86_64 -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_648ec /bin/../lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crt1.o /bin/../lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crti.o /bin/../lib/gcc/x86_64-linux-gnu/9/crtbegin.o -L/bin/../lib/gcc/x86_64-linux-gnu/9 -L/bin/../lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu -L/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../lib64 -L/lib/x86_64-linux-gnu -L/lib/../lib64 -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib64 -L/usr/lib/x86_64-linux-gnu/../../lib64 -L/bin/../lib/gcc/x86_64-linux-gnu/9/../../.. -L/usr/lib/llvm-9/bin/../lib -L/lib -L/usr/lib CMakeFiles/cmTC_648ec.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /bin/../lib/gcc/x86_64-linux-gnu/9/crtend.o /bin/../lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crtn.o]
+  link line: [ "/bin/ld" -export-dynamic --hash-style=both --build-id --eh-frame-hdr -m elf_x86_64 -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o cmTC_ab172 /bin/../lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crt1.o /bin/../lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crti.o /bin/../lib/gcc/x86_64-linux-gnu/9/crtbegin.o -L/bin/../lib/gcc/x86_64-linux-gnu/9 -L/bin/../lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu -L/bin/../lib/gcc/x86_64-linux-gnu/9/../../../../lib64 -L/lib/x86_64-linux-gnu -L/lib/../lib64 -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib64 -L/usr/lib/x86_64-linux-gnu/../../lib64 -L/bin/../lib/gcc/x86_64-linux-gnu/9/../../.. -L/usr/lib/llvm-9/bin/../lib -L/lib -L/usr/lib CMakeFiles/cmTC_ab172.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /bin/../lib/gcc/x86_64-linux-gnu/9/crtend.o /bin/../lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crtn.o]
     arg [/bin/ld] ==> ignore
     arg [-export-dynamic] ==> ignore
     arg [--hash-style=both] ==> ignore
@@ -320,7 +354,7 @@ Parsed CXX implicit link information from above output:
     arg [-dynamic-linker] ==> ignore
     arg [/lib64/ld-linux-x86-64.so.2] ==> ignore
     arg [-o] ==> ignore
-    arg [cmTC_648ec] ==> ignore
+    arg [cmTC_ab172] ==> ignore
     arg [/bin/../lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crt1.o] ==> ignore
     arg [/bin/../lib/gcc/x86_64-linux-gnu/9/../../../x86_64-linux-gnu/crti.o] ==> ignore
     arg [/bin/../lib/gcc/x86_64-linux-gnu/9/crtbegin.o] ==> ignore
@@ -336,7 +370,7 @@ Parsed CXX implicit link information from above output:
     arg [-L/usr/lib/llvm-9/bin/../lib] ==> dir [/usr/lib/llvm-9/bin/../lib]
     arg [-L/lib] ==> dir [/lib]
     arg [-L/usr/lib] ==> dir [/usr/lib]
-    arg [CMakeFiles/cmTC_648ec.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+    arg [CMakeFiles/cmTC_ab172.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
     arg [-lstdc++] ==> lib [stdc++]
     arg [-lm] ==> lib [m]
     arg [-lgcc_s] ==> lib [gcc_s]
@@ -366,16 +400,28 @@ Parsed CXX implicit link information from above output:
 Determining if the include file pthread.h exists passed with the following output:
 Change Dir: /home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/home/brandon/depot_tools/ninja cmTC_6322a && [1/2] Building C object CMakeFiles/cmTC_6322a.dir/CheckIncludeFile.c.o
-[2/2] Linking C executable cmTC_6322a
+Run Build Command(s):/usr/bin/make cmTC_70d04/fast && /usr/bin/make -f CMakeFiles/cmTC_70d04.dir/build.make CMakeFiles/cmTC_70d04.dir/build
+make[1]: Entering directory '/home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_70d04.dir/CheckIncludeFile.c.o
+/bin/clang-9    -o CMakeFiles/cmTC_70d04.dir/CheckIncludeFile.c.o   -c /home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_70d04
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_70d04.dir/link.txt --verbose=1
+/bin/clang-9      -rdynamic CMakeFiles/cmTC_70d04.dir/CheckIncludeFile.c.o  -o cmTC_70d04 
+make[1]: Leaving directory '/home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles/CMakeTmp'
 
 
 
 Determining if the function pthread_create exists in the pthread passed with the following output:
 Change Dir: /home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles/CMakeTmp
 
-Run Build Command(s):/home/brandon/depot_tools/ninja cmTC_48b50 && [1/2] Building C object CMakeFiles/cmTC_48b50.dir/CheckFunctionExists.c.o
-[2/2] Linking C executable cmTC_48b50
+Run Build Command(s):/usr/bin/make cmTC_aca6f/fast && /usr/bin/make -f CMakeFiles/cmTC_aca6f.dir/build.make CMakeFiles/cmTC_aca6f.dir/build
+make[1]: Entering directory '/home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_aca6f.dir/CheckFunctionExists.c.o
+/bin/clang-9   -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_aca6f.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.16/Modules/CheckFunctionExists.c
+Linking C executable cmTC_aca6f
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_aca6f.dir/link.txt --verbose=1
+/bin/clang-9  -DCHECK_FUNCTION_EXISTS=pthread_create    -rdynamic CMakeFiles/cmTC_aca6f.dir/CheckFunctionExists.c.o  -o cmTC_aca6f  -lpthread 
+make[1]: Leaving directory '/home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles/CMakeTmp'
 
 
 

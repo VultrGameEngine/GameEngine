@@ -1,23 +1,38 @@
-// A System is functionality that iterates upon a list of entities with a certain signature of components
-// This System class is to be inherited by real system classes
+// A System is functionality that iterates upon a list of entities with a
+// certain signature of components This System class is to be inherited by real
+// system classes
 
 #pragma once
-#include <set>
-#include "../entity/entity.hpp"
-#include "../component/component_array.hpp"
 #include "../component/component.hpp"
+#include "../component/component_array.hpp"
+#include "../entity/entity.hpp"
 #include <cassert>
 #include <memory>
+#include <set>
 
-class System
-{
+class System {
 public:
-    // TODO figure out a way to not make this virtual
-    // This creates unnecessary overhead for a function that shouldn't need it and that is called often enough that it could cause an issue
-    virtual void DestroyEntity(Entity entity)
-    {
-        assert("Destroy ENTITY WAS NOT IMPLEMENTED!!");
-    }
+  // Methods that are called by the world whenever an entity
+  // is created or destroyed
+  void DestroyEntity(Entity entity) {
+    if (entities.find(entity) == entities.end())
+      return;
+    entities.erase(entity);
+    OnDestroyEntity(entity);
+  }
 
-    static Signature signature;
+  void CreateEntity(Entity entity) {
+    entities.insert(entity);
+    OnCreateEntity(entity);
+  }
+
+  // Methods that can be overriden by the child classes in order
+  // perform special methods when a new entity is created or destroyed
+  virtual void OnDestroyEntity(Entity entity) {}
+
+  virtual void OnCreateEntity(Entity entity) {}
+
+  // A list of entities related to a specific System
+  // automatically managed by this class and the world
+  std::set<Entity> entities;
 };
