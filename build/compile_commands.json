@@ -1,55 +1,47 @@
 [
 {
   "directory": "/home/brandon/Desktop/Dev/GameEngine/build",
-  "command": "/bin/clang++-11    -g   -o CMakeFiles/GameEngine.dir/include/ecs/coordinator/coordinator.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/include/ecs/coordinator/coordinator.cpp",
+  "command": "/bin/clang++-9    -g   -o CMakeFiles/GameEngine.dir/include/ecs/coordinator/coordinator.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/include/ecs/coordinator/coordinator.cpp",
   "file": "/home/brandon/Desktop/Dev/GameEngine/include/ecs/coordinator/coordinator.cpp"
 },
-
 {
   "directory": "/home/brandon/Desktop/Dev/GameEngine/build",
-  "command": "/bin/clang++-11    -g   -o CMakeFiles/GameEngine.dir/src/core/systems/camera_system.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/src/core/systems/camera_system.cpp",
+  "command": "/bin/clang++-9    -g   -o CMakeFiles/GameEngine.dir/src/core/systems/camera_system.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/src/core/systems/camera_system.cpp",
   "file": "/home/brandon/Desktop/Dev/GameEngine/src/core/systems/camera_system.cpp"
 },
-
 {
   "directory": "/home/brandon/Desktop/Dev/GameEngine/build",
-  "command": "/bin/clang++-11    -g   -o CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/src/core/systems/controller_system.cpp",
+  "command": "/bin/clang++-9    -g   -o CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/src/core/systems/controller_system.cpp",
   "file": "/home/brandon/Desktop/Dev/GameEngine/src/core/systems/controller_system.cpp"
 },
-
 {
   "directory": "/home/brandon/Desktop/Dev/GameEngine/build",
-  "command": "/bin/clang++-11    -g   -o CMakeFiles/GameEngine.dir/src/core/systems/mesh_loader_system.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/src/core/systems/mesh_loader_system.cpp",
+  "command": "/bin/clang++-9    -g   -o CMakeFiles/GameEngine.dir/src/core/systems/mesh_loader_system.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/src/core/systems/mesh_loader_system.cpp",
   "file": "/home/brandon/Desktop/Dev/GameEngine/src/core/systems/mesh_loader_system.cpp"
 },
-
 {
   "directory": "/home/brandon/Desktop/Dev/GameEngine/build",
-  "command": "/bin/clang++-11    -g   -o CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/src/core/systems/render_system.cpp",
+  "command": "/bin/clang++-9    -g   -o CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/src/core/systems/render_system.cpp",
   "file": "/home/brandon/Desktop/Dev/GameEngine/src/core/systems/render_system.cpp"
 },
-
 {
   "directory": "/home/brandon/Desktop/Dev/GameEngine/build",
-  "command": "/bin/clang++-11    -g   -o CMakeFiles/GameEngine.dir/src/core/systems/shader_loader_system.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/src/core/systems/shader_loader_system.cpp",
+  "command": "/bin/clang++-9    -g   -o CMakeFiles/GameEngine.dir/src/core/systems/shader_loader_system.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/src/core/systems/shader_loader_system.cpp",
   "file": "/home/brandon/Desktop/Dev/GameEngine/src/core/systems/shader_loader_system.cpp"
 },
-
 {
   "directory": "/home/brandon/Desktop/Dev/GameEngine/build",
-  "command": "/bin/clang++-11    -g   -o CMakeFiles/GameEngine.dir/src/helpers/controls.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/src/helpers/controls.cpp",
+  "command": "/bin/clang++-9    -g   -o CMakeFiles/GameEngine.dir/src/helpers/controls.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/src/helpers/controls.cpp",
   "file": "/home/brandon/Desktop/Dev/GameEngine/src/helpers/controls.cpp"
 },
-
 {
   "directory": "/home/brandon/Desktop/Dev/GameEngine/build",
-  "command": "/bin/clang++-11    -g   -o CMakeFiles/GameEngine.dir/src/main.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/src/main.cpp",
+  "command": "/bin/clang++-9    -g   -o CMakeFiles/GameEngine.dir/src/main.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/src/main.cpp",
   "file": "/home/brandon/Desktop/Dev/GameEngine/src/main.cpp"
 },
-
 {
   "directory": "/home/brandon/Desktop/Dev/GameEngine/build",
-  "command": "/bin/clang++-11    -g   -o CMakeFiles/GameEngine.dir/src/models/Mesh.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/src/models/Mesh.cpp",
+  "command": "/bin/clang++-9    -g   -o CMakeFiles/GameEngine.dir/src/models/Mesh.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/src/models/Mesh.cpp",
   "file": "/home/brandon/Desktop/Dev/GameEngine/src/models/Mesh.cpp"
 }
 ]

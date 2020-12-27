@@ -14,7 +14,7 @@ CostDataFile:
 Site: brandon-XPS-15-9560
 
 # Build name is osname-revision-compiler, i.e. Linux-2.4.2-2smp-c++
-BuildName: Linux-clang++-11
+BuildName: Linux-clang++-9
 
 # Subprojects
 LabelsForSubprojects: 
@@ -27,7 +27,7 @@ NightlyStartTime: 00:00:00 EDT
 
 # Commands for the build/test/submit cycle
 ConfigureCommand: "/usr/bin/cmake" "/home/brandon/Desktop/Dev/GameEngine"
-MakeCommand: /usr/bin/cmake --build . --config "${CTEST_CONFIGURATION_TYPE}"
+MakeCommand: /usr/bin/cmake --build . --config "${CTEST_CONFIGURATION_TYPE}" -- -i
 DefaultCTestConfigurationType: Release
 
 # version control
@@ -62,8 +62,8 @@ UpdateOptions:
 UpdateType: git
 
 # Compiler info
-Compiler: /bin/clang++-11
-CompilerVersion: 11.0.0
+Compiler: /bin/clang++-9
+CompilerVersion: 9.0.1
 
 # Dynamic analysis (MemCheck)
 PurifyCommand: 
