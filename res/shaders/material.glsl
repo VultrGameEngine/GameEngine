@@ -62,7 +62,5 @@ void main()
     
     vec3 textureColor = texture(textureSampler, FragUV).rgb;
 
-    // color = vec4(result, 1.0f);
     color = vec4(result * textureColor, 1.0f);
-    // color = vec4(textureColor, 1.0f);
 }

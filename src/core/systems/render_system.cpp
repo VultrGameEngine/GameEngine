@@ -50,54 +50,90 @@ void RenderSystem::Update(float delta_time) {
 
   // If no camera is in the scene, then something is wrong and we can't render
   if (camera != -1) {
-
+    // This renders to the game scene, important for the editor
     glBindFramebuffer(GL_FRAMEBUFFER, Get()->game.fbo);
+
+    // Clear the screen
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    // Get the transform of the game camera that will actually be present
+    // in an entity, can be non existent which is why we check earlier to ensure
+    // that there actually is one
     auto &camera_transform = World::GetComponent<TransformComponent>(camera);
     auto &camera_component = World::GetComponent<CameraComponent>(camera);
+
+    // Set the vieport dimensions to match that in the editor
     glViewport(0, 0, game.dimensions.x, game.dimensions.y);
+
+    // Render both the skybox an the static meshes in the scene
     RenderSkybox(GAME, camera_transform, camera_component);
     RenderElements(GAME, camera_transform, camera_component, light);
+
+    // Unbind the frame buffer
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
   } else {
     std::cout << "NO CAMERA FOUND" << std::endl;
   }
+
+  // Always will have a scene camera, render to the editor scene view
   glBindFramebuffer(GL_FRAMEBUFFER, Get()->scene.fbo);
+
+  // Clear the screen
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+  // Get the transform of the scene camera
   auto &camera_transform =
       CameraSystem::Get()->scene_camera.transform_component;
   auto &camera_component = CameraSystem::Get()->scene_camera.camera_component;
+
+  // Set the viewport to match that in the editor
   glViewport(0, 0, scene.dimensions.x, scene.dimensions.y);
+
+  // Render both the skybox and the static meshes in the scene
   RenderSkybox(SCENE, camera_transform, camera_component);
   RenderElements(SCENE, camera_transform, camera_component, light);
+
+  // Unbind the frame buffer
   glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
+// Render all of the static meshes in the scene
 void RenderSystem::RenderElements(unsigned int type,
                                   TransformComponent camera_transform,
                                   CameraComponent camera_component,
                                   Entity light) {
+
+  // Get the transform of the light
   auto &light_transform = World::GetComponent<TransformComponent>(light);
 
+  // Get all of the components with a static mesh, transform, and shader
+  // attached
   Signature signature;
   signature.set(World::GetComponentType<StaticMeshComponent>(), true);
   signature.set(World::GetComponentType<TransformComponent>(), true);
   signature.set(World::GetComponentType<ShaderComponent>(), true);
 
   for (Entity entity : World::GetEntities(signature)) {
+
+    // Get the components
     auto &static_mesh_component =
         World::GetComponent<StaticMeshComponent>(entity);
     auto &transform_component = World::GetComponent<TransformComponent>(entity);
     auto &shader_component = World::GetComponent<ShaderComponent>(entity);
 
+    // If the shader hasn't loaded, then we can't do anything with this static
+    // mesh
     if (shader_component.shader == 0) {
-
       std::cout << "Entity " << entity << " encountered an error: "
                 << "Shader not found!" << std::endl;
       continue;
     }
+
+    // Get the loaded static mesh from the MeshLoaderSystem cache
     LoadedStaticMesh *mesh =
         MeshLoaderSystem::GetMesh(static_mesh_component.path);
+
+    // If the mesh hasn't loaded yet, then we can't do anything
     if (mesh == nullptr || mesh->loaded != loaded)
       continue;
 
@@ -178,6 +214,11 @@ void RenderSystem::RenderElements(unsigned int type,
                    sizeof(unsigned short) * mesh->indices.size(),
                    &(mesh->indices[0]), GL_STATIC_DRAW);
     }
+    //
+    // Bind the shader component's shader'
+    glUseProgram(shader_component.shader);
+
+    // Get all of the uniforms of the shader component
     GLuint Model = shader_component.GetUniform("model");
     GLuint View = shader_component.GetUniform("view");
     GLuint Projection = shader_component.GetUniform("projection");
@@ -187,18 +228,30 @@ void RenderSystem::RenderElements(unsigned int type,
     GLuint LightColor = shader_component.GetUniform("lightColor");
     GLuint TextureSampler = shader_component.GetUniform("textureSampler");
 
-    glUseProgram(shader_component.shader);
+    // Set the uniforms of the shader
+    // The model matrix
     glUniformMatrix4fv(Model, 1, GL_FALSE,
                        glm::value_ptr(transform_component.Matrix()));
+
+    // The view matrix
     glUniformMatrix4fv(View, 1, GL_FALSE,
                        glm::value_ptr(camera_component.view_matrix));
+
+    // And the projection matrix
     glUniformMatrix4fv(Projection, 1, GL_FALSE,
                        glm::value_ptr(camera_component.GetProjectionMatrix(
                            GetDimensions(type).x, GetDimensions(type).y)));
+
+    // Light position is set in its own uniform
     glUniform3f(LightPosition, light_transform.position.x,
                 light_transform.position.y, light_transform.position.z);
+
+    // And we set some other color values for the rendering
     glUniform3f(LightColor, 1.0f, 1.0f, 1.0f);
     glUniform3f(ObjectColor, 1.0f, 1.0f, 1.0f);
+
+    // We also set the position of the camera, which can either be the scene
+    // camera or the actual entity that is a camera
     glUniform3f(ViewPosition, camera_transform.position.x,
                 camera_transform.position.y, camera_transform.position.z);
 

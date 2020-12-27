@@ -222,6 +222,27 @@ CMakeFiles/GameEngine.dir/src/main.cpp.o
  /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui.h
  /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui_impl_glfw.h
  /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui_impl_opengl3.h
+CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o
+ /home/brandon/Desktop/Dev/GameEngine/include/rendering/models/vertex.h
+ /home/brandon/Desktop/Dev/GameEngine/include/rendering/renderer_3d.h
+ /home/brandon/Desktop/Dev/GameEngine/include/rendering/vertex_buffer.h
+ /home/brandon/Desktop/Dev/GameEngine/src/rendering/renderer_3d.cpp
+CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.o
+ /home/brandon/Desktop/Dev/GameEngine/include/core/components/static_mesh_cache.h
+ /home/brandon/Desktop/Dev/GameEngine/include/core/components/static_mesh_component.h
+ /home/brandon/Desktop/Dev/GameEngine/include/core/systems/mesh_loader_system.h
+ /home/brandon/Desktop/Dev/GameEngine/include/ecs/component/component.hpp
+ /home/brandon/Desktop/Dev/GameEngine/include/ecs/component/component_array.hpp
+ /home/brandon/Desktop/Dev/GameEngine/include/ecs/component/component_manager.hpp
+ /home/brandon/Desktop/Dev/GameEngine/include/ecs/entity/entity.hpp
+ /home/brandon/Desktop/Dev/GameEngine/include/ecs/entity/entity_manager.hpp
+ /home/brandon/Desktop/Dev/GameEngine/include/ecs/system/system.hpp
+ /home/brandon/Desktop/Dev/GameEngine/include/ecs/system/system_manager.hpp
+ /home/brandon/Desktop/Dev/GameEngine/include/ecs/world/world.hpp
+ /home/brandon/Desktop/Dev/GameEngine/include/helpers/loading_state.h
+ /home/brandon/Desktop/Dev/GameEngine/include/rendering/models/vertex.h
+ /home/brandon/Desktop/Dev/GameEngine/include/rendering/vertex_buffer.h
+ /home/brandon/Desktop/Dev/GameEngine/src/rendering/vertex_buffer.cpp
 CMakeFiles/GameEngine.dir/vendor/imgui/imgui.cpp.o
  /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imconfig.h
  /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui.cpp

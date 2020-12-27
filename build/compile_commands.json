@@ -61,6 +61,16 @@
 },
 {
   "directory": "/home/brandon/Desktop/Dev/GameEngine/build",
+  "command": "/bin/clang++-9    -g   -o CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/src/rendering/renderer_3d.cpp",
+  "file": "/home/brandon/Desktop/Dev/GameEngine/src/rendering/renderer_3d.cpp"
+},
+{
+  "directory": "/home/brandon/Desktop/Dev/GameEngine/build",
+  "command": "/bin/clang++-9    -g   -o CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/src/rendering/vertex_buffer.cpp",
+  "file": "/home/brandon/Desktop/Dev/GameEngine/src/rendering/vertex_buffer.cpp"
+},
+{
+  "directory": "/home/brandon/Desktop/Dev/GameEngine/build",
   "command": "/bin/clang++-9    -g   -o CMakeFiles/GameEngine.dir/vendor/imgui/imgui.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui.cpp",
   "file": "/home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui.cpp"
 },

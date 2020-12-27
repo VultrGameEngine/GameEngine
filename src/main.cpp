@@ -133,7 +133,7 @@ int main(void) {
 
     /* Poll for and process events */
     glfwPollEvents();
-    Editor::Editor::Get()->Render();
+    // Editor::Editor::Get()->Render();
 
     /* Swap front and back buffers */
     glfwSwapBuffers(window);

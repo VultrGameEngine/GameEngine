@@ -222,6 +222,27 @@ CMakeFiles/GameEngine.dir/src/main.cpp.o: ../vendor/imgui/imgui.h
 CMakeFiles/GameEngine.dir/src/main.cpp.o: ../vendor/imgui/imgui_impl_glfw.h
 CMakeFiles/GameEngine.dir/src/main.cpp.o: ../vendor/imgui/imgui_impl_opengl3.h
 
+CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../include/rendering/models/vertex.h
+CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../include/rendering/renderer_3d.h
+CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../include/rendering/vertex_buffer.h
+CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../src/rendering/renderer_3d.cpp
+
+CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.o: ../include/core/components/static_mesh_cache.h
+CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.o: ../include/core/components/static_mesh_component.h
+CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.o: ../include/core/systems/mesh_loader_system.h
+CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.o: ../include/ecs/component/component.hpp
+CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.o: ../include/ecs/component/component_array.hpp
+CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.o: ../include/ecs/component/component_manager.hpp
+CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.o: ../include/ecs/entity/entity.hpp
+CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.o: ../include/ecs/entity/entity_manager.hpp
+CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.o: ../include/ecs/system/system.hpp
+CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.o: ../include/ecs/system/system_manager.hpp
+CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.o: ../include/ecs/world/world.hpp
+CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.o: ../include/helpers/loading_state.h
+CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.o: ../include/rendering/models/vertex.h
+CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.o: ../include/rendering/vertex_buffer.h
+CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.o: ../src/rendering/vertex_buffer.cpp
+
 CMakeFiles/GameEngine.dir/vendor/imgui/imgui.cpp.o: ../vendor/imgui/imconfig.h
 CMakeFiles/GameEngine.dir/vendor/imgui/imgui.cpp.o: ../vendor/imgui/imgui.cpp
 CMakeFiles/GameEngine.dir/vendor/imgui/imgui.cpp.o: ../vendor/imgui/imgui.h

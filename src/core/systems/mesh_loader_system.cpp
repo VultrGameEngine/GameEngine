@@ -186,8 +186,10 @@ void MeshLoaderSystem::Import(std::string filepath, LoadedStaticMesh &mesh) {
   mesh.uvs = out_uvs;
   mesh.normals = out_normals;
   mesh.indices = out_index_buffer;
-  std::cout << "Loaded static mesh component with vertices "
-            << mesh.vertices.size() << std::endl;
+  std::cout << "Loaded static mesh component with" << mesh.vertices.size()
+            << " vertices and " << mesh.indices.size() << " indices"
+            << std::endl;
+  std::cout << "Breakpoint" << std::endl;
 }
 
 void MeshLoaderSystem::IndexVBO(std::vector<glm::vec3> &in_vertices,

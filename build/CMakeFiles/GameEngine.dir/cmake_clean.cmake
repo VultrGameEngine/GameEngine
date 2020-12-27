@@ -11,6 +11,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/GameEngine.dir/src/editor/core/windows/scene_window.cpp.o"
   "CMakeFiles/GameEngine.dir/src/editor/editor.cpp.o"
   "CMakeFiles/GameEngine.dir/src/main.cpp.o"
+  "CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o"
+  "CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.o"
   "CMakeFiles/GameEngine.dir/vendor/imgui/imgui.cpp.o"
   "CMakeFiles/GameEngine.dir/vendor/imgui/imgui_draw.cpp.o"
   "CMakeFiles/GameEngine.dir/vendor/imgui/imgui_impl_glfw.cpp.o"

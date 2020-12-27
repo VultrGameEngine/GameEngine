@@ -844,6 +844,60 @@ src/main.cpp.s:
 	$(MAKE) -f CMakeFiles/GameEngine.dir/build.make CMakeFiles/GameEngine.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
+src/rendering/renderer_3d.o: src/rendering/renderer_3d.cpp.o
+
+.PHONY : src/rendering/renderer_3d.o
+
+# target to build an object file
+src/rendering/renderer_3d.cpp.o:
+	$(MAKE) -f CMakeFiles/GameEngine.dir/build.make CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o
+.PHONY : src/rendering/renderer_3d.cpp.o
+
+src/rendering/renderer_3d.i: src/rendering/renderer_3d.cpp.i
+
+.PHONY : src/rendering/renderer_3d.i
+
+# target to preprocess a source file
+src/rendering/renderer_3d.cpp.i:
+	$(MAKE) -f CMakeFiles/GameEngine.dir/build.make CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.i
+.PHONY : src/rendering/renderer_3d.cpp.i
+
+src/rendering/renderer_3d.s: src/rendering/renderer_3d.cpp.s
+
+.PHONY : src/rendering/renderer_3d.s
+
+# target to generate assembly for a file
+src/rendering/renderer_3d.cpp.s:
+	$(MAKE) -f CMakeFiles/GameEngine.dir/build.make CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.s
+.PHONY : src/rendering/renderer_3d.cpp.s
+
+src/rendering/vertex_buffer.o: src/rendering/vertex_buffer.cpp.o
+
+.PHONY : src/rendering/vertex_buffer.o
+
+# target to build an object file
+src/rendering/vertex_buffer.cpp.o:
+	$(MAKE) -f CMakeFiles/GameEngine.dir/build.make CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.o
+.PHONY : src/rendering/vertex_buffer.cpp.o
+
+src/rendering/vertex_buffer.i: src/rendering/vertex_buffer.cpp.i
+
+.PHONY : src/rendering/vertex_buffer.i
+
+# target to preprocess a source file
+src/rendering/vertex_buffer.cpp.i:
+	$(MAKE) -f CMakeFiles/GameEngine.dir/build.make CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.i
+.PHONY : src/rendering/vertex_buffer.cpp.i
+
+src/rendering/vertex_buffer.s: src/rendering/vertex_buffer.cpp.s
+
+.PHONY : src/rendering/vertex_buffer.s
+
+# target to generate assembly for a file
+src/rendering/vertex_buffer.cpp.s:
+	$(MAKE) -f CMakeFiles/GameEngine.dir/build.make CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.s
+.PHONY : src/rendering/vertex_buffer.cpp.s
+
 vendor/imgui/imgui.o: vendor/imgui/imgui.cpp.o
 
 .PHONY : vendor/imgui/imgui.o
@@ -1109,6 +1163,12 @@ help:
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/rendering/renderer_3d.o"
+	@echo "... src/rendering/renderer_3d.i"
+	@echo "... src/rendering/renderer_3d.s"
+	@echo "... src/rendering/vertex_buffer.o"
+	@echo "... src/rendering/vertex_buffer.i"
+	@echo "... src/rendering/vertex_buffer.s"
 	@echo "... vendor/imgui/imgui.o"
 	@echo "... vendor/imgui/imgui.i"
 	@echo "... vendor/imgui/imgui.s"
