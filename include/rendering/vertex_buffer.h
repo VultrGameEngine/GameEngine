@@ -31,13 +31,15 @@ struct Mesh {
 
 class VertexBuffer {
 public:
-  bool Init(std::vector<unsigned int> textures);
+  void Init();
+  void Flush();
 
   // Register a mesh to this renderer to update every frame
   bool RegisterEntity(Entity entity);
 
   // Deregister a mesh for this renderer
-  bool DeregisterEntity(Entity entity);
+  // TODO implement deregistering entities from the vertex buffer
+  // bool DeregisterEntity(Entity entity);
 
   inline static unsigned int GetMaxTextures() {
     unsigned int max_textures = 0;
@@ -47,12 +49,17 @@ public:
   }
 
 private:
-  // Setter functions which will allocate memory and ensure that everything is
+  // Reference to our current index (empty space in the buffer) where we can
+  // insert new data into our buffer Used to check and ensure that we have
+  // enough space
+  unsigned int vertex_location;
+  unsigned int index_location;
+
+  // Setter function which will allocate memory and ensure that everything is
   // in order
   //
   // call these instead of directly modifying the buffers
-  int AddVertices(Vertex vertices[]);
-  int AddIndices(unsigned int indices[]);
+  bool AddVertices(Vertex *vertices, unsigned short *indices);
 
   // Vertex buffer using the defined max vertices
   Vertex vertex_buffer[MAX_VERTICES];
@@ -65,5 +72,10 @@ private:
 
   // The entities to render in each update of the vertex buffer
   std::unordered_map<Entity, Mesh> entities;
+
+
+  unsigned int vertex_array_id;
+  unsigned int vertex_buffer_id;
+
 };
 }; // namespace Renderer
