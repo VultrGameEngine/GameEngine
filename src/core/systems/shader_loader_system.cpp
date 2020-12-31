@@ -60,6 +60,7 @@ void ShaderLoaderSystem::InitShaders() {
       ShaderProgramSource source = ParseShader(shader_component.shader_path);
       unsigned int shader =
           CreateShader(source.VertexSource, source.FragmentSource);
+      shader_component.shader = shader;
     }
   }
 }

@@ -1,9 +1,11 @@
 // Controller system handles input from the user translated to transform changes
 
+#pragma once
 #include "../../ecs/system/system.hpp"
 #include "../../ecs/world/world.hpp"
 #include "../components/controller_component.h"
 #include "../components/transform_component.h"
+#include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <memory>

@@ -31,14 +31,16 @@ string
 -
 
 /home/brandon/Desktop/Dev/GameEngine/include/core/components/static_mesh_cache.h
+../../helpers/loading_state.h
+/home/brandon/Desktop/Dev/GameEngine/include/helpers/loading_state.h
+../../rendering/models/vertex.h
+/home/brandon/Desktop/Dev/GameEngine/include/rendering/models/vertex.h
+glm/glm.hpp
+-
 unordered_map
 -
 vector
 -
-glm/glm.hpp
--
-../../helpers/loading_state.h
-/home/brandon/Desktop/Dev/GameEngine/include/helpers/loading_state.h
 
 /home/brandon/Desktop/Dev/GameEngine/include/core/components/static_mesh_component.h
 glm/glm.hpp
@@ -49,10 +51,14 @@ vector
 -
 
 /home/brandon/Desktop/Dev/GameEngine/include/core/components/texture_cache.h
-unordered_map
--
 ../../helpers/loading_state.h
 /home/brandon/Desktop/Dev/GameEngine/include/helpers/loading_state.h
+GL/glew.h
+-
+GLFW/glfw3.h
+-
+unordered_map
+-
 
 /home/brandon/Desktop/Dev/GameEngine/include/core/components/texture_component.h
 string
@@ -133,6 +139,8 @@ memory
 /home/brandon/Desktop/Dev/GameEngine/include/core/components/controller_component.h
 ../components/transform_component.h
 /home/brandon/Desktop/Dev/GameEngine/include/core/components/transform_component.h
+GL/glew.h
+-
 GLFW/glfw3.h
 -
 glm/glm.hpp
@@ -167,6 +175,8 @@ memory
 /home/brandon/Desktop/Dev/GameEngine/include/ecs/system/system.hpp
 ../../ecs/world/world.hpp
 /home/brandon/Desktop/Dev/GameEngine/include/ecs/world/world.hpp
+../../rendering/renderer_3d.h
+/home/brandon/Desktop/Dev/GameEngine/include/rendering/renderer_3d.h
 glm/glm.hpp
 -
 
@@ -293,6 +303,8 @@ unordered_map
 /home/brandon/Desktop/Dev/GameEngine/include/ecs/system/system_manager.hpp
 memory
 -
+set
+-
 
 /home/brandon/Desktop/Dev/GameEngine/include/editor/editor.hpp
 imgui/window.hpp
@@ -314,44 +326,100 @@ vector
 
 /home/brandon/Desktop/Dev/GameEngine/include/helpers/loading_state.h
 
+/home/brandon/Desktop/Dev/GameEngine/include/rendering/models/shader.h
+GL/glew.h
+/home/brandon/Desktop/Dev/GameEngine/include/rendering/models/GL/glew.h
+GLFW/glfw3.h
+/home/brandon/Desktop/Dev/GameEngine/include/rendering/models/GLFW/glfw3.h
+glm/glm.hpp
+-
+stdio.h
+-
+string
+-
+
 /home/brandon/Desktop/Dev/GameEngine/include/rendering/models/vertex.h
 glm/glm.hpp
 -
 
+/home/brandon/Desktop/Dev/GameEngine/include/rendering/render_context.h
+../core/components/camera_component.h
+/home/brandon/Desktop/Dev/GameEngine/include/core/components/camera_component.h
+../core/components/transform_component.h
+/home/brandon/Desktop/Dev/GameEngine/include/core/components/transform_component.h
+glm/glm.hpp
+-
+
+/home/brandon/Desktop/Dev/GameEngine/include/rendering/render_group.h
+../../include/core/components/camera_component.h
+/home/brandon/Desktop/Dev/GameEngine/include/core/components/camera_component.h
+../../include/core/components/static_mesh_cache.h
+/home/brandon/Desktop/Dev/GameEngine/include/core/components/static_mesh_cache.h
+../../include/core/components/static_mesh_component.h
+/home/brandon/Desktop/Dev/GameEngine/include/core/components/static_mesh_component.h
+../../include/core/components/transform_component.h
+/home/brandon/Desktop/Dev/GameEngine/include/core/components/transform_component.h
+../../include/core/systems/mesh_loader_system.h
+/home/brandon/Desktop/Dev/GameEngine/include/core/systems/mesh_loader_system.h
+../core/systems/shader_loader_system.h
+/home/brandon/Desktop/Dev/GameEngine/include/core/systems/shader_loader_system.h
+../core/systems/texture_loader_system.h
+/home/brandon/Desktop/Dev/GameEngine/include/core/systems/texture_loader_system.h
+../ecs/entity/entity.hpp
+/home/brandon/Desktop/Dev/GameEngine/include/ecs/entity/entity.hpp
+../ecs/world/world.hpp
+/home/brandon/Desktop/Dev/GameEngine/include/ecs/world/world.hpp
+models/shader.h
+/home/brandon/Desktop/Dev/GameEngine/include/rendering/models/shader.h
+render_context.h
+/home/brandon/Desktop/Dev/GameEngine/include/rendering/render_context.h
+GL/glew.h
+-
+GLFW/glfw3.h
+-
+memory
+-
+set
+-
+stdio.h
+-
+stdlib.h
+-
+
 /home/brandon/Desktop/Dev/GameEngine/include/rendering/renderer_3d.h
+../core/components/static_mesh_component.h
+/home/brandon/Desktop/Dev/GameEngine/include/core/components/static_mesh_component.h
+render_context.h
+/home/brandon/Desktop/Dev/GameEngine/include/rendering/render_context.h
+render_group.h
+/home/brandon/Desktop/Dev/GameEngine/include/rendering/render_group.h
 vertex_buffer.h
 /home/brandon/Desktop/Dev/GameEngine/include/rendering/vertex_buffer.h
-vector
+array
+-
+unordered_map
 -
 
 /home/brandon/Desktop/Dev/GameEngine/include/rendering/vertex_buffer.h
+../core/components/static_mesh_cache.h
+/home/brandon/Desktop/Dev/GameEngine/include/core/components/static_mesh_cache.h
+../core/components/static_mesh_component.h
+/home/brandon/Desktop/Dev/GameEngine/include/core/components/static_mesh_component.h
+../core/components/transform_component.h
+/home/brandon/Desktop/Dev/GameEngine/include/core/components/transform_component.h
+../ecs/entity/entity.hpp
+/home/brandon/Desktop/Dev/GameEngine/include/ecs/entity/entity.hpp
 models/vertex.h
 /home/brandon/Desktop/Dev/GameEngine/include/rendering/models/vertex.h
-
-/home/brandon/Desktop/Dev/GameEngine/src/core/systems/mesh_loader_system.cpp
-../../../include/core/systems/mesh_loader_system.h
-/home/brandon/Desktop/Dev/GameEngine/include/core/systems/mesh_loader_system.h
-../../../include/core/components/static_mesh_component.h
-/home/brandon/Desktop/Dev/GameEngine/include/core/components/static_mesh_component.h
-../../../include/ecs/world/world.hpp
-/home/brandon/Desktop/Dev/GameEngine/include/ecs/world/world.hpp
-../../../include/helpers/loading_state.h
-/home/brandon/Desktop/Dev/GameEngine/include/helpers/loading_state.h
-fstream
+GL/glew.h
 -
-iostream
+GLFW/glfw3.h
 -
-map
+array
 -
-sstream
+set
 -
-string.h
--
-string
--
-thread
--
-vector
+unordered_map
 -
 
 /home/brandon/Desktop/Dev/GameEngine/src/core/systems/render_system.cpp
@@ -393,6 +461,8 @@ vector
 /home/brandon/Desktop/Dev/GameEngine/include/editor/editor.hpp
 ../../../include/helpers/loading_state.h
 /home/brandon/Desktop/Dev/GameEngine/include/helpers/loading_state.h
+../../../include/rendering/render_context.h
+/home/brandon/Desktop/Dev/GameEngine/include/rendering/render_context.h
 GL/glew.h
 -
 GLFW/glfw3.h
@@ -409,6 +479,8 @@ glm/gtx/transform.hpp
 /home/brandon/Desktop/Dev/GameEngine/include/core/core.h
 ../include/editor/editor.hpp
 /home/brandon/Desktop/Dev/GameEngine/include/editor/editor.hpp
+../include/rendering/vertex_buffer.h
+/home/brandon/Desktop/Dev/GameEngine/include/rendering/vertex_buffer.h
 ../vendor/imgui/imgui.h
 /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui.h
 ../vendor/imgui/imgui_impl_glfw.h
@@ -429,18 +501,6 @@ glm/gtc/type_ptr.hpp
 -
 stdio.h
 -
-
-/home/brandon/Desktop/Dev/GameEngine/src/rendering/renderer_3d.cpp
-../../include/rendering/renderer_3d.h
-/home/brandon/Desktop/Dev/GameEngine/include/rendering/renderer_3d.h
-../../include/rendering/models/vertex.h
-/home/brandon/Desktop/Dev/GameEngine/include/rendering/models/vertex.h
-
-/home/brandon/Desktop/Dev/GameEngine/src/rendering/vertex_buffer.cpp
-../../include/rendering/vertex_buffer.h
-/home/brandon/Desktop/Dev/GameEngine/include/rendering/vertex_buffer.h
-../../include/core/systems/mesh_loader_system.h
-/home/brandon/Desktop/Dev/GameEngine/include/core/systems/mesh_loader_system.h
 
 /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imconfig.h
 

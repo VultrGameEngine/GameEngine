@@ -1,19 +1,31 @@
 #pragma once
+#include "../../helpers/loading_state.h"
+#include "../../rendering/models/vertex.h"
+#include <glm/glm.hpp>
 #include <unordered_map>
 #include <vector>
-#include <glm/glm.hpp>
-#include "../../helpers/loading_state.h"
 
-struct LoadedStaticMesh
-{
-    LoadingState loaded = notLoaded;
-    std::vector<glm::vec3> vertices;
-    std::vector<glm::vec3> normals;
-    std::vector<glm::vec2> uvs;
-    std::vector<unsigned short> indices;
+struct LoadedStaticMesh {
+  LoadingState loaded = notLoaded;
+  std::vector<Renderer::Vertex> vertices;
+  std::vector<unsigned short> indices;
+
+  inline void AddVertices(std::vector<glm::vec3> positions,
+                          std::vector<glm::vec2> uvs,
+                          std::vector<glm::vec3> normals,
+                          std::vector<unsigned short> in_indices) {
+    for (int i = 0; i < positions.size(); i++) {
+      vertices.push_back(
+          Renderer::Vertex(positions.at(i), normals.at(i), uvs.at(i)));
+    }
+    indices = in_indices;
+  }
+
+  unsigned int vbo;
+  unsigned int vao;
+  unsigned int ibo;
 };
 
-struct StaticMeshCache
-{
-    std::unordered_map<std::string, LoadedStaticMesh> meshes;
+struct StaticMeshCache {
+  std::unordered_map<std::string, LoadedStaticMesh> meshes;
 };

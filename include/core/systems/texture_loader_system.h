@@ -3,6 +3,7 @@
 // and do not have their buffers or opengl data set then TextureLoader will do
 // that with the specified path
 
+#pragma once
 #include "../../ecs/system/system.hpp"
 #include "../../ecs/world/world.hpp"
 #include "../components/sky_box_component.h"

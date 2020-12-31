@@ -1,5 +1,6 @@
 #include "../include/core/core.h"
 #include "../include/editor/editor.hpp"
+#include "../include/rendering/vertex_buffer.h"
 #include "../vendor/imgui/imgui.h"
 #include "../vendor/imgui/imgui_impl_glfw.h"
 #include "../vendor/imgui/imgui_impl_opengl3.h"
@@ -28,7 +29,7 @@ int main(void) {
     return -1;
 
   /* Create a windowed mode window and its OpenGL context */
-  window = glfwCreateWindow(1920, 1080, "GameEngine", NULL, NULL);
+  window = glfwCreateWindow(1920, 1080, "GameEngine", nullptr, nullptr);
   if (!window) {
     glfwTerminate();
     return -1;
@@ -121,8 +122,6 @@ int main(void) {
     float t = glfwGetTime();
     float deltaTime = t - lastTime;
     lastTime = t;
-    double fps = 1.0f / deltaTime;
-    std::cout << "FPS:" << fps << std::endl;
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     ControllerSystem::Get()->Update(deltaTime);
     TextureLoaderSystem::Get()->Update();
@@ -133,7 +132,7 @@ int main(void) {
 
     /* Poll for and process events */
     glfwPollEvents();
-    // Editor::Editor::Get()->Render();
+    Editor::Editor::Get()->Render();
 
     /* Swap front and back buffers */
     glfwSwapBuffers(window);

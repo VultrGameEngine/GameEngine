@@ -1,3 +1,4 @@
+#pragma once
 #include "../../ecs/system/system.hpp"
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>

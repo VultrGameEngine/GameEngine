@@ -7,6 +7,7 @@
 #include "../../core/components/transform_component.h"
 #include "../../ecs/system/system.hpp"
 #include "../../ecs/world/world.hpp"
+#include "../../rendering/renderer_3d.h"
 #include <glm/glm.hpp>
 
 const unsigned int GAME = 0;
@@ -16,6 +17,7 @@ class RenderSystem : public System {
 public:
   static std::shared_ptr<RenderSystem> Get();
   void Update(float delta_time);
+  void OnCreateEntity(Entity entity) override;
   void OnDestroyEntity(Entity entity) override;
   static std::shared_ptr<RenderSystem> RegisterSystem();
   static void Resize(int width, int height, unsigned int type);
@@ -36,4 +38,5 @@ private:
                                     unsigned int *render_texture,
                                     unsigned int *rbo, int width, int height);
   Signature signature;
+  Renderer::Renderer3D *renderer;
 };

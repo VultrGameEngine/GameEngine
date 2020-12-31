@@ -2,6 +2,7 @@
 #include "../../../include/core/components/static_mesh_component.h"
 #include "../../../include/ecs/world/world.hpp"
 #include "../../../include/helpers/loading_state.h"
+#include "../../../include/rendering/models/vertex.h"
 #include <fstream>
 #include <iostream>
 #include <map>
@@ -30,6 +31,7 @@ std::shared_ptr<MeshLoaderSystem> MeshLoaderSystem::RegisterSystem() {
 
   return ptr;
 }
+
 void MeshLoaderSystem::OnCreateEntity(Entity entity) {
   auto &component = World::GetComponent<StaticMeshComponent>(entity);
 
@@ -182,14 +184,7 @@ void MeshLoaderSystem::Import(std::string filepath, LoadedStaticMesh &mesh) {
                              out_index_buffer, out_vertices, out_uvs,
                              out_normals);
   mesh.loaded = loaded;
-  mesh.vertices = out_vertices;
-  mesh.uvs = out_uvs;
-  mesh.normals = out_normals;
-  mesh.indices = out_index_buffer;
-  std::cout << "Loaded static mesh component with" << mesh.vertices.size()
-            << " vertices and " << mesh.indices.size() << " indices"
-            << std::endl;
-  std::cout << "Breakpoint" << std::endl;
+  mesh.AddVertices(out_vertices, out_uvs, out_normals, out_index_buffer);
 }
 
 void MeshLoaderSystem::IndexVBO(std::vector<glm::vec3> &in_vertices,

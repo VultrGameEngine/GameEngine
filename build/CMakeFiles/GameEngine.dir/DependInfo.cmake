@@ -16,6 +16,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/brandon/Desktop/Dev/GameEngine/src/editor/core/windows/scene_window.cpp" "/home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles/GameEngine.dir/src/editor/core/windows/scene_window.cpp.o"
   "/home/brandon/Desktop/Dev/GameEngine/src/editor/editor.cpp" "/home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles/GameEngine.dir/src/editor/editor.cpp.o"
   "/home/brandon/Desktop/Dev/GameEngine/src/main.cpp" "/home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles/GameEngine.dir/src/main.cpp.o"
+  "/home/brandon/Desktop/Dev/GameEngine/src/rendering/render_group.cpp" "/home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles/GameEngine.dir/src/rendering/render_group.cpp.o"
   "/home/brandon/Desktop/Dev/GameEngine/src/rendering/renderer_3d.cpp" "/home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o"
   "/home/brandon/Desktop/Dev/GameEngine/src/rendering/vertex_buffer.cpp" "/home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.o"
   "/home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui.cpp" "/home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles/GameEngine.dir/vendor/imgui/imgui.cpp.o"

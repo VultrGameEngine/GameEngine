@@ -6,8 +6,12 @@
 #include "../entity/entity_manager.hpp"
 #include "../system/system_manager.hpp"
 #include <memory>
+#include <set>
 
 class World {
+private:
+  static World *Get();
+
 public:
   static void Init() {
     Get()->component_manager = std::make_unique<ComponentManager>();
@@ -83,7 +87,6 @@ public:
   }
 
 private:
-  static World *Get();
   std::unique_ptr<ComponentManager> component_manager;
   std::unique_ptr<EntityManager> entity_manager;
   std::unique_ptr<SystemManager> system_manager;

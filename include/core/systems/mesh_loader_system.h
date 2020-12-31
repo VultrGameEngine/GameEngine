@@ -3,6 +3,7 @@
 // StaticMeshComponent and do not have their buffers or opengl data set then
 // MeshLoaderSystem will do that with the specified path
 
+#pragma once
 #include "../../ecs/system/system.hpp"
 #include "../../ecs/world/world.hpp"
 #include "../components/static_mesh_cache.h"

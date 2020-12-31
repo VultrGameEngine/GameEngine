@@ -844,6 +844,33 @@ src/main.cpp.s:
 	$(MAKE) -f CMakeFiles/GameEngine.dir/build.make CMakeFiles/GameEngine.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
+src/rendering/render_group.o: src/rendering/render_group.cpp.o
+
+.PHONY : src/rendering/render_group.o
+
+# target to build an object file
+src/rendering/render_group.cpp.o:
+	$(MAKE) -f CMakeFiles/GameEngine.dir/build.make CMakeFiles/GameEngine.dir/src/rendering/render_group.cpp.o
+.PHONY : src/rendering/render_group.cpp.o
+
+src/rendering/render_group.i: src/rendering/render_group.cpp.i
+
+.PHONY : src/rendering/render_group.i
+
+# target to preprocess a source file
+src/rendering/render_group.cpp.i:
+	$(MAKE) -f CMakeFiles/GameEngine.dir/build.make CMakeFiles/GameEngine.dir/src/rendering/render_group.cpp.i
+.PHONY : src/rendering/render_group.cpp.i
+
+src/rendering/render_group.s: src/rendering/render_group.cpp.s
+
+.PHONY : src/rendering/render_group.s
+
+# target to generate assembly for a file
+src/rendering/render_group.cpp.s:
+	$(MAKE) -f CMakeFiles/GameEngine.dir/build.make CMakeFiles/GameEngine.dir/src/rendering/render_group.cpp.s
+.PHONY : src/rendering/render_group.cpp.s
+
 src/rendering/renderer_3d.o: src/rendering/renderer_3d.cpp.o
 
 .PHONY : src/rendering/renderer_3d.o
@@ -1163,6 +1190,9 @@ help:
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/rendering/render_group.o"
+	@echo "... src/rendering/render_group.i"
+	@echo "... src/rendering/render_group.s"
 	@echo "... src/rendering/renderer_3d.o"
 	@echo "... src/rendering/renderer_3d.i"
 	@echo "... src/rendering/renderer_3d.s"

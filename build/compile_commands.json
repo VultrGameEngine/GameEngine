@@ -61,6 +61,11 @@
 },
 {
   "directory": "/home/brandon/Desktop/Dev/GameEngine/build",
+  "command": "/bin/clang++-9    -g   -o CMakeFiles/GameEngine.dir/src/rendering/render_group.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/src/rendering/render_group.cpp",
+  "file": "/home/brandon/Desktop/Dev/GameEngine/src/rendering/render_group.cpp"
+},
+{
+  "directory": "/home/brandon/Desktop/Dev/GameEngine/build",
   "command": "/bin/clang++-9    -g   -o CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/src/rendering/renderer_3d.cpp",
   "file": "/home/brandon/Desktop/Dev/GameEngine/src/rendering/renderer_3d.cpp"
 },
