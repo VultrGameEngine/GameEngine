@@ -21,9 +21,9 @@ struct LoadedStaticMesh {
     indices = in_indices;
   }
 
-  unsigned int vbo;
-  unsigned int vao;
-  unsigned int ibo;
+  unsigned int vbo = 0;
+  unsigned int vao = 0;
+  unsigned int ibo = 0;
 };
 
 struct StaticMeshCache {

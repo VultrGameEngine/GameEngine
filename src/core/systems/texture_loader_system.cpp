@@ -65,10 +65,8 @@ bool TextureLoaderSystem::isLoaded(std::string texture) {
 void TextureLoaderSystem::Import(std::string path, LoadedTexture &texture) {
   texture.loaded = loading;
   stbi_set_flip_vertically_on_load(1);
-  int width;
-  int height;
-  int bpp;
-  unsigned char *buffer = stbi_load(path.c_str(), &width, &height, &bpp, 4);
+  texture.buffer =
+      stbi_load(path.c_str(), &texture.width, &texture.height, &texture.bpp, 4);
   glGenTextures(1, &texture.id);
   glBindTexture(GL_TEXTURE_2D, texture.id);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -76,11 +74,11 @@ void TextureLoaderSystem::Import(std::string path, LoadedTexture &texture) {
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
   glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 
-  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA,
-               GL_UNSIGNED_BYTE, buffer);
+  glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture.width, texture.height, 0,
+               GL_RGBA, GL_UNSIGNED_BYTE, texture.buffer);
   glBindTexture(GL_TEXTURE_2D, 0);
-  if (buffer)
-    stbi_image_free(buffer);
+  if (texture.buffer)
+    stbi_image_free(texture.buffer);
 
   texture.loaded = loaded;
 }

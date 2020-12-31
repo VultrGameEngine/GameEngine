@@ -817,6 +817,33 @@ src/editor/editor.cpp.s:
 	$(MAKE) -f CMakeFiles/GameEngine.dir/build.make CMakeFiles/GameEngine.dir/src/editor/editor.cpp.s
 .PHONY : src/editor/editor.cpp.s
 
+src/errors/error_handler.o: src/errors/error_handler.cpp.o
+
+.PHONY : src/errors/error_handler.o
+
+# target to build an object file
+src/errors/error_handler.cpp.o:
+	$(MAKE) -f CMakeFiles/GameEngine.dir/build.make CMakeFiles/GameEngine.dir/src/errors/error_handler.cpp.o
+.PHONY : src/errors/error_handler.cpp.o
+
+src/errors/error_handler.i: src/errors/error_handler.cpp.i
+
+.PHONY : src/errors/error_handler.i
+
+# target to preprocess a source file
+src/errors/error_handler.cpp.i:
+	$(MAKE) -f CMakeFiles/GameEngine.dir/build.make CMakeFiles/GameEngine.dir/src/errors/error_handler.cpp.i
+.PHONY : src/errors/error_handler.cpp.i
+
+src/errors/error_handler.s: src/errors/error_handler.cpp.s
+
+.PHONY : src/errors/error_handler.s
+
+# target to generate assembly for a file
+src/errors/error_handler.cpp.s:
+	$(MAKE) -f CMakeFiles/GameEngine.dir/build.make CMakeFiles/GameEngine.dir/src/errors/error_handler.cpp.s
+.PHONY : src/errors/error_handler.cpp.s
+
 src/main.o: src/main.cpp.o
 
 .PHONY : src/main.o
@@ -1187,6 +1214,9 @@ help:
 	@echo "... src/editor/editor.o"
 	@echo "... src/editor/editor.i"
 	@echo "... src/editor/editor.s"
+	@echo "... src/errors/error_handler.o"
+	@echo "... src/errors/error_handler.i"
+	@echo "... src/errors/error_handler.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

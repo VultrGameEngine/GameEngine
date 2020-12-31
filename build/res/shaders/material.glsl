@@ -5,18 +5,15 @@
 layout (location = 0) in vec3 position;
 layout (location = 1) in vec3 normal;
 layout (location = 2) in vec2 vertexUV;
-layout (location = 3) in vec4 color;
-layout (location = 4) in float textureIndex;
-layout (location = 5) in mat4 model;
 
 out vec3 Normal;
 out vec3 FragPos;
 out vec2 FragUV;
-out vec4 FragColor;
-out float TextureIndex;
 
+uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
+uniform int texture;
 
 void main() 
 {
@@ -24,7 +21,6 @@ void main()
     FragPos = vec3(model * vec4(position, 1.0f));
     Normal  = mat3(transpose(inverse(model))) * normal;
     FragUV = vertexUV;
-    TextureIndex = textureIndex;
 }
 
 #shader fragment
@@ -36,11 +32,10 @@ out vec4 color;
 in vec3 FragPos;
 in vec3 Normal;
 in vec2 FragUV;
-in vec4 FragColor;
-in float TextureIndex;
 
 uniform vec3 lightPos;
 uniform vec3 viewPos;
+uniform vec3 objectColor;
 uniform vec3 lightColor;
 uniform sampler2D textureSampler;
 
@@ -63,9 +58,11 @@ void main()
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
     vec3 specular = specularStrength * spec * lightColor;
     
-    vec3 result = (ambient + diffuse + specular) * FragColor.rgb;
+    vec3 result = (ambient + diffuse + specular) * objectColor;
     
     vec3 textureColor = texture(textureSampler, FragUV).rgb;
 
+    // color = vec4(result, 1.0f);
     color = vec4(result * textureColor, 1.0f);
+    // color = vec4(textureColor, 1.0f);
 }

@@ -47,6 +47,8 @@ int main(void) {
   float lastTime = 0;
   glEnable(GL_CULL_FACE);
   glEnable(GL_DEPTH_TEST);
+  glEnable(GL_DEBUG_OUTPUT);
+  glDebugMessageCallback(ErrorHandler::ErrorCallback, 0);
 
   ControllerSystem::Get()->Init(window);
   glfwSetWindowFocusCallback(window, ControllerSystem::WindowFocusCallback);

@@ -34,7 +34,7 @@ std::shared_ptr<RenderSystem> RenderSystem::Get() {
   return instance;
 }
 
-void RenderSystem::OnCreateEntity(Entity entity) { renderer->Register(entity); }
+void RenderSystem::OnCreateEntity(Entity entity) {}
 
 void RenderSystem::OnDestroyEntity(Entity entity) {
   auto &static_mesh_component =
@@ -43,10 +43,19 @@ void RenderSystem::OnDestroyEntity(Entity entity) {
 
 // Used in the actual update loop in main
 void RenderSystem::Update(float delta_time) {
+  for (Entity entity : entities) {
+    renderer->Register(entity);
+  }
+
   Entity camera = CameraSystem::Get()->camera;
   Entity light = LightSystem::Get()->light;
   if (light == -1)
     return;
+
+  // Get the transform of the scene camera
+  auto &camera_transform =
+      CameraSystem::Get()->scene_camera.transform_component;
+  auto &camera_component = CameraSystem::Get()->scene_camera.camera_component;
 
   // If no camera is in the scene, then something is wrong and we can't render
   if (camera != -1) {
@@ -81,11 +90,6 @@ void RenderSystem::Update(float delta_time) {
   // Clear the screen
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  // Get the transform of the scene camera
-  auto &camera_transform =
-      CameraSystem::Get()->scene_camera.transform_component;
-  auto &camera_component = CameraSystem::Get()->scene_camera.camera_component;
-
   // Set the viewport to match that in the editor
   glViewport(0, 0, scene.dimensions.x, scene.dimensions.y);
 
@@ -105,194 +109,16 @@ void RenderSystem::RenderElements(unsigned int type,
 
   // Get the transform of the light
   auto &light_transform = World::GetComponent<TransformComponent>(light);
+  std::cout << "Rendering type " << std::to_string(type)
+            << " with camera transform " << camera_transform.position.x << ", "
+            << camera_transform.position.y << ", "
+            << camera_transform.position.z << ", " << std::endl;
   renderer->Update(Renderer::RenderContext{
       .dimensions = GetDimensions(type),
       .light_position = light_transform.position,
       .camera_transform = camera_transform,
       .camera_component = camera_component,
   });
-
-  //  // Get all of the components with a static mesh, transform, and shader
-  //  // attached
-  //  Signature signature;
-  //  signature.set(World::GetComponentType<StaticMeshComponent>(), true);
-  //  signature.set(World::GetComponentType<TransformComponent>(), true);
-  //  signature.set(World::GetComponentType<ShaderComponent>(), true);
-
-  //  for (Entity entity : World::GetEntities(signature)) {
-
-  //    // Get the components
-  //    auto &static_mesh_component =
-  //        World::GetComponent<StaticMeshComponent>(entity);
-  //    auto &transform_component =
-  //    World::GetComponent<TransformComponent>(entity); auto &shader_component
-  //    = World::GetComponent<ShaderComponent>(entity);
-
-  //    // If the shader hasn't loaded, then we can't do anything with this
-  //    static
-  //    // mesh
-  //    if (shader_component.shader == 0) {
-  //      std::cout << "Entity " << entity << " encountered an error: "
-  //                << "Shader not found!" << std::endl;
-  //      continue;
-  //    }
-
-  //    // Get the loaded static mesh from the MeshLoaderSystem cache
-  //    LoadedStaticMesh *mesh =
-  //        MeshLoaderSystem::GetMesh(static_mesh_component.path);
-
-  //    // If the mesh hasn't loaded yet, then we can't do anything
-  //    if (mesh == nullptr || mesh->loaded != loaded)
-  //      continue;
-
-  //    // If the static_mesh_component does not have a vao, it means that it
-  //    has
-  //    // not been bound to a buffer yet We will do that here
-  //    if (static_mesh_component.vao == 0) {
-  //      // Create the vertex array object
-  //      glGenVertexArrays(1, &static_mesh_component.vao);
-
-  //      // Bind the vertex array
-  //      glBindVertexArray(static_mesh_component.vao);
-  //    }
-
-  //    // If the static_mesh_component does not have a vbo, it means that it
-  //    has
-  //    // not been bound to a buffer yet We will do that here
-  //    if (static_mesh_component.vbo == 0) {
-  //      // Create the vertex buffer
-  //      glGenBuffers(1, &static_mesh_component.vbo);
-
-  //      // Bind the vertex buffer
-  //      glBindBuffer(GL_ARRAY_BUFFER, static_mesh_component.vbo);
-
-  //      // Set the buffer data for the vertex buffer
-  //      glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) *
-  //      mesh->vertices.size(),
-  //                   &(mesh->vertices[0]), GL_STATIC_DRAW);
-
-  //      // Enable vertex data
-  //      glEnableVertexAttribArray(0);
-  //      glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
-  //    }
-
-  //    // If the static_mesh_component does not have a nbo, it means that it
-  //    has
-  //    // not been bound to a buffer yet We will do that here
-  //    if (static_mesh_component.nbo == 0) {
-  //      // Create the normal buffer
-  //      glGenBuffers(1, &static_mesh_component.nbo);
-
-  //      // Bind the normal buffer
-  //      glBindBuffer(GL_ARRAY_BUFFER, static_mesh_component.nbo);
-
-  //      // Set the buffer data for the normal buffer
-  //      glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) *
-  //      mesh->normals.size(),
-  //                   &(mesh->normals[0]), GL_STATIC_DRAW);
-
-  //      // Enable normal data
-  //      glEnableVertexAttribArray(1);
-  //      glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, 0);
-  //    }
-  //    // If the static_mesh_component does not have a uvbo, it means that it
-  //    has
-  //    // not been bound to a buffer yet We will do that here
-  //    if (static_mesh_component.uvbo == 0) {
-  //      // Create the UV buffer
-  //      glGenBuffers(1, &static_mesh_component.uvbo);
-
-  //      // Bind the UV buffer
-  //      glBindBuffer(GL_ARRAY_BUFFER, static_mesh_component.uvbo);
-
-  //      // Set the buffer data for the UV buffer
-  //      glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec2) * mesh->uvs.size(),
-  //                   &(mesh->uvs[0]), GL_STATIC_DRAW);
-
-  //      // Enable normal data
-  //      glEnableVertexAttribArray(2);
-  //      glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, 0);
-  //    }
-
-  //    // If the static_mesh_component does not have a ibo, it means that it
-  //    has
-  //    // not been bound to a buffer yet We will do that here
-  //    if (static_mesh_component.ibo == 0) {
-  //      // Create the index buffer
-  //      glGenBuffers(1, &static_mesh_component.ibo);
-
-  //      // Bind the index buffer
-  //      glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, static_mesh_component.ibo);
-
-  //      // Set the buffer data for the index buffer
-  //      glBufferData(GL_ELEMENT_ARRAY_BUFFER,
-  //                   sizeof(unsigned short) * mesh->indices.size(),
-  //                   &(mesh->indices[0]), GL_STATIC_DRAW);
-  //    }
-  //    //
-  //    // Bind the shader component's shader'
-  //    glUseProgram(shader_component.shader);
-
-  //    // Get all of the uniforms of the shader component
-  //    GLuint Model = shader_component.GetUniform("model");
-  //    GLuint View = shader_component.GetUniform("view");
-  //    GLuint Projection = shader_component.GetUniform("projection");
-  //    GLuint LightPosition = shader_component.GetUniform("lightPos");
-  //    GLuint ViewPosition = shader_component.GetUniform("viewPos");
-  //    GLuint ObjectColor = shader_component.GetUniform("objectColor");
-  //    GLuint LightColor = shader_component.GetUniform("lightColor");
-  //    GLuint TextureSampler = shader_component.GetUniform("textureSampler");
-
-  //    // Set the uniforms of the shader
-  //    // The model matrix
-  //    glUniformMatrix4fv(Model, 1, GL_FALSE,
-  //                       glm::value_ptr(transform_component.Matrix()));
-
-  //    // The view matrix
-  //    glUniformMatrix4fv(View, 1, GL_FALSE,
-  //                       glm::value_ptr(camera_component.view_matrix));
-
-  //    // And the projection matrix
-  //    glUniformMatrix4fv(Projection, 1, GL_FALSE,
-  //                       glm::value_ptr(camera_component.GetProjectionMatrix(
-  //                           GetDimensions(type).x, GetDimensions(type).y)));
-
-  //    // Light position is set in its own uniform
-  //    glUniform3f(LightPosition, light_transform.position.x,
-  //                light_transform.position.y, light_transform.position.z);
-
-  //    // And we set some other color values for the rendering
-  //    glUniform3f(LightColor, 1.0f, 1.0f, 1.0f);
-  //    glUniform3f(ObjectColor, 1.0f, 1.0f, 1.0f);
-
-  //    // We also set the position of the camera, which can either be the scene
-  //    // camera or the actual entity that is a camera
-  //    glUniform3f(ViewPosition, camera_transform.position.x,
-  //                camera_transform.position.y, camera_transform.position.z);
-
-  //    // If there is a texture attached to an entity
-  //    Signature texture_signature;
-  //    texture_signature.set(World::GetComponentType<TextureComponent>(),
-  //    true); if ((World::GetSignature(entity) & texture_signature) ==
-  //        texture_signature) {
-  //      auto &texture_component =
-  //      World::GetComponent<TextureComponent>(entity); LoadedTexture *texture
-  //      =
-  //          TextureLoaderSystem::Get()->GetTexture(texture_component.path);
-  //      // If we have loaded the bytes into memory
-  //      if (texture != nullptr && texture->loaded == loaded) {
-  //        glActiveTexture(GL_TEXTURE0);
-  //        glBindTexture(GL_TEXTURE_2D, texture->id);
-  //        glUniform1i(TextureSampler, 0);
-  //      }
-  //    }
-
-  //    glBindVertexArray(static_mesh_component.vao);
-  //    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, static_mesh_component.ibo);
-  //    glDrawElements(GL_TRIANGLES, mesh->indices.size() * sizeof(unsigned
-  //    short),
-  //                   GL_UNSIGNED_SHORT, (void *)0);
-  //  }
 }
 
 void RenderSystem::RenderSkybox(unsigned int type,
@@ -324,9 +150,9 @@ void RenderSystem::RenderSkybox(unsigned int type,
       GLuint Projection = shader_component.GetUniform("projection");
       GLuint View = shader_component.GetUniform("view");
       glUniform1i(SkyBox, 0);
-      glUniformMatrix4fv(
-          View, 1, GL_FALSE,
-          glm::value_ptr(glm::mat4(glm::mat3(camera_component.view_matrix))));
+      glUniformMatrix4fv(View, 1, GL_FALSE,
+                         glm::value_ptr(glm::mat4(
+                             glm::mat3(camera_transform.GetViewMatrix()))));
       glUniformMatrix4fv(Projection, 1, GL_FALSE,
                          glm::value_ptr(camera_component.GetProjectionMatrix(
                              GetDimensions(type).x, GetDimensions(type).y)));

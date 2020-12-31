@@ -35,6 +35,7 @@ CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o: ../include/c
 CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o: ../include/core/components/texture_cache.h
 CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o: ../include/core/components/texture_component.h
 CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o: ../include/core/components/transform_component.h
+CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o: ../include/core/systems/camera_system.h
 CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o: ../include/core/systems/controller_system.h
 CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o: ../include/core/systems/mesh_loader_system.h
 CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o: ../include/core/systems/render_system.h
@@ -252,6 +253,9 @@ CMakeFiles/GameEngine.dir/src/editor/editor.cpp.o: ../vendor/imgui/imgui.h
 CMakeFiles/GameEngine.dir/src/editor/editor.cpp.o: ../vendor/imgui/imgui_impl_glfw.h
 CMakeFiles/GameEngine.dir/src/editor/editor.cpp.o: ../vendor/imgui/imgui_impl_opengl3.h
 
+CMakeFiles/GameEngine.dir/src/errors/error_handler.cpp.o: ../include/errors/error_handler.h
+CMakeFiles/GameEngine.dir/src/errors/error_handler.cpp.o: ../src/errors/error_handler.cpp
+
 CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/core/components/camera_component.h
 CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/core/components/controller_component.h
 CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/core/components/light_component.h
@@ -283,6 +287,7 @@ CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/ecs/world/world.hpp
 CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/editor/editor.hpp
 CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/editor/imgui/element.hpp
 CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/editor/imgui/window.hpp
+CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/errors/error_handler.h
 CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/helpers/loading_state.h
 CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/rendering/models/shader.h
 CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/rendering/models/vertex.h

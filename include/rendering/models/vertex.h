@@ -10,10 +10,6 @@ struct Vertex {
   glm::vec3 normal;
   glm::vec2 uv;
 
-  // Constructor for a vertex, which will set all of the model values for the
-  // vertices in the model
-  // NOTE this will NOT set the model matrix as that is updated every frame
-  // based on the TransformComponent
   Vertex(glm::vec3 mesh_position = glm::vec3(0, 0, 0),
          glm::vec3 mesh_normal = glm::vec3(0, 0, 0),
          glm::vec2 mesh_uv = glm::vec2(0, 0))

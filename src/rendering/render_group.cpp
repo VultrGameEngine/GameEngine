@@ -10,33 +10,18 @@ void RenderGroup::Render(RenderContext context) {
   // Bind the shader that will be used for rendering all the following meshes
   this->shader->Bind();
 
-  // Set the view matrix and projection matrix, as they do not change between
-  // meshes
-  this->shader->SetUniformMatrix4fv(
-      "view", glm::value_ptr(context.camera_component.view_matrix));
-
-  this->shader->SetUniformMatrix4fv(
-      "projection", glm::value_ptr(context.camera_component.GetProjectionMatrix(
-                        context.dimensions.x, context.dimensions.y)));
-
-  this->shader->SetUniform3f("lightPos", context.light_position);
-
-  this->shader->SetUniform3f("lightColor", glm::vec3(1.0f, 1.0f, 1.0f));
-  this->shader->SetUniform3f("objectColor", glm::vec3(1.0f, 1.0f, 1.0f));
-  this->shader->SetUniform3f("viewPos", context.camera_transform.position);
-
   // Render all registered entities
   for (RenderEntity entity : entities) {
     LoadedStaticMesh *loaded_mesh = entity.GetMesh();
     // If the vao or vbo hasn't been loaded into the mesh, we need to create
     // them and set up all of the buffers
     if (loaded_mesh->vao == 0 || loaded_mesh->vbo == 0) {
-      // Generate the vertex arrays
-      glGenVertexArrays(1, &(loaded_mesh->vao));
+      // Generate the vertex
+      glGenVertexArrays(1, &loaded_mesh->vao);
       glBindVertexArray(loaded_mesh->vao);
 
       // Generate the index buffer
-      glGenBuffers(1, &(loaded_mesh->ibo));
+      glCreateBuffers(1, &loaded_mesh->ibo);
       glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, loaded_mesh->ibo);
 
       // Set the buffer data for the index buffer
@@ -45,7 +30,7 @@ void RenderGroup::Render(RenderContext context) {
                    &(loaded_mesh->indices[0]), GL_STATIC_DRAW);
 
       // Generate the vertex buffers
-      glGenBuffers(1, &(loaded_mesh->vbo));
+      glCreateBuffers(1, &loaded_mesh->vbo);
       glBindBuffer(GL_ARRAY_BUFFER, loaded_mesh->vbo);
 
       // Set the buffer data for the vertex buffer
@@ -78,6 +63,22 @@ void RenderGroup::Render(RenderContext context) {
     this->shader->SetUniformMatrix4fv(
         "model", glm::value_ptr(transform_component.Matrix()));
 
+    // Set the view matrix and projection matrix, as they do not change between
+    // meshes
+    this->shader->SetUniformMatrix4fv(
+        "view", glm::value_ptr(context.camera_transform.GetViewMatrix()));
+
+    this->shader->SetUniformMatrix4fv(
+        "projection",
+        glm::value_ptr(context.camera_component.GetProjectionMatrix(
+            context.dimensions.x, context.dimensions.y)));
+
+    this->shader->SetUniform3f("lightPos", context.light_position);
+
+    this->shader->SetUniform3f("lightColor", glm::vec3(1.0f, 1.0f, 1.0f));
+    this->shader->SetUniform3f("objectColor", glm::vec3(1.0f, 1.0f, 1.0f));
+    this->shader->SetUniform3f("viewPos", context.camera_transform.position);
+
     this->shader->SetUniform1i("textureSampler", 0);
 
     // Bind the vao and ibo
@@ -85,9 +86,8 @@ void RenderGroup::Render(RenderContext context) {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, loaded_mesh->ibo);
 
     // Draw the triangles
-    glDrawElements(GL_TRIANGLES,
-                   loaded_mesh->indices.size() * sizeof(unsigned short),
-                   GL_UNSIGNED_SHORT, (void *)0);
+    glDrawElements(GL_TRIANGLES, loaded_mesh->indices.size(), GL_UNSIGNED_SHORT,
+                   (void *)0);
   }
 }
 

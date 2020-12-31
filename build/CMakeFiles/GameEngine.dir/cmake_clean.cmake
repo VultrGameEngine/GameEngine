@@ -10,6 +10,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/GameEngine.dir/src/editor/core/windows/game_window.cpp.o"
   "CMakeFiles/GameEngine.dir/src/editor/core/windows/scene_window.cpp.o"
   "CMakeFiles/GameEngine.dir/src/editor/editor.cpp.o"
+  "CMakeFiles/GameEngine.dir/src/errors/error_handler.cpp.o"
   "CMakeFiles/GameEngine.dir/src/main.cpp.o"
   "CMakeFiles/GameEngine.dir/src/rendering/render_group.cpp.o"
   "CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o"
