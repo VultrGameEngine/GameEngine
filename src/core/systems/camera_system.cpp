@@ -7,26 +7,25 @@ glm::mat4 CameraComponent::GetProjectionMatrix(float width, float height) {
   return glm::perspective(fov, width / height, znear, zfar);
 }
 
-void CameraSystem::Update() {
-  for (Entity entity : entities) {
-    auto &camera_component = World::GetComponent<CameraComponent>(entity);
-    auto &transform_component = World::GetComponent<TransformComponent>(entity);
-    if (camera_component.enabled) {
-      camera_component.view_matrix = glm::lookAt(
-          transform_component.position,
-          transform_component.position + transform_component.Forward(),
-          glm::vec3(0, 1, 0));
-      camera = entity;
-      break;
+void CameraSystem::OnCreateEntity(Entity entity) {
+  auto &camera_component = World::GetComponent<CameraComponent>(entity);
+  if (camera_component.enabled) {
+    camera = entity;
+  }
+}
+
+void CameraSystem::OnDestroyEntity(Entity entity) {
+  if (camera == entity) {
+    camera = -1;
+    for (Entity camera_entity : entities) {
+      auto &camera_component =
+          World::GetComponent<CameraComponent>(camera_entity);
+      if (camera_component.enabled) {
+        camera = entity;
+        break;
+      }
     }
   }
-  auto &camera_component = CameraSystem::Get()->scene_camera.camera_component;
-  auto &transform_component =
-      CameraSystem::Get()->scene_camera.transform_component;
-  camera_component.view_matrix =
-      glm::lookAt(transform_component.position,
-                  transform_component.position + transform_component.Forward(),
-                  glm::vec3(0, 1, 0));
 }
 
 std::shared_ptr<CameraSystem> CameraSystem::Get() {

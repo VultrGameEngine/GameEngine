@@ -23,7 +23,7 @@ void ControllerSystem::Update(float delta_time) {
   }
   glm::vec2 dimensions = RenderSystem::GetDimensions(GAME);
 
-  glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+  // glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
   double xpos, ypos;
   glfwGetCursorPos(window, &xpos, &ypos);
 

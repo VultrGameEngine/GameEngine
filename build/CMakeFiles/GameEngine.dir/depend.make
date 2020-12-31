@@ -29,13 +29,13 @@ CMakeFiles/GameEngine.dir/src/core/systems/camera_system.cpp.o: ../src/core/syst
 
 CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o: ../include/core/components/camera_component.h
 CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o: ../include/core/components/controller_component.h
+CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o: ../include/core/components/shader_cache.h
 CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o: ../include/core/components/sky_box_component.h
 CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o: ../include/core/components/static_mesh_cache.h
 CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o: ../include/core/components/static_mesh_component.h
 CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o: ../include/core/components/texture_cache.h
 CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o: ../include/core/components/texture_component.h
 CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o: ../include/core/components/transform_component.h
-CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o: ../include/core/systems/camera_system.h
 CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o: ../include/core/systems/controller_system.h
 CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o: ../include/core/systems/mesh_loader_system.h
 CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o: ../include/core/systems/render_system.h
@@ -50,7 +50,6 @@ CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o: ../include/e
 CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o: ../include/ecs/system/system_manager.hpp
 CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o: ../include/ecs/world/world.hpp
 CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o: ../include/helpers/loading_state.h
-CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o: ../include/rendering/models/shader.h
 CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o: ../include/rendering/models/vertex.h
 CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o: ../include/rendering/render_context.h
 CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o: ../include/rendering/render_group.h
@@ -89,6 +88,7 @@ CMakeFiles/GameEngine.dir/src/core/systems/mesh_loader_system.cpp.o: ../src/core
 CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o: ../include/core/components/camera_component.h
 CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o: ../include/core/components/controller_component.h
 CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o: ../include/core/components/light_component.h
+CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o: ../include/core/components/shader_cache.h
 CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o: ../include/core/components/shader_component.h
 CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o: ../include/core/components/sky_box_component.h
 CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o: ../include/core/components/static_mesh_cache.h
@@ -114,7 +114,6 @@ CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o: ../include/edito
 CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o: ../include/editor/imgui/element.hpp
 CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o: ../include/editor/imgui/window.hpp
 CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o: ../include/helpers/loading_state.h
-CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o: ../include/rendering/models/shader.h
 CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o: ../include/rendering/models/vertex.h
 CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o: ../include/rendering/render_context.h
 CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o: ../include/rendering/render_group.h
@@ -122,6 +121,7 @@ CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o: ../include/rende
 CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o: ../include/rendering/vertex_buffer.h
 CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o: ../src/core/systems/render_system.cpp
 
+CMakeFiles/GameEngine.dir/src/core/systems/shader_loader_system.cpp.o: ../include/core/components/shader_cache.h
 CMakeFiles/GameEngine.dir/src/core/systems/shader_loader_system.cpp.o: ../include/core/components/shader_component.h
 CMakeFiles/GameEngine.dir/src/core/systems/shader_loader_system.cpp.o: ../include/core/systems/shader_loader_system.h
 CMakeFiles/GameEngine.dir/src/core/systems/shader_loader_system.cpp.o: ../include/ecs/component/component.hpp
@@ -132,6 +132,7 @@ CMakeFiles/GameEngine.dir/src/core/systems/shader_loader_system.cpp.o: ../includ
 CMakeFiles/GameEngine.dir/src/core/systems/shader_loader_system.cpp.o: ../include/ecs/system/system.hpp
 CMakeFiles/GameEngine.dir/src/core/systems/shader_loader_system.cpp.o: ../include/ecs/system/system_manager.hpp
 CMakeFiles/GameEngine.dir/src/core/systems/shader_loader_system.cpp.o: ../include/ecs/world/world.hpp
+CMakeFiles/GameEngine.dir/src/core/systems/shader_loader_system.cpp.o: ../include/helpers/loading_state.h
 CMakeFiles/GameEngine.dir/src/core/systems/shader_loader_system.cpp.o: ../src/core/systems/shader_loader_system.cpp
 
 CMakeFiles/GameEngine.dir/src/core/systems/texture_loader_system.cpp.o: ../include/core/components/sky_box_component.h
@@ -151,6 +152,7 @@ CMakeFiles/GameEngine.dir/src/core/systems/texture_loader_system.cpp.o: ../src/c
 CMakeFiles/GameEngine.dir/src/core/systems/texture_loader_system.cpp.o: ../vendor/stb_image/stb_image.h
 
 CMakeFiles/GameEngine.dir/src/editor/core/windows/game_window.cpp.o: ../include/core/components/camera_component.h
+CMakeFiles/GameEngine.dir/src/editor/core/windows/game_window.cpp.o: ../include/core/components/shader_cache.h
 CMakeFiles/GameEngine.dir/src/editor/core/windows/game_window.cpp.o: ../include/core/components/sky_box_component.h
 CMakeFiles/GameEngine.dir/src/editor/core/windows/game_window.cpp.o: ../include/core/components/static_mesh_cache.h
 CMakeFiles/GameEngine.dir/src/editor/core/windows/game_window.cpp.o: ../include/core/components/static_mesh_component.h
@@ -173,7 +175,6 @@ CMakeFiles/GameEngine.dir/src/editor/core/windows/game_window.cpp.o: ../include/
 CMakeFiles/GameEngine.dir/src/editor/core/windows/game_window.cpp.o: ../include/editor/imgui/element.hpp
 CMakeFiles/GameEngine.dir/src/editor/core/windows/game_window.cpp.o: ../include/editor/imgui/window.hpp
 CMakeFiles/GameEngine.dir/src/editor/core/windows/game_window.cpp.o: ../include/helpers/loading_state.h
-CMakeFiles/GameEngine.dir/src/editor/core/windows/game_window.cpp.o: ../include/rendering/models/shader.h
 CMakeFiles/GameEngine.dir/src/editor/core/windows/game_window.cpp.o: ../include/rendering/models/vertex.h
 CMakeFiles/GameEngine.dir/src/editor/core/windows/game_window.cpp.o: ../include/rendering/render_context.h
 CMakeFiles/GameEngine.dir/src/editor/core/windows/game_window.cpp.o: ../include/rendering/render_group.h
@@ -184,6 +185,7 @@ CMakeFiles/GameEngine.dir/src/editor/core/windows/game_window.cpp.o: ../vendor/i
 CMakeFiles/GameEngine.dir/src/editor/core/windows/game_window.cpp.o: ../vendor/imgui/imgui.h
 
 CMakeFiles/GameEngine.dir/src/editor/core/windows/scene_window.cpp.o: ../include/core/components/camera_component.h
+CMakeFiles/GameEngine.dir/src/editor/core/windows/scene_window.cpp.o: ../include/core/components/shader_cache.h
 CMakeFiles/GameEngine.dir/src/editor/core/windows/scene_window.cpp.o: ../include/core/components/sky_box_component.h
 CMakeFiles/GameEngine.dir/src/editor/core/windows/scene_window.cpp.o: ../include/core/components/static_mesh_cache.h
 CMakeFiles/GameEngine.dir/src/editor/core/windows/scene_window.cpp.o: ../include/core/components/static_mesh_component.h
@@ -206,7 +208,6 @@ CMakeFiles/GameEngine.dir/src/editor/core/windows/scene_window.cpp.o: ../include
 CMakeFiles/GameEngine.dir/src/editor/core/windows/scene_window.cpp.o: ../include/editor/imgui/element.hpp
 CMakeFiles/GameEngine.dir/src/editor/core/windows/scene_window.cpp.o: ../include/editor/imgui/window.hpp
 CMakeFiles/GameEngine.dir/src/editor/core/windows/scene_window.cpp.o: ../include/helpers/loading_state.h
-CMakeFiles/GameEngine.dir/src/editor/core/windows/scene_window.cpp.o: ../include/rendering/models/shader.h
 CMakeFiles/GameEngine.dir/src/editor/core/windows/scene_window.cpp.o: ../include/rendering/models/vertex.h
 CMakeFiles/GameEngine.dir/src/editor/core/windows/scene_window.cpp.o: ../include/rendering/render_context.h
 CMakeFiles/GameEngine.dir/src/editor/core/windows/scene_window.cpp.o: ../include/rendering/render_group.h
@@ -217,6 +218,7 @@ CMakeFiles/GameEngine.dir/src/editor/core/windows/scene_window.cpp.o: ../vendor/
 CMakeFiles/GameEngine.dir/src/editor/core/windows/scene_window.cpp.o: ../vendor/imgui/imgui.h
 
 CMakeFiles/GameEngine.dir/src/editor/editor.cpp.o: ../include/core/components/camera_component.h
+CMakeFiles/GameEngine.dir/src/editor/editor.cpp.o: ../include/core/components/shader_cache.h
 CMakeFiles/GameEngine.dir/src/editor/editor.cpp.o: ../include/core/components/sky_box_component.h
 CMakeFiles/GameEngine.dir/src/editor/editor.cpp.o: ../include/core/components/static_mesh_cache.h
 CMakeFiles/GameEngine.dir/src/editor/editor.cpp.o: ../include/core/components/static_mesh_component.h
@@ -241,7 +243,6 @@ CMakeFiles/GameEngine.dir/src/editor/editor.cpp.o: ../include/editor/editor.hpp
 CMakeFiles/GameEngine.dir/src/editor/editor.cpp.o: ../include/editor/imgui/element.hpp
 CMakeFiles/GameEngine.dir/src/editor/editor.cpp.o: ../include/editor/imgui/window.hpp
 CMakeFiles/GameEngine.dir/src/editor/editor.cpp.o: ../include/helpers/loading_state.h
-CMakeFiles/GameEngine.dir/src/editor/editor.cpp.o: ../include/rendering/models/shader.h
 CMakeFiles/GameEngine.dir/src/editor/editor.cpp.o: ../include/rendering/models/vertex.h
 CMakeFiles/GameEngine.dir/src/editor/editor.cpp.o: ../include/rendering/render_context.h
 CMakeFiles/GameEngine.dir/src/editor/editor.cpp.o: ../include/rendering/render_group.h
@@ -259,6 +260,7 @@ CMakeFiles/GameEngine.dir/src/errors/error_handler.cpp.o: ../src/errors/error_ha
 CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/core/components/camera_component.h
 CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/core/components/controller_component.h
 CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/core/components/light_component.h
+CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/core/components/shader_cache.h
 CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/core/components/shader_component.h
 CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/core/components/sky_box_component.h
 CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/core/components/static_mesh_cache.h
@@ -289,7 +291,6 @@ CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/editor/imgui/element.hpp
 CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/editor/imgui/window.hpp
 CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/errors/error_handler.h
 CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/helpers/loading_state.h
-CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/rendering/models/shader.h
 CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/rendering/models/vertex.h
 CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/rendering/render_context.h
 CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/rendering/render_group.h
@@ -322,13 +323,13 @@ CMakeFiles/GameEngine.dir/src/rendering/render_group.cpp.o: ../include/ecs/syste
 CMakeFiles/GameEngine.dir/src/rendering/render_group.cpp.o: ../include/ecs/system/system_manager.hpp
 CMakeFiles/GameEngine.dir/src/rendering/render_group.cpp.o: ../include/ecs/world/world.hpp
 CMakeFiles/GameEngine.dir/src/rendering/render_group.cpp.o: ../include/helpers/loading_state.h
-CMakeFiles/GameEngine.dir/src/rendering/render_group.cpp.o: ../include/rendering/models/shader.h
 CMakeFiles/GameEngine.dir/src/rendering/render_group.cpp.o: ../include/rendering/models/vertex.h
 CMakeFiles/GameEngine.dir/src/rendering/render_group.cpp.o: ../include/rendering/render_context.h
 CMakeFiles/GameEngine.dir/src/rendering/render_group.cpp.o: ../include/rendering/render_group.h
 CMakeFiles/GameEngine.dir/src/rendering/render_group.cpp.o: ../src/rendering/render_group.cpp
 
 CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../include/core/components/camera_component.h
+CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../include/core/components/shader_cache.h
 CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../include/core/components/shader_component.h
 CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../include/core/components/sky_box_component.h
 CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../include/core/components/static_mesh_cache.h
@@ -348,7 +349,6 @@ CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../include/ecs/system
 CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../include/ecs/system/system_manager.hpp
 CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../include/ecs/world/world.hpp
 CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../include/helpers/loading_state.h
-CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../include/rendering/models/shader.h
 CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../include/rendering/models/vertex.h
 CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../include/rendering/render_context.h
 CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../include/rendering/render_group.h
@@ -357,6 +357,7 @@ CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../include/rendering/
 CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../src/rendering/renderer_3d.cpp
 
 CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.o: ../include/core/components/camera_component.h
+CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.o: ../include/core/components/shader_cache.h
 CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.o: ../include/core/components/shader_component.h
 CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.o: ../include/core/components/sky_box_component.h
 CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.o: ../include/core/components/static_mesh_cache.h
@@ -379,7 +380,6 @@ CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.o: ../include/ecs/syst
 CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.o: ../include/ecs/system/system_manager.hpp
 CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.o: ../include/ecs/world/world.hpp
 CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.o: ../include/helpers/loading_state.h
-CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.o: ../include/rendering/models/shader.h
 CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.o: ../include/rendering/models/vertex.h
 CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.o: ../include/rendering/render_context.h
 CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.o: ../include/rendering/render_group.h

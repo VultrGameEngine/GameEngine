@@ -10,6 +10,15 @@ void RenderGroup::Render(RenderContext context) {
   // Bind the shader that will be used for rendering all the following meshes
   this->shader->Bind();
 
+  // Set the view matrix and projection matrix, as they do not change between
+  // meshes
+  this->shader->SetUniformMatrix4fv(
+      "view", glm::value_ptr(context.camera_transform.GetViewMatrix()));
+
+  this->shader->SetUniformMatrix4fv(
+      "projection", glm::value_ptr(context.camera_component.GetProjectionMatrix(
+                        context.dimensions.x, context.dimensions.y)));
+
   // Render all registered entities
   for (RenderEntity entity : entities) {
     LoadedStaticMesh *loaded_mesh = entity.GetMesh();
@@ -63,16 +72,6 @@ void RenderGroup::Render(RenderContext context) {
     this->shader->SetUniformMatrix4fv(
         "model", glm::value_ptr(transform_component.Matrix()));
 
-    // Set the view matrix and projection matrix, as they do not change between
-    // meshes
-    this->shader->SetUniformMatrix4fv(
-        "view", glm::value_ptr(context.camera_transform.GetViewMatrix()));
-
-    this->shader->SetUniformMatrix4fv(
-        "projection",
-        glm::value_ptr(context.camera_component.GetProjectionMatrix(
-            context.dimensions.x, context.dimensions.y)));
-
     this->shader->SetUniform3f("lightPos", context.light_position);
 
     this->shader->SetUniform3f("lightColor", glm::vec3(1.0f, 1.0f, 1.0f));
@@ -94,7 +93,8 @@ void RenderGroup::Render(RenderContext context) {
 void RenderGroup::RegisterEntity(Entity entity) {
   ShaderComponent &shader_component =
       World::GetComponent<ShaderComponent>(entity);
-  if (shader_component.shader != this->shader->GetID())
+  if (shader_component.GetShader() != nullptr &&
+      shader_component.GetShader()->GetID() != this->shader->GetID())
     return;
 
   TextureComponent &texture_component =

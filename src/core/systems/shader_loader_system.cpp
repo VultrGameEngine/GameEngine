@@ -9,60 +9,43 @@ std::shared_ptr<ShaderLoaderSystem> ShaderLoaderSystem::Get() {
     instance = RegisterSystem();
   return instance;
 }
+
+void ShaderLoaderSystem::OnCreateEntity(Entity entity) {
+  auto &shader_component = World::GetComponent<ShaderComponent>(entity);
+  // If we have already loaded the shader and cached it, then reuse the id and
+  // don't reload
+  if (loaded_shaders.find(shader_component.path) != loaded_shaders.end())
+    return;
+
+  // If we haven't cached this shader, load it and save it in the loaded shaders
+
+  // Parse the shader
+  ShaderProgramSource source = ParseShader(shader_component.path);
+
+  // Create the shader on the gpu
+  unsigned int shader_id =
+      CreateShader(source.VertexSource, source.FragmentSource);
+
+  // Create the shader wrapper with the given shader id
+  Shader *shader = new Shader(shader_id);
+
+  // Add it to the loaded shaders
+  loaded_shaders[shader_component.path] = shader;
+}
+
 void ShaderLoaderSystem::OnDestroyEntity(Entity entity) {
   auto &shader_component = World::GetComponent<ShaderComponent>(entity);
-  if (shader_component.shader != 0) {
-    glDeleteProgram(shader_component.shader);
+  Shader *shader = shader_component.GetShader();
+  if (shader != nullptr) {
+    shader->Delete();
   }
 }
 
-void ShaderLoaderSystem::InitShaders() {
-  // A list of existing, loaded shaders in memory
-  std::unordered_map<std::string, unsigned int> path_to_shader_map{};
+Shader *ShaderLoaderSystem::GetShader(std::string path) {
+  if (Get()->loaded_shaders.find(path) == Get()->loaded_shaders.end())
+    return nullptr;
 
-  // A list of entities that have a ShaderComponent, but have not loaded their
-  // shaders to the gpu yet
-  std::set<Entity> entities_with_unloaded_shader{};
-  for (Entity entity : entities) {
-    auto &shader_component = World::GetComponent<ShaderComponent>(entity);
-
-    // If the shader has been initialized, then we can add it to the
-    // path_to_shader_map
-    if (shader_component.shader != 0) {
-      // If the shader ID does not already exist
-      if (path_to_shader_map.find(shader_component.shader_path) ==
-          path_to_shader_map.end()) {
-        // Add it to the map
-        path_to_shader_map.insert(
-            {shader_component.shader_path, shader_component.shader});
-      }
-    }
-    // If the shader id has not been initialized, that means that we have to
-    // load this shader
-    else {
-      entities_with_unloaded_shader.insert(entity);
-    }
-  }
-  for (Entity entity_with_unloaded_shader : entities_with_unloaded_shader) {
-    auto &shader_component =
-        World::GetComponent<ShaderComponent>(entity_with_unloaded_shader);
-
-    // If there is an existing shader with the same path and it has already
-    // loaded we can just use that shader id in this entity
-    std::unordered_map<std::string, unsigned int>::iterator it =
-        path_to_shader_map.find(shader_component.shader_path);
-    if (it != path_to_shader_map.end()) {
-      // Copy the existing shader id into this entity
-      shader_component.shader = it->second;
-    }
-    // If there is no existing shader with that path, then we need to create it
-    else {
-      ShaderProgramSource source = ParseShader(shader_component.shader_path);
-      unsigned int shader =
-          CreateShader(source.VertexSource, source.FragmentSource);
-      shader_component.shader = shader;
-    }
-  }
+  return Get()->loaded_shaders[path];
 }
 
 std::shared_ptr<ShaderLoaderSystem> ShaderLoaderSystem::RegisterSystem() {

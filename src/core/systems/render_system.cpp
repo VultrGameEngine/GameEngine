@@ -109,10 +109,8 @@ void RenderSystem::RenderElements(unsigned int type,
 
   // Get the transform of the light
   auto &light_transform = World::GetComponent<TransformComponent>(light);
-  std::cout << "Rendering type " << std::to_string(type)
-            << " with camera transform " << camera_transform.position.x << ", "
-            << camera_transform.position.y << ", "
-            << camera_transform.position.z << ", " << std::endl;
+
+  // Update the renderer
   renderer->Update(Renderer::RenderContext{
       .dimensions = GetDimensions(type),
       .light_position = light_transform.position,
@@ -145,17 +143,17 @@ void RenderSystem::RenderSkybox(unsigned int type,
       glActiveTexture(GL_TEXTURE0);
       glBindTexture(GL_TEXTURE_CUBE_MAP, texture->id);
 
-      glUseProgram(shader_component.shader);
-      GLuint SkyBox = shader_component.GetUniform("skybox");
-      GLuint Projection = shader_component.GetUniform("projection");
-      GLuint View = shader_component.GetUniform("view");
-      glUniform1i(SkyBox, 0);
-      glUniformMatrix4fv(View, 1, GL_FALSE,
-                         glm::value_ptr(glm::mat4(
-                             glm::mat3(camera_transform.GetViewMatrix()))));
-      glUniformMatrix4fv(Projection, 1, GL_FALSE,
-                         glm::value_ptr(camera_component.GetProjectionMatrix(
-                             GetDimensions(type).x, GetDimensions(type).y)));
+      Shader *shader = shader_component.GetShader();
+      if (shader == nullptr)
+        return;
+      shader->Bind();
+      shader->SetUniform1i("skybox", 0);
+      shader->SetUniformMatrix4fv(
+          "view", glm::value_ptr(
+                      glm::mat4(glm::mat3(camera_transform.GetViewMatrix()))));
+      shader->SetUniformMatrix4fv(
+          "projection", glm::value_ptr(camera_component.GetProjectionMatrix(
+                            GetDimensions(type).x, GetDimensions(type).y)));
 
       if (skybox_component.vbo == 0 || skybox_component.vao == 0) {
         glGenVertexArrays(1, &skybox_component.vao);

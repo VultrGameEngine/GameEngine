@@ -5,7 +5,6 @@
 #include "../../include/core/systems/mesh_loader_system.h"
 #include "../../include/core/systems/render_system.h"
 #include "../../include/core/systems/texture_loader_system.h"
-#include "../../include/rendering/models/shader.h"
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>

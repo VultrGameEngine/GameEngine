@@ -1,4 +1,5 @@
 #pragma once
+#include "../../core/components/shader_cache.h"
 #include "../../ecs/system/system.hpp"
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -16,10 +17,13 @@ public:
   static std::shared_ptr<ShaderLoaderSystem> Get();
   void InitShaders();
   static std::shared_ptr<ShaderLoaderSystem> RegisterSystem();
+  static Shader *GetShader(std::string path);
   void OnDestroyEntity(Entity entity) override;
+  void OnCreateEntity(Entity entity) override;
 
 private:
   Signature signature;
+  std::unordered_map<std::string, Shader *> loaded_shaders;
 };
 
 struct ShaderProgramSource {

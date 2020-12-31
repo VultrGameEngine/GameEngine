@@ -8,7 +8,6 @@
 #include "../core/systems/texture_loader_system.h"
 #include "../ecs/entity/entity.hpp"
 #include "../ecs/world/world.hpp"
-#include "models/shader.h"
 #include "render_context.h"
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>

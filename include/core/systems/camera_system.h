@@ -11,7 +11,8 @@
 class CameraSystem : public System {
 public:
   static std::shared_ptr<CameraSystem> Get();
-  void Update();
+  void OnCreateEntity(Entity entity) override;
+  void OnDestroyEntity(Entity entity) override;
   static std::shared_ptr<CameraSystem> RegisterSystem();
   Entity camera = -1;
   struct Camera {

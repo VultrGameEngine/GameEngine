@@ -85,7 +85,7 @@ int main(void) {
                                      .path = "res/textures/XWing.png",
                                  });
       World::AddComponent(xwing, ShaderComponent{
-                                     .shader_path = "res/shaders/material.glsl",
+                                     .path = "res/shaders/material.glsl",
                                  });
     }
   }
@@ -110,7 +110,7 @@ int main(void) {
                                   .right = "res/textures/skybox/right.jpg",
                               });
   World::AddComponent(camera, ShaderComponent{
-                                  .shader_path = "res/shaders/skybox.glsl",
+                                  .path = "res/shaders/skybox.glsl",
                               });
   Entity light = World::CreateEntity();
 
@@ -127,8 +127,6 @@ int main(void) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     ControllerSystem::Get()->Update(deltaTime);
     TextureLoaderSystem::Get()->Update();
-    ShaderLoaderSystem::Get()->InitShaders();
-    CameraSystem::Get()->Update();
     LightSystem::Get()->Update();
     RenderSystem::Get()->Update(t);
 

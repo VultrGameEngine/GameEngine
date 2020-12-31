@@ -10,7 +10,5 @@ struct CameraComponent {
 
   unsigned int skybox = 0;
 
-  glm::mat4 view_matrix;
-
   glm::mat4 GetProjectionMatrix(float width, float height);
 };
