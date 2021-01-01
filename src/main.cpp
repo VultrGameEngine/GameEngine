@@ -121,6 +121,9 @@ int main(void) {
   World::AddComponent(light,
                       TransformComponent{.position = glm::vec3(4, 4, 4)});
 
+  RenderSystem::Resize(1920, 1080, GAME);
+  RenderSystem::Resize(1920, 1080, SCENE);
+
   /* Loop until the user closes the window */
   while (!glfwWindowShouldClose(window)) {
     float t = glfwGetTime();
@@ -134,7 +137,7 @@ int main(void) {
 
     /* Poll for and process events */
     glfwPollEvents();
-    Editor::Editor::Get()->Render();
+    // Editor::Editor::Get()->Render();
 
     /* Swap front and back buffers */
     glfwSwapBuffers(window);

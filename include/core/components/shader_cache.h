@@ -30,6 +30,10 @@ public:
     glUniform1i(GetUniformLocation(uniform), value);
   }
 
+  void SetUniform1f(std::string uniform, float value) {
+    glUniform1f(GetUniformLocation(uniform), value);
+  }
+
   unsigned int GetUniformLocation(std::string uniform) {
     return glGetUniformLocation(this->id, uniform.c_str());
   }

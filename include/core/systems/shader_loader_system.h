@@ -11,26 +11,10 @@
 #include <string.h>
 #include <vector>
 
-class ShaderLoaderSystem : public System {
-
-public:
-  static std::shared_ptr<ShaderLoaderSystem> Get();
-  void InitShaders();
-  static std::shared_ptr<ShaderLoaderSystem> RegisterSystem();
-  static Shader *GetShader(std::string path);
-  void OnDestroyEntity(Entity entity) override;
-  void OnCreateEntity(Entity entity) override;
-
-private:
-  Signature signature;
-  std::unordered_map<std::string, Shader *> loaded_shaders;
-};
-
 struct ShaderProgramSource {
   std::string VertexSource;
   std::string FragmentSource;
 };
-
 static ShaderProgramSource ParseShader(const std::string &filepath) {
   // Opens file
   std::ifstream stream(filepath);
@@ -61,44 +45,60 @@ static ShaderProgramSource ParseShader(const std::string &filepath) {
   return {ss[0].str(), ss[1].str()};
 }
 
-static unsigned int CompileShader(unsigned int type,
-                                  const std::string &source) {
-  unsigned int id = glCreateShader(type);
-  const char *src = source.c_str();
-  glShaderSource(id, 1, &src, nullptr);
-  glCompileShader(id);
+class ShaderLoaderSystem : public System {
 
-  int res;
-  glGetShaderiv(id, GL_COMPILE_STATUS, &res);
+public:
+  static std::shared_ptr<ShaderLoaderSystem> Get();
+  void InitShaders();
+  static std::shared_ptr<ShaderLoaderSystem> RegisterSystem();
+  static Shader *GetShader(std::string path);
+  void OnDestroyEntity(Entity entity) override;
+  void OnCreateEntity(Entity entity) override;
 
-  if (res == GL_FALSE) {
-    int length;
-    glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length);
-    char *message = new char[length];
-    glGetShaderInfoLog(id, length, &length, message);
-    std::cout << "Failed to compile "
-              << (type == GL_VERTEX_SHADER ? "vertext" : "fragment")
-              << " shader: " << message << std::endl;
-    glDeleteShader(id);
-    return 0;
+  static unsigned int CreateShader(const std::string &path) {
+    // Parse the shader
+    ShaderProgramSource source = ParseShader(path);
+    unsigned int program = glCreateProgram();
+    unsigned int vs = CompileShader(GL_VERTEX_SHADER, source.VertexSource);
+    unsigned int fs = CompileShader(GL_FRAGMENT_SHADER, source.FragmentSource);
+
+    glAttachShader(program, vs);
+    glAttachShader(program, fs);
+    glLinkProgram(program);
+    glValidateProgram(program);
+
+    glDeleteShader(vs);
+    glDeleteShader(fs);
+
+    return program;
   }
 
-  return id;
-}
+  static unsigned int CompileShader(unsigned int type,
+                                    const std::string &source) {
+    unsigned int id = glCreateShader(type);
+    const char *src = source.c_str();
+    glShaderSource(id, 1, &src, nullptr);
+    glCompileShader(id);
 
-static unsigned int CreateShader(const std::string &vertextShader,
-                                 const std::string &fragmentShader) {
-  unsigned int program = glCreateProgram();
-  unsigned int vs = CompileShader(GL_VERTEX_SHADER, vertextShader);
-  unsigned int fs = CompileShader(GL_FRAGMENT_SHADER, fragmentShader);
+    int res;
+    glGetShaderiv(id, GL_COMPILE_STATUS, &res);
 
-  glAttachShader(program, vs);
-  glAttachShader(program, fs);
-  glLinkProgram(program);
-  glValidateProgram(program);
+    if (res == GL_FALSE) {
+      int length;
+      glGetShaderiv(id, GL_INFO_LOG_LENGTH, &length);
+      char *message = new char[length];
+      glGetShaderInfoLog(id, length, &length, message);
+      std::cout << "Failed to compile "
+                << (type == GL_VERTEX_SHADER ? "vertext" : "fragment")
+                << " shader: " << message << std::endl;
+      glDeleteShader(id);
+      return 0;
+    }
 
-  glDeleteShader(vs);
-  glDeleteShader(fs);
+    return id;
+  }
 
-  return program;
-}
+private:
+  Signature signature;
+  std::unordered_map<std::string, Shader *> loaded_shaders;
+};

@@ -18,13 +18,8 @@ void ShaderLoaderSystem::OnCreateEntity(Entity entity) {
     return;
 
   // If we haven't cached this shader, load it and save it in the loaded shaders
-
-  // Parse the shader
-  ShaderProgramSource source = ParseShader(shader_component.path);
-
   // Create the shader on the gpu
-  unsigned int shader_id =
-      CreateShader(source.VertexSource, source.FragmentSource);
+  unsigned int shader_id = CreateShader(shader_component.path);
 
   // Create the shader wrapper with the given shader id
   Shader *shader = new Shader(shader_id);

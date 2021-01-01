@@ -50,6 +50,8 @@ CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o: ../include/e
 CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o: ../include/ecs/system/system_manager.hpp
 CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o: ../include/ecs/world/world.hpp
 CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o: ../include/helpers/loading_state.h
+CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o: ../include/rendering/models/frame_buffer.h
+CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o: ../include/rendering/models/g_buffer.h
 CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o: ../include/rendering/models/vertex.h
 CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o: ../include/rendering/render_context.h
 CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o: ../include/rendering/render_group.h
@@ -114,6 +116,8 @@ CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o: ../include/edito
 CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o: ../include/editor/imgui/element.hpp
 CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o: ../include/editor/imgui/window.hpp
 CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o: ../include/helpers/loading_state.h
+CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o: ../include/rendering/models/frame_buffer.h
+CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o: ../include/rendering/models/g_buffer.h
 CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o: ../include/rendering/models/vertex.h
 CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o: ../include/rendering/render_context.h
 CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o: ../include/rendering/render_group.h
@@ -175,6 +179,8 @@ CMakeFiles/GameEngine.dir/src/editor/core/windows/game_window.cpp.o: ../include/
 CMakeFiles/GameEngine.dir/src/editor/core/windows/game_window.cpp.o: ../include/editor/imgui/element.hpp
 CMakeFiles/GameEngine.dir/src/editor/core/windows/game_window.cpp.o: ../include/editor/imgui/window.hpp
 CMakeFiles/GameEngine.dir/src/editor/core/windows/game_window.cpp.o: ../include/helpers/loading_state.h
+CMakeFiles/GameEngine.dir/src/editor/core/windows/game_window.cpp.o: ../include/rendering/models/frame_buffer.h
+CMakeFiles/GameEngine.dir/src/editor/core/windows/game_window.cpp.o: ../include/rendering/models/g_buffer.h
 CMakeFiles/GameEngine.dir/src/editor/core/windows/game_window.cpp.o: ../include/rendering/models/vertex.h
 CMakeFiles/GameEngine.dir/src/editor/core/windows/game_window.cpp.o: ../include/rendering/render_context.h
 CMakeFiles/GameEngine.dir/src/editor/core/windows/game_window.cpp.o: ../include/rendering/render_group.h
@@ -208,6 +214,8 @@ CMakeFiles/GameEngine.dir/src/editor/core/windows/scene_window.cpp.o: ../include
 CMakeFiles/GameEngine.dir/src/editor/core/windows/scene_window.cpp.o: ../include/editor/imgui/element.hpp
 CMakeFiles/GameEngine.dir/src/editor/core/windows/scene_window.cpp.o: ../include/editor/imgui/window.hpp
 CMakeFiles/GameEngine.dir/src/editor/core/windows/scene_window.cpp.o: ../include/helpers/loading_state.h
+CMakeFiles/GameEngine.dir/src/editor/core/windows/scene_window.cpp.o: ../include/rendering/models/frame_buffer.h
+CMakeFiles/GameEngine.dir/src/editor/core/windows/scene_window.cpp.o: ../include/rendering/models/g_buffer.h
 CMakeFiles/GameEngine.dir/src/editor/core/windows/scene_window.cpp.o: ../include/rendering/models/vertex.h
 CMakeFiles/GameEngine.dir/src/editor/core/windows/scene_window.cpp.o: ../include/rendering/render_context.h
 CMakeFiles/GameEngine.dir/src/editor/core/windows/scene_window.cpp.o: ../include/rendering/render_group.h
@@ -243,6 +251,8 @@ CMakeFiles/GameEngine.dir/src/editor/editor.cpp.o: ../include/editor/editor.hpp
 CMakeFiles/GameEngine.dir/src/editor/editor.cpp.o: ../include/editor/imgui/element.hpp
 CMakeFiles/GameEngine.dir/src/editor/editor.cpp.o: ../include/editor/imgui/window.hpp
 CMakeFiles/GameEngine.dir/src/editor/editor.cpp.o: ../include/helpers/loading_state.h
+CMakeFiles/GameEngine.dir/src/editor/editor.cpp.o: ../include/rendering/models/frame_buffer.h
+CMakeFiles/GameEngine.dir/src/editor/editor.cpp.o: ../include/rendering/models/g_buffer.h
 CMakeFiles/GameEngine.dir/src/editor/editor.cpp.o: ../include/rendering/models/vertex.h
 CMakeFiles/GameEngine.dir/src/editor/editor.cpp.o: ../include/rendering/render_context.h
 CMakeFiles/GameEngine.dir/src/editor/editor.cpp.o: ../include/rendering/render_group.h
@@ -291,6 +301,8 @@ CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/editor/imgui/element.hpp
 CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/editor/imgui/window.hpp
 CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/errors/error_handler.h
 CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/helpers/loading_state.h
+CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/rendering/models/frame_buffer.h
+CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/rendering/models/g_buffer.h
 CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/rendering/models/vertex.h
 CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/rendering/render_context.h
 CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/rendering/render_group.h
@@ -349,6 +361,8 @@ CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../include/ecs/system
 CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../include/ecs/system/system_manager.hpp
 CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../include/ecs/world/world.hpp
 CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../include/helpers/loading_state.h
+CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../include/rendering/models/frame_buffer.h
+CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../include/rendering/models/g_buffer.h
 CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../include/rendering/models/vertex.h
 CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../include/rendering/render_context.h
 CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../include/rendering/render_group.h
@@ -380,6 +394,8 @@ CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.o: ../include/ecs/syst
 CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.o: ../include/ecs/system/system_manager.hpp
 CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.o: ../include/ecs/world/world.hpp
 CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.o: ../include/helpers/loading_state.h
+CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.o: ../include/rendering/models/frame_buffer.h
+CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.o: ../include/rendering/models/g_buffer.h
 CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.o: ../include/rendering/models/vertex.h
 CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.o: ../include/rendering/render_context.h
 CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.o: ../include/rendering/render_group.h

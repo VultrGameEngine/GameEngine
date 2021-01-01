@@ -1,8 +1,7 @@
 #pragma once
-// #include "../core/components/camera_component.h"
+#include "../../include/rendering/models/g_buffer.h"
 #include "../core/components/static_mesh_component.h"
 #include "render_context.h"
-// #include "../core/components/transform_component.h"
 #include "render_group.h"
 #include "vertex_buffer.h"
 #include <array>
@@ -19,11 +18,19 @@ public:
 
   bool Register(Entity entity);
 
+  void InitGBuffer(int width, int height);
   void Update(RenderContext context);
+  void LightPass(glm::vec3 view_position);
   void Flush();
 
 private:
   std::unordered_map<unsigned int, RenderGroup *> render_groups;
+  GBuffer *g_buffer;
+  struct Quad {
+    unsigned int vbo = 0;
+    unsigned int vao = 0;
+  } render_quad;
+  Shader *lighting_pass_shader;
 };
 
 } // namespace Renderer

@@ -7,10 +7,6 @@
 struct LoadedTexture {
   unsigned int id = 0;
   LoadingState loaded = notLoaded;
-  int width;
-  int height;
-  int bpp;
-  unsigned char *buffer;
 
   // Bind the texture
   void Bind(GLenum slot) {

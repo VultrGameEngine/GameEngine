@@ -55,7 +55,6 @@ void RenderSystem::Update(float delta_time) {
   // If no camera is in the scene, then something is wrong and we can't render
   if (camera != -1) {
     // This renders to the game scene, important for the editor
-    glBindFramebuffer(GL_FRAMEBUFFER, Get()->game.fbo);
 
     // Clear the screen
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -70,11 +69,10 @@ void RenderSystem::Update(float delta_time) {
     glViewport(0, 0, game.dimensions.x, game.dimensions.y);
 
     // Render both the skybox an the static meshes in the scene
-    RenderSkybox(GAME, camera_transform, camera_component);
+    // RenderSkybox(GAME, camera_transform, camera_component);
     RenderElements(GAME, camera_transform, camera_component, light);
 
     // Unbind the frame buffer
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
   } else {
     std::cout << "NO CAMERA FOUND" << std::endl;
   }
@@ -204,6 +202,7 @@ void RenderSystem::Resize(int width, int height, unsigned int type) {
     GenerateRenderTexture(&Get()->scene.fbo, &Get()->scene.render_texture,
                           &Get()->scene.rbo, width, height);
   }
+  Get()->renderer->InitGBuffer(width, height);
 }
 
 glm::vec2 RenderSystem::GetDimensions(unsigned int type) {
