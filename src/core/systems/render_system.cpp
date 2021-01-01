@@ -69,7 +69,7 @@ void RenderSystem::Update(float delta_time) {
     glViewport(0, 0, game.dimensions.x, game.dimensions.y);
 
     // Render both the skybox an the static meshes in the scene
-    RenderSkybox(GAME, camera_transform, camera_component);
+    // RenderSkybox(GAME, camera_transform, camera_component);
     RenderElements(GAME, camera_transform, camera_component, light);
 
     // Unbind the frame buffer
@@ -116,7 +116,7 @@ void RenderSystem::RenderElements(unsigned int type,
       .camera_transform = camera_transform,
       .camera_component = camera_component,
   });
-  // renderer->LightPass(camera_transform.position);
+  renderer->LightPass(camera_transform.position);
 }
 
 void RenderSystem::RenderSkybox(unsigned int type,

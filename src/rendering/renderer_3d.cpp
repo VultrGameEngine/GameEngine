@@ -9,9 +9,6 @@ Renderer3D::Renderer3D() {}
 Renderer3D::~Renderer3D() {}
 
 void Renderer3D::InitGBuffer(int width, int height) {
-  if (g_buffer != nullptr) {
-    delete g_buffer;
-  }
   g_buffer = new GBuffer();
   g_buffer->Init(width, height);
 
@@ -33,21 +30,19 @@ void Renderer3D::InitGBuffer(int width, int height) {
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float),
                           (void *)(3 * sizeof(float)));
   }
-  if (lighting_pass_shader == nullptr) {
-    lighting_pass_shader = new Shader(
-        ShaderLoaderSystem::CreateShader("res/shaders/lighting_pass.glsl"));
-  }
+  lighting_pass_shader = new Shader(
+      ShaderLoaderSystem::CreateShader("res/shaders/lighting_pass.glsl"));
 }
 
 void Renderer3D::LightPass(glm::vec3 view_position) {
+  g_buffer->Unbind();
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   // Bind the position, normal, and albedo textures
   g_buffer->BindTextures();
   lighting_pass_shader->Bind();
   // TODO make this dynamic
-  lighting_pass_shader->SetUniform3f("lights[0].Position",
-                                     glm::vec3(10, 10, 10));
+  lighting_pass_shader->SetUniform3f("lights[0].Position", glm::vec3(4, 0, 0));
   lighting_pass_shader->SetUniform3f("lights[0].Color", glm::vec3(1, 0, 0));
   const float linear = 0.7;
   const float quadratic = 1.8;
@@ -55,10 +50,13 @@ void Renderer3D::LightPass(glm::vec3 view_position) {
   lighting_pass_shader->SetUniform1f("lights[0].Quadratic", quadratic);
 
   lighting_pass_shader->SetUniform3f("viewPos", view_position);
-  lighting_pass_shader->Unbind();
+  lighting_pass_shader->SetUniform1i("gPosition", 0);
+  lighting_pass_shader->SetUniform1i("gNormal", 1);
+  lighting_pass_shader->SetUniform1i("gAlbedoSpec", 2);
   glBindVertexArray(render_quad.vao);
   glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
   glBindVertexArray(0);
+  lighting_pass_shader->Unbind();
 }
 
 bool Renderer3D::Register(Entity entity) {
@@ -87,14 +85,15 @@ bool Renderer3D::Register(Entity entity) {
 void Renderer3D::Update(RenderContext context) {
   if (render_groups.size() == 0)
     return;
-  // if (g_buffer == nullptr)
-  //   return;
-  // g_buffer->Bind();
+  if (g_buffer == nullptr)
+    return;
+  g_buffer->Bind();
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   for (const auto &[shader_id, group] : render_groups) {
     if (group != nullptr)
       group->Render(context);
   }
-  // g_buffer->Unbind();
+  g_buffer->Unbind();
 }
 
 void Renderer3D::Flush() {

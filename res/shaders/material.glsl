@@ -27,10 +27,10 @@ void main()
 #version 330 core
 #extension GL_ARB_separate_shader_objects: enable
 
-/* layout (location = 0) out vec3 gPosition; */
-/* layout (location = 1) out vec3 gNormal; */
-/* layout (location = 2) out vec4 gAlbedoSpec; */
-out vec4 color;
+layout (location = 0) out vec3 gPosition;
+layout (location = 1) out vec3 gNormal;
+layout (location = 2) out vec4 gAlbedoSpec;
+/* out vec4 color; */
 
 in vec3 FragPos;
 in vec3 Normal;
@@ -48,31 +48,31 @@ uniform Material material;
 
 void main()
 {
-    /* gPosition = FragPos; */
+    gPosition = FragPos;
 
-    /* gNormal = normalize(Normal); */
+    gNormal = normalize(Normal);
 
-    /* gAlbedoSpec.rgb = texture(textureSampler, FragUV).rgb; */
+    gAlbedoSpec.rgb = texture(material.diffuse, FragUV).rgb;
 
-    /* gAlbedoSpec.a = 1; */
+    gAlbedoSpec.a = texture(material.specular, FragUV).r;
         // ambient
-    float ambientStrength = 0.1f;
-    vec3 ambient = ambientStrength * lightColor * texture(material.diffuse, FragUV).rgb;
+    /* float ambientStrength = 0.1f; */
+    /* vec3 ambient = ambientStrength * lightColor * texture(material.diffuse, FragUV).rgb; */
     
-    // diffuse
-    vec3 norm = normalize(Normal);
-    vec3 lightDir = normalize(lightPos - FragPos);
-    float diff = max(dot(norm, lightDir), 0.0);
-    vec3 diffuse = diff * lightColor * texture(material.diffuse, FragUV).rgb;
+    /* // diffuse */
+    /* vec3 norm = normalize(Normal); */
+    /* vec3 lightDir = normalize(lightPos - FragPos); */
+    /* float diff = max(dot(norm, lightDir), 0.0); */
+    /* vec3 diffuse = diff * lightColor * texture(material.diffuse, FragUV).rgb; */
 
-    // specular
-    vec3 viewDir = normalize(viewPos - FragPos);
-    vec3 reflectDir = reflect(-lightDir, norm);
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), 64);
-    vec3 specular = spec * lightColor * texture(material.specular, FragUV).rgb;
+    /* // specular */
+    /* vec3 viewDir = normalize(viewPos - FragPos); */
+    /* vec3 reflectDir = reflect(-lightDir, norm); */
+    /* float spec = pow(max(dot(viewDir, reflectDir), 0.0), 64); */
+    /* vec3 specular = spec * lightColor * texture(material.specular, FragUV).rgb; */
     
-    vec3 result = (ambient + diffuse + specular) * objectColor;
+    /* vec3 result = (ambient + diffuse + specular) * objectColor; */
 
-    // color = vec4(result, 1.0f);
-    color = vec4(result, 1.0f);
+    /* // color = vec4(result, 1.0f); */
+    /* color = vec4(result, 1.0f); */
 }

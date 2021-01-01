@@ -122,8 +122,8 @@ int main(void) {
   World::AddComponent(light,
                       TransformComponent{.position = glm::vec3(4, 0, 0)});
 
-  // RenderSystem::Resize(1920, 1080, GAME);
-  // RenderSystem::Resize(1920, 1080, SCENE);
+  RenderSystem::Resize(1920, 1080, GAME);
+  RenderSystem::Resize(1920, 1080, SCENE);
 
   /* Loop until the user closes the window */
   while (!glfwWindowShouldClose(window)) {

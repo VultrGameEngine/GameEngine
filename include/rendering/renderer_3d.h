@@ -31,6 +31,9 @@ private:
     unsigned int vao = 0;
   } render_quad;
   Shader *lighting_pass_shader;
+  const unsigned int NR_LIGHTS = 1;
+  std::vector<glm::vec3> lightPositions;
+  std::vector<glm::vec3> lightColors;
 };
 
 } // namespace Renderer
