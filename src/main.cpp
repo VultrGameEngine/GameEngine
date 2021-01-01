@@ -78,13 +78,15 @@ int main(void) {
   Entity xwing = World::CreateEntity();
 
   World::AddComponent(xwing, StaticMeshComponent{
-                                 .path = "res/models/cube.obj",
+                                 .path = "res/models/Clone.obj",
                              });
-  World::AddComponent(xwing,
-                      TransformComponent{.position = glm::vec3(0, 0, 0)});
+  World::AddComponent(xwing, TransformComponent{
+                                 .position = glm::vec3(0, 0, 0),
+                                 .scale = glm::vec3(5, 5, 5),
+                             });
   World::AddComponent(xwing, TextureComponent{
-                                 .diffuse = "res/textures/cube/diffuse.png",
-                                 .specular = "res/textures/cube/specular.png",
+                                 .diffuse = "res/textures/clone/albedo.jpeg",
+                                 .specular = "res/textures/clone/specular.jpeg",
                              });
   World::AddComponent(xwing, ShaderComponent{
                                  .path = "res/shaders/material.glsl",
@@ -102,7 +104,9 @@ int main(void) {
   World::AddComponent(camera,
                       TransformComponent{.position = glm::vec3(4, 4, 4)});
 
-  World::AddComponent(camera, ControllerComponent{});
+  World::AddComponent(camera, ControllerComponent{
+                                  .sens = 0.05,
+                              });
   World::AddComponent(camera, SkyBoxComponent{
                                   .identifier = "default",
                                   .front = "res/textures/skybox/front.jpg",
@@ -119,8 +123,17 @@ int main(void) {
 
   World::AddComponent(light, LightComponent{});
 
-  World::AddComponent(light,
-                      TransformComponent{.position = glm::vec3(4, 0, 0)});
+  World::AddComponent(light, TransformComponent{
+                                 .position = glm::vec3(0, 0, 2),
+                                 .scale = glm::vec3(0.2, 0.2, 0.2),
+                             });
+  World::AddComponent(light, ShaderComponent{
+                                 .path = "res/shaders/unlit.glsl",
+                                 .type = Renderer::Forward,
+                             });
+  World::AddComponent(light, StaticMeshComponent{
+                                 .path = "res/models/cube.obj",
+                             });
 
   RenderSystem::Resize(1920, 1080, GAME);
   RenderSystem::Resize(1920, 1080, SCENE);

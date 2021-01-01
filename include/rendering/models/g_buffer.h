@@ -56,11 +56,12 @@ public:
 
   void Resize(int width, int height) {
     if (this->position != 0) {
-      glDeleteFramebuffers(1, &this->id);
-      glDeleteTextures(1, &this->position);
-      glDeleteTextures(1, &this->normal);
-      glDeleteTextures(1, &this->color_specular);
-      glDeleteRenderbuffers(1, &this->rbo_depth);
+      return;
+      // glDeleteFramebuffers(1, &this->id);
+      // glDeleteTextures(1, &this->position);
+      // glDeleteTextures(1, &this->normal);
+      // glDeleteTextures(1, &this->color_specular);
+      // glDeleteRenderbuffers(1, &this->rbo_depth);
     }
     Init(width, height);
   }

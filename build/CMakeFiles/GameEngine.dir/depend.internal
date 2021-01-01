@@ -56,6 +56,7 @@ CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o
  /home/brandon/Desktop/Dev/GameEngine/include/rendering/models/vertex.h
  /home/brandon/Desktop/Dev/GameEngine/include/rendering/render_context.h
  /home/brandon/Desktop/Dev/GameEngine/include/rendering/render_group.h
+ /home/brandon/Desktop/Dev/GameEngine/include/rendering/render_type.h
  /home/brandon/Desktop/Dev/GameEngine/include/rendering/renderer_3d.h
  /home/brandon/Desktop/Dev/GameEngine/include/rendering/vertex_buffer.h
  /home/brandon/Desktop/Dev/GameEngine/src/core/systems/controller_system.cpp
@@ -122,6 +123,7 @@ CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o
  /home/brandon/Desktop/Dev/GameEngine/include/rendering/models/vertex.h
  /home/brandon/Desktop/Dev/GameEngine/include/rendering/render_context.h
  /home/brandon/Desktop/Dev/GameEngine/include/rendering/render_group.h
+ /home/brandon/Desktop/Dev/GameEngine/include/rendering/render_type.h
  /home/brandon/Desktop/Dev/GameEngine/include/rendering/renderer_3d.h
  /home/brandon/Desktop/Dev/GameEngine/include/rendering/vertex_buffer.h
  /home/brandon/Desktop/Dev/GameEngine/src/core/systems/render_system.cpp
@@ -138,6 +140,7 @@ CMakeFiles/GameEngine.dir/src/core/systems/shader_loader_system.cpp.o
  /home/brandon/Desktop/Dev/GameEngine/include/ecs/system/system_manager.hpp
  /home/brandon/Desktop/Dev/GameEngine/include/ecs/world/world.hpp
  /home/brandon/Desktop/Dev/GameEngine/include/helpers/loading_state.h
+ /home/brandon/Desktop/Dev/GameEngine/include/rendering/render_type.h
  /home/brandon/Desktop/Dev/GameEngine/src/core/systems/shader_loader_system.cpp
 CMakeFiles/GameEngine.dir/src/core/systems/texture_loader_system.cpp.o
  /home/brandon/Desktop/Dev/GameEngine/include/core/components/sky_box_component.h
@@ -185,6 +188,7 @@ CMakeFiles/GameEngine.dir/src/editor/core/windows/game_window.cpp.o
  /home/brandon/Desktop/Dev/GameEngine/include/rendering/models/vertex.h
  /home/brandon/Desktop/Dev/GameEngine/include/rendering/render_context.h
  /home/brandon/Desktop/Dev/GameEngine/include/rendering/render_group.h
+ /home/brandon/Desktop/Dev/GameEngine/include/rendering/render_type.h
  /home/brandon/Desktop/Dev/GameEngine/include/rendering/renderer_3d.h
  /home/brandon/Desktop/Dev/GameEngine/include/rendering/vertex_buffer.h
  /home/brandon/Desktop/Dev/GameEngine/src/editor/core/windows/game_window.cpp
@@ -220,6 +224,7 @@ CMakeFiles/GameEngine.dir/src/editor/core/windows/scene_window.cpp.o
  /home/brandon/Desktop/Dev/GameEngine/include/rendering/models/vertex.h
  /home/brandon/Desktop/Dev/GameEngine/include/rendering/render_context.h
  /home/brandon/Desktop/Dev/GameEngine/include/rendering/render_group.h
+ /home/brandon/Desktop/Dev/GameEngine/include/rendering/render_type.h
  /home/brandon/Desktop/Dev/GameEngine/include/rendering/renderer_3d.h
  /home/brandon/Desktop/Dev/GameEngine/include/rendering/vertex_buffer.h
  /home/brandon/Desktop/Dev/GameEngine/src/editor/core/windows/scene_window.cpp
@@ -257,6 +262,7 @@ CMakeFiles/GameEngine.dir/src/editor/editor.cpp.o
  /home/brandon/Desktop/Dev/GameEngine/include/rendering/models/vertex.h
  /home/brandon/Desktop/Dev/GameEngine/include/rendering/render_context.h
  /home/brandon/Desktop/Dev/GameEngine/include/rendering/render_group.h
+ /home/brandon/Desktop/Dev/GameEngine/include/rendering/render_type.h
  /home/brandon/Desktop/Dev/GameEngine/include/rendering/renderer_3d.h
  /home/brandon/Desktop/Dev/GameEngine/include/rendering/vertex_buffer.h
  /home/brandon/Desktop/Dev/GameEngine/src/editor/editor.cpp
@@ -307,6 +313,7 @@ CMakeFiles/GameEngine.dir/src/main.cpp.o
  /home/brandon/Desktop/Dev/GameEngine/include/rendering/models/vertex.h
  /home/brandon/Desktop/Dev/GameEngine/include/rendering/render_context.h
  /home/brandon/Desktop/Dev/GameEngine/include/rendering/render_group.h
+ /home/brandon/Desktop/Dev/GameEngine/include/rendering/render_type.h
  /home/brandon/Desktop/Dev/GameEngine/include/rendering/renderer_3d.h
  /home/brandon/Desktop/Dev/GameEngine/include/rendering/vertex_buffer.h
  /home/brandon/Desktop/Dev/GameEngine/src/main.cpp
@@ -339,6 +346,7 @@ CMakeFiles/GameEngine.dir/src/rendering/render_group.cpp.o
  /home/brandon/Desktop/Dev/GameEngine/include/rendering/models/vertex.h
  /home/brandon/Desktop/Dev/GameEngine/include/rendering/render_context.h
  /home/brandon/Desktop/Dev/GameEngine/include/rendering/render_group.h
+ /home/brandon/Desktop/Dev/GameEngine/include/rendering/render_type.h
  /home/brandon/Desktop/Dev/GameEngine/src/rendering/render_group.cpp
 CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o
  /home/brandon/Desktop/Dev/GameEngine/include/core/components/camera_component.h
@@ -367,6 +375,7 @@ CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o
  /home/brandon/Desktop/Dev/GameEngine/include/rendering/models/vertex.h
  /home/brandon/Desktop/Dev/GameEngine/include/rendering/render_context.h
  /home/brandon/Desktop/Dev/GameEngine/include/rendering/render_group.h
+ /home/brandon/Desktop/Dev/GameEngine/include/rendering/render_type.h
  /home/brandon/Desktop/Dev/GameEngine/include/rendering/renderer_3d.h
  /home/brandon/Desktop/Dev/GameEngine/include/rendering/vertex_buffer.h
  /home/brandon/Desktop/Dev/GameEngine/src/rendering/renderer_3d.cpp
@@ -400,6 +409,7 @@ CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.o
  /home/brandon/Desktop/Dev/GameEngine/include/rendering/models/vertex.h
  /home/brandon/Desktop/Dev/GameEngine/include/rendering/render_context.h
  /home/brandon/Desktop/Dev/GameEngine/include/rendering/render_group.h
+ /home/brandon/Desktop/Dev/GameEngine/include/rendering/render_type.h
  /home/brandon/Desktop/Dev/GameEngine/include/rendering/renderer_3d.h
  /home/brandon/Desktop/Dev/GameEngine/include/rendering/vertex_buffer.h
  /home/brandon/Desktop/Dev/GameEngine/src/rendering/vertex_buffer.cpp

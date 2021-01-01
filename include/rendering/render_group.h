@@ -9,6 +9,7 @@
 #include "../ecs/entity/entity.hpp"
 #include "../ecs/world/world.hpp"
 #include "render_context.h"
+#include "render_type.h"
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <memory>
@@ -64,7 +65,7 @@ public:
 
   ~RenderGroup() { delete shader; }
 
-  void Render(RenderContext context);
+  void Render(RenderContext context, RenderType type);
   void RegisterEntity(Entity entity);
 
   inline static int GetMaxTextures() {

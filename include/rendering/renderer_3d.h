@@ -3,6 +3,7 @@
 #include "../core/components/static_mesh_component.h"
 #include "render_context.h"
 #include "render_group.h"
+#include "render_type.h"
 #include "vertex_buffer.h"
 #include <array>
 #include <unordered_map>
@@ -19,12 +20,14 @@ public:
   bool Register(Entity entity);
 
   void InitGBuffer(int width, int height);
-  void Update(RenderContext context);
-  void LightPass(glm::vec3 view_position);
+  void DeferredGeometryPass(RenderContext context);
+  void LightPass(RenderContext context);
+  void ForwardRenderingPass(RenderContext context);
   void Flush();
 
 private:
-  std::unordered_map<unsigned int, RenderGroup *> render_groups;
+  std::unordered_map<unsigned int, RenderGroup *> render_groups_deferred;
+  std::unordered_map<unsigned int, RenderGroup *> render_groups_forward;
   GBuffer *g_buffer;
   struct Quad {
     unsigned int vbo = 0;

@@ -109,14 +109,17 @@ void RenderSystem::RenderElements(unsigned int type,
   // Get the transform of the light
   auto &light_transform = World::GetComponent<TransformComponent>(light);
 
-  // Update the renderer
-  renderer->Update(Renderer::RenderContext{
+  // Create a render context
+  Renderer::RenderContext context = Renderer::RenderContext{
       .dimensions = GetDimensions(type),
       .light_position = light_transform.position,
       .camera_transform = camera_transform,
       .camera_component = camera_component,
-  });
-  renderer->LightPass(camera_transform.position);
+  };
+  // Update the renderer
+  renderer->DeferredGeometryPass(context);
+  renderer->LightPass(context);
+  renderer->ForwardRenderingPass(context);
 }
 
 void RenderSystem::RenderSkybox(unsigned int type,
@@ -180,7 +183,6 @@ void RenderSystem::RenderSkybox(unsigned int type,
 std::shared_ptr<RenderSystem> RenderSystem::RegisterSystem() {
   std::shared_ptr<RenderSystem> ptr = World::RegisterSystem<RenderSystem>();
   ptr->signature.set(World::GetComponentType<ShaderComponent>(), true);
-  ptr->signature.set(World::GetComponentType<TextureComponent>(), true);
   ptr->signature.set(World::GetComponentType<StaticMeshComponent>(), true);
 
   World::SetSignature<RenderSystem>(ptr->signature);
