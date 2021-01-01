@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-struct TextureComponent
-{
-    std::string path;
+struct TextureComponent {
+  std::string diffuse;
+  std::string specular;
 };

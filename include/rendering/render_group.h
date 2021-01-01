@@ -19,12 +19,22 @@
 namespace Renderer {
 struct RenderEntity {
   Entity entity;
-  LoadedTexture *GetTexture() {
+  LoadedTexture *GetDiffuse() {
     // Get the texture component
     TextureComponent &component = World::GetComponent<TextureComponent>(entity);
 
     // Get the loaded texture
-    LoadedTexture *texture = TextureLoaderSystem::GetTexture(component.path);
+    LoadedTexture *texture = TextureLoaderSystem::GetTexture(component.diffuse);
+    return texture;
+  }
+
+  LoadedTexture *GetSpecular() {
+    // Get the texture component
+    TextureComponent &component = World::GetComponent<TextureComponent>(entity);
+
+    // Get the loaded texture
+    LoadedTexture *texture =
+        TextureLoaderSystem::GetTexture(component.specular);
     return texture;
   }
 

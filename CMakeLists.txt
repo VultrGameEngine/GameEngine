@@ -28,6 +28,8 @@ FILE(COPY res/textures/skybox/left.jpg DESTINATION "${CMAKE_BINARY_DIR}/res/text
 FILE(COPY res/textures/skybox/right.jpg DESTINATION "${CMAKE_BINARY_DIR}/res/textures/skybox")
 FILE(COPY res/textures/skybox/front.jpg DESTINATION "${CMAKE_BINARY_DIR}/res/textures/skybox")
 FILE(COPY res/textures/skybox/back.jpg DESTINATION "${CMAKE_BINARY_DIR}/res/textures/skybox")
+FILE(COPY res/textures/cube/specular.png DESTINATION "${CMAKE_BINARY_DIR}/res/textures/cube")
+FILE(COPY res/textures/cube/diffuse.png DESTINATION "${CMAKE_BINARY_DIR}/res/textures/cube")
 FILE(COPY res/models/cube.obj DESTINATION "${CMAKE_BINARY_DIR}/res/models")
 FILE(COPY res/models/XWing.obj DESTINATION "${CMAKE_BINARY_DIR}/res/models")
 

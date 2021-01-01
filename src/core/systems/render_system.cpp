@@ -69,7 +69,7 @@ void RenderSystem::Update(float delta_time) {
     glViewport(0, 0, game.dimensions.x, game.dimensions.y);
 
     // Render both the skybox an the static meshes in the scene
-    // RenderSkybox(GAME, camera_transform, camera_component);
+    RenderSkybox(GAME, camera_transform, camera_component);
     RenderElements(GAME, camera_transform, camera_component, light);
 
     // Unbind the frame buffer
@@ -116,6 +116,7 @@ void RenderSystem::RenderElements(unsigned int type,
       .camera_transform = camera_transform,
       .camera_component = camera_component,
   });
+  // renderer->LightPass(camera_transform.position);
 }
 
 void RenderSystem::RenderSkybox(unsigned int type,
@@ -187,6 +188,7 @@ std::shared_ptr<RenderSystem> RenderSystem::RegisterSystem() {
 }
 
 void RenderSystem::Resize(int width, int height, unsigned int type) {
+  Get()->renderer->InitGBuffer(width, height);
   if (type == GAME) {
     if (Get()->game.dimensions == glm::vec2(width, height)) {
       return;
@@ -202,7 +204,6 @@ void RenderSystem::Resize(int width, int height, unsigned int type) {
     GenerateRenderTexture(&Get()->scene.fbo, &Get()->scene.render_texture,
                           &Get()->scene.rbo, width, height);
   }
-  Get()->renderer->InitGBuffer(width, height);
 }
 
 glm::vec2 RenderSystem::GetDimensions(unsigned int type) {

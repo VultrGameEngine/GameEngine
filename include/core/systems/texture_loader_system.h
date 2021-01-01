@@ -20,7 +20,7 @@ public:
   static void Import(std::string path, LoadedTexture &texture);
   static void ImportSkybox(std::vector<std::string> paths,
                            LoadedTexture &texture);
-  static LoadedTexture *GetTexture(std::string mesh);
+  static LoadedTexture *GetTexture(std::string texture);
 
 private:
   static bool isLoaded(std::string texture);

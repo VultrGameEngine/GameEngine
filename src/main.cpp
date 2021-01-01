@@ -72,25 +72,26 @@ int main(void) {
   CameraSystem::Get();
   LightSystem::Get();
 
-  for (int i = 0; i < 10; i++) {
-    for (int j = 0; j < 10; j++) {
-      // for (int k = 0; k < 10; k++) {
-      Entity xwing = World::CreateEntity();
+  // for (int i = 0; i < 10; i++) {
+  //   for (int j = 0; j < 10; j++) {
+  // for (int k = 0; k < 10; k++) {
+  Entity xwing = World::CreateEntity();
 
-      World::AddComponent(xwing, StaticMeshComponent{
-                                     .path = "res/models/XWing.obj",
-                                 });
-      World::AddComponent(
-          xwing, TransformComponent{.position = glm::vec3(i * 3, 0, j * 5)});
-      World::AddComponent(xwing, TextureComponent{
-                                     .path = "res/textures/XWing.png",
-                                 });
-      World::AddComponent(xwing, ShaderComponent{
-                                     .path = "res/shaders/material.glsl",
-                                 });
-      // }
-    }
-  }
+  World::AddComponent(xwing, StaticMeshComponent{
+                                 .path = "res/models/cube.obj",
+                             });
+  World::AddComponent(xwing,
+                      TransformComponent{.position = glm::vec3(0, 0, 0)});
+  World::AddComponent(xwing, TextureComponent{
+                                 .diffuse = "res/textures/cube/diffuse.png",
+                                 .specular = "res/textures/cube/specular.png",
+                             });
+  World::AddComponent(xwing, ShaderComponent{
+                                 .path = "res/shaders/material.glsl",
+                             });
+  // }
+  // }
+  // }
 
   Entity camera = World::CreateEntity();
 
@@ -119,10 +120,10 @@ int main(void) {
   World::AddComponent(light, LightComponent{});
 
   World::AddComponent(light,
-                      TransformComponent{.position = glm::vec3(4, 4, 4)});
+                      TransformComponent{.position = glm::vec3(4, 0, 0)});
 
-  RenderSystem::Resize(1920, 1080, GAME);
-  RenderSystem::Resize(1920, 1080, SCENE);
+  // RenderSystem::Resize(1920, 1080, GAME);
+  // RenderSystem::Resize(1920, 1080, SCENE);
 
   /* Loop until the user closes the window */
   while (!glfwWindowShouldClose(window)) {

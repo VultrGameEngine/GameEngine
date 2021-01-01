@@ -48,7 +48,7 @@ void Renderer3D::LightPass(glm::vec3 view_position) {
   // TODO make this dynamic
   lighting_pass_shader->SetUniform3f("lights[0].Position",
                                      glm::vec3(10, 10, 10));
-  lighting_pass_shader->SetUniform3f("lights[0].Color", glm::vec3(1, 1, 1));
+  lighting_pass_shader->SetUniform3f("lights[0].Color", glm::vec3(1, 0, 0));
   const float linear = 0.7;
   const float quadratic = 1.8;
   lighting_pass_shader->SetUniform1f("lights[0].Linear", linear);
@@ -89,12 +89,12 @@ void Renderer3D::Update(RenderContext context) {
     return;
   // if (g_buffer == nullptr)
   //   return;
-  g_buffer->Bind();
+  // g_buffer->Bind();
   for (const auto &[shader_id, group] : render_groups) {
     if (group != nullptr)
       group->Render(context);
   }
-  g_buffer->Unbind();
+  // g_buffer->Unbind();
 }
 
 void Renderer3D::Flush() {

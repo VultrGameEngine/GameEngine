@@ -35,9 +35,13 @@ std::shared_ptr<TextureLoaderSystem> TextureLoaderSystem::RegisterSystem() {
 void TextureLoaderSystem::Update() {
   for (Entity entity : entities) {
     auto &component = World::GetComponent<TextureComponent>(entity);
-    if (!isLoaded(component.path)) {
-      state.textures[component.path] = {};
-      Import(component.path, state.textures[component.path]);
+    if (!isLoaded(component.diffuse)) {
+      state.textures[component.diffuse] = {};
+      Import(component.diffuse, state.textures[component.diffuse]);
+    }
+    if (!isLoaded(component.specular)) {
+      state.textures[component.specular] = {};
+      Import(component.specular, state.textures[component.specular]);
     }
   }
   Signature skybox_signature;
@@ -50,9 +54,9 @@ void TextureLoaderSystem::Update() {
     }
   }
 }
-LoadedTexture *TextureLoaderSystem::GetTexture(std::string mesh) {
-  if (isLoaded(mesh)) {
-    return &(state.textures[mesh]);
+LoadedTexture *TextureLoaderSystem::GetTexture(std::string path) {
+  if (isLoaded(path)) {
+    return &(state.textures[path]);
   } else {
     return nullptr;
   }

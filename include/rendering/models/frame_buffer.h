@@ -13,6 +13,6 @@ public:
   ~FrameBuffer() {}
 
 protected:
-  unsigned int id;
+  unsigned int id = 0;
 };
 } // namespace Renderer

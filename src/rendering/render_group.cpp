@@ -64,7 +64,8 @@ void RenderGroup::Render(RenderContext context) {
     }
 
     // Bind the entity's texture
-    entity.GetTexture()->Bind(GL_TEXTURE0);
+    entity.GetDiffuse()->Bind(GL_TEXTURE0);
+    entity.GetSpecular()->Bind(GL_TEXTURE1);
 
     TransformComponent &transform_component =
         World::GetComponent<TransformComponent>(entity.entity);
@@ -78,7 +79,8 @@ void RenderGroup::Render(RenderContext context) {
     this->shader->SetUniform3f("objectColor", glm::vec3(1.0f, 1.0f, 1.0f));
     this->shader->SetUniform3f("viewPos", context.camera_transform.position);
 
-    this->shader->SetUniform1i("textureSampler", 0);
+    this->shader->SetUniform1i("material.diffuse", 0);
+    this->shader->SetUniform1i("material.specular", 1);
 
     // Bind the vao and ibo
     glBindVertexArray(loaded_mesh->vao);
@@ -100,9 +102,14 @@ void RenderGroup::RegisterEntity(Entity entity) {
   TextureComponent &texture_component =
       World::GetComponent<TextureComponent>(entity);
 
-  LoadedTexture *texture =
-      TextureLoaderSystem::GetTexture(texture_component.path);
-  if (texture == nullptr)
+  LoadedTexture *diffuse =
+      TextureLoaderSystem::GetTexture(texture_component.diffuse);
+  if (diffuse == nullptr)
+    return;
+
+  LoadedTexture *specular =
+      TextureLoaderSystem::GetTexture(texture_component.specular);
+  if (specular == nullptr)
     return;
 
   // Generate the render entity
