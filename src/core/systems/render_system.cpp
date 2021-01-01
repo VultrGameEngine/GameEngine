@@ -52,11 +52,6 @@ void RenderSystem::Update(float delta_time) {
   if (light == -1)
     return;
 
-  // Get the transform of the scene camera
-  auto &camera_transform =
-      CameraSystem::Get()->scene_camera.transform_component;
-  auto &camera_component = CameraSystem::Get()->scene_camera.camera_component;
-
   // If no camera is in the scene, then something is wrong and we can't render
   if (camera != -1) {
     // This renders to the game scene, important for the editor
@@ -84,21 +79,27 @@ void RenderSystem::Update(float delta_time) {
     std::cout << "NO CAMERA FOUND" << std::endl;
   }
 
-  // Always will have a scene camera, render to the editor scene view
-  glBindFramebuffer(GL_FRAMEBUFFER, Get()->scene.fbo);
+  // // Get the transform of the scene camera
+  // auto &camera_transform =
+  //     CameraSystem::Get()->scene_camera.transform_component;
+  // auto &camera_component =
+  // CameraSystem::Get()->scene_camera.camera_component;
 
-  // Clear the screen
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  // // Always will have a scene camera, render to the editor scene view
+  // glBindFramebuffer(GL_FRAMEBUFFER, Get()->scene.fbo);
 
-  // Set the viewport to match that in the editor
-  glViewport(0, 0, scene.dimensions.x, scene.dimensions.y);
+  // // Clear the screen
+  // glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-  // Render both the skybox and the static meshes in the scene
-  RenderSkybox(SCENE, camera_transform, camera_component);
-  RenderElements(SCENE, camera_transform, camera_component, light);
+  // // Set the viewport to match that in the editor
+  // glViewport(0, 0, scene.dimensions.x, scene.dimensions.y);
 
-  // Unbind the frame buffer
-  glBindFramebuffer(GL_FRAMEBUFFER, 0);
+  // // Render both the skybox and the static meshes in the scene
+  // RenderSkybox(SCENE, camera_transform, camera_component);
+  // RenderElements(SCENE, camera_transform, camera_component, light);
+
+  // // Unbind the frame buffer
+  // glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 // Render all of the static meshes in the scene

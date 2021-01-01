@@ -87,7 +87,8 @@ void TextureLoaderSystem::ImportSkybox(std::vector<std::string> paths,
   texture.loaded = loading;
   stbi_set_flip_vertically_on_load(0);
   glGenTextures(1, &texture.id);
-  glBindTexture(GL_TEXTURE_2D, texture.id);
+  glActiveTexture(GL_TEXTURE0);
+  glBindTexture(GL_TEXTURE_CUBE_MAP, texture.id);
 
   int width, height, nrChannels;
   for (unsigned int i = 0; i < paths.size(); i++) {
