@@ -4,7 +4,11 @@
 namespace Renderer {
 class GBuffer : public FrameBuffer {
 public:
-  GBuffer() {}
+  GBuffer() {
+    pnc_attachments = new unsigned int[3]{
+        GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2};
+    light_attachments = new unsigned int[1]{GL_COLOR_ATTACHMENT3};
+  }
   ~GBuffer() {}
 
   void Init(int width, int height) {
@@ -40,11 +44,19 @@ public:
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT2, GL_TEXTURE_2D,
                            this->color_specular, 0);
+    SetWritePNC();
 
-    // Tell opengl with color attachmnts we're using for rendering
-    unsigned int attachments[3] = {GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1,
-                                   GL_COLOR_ATTACHMENT2};
-    glDrawBuffers(3, attachments);
+    // - light buffer
+    glGenTextures(1, &this->light);
+    glBindTexture(GL_TEXTURE_2D, this->light);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, width, height, 0, GL_RGBA,
+                 GL_FLOAT, NULL);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT3, GL_TEXTURE_2D,
+                           light, 0);
 
     // Generate the render buffer for depth
     glGenRenderbuffers(1, &this->rbo_depth);
@@ -66,20 +78,46 @@ public:
     Init(width, height);
   }
 
-  void BindTextures() {
-    glActiveTexture(GL_TEXTURE0);
+  void BindPositionTexture(unsigned int slot = 0) {
+    glActiveTexture(GL_TEXTURE0 + slot);
     glBindTexture(GL_TEXTURE_2D, position);
-    glActiveTexture(GL_TEXTURE1);
+  }
+
+  void BindNormalTexture(unsigned int slot = 1) {
+    glActiveTexture(GL_TEXTURE0 + slot);
     glBindTexture(GL_TEXTURE_2D, normal);
-    glActiveTexture(GL_TEXTURE2);
+  }
+
+  void BindColorSpecularTexture(unsigned int slot = 2) {
+    glActiveTexture(GL_TEXTURE0 + slot);
     glBindTexture(GL_TEXTURE_2D, color_specular);
   }
+
+  void BindLightSpecularTexture(unsigned int slot = 3) {
+    glActiveTexture(GL_TEXTURE0 + slot);
+    glBindTexture(GL_TEXTURE_2D, light);
+  }
+
+  // Set the draw buffers to be the postion, color, and normals
+  void SetWritePNC() {
+    // Tell opengl with color attachmnts we're using for rendering
+    glDrawBuffers(3, pnc_attachments);
+  }
+
+  // Set the draw buffers to be the light
+  void SetWriteLight() { glDrawBuffers(1, light_attachments); }
+
+  void SetWriteNone() { glDrawBuffer(GL_NONE); }
 
 private:
   unsigned int position = 0;
   unsigned int normal = 0;
   unsigned int color_specular = 0;
+  unsigned int light = 0;
   unsigned int rbo_depth = 0;
+
+  unsigned int *pnc_attachments;
+  unsigned int *light_attachments;
 
   int width = 1920;
   int height = 1080;

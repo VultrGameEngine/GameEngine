@@ -55,24 +55,4 @@ void main()
     gAlbedoSpec.rgb = texture(material.diffuse, FragUV).rgb;
 
     gAlbedoSpec.a = texture(material.specular, FragUV).r;
-        // ambient
-    /* float ambientStrength = 0.1f; */
-    /* vec3 ambient = ambientStrength * lightColor * texture(material.diffuse, FragUV).rgb; */
-    
-    /* // diffuse */
-    /* vec3 norm = normalize(Normal); */
-    /* vec3 lightDir = normalize(lightPos - FragPos); */
-    /* float diff = max(dot(norm, lightDir), 0.0); */
-    /* vec3 diffuse = diff * lightColor * texture(material.diffuse, FragUV).rgb; */
-
-    /* // specular */
-    /* vec3 viewDir = normalize(viewPos - FragPos); */
-    /* vec3 reflectDir = reflect(-lightDir, norm); */
-    /* float spec = pow(max(dot(viewDir, reflectDir), 0.0), 64); */
-    /* vec3 specular = spec * lightColor * texture(material.specular, FragUV).rgb; */
-    
-    /* vec3 result = (ambient + diffuse + specular) * objectColor; */
-
-    /* // color = vec4(result, 1.0f); */
-    /* color = vec4(result, 1.0f); */
 }
