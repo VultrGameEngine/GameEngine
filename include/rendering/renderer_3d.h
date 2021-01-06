@@ -8,51 +8,56 @@
 #include <array>
 #include <unordered_map>
 
-namespace Renderer {
+namespace Renderer
+{
 
-class Renderer3D {
+class Renderer3D
+{
 
-public:
-  // Basic methods for creating and destroying
-  Renderer3D();
-  ~Renderer3D();
+  public:
+    // Basic methods for creating and destroying
+    Renderer3D();
+    ~Renderer3D();
 
-  bool Register(Entity entity);
+    bool Register(Entity entity);
 
-  void InitGBuffer(int width, int height);
-  void DeferredGeometryPass(RenderContext context);
-  void LightPass(RenderContext context);
-  void StencilPass(RenderContext context);
-  void ForwardRenderingPass(RenderContext context);
-  void SkyboxPass(RenderContext context);
-  void CompositePass(RenderContext context);
-  void Flush();
+    void InitGBuffer(int width, int height);
+    void DeferredGeometryPass(RenderContext context);
+    void LightPass(RenderContext context);
+    void StencilPass(RenderContext context);
+    void ForwardRenderingPass(RenderContext context);
+    void SkyboxPass(RenderContext context);
+    void CompositePass(RenderContext context);
+    void Flush();
 
-private:
-  void InitSphere();
-  void DrawSphere();
+  private:
+    void InitSphere();
+    void DrawSphere();
 
-  void InitQuad();
-  void DrawQuad();
+    void InitQuad();
+    void DrawQuad();
 
-  std::unordered_map<unsigned int, RenderGroup *> render_groups_deferred;
-  std::unordered_map<unsigned int, RenderGroup *> render_groups_forward;
-  GBuffer *g_buffer;
-  struct Mesh {
-    unsigned int vbo = 0;
-    unsigned int vao = 0;
+    std::unordered_map<unsigned int, RenderGroup *> render_groups_deferred;
+    std::unordered_map<unsigned int, RenderGroup *> render_groups_forward;
+    GBuffer *g_buffer;
+    struct Mesh
+    {
+        unsigned int vbo = 0;
+        unsigned int vao = 0;
 
-    // Not completely necessary
-    unsigned int ibo = 0;
-  } render_quad, render_sphere;
-  Shader *lighting_pass_shader;
-  Shader *stencil_pass_shader;
-  Shader *composite_pass_shader;
-  const unsigned int NR_LIGHTS = 1;
-  std::vector<glm::vec3> lightPositions;
-  std::vector<glm::vec3> lightColors;
+        // Not completely necessary
+        unsigned int ibo = 0;
+    } render_quad, render_sphere;
+    Shader *lighting_pass_shader;
+    Shader *stencil_pass_shader;
+    Shader *composite_pass_shader;
+    const unsigned int NR_LIGHTS = 1;
+    std::vector<glm::vec3> lightPositions;
+    std::vector<glm::vec3> lightColors;
+    glm::vec3 lightPos = glm::vec3(0, 0, 2);
+    glm::vec3 attenuation = glm::vec3(1, 0.01f, 0.001f);
 
-  unsigned int sphere_indices = 0;
+    unsigned int sphere_indices = 0;
 };
 
 } // namespace Renderer
