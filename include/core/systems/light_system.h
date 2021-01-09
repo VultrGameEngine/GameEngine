@@ -1,15 +1,21 @@
 #pragma once
-#include "../../ecs/system/system.hpp"
+#include <core/system_providers/light_system_provider.h>
+#include <ecs/system/system.hpp>
 #include <glm/glm.hpp>
 
-class LightSystem : public System {
-public:
-  static std::shared_ptr<LightSystem> Get();
-  void Update();
-  void OnCreateEntity(Entity entity) override;
-  static std::shared_ptr<LightSystem> RegisterSystem();
-  Entity light = -1;
+namespace Brick3D
+{
+class LightSystem : public System
+{
+  public:
+    static void Update();
+    static void RegisterSystem();
 
-private:
-  Signature signature;
+  protected:
+    void OnCreateEntity(Entity entity) override;
+    SystemProvider &GetProvider() override
+    {
+        return LightSystemProvider::Get();
+    }
 };
+} // namespace Brick3D

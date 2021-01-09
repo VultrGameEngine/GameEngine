@@ -286,7 +286,9 @@ CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/core/components/texture_com
 CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/core/components/transform_component.h
 CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/core/core.h
 CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/core/core_components.h
+CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/core/core_system_components.h
 CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/core/core_systems.h
+CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/core/system_components/camera_system_provider.h
 CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/core/systems/camera_system.h
 CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/core/systems/controller_system.h
 CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/core/systems/light_system.h

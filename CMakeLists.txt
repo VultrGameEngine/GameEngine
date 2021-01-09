@@ -14,7 +14,8 @@ file(GLOB_RECURSE GameEngine_SRC
 )
 
 find_package(GTest REQUIRED)
-include_directories(${GTEST_INCLUDE_DIRS})
+include_directories(include vendor)
+
 
 add_executable(GameEngine ${GameEngine_SRC})
 target_link_libraries(GameEngine GL GLU glfw3 X11 Xxf86vm Xrandr pthread Xi dl GLEW gtest gtest_main)

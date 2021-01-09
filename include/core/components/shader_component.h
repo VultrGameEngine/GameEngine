@@ -4,9 +4,12 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <string>
-struct ShaderComponent {
-  std::string path;
-  Renderer::RenderType type = Renderer::Deferred;
+struct ShaderComponent
+{
+    std::string path;
 
-  Shader *GetShader() { return ShaderLoaderSystem::GetShader(path); }
+    Shader *GetShader()
+    {
+        return ShaderLoaderSystem::GetShader(path);
+    }
 };

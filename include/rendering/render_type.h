@@ -1,5 +1,9 @@
 #pragma once
-namespace Renderer {
-
-enum RenderType { Forward, Deferred };
+namespace Brick3D
+{
+enum RenderType
+{
+    Forward,
+    Deferred
+};
 }

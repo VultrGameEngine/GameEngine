@@ -3,44 +3,46 @@
 #include "../../../include/ecs/world/world.hpp"
 #include "../../../include/editor/editor.hpp"
 
-glm::mat4 CameraComponent::GetProjectionMatrix(float width, float height) {
-  return glm::perspective(fov, width / height, znear, zfar);
+glm::mat4 CameraComponent::GetProjectionMatrix(float width, float height)
+{
+    return glm::perspective(fov, width / height, znear, zfar);
 }
 
-void CameraSystem::OnCreateEntity(Entity entity) {
-  auto &camera_component = World::GetComponent<CameraComponent>(entity);
-  if (camera_component.enabled) {
-    camera = entity;
-  }
-}
+namespace Brick3D
+{
 
-void CameraSystem::OnDestroyEntity(Entity entity) {
-  if (camera == entity) {
-    camera = -1;
-    for (Entity camera_entity : entities) {
-      auto &camera_component =
-          World::GetComponent<CameraComponent>(camera_entity);
-      if (camera_component.enabled) {
-        camera = entity;
-        break;
-      }
+void CameraSystem::OnCreateEntity(Entity entity)
+{
+    auto &camera_component = World::GetComponent<CameraComponent>(entity);
+    if (camera_component.enabled)
+    {
+        CameraSystemProvider::Get().m_camera = entity;
     }
-  }
 }
 
-std::shared_ptr<CameraSystem> CameraSystem::Get() {
-  static std::shared_ptr<CameraSystem> instance;
-  if (instance == 0) {
-    instance = RegisterSystem();
-  }
-  return instance;
+void CameraSystem::OnDestroyEntity(Entity entity)
+{
+    CameraSystemProvider &provider = CameraSystemProvider::Get();
+    if (provider.m_camera == entity)
+    {
+        provider.m_camera = -1;
+        for (Entity camera_entity : provider.entities)
+        {
+            auto &camera_component = World::GetComponent<CameraComponent>(camera_entity);
+            if (camera_component.enabled)
+            {
+                provider.m_camera = entity;
+                break;
+            }
+        }
+    }
 }
 
-std::shared_ptr<CameraSystem> CameraSystem::RegisterSystem() {
-  std::shared_ptr<CameraSystem> ptr = World::RegisterSystem<CameraSystem>();
-  ptr->signature.set(World::GetComponentType<CameraComponent>(), true);
-  ptr->signature.set(World::GetComponentType<TransformComponent>(), true);
-
-  World::SetSignature<CameraSystem>(ptr->signature);
-  return ptr;
+void CameraSystem::RegisterSystem()
+{
+    CameraSystemProvider &provider = CameraSystemProvider::Get();
+    provider.signature.set(World::GetComponentType<CameraComponent>(), true);
+    provider.signature.set(World::GetComponentType<TransformComponent>(), true);
+    World::RegisterSystem<CameraSystem>(provider.signature);
 }
+} // namespace Brick3D

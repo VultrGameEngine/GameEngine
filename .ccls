@@ -7,4 +7,6 @@ clang
 -stdlib=libc++
 -I/usr/include/c++/9
 -I/usr/include/x86_64-linux-gnu/c++/9
+-I/home/brandon/Desktop/Dev/GameEngine/include
+-I/home/brandon/Desktop/Dev/GameEngine/vendor
 

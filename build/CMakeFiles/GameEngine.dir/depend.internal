@@ -287,7 +287,9 @@ CMakeFiles/GameEngine.dir/src/main.cpp.o
  /home/brandon/Desktop/Dev/GameEngine/include/core/components/transform_component.h
  /home/brandon/Desktop/Dev/GameEngine/include/core/core.h
  /home/brandon/Desktop/Dev/GameEngine/include/core/core_components.h
+ /home/brandon/Desktop/Dev/GameEngine/include/core/core_system_components.h
  /home/brandon/Desktop/Dev/GameEngine/include/core/core_systems.h
+ /home/brandon/Desktop/Dev/GameEngine/include/core/system_components/camera_system_provider.h
  /home/brandon/Desktop/Dev/GameEngine/include/core/systems/camera_system.h
  /home/brandon/Desktop/Dev/GameEngine/include/core/systems/controller_system.h
  /home/brandon/Desktop/Dev/GameEngine/include/core/systems/light_system.h

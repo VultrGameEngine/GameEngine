@@ -844,6 +844,33 @@ src/errors/error_handler.cpp.s:
 	$(MAKE) -f CMakeFiles/GameEngine.dir/build.make CMakeFiles/GameEngine.dir/src/errors/error_handler.cpp.s
 .PHONY : src/errors/error_handler.cpp.s
 
+src/helpers/mesh_importer.o: src/helpers/mesh_importer.cpp.o
+
+.PHONY : src/helpers/mesh_importer.o
+
+# target to build an object file
+src/helpers/mesh_importer.cpp.o:
+	$(MAKE) -f CMakeFiles/GameEngine.dir/build.make CMakeFiles/GameEngine.dir/src/helpers/mesh_importer.cpp.o
+.PHONY : src/helpers/mesh_importer.cpp.o
+
+src/helpers/mesh_importer.i: src/helpers/mesh_importer.cpp.i
+
+.PHONY : src/helpers/mesh_importer.i
+
+# target to preprocess a source file
+src/helpers/mesh_importer.cpp.i:
+	$(MAKE) -f CMakeFiles/GameEngine.dir/build.make CMakeFiles/GameEngine.dir/src/helpers/mesh_importer.cpp.i
+.PHONY : src/helpers/mesh_importer.cpp.i
+
+src/helpers/mesh_importer.s: src/helpers/mesh_importer.cpp.s
+
+.PHONY : src/helpers/mesh_importer.s
+
+# target to generate assembly for a file
+src/helpers/mesh_importer.cpp.s:
+	$(MAKE) -f CMakeFiles/GameEngine.dir/build.make CMakeFiles/GameEngine.dir/src/helpers/mesh_importer.cpp.s
+.PHONY : src/helpers/mesh_importer.cpp.s
+
 src/main.o: src/main.cpp.o
 
 .PHONY : src/main.o
@@ -870,6 +897,114 @@ src/main.s: src/main.cpp.s
 src/main.cpp.s:
 	$(MAKE) -f CMakeFiles/GameEngine.dir/build.make CMakeFiles/GameEngine.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
+
+src/rendering/models/index_buffer.o: src/rendering/models/index_buffer.cpp.o
+
+.PHONY : src/rendering/models/index_buffer.o
+
+# target to build an object file
+src/rendering/models/index_buffer.cpp.o:
+	$(MAKE) -f CMakeFiles/GameEngine.dir/build.make CMakeFiles/GameEngine.dir/src/rendering/models/index_buffer.cpp.o
+.PHONY : src/rendering/models/index_buffer.cpp.o
+
+src/rendering/models/index_buffer.i: src/rendering/models/index_buffer.cpp.i
+
+.PHONY : src/rendering/models/index_buffer.i
+
+# target to preprocess a source file
+src/rendering/models/index_buffer.cpp.i:
+	$(MAKE) -f CMakeFiles/GameEngine.dir/build.make CMakeFiles/GameEngine.dir/src/rendering/models/index_buffer.cpp.i
+.PHONY : src/rendering/models/index_buffer.cpp.i
+
+src/rendering/models/index_buffer.s: src/rendering/models/index_buffer.cpp.s
+
+.PHONY : src/rendering/models/index_buffer.s
+
+# target to generate assembly for a file
+src/rendering/models/index_buffer.cpp.s:
+	$(MAKE) -f CMakeFiles/GameEngine.dir/build.make CMakeFiles/GameEngine.dir/src/rendering/models/index_buffer.cpp.s
+.PHONY : src/rendering/models/index_buffer.cpp.s
+
+src/rendering/models/mesh.o: src/rendering/models/mesh.cpp.o
+
+.PHONY : src/rendering/models/mesh.o
+
+# target to build an object file
+src/rendering/models/mesh.cpp.o:
+	$(MAKE) -f CMakeFiles/GameEngine.dir/build.make CMakeFiles/GameEngine.dir/src/rendering/models/mesh.cpp.o
+.PHONY : src/rendering/models/mesh.cpp.o
+
+src/rendering/models/mesh.i: src/rendering/models/mesh.cpp.i
+
+.PHONY : src/rendering/models/mesh.i
+
+# target to preprocess a source file
+src/rendering/models/mesh.cpp.i:
+	$(MAKE) -f CMakeFiles/GameEngine.dir/build.make CMakeFiles/GameEngine.dir/src/rendering/models/mesh.cpp.i
+.PHONY : src/rendering/models/mesh.cpp.i
+
+src/rendering/models/mesh.s: src/rendering/models/mesh.cpp.s
+
+.PHONY : src/rendering/models/mesh.s
+
+# target to generate assembly for a file
+src/rendering/models/mesh.cpp.s:
+	$(MAKE) -f CMakeFiles/GameEngine.dir/build.make CMakeFiles/GameEngine.dir/src/rendering/models/mesh.cpp.s
+.PHONY : src/rendering/models/mesh.cpp.s
+
+src/rendering/models/vertex_array.o: src/rendering/models/vertex_array.cpp.o
+
+.PHONY : src/rendering/models/vertex_array.o
+
+# target to build an object file
+src/rendering/models/vertex_array.cpp.o:
+	$(MAKE) -f CMakeFiles/GameEngine.dir/build.make CMakeFiles/GameEngine.dir/src/rendering/models/vertex_array.cpp.o
+.PHONY : src/rendering/models/vertex_array.cpp.o
+
+src/rendering/models/vertex_array.i: src/rendering/models/vertex_array.cpp.i
+
+.PHONY : src/rendering/models/vertex_array.i
+
+# target to preprocess a source file
+src/rendering/models/vertex_array.cpp.i:
+	$(MAKE) -f CMakeFiles/GameEngine.dir/build.make CMakeFiles/GameEngine.dir/src/rendering/models/vertex_array.cpp.i
+.PHONY : src/rendering/models/vertex_array.cpp.i
+
+src/rendering/models/vertex_array.s: src/rendering/models/vertex_array.cpp.s
+
+.PHONY : src/rendering/models/vertex_array.s
+
+# target to generate assembly for a file
+src/rendering/models/vertex_array.cpp.s:
+	$(MAKE) -f CMakeFiles/GameEngine.dir/build.make CMakeFiles/GameEngine.dir/src/rendering/models/vertex_array.cpp.s
+.PHONY : src/rendering/models/vertex_array.cpp.s
+
+src/rendering/models/vertex_buffer.o: src/rendering/models/vertex_buffer.cpp.o
+
+.PHONY : src/rendering/models/vertex_buffer.o
+
+# target to build an object file
+src/rendering/models/vertex_buffer.cpp.o:
+	$(MAKE) -f CMakeFiles/GameEngine.dir/build.make CMakeFiles/GameEngine.dir/src/rendering/models/vertex_buffer.cpp.o
+.PHONY : src/rendering/models/vertex_buffer.cpp.o
+
+src/rendering/models/vertex_buffer.i: src/rendering/models/vertex_buffer.cpp.i
+
+.PHONY : src/rendering/models/vertex_buffer.i
+
+# target to preprocess a source file
+src/rendering/models/vertex_buffer.cpp.i:
+	$(MAKE) -f CMakeFiles/GameEngine.dir/build.make CMakeFiles/GameEngine.dir/src/rendering/models/vertex_buffer.cpp.i
+.PHONY : src/rendering/models/vertex_buffer.cpp.i
+
+src/rendering/models/vertex_buffer.s: src/rendering/models/vertex_buffer.cpp.s
+
+.PHONY : src/rendering/models/vertex_buffer.s
+
+# target to generate assembly for a file
+src/rendering/models/vertex_buffer.cpp.s:
+	$(MAKE) -f CMakeFiles/GameEngine.dir/build.make CMakeFiles/GameEngine.dir/src/rendering/models/vertex_buffer.cpp.s
+.PHONY : src/rendering/models/vertex_buffer.cpp.s
 
 src/rendering/render_group.o: src/rendering/render_group.cpp.o
 
@@ -1217,9 +1352,24 @@ help:
 	@echo "... src/errors/error_handler.o"
 	@echo "... src/errors/error_handler.i"
 	@echo "... src/errors/error_handler.s"
+	@echo "... src/helpers/mesh_importer.o"
+	@echo "... src/helpers/mesh_importer.i"
+	@echo "... src/helpers/mesh_importer.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
+	@echo "... src/rendering/models/index_buffer.o"
+	@echo "... src/rendering/models/index_buffer.i"
+	@echo "... src/rendering/models/index_buffer.s"
+	@echo "... src/rendering/models/mesh.o"
+	@echo "... src/rendering/models/mesh.i"
+	@echo "... src/rendering/models/mesh.s"
+	@echo "... src/rendering/models/vertex_array.o"
+	@echo "... src/rendering/models/vertex_array.i"
+	@echo "... src/rendering/models/vertex_array.s"
+	@echo "... src/rendering/models/vertex_buffer.o"
+	@echo "... src/rendering/models/vertex_buffer.i"
+	@echo "... src/rendering/models/vertex_buffer.s"
 	@echo "... src/rendering/render_group.o"
 	@echo "... src/rendering/render_group.i"
 	@echo "... src/rendering/render_group.s"

@@ -2,24 +2,26 @@
 // transform
 
 #pragma once
-#include "../../ecs/system/system.hpp"
-#include "../../ecs/world/world.hpp"
-#include "../components/camera_component.h"
-#include "../components/transform_component.h"
+#include <core/components/camera_component.h>
+#include <core/components/transform_component.h>
+#include <core/system_providers/camera_system_provider.h>
+#include <ecs/system/system.hpp>
+#include <ecs/world/world.hpp>
 #include <memory>
 
-class CameraSystem : public System {
-public:
-  static std::shared_ptr<CameraSystem> Get();
-  void OnCreateEntity(Entity entity) override;
-  void OnDestroyEntity(Entity entity) override;
-  static std::shared_ptr<CameraSystem> RegisterSystem();
-  Entity camera = -1;
-  struct Camera {
-    TransformComponent transform_component;
-    CameraComponent camera_component;
-  } scene_camera;
+namespace Brick3D
+{
+class CameraSystem : public System
+{
+  public:
+    static void RegisterSystem();
 
-private:
-  Signature signature;
+  protected:
+    void OnCreateEntity(Entity entity) override;
+    void OnDestroyEntity(Entity entity) override;
+    SystemProvider &GetProvider() override
+    {
+        return CameraSystemProvider::Get();
+    }
 };
+} // namespace Brick3D

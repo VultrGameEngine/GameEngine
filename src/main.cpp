@@ -1,17 +1,18 @@
-#include "../include/core/core.h"
-#include "../include/editor/editor.hpp"
-#include "../include/rendering/vertex_buffer.h"
-#include "../vendor/imgui/imgui.h"
-#include "../vendor/imgui/imgui_impl_glfw.h"
-#include "../vendor/imgui/imgui_impl_opengl3.h"
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <array>
+#include <core/core.h>
+#include <editor/editor.hpp>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <rendering/vertex_buffer.h>
 #include <stdio.h>
+#include <vendor/imgui/imgui.h>
+#include <vendor/imgui/imgui_impl_glfw.h>
+#include <vendor/imgui/imgui_impl_opengl3.h>
 
+using namespace Brick3D;
 int main(void)
 {
     World::Init();
@@ -53,7 +54,7 @@ int main(void)
     glEnable(GL_DEBUG_OUTPUT);
     glDebugMessageCallback(ErrorHandler::ErrorCallback, 0);
 
-    ControllerSystem::Get()->Init(window);
+    ControllerSystem::Init(window);
     glfwSetWindowFocusCallback(window, ControllerSystem::WindowFocusCallback);
 
     IMGUI_CHECKVERSION();
@@ -68,12 +69,12 @@ int main(void)
 
     ImGui::StyleColorsDark();
 
-    MeshLoaderSystem::Get();
+    MeshLoaderSystem::RegisterSystem();
     ShaderLoaderSystem::Get();
     TextureLoaderSystem::Get();
-    ControllerSystem::Get();
-    CameraSystem::Get();
-    LightSystem::Get();
+    ControllerSystem::RegisterSystem();
+    CameraSystem::RegisterSystem();
+    LightSystem::RegisterSystem();
 
     // for (int i = 0; i < 10; i++) {
     //   for (int j = 0; j < 10; j++) {
@@ -147,7 +148,7 @@ int main(void)
         float deltaTime = t - lastTime;
         lastTime = t;
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        ControllerSystem::Get()->Update(deltaTime);
+        ControllerSystem::Update(deltaTime);
         TextureLoaderSystem::Get()->Update();
         LightSystem::Get()->Update();
         RenderSystem::Get()->Update(t);

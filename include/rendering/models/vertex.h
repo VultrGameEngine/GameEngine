@@ -1,19 +1,28 @@
 #pragma once
+#include <cstring>
 #include <glm/glm.hpp>
 
-namespace Renderer {
+namespace Brick3D
+{
 
-struct Vertex {
+struct Vertex
+{
 
-  // Vertex properties that are in the vertex buffer
-  glm::vec3 position;
-  glm::vec3 normal;
-  glm::vec2 uv;
+    // Vertex properties that are in the vertex buffer
+    glm::vec3 position;
+    glm::vec3 normal;
+    glm::vec2 uv;
 
-  Vertex(glm::vec3 mesh_position = glm::vec3(0, 0, 0),
-         glm::vec3 mesh_normal = glm::vec3(0, 0, 0),
-         glm::vec2 mesh_uv = glm::vec2(0, 0))
-      : position(mesh_position), normal(mesh_normal), uv(mesh_uv) {}
+    Vertex(glm::vec3 p_position = glm::vec3(0, 0, 0), glm::vec3 p_normal = glm::vec3(0, 0, 0),
+           glm::vec2 p_uv = glm::vec2(0, 0))
+        : position(p_position), normal(p_normal), uv(p_uv)
+    {
+    }
+
+    bool operator<(const Vertex that) const
+    {
+        return std::memcmp((void *)this, (void *)&that, sizeof(Vertex)) > 0;
+    };
 };
 
-} // namespace Renderer
+} // namespace Brick3D

@@ -1,7 +1,7 @@
 #pragma once
 enum LoadingState
 {
-    notLoaded,
-    loading,
-    loaded
+    LoadingState_NotLoaded,
+    LoadingState_Loading,
+    LoadingState_Loaded
 };

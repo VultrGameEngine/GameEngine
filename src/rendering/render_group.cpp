@@ -4,110 +4,76 @@
 #include "../../include/ecs/world/world.hpp"
 #include <glm/gtc/type_ptr.hpp>
 
-namespace Renderer {
-void RenderGroup::Render(RenderContext context, RenderType type) {
+namespace Brick3D
+{
+void RenderGroup::Render(RenderContext context, RenderType type)
+{
 
-  // Bind the shader that will be used for rendering all the following meshes
-  this->shader->Bind();
+    // Bind the shader that will be used for rendering all the following meshes
+    this->shader->Bind();
 
-  // Set the view matrix and projection matrix, as they do not change between
-  // meshes
-  this->shader->SetUniformMatrix4fv(
-      "view", glm::value_ptr(context.camera_transform.GetViewMatrix()));
-
-  this->shader->SetUniformMatrix4fv(
-      "projection", glm::value_ptr(context.camera_component.GetProjectionMatrix(
-                        context.dimensions.x, context.dimensions.y)));
-
-  // Render all registered entities
-  for (RenderEntity entity : entities) {
-    LoadedStaticMesh *loaded_mesh = entity.GetMesh();
-    // If the vao or vbo hasn't been loaded into the mesh, we need to create
-    // them and set up all of the buffers
-    if (loaded_mesh->vao == 0 || loaded_mesh->vbo == 0) {
-      // Generate the vertex
-      glGenVertexArrays(1, &loaded_mesh->vao);
-      glBindVertexArray(loaded_mesh->vao);
-
-      // Generate the index buffer
-      glCreateBuffers(1, &loaded_mesh->ibo);
-      glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, loaded_mesh->ibo);
-
-      // Set the buffer data for the index buffer
-      glBufferData(GL_ELEMENT_ARRAY_BUFFER,
-                   sizeof(unsigned short) * loaded_mesh->indices.size(),
-                   &(loaded_mesh->indices[0]), GL_STATIC_DRAW);
-
-      // Generate the vertex buffers
-      glCreateBuffers(1, &loaded_mesh->vbo);
-      glBindBuffer(GL_ARRAY_BUFFER, loaded_mesh->vbo);
-
-      // Set the buffer data for the vertex buffer
-      glBufferData(GL_ARRAY_BUFFER,
-                   sizeof(Renderer::Vertex) * loaded_mesh->vertices.size(),
-                   &(loaded_mesh->vertices[0]), GL_STATIC_DRAW);
-      // Set the vertex attrib layout
-      // 0: position
-      // 1: normals
-      // 2: uvs
-      glEnableVertexAttribArray(0);
-      glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Renderer::Vertex),
-                            (const void *)offsetof(Renderer::Vertex, position));
-
-      glEnableVertexAttribArray(1);
-      glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Renderer::Vertex),
-                            (const void *)offsetof(Renderer::Vertex, normal));
-
-      glEnableVertexAttribArray(2);
-      glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Renderer::Vertex),
-                            (const void *)offsetof(Renderer::Vertex, uv));
-    }
-    if (type == Deferred) {
-      // Bind the entity's texture
-      LoadedTexture *diffuse = entity.GetDiffuse();
-      if (diffuse != nullptr) {
-        entity.GetDiffuse()->Bind(GL_TEXTURE0);
-        this->shader->SetUniform1i("material.diffuse", 0);
-      }
-      LoadedTexture *specular = entity.GetSpecular();
-      if (specular != nullptr) {
-        entity.GetSpecular()->Bind(GL_TEXTURE1);
-        this->shader->SetUniform1i("material.specular", 1);
-      }
-      this->shader->SetUniform3f("lightPos", context.light_position);
-      this->shader->SetUniform3f("objectColor", glm::vec3(1.0f, 1.0f, 1.0f));
-      this->shader->SetUniform3f("viewPos", context.camera_transform.position);
-    }
-
-    TransformComponent &transform_component =
-        World::GetComponent<TransformComponent>(entity.entity);
+    // Set the view matrix and projection matrix, as they do not change between
+    // meshes
+    this->shader->SetUniformMatrix4fv(
+        "view", glm::value_ptr(context.camera_transform.GetViewMatrix()));
 
     this->shader->SetUniformMatrix4fv(
-        "model", glm::value_ptr(transform_component.Matrix()));
+        "projection", glm::value_ptr(context.camera_component.GetProjectionMatrix(
+                          context.dimensions.x, context.dimensions.y)));
 
-    this->shader->SetUniform3f("lightColor", glm::vec3(1.0f, 1.0f, 1.0f));
+    // Render all registered entities
+    for (RenderEntity entity : entities)
+    {
+        Mesh *mesh = entity.mesh;
+        if (type == Deferred)
+        {
+            // Bind the entity's texture
+            LoadedTexture *diffuse = entity.GetDiffuse();
+            if (diffuse != nullptr)
+            {
+                entity.GetDiffuse()->Bind(GL_TEXTURE0);
+                this->shader->SetUniform1i("material.diffuse", 0);
+            }
+            LoadedTexture *specular = entity.GetSpecular();
+            if (specular != nullptr)
+            {
+                entity.GetSpecular()->Bind(GL_TEXTURE1);
+                this->shader->SetUniform1i("material.specular", 1);
+            }
+            this->shader->SetUniform3f("lightPos", context.light_position);
+            this->shader->SetUniform3f("objectColor", glm::vec3(1.0f, 1.0f, 1.0f));
+            this->shader->SetUniform3f("viewPos", context.camera_transform.position);
+        }
 
-    // Bind the vao and ibo
-    glBindVertexArray(loaded_mesh->vao);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, loaded_mesh->ibo);
+        TransformComponent &transform_component =
+            World::GetComponent<TransformComponent>(entity.entity);
 
-    // Draw the triangles
-    glDrawElements(GL_TRIANGLES, loaded_mesh->indices.size(), GL_UNSIGNED_SHORT,
-                   (void *)0);
-  }
+        this->shader->SetUniformMatrix4fv(
+            "model", glm::value_ptr(transform_component.Matrix()));
+
+        this->shader->SetUniform3f("lightColor", glm::vec3(1.0f, 1.0f, 1.0f));
+
+        // Bind the vao and ibo
+        glBindVertexArray(loaded_mesh->vao);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, loaded_mesh->ibo);
+
+        // Draw the triangles
+        glDrawElements(GL_TRIANGLES, loaded_mesh->indices.size(), GL_UNSIGNED_SHORT,
+                       (void *)0);
+    }
 }
 
-void RenderGroup::RegisterEntity(Entity entity) {
-  ShaderComponent &shader_component =
-      World::GetComponent<ShaderComponent>(entity);
-  if (shader_component.GetShader() != nullptr &&
-      shader_component.GetShader()->GetID() != this->shader->GetID())
-    return;
+void RenderGroup::RegisterEntity(Entity entity)
+{
+    ShaderComponent &shader_component = World::GetComponent<ShaderComponent>(entity);
+    if (shader_component.GetShader() != nullptr &&
+        shader_component.GetShader()->GetID() != this->shader->GetID())
+        return;
 
-  // Generate the render entity
-  RenderEntity render_entity;
-  render_entity.entity = entity;
-  entities.insert(render_entity);
+    // Generate the render entity
+    RenderEntity render_entity;
+    render_entity.entity = entity;
+    entities.insert(render_entity);
 }
 
-} // namespace Renderer
+} // namespace Brick3D

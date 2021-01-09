@@ -10,7 +10,8 @@
 	{
 		"commands" : 
 		[
-			"add_executable"
+			"add_executable",
+			"include_directories"
 		],
 		"files" : 
 		[
@@ -24,7 +25,13 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 19,
+				"line" : 20,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 17,
 				"parent" : 0
 			}
 		]
@@ -38,32 +45,48 @@
 					"fragment" : "-g  "
 				}
 			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 2,
+					"path" : "/home/brandon/Desktop/Dev/GameEngine/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/home/brandon/Desktop/Dev/GameEngine/vendor"
+				}
+			],
 			"language" : "CXX",
 			"sourceIndexes" : 
 			[
-				29,
-				47,
-				48,
-				49,
-				50,
-				51,
-				52,
-				53,
-				54,
-				55,
-				56,
-				57,
-				58,
-				59,
+				36,
 				60,
 				61,
+				62,
 				63,
+				64,
 				65,
 				66,
+				67,
 				68,
+				69,
+				70,
 				71,
 				72,
-				76
+				73,
+				74,
+				75,
+				76,
+				77,
+				78,
+				79,
+				81,
+				83,
+				84,
+				86,
+				89,
+				90,
+				94
 			]
 		}
 	],
@@ -173,13 +196,13 @@
 				26,
 				27,
 				28,
+				29,
 				30,
 				31,
 				32,
 				33,
 				34,
 				35,
-				36,
 				37,
 				38,
 				39,
@@ -190,22 +213,6 @@
 				44,
 				45,
 				46,
-				62,
-				64,
-				67,
-				69,
-				70,
-				73,
-				74,
-				75,
-				77
-			]
-		},
-		{
-			"name" : "Source Files",
-			"sourceIndexes" : 
-			[
-				29,
 				47,
 				48,
 				49,
@@ -219,15 +226,49 @@
 				57,
 				58,
 				59,
+				80,
+				82,
+				85,
+				87,
+				88,
+				91,
+				92,
+				93,
+				95
+			]
+		},
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				36,
 				60,
 				61,
+				62,
 				63,
+				64,
 				65,
 				66,
+				67,
 				68,
+				69,
+				70,
 				71,
 				72,
-				76
+				73,
+				74,
+				75,
+				76,
+				77,
+				78,
+				79,
+				81,
+				83,
+				84,
+				86,
+				89,
+				90,
+				94
 			]
 		}
 	],
@@ -270,11 +311,6 @@
 		},
 		{
 			"backtrace" : 1,
-			"path" : "include/core/components/static_mesh_cache.h",
-			"sourceGroupIndex" : 0
-		},
-		{
-			"backtrace" : 1,
 			"path" : "include/core/components/static_mesh_component.h",
 			"sourceGroupIndex" : 0
 		},
@@ -305,7 +341,42 @@
 		},
 		{
 			"backtrace" : 1,
+			"path" : "include/core/core_system_components.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
 			"path" : "include/core/core_systems.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/core/models/update_tick.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/core/system_providers/camera_system_provider.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/core/system_providers/controller_system_provider.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/core/system_providers/light_system_provider.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/core/system_providers/mesh_loader_system_provider.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/core/system_providers/render_system_provider.h",
 			"sourceGroupIndex" : 0
 		},
 		{
@@ -380,6 +451,11 @@
 		},
 		{
 			"backtrace" : 1,
+			"path" : "include/ecs/system/system_provider.hpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
 			"compileGroupIndex" : 0,
 			"path" : "include/ecs/world/world.cpp",
 			"sourceGroupIndex" : 1
@@ -431,6 +507,11 @@
 		},
 		{
 			"backtrace" : 1,
+			"path" : "include/helpers/mesh_importer.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
 			"path" : "include/rendering/models/frame_buffer.h",
 			"sourceGroupIndex" : 0
 		},
@@ -441,7 +522,37 @@
 		},
 		{
 			"backtrace" : 1,
+			"path" : "include/rendering/models/index_buffer.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/rendering/models/mesh.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/rendering/models/shader.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/rendering/models/texture.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
 			"path" : "include/rendering/models/vertex.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/rendering/models/vertex_array.h",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "include/rendering/models/vertex_buffer.h",
 			"sourceGroupIndex" : 0
 		},
 		{
@@ -462,11 +573,6 @@
 		{
 			"backtrace" : 1,
 			"path" : "include/rendering/renderer_3d.h",
-			"sourceGroupIndex" : 0
-		},
-		{
-			"backtrace" : 1,
-			"path" : "include/rendering/vertex_buffer.h",
 			"sourceGroupIndex" : 0
 		},
 		{
@@ -538,7 +644,37 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
+			"path" : "src/helpers/mesh_importer.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
 			"path" : "src/main.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/rendering/models/index_buffer.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/rendering/models/mesh.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/rendering/models/vertex_array.cpp",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/rendering/models/vertex_buffer.cpp",
 			"sourceGroupIndex" : 1
 		},
 		{
