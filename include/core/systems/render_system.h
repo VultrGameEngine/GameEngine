@@ -23,7 +23,6 @@ class RenderSystem : public System
     void Update(UpdateTick meta_data);
     static std::shared_ptr<RenderSystem> RegisterSystem();
     static void Resize(int width, int height, unsigned int type);
-    static glm::vec2 GetDimensions(unsigned int type);
     struct RenderTexture
     {
         unsigned int fbo;
@@ -49,6 +48,6 @@ class RenderSystem : public System
                                       unsigned int *render_texture,
                                       unsigned int *rbo, int width, int height);
     Signature signature;
-    Renderer::Renderer3D *renderer;
+    Renderer3D *renderer;
 };
 } // namespace Brick3D

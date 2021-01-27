@@ -1,21 +1,17 @@
 #pragma once
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include <core/components/camera_component.h>
-#include <core/components/static_mesh_component.h>
-#include <core/components/transform_component.h>
-#include <core/systems/mesh_loader_system.h>
-#include <core/systems/shader_loader_system.h>
-#include <core/systems/texture_loader_system.h>
 #include <ecs/entity/entity.hpp>
 #include <ecs/world/world.hpp>
 #include <memory>
+#include <rendering/models/mesh.h>
 #include <rendering/models/texture.h>
 #include <rendering/render_context.h>
 #include <rendering/render_type.h>
 #include <set>
 #include <stdio.h>
 #include <stdlib.h>
+#include <vector>
 
 namespace Brick3D
 {
@@ -39,8 +35,7 @@ class RenderGroup
     }
 
     void Render(RenderContext context, RenderType type);
-    void RegisterEntity(Mesh *mesh, Shader *shader,
-                        const std::vector<Texture *> &textures);
+    void RegisterEntity(Mesh *mesh, const std::vector<Texture *> &textures);
 
   private:
     std::set<RenderEntity> entities;

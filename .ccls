@@ -4,9 +4,13 @@ include
 vendor
 clang
 -std=c++17
--stdlib=libc++
--I/usr/include/c++/9
--I/usr/include/x86_64-linux-gnu/c++/9
+-stdlib=libstdc++
+-I/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../include/c++/10.2.0
+-I/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../include/c++/10.2.0/x86_64-pc-linux-gnu
+-I/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/10.2.0/../../../../include/c++/10.2.0/backward
+-I/usr/local/include
+-I/usr/lib/clang/11.0.1/include
+-I/usr/include
 -I/home/brandon/Desktop/Dev/GameEngine/include
 -I/home/brandon/Desktop/Dev/GameEngine/vendor
 

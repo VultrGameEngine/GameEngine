@@ -1,5 +1,6 @@
 #pragma once
 #include <ecs/system/system_provider.hpp>
+#include <rendering/models/g_buffer.h>
 #include <rendering/models/mesh.h>
 #include <rendering/render_group.h>
 #include <unordered_map>
@@ -15,6 +16,8 @@ class RenderSystemProvider : public SystemProvider
         static RenderSystemProvider instance;
         return instance;
     }
+
+    static glm::vec2 GetDimensions(unsigned int type);
 
     std::unordered_map<unsigned int, RenderGroup *> render_groups_deferred;
     std::unordered_map<unsigned int, RenderGroup *> render_groups_forward;

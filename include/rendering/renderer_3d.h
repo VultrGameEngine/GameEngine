@@ -2,7 +2,6 @@
 #include "render_context.h"
 #include "render_group.h"
 #include "render_type.h"
-#include "vertex_buffer.h"
 #include <array>
 #include <rendering/models/g_buffer.h>
 #include <unordered_map>

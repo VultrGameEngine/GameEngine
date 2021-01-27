@@ -14,7 +14,7 @@ CostDataFile:
 Site: brandon-XPS-15-9560
 
 # Build name is osname-revision-compiler, i.e. Linux-2.4.2-2smp-c++
-BuildName: Linux-clang++-9
+BuildName: Linux-clang++
 
 # Subprojects
 LabelsForSubprojects: 
@@ -39,7 +39,7 @@ CVSCommand: CVSCOMMAND-NOTFOUND
 CVSUpdateOptions: -d -A -P
 
 # Subversion options
-SVNCommand: SVNCOMMAND-NOTFOUND
+SVNCommand: /usr/bin/svn
 SVNOptions: 
 SVNUpdateOptions: 
 
@@ -62,13 +62,17 @@ UpdateOptions:
 UpdateType: git
 
 # Compiler info
-Compiler: /bin/clang++-9
-CompilerVersion: 9.0.1
+Compiler: /bin/clang++
+CompilerVersion: 11.0.1
 
 # Dynamic analysis (MemCheck)
 PurifyCommand: 
 ValgrindCommand: 
 ValgrindCommandOptions: 
+DrMemoryCommand: 
+DrMemoryCommandOptions: 
+CudaSanitizerCommand: 
+CudaSanitizerCommandOptions: 
 MemoryCheckType: 
 MemoryCheckSanitizerOptions: 
 MemoryCheckCommand: MEMORYCHECK_COMMAND-NOTFOUND
