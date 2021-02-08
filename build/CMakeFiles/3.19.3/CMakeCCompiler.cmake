@@ -19,9 +19,9 @@ set(CMAKE_C_SIMULATE_VERSION "")
 
 
 set(CMAKE_AR "/bin/ar")
-set(CMAKE_C_COMPILER_AR "/usr/lib/llvm-9/bin/llvm-ar")
+set(CMAKE_C_COMPILER_AR "/usr/bin/llvm-ar")
 set(CMAKE_RANLIB "/bin/ranlib")
-set(CMAKE_C_COMPILER_RANLIB "/usr/lib/llvm-9/bin/llvm-ranlib")
+set(CMAKE_C_COMPILER_RANLIB "/usr/bin/llvm-ranlib")
 set(CMAKE_LINKER "/bin/ld")
 set(CMAKE_MT "")
 set(CMAKE_COMPILER_IS_GNUCC )

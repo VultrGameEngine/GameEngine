@@ -1,13 +1,13 @@
 #pragma once
-#include <string>
 #include "element.hpp"
+#include <string>
 #include <vector>
 
-namespace Editor
+namespace Brick3D::Editor
 {
-    class Window
-    {
-    public:
-        virtual void Render() = 0;
-    };
-}; // namespace Editor
+class Window
+{
+  public:
+    virtual void Render() = 0;
+};
+}; // namespace Brick3D::Editor

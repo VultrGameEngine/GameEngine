@@ -62,10 +62,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/brandon/Desktop/Dev/GameEngine
+CMAKE_SOURCE_DIR = /home/brandon/Dev/GameEngine
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/brandon/Desktop/Dev/GameEngine/build
+CMAKE_BINARY_DIR = /home/brandon/Dev/GameEngine/build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/GameEngine.dir/depend.make
@@ -78,410 +78,451 @@ include CMakeFiles/GameEngine.dir/flags.make
 
 CMakeFiles/GameEngine.dir/include/ecs/world/world.cpp.o: CMakeFiles/GameEngine.dir/flags.make
 CMakeFiles/GameEngine.dir/include/ecs/world/world.cpp.o: ../include/ecs/world/world.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/GameEngine.dir/include/ecs/world/world.cpp.o"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/include/ecs/world/world.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/include/ecs/world/world.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/GameEngine.dir/include/ecs/world/world.cpp.o"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/include/ecs/world/world.cpp.o -c /home/brandon/Dev/GameEngine/include/ecs/world/world.cpp
 
 CMakeFiles/GameEngine.dir/include/ecs/world/world.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/GameEngine.dir/include/ecs/world/world.cpp.i"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Desktop/Dev/GameEngine/include/ecs/world/world.cpp > CMakeFiles/GameEngine.dir/include/ecs/world/world.cpp.i
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Dev/GameEngine/include/ecs/world/world.cpp > CMakeFiles/GameEngine.dir/include/ecs/world/world.cpp.i
 
 CMakeFiles/GameEngine.dir/include/ecs/world/world.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/GameEngine.dir/include/ecs/world/world.cpp.s"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Desktop/Dev/GameEngine/include/ecs/world/world.cpp -o CMakeFiles/GameEngine.dir/include/ecs/world/world.cpp.s
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Dev/GameEngine/include/ecs/world/world.cpp -o CMakeFiles/GameEngine.dir/include/ecs/world/world.cpp.s
+
+CMakeFiles/GameEngine.dir/src/core/system_providers/render_system_provider.cpp.o: CMakeFiles/GameEngine.dir/flags.make
+CMakeFiles/GameEngine.dir/src/core/system_providers/render_system_provider.cpp.o: ../src/core/system_providers/render_system_provider.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/GameEngine.dir/src/core/system_providers/render_system_provider.cpp.o"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/src/core/system_providers/render_system_provider.cpp.o -c /home/brandon/Dev/GameEngine/src/core/system_providers/render_system_provider.cpp
+
+CMakeFiles/GameEngine.dir/src/core/system_providers/render_system_provider.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/GameEngine.dir/src/core/system_providers/render_system_provider.cpp.i"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Dev/GameEngine/src/core/system_providers/render_system_provider.cpp > CMakeFiles/GameEngine.dir/src/core/system_providers/render_system_provider.cpp.i
+
+CMakeFiles/GameEngine.dir/src/core/system_providers/render_system_provider.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/GameEngine.dir/src/core/system_providers/render_system_provider.cpp.s"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Dev/GameEngine/src/core/system_providers/render_system_provider.cpp -o CMakeFiles/GameEngine.dir/src/core/system_providers/render_system_provider.cpp.s
+
+CMakeFiles/GameEngine.dir/src/core/system_providers/texture_loader_system_provider.cpp.o: CMakeFiles/GameEngine.dir/flags.make
+CMakeFiles/GameEngine.dir/src/core/system_providers/texture_loader_system_provider.cpp.o: ../src/core/system_providers/texture_loader_system_provider.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/GameEngine.dir/src/core/system_providers/texture_loader_system_provider.cpp.o"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/src/core/system_providers/texture_loader_system_provider.cpp.o -c /home/brandon/Dev/GameEngine/src/core/system_providers/texture_loader_system_provider.cpp
+
+CMakeFiles/GameEngine.dir/src/core/system_providers/texture_loader_system_provider.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/GameEngine.dir/src/core/system_providers/texture_loader_system_provider.cpp.i"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Dev/GameEngine/src/core/system_providers/texture_loader_system_provider.cpp > CMakeFiles/GameEngine.dir/src/core/system_providers/texture_loader_system_provider.cpp.i
+
+CMakeFiles/GameEngine.dir/src/core/system_providers/texture_loader_system_provider.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/GameEngine.dir/src/core/system_providers/texture_loader_system_provider.cpp.s"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Dev/GameEngine/src/core/system_providers/texture_loader_system_provider.cpp -o CMakeFiles/GameEngine.dir/src/core/system_providers/texture_loader_system_provider.cpp.s
 
 CMakeFiles/GameEngine.dir/src/core/systems/camera_system.cpp.o: CMakeFiles/GameEngine.dir/flags.make
 CMakeFiles/GameEngine.dir/src/core/systems/camera_system.cpp.o: ../src/core/systems/camera_system.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/GameEngine.dir/src/core/systems/camera_system.cpp.o"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/src/core/systems/camera_system.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/src/core/systems/camera_system.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/GameEngine.dir/src/core/systems/camera_system.cpp.o"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/src/core/systems/camera_system.cpp.o -c /home/brandon/Dev/GameEngine/src/core/systems/camera_system.cpp
 
 CMakeFiles/GameEngine.dir/src/core/systems/camera_system.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/GameEngine.dir/src/core/systems/camera_system.cpp.i"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Desktop/Dev/GameEngine/src/core/systems/camera_system.cpp > CMakeFiles/GameEngine.dir/src/core/systems/camera_system.cpp.i
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Dev/GameEngine/src/core/systems/camera_system.cpp > CMakeFiles/GameEngine.dir/src/core/systems/camera_system.cpp.i
 
 CMakeFiles/GameEngine.dir/src/core/systems/camera_system.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/GameEngine.dir/src/core/systems/camera_system.cpp.s"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Desktop/Dev/GameEngine/src/core/systems/camera_system.cpp -o CMakeFiles/GameEngine.dir/src/core/systems/camera_system.cpp.s
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Dev/GameEngine/src/core/systems/camera_system.cpp -o CMakeFiles/GameEngine.dir/src/core/systems/camera_system.cpp.s
 
 CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o: CMakeFiles/GameEngine.dir/flags.make
 CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o: ../src/core/systems/controller_system.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/src/core/systems/controller_system.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o -c /home/brandon/Dev/GameEngine/src/core/systems/controller_system.cpp
 
 CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.i"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Desktop/Dev/GameEngine/src/core/systems/controller_system.cpp > CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.i
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Dev/GameEngine/src/core/systems/controller_system.cpp > CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.i
 
 CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.s"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Desktop/Dev/GameEngine/src/core/systems/controller_system.cpp -o CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.s
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Dev/GameEngine/src/core/systems/controller_system.cpp -o CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.s
 
 CMakeFiles/GameEngine.dir/src/core/systems/light_system.cpp.o: CMakeFiles/GameEngine.dir/flags.make
 CMakeFiles/GameEngine.dir/src/core/systems/light_system.cpp.o: ../src/core/systems/light_system.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/GameEngine.dir/src/core/systems/light_system.cpp.o"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/src/core/systems/light_system.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/src/core/systems/light_system.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/GameEngine.dir/src/core/systems/light_system.cpp.o"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/src/core/systems/light_system.cpp.o -c /home/brandon/Dev/GameEngine/src/core/systems/light_system.cpp
 
 CMakeFiles/GameEngine.dir/src/core/systems/light_system.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/GameEngine.dir/src/core/systems/light_system.cpp.i"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Desktop/Dev/GameEngine/src/core/systems/light_system.cpp > CMakeFiles/GameEngine.dir/src/core/systems/light_system.cpp.i
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Dev/GameEngine/src/core/systems/light_system.cpp > CMakeFiles/GameEngine.dir/src/core/systems/light_system.cpp.i
 
 CMakeFiles/GameEngine.dir/src/core/systems/light_system.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/GameEngine.dir/src/core/systems/light_system.cpp.s"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Desktop/Dev/GameEngine/src/core/systems/light_system.cpp -o CMakeFiles/GameEngine.dir/src/core/systems/light_system.cpp.s
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Dev/GameEngine/src/core/systems/light_system.cpp -o CMakeFiles/GameEngine.dir/src/core/systems/light_system.cpp.s
 
 CMakeFiles/GameEngine.dir/src/core/systems/mesh_loader_system.cpp.o: CMakeFiles/GameEngine.dir/flags.make
 CMakeFiles/GameEngine.dir/src/core/systems/mesh_loader_system.cpp.o: ../src/core/systems/mesh_loader_system.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/GameEngine.dir/src/core/systems/mesh_loader_system.cpp.o"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/src/core/systems/mesh_loader_system.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/src/core/systems/mesh_loader_system.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/GameEngine.dir/src/core/systems/mesh_loader_system.cpp.o"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/src/core/systems/mesh_loader_system.cpp.o -c /home/brandon/Dev/GameEngine/src/core/systems/mesh_loader_system.cpp
 
 CMakeFiles/GameEngine.dir/src/core/systems/mesh_loader_system.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/GameEngine.dir/src/core/systems/mesh_loader_system.cpp.i"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Desktop/Dev/GameEngine/src/core/systems/mesh_loader_system.cpp > CMakeFiles/GameEngine.dir/src/core/systems/mesh_loader_system.cpp.i
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Dev/GameEngine/src/core/systems/mesh_loader_system.cpp > CMakeFiles/GameEngine.dir/src/core/systems/mesh_loader_system.cpp.i
 
 CMakeFiles/GameEngine.dir/src/core/systems/mesh_loader_system.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/GameEngine.dir/src/core/systems/mesh_loader_system.cpp.s"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Desktop/Dev/GameEngine/src/core/systems/mesh_loader_system.cpp -o CMakeFiles/GameEngine.dir/src/core/systems/mesh_loader_system.cpp.s
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Dev/GameEngine/src/core/systems/mesh_loader_system.cpp -o CMakeFiles/GameEngine.dir/src/core/systems/mesh_loader_system.cpp.s
 
 CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o: CMakeFiles/GameEngine.dir/flags.make
 CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o: ../src/core/systems/render_system.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/src/core/systems/render_system.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o -c /home/brandon/Dev/GameEngine/src/core/systems/render_system.cpp
 
 CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.i"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Desktop/Dev/GameEngine/src/core/systems/render_system.cpp > CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.i
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Dev/GameEngine/src/core/systems/render_system.cpp > CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.i
 
 CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.s"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Desktop/Dev/GameEngine/src/core/systems/render_system.cpp -o CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.s
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Dev/GameEngine/src/core/systems/render_system.cpp -o CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.s
 
 CMakeFiles/GameEngine.dir/src/core/systems/shader_loader_system.cpp.o: CMakeFiles/GameEngine.dir/flags.make
 CMakeFiles/GameEngine.dir/src/core/systems/shader_loader_system.cpp.o: ../src/core/systems/shader_loader_system.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/GameEngine.dir/src/core/systems/shader_loader_system.cpp.o"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/src/core/systems/shader_loader_system.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/src/core/systems/shader_loader_system.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/GameEngine.dir/src/core/systems/shader_loader_system.cpp.o"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/src/core/systems/shader_loader_system.cpp.o -c /home/brandon/Dev/GameEngine/src/core/systems/shader_loader_system.cpp
 
 CMakeFiles/GameEngine.dir/src/core/systems/shader_loader_system.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/GameEngine.dir/src/core/systems/shader_loader_system.cpp.i"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Desktop/Dev/GameEngine/src/core/systems/shader_loader_system.cpp > CMakeFiles/GameEngine.dir/src/core/systems/shader_loader_system.cpp.i
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Dev/GameEngine/src/core/systems/shader_loader_system.cpp > CMakeFiles/GameEngine.dir/src/core/systems/shader_loader_system.cpp.i
 
 CMakeFiles/GameEngine.dir/src/core/systems/shader_loader_system.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/GameEngine.dir/src/core/systems/shader_loader_system.cpp.s"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Desktop/Dev/GameEngine/src/core/systems/shader_loader_system.cpp -o CMakeFiles/GameEngine.dir/src/core/systems/shader_loader_system.cpp.s
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Dev/GameEngine/src/core/systems/shader_loader_system.cpp -o CMakeFiles/GameEngine.dir/src/core/systems/shader_loader_system.cpp.s
 
 CMakeFiles/GameEngine.dir/src/core/systems/texture_loader_system.cpp.o: CMakeFiles/GameEngine.dir/flags.make
 CMakeFiles/GameEngine.dir/src/core/systems/texture_loader_system.cpp.o: ../src/core/systems/texture_loader_system.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/GameEngine.dir/src/core/systems/texture_loader_system.cpp.o"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/src/core/systems/texture_loader_system.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/src/core/systems/texture_loader_system.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/GameEngine.dir/src/core/systems/texture_loader_system.cpp.o"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/src/core/systems/texture_loader_system.cpp.o -c /home/brandon/Dev/GameEngine/src/core/systems/texture_loader_system.cpp
 
 CMakeFiles/GameEngine.dir/src/core/systems/texture_loader_system.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/GameEngine.dir/src/core/systems/texture_loader_system.cpp.i"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Desktop/Dev/GameEngine/src/core/systems/texture_loader_system.cpp > CMakeFiles/GameEngine.dir/src/core/systems/texture_loader_system.cpp.i
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Dev/GameEngine/src/core/systems/texture_loader_system.cpp > CMakeFiles/GameEngine.dir/src/core/systems/texture_loader_system.cpp.i
 
 CMakeFiles/GameEngine.dir/src/core/systems/texture_loader_system.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/GameEngine.dir/src/core/systems/texture_loader_system.cpp.s"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Desktop/Dev/GameEngine/src/core/systems/texture_loader_system.cpp -o CMakeFiles/GameEngine.dir/src/core/systems/texture_loader_system.cpp.s
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Dev/GameEngine/src/core/systems/texture_loader_system.cpp -o CMakeFiles/GameEngine.dir/src/core/systems/texture_loader_system.cpp.s
 
 CMakeFiles/GameEngine.dir/src/editor/core/windows/game_window.cpp.o: CMakeFiles/GameEngine.dir/flags.make
 CMakeFiles/GameEngine.dir/src/editor/core/windows/game_window.cpp.o: ../src/editor/core/windows/game_window.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/GameEngine.dir/src/editor/core/windows/game_window.cpp.o"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/src/editor/core/windows/game_window.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/src/editor/core/windows/game_window.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/GameEngine.dir/src/editor/core/windows/game_window.cpp.o"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/src/editor/core/windows/game_window.cpp.o -c /home/brandon/Dev/GameEngine/src/editor/core/windows/game_window.cpp
 
 CMakeFiles/GameEngine.dir/src/editor/core/windows/game_window.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/GameEngine.dir/src/editor/core/windows/game_window.cpp.i"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Desktop/Dev/GameEngine/src/editor/core/windows/game_window.cpp > CMakeFiles/GameEngine.dir/src/editor/core/windows/game_window.cpp.i
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Dev/GameEngine/src/editor/core/windows/game_window.cpp > CMakeFiles/GameEngine.dir/src/editor/core/windows/game_window.cpp.i
 
 CMakeFiles/GameEngine.dir/src/editor/core/windows/game_window.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/GameEngine.dir/src/editor/core/windows/game_window.cpp.s"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Desktop/Dev/GameEngine/src/editor/core/windows/game_window.cpp -o CMakeFiles/GameEngine.dir/src/editor/core/windows/game_window.cpp.s
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Dev/GameEngine/src/editor/core/windows/game_window.cpp -o CMakeFiles/GameEngine.dir/src/editor/core/windows/game_window.cpp.s
 
 CMakeFiles/GameEngine.dir/src/editor/core/windows/scene_window.cpp.o: CMakeFiles/GameEngine.dir/flags.make
 CMakeFiles/GameEngine.dir/src/editor/core/windows/scene_window.cpp.o: ../src/editor/core/windows/scene_window.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/GameEngine.dir/src/editor/core/windows/scene_window.cpp.o"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/src/editor/core/windows/scene_window.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/src/editor/core/windows/scene_window.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/GameEngine.dir/src/editor/core/windows/scene_window.cpp.o"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/src/editor/core/windows/scene_window.cpp.o -c /home/brandon/Dev/GameEngine/src/editor/core/windows/scene_window.cpp
 
 CMakeFiles/GameEngine.dir/src/editor/core/windows/scene_window.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/GameEngine.dir/src/editor/core/windows/scene_window.cpp.i"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Desktop/Dev/GameEngine/src/editor/core/windows/scene_window.cpp > CMakeFiles/GameEngine.dir/src/editor/core/windows/scene_window.cpp.i
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Dev/GameEngine/src/editor/core/windows/scene_window.cpp > CMakeFiles/GameEngine.dir/src/editor/core/windows/scene_window.cpp.i
 
 CMakeFiles/GameEngine.dir/src/editor/core/windows/scene_window.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/GameEngine.dir/src/editor/core/windows/scene_window.cpp.s"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Desktop/Dev/GameEngine/src/editor/core/windows/scene_window.cpp -o CMakeFiles/GameEngine.dir/src/editor/core/windows/scene_window.cpp.s
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Dev/GameEngine/src/editor/core/windows/scene_window.cpp -o CMakeFiles/GameEngine.dir/src/editor/core/windows/scene_window.cpp.s
 
 CMakeFiles/GameEngine.dir/src/editor/editor.cpp.o: CMakeFiles/GameEngine.dir/flags.make
 CMakeFiles/GameEngine.dir/src/editor/editor.cpp.o: ../src/editor/editor.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/GameEngine.dir/src/editor/editor.cpp.o"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/src/editor/editor.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/src/editor/editor.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/GameEngine.dir/src/editor/editor.cpp.o"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/src/editor/editor.cpp.o -c /home/brandon/Dev/GameEngine/src/editor/editor.cpp
 
 CMakeFiles/GameEngine.dir/src/editor/editor.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/GameEngine.dir/src/editor/editor.cpp.i"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Desktop/Dev/GameEngine/src/editor/editor.cpp > CMakeFiles/GameEngine.dir/src/editor/editor.cpp.i
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Dev/GameEngine/src/editor/editor.cpp > CMakeFiles/GameEngine.dir/src/editor/editor.cpp.i
 
 CMakeFiles/GameEngine.dir/src/editor/editor.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/GameEngine.dir/src/editor/editor.cpp.s"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Desktop/Dev/GameEngine/src/editor/editor.cpp -o CMakeFiles/GameEngine.dir/src/editor/editor.cpp.s
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Dev/GameEngine/src/editor/editor.cpp -o CMakeFiles/GameEngine.dir/src/editor/editor.cpp.s
 
 CMakeFiles/GameEngine.dir/src/errors/error_handler.cpp.o: CMakeFiles/GameEngine.dir/flags.make
 CMakeFiles/GameEngine.dir/src/errors/error_handler.cpp.o: ../src/errors/error_handler.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/GameEngine.dir/src/errors/error_handler.cpp.o"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/src/errors/error_handler.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/src/errors/error_handler.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/GameEngine.dir/src/errors/error_handler.cpp.o"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/src/errors/error_handler.cpp.o -c /home/brandon/Dev/GameEngine/src/errors/error_handler.cpp
 
 CMakeFiles/GameEngine.dir/src/errors/error_handler.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/GameEngine.dir/src/errors/error_handler.cpp.i"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Desktop/Dev/GameEngine/src/errors/error_handler.cpp > CMakeFiles/GameEngine.dir/src/errors/error_handler.cpp.i
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Dev/GameEngine/src/errors/error_handler.cpp > CMakeFiles/GameEngine.dir/src/errors/error_handler.cpp.i
 
 CMakeFiles/GameEngine.dir/src/errors/error_handler.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/GameEngine.dir/src/errors/error_handler.cpp.s"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Desktop/Dev/GameEngine/src/errors/error_handler.cpp -o CMakeFiles/GameEngine.dir/src/errors/error_handler.cpp.s
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Dev/GameEngine/src/errors/error_handler.cpp -o CMakeFiles/GameEngine.dir/src/errors/error_handler.cpp.s
 
 CMakeFiles/GameEngine.dir/src/helpers/mesh_importer.cpp.o: CMakeFiles/GameEngine.dir/flags.make
 CMakeFiles/GameEngine.dir/src/helpers/mesh_importer.cpp.o: ../src/helpers/mesh_importer.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/GameEngine.dir/src/helpers/mesh_importer.cpp.o"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/src/helpers/mesh_importer.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/src/helpers/mesh_importer.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/GameEngine.dir/src/helpers/mesh_importer.cpp.o"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/src/helpers/mesh_importer.cpp.o -c /home/brandon/Dev/GameEngine/src/helpers/mesh_importer.cpp
 
 CMakeFiles/GameEngine.dir/src/helpers/mesh_importer.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/GameEngine.dir/src/helpers/mesh_importer.cpp.i"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Desktop/Dev/GameEngine/src/helpers/mesh_importer.cpp > CMakeFiles/GameEngine.dir/src/helpers/mesh_importer.cpp.i
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Dev/GameEngine/src/helpers/mesh_importer.cpp > CMakeFiles/GameEngine.dir/src/helpers/mesh_importer.cpp.i
 
 CMakeFiles/GameEngine.dir/src/helpers/mesh_importer.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/GameEngine.dir/src/helpers/mesh_importer.cpp.s"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Desktop/Dev/GameEngine/src/helpers/mesh_importer.cpp -o CMakeFiles/GameEngine.dir/src/helpers/mesh_importer.cpp.s
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Dev/GameEngine/src/helpers/mesh_importer.cpp -o CMakeFiles/GameEngine.dir/src/helpers/mesh_importer.cpp.s
 
 CMakeFiles/GameEngine.dir/src/helpers/shader_importer.cpp.o: CMakeFiles/GameEngine.dir/flags.make
 CMakeFiles/GameEngine.dir/src/helpers/shader_importer.cpp.o: ../src/helpers/shader_importer.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_14) "Building CXX object CMakeFiles/GameEngine.dir/src/helpers/shader_importer.cpp.o"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/src/helpers/shader_importer.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/src/helpers/shader_importer.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/GameEngine.dir/src/helpers/shader_importer.cpp.o"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/src/helpers/shader_importer.cpp.o -c /home/brandon/Dev/GameEngine/src/helpers/shader_importer.cpp
 
 CMakeFiles/GameEngine.dir/src/helpers/shader_importer.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/GameEngine.dir/src/helpers/shader_importer.cpp.i"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Desktop/Dev/GameEngine/src/helpers/shader_importer.cpp > CMakeFiles/GameEngine.dir/src/helpers/shader_importer.cpp.i
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Dev/GameEngine/src/helpers/shader_importer.cpp > CMakeFiles/GameEngine.dir/src/helpers/shader_importer.cpp.i
 
 CMakeFiles/GameEngine.dir/src/helpers/shader_importer.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/GameEngine.dir/src/helpers/shader_importer.cpp.s"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Desktop/Dev/GameEngine/src/helpers/shader_importer.cpp -o CMakeFiles/GameEngine.dir/src/helpers/shader_importer.cpp.s
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Dev/GameEngine/src/helpers/shader_importer.cpp -o CMakeFiles/GameEngine.dir/src/helpers/shader_importer.cpp.s
+
+CMakeFiles/GameEngine.dir/src/helpers/texture_importer.cpp.o: CMakeFiles/GameEngine.dir/flags.make
+CMakeFiles/GameEngine.dir/src/helpers/texture_importer.cpp.o: ../src/helpers/texture_importer.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/GameEngine.dir/src/helpers/texture_importer.cpp.o"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/src/helpers/texture_importer.cpp.o -c /home/brandon/Dev/GameEngine/src/helpers/texture_importer.cpp
+
+CMakeFiles/GameEngine.dir/src/helpers/texture_importer.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/GameEngine.dir/src/helpers/texture_importer.cpp.i"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Dev/GameEngine/src/helpers/texture_importer.cpp > CMakeFiles/GameEngine.dir/src/helpers/texture_importer.cpp.i
+
+CMakeFiles/GameEngine.dir/src/helpers/texture_importer.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/GameEngine.dir/src/helpers/texture_importer.cpp.s"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Dev/GameEngine/src/helpers/texture_importer.cpp -o CMakeFiles/GameEngine.dir/src/helpers/texture_importer.cpp.s
 
 CMakeFiles/GameEngine.dir/src/main.cpp.o: CMakeFiles/GameEngine.dir/flags.make
 CMakeFiles/GameEngine.dir/src/main.cpp.o: ../src/main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_15) "Building CXX object CMakeFiles/GameEngine.dir/src/main.cpp.o"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/src/main.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/src/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object CMakeFiles/GameEngine.dir/src/main.cpp.o"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/src/main.cpp.o -c /home/brandon/Dev/GameEngine/src/main.cpp
 
 CMakeFiles/GameEngine.dir/src/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/GameEngine.dir/src/main.cpp.i"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Desktop/Dev/GameEngine/src/main.cpp > CMakeFiles/GameEngine.dir/src/main.cpp.i
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Dev/GameEngine/src/main.cpp > CMakeFiles/GameEngine.dir/src/main.cpp.i
 
 CMakeFiles/GameEngine.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/GameEngine.dir/src/main.cpp.s"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Desktop/Dev/GameEngine/src/main.cpp -o CMakeFiles/GameEngine.dir/src/main.cpp.s
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Dev/GameEngine/src/main.cpp -o CMakeFiles/GameEngine.dir/src/main.cpp.s
 
 CMakeFiles/GameEngine.dir/src/rendering/models/index_buffer.cpp.o: CMakeFiles/GameEngine.dir/flags.make
 CMakeFiles/GameEngine.dir/src/rendering/models/index_buffer.cpp.o: ../src/rendering/models/index_buffer.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_16) "Building CXX object CMakeFiles/GameEngine.dir/src/rendering/models/index_buffer.cpp.o"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/src/rendering/models/index_buffer.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/src/rendering/models/index_buffer.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object CMakeFiles/GameEngine.dir/src/rendering/models/index_buffer.cpp.o"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/src/rendering/models/index_buffer.cpp.o -c /home/brandon/Dev/GameEngine/src/rendering/models/index_buffer.cpp
 
 CMakeFiles/GameEngine.dir/src/rendering/models/index_buffer.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/GameEngine.dir/src/rendering/models/index_buffer.cpp.i"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Desktop/Dev/GameEngine/src/rendering/models/index_buffer.cpp > CMakeFiles/GameEngine.dir/src/rendering/models/index_buffer.cpp.i
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Dev/GameEngine/src/rendering/models/index_buffer.cpp > CMakeFiles/GameEngine.dir/src/rendering/models/index_buffer.cpp.i
 
 CMakeFiles/GameEngine.dir/src/rendering/models/index_buffer.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/GameEngine.dir/src/rendering/models/index_buffer.cpp.s"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Desktop/Dev/GameEngine/src/rendering/models/index_buffer.cpp -o CMakeFiles/GameEngine.dir/src/rendering/models/index_buffer.cpp.s
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Dev/GameEngine/src/rendering/models/index_buffer.cpp -o CMakeFiles/GameEngine.dir/src/rendering/models/index_buffer.cpp.s
 
 CMakeFiles/GameEngine.dir/src/rendering/models/mesh.cpp.o: CMakeFiles/GameEngine.dir/flags.make
 CMakeFiles/GameEngine.dir/src/rendering/models/mesh.cpp.o: ../src/rendering/models/mesh.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_17) "Building CXX object CMakeFiles/GameEngine.dir/src/rendering/models/mesh.cpp.o"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/src/rendering/models/mesh.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/src/rendering/models/mesh.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object CMakeFiles/GameEngine.dir/src/rendering/models/mesh.cpp.o"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/src/rendering/models/mesh.cpp.o -c /home/brandon/Dev/GameEngine/src/rendering/models/mesh.cpp
 
 CMakeFiles/GameEngine.dir/src/rendering/models/mesh.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/GameEngine.dir/src/rendering/models/mesh.cpp.i"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Desktop/Dev/GameEngine/src/rendering/models/mesh.cpp > CMakeFiles/GameEngine.dir/src/rendering/models/mesh.cpp.i
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Dev/GameEngine/src/rendering/models/mesh.cpp > CMakeFiles/GameEngine.dir/src/rendering/models/mesh.cpp.i
 
 CMakeFiles/GameEngine.dir/src/rendering/models/mesh.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/GameEngine.dir/src/rendering/models/mesh.cpp.s"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Desktop/Dev/GameEngine/src/rendering/models/mesh.cpp -o CMakeFiles/GameEngine.dir/src/rendering/models/mesh.cpp.s
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Dev/GameEngine/src/rendering/models/mesh.cpp -o CMakeFiles/GameEngine.dir/src/rendering/models/mesh.cpp.s
+
+CMakeFiles/GameEngine.dir/src/rendering/models/render_buffer.cpp.o: CMakeFiles/GameEngine.dir/flags.make
+CMakeFiles/GameEngine.dir/src/rendering/models/render_buffer.cpp.o: ../src/rendering/models/render_buffer.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building CXX object CMakeFiles/GameEngine.dir/src/rendering/models/render_buffer.cpp.o"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/src/rendering/models/render_buffer.cpp.o -c /home/brandon/Dev/GameEngine/src/rendering/models/render_buffer.cpp
+
+CMakeFiles/GameEngine.dir/src/rendering/models/render_buffer.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/GameEngine.dir/src/rendering/models/render_buffer.cpp.i"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Dev/GameEngine/src/rendering/models/render_buffer.cpp > CMakeFiles/GameEngine.dir/src/rendering/models/render_buffer.cpp.i
+
+CMakeFiles/GameEngine.dir/src/rendering/models/render_buffer.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/GameEngine.dir/src/rendering/models/render_buffer.cpp.s"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Dev/GameEngine/src/rendering/models/render_buffer.cpp -o CMakeFiles/GameEngine.dir/src/rendering/models/render_buffer.cpp.s
 
 CMakeFiles/GameEngine.dir/src/rendering/models/shader.cpp.o: CMakeFiles/GameEngine.dir/flags.make
 CMakeFiles/GameEngine.dir/src/rendering/models/shader.cpp.o: ../src/rendering/models/shader.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_18) "Building CXX object CMakeFiles/GameEngine.dir/src/rendering/models/shader.cpp.o"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/src/rendering/models/shader.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/src/rendering/models/shader.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building CXX object CMakeFiles/GameEngine.dir/src/rendering/models/shader.cpp.o"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/src/rendering/models/shader.cpp.o -c /home/brandon/Dev/GameEngine/src/rendering/models/shader.cpp
 
 CMakeFiles/GameEngine.dir/src/rendering/models/shader.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/GameEngine.dir/src/rendering/models/shader.cpp.i"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Desktop/Dev/GameEngine/src/rendering/models/shader.cpp > CMakeFiles/GameEngine.dir/src/rendering/models/shader.cpp.i
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Dev/GameEngine/src/rendering/models/shader.cpp > CMakeFiles/GameEngine.dir/src/rendering/models/shader.cpp.i
 
 CMakeFiles/GameEngine.dir/src/rendering/models/shader.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/GameEngine.dir/src/rendering/models/shader.cpp.s"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Desktop/Dev/GameEngine/src/rendering/models/shader.cpp -o CMakeFiles/GameEngine.dir/src/rendering/models/shader.cpp.s
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Dev/GameEngine/src/rendering/models/shader.cpp -o CMakeFiles/GameEngine.dir/src/rendering/models/shader.cpp.s
 
 CMakeFiles/GameEngine.dir/src/rendering/models/texture.cpp.o: CMakeFiles/GameEngine.dir/flags.make
 CMakeFiles/GameEngine.dir/src/rendering/models/texture.cpp.o: ../src/rendering/models/texture.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_19) "Building CXX object CMakeFiles/GameEngine.dir/src/rendering/models/texture.cpp.o"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/src/rendering/models/texture.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/src/rendering/models/texture.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building CXX object CMakeFiles/GameEngine.dir/src/rendering/models/texture.cpp.o"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/src/rendering/models/texture.cpp.o -c /home/brandon/Dev/GameEngine/src/rendering/models/texture.cpp
 
 CMakeFiles/GameEngine.dir/src/rendering/models/texture.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/GameEngine.dir/src/rendering/models/texture.cpp.i"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Desktop/Dev/GameEngine/src/rendering/models/texture.cpp > CMakeFiles/GameEngine.dir/src/rendering/models/texture.cpp.i
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Dev/GameEngine/src/rendering/models/texture.cpp > CMakeFiles/GameEngine.dir/src/rendering/models/texture.cpp.i
 
 CMakeFiles/GameEngine.dir/src/rendering/models/texture.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/GameEngine.dir/src/rendering/models/texture.cpp.s"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Desktop/Dev/GameEngine/src/rendering/models/texture.cpp -o CMakeFiles/GameEngine.dir/src/rendering/models/texture.cpp.s
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Dev/GameEngine/src/rendering/models/texture.cpp -o CMakeFiles/GameEngine.dir/src/rendering/models/texture.cpp.s
 
 CMakeFiles/GameEngine.dir/src/rendering/models/vertex_array.cpp.o: CMakeFiles/GameEngine.dir/flags.make
 CMakeFiles/GameEngine.dir/src/rendering/models/vertex_array.cpp.o: ../src/rendering/models/vertex_array.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_20) "Building CXX object CMakeFiles/GameEngine.dir/src/rendering/models/vertex_array.cpp.o"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/src/rendering/models/vertex_array.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/src/rendering/models/vertex_array.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building CXX object CMakeFiles/GameEngine.dir/src/rendering/models/vertex_array.cpp.o"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/src/rendering/models/vertex_array.cpp.o -c /home/brandon/Dev/GameEngine/src/rendering/models/vertex_array.cpp
 
 CMakeFiles/GameEngine.dir/src/rendering/models/vertex_array.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/GameEngine.dir/src/rendering/models/vertex_array.cpp.i"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Desktop/Dev/GameEngine/src/rendering/models/vertex_array.cpp > CMakeFiles/GameEngine.dir/src/rendering/models/vertex_array.cpp.i
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Dev/GameEngine/src/rendering/models/vertex_array.cpp > CMakeFiles/GameEngine.dir/src/rendering/models/vertex_array.cpp.i
 
 CMakeFiles/GameEngine.dir/src/rendering/models/vertex_array.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/GameEngine.dir/src/rendering/models/vertex_array.cpp.s"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Desktop/Dev/GameEngine/src/rendering/models/vertex_array.cpp -o CMakeFiles/GameEngine.dir/src/rendering/models/vertex_array.cpp.s
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Dev/GameEngine/src/rendering/models/vertex_array.cpp -o CMakeFiles/GameEngine.dir/src/rendering/models/vertex_array.cpp.s
 
 CMakeFiles/GameEngine.dir/src/rendering/models/vertex_buffer.cpp.o: CMakeFiles/GameEngine.dir/flags.make
 CMakeFiles/GameEngine.dir/src/rendering/models/vertex_buffer.cpp.o: ../src/rendering/models/vertex_buffer.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_21) "Building CXX object CMakeFiles/GameEngine.dir/src/rendering/models/vertex_buffer.cpp.o"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/src/rendering/models/vertex_buffer.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/src/rendering/models/vertex_buffer.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building CXX object CMakeFiles/GameEngine.dir/src/rendering/models/vertex_buffer.cpp.o"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/src/rendering/models/vertex_buffer.cpp.o -c /home/brandon/Dev/GameEngine/src/rendering/models/vertex_buffer.cpp
 
 CMakeFiles/GameEngine.dir/src/rendering/models/vertex_buffer.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/GameEngine.dir/src/rendering/models/vertex_buffer.cpp.i"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Desktop/Dev/GameEngine/src/rendering/models/vertex_buffer.cpp > CMakeFiles/GameEngine.dir/src/rendering/models/vertex_buffer.cpp.i
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Dev/GameEngine/src/rendering/models/vertex_buffer.cpp > CMakeFiles/GameEngine.dir/src/rendering/models/vertex_buffer.cpp.i
 
 CMakeFiles/GameEngine.dir/src/rendering/models/vertex_buffer.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/GameEngine.dir/src/rendering/models/vertex_buffer.cpp.s"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Desktop/Dev/GameEngine/src/rendering/models/vertex_buffer.cpp -o CMakeFiles/GameEngine.dir/src/rendering/models/vertex_buffer.cpp.s
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Dev/GameEngine/src/rendering/models/vertex_buffer.cpp -o CMakeFiles/GameEngine.dir/src/rendering/models/vertex_buffer.cpp.s
 
 CMakeFiles/GameEngine.dir/src/rendering/render_group.cpp.o: CMakeFiles/GameEngine.dir/flags.make
 CMakeFiles/GameEngine.dir/src/rendering/render_group.cpp.o: ../src/rendering/render_group.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_22) "Building CXX object CMakeFiles/GameEngine.dir/src/rendering/render_group.cpp.o"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/src/rendering/render_group.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/src/rendering/render_group.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building CXX object CMakeFiles/GameEngine.dir/src/rendering/render_group.cpp.o"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/src/rendering/render_group.cpp.o -c /home/brandon/Dev/GameEngine/src/rendering/render_group.cpp
 
 CMakeFiles/GameEngine.dir/src/rendering/render_group.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/GameEngine.dir/src/rendering/render_group.cpp.i"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Desktop/Dev/GameEngine/src/rendering/render_group.cpp > CMakeFiles/GameEngine.dir/src/rendering/render_group.cpp.i
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Dev/GameEngine/src/rendering/render_group.cpp > CMakeFiles/GameEngine.dir/src/rendering/render_group.cpp.i
 
 CMakeFiles/GameEngine.dir/src/rendering/render_group.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/GameEngine.dir/src/rendering/render_group.cpp.s"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Desktop/Dev/GameEngine/src/rendering/render_group.cpp -o CMakeFiles/GameEngine.dir/src/rendering/render_group.cpp.s
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Dev/GameEngine/src/rendering/render_group.cpp -o CMakeFiles/GameEngine.dir/src/rendering/render_group.cpp.s
 
 CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: CMakeFiles/GameEngine.dir/flags.make
 CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../src/rendering/renderer_3d.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_23) "Building CXX object CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/src/rendering/renderer_3d.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building CXX object CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o -c /home/brandon/Dev/GameEngine/src/rendering/renderer_3d.cpp
 
 CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.i"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Desktop/Dev/GameEngine/src/rendering/renderer_3d.cpp > CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.i
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Dev/GameEngine/src/rendering/renderer_3d.cpp > CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.i
 
 CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.s"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Desktop/Dev/GameEngine/src/rendering/renderer_3d.cpp -o CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.s
-
-CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.o: CMakeFiles/GameEngine.dir/flags.make
-CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.o: ../src/rendering/vertex_buffer.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_24) "Building CXX object CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.o"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/src/rendering/vertex_buffer.cpp
-
-CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.i"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Desktop/Dev/GameEngine/src/rendering/vertex_buffer.cpp > CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.i
-
-CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.s"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Desktop/Dev/GameEngine/src/rendering/vertex_buffer.cpp -o CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.s
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Dev/GameEngine/src/rendering/renderer_3d.cpp -o CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.s
 
 CMakeFiles/GameEngine.dir/vendor/imgui/imgui.cpp.o: CMakeFiles/GameEngine.dir/flags.make
 CMakeFiles/GameEngine.dir/vendor/imgui/imgui.cpp.o: ../vendor/imgui/imgui.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_25) "Building CXX object CMakeFiles/GameEngine.dir/vendor/imgui/imgui.cpp.o"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/vendor/imgui/imgui.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_28) "Building CXX object CMakeFiles/GameEngine.dir/vendor/imgui/imgui.cpp.o"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/vendor/imgui/imgui.cpp.o -c /home/brandon/Dev/GameEngine/vendor/imgui/imgui.cpp
 
 CMakeFiles/GameEngine.dir/vendor/imgui/imgui.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/GameEngine.dir/vendor/imgui/imgui.cpp.i"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui.cpp > CMakeFiles/GameEngine.dir/vendor/imgui/imgui.cpp.i
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Dev/GameEngine/vendor/imgui/imgui.cpp > CMakeFiles/GameEngine.dir/vendor/imgui/imgui.cpp.i
 
 CMakeFiles/GameEngine.dir/vendor/imgui/imgui.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/GameEngine.dir/vendor/imgui/imgui.cpp.s"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui.cpp -o CMakeFiles/GameEngine.dir/vendor/imgui/imgui.cpp.s
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Dev/GameEngine/vendor/imgui/imgui.cpp -o CMakeFiles/GameEngine.dir/vendor/imgui/imgui.cpp.s
 
 CMakeFiles/GameEngine.dir/vendor/imgui/imgui_draw.cpp.o: CMakeFiles/GameEngine.dir/flags.make
 CMakeFiles/GameEngine.dir/vendor/imgui/imgui_draw.cpp.o: ../vendor/imgui/imgui_draw.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building CXX object CMakeFiles/GameEngine.dir/vendor/imgui/imgui_draw.cpp.o"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/vendor/imgui/imgui_draw.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui_draw.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Building CXX object CMakeFiles/GameEngine.dir/vendor/imgui/imgui_draw.cpp.o"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/vendor/imgui/imgui_draw.cpp.o -c /home/brandon/Dev/GameEngine/vendor/imgui/imgui_draw.cpp
 
 CMakeFiles/GameEngine.dir/vendor/imgui/imgui_draw.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/GameEngine.dir/vendor/imgui/imgui_draw.cpp.i"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui_draw.cpp > CMakeFiles/GameEngine.dir/vendor/imgui/imgui_draw.cpp.i
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Dev/GameEngine/vendor/imgui/imgui_draw.cpp > CMakeFiles/GameEngine.dir/vendor/imgui/imgui_draw.cpp.i
 
 CMakeFiles/GameEngine.dir/vendor/imgui/imgui_draw.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/GameEngine.dir/vendor/imgui/imgui_draw.cpp.s"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui_draw.cpp -o CMakeFiles/GameEngine.dir/vendor/imgui/imgui_draw.cpp.s
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Dev/GameEngine/vendor/imgui/imgui_draw.cpp -o CMakeFiles/GameEngine.dir/vendor/imgui/imgui_draw.cpp.s
 
 CMakeFiles/GameEngine.dir/vendor/imgui/imgui_impl_glfw.cpp.o: CMakeFiles/GameEngine.dir/flags.make
 CMakeFiles/GameEngine.dir/vendor/imgui/imgui_impl_glfw.cpp.o: ../vendor/imgui/imgui_impl_glfw.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building CXX object CMakeFiles/GameEngine.dir/vendor/imgui/imgui_impl_glfw.cpp.o"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/vendor/imgui/imgui_impl_glfw.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui_impl_glfw.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_30) "Building CXX object CMakeFiles/GameEngine.dir/vendor/imgui/imgui_impl_glfw.cpp.o"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/vendor/imgui/imgui_impl_glfw.cpp.o -c /home/brandon/Dev/GameEngine/vendor/imgui/imgui_impl_glfw.cpp
 
 CMakeFiles/GameEngine.dir/vendor/imgui/imgui_impl_glfw.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/GameEngine.dir/vendor/imgui/imgui_impl_glfw.cpp.i"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui_impl_glfw.cpp > CMakeFiles/GameEngine.dir/vendor/imgui/imgui_impl_glfw.cpp.i
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Dev/GameEngine/vendor/imgui/imgui_impl_glfw.cpp > CMakeFiles/GameEngine.dir/vendor/imgui/imgui_impl_glfw.cpp.i
 
 CMakeFiles/GameEngine.dir/vendor/imgui/imgui_impl_glfw.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/GameEngine.dir/vendor/imgui/imgui_impl_glfw.cpp.s"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui_impl_glfw.cpp -o CMakeFiles/GameEngine.dir/vendor/imgui/imgui_impl_glfw.cpp.s
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Dev/GameEngine/vendor/imgui/imgui_impl_glfw.cpp -o CMakeFiles/GameEngine.dir/vendor/imgui/imgui_impl_glfw.cpp.s
 
 CMakeFiles/GameEngine.dir/vendor/imgui/imgui_impl_opengl3.cpp.o: CMakeFiles/GameEngine.dir/flags.make
 CMakeFiles/GameEngine.dir/vendor/imgui/imgui_impl_opengl3.cpp.o: ../vendor/imgui/imgui_impl_opengl3.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_28) "Building CXX object CMakeFiles/GameEngine.dir/vendor/imgui/imgui_impl_opengl3.cpp.o"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/vendor/imgui/imgui_impl_opengl3.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui_impl_opengl3.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Building CXX object CMakeFiles/GameEngine.dir/vendor/imgui/imgui_impl_opengl3.cpp.o"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/vendor/imgui/imgui_impl_opengl3.cpp.o -c /home/brandon/Dev/GameEngine/vendor/imgui/imgui_impl_opengl3.cpp
 
 CMakeFiles/GameEngine.dir/vendor/imgui/imgui_impl_opengl3.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/GameEngine.dir/vendor/imgui/imgui_impl_opengl3.cpp.i"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui_impl_opengl3.cpp > CMakeFiles/GameEngine.dir/vendor/imgui/imgui_impl_opengl3.cpp.i
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Dev/GameEngine/vendor/imgui/imgui_impl_opengl3.cpp > CMakeFiles/GameEngine.dir/vendor/imgui/imgui_impl_opengl3.cpp.i
 
 CMakeFiles/GameEngine.dir/vendor/imgui/imgui_impl_opengl3.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/GameEngine.dir/vendor/imgui/imgui_impl_opengl3.cpp.s"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui_impl_opengl3.cpp -o CMakeFiles/GameEngine.dir/vendor/imgui/imgui_impl_opengl3.cpp.s
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Dev/GameEngine/vendor/imgui/imgui_impl_opengl3.cpp -o CMakeFiles/GameEngine.dir/vendor/imgui/imgui_impl_opengl3.cpp.s
 
 CMakeFiles/GameEngine.dir/vendor/imgui/imgui_tables.cpp.o: CMakeFiles/GameEngine.dir/flags.make
 CMakeFiles/GameEngine.dir/vendor/imgui/imgui_tables.cpp.o: ../vendor/imgui/imgui_tables.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Building CXX object CMakeFiles/GameEngine.dir/vendor/imgui/imgui_tables.cpp.o"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/vendor/imgui/imgui_tables.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui_tables.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_32) "Building CXX object CMakeFiles/GameEngine.dir/vendor/imgui/imgui_tables.cpp.o"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/vendor/imgui/imgui_tables.cpp.o -c /home/brandon/Dev/GameEngine/vendor/imgui/imgui_tables.cpp
 
 CMakeFiles/GameEngine.dir/vendor/imgui/imgui_tables.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/GameEngine.dir/vendor/imgui/imgui_tables.cpp.i"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui_tables.cpp > CMakeFiles/GameEngine.dir/vendor/imgui/imgui_tables.cpp.i
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Dev/GameEngine/vendor/imgui/imgui_tables.cpp > CMakeFiles/GameEngine.dir/vendor/imgui/imgui_tables.cpp.i
 
 CMakeFiles/GameEngine.dir/vendor/imgui/imgui_tables.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/GameEngine.dir/vendor/imgui/imgui_tables.cpp.s"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui_tables.cpp -o CMakeFiles/GameEngine.dir/vendor/imgui/imgui_tables.cpp.s
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Dev/GameEngine/vendor/imgui/imgui_tables.cpp -o CMakeFiles/GameEngine.dir/vendor/imgui/imgui_tables.cpp.s
 
 CMakeFiles/GameEngine.dir/vendor/imgui/imgui_widgets.cpp.o: CMakeFiles/GameEngine.dir/flags.make
 CMakeFiles/GameEngine.dir/vendor/imgui/imgui_widgets.cpp.o: ../vendor/imgui/imgui_widgets.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_30) "Building CXX object CMakeFiles/GameEngine.dir/vendor/imgui/imgui_widgets.cpp.o"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/vendor/imgui/imgui_widgets.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui_widgets.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_33) "Building CXX object CMakeFiles/GameEngine.dir/vendor/imgui/imgui_widgets.cpp.o"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/vendor/imgui/imgui_widgets.cpp.o -c /home/brandon/Dev/GameEngine/vendor/imgui/imgui_widgets.cpp
 
 CMakeFiles/GameEngine.dir/vendor/imgui/imgui_widgets.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/GameEngine.dir/vendor/imgui/imgui_widgets.cpp.i"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui_widgets.cpp > CMakeFiles/GameEngine.dir/vendor/imgui/imgui_widgets.cpp.i
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Dev/GameEngine/vendor/imgui/imgui_widgets.cpp > CMakeFiles/GameEngine.dir/vendor/imgui/imgui_widgets.cpp.i
 
 CMakeFiles/GameEngine.dir/vendor/imgui/imgui_widgets.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/GameEngine.dir/vendor/imgui/imgui_widgets.cpp.s"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui_widgets.cpp -o CMakeFiles/GameEngine.dir/vendor/imgui/imgui_widgets.cpp.s
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Dev/GameEngine/vendor/imgui/imgui_widgets.cpp -o CMakeFiles/GameEngine.dir/vendor/imgui/imgui_widgets.cpp.s
 
 CMakeFiles/GameEngine.dir/vendor/stb_image/stb_image.cpp.o: CMakeFiles/GameEngine.dir/flags.make
 CMakeFiles/GameEngine.dir/vendor/stb_image/stb_image.cpp.o: ../vendor/stb_image/stb_image.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Building CXX object CMakeFiles/GameEngine.dir/vendor/stb_image/stb_image.cpp.o"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/vendor/stb_image/stb_image.cpp.o -c /home/brandon/Desktop/Dev/GameEngine/vendor/stb_image/stb_image.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_34) "Building CXX object CMakeFiles/GameEngine.dir/vendor/stb_image/stb_image.cpp.o"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/GameEngine.dir/vendor/stb_image/stb_image.cpp.o -c /home/brandon/Dev/GameEngine/vendor/stb_image/stb_image.cpp
 
 CMakeFiles/GameEngine.dir/vendor/stb_image/stb_image.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/GameEngine.dir/vendor/stb_image/stb_image.cpp.i"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Desktop/Dev/GameEngine/vendor/stb_image/stb_image.cpp > CMakeFiles/GameEngine.dir/vendor/stb_image/stb_image.cpp.i
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Dev/GameEngine/vendor/stb_image/stb_image.cpp > CMakeFiles/GameEngine.dir/vendor/stb_image/stb_image.cpp.i
 
 CMakeFiles/GameEngine.dir/vendor/stb_image/stb_image.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/GameEngine.dir/vendor/stb_image/stb_image.cpp.s"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Desktop/Dev/GameEngine/vendor/stb_image/stb_image.cpp -o CMakeFiles/GameEngine.dir/vendor/stb_image/stb_image.cpp.s
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Dev/GameEngine/vendor/stb_image/stb_image.cpp -o CMakeFiles/GameEngine.dir/vendor/stb_image/stb_image.cpp.s
 
 # Object files for target GameEngine
 GameEngine_OBJECTS = \
 "CMakeFiles/GameEngine.dir/include/ecs/world/world.cpp.o" \
+"CMakeFiles/GameEngine.dir/src/core/system_providers/render_system_provider.cpp.o" \
+"CMakeFiles/GameEngine.dir/src/core/system_providers/texture_loader_system_provider.cpp.o" \
 "CMakeFiles/GameEngine.dir/src/core/systems/camera_system.cpp.o" \
 "CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o" \
 "CMakeFiles/GameEngine.dir/src/core/systems/light_system.cpp.o" \
@@ -495,16 +536,17 @@ GameEngine_OBJECTS = \
 "CMakeFiles/GameEngine.dir/src/errors/error_handler.cpp.o" \
 "CMakeFiles/GameEngine.dir/src/helpers/mesh_importer.cpp.o" \
 "CMakeFiles/GameEngine.dir/src/helpers/shader_importer.cpp.o" \
+"CMakeFiles/GameEngine.dir/src/helpers/texture_importer.cpp.o" \
 "CMakeFiles/GameEngine.dir/src/main.cpp.o" \
 "CMakeFiles/GameEngine.dir/src/rendering/models/index_buffer.cpp.o" \
 "CMakeFiles/GameEngine.dir/src/rendering/models/mesh.cpp.o" \
+"CMakeFiles/GameEngine.dir/src/rendering/models/render_buffer.cpp.o" \
 "CMakeFiles/GameEngine.dir/src/rendering/models/shader.cpp.o" \
 "CMakeFiles/GameEngine.dir/src/rendering/models/texture.cpp.o" \
 "CMakeFiles/GameEngine.dir/src/rendering/models/vertex_array.cpp.o" \
 "CMakeFiles/GameEngine.dir/src/rendering/models/vertex_buffer.cpp.o" \
 "CMakeFiles/GameEngine.dir/src/rendering/render_group.cpp.o" \
 "CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o" \
-"CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.o" \
 "CMakeFiles/GameEngine.dir/vendor/imgui/imgui.cpp.o" \
 "CMakeFiles/GameEngine.dir/vendor/imgui/imgui_draw.cpp.o" \
 "CMakeFiles/GameEngine.dir/vendor/imgui/imgui_impl_glfw.cpp.o" \
@@ -517,6 +559,8 @@ GameEngine_OBJECTS = \
 GameEngine_EXTERNAL_OBJECTS =
 
 GameEngine: CMakeFiles/GameEngine.dir/include/ecs/world/world.cpp.o
+GameEngine: CMakeFiles/GameEngine.dir/src/core/system_providers/render_system_provider.cpp.o
+GameEngine: CMakeFiles/GameEngine.dir/src/core/system_providers/texture_loader_system_provider.cpp.o
 GameEngine: CMakeFiles/GameEngine.dir/src/core/systems/camera_system.cpp.o
 GameEngine: CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o
 GameEngine: CMakeFiles/GameEngine.dir/src/core/systems/light_system.cpp.o
@@ -530,16 +574,17 @@ GameEngine: CMakeFiles/GameEngine.dir/src/editor/editor.cpp.o
 GameEngine: CMakeFiles/GameEngine.dir/src/errors/error_handler.cpp.o
 GameEngine: CMakeFiles/GameEngine.dir/src/helpers/mesh_importer.cpp.o
 GameEngine: CMakeFiles/GameEngine.dir/src/helpers/shader_importer.cpp.o
+GameEngine: CMakeFiles/GameEngine.dir/src/helpers/texture_importer.cpp.o
 GameEngine: CMakeFiles/GameEngine.dir/src/main.cpp.o
 GameEngine: CMakeFiles/GameEngine.dir/src/rendering/models/index_buffer.cpp.o
 GameEngine: CMakeFiles/GameEngine.dir/src/rendering/models/mesh.cpp.o
+GameEngine: CMakeFiles/GameEngine.dir/src/rendering/models/render_buffer.cpp.o
 GameEngine: CMakeFiles/GameEngine.dir/src/rendering/models/shader.cpp.o
 GameEngine: CMakeFiles/GameEngine.dir/src/rendering/models/texture.cpp.o
 GameEngine: CMakeFiles/GameEngine.dir/src/rendering/models/vertex_array.cpp.o
 GameEngine: CMakeFiles/GameEngine.dir/src/rendering/models/vertex_buffer.cpp.o
 GameEngine: CMakeFiles/GameEngine.dir/src/rendering/render_group.cpp.o
 GameEngine: CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o
-GameEngine: CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.o
 GameEngine: CMakeFiles/GameEngine.dir/vendor/imgui/imgui.cpp.o
 GameEngine: CMakeFiles/GameEngine.dir/vendor/imgui/imgui_draw.cpp.o
 GameEngine: CMakeFiles/GameEngine.dir/vendor/imgui/imgui_impl_glfw.cpp.o
@@ -549,7 +594,7 @@ GameEngine: CMakeFiles/GameEngine.dir/vendor/imgui/imgui_widgets.cpp.o
 GameEngine: CMakeFiles/GameEngine.dir/vendor/stb_image/stb_image.cpp.o
 GameEngine: CMakeFiles/GameEngine.dir/build.make
 GameEngine: CMakeFiles/GameEngine.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_32) "Linking CXX executable GameEngine"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/brandon/Dev/GameEngine/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_35) "Linking CXX executable GameEngine"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/GameEngine.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -562,6 +607,6 @@ CMakeFiles/GameEngine.dir/clean:
 .PHONY : CMakeFiles/GameEngine.dir/clean
 
 CMakeFiles/GameEngine.dir/depend:
-	cd /home/brandon/Desktop/Dev/GameEngine/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/brandon/Desktop/Dev/GameEngine /home/brandon/Desktop/Dev/GameEngine /home/brandon/Desktop/Dev/GameEngine/build /home/brandon/Desktop/Dev/GameEngine/build /home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles/GameEngine.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/brandon/Dev/GameEngine/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/brandon/Dev/GameEngine /home/brandon/Dev/GameEngine /home/brandon/Dev/GameEngine/build /home/brandon/Dev/GameEngine/build /home/brandon/Dev/GameEngine/build/CMakeFiles/GameEngine.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/GameEngine.dir/depend
 

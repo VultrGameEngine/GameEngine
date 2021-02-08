@@ -13,13 +13,13 @@ class Renderer3D
 {
 
   public:
-    static void DeferredGeometryPass(RenderContext context);
-    static void LightPass(RenderContext context);
-    static void StencilPass(RenderContext context);
-    static void ForwardRenderingPass(RenderContext context);
-    static void SkyboxPass(RenderContext context);
-    static void CompositePass(RenderContext context);
-    static void Flush();
+    // static void DeferredGeometryPass(RenderContext context);
+    // static void LightPass(RenderContext context);
+    // static void StencilPass(RenderContext context);
+    // static void ForwardRenderingPass(RenderContext context);
+    // static void SkyboxPass(RenderContext context);
+    // static void CompositePass(RenderContext context);
+    // static void Flush();
 };
 
 } // namespace Brick3D

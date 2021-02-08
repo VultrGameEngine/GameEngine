@@ -14,8 +14,12 @@ class Texture
     void Bind();
     void Unbind();
 
+    void FrameBufferTexture2D();
+
   private:
     unsigned int m_id;
     GLenum m_type;
+    unsigned int m_width;
+    unsigned int m_height;
 };
 } // namespace Brick3D

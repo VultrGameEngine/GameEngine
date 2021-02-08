@@ -23,16 +23,16 @@ class MeshLoaderSystemProvider : public SystemProvider
             return nullptr;
         }
 
-        return &Get().meshes[path];
+        return Get().meshes[path];
     }
 
-    static void AddMesh(std::string path, Mesh mesh)
+    static void AddMesh(std::string path, Mesh *mesh)
     {
         Get().meshes[path] = mesh;
     }
 
   private:
-    std::unordered_map<std::string, Mesh> meshes;
+    std::unordered_map<std::string, Mesh *> meshes;
 };
 
 } // namespace Brick3D

@@ -13,12 +13,11 @@ file(GLOB_RECURSE GameEngine_SRC
     "vendor/*.cpp"
 )
 
-find_package(GTest REQUIRED)
 include_directories(include vendor)
 
 
 add_executable(GameEngine ${GameEngine_SRC})
-target_link_libraries(GameEngine GL GLU glfw3 X11 Xxf86vm Xrandr pthread Xi dl GLEW gtest gtest_main)
+target_link_libraries(GameEngine GL GLU glfw3 X11 Xxf86vm Xrandr pthread Xi dl GLEW)
 FILE(COPY res/shaders/Basic.shader DESTINATION "${CMAKE_BINARY_DIR}/res/shaders")
 FILE(COPY res/shaders/material.glsl DESTINATION "${CMAKE_BINARY_DIR}/res/shaders")
 FILE(COPY res/shaders/skybox.glsl DESTINATION "${CMAKE_BINARY_DIR}/res/shaders")

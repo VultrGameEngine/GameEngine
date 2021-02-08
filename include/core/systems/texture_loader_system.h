@@ -4,26 +4,27 @@
 // that with the specified path
 
 #pragma once
-#include "../../ecs/system/system.hpp"
-#include "../../ecs/world/world.hpp"
-#include "../components/sky_box_component.h"
-#include "../components/texture_cache.h"
-#include "../components/texture_component.h"
+#include <core/components/sky_box_component.h>
+#include <core/system_providers/texture_loader_system_provider.h>
+#include <ecs/system/system.hpp>
+#include <ecs/world/world.hpp>
 #include <glm/glm.hpp>
 #include <memory>
+#include <rendering/models/texture.h>
 
-class TextureLoaderSystem : public System {
-public:
-  static std::shared_ptr<TextureLoaderSystem> Get();
-  void Update();
-  static std::shared_ptr<TextureLoaderSystem> RegisterSystem();
-  static void Import(std::string path, LoadedTexture &texture);
-  static void ImportSkybox(std::vector<std::string> paths,
-                           LoadedTexture &texture);
-  static LoadedTexture *GetTexture(std::string texture);
+namespace Brick3D
+{
+class TextureLoaderSystem : public System
+{
+  public:
+    static void Update();
+    static void RegisterSystem();
 
-private:
-  static bool isLoaded(std::string texture);
-  static TextureCache state;
-  Signature signature;
+  protected:
+    void OnCreateEntity(Entity entity) override;
+    SystemProvider &GetProvider() override
+    {
+        return TextureLoaderSystemProvider::Get();
+    }
 };
+} // namespace Brick3D

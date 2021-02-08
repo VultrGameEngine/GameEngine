@@ -1,11 +1,11 @@
 #pragma once
-#include "../../imgui/window.hpp"
+#include <editor/imgui/window.hpp>
 
-namespace Editor
+namespace Brick3D::Editor
 {
-    class SceneWindow : public Window
-    {
-    public:
-        void Render() override;
-    };
-}; // namespace Editor
+class SceneWindow : public Window
+{
+  public:
+    void Render() override;
+};
+}; // namespace Brick3D::Editor

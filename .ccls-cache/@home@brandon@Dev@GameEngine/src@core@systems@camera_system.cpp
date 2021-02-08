@@ -1,0 +1,48 @@
+#include "../../../include/core/systems/camera_system.h"
+#include "../../../include/core/components/camera_component.h"
+#include "../../../include/ecs/world/world.hpp"
+#include "../../../include/editor/editor.hpp"
+
+glm::mat4 CameraComponent::GetProjectionMatrix(float width, float height)
+{
+    return glm::perspective(fov, width / height, znear, zfar);
+}
+
+namespace Brick3D
+{
+
+void CameraSystem::OnCreateEntity(Entity entity)
+{
+    auto &camera_component = World::GetComponent<CameraComponent>(entity);
+    if (camera_component.enabled)
+    {
+        CameraSystemProvider::Get().m_camera = entity;
+    }
+}
+
+void CameraSystem::OnDestroyEntity(Entity entity)
+{
+    CameraSystemProvider &provider = CameraSystemProvider::Get();
+    if (provider.m_camera == entity)
+    {
+        provider.m_camera = -1;
+        for (Entity camera_entity : provider.entities)
+        {
+            auto &camera_component = World::GetComponent<CameraComponent>(camera_entity);
+            if (camera_component.enabled)
+            {
+                provider.m_camera = entity;
+                break;
+            }
+        }
+    }
+}
+
+void CameraSystem::RegisterSystem()
+{
+    CameraSystemProvider &provider = CameraSystemProvider::Get();
+    provider.signature.set(World::GetComponentType<CameraComponent>(), true);
+    provider.signature.set(World::GetComponentType<TransformComponent>(), true);
+    World::RegisterSystem<CameraSystem>(provider.signature);
+}
+} // namespace Brick3D

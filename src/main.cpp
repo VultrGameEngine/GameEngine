@@ -6,21 +6,20 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include <rendering/vertex_buffer.h>
+#include <imgui/imgui.h>
+#include <imgui/imgui_impl_glfw.h>
+#include <imgui/imgui_impl_opengl3.h>
 #include <stdio.h>
-#include <vendor/imgui/imgui.h>
-#include <vendor/imgui/imgui_impl_glfw.h>
-#include <vendor/imgui/imgui_impl_opengl3.h>
 
 using namespace Brick3D;
 int main(void)
 {
     World::Init();
     World::RegisterComponent<StaticMeshComponent>();
-    World::RegisterComponent<TextureComponent>();
+    World::RegisterComponent<MaterialComponent>();
+    World::RegisterComponent<PBRMaterial>();
     World::RegisterComponent<TransformComponent>();
     World::RegisterComponent<LightComponent>();
-    World::RegisterComponent<ShaderComponent>();
     World::RegisterComponent<CameraComponent>();
     World::RegisterComponent<ControllerComponent>();
     World::RegisterComponent<SkyBoxComponent>();
@@ -46,7 +45,6 @@ int main(void)
         printf("Failed to initialze glue\n");
         return -1;
     }
-    RenderSystem::Get();
 
     float lastTime = 0;
     glEnable(GL_CULL_FACE);
@@ -70,8 +68,8 @@ int main(void)
     ImGui::StyleColorsDark();
 
     MeshLoaderSystem::RegisterSystem();
-    ShaderLoaderSystem::Get();
-    TextureLoaderSystem::Get();
+    ShaderLoaderSystem::RegisterSystem();
+    TextureLoaderSystem::RegisterSystem();
     ControllerSystem::RegisterSystem();
     CameraSystem::RegisterSystem();
     LightSystem::RegisterSystem();
@@ -81,20 +79,18 @@ int main(void)
     // for (int k = 0; k < 10; k++) {
     Entity xwing = World::CreateEntity();
 
-    World::AddComponent(xwing, StaticMeshComponent{
-                                   .path = "res/models/Clone.obj",
-                               });
+    World::AddComponent(xwing, StaticMeshComponent("res/models/Clone.obj"));
     World::AddComponent(xwing, TransformComponent{
                                    .position = glm::vec3(0, 0, 0),
                                    .scale = glm::vec3(5, 5, 5),
                                });
-    World::AddComponent(xwing, TextureComponent{
-                                   .diffuse = "res/textures/clone/albedo.jpeg",
-                                   .specular = "res/textures/clone/specular.jpeg",
-                               });
-    World::AddComponent(xwing, ShaderComponent{
-                                   .path = "res/shaders/material.glsl",
-                               });
+    // World::AddComponent(xwing, TextureComponent{
+    //                                .diffuse = "res/textures/clone/albedo.jpeg",
+    //                                .specular = "res/textures/clone/specular.jpeg",
+    //                            });
+    // World::AddComponent(xwing, ShaderComponent{
+    //                                .path = "res/shaders/material.glsl",
+    //                            });
     // }
     // }
     // }
@@ -119,9 +115,9 @@ int main(void)
                                     .left = "res/textures/skybox/left.jpg",
                                     .right = "res/textures/skybox/right.jpg",
                                 });
-    World::AddComponent(camera, ShaderComponent{
-                                    .path = "res/shaders/skybox.glsl",
-                                });
+    // World::AddComponent(camera, ShaderComponent{
+    //                                 .path = "res/shaders/skybox.glsl",
+    //                             });
     Entity light = World::CreateEntity();
 
     World::AddComponent(light, LightComponent{});
@@ -130,13 +126,11 @@ int main(void)
                                    .position = glm::vec3(0, 0, 2),
                                    .scale = glm::vec3(0.2, 0.2, 0.2),
                                });
-    World::AddComponent(light, ShaderComponent{
-                                   .path = "res/shaders/unlit.glsl",
-                                   .type = Renderer::Forward,
-                               });
-    World::AddComponent(light, StaticMeshComponent{
-                                   .path = "res/models/cube.obj",
-                               });
+    // World::AddComponent(light, ShaderComponent{
+    //                                .path = "res/shaders/unlit.glsl",
+    //                                .type = Renderer::Forward,
+    //                            });
+    World::AddComponent(light, StaticMeshComponent("res/models/cube.obj"));
 
     RenderSystem::Resize(1920, 1080, GAME);
     RenderSystem::Resize(1920, 1080, SCENE);
@@ -149,9 +143,9 @@ int main(void)
         lastTime = t;
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         ControllerSystem::Update(deltaTime);
-        TextureLoaderSystem::Get()->Update();
-        LightSystem::Get()->Update();
-        RenderSystem::Get()->Update(t);
+        // TextureLoaderSystem::Get()->Update();
+        // LightSystem::Get()->Update();
+        // RenderSystem::Get()->Update(t);
 
         /* Poll for and process events */
         glfwPollEvents();

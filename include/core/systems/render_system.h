@@ -12,24 +12,14 @@
 #include <glm/glm.hpp>
 #include <rendering/renderer_3d.h>
 
-const unsigned int GAME = 0;
-const unsigned int SCENE = 1;
-
 namespace Brick3D
 {
 class RenderSystem : public System
 {
   public:
-    void Update(UpdateTick meta_data);
-    static std::shared_ptr<RenderSystem> RegisterSystem();
+    static void Update(UpdateTick meta_data);
+    static void RegisterSystem();
     static void Resize(int width, int height, unsigned int type);
-    struct RenderTexture
-    {
-        unsigned int fbo;
-        unsigned int render_texture;
-        unsigned int rbo;
-        glm::vec2 dimensions = glm::vec2(1920, 1080);
-    } scene, game;
 
   protected:
     void OnCreateEntity(Entity entity) override;
@@ -39,15 +29,12 @@ class RenderSystem : public System
         return RenderSystemProvider::Get();
     }
 
+    // Private helper methods
   private:
-    void RenderElements(unsigned int type, TransformComponent camera_transform,
-                        CameraComponent camera_component, Entity light);
-    void RenderSkybox(unsigned int type, TransformComponent camera_transform,
-                      CameraComponent camera_component);
-    static void GenerateRenderTexture(unsigned int *fbo,
-                                      unsigned int *render_texture,
-                                      unsigned int *rbo, int width, int height);
-    Signature signature;
-    Renderer3D *renderer;
+    static void RenderElements(unsigned int type,
+                               TransformComponent camera_transform,
+                               CameraComponent camera_component, Entity light);
+    static void RenderSkybox(unsigned int type, TransformComponent camera_transform,
+                             CameraComponent camera_component);
 };
 } // namespace Brick3D

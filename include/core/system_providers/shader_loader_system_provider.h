@@ -13,7 +13,7 @@ class ShaderLoaderSystemProvider : public SystemProvider
         static ShaderLoaderSystemProvider instance;
         return instance;
     }
-    static Shader *GetShader(std::string path)
+    static Shader *GetShader(const std::string &path)
     {
         if (Get().loaded_shaders.find(path) == Get().loaded_shaders.end())
             return nullptr;

@@ -2,7 +2,7 @@
 
 namespace Brick3D
 {
-VertexArray::VertexArray() : m_stride(0)
+VertexArray::VertexArray()
 {
     glGenVertexArrays(1, &this->id);
 }

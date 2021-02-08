@@ -4,7 +4,7 @@
 # compile CXX with /bin/clang++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/brandon/Desktop/Dev/GameEngine/include -I/home/brandon/Desktop/Dev/GameEngine/vendor
+CXX_INCLUDES = -I/home/brandon/Dev/GameEngine/include -I/home/brandon/Dev/GameEngine/vendor
 
 CXX_FLAGS = -g
 

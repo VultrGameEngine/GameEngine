@@ -6,15 +6,50 @@ CMakeFiles/GameEngine.dir/include/ecs/world/world.cpp.o
  ../include/ecs/component/component_array.hpp
  ../include/ecs/entity/entity.hpp
  ../include/ecs/system/system_provider.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/ecs/component/component.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/ecs/component/component_array.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/ecs/component/component_manager.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/ecs/entity/entity.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/ecs/entity/entity_manager.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/ecs/system/system.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/ecs/system/system_manager.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/ecs/world/world.cpp
- /home/brandon/Desktop/Dev/GameEngine/include/ecs/world/world.hpp
+ /home/brandon/Dev/GameEngine/include/ecs/component/component.hpp
+ /home/brandon/Dev/GameEngine/include/ecs/component/component_array.hpp
+ /home/brandon/Dev/GameEngine/include/ecs/component/component_manager.hpp
+ /home/brandon/Dev/GameEngine/include/ecs/entity/entity.hpp
+ /home/brandon/Dev/GameEngine/include/ecs/entity/entity_manager.hpp
+ /home/brandon/Dev/GameEngine/include/ecs/system/system.hpp
+ /home/brandon/Dev/GameEngine/include/ecs/system/system_manager.hpp
+ /home/brandon/Dev/GameEngine/include/ecs/world/world.cpp
+ /home/brandon/Dev/GameEngine/include/ecs/world/world.hpp
+CMakeFiles/GameEngine.dir/src/core/system_providers/render_system_provider.cpp.o
+ ../include/core/components/camera_component.h
+ ../include/core/components/transform_component.h
+ ../include/core/system_providers/render_system_provider.h
+ ../include/ecs/component/component.hpp
+ ../include/ecs/component/component_array.hpp
+ ../include/ecs/component/component_manager.hpp
+ ../include/ecs/entity/entity.hpp
+ ../include/ecs/entity/entity_manager.hpp
+ ../include/ecs/system/system.hpp
+ ../include/ecs/system/system_manager.hpp
+ ../include/ecs/system/system_provider.hpp
+ ../include/ecs/world/world.hpp
+ ../include/helpers/loading_state.h
+ ../include/rendering/models/frame_buffer.h
+ ../include/rendering/models/g_buffer.h
+ ../include/rendering/models/index_buffer.h
+ ../include/rendering/models/mesh.h
+ ../include/rendering/models/render_buffer.h
+ ../include/rendering/models/shader.h
+ ../include/rendering/models/texture.h
+ ../include/rendering/models/vertex.h
+ ../include/rendering/models/vertex_array.h
+ ../include/rendering/models/vertex_buffer.h
+ ../include/rendering/render_context.h
+ ../include/rendering/render_group.h
+ ../include/rendering/render_type.h
+ /home/brandon/Dev/GameEngine/src/core/system_providers/render_system_provider.cpp
+CMakeFiles/GameEngine.dir/src/core/system_providers/texture_loader_system_provider.cpp.o
+ ../include/core/system_providers/texture_loader_system_provider.h
+ ../include/ecs/component/component.hpp
+ ../include/ecs/entity/entity.hpp
+ ../include/ecs/system/system_provider.hpp
+ ../include/rendering/models/texture.h
+ /home/brandon/Dev/GameEngine/src/core/system_providers/texture_loader_system_provider.cpp
 CMakeFiles/GameEngine.dir/src/core/systems/camera_system.cpp.o
  ../include/core/components/camera_component.h
  ../include/core/components/transform_component.h
@@ -25,24 +60,26 @@ CMakeFiles/GameEngine.dir/src/core/systems/camera_system.cpp.o
  ../include/ecs/system/system.hpp
  ../include/ecs/system/system_provider.hpp
  ../include/ecs/world/world.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/core/components/camera_component.h
- /home/brandon/Desktop/Dev/GameEngine/include/core/systems/camera_system.h
- /home/brandon/Desktop/Dev/GameEngine/include/ecs/component/component.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/ecs/component/component_array.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/ecs/component/component_manager.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/ecs/entity/entity.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/ecs/entity/entity_manager.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/ecs/system/system.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/ecs/system/system_manager.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/ecs/world/world.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/editor/editor.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/editor/imgui/element.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/editor/imgui/window.hpp
- /home/brandon/Desktop/Dev/GameEngine/src/core/systems/camera_system.cpp
+ /home/brandon/Dev/GameEngine/include/core/components/camera_component.h
+ /home/brandon/Dev/GameEngine/include/core/systems/camera_system.h
+ /home/brandon/Dev/GameEngine/include/ecs/component/component.hpp
+ /home/brandon/Dev/GameEngine/include/ecs/component/component_array.hpp
+ /home/brandon/Dev/GameEngine/include/ecs/component/component_manager.hpp
+ /home/brandon/Dev/GameEngine/include/ecs/entity/entity.hpp
+ /home/brandon/Dev/GameEngine/include/ecs/entity/entity_manager.hpp
+ /home/brandon/Dev/GameEngine/include/ecs/system/system.hpp
+ /home/brandon/Dev/GameEngine/include/ecs/system/system_manager.hpp
+ /home/brandon/Dev/GameEngine/include/ecs/world/world.hpp
+ /home/brandon/Dev/GameEngine/include/editor/editor.hpp
+ /home/brandon/Dev/GameEngine/include/editor/imgui/element.hpp
+ /home/brandon/Dev/GameEngine/include/editor/imgui/window.hpp
+ /home/brandon/Dev/GameEngine/src/core/systems/camera_system.cpp
 CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o
+ ../include/core/components/camera_component.h
  ../include/core/components/controller_component.h
  ../include/core/components/transform_component.h
  ../include/core/system_providers/controller_system_provider.h
+ ../include/core/system_providers/render_system_provider.h
  ../include/core/systems/controller_system.h
  ../include/ecs/component/component.hpp
  ../include/ecs/component/component_array.hpp
@@ -53,7 +90,21 @@ CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o
  ../include/ecs/system/system_manager.hpp
  ../include/ecs/system/system_provider.hpp
  ../include/ecs/world/world.hpp
- /home/brandon/Desktop/Dev/GameEngine/src/core/systems/controller_system.cpp
+ ../include/helpers/loading_state.h
+ ../include/rendering/models/frame_buffer.h
+ ../include/rendering/models/g_buffer.h
+ ../include/rendering/models/index_buffer.h
+ ../include/rendering/models/mesh.h
+ ../include/rendering/models/render_buffer.h
+ ../include/rendering/models/shader.h
+ ../include/rendering/models/texture.h
+ ../include/rendering/models/vertex.h
+ ../include/rendering/models/vertex_array.h
+ ../include/rendering/models/vertex_buffer.h
+ ../include/rendering/render_context.h
+ ../include/rendering/render_group.h
+ ../include/rendering/render_type.h
+ /home/brandon/Dev/GameEngine/src/core/systems/controller_system.cpp
 CMakeFiles/GameEngine.dir/src/core/systems/light_system.cpp.o
  ../include/core/components/light_component.h
  ../include/core/components/transform_component.h
@@ -68,7 +119,7 @@ CMakeFiles/GameEngine.dir/src/core/systems/light_system.cpp.o
  ../include/ecs/system/system_manager.hpp
  ../include/ecs/system/system_provider.hpp
  ../include/ecs/world/world.hpp
- /home/brandon/Desktop/Dev/GameEngine/src/core/systems/light_system.cpp
+ /home/brandon/Dev/GameEngine/src/core/systems/light_system.cpp
 CMakeFiles/GameEngine.dir/src/core/systems/mesh_loader_system.cpp.o
  ../include/core/components/static_mesh_component.h
  ../include/core/system_providers/mesh_loader_system_provider.h
@@ -91,10 +142,10 @@ CMakeFiles/GameEngine.dir/src/core/systems/mesh_loader_system.cpp.o
  ../include/rendering/models/vertex_array.h
  ../include/rendering/models/vertex_buffer.h
  ../include/rendering/render_type.h
- /home/brandon/Desktop/Dev/GameEngine/src/core/systems/mesh_loader_system.cpp
+ /home/brandon/Dev/GameEngine/src/core/systems/mesh_loader_system.cpp
 CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o
  ../include/core/components/camera_component.h
- ../include/core/components/shader_cache.h
+ ../include/core/components/material_component.h
  ../include/core/components/static_mesh_component.h
  ../include/core/components/transform_component.h
  ../include/core/models/update_tick.h
@@ -103,10 +154,14 @@ CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o
  ../include/core/system_providers/mesh_loader_system_provider.h
  ../include/core/system_providers/render_system_provider.h
  ../include/core/system_providers/shader_loader_system_provider.h
+ ../include/core/systems/render_system.h
  ../include/ecs/component/component.hpp
  ../include/ecs/component/component_array.hpp
+ ../include/ecs/component/component_manager.hpp
  ../include/ecs/entity/entity.hpp
+ ../include/ecs/entity/entity_manager.hpp
  ../include/ecs/system/system.hpp
+ ../include/ecs/system/system_manager.hpp
  ../include/ecs/system/system_provider.hpp
  ../include/ecs/world/world.hpp
  ../include/helpers/loading_state.h
@@ -114,6 +169,7 @@ CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o
  ../include/rendering/models/g_buffer.h
  ../include/rendering/models/index_buffer.h
  ../include/rendering/models/mesh.h
+ ../include/rendering/models/render_buffer.h
  ../include/rendering/models/shader.h
  ../include/rendering/models/texture.h
  ../include/rendering/models/vertex.h
@@ -123,81 +179,51 @@ CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o
  ../include/rendering/render_group.h
  ../include/rendering/render_type.h
  ../include/rendering/renderer_3d.h
- /home/brandon/Desktop/Dev/GameEngine/include/core/components/camera_component.h
- /home/brandon/Desktop/Dev/GameEngine/include/core/components/controller_component.h
- /home/brandon/Desktop/Dev/GameEngine/include/core/components/light_component.h
- /home/brandon/Desktop/Dev/GameEngine/include/core/components/shader_component.h
- /home/brandon/Desktop/Dev/GameEngine/include/core/components/sky_box_component.h
- /home/brandon/Desktop/Dev/GameEngine/include/core/components/static_mesh_component.h
- /home/brandon/Desktop/Dev/GameEngine/include/core/components/texture_cache.h
- /home/brandon/Desktop/Dev/GameEngine/include/core/components/transform_component.h
- /home/brandon/Desktop/Dev/GameEngine/include/core/systems/camera_system.h
- /home/brandon/Desktop/Dev/GameEngine/include/core/systems/light_system.h
- /home/brandon/Desktop/Dev/GameEngine/include/core/systems/mesh_loader_system.h
- /home/brandon/Desktop/Dev/GameEngine/include/core/systems/render_system.h
- /home/brandon/Desktop/Dev/GameEngine/include/core/systems/shader_loader_system.h
- /home/brandon/Desktop/Dev/GameEngine/include/core/systems/texture_loader_system.h
- /home/brandon/Desktop/Dev/GameEngine/include/ecs/component/component.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/ecs/component/component_array.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/ecs/component/component_manager.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/ecs/entity/entity.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/ecs/entity/entity_manager.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/ecs/system/system.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/ecs/system/system_manager.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/ecs/world/world.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/editor/editor.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/editor/imgui/element.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/editor/imgui/window.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/helpers/loading_state.h
- /home/brandon/Desktop/Dev/GameEngine/include/rendering/render_context.h
- /home/brandon/Desktop/Dev/GameEngine/include/rendering/render_type.h
- /home/brandon/Desktop/Dev/GameEngine/src/core/systems/render_system.cpp
+ /home/brandon/Dev/GameEngine/src/core/systems/render_system.cpp
 CMakeFiles/GameEngine.dir/src/core/systems/shader_loader_system.cpp.o
+ ../include/core/components/material_component.h
  ../include/core/components/shader_cache.h
  ../include/core/system_providers/shader_loader_system_provider.h
+ ../include/core/systems/shader_loader_system.h
  ../include/ecs/component/component.hpp
  ../include/ecs/component/component_array.hpp
+ ../include/ecs/component/component_manager.hpp
  ../include/ecs/entity/entity.hpp
+ ../include/ecs/entity/entity_manager.hpp
  ../include/ecs/system/system.hpp
+ ../include/ecs/system/system_manager.hpp
  ../include/ecs/system/system_provider.hpp
+ ../include/ecs/world/world.hpp
  ../include/helpers/loading_state.h
+ ../include/helpers/shader_importer.h
  ../include/rendering/models/shader.h
  ../include/rendering/render_type.h
- /home/brandon/Desktop/Dev/GameEngine/include/core/components/shader_component.h
- /home/brandon/Desktop/Dev/GameEngine/include/core/systems/shader_loader_system.h
- /home/brandon/Desktop/Dev/GameEngine/include/ecs/component/component.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/ecs/component/component_array.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/ecs/component/component_manager.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/ecs/entity/entity.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/ecs/entity/entity_manager.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/ecs/system/system.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/ecs/system/system_manager.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/ecs/world/world.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/rendering/render_type.h
- /home/brandon/Desktop/Dev/GameEngine/src/core/systems/shader_loader_system.cpp
+ /home/brandon/Dev/GameEngine/src/core/systems/shader_loader_system.cpp
 CMakeFiles/GameEngine.dir/src/core/systems/texture_loader_system.cpp.o
+ ../include/core/components/material_component.h
+ ../include/core/components/sky_box_component.h
+ ../include/core/system_providers/shader_loader_system_provider.h
+ ../include/core/system_providers/texture_loader_system_provider.h
+ ../include/core/systems/texture_loader_system.h
  ../include/ecs/component/component.hpp
  ../include/ecs/component/component_array.hpp
+ ../include/ecs/component/component_manager.hpp
  ../include/ecs/entity/entity.hpp
+ ../include/ecs/entity/entity_manager.hpp
+ ../include/ecs/system/system.hpp
+ ../include/ecs/system/system_manager.hpp
  ../include/ecs/system/system_provider.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/core/components/sky_box_component.h
- /home/brandon/Desktop/Dev/GameEngine/include/core/components/texture_cache.h
- /home/brandon/Desktop/Dev/GameEngine/include/core/systems/texture_loader_system.h
- /home/brandon/Desktop/Dev/GameEngine/include/ecs/component/component.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/ecs/component/component_array.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/ecs/component/component_manager.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/ecs/entity/entity.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/ecs/entity/entity_manager.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/ecs/system/system.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/ecs/system/system_manager.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/ecs/world/world.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/helpers/loading_state.h
- /home/brandon/Desktop/Dev/GameEngine/src/core/systems/texture_loader_system.cpp
- /home/brandon/Desktop/Dev/GameEngine/vendor/stb_image/stb_image.h
+ ../include/ecs/world/world.hpp
+ ../include/helpers/loading_state.h
+ ../include/helpers/texture_importer.h
+ ../include/rendering/models/shader.h
+ ../include/rendering/models/texture.h
+ ../include/rendering/render_type.h
+ ../vendor/stb_image/stb_image.h
+ /home/brandon/Dev/GameEngine/src/core/systems/texture_loader_system.cpp
 CMakeFiles/GameEngine.dir/src/editor/core/windows/game_window.cpp.o
  ../include/core/components/camera_component.h
  ../include/core/components/transform_component.h
- ../include/core/models/update_tick.h
  ../include/core/system_providers/render_system_provider.h
  ../include/ecs/component/component.hpp
  ../include/ecs/component/component_array.hpp
@@ -208,11 +234,15 @@ CMakeFiles/GameEngine.dir/src/editor/core/windows/game_window.cpp.o
  ../include/ecs/system/system_manager.hpp
  ../include/ecs/system/system_provider.hpp
  ../include/ecs/world/world.hpp
+ ../include/editor/core/windows/game_window.hpp
+ ../include/editor/imgui/element.hpp
+ ../include/editor/imgui/window.hpp
  ../include/helpers/loading_state.h
  ../include/rendering/models/frame_buffer.h
  ../include/rendering/models/g_buffer.h
  ../include/rendering/models/index_buffer.h
  ../include/rendering/models/mesh.h
+ ../include/rendering/models/render_buffer.h
  ../include/rendering/models/shader.h
  ../include/rendering/models/texture.h
  ../include/rendering/models/vertex.h
@@ -221,18 +251,12 @@ CMakeFiles/GameEngine.dir/src/editor/core/windows/game_window.cpp.o
  ../include/rendering/render_context.h
  ../include/rendering/render_group.h
  ../include/rendering/render_type.h
- ../include/rendering/renderer_3d.h
- /home/brandon/Desktop/Dev/GameEngine/include/core/systems/render_system.h
- /home/brandon/Desktop/Dev/GameEngine/include/editor/core/windows/game_window.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/editor/imgui/element.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/editor/imgui/window.hpp
- /home/brandon/Desktop/Dev/GameEngine/src/editor/core/windows/game_window.cpp
- /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imconfig.h
- /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui.h
+ ../vendor/imgui/imconfig.h
+ ../vendor/imgui/imgui.h
+ /home/brandon/Dev/GameEngine/src/editor/core/windows/game_window.cpp
 CMakeFiles/GameEngine.dir/src/editor/core/windows/scene_window.cpp.o
  ../include/core/components/camera_component.h
  ../include/core/components/transform_component.h
- ../include/core/models/update_tick.h
  ../include/core/system_providers/render_system_provider.h
  ../include/ecs/component/component.hpp
  ../include/ecs/component/component_array.hpp
@@ -243,11 +267,15 @@ CMakeFiles/GameEngine.dir/src/editor/core/windows/scene_window.cpp.o
  ../include/ecs/system/system_manager.hpp
  ../include/ecs/system/system_provider.hpp
  ../include/ecs/world/world.hpp
+ ../include/editor/core/windows/scene_window.hpp
+ ../include/editor/imgui/element.hpp
+ ../include/editor/imgui/window.hpp
  ../include/helpers/loading_state.h
  ../include/rendering/models/frame_buffer.h
  ../include/rendering/models/g_buffer.h
  ../include/rendering/models/index_buffer.h
  ../include/rendering/models/mesh.h
+ ../include/rendering/models/render_buffer.h
  ../include/rendering/models/shader.h
  ../include/rendering/models/texture.h
  ../include/rendering/models/vertex.h
@@ -256,19 +284,15 @@ CMakeFiles/GameEngine.dir/src/editor/core/windows/scene_window.cpp.o
  ../include/rendering/render_context.h
  ../include/rendering/render_group.h
  ../include/rendering/render_type.h
- ../include/rendering/renderer_3d.h
- /home/brandon/Desktop/Dev/GameEngine/include/core/systems/render_system.h
- /home/brandon/Desktop/Dev/GameEngine/include/editor/core/windows/scene_window.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/editor/imgui/element.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/editor/imgui/window.hpp
- /home/brandon/Desktop/Dev/GameEngine/src/editor/core/windows/scene_window.cpp
- /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imconfig.h
- /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui.h
+ ../vendor/imgui/imconfig.h
+ ../vendor/imgui/imgui.h
+ /home/brandon/Dev/GameEngine/src/editor/core/windows/scene_window.cpp
 CMakeFiles/GameEngine.dir/src/editor/editor.cpp.o
  ../include/core/components/camera_component.h
  ../include/core/components/transform_component.h
  ../include/core/models/update_tick.h
  ../include/core/system_providers/render_system_provider.h
+ ../include/core/systems/render_system.h
  ../include/ecs/component/component.hpp
  ../include/ecs/component/component_array.hpp
  ../include/ecs/component/component_manager.hpp
@@ -278,11 +302,17 @@ CMakeFiles/GameEngine.dir/src/editor/editor.cpp.o
  ../include/ecs/system/system_manager.hpp
  ../include/ecs/system/system_provider.hpp
  ../include/ecs/world/world.hpp
+ ../include/editor/core/windows/game_window.hpp
+ ../include/editor/core/windows/scene_window.hpp
+ ../include/editor/editor.hpp
+ ../include/editor/imgui/element.hpp
+ ../include/editor/imgui/window.hpp
  ../include/helpers/loading_state.h
  ../include/rendering/models/frame_buffer.h
  ../include/rendering/models/g_buffer.h
  ../include/rendering/models/index_buffer.h
  ../include/rendering/models/mesh.h
+ ../include/rendering/models/render_buffer.h
  ../include/rendering/models/shader.h
  ../include/rendering/models/texture.h
  ../include/rendering/models/vertex.h
@@ -292,20 +322,14 @@ CMakeFiles/GameEngine.dir/src/editor/editor.cpp.o
  ../include/rendering/render_group.h
  ../include/rendering/render_type.h
  ../include/rendering/renderer_3d.h
- /home/brandon/Desktop/Dev/GameEngine/include/core/systems/render_system.h
- /home/brandon/Desktop/Dev/GameEngine/include/editor/core/windows/game_window.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/editor/core/windows/scene_window.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/editor/editor.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/editor/imgui/element.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/editor/imgui/window.hpp
- /home/brandon/Desktop/Dev/GameEngine/src/editor/editor.cpp
- /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imconfig.h
- /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui.h
- /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui_impl_glfw.h
- /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui_impl_opengl3.h
+ ../vendor/imgui/imconfig.h
+ ../vendor/imgui/imgui.h
+ ../vendor/imgui/imgui_impl_glfw.h
+ ../vendor/imgui/imgui_impl_opengl3.h
+ /home/brandon/Dev/GameEngine/src/editor/editor.cpp
 CMakeFiles/GameEngine.dir/src/errors/error_handler.cpp.o
- /home/brandon/Desktop/Dev/GameEngine/include/errors/error_handler.h
- /home/brandon/Desktop/Dev/GameEngine/src/errors/error_handler.cpp
+ /home/brandon/Dev/GameEngine/include/errors/error_handler.h
+ /home/brandon/Dev/GameEngine/src/errors/error_handler.cpp
 CMakeFiles/GameEngine.dir/src/helpers/mesh_importer.cpp.o
  ../include/helpers/loading_state.h
  ../include/helpers/mesh_importer.h
@@ -316,21 +340,26 @@ CMakeFiles/GameEngine.dir/src/helpers/mesh_importer.cpp.o
  ../include/rendering/models/vertex_array.h
  ../include/rendering/models/vertex_buffer.h
  ../include/rendering/render_type.h
- /home/brandon/Desktop/Dev/GameEngine/src/helpers/mesh_importer.cpp
+ /home/brandon/Dev/GameEngine/src/helpers/mesh_importer.cpp
 CMakeFiles/GameEngine.dir/src/helpers/shader_importer.cpp.o
  ../include/helpers/shader_importer.h
  ../include/rendering/models/shader.h
  ../include/rendering/render_type.h
- /home/brandon/Desktop/Dev/GameEngine/src/helpers/shader_importer.cpp
+ /home/brandon/Dev/GameEngine/src/helpers/shader_importer.cpp
+CMakeFiles/GameEngine.dir/src/helpers/texture_importer.cpp.o
+ ../include/helpers/texture_importer.h
+ ../include/rendering/models/texture.h
+ ../vendor/stb_image/stb_image.h
+ /home/brandon/Dev/GameEngine/src/helpers/texture_importer.cpp
 CMakeFiles/GameEngine.dir/src/main.cpp.o
  ../include/core/components/camera_component.h
  ../include/core/components/controller_component.h
  ../include/core/components/light_component.h
+ ../include/core/components/material_component.h
+ ../include/core/components/material_types/pbr_material.h
  ../include/core/components/shader_cache.h
- ../include/core/components/shader_component.h
  ../include/core/components/sky_box_component.h
  ../include/core/components/static_mesh_component.h
- ../include/core/components/texture_cache.h
  ../include/core/components/transform_component.h
  ../include/core/core.h
  ../include/core/core_components.h
@@ -343,6 +372,7 @@ CMakeFiles/GameEngine.dir/src/main.cpp.o
  ../include/core/system_providers/mesh_loader_system_provider.h
  ../include/core/system_providers/render_system_provider.h
  ../include/core/system_providers/shader_loader_system_provider.h
+ ../include/core/system_providers/texture_loader_system_provider.h
  ../include/core/systems/camera_system.h
  ../include/core/systems/controller_system.h
  ../include/core/systems/light_system.h
@@ -368,6 +398,7 @@ CMakeFiles/GameEngine.dir/src/main.cpp.o
  ../include/rendering/models/g_buffer.h
  ../include/rendering/models/index_buffer.h
  ../include/rendering/models/mesh.h
+ ../include/rendering/models/render_buffer.h
  ../include/rendering/models/shader.h
  ../include/rendering/models/texture.h
  ../include/rendering/models/vertex.h
@@ -377,10 +408,14 @@ CMakeFiles/GameEngine.dir/src/main.cpp.o
  ../include/rendering/render_group.h
  ../include/rendering/render_type.h
  ../include/rendering/renderer_3d.h
- /home/brandon/Desktop/Dev/GameEngine/src/main.cpp
+ ../vendor/imgui/imconfig.h
+ ../vendor/imgui/imgui.h
+ ../vendor/imgui/imgui_impl_glfw.h
+ ../vendor/imgui/imgui_impl_opengl3.h
+ /home/brandon/Dev/GameEngine/src/main.cpp
 CMakeFiles/GameEngine.dir/src/rendering/models/index_buffer.cpp.o
  ../include/rendering/models/index_buffer.h
- /home/brandon/Desktop/Dev/GameEngine/src/rendering/models/index_buffer.cpp
+ /home/brandon/Dev/GameEngine/src/rendering/models/index_buffer.cpp
 CMakeFiles/GameEngine.dir/src/rendering/models/mesh.cpp.o
  ../include/helpers/loading_state.h
  ../include/rendering/models/index_buffer.h
@@ -390,61 +425,28 @@ CMakeFiles/GameEngine.dir/src/rendering/models/mesh.cpp.o
  ../include/rendering/models/vertex_array.h
  ../include/rendering/models/vertex_buffer.h
  ../include/rendering/render_type.h
- /home/brandon/Desktop/Dev/GameEngine/src/rendering/models/mesh.cpp
+ /home/brandon/Dev/GameEngine/src/rendering/models/mesh.cpp
+CMakeFiles/GameEngine.dir/src/rendering/models/render_buffer.cpp.o
+ ../include/rendering/models/render_buffer.h
+ /home/brandon/Dev/GameEngine/src/rendering/models/render_buffer.cpp
 CMakeFiles/GameEngine.dir/src/rendering/models/shader.cpp.o
  ../include/rendering/models/shader.h
  ../include/rendering/render_type.h
- /home/brandon/Desktop/Dev/GameEngine/src/rendering/models/shader.cpp
+ /home/brandon/Dev/GameEngine/src/rendering/models/shader.cpp
 CMakeFiles/GameEngine.dir/src/rendering/models/texture.cpp.o
  ../include/rendering/models/texture.h
- /home/brandon/Desktop/Dev/GameEngine/src/rendering/models/texture.cpp
+ /home/brandon/Dev/GameEngine/src/rendering/models/texture.cpp
 CMakeFiles/GameEngine.dir/src/rendering/models/vertex_array.cpp.o
  ../include/rendering/models/vertex.h
  ../include/rendering/models/vertex_array.h
- /home/brandon/Desktop/Dev/GameEngine/src/rendering/models/vertex_array.cpp
+ /home/brandon/Dev/GameEngine/src/rendering/models/vertex_array.cpp
 CMakeFiles/GameEngine.dir/src/rendering/models/vertex_buffer.cpp.o
  ../include/rendering/models/vertex.h
- ../include/rendering/models/vertex_buffer.h
- /home/brandon/Desktop/Dev/GameEngine/src/rendering/models/vertex_buffer.cpp
+ /home/brandon/Dev/GameEngine/src/rendering/models/vertex_buffer.cpp
 CMakeFiles/GameEngine.dir/src/rendering/render_group.cpp.o
  ../include/core/components/camera_component.h
  ../include/core/components/shader_cache.h
- ../include/core/components/transform_component.h
- ../include/core/system_providers/shader_loader_system_provider.h
- ../include/ecs/component/component.hpp
- ../include/ecs/component/component_array.hpp
- ../include/ecs/entity/entity.hpp
- ../include/ecs/system/system.hpp
- ../include/ecs/system/system_provider.hpp
- ../include/ecs/world/world.hpp
- ../include/helpers/loading_state.h
- ../include/rendering/models/index_buffer.h
- ../include/rendering/models/mesh.h
- ../include/rendering/models/shader.h
- ../include/rendering/models/texture.h
- ../include/rendering/models/vertex.h
- ../include/rendering/models/vertex_array.h
- ../include/rendering/models/vertex_buffer.h
- ../include/rendering/render_context.h
- ../include/rendering/render_type.h
- /home/brandon/Desktop/Dev/GameEngine/include/core/components/shader_cache.h
- /home/brandon/Desktop/Dev/GameEngine/include/core/components/shader_component.h
- /home/brandon/Desktop/Dev/GameEngine/include/core/systems/shader_loader_system.h
- /home/brandon/Desktop/Dev/GameEngine/include/ecs/component/component.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/ecs/component/component_array.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/ecs/component/component_manager.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/ecs/entity/entity.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/ecs/entity/entity_manager.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/ecs/system/system.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/ecs/system/system_manager.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/ecs/world/world.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/helpers/loading_state.h
- /home/brandon/Desktop/Dev/GameEngine/include/rendering/render_group.h
- /home/brandon/Desktop/Dev/GameEngine/include/rendering/render_type.h
- /home/brandon/Desktop/Dev/GameEngine/src/rendering/render_group.cpp
-CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o
- ../include/core/components/camera_component.h
- ../include/core/components/shader_cache.h
+ ../include/core/components/shader_component.h
  ../include/core/components/transform_component.h
  ../include/core/system_providers/shader_loader_system_provider.h
  ../include/ecs/component/component.hpp
@@ -457,8 +459,6 @@ CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o
  ../include/ecs/system/system_provider.hpp
  ../include/ecs/world/world.hpp
  ../include/helpers/loading_state.h
- ../include/rendering/models/frame_buffer.h
- ../include/rendering/models/g_buffer.h
  ../include/rendering/models/index_buffer.h
  ../include/rendering/models/mesh.h
  ../include/rendering/models/shader.h
@@ -467,25 +467,13 @@ CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o
  ../include/rendering/models/vertex_array.h
  ../include/rendering/models/vertex_buffer.h
  ../include/rendering/render_context.h
+ ../include/rendering/render_group.h
  ../include/rendering/render_type.h
- /home/brandon/Desktop/Dev/GameEngine/include/core/components/shader_component.h
- /home/brandon/Desktop/Dev/GameEngine/include/core/systems/shader_loader_system.h
- /home/brandon/Desktop/Dev/GameEngine/include/rendering/models/vertex.h
- /home/brandon/Desktop/Dev/GameEngine/include/rendering/render_context.h
- /home/brandon/Desktop/Dev/GameEngine/include/rendering/render_group.h
- /home/brandon/Desktop/Dev/GameEngine/include/rendering/render_type.h
- /home/brandon/Desktop/Dev/GameEngine/include/rendering/renderer_3d.h
- /home/brandon/Desktop/Dev/GameEngine/src/rendering/renderer_3d.cpp
-CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.o
+ /home/brandon/Dev/GameEngine/src/rendering/render_group.cpp
+CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o
  ../include/core/components/camera_component.h
- ../include/core/components/shader_cache.h
- ../include/core/components/static_mesh_component.h
+ ../include/core/components/shader_component.h
  ../include/core/components/transform_component.h
- ../include/core/models/update_tick.h
- ../include/core/system_providers/camera_system_provider.h
- ../include/core/system_providers/light_system_provider.h
- ../include/core/system_providers/mesh_loader_system_provider.h
- ../include/core/system_providers/render_system_provider.h
  ../include/core/system_providers/shader_loader_system_provider.h
  ../include/ecs/component/component.hpp
  ../include/ecs/component/component_array.hpp
@@ -510,56 +498,43 @@ CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.o
  ../include/rendering/render_group.h
  ../include/rendering/render_type.h
  ../include/rendering/renderer_3d.h
- /home/brandon/Desktop/Dev/GameEngine/include/core/components/shader_component.h
- /home/brandon/Desktop/Dev/GameEngine/include/core/components/sky_box_component.h
- /home/brandon/Desktop/Dev/GameEngine/include/core/components/texture_cache.h
- /home/brandon/Desktop/Dev/GameEngine/include/core/systems/camera_system.h
- /home/brandon/Desktop/Dev/GameEngine/include/core/systems/light_system.h
- /home/brandon/Desktop/Dev/GameEngine/include/core/systems/mesh_loader_system.h
- /home/brandon/Desktop/Dev/GameEngine/include/core/systems/render_system.h
- /home/brandon/Desktop/Dev/GameEngine/include/core/systems/shader_loader_system.h
- /home/brandon/Desktop/Dev/GameEngine/include/core/systems/texture_loader_system.h
- /home/brandon/Desktop/Dev/GameEngine/include/ecs/system/system.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/ecs/world/world.hpp
- /home/brandon/Desktop/Dev/GameEngine/include/helpers/loading_state.h
- /home/brandon/Desktop/Dev/GameEngine/include/rendering/render_type.h
- /home/brandon/Desktop/Dev/GameEngine/src/rendering/vertex_buffer.cpp
+ /home/brandon/Dev/GameEngine/src/rendering/renderer_3d.cpp
 CMakeFiles/GameEngine.dir/vendor/imgui/imgui.cpp.o
- /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imconfig.h
- /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui.cpp
- /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui.h
- /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui_internal.h
- /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imstb_textedit.h
+ /home/brandon/Dev/GameEngine/vendor/imgui/imconfig.h
+ /home/brandon/Dev/GameEngine/vendor/imgui/imgui.cpp
+ /home/brandon/Dev/GameEngine/vendor/imgui/imgui.h
+ /home/brandon/Dev/GameEngine/vendor/imgui/imgui_internal.h
+ /home/brandon/Dev/GameEngine/vendor/imgui/imstb_textedit.h
 CMakeFiles/GameEngine.dir/vendor/imgui/imgui_draw.cpp.o
- /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imconfig.h
- /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui.h
- /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui_draw.cpp
- /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui_internal.h
- /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imstb_rectpack.h
- /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imstb_textedit.h
- /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imstb_truetype.h
+ /home/brandon/Dev/GameEngine/vendor/imgui/imconfig.h
+ /home/brandon/Dev/GameEngine/vendor/imgui/imgui.h
+ /home/brandon/Dev/GameEngine/vendor/imgui/imgui_draw.cpp
+ /home/brandon/Dev/GameEngine/vendor/imgui/imgui_internal.h
+ /home/brandon/Dev/GameEngine/vendor/imgui/imstb_rectpack.h
+ /home/brandon/Dev/GameEngine/vendor/imgui/imstb_textedit.h
+ /home/brandon/Dev/GameEngine/vendor/imgui/imstb_truetype.h
 CMakeFiles/GameEngine.dir/vendor/imgui/imgui_impl_glfw.cpp.o
- /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imconfig.h
- /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui.h
- /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui_impl_glfw.cpp
- /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui_impl_glfw.h
+ /home/brandon/Dev/GameEngine/vendor/imgui/imconfig.h
+ /home/brandon/Dev/GameEngine/vendor/imgui/imgui.h
+ /home/brandon/Dev/GameEngine/vendor/imgui/imgui_impl_glfw.cpp
+ /home/brandon/Dev/GameEngine/vendor/imgui/imgui_impl_glfw.h
 CMakeFiles/GameEngine.dir/vendor/imgui/imgui_impl_opengl3.cpp.o
- /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imconfig.h
- /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui.h
- /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui_impl_opengl3.cpp
- /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui_impl_opengl3.h
+ /home/brandon/Dev/GameEngine/vendor/imgui/imconfig.h
+ /home/brandon/Dev/GameEngine/vendor/imgui/imgui.h
+ /home/brandon/Dev/GameEngine/vendor/imgui/imgui_impl_opengl3.cpp
+ /home/brandon/Dev/GameEngine/vendor/imgui/imgui_impl_opengl3.h
 CMakeFiles/GameEngine.dir/vendor/imgui/imgui_tables.cpp.o
- /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imconfig.h
- /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui.h
- /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui_internal.h
- /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui_tables.cpp
- /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imstb_textedit.h
+ /home/brandon/Dev/GameEngine/vendor/imgui/imconfig.h
+ /home/brandon/Dev/GameEngine/vendor/imgui/imgui.h
+ /home/brandon/Dev/GameEngine/vendor/imgui/imgui_internal.h
+ /home/brandon/Dev/GameEngine/vendor/imgui/imgui_tables.cpp
+ /home/brandon/Dev/GameEngine/vendor/imgui/imstb_textedit.h
 CMakeFiles/GameEngine.dir/vendor/imgui/imgui_widgets.cpp.o
- /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imconfig.h
- /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui.h
- /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui_internal.h
- /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imgui_widgets.cpp
- /home/brandon/Desktop/Dev/GameEngine/vendor/imgui/imstb_textedit.h
+ /home/brandon/Dev/GameEngine/vendor/imgui/imconfig.h
+ /home/brandon/Dev/GameEngine/vendor/imgui/imgui.h
+ /home/brandon/Dev/GameEngine/vendor/imgui/imgui_internal.h
+ /home/brandon/Dev/GameEngine/vendor/imgui/imgui_widgets.cpp
+ /home/brandon/Dev/GameEngine/vendor/imgui/imstb_textedit.h
 CMakeFiles/GameEngine.dir/vendor/stb_image/stb_image.cpp.o
- /home/brandon/Desktop/Dev/GameEngine/vendor/stb_image/stb_image.cpp
- /home/brandon/Desktop/Dev/GameEngine/vendor/stb_image/stb_image.h
+ /home/brandon/Dev/GameEngine/vendor/stb_image/stb_image.cpp
+ /home/brandon/Dev/GameEngine/vendor/stb_image/stb_image.h

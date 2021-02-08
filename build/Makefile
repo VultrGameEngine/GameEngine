@@ -67,10 +67,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/brandon/Desktop/Dev/GameEngine
+CMAKE_SOURCE_DIR = /home/brandon/Dev/GameEngine
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/brandon/Desktop/Dev/GameEngine/build
+CMAKE_BINARY_DIR = /home/brandon/Dev/GameEngine/build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -100,7 +100,7 @@ test/fast: test
 # Special rule for the target package_source
 package_source:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool for source..."
-	/usr/bin/cpack --config ./CPackSourceConfig.cmake /home/brandon/Desktop/Dev/GameEngine/build/CPackSourceConfig.cmake
+	/usr/bin/cpack --config ./CPackSourceConfig.cmake /home/brandon/Dev/GameEngine/build/CPackSourceConfig.cmake
 .PHONY : package_source
 
 # Special rule for the target package_source
@@ -132,9 +132,9 @@ package/fast: package
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles /home/brandon/Desktop/Dev/GameEngine/build//CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brandon/Dev/GameEngine/build/CMakeFiles /home/brandon/Dev/GameEngine/build//CMakeFiles/progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brandon/Dev/GameEngine/build/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -566,6 +566,60 @@ include/ecs/world/world.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/GameEngine.dir/build.make CMakeFiles/GameEngine.dir/include/ecs/world/world.cpp.s
 .PHONY : include/ecs/world/world.cpp.s
 
+src/core/system_providers/render_system_provider.o: src/core/system_providers/render_system_provider.cpp.o
+
+.PHONY : src/core/system_providers/render_system_provider.o
+
+# target to build an object file
+src/core/system_providers/render_system_provider.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/GameEngine.dir/build.make CMakeFiles/GameEngine.dir/src/core/system_providers/render_system_provider.cpp.o
+.PHONY : src/core/system_providers/render_system_provider.cpp.o
+
+src/core/system_providers/render_system_provider.i: src/core/system_providers/render_system_provider.cpp.i
+
+.PHONY : src/core/system_providers/render_system_provider.i
+
+# target to preprocess a source file
+src/core/system_providers/render_system_provider.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/GameEngine.dir/build.make CMakeFiles/GameEngine.dir/src/core/system_providers/render_system_provider.cpp.i
+.PHONY : src/core/system_providers/render_system_provider.cpp.i
+
+src/core/system_providers/render_system_provider.s: src/core/system_providers/render_system_provider.cpp.s
+
+.PHONY : src/core/system_providers/render_system_provider.s
+
+# target to generate assembly for a file
+src/core/system_providers/render_system_provider.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/GameEngine.dir/build.make CMakeFiles/GameEngine.dir/src/core/system_providers/render_system_provider.cpp.s
+.PHONY : src/core/system_providers/render_system_provider.cpp.s
+
+src/core/system_providers/texture_loader_system_provider.o: src/core/system_providers/texture_loader_system_provider.cpp.o
+
+.PHONY : src/core/system_providers/texture_loader_system_provider.o
+
+# target to build an object file
+src/core/system_providers/texture_loader_system_provider.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/GameEngine.dir/build.make CMakeFiles/GameEngine.dir/src/core/system_providers/texture_loader_system_provider.cpp.o
+.PHONY : src/core/system_providers/texture_loader_system_provider.cpp.o
+
+src/core/system_providers/texture_loader_system_provider.i: src/core/system_providers/texture_loader_system_provider.cpp.i
+
+.PHONY : src/core/system_providers/texture_loader_system_provider.i
+
+# target to preprocess a source file
+src/core/system_providers/texture_loader_system_provider.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/GameEngine.dir/build.make CMakeFiles/GameEngine.dir/src/core/system_providers/texture_loader_system_provider.cpp.i
+.PHONY : src/core/system_providers/texture_loader_system_provider.cpp.i
+
+src/core/system_providers/texture_loader_system_provider.s: src/core/system_providers/texture_loader_system_provider.cpp.s
+
+.PHONY : src/core/system_providers/texture_loader_system_provider.s
+
+# target to generate assembly for a file
+src/core/system_providers/texture_loader_system_provider.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/GameEngine.dir/build.make CMakeFiles/GameEngine.dir/src/core/system_providers/texture_loader_system_provider.cpp.s
+.PHONY : src/core/system_providers/texture_loader_system_provider.cpp.s
+
 src/core/systems/camera_system.o: src/core/systems/camera_system.cpp.o
 
 .PHONY : src/core/systems/camera_system.o
@@ -917,6 +971,33 @@ src/helpers/shader_importer.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/GameEngine.dir/build.make CMakeFiles/GameEngine.dir/src/helpers/shader_importer.cpp.s
 .PHONY : src/helpers/shader_importer.cpp.s
 
+src/helpers/texture_importer.o: src/helpers/texture_importer.cpp.o
+
+.PHONY : src/helpers/texture_importer.o
+
+# target to build an object file
+src/helpers/texture_importer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/GameEngine.dir/build.make CMakeFiles/GameEngine.dir/src/helpers/texture_importer.cpp.o
+.PHONY : src/helpers/texture_importer.cpp.o
+
+src/helpers/texture_importer.i: src/helpers/texture_importer.cpp.i
+
+.PHONY : src/helpers/texture_importer.i
+
+# target to preprocess a source file
+src/helpers/texture_importer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/GameEngine.dir/build.make CMakeFiles/GameEngine.dir/src/helpers/texture_importer.cpp.i
+.PHONY : src/helpers/texture_importer.cpp.i
+
+src/helpers/texture_importer.s: src/helpers/texture_importer.cpp.s
+
+.PHONY : src/helpers/texture_importer.s
+
+# target to generate assembly for a file
+src/helpers/texture_importer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/GameEngine.dir/build.make CMakeFiles/GameEngine.dir/src/helpers/texture_importer.cpp.s
+.PHONY : src/helpers/texture_importer.cpp.s
+
 src/main.o: src/main.cpp.o
 
 .PHONY : src/main.o
@@ -997,6 +1078,33 @@ src/rendering/models/mesh.s: src/rendering/models/mesh.cpp.s
 src/rendering/models/mesh.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/GameEngine.dir/build.make CMakeFiles/GameEngine.dir/src/rendering/models/mesh.cpp.s
 .PHONY : src/rendering/models/mesh.cpp.s
+
+src/rendering/models/render_buffer.o: src/rendering/models/render_buffer.cpp.o
+
+.PHONY : src/rendering/models/render_buffer.o
+
+# target to build an object file
+src/rendering/models/render_buffer.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/GameEngine.dir/build.make CMakeFiles/GameEngine.dir/src/rendering/models/render_buffer.cpp.o
+.PHONY : src/rendering/models/render_buffer.cpp.o
+
+src/rendering/models/render_buffer.i: src/rendering/models/render_buffer.cpp.i
+
+.PHONY : src/rendering/models/render_buffer.i
+
+# target to preprocess a source file
+src/rendering/models/render_buffer.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/GameEngine.dir/build.make CMakeFiles/GameEngine.dir/src/rendering/models/render_buffer.cpp.i
+.PHONY : src/rendering/models/render_buffer.cpp.i
+
+src/rendering/models/render_buffer.s: src/rendering/models/render_buffer.cpp.s
+
+.PHONY : src/rendering/models/render_buffer.s
+
+# target to generate assembly for a file
+src/rendering/models/render_buffer.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/GameEngine.dir/build.make CMakeFiles/GameEngine.dir/src/rendering/models/render_buffer.cpp.s
+.PHONY : src/rendering/models/render_buffer.cpp.s
 
 src/rendering/models/shader.o: src/rendering/models/shader.cpp.o
 
@@ -1159,33 +1267,6 @@ src/rendering/renderer_3d.s: src/rendering/renderer_3d.cpp.s
 src/rendering/renderer_3d.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/GameEngine.dir/build.make CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.s
 .PHONY : src/rendering/renderer_3d.cpp.s
-
-src/rendering/vertex_buffer.o: src/rendering/vertex_buffer.cpp.o
-
-.PHONY : src/rendering/vertex_buffer.o
-
-# target to build an object file
-src/rendering/vertex_buffer.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/GameEngine.dir/build.make CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.o
-.PHONY : src/rendering/vertex_buffer.cpp.o
-
-src/rendering/vertex_buffer.i: src/rendering/vertex_buffer.cpp.i
-
-.PHONY : src/rendering/vertex_buffer.i
-
-# target to preprocess a source file
-src/rendering/vertex_buffer.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/GameEngine.dir/build.make CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.i
-.PHONY : src/rendering/vertex_buffer.cpp.i
-
-src/rendering/vertex_buffer.s: src/rendering/vertex_buffer.cpp.s
-
-.PHONY : src/rendering/vertex_buffer.s
-
-# target to generate assembly for a file
-src/rendering/vertex_buffer.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/GameEngine.dir/build.make CMakeFiles/GameEngine.dir/src/rendering/vertex_buffer.cpp.s
-.PHONY : src/rendering/vertex_buffer.cpp.s
 
 vendor/imgui/imgui.o: vendor/imgui/imgui.cpp.o
 
@@ -1419,6 +1500,12 @@ help:
 	@echo "... include/ecs/world/world.o"
 	@echo "... include/ecs/world/world.i"
 	@echo "... include/ecs/world/world.s"
+	@echo "... src/core/system_providers/render_system_provider.o"
+	@echo "... src/core/system_providers/render_system_provider.i"
+	@echo "... src/core/system_providers/render_system_provider.s"
+	@echo "... src/core/system_providers/texture_loader_system_provider.o"
+	@echo "... src/core/system_providers/texture_loader_system_provider.i"
+	@echo "... src/core/system_providers/texture_loader_system_provider.s"
 	@echo "... src/core/systems/camera_system.o"
 	@echo "... src/core/systems/camera_system.i"
 	@echo "... src/core/systems/camera_system.s"
@@ -1458,6 +1545,9 @@ help:
 	@echo "... src/helpers/shader_importer.o"
 	@echo "... src/helpers/shader_importer.i"
 	@echo "... src/helpers/shader_importer.s"
+	@echo "... src/helpers/texture_importer.o"
+	@echo "... src/helpers/texture_importer.i"
+	@echo "... src/helpers/texture_importer.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
@@ -1467,6 +1557,9 @@ help:
 	@echo "... src/rendering/models/mesh.o"
 	@echo "... src/rendering/models/mesh.i"
 	@echo "... src/rendering/models/mesh.s"
+	@echo "... src/rendering/models/render_buffer.o"
+	@echo "... src/rendering/models/render_buffer.i"
+	@echo "... src/rendering/models/render_buffer.s"
 	@echo "... src/rendering/models/shader.o"
 	@echo "... src/rendering/models/shader.i"
 	@echo "... src/rendering/models/shader.s"
@@ -1485,9 +1578,6 @@ help:
 	@echo "... src/rendering/renderer_3d.o"
 	@echo "... src/rendering/renderer_3d.i"
 	@echo "... src/rendering/renderer_3d.s"
-	@echo "... src/rendering/vertex_buffer.o"
-	@echo "... src/rendering/vertex_buffer.i"
-	@echo "... src/rendering/vertex_buffer.s"
 	@echo "... vendor/imgui/imgui.o"
 	@echo "... vendor/imgui/imgui.i"
 	@echo "... vendor/imgui/imgui.s"

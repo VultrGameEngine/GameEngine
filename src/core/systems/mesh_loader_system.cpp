@@ -15,7 +15,8 @@ void MeshLoaderSystem::RegisterSystem()
 {
     MeshLoaderSystemProvider &provider = MeshLoaderSystemProvider::Get();
     provider.signature.set(World::GetComponentType<StaticMeshComponent>());
-    std::shared_ptr<MeshLoaderSystem> ptr = World::RegisterSystem<MeshLoaderSystem>(provider.signature);
+    std::shared_ptr<MeshLoaderSystem> ptr =
+        World::RegisterSystem<MeshLoaderSystem>(provider.signature);
 }
 
 void MeshLoaderSystem::OnCreateEntity(Entity entity)
@@ -32,7 +33,7 @@ void MeshLoaderSystem::OnCreateEntity(Entity entity)
 void MeshLoaderSystem::Import(std::string path)
 {
     MeshLoaderSystemProvider &provider = MeshLoaderSystemProvider::Get();
-    Mesh mesh = MeshImporter::ImportMesh(path);
+    Mesh *mesh = MeshImporter::ImportMesh(path);
     provider.AddMesh(path, mesh);
 }
 

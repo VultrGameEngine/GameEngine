@@ -62,10 +62,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/brandon/Desktop/Dev/GameEngine
+CMAKE_SOURCE_DIR = /home/brandon/Dev/GameEngine
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/brandon/Desktop/Dev/GameEngine/build
+CMAKE_BINARY_DIR = /home/brandon/Dev/GameEngine/build
 
 # Utility rule file for ExperimentalSubmit.
 
@@ -90,6 +90,6 @@ CMakeFiles/ExperimentalSubmit.dir/clean:
 .PHONY : CMakeFiles/ExperimentalSubmit.dir/clean
 
 CMakeFiles/ExperimentalSubmit.dir/depend:
-	cd /home/brandon/Desktop/Dev/GameEngine/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/brandon/Desktop/Dev/GameEngine /home/brandon/Desktop/Dev/GameEngine /home/brandon/Desktop/Dev/GameEngine/build /home/brandon/Desktop/Dev/GameEngine/build /home/brandon/Desktop/Dev/GameEngine/build/CMakeFiles/ExperimentalSubmit.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/brandon/Dev/GameEngine/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/brandon/Dev/GameEngine /home/brandon/Dev/GameEngine /home/brandon/Dev/GameEngine/build /home/brandon/Dev/GameEngine/build /home/brandon/Dev/GameEngine/build/CMakeFiles/ExperimentalSubmit.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/ExperimentalSubmit.dir/depend
 

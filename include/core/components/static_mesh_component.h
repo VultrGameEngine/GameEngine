@@ -9,6 +9,9 @@ namespace Brick3D
 {
 struct StaticMeshComponent
 {
+    StaticMeshComponent()
+    {
+    }
     StaticMeshComponent(std::string p_path) : m_path(p_path)
     {
     }

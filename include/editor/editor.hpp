@@ -1,30 +1,28 @@
 #pragma once
 #include "imgui/window.hpp"
 #include <vector>
-// #include "../core/components/camera_component.h"
-// #include "../core/components/transform_component.h"
 
-namespace Editor
+namespace Brick3D::Editor
 {
-    class Editor
+class Editor
+{
+  public:
+    Editor();
+    ~Editor();
+    static Editor *Get()
     {
-    public:
-        Editor();
-        ~Editor();
-        static Editor *Get()
+        static Editor *instance;
+        if (instance == nullptr)
         {
-            static Editor *instance;
-            if (instance == nullptr)
-            {
-                instance = new Editor();
-            }
-            return instance;
+            instance = new Editor();
         }
-        static unsigned int GetDockSpace();
-        static void Render();
+        return instance;
+    }
+    static unsigned int GetDockSpace();
+    static void Render();
 
-    private:
-        std::vector<Window *> windows;
-        unsigned int dockspace = 1;
-    };
-} // namespace Editor
+  private:
+    std::vector<Window *> windows;
+    unsigned int dockspace = 1;
+};
+} // namespace Brick3D::Editor
