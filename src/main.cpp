@@ -73,6 +73,7 @@ int main(void)
     ControllerSystem::RegisterSystem();
     CameraSystem::RegisterSystem();
     LightSystem::RegisterSystem();
+    RenderSystem::RegisterSystem();
 
     // for (int i = 0; i < 10; i++) {
     //   for (int j = 0; j < 10; j++) {
@@ -84,13 +85,9 @@ int main(void)
                                    .position = glm::vec3(0, 0, 0),
                                    .scale = glm::vec3(5, 5, 5),
                                });
-    // World::AddComponent(xwing, TextureComponent{
-    //                                .diffuse = "res/textures/clone/albedo.jpeg",
-    //                                .specular = "res/textures/clone/specular.jpeg",
-    //                            });
-    // World::AddComponent(xwing, ShaderComponent{
-    //                                .path = "res/shaders/material.glsl",
-    //                            });
+    World::AddComponent(xwing, PBRMaterial("res/shaders/material.glsl",
+                                           "res/textures/clone/albedo.jpeg",
+                                           "res/textures/clone/specular.jpeg"));
     // }
     // }
     // }
@@ -132,8 +129,8 @@ int main(void)
     //                            });
     World::AddComponent(light, StaticMeshComponent("res/models/cube.obj"));
 
-    RenderSystem::Resize(1920, 1080, GAME);
-    RenderSystem::Resize(1920, 1080, SCENE);
+    // RenderSystemProvider::Resize(1920, 1080, GAME);
+    // RenderSystemProvider::Resize(1920, 1080, SCENE);
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
@@ -143,13 +140,13 @@ int main(void)
         lastTime = t;
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         ControllerSystem::Update(deltaTime);
-        // TextureLoaderSystem::Get()->Update();
-        // LightSystem::Get()->Update();
-        // RenderSystem::Get()->Update(t);
+        TextureLoaderSystem::Update();
+        LightSystem::Update();
+        RenderSystem::Update(UpdateTick(t));
 
         /* Poll for and process events */
         glfwPollEvents();
-        // Editor::Editor::Get()->Render();
+        Brick3D::Editor::Editor::Get()->Render();
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);

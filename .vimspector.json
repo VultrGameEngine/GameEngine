@@ -5,9 +5,9 @@
 												"adapter": "vscode-cpptools",
 												"configuration": {
 																"request": "launch",
-																"program": "/home/brandon/Desktop/Dev/GameEngine/build/GameEngine",
+																"program": "/home/brandon/Dev/GameEngine/build/GameEngine",
 																"args": [],
-																"cwd":"/home/brandon/Desktop/Dev/GameEngine",
+																"cwd":"/home/brandon/Dev/GameEngine",
 																"environment": [],
 																"externalConsole": true,
 																"stopAtEntry":true,

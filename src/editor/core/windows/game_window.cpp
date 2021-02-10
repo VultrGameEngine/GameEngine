@@ -14,7 +14,7 @@ void Editor::GameWindow::Render()
     RenderSystemProvider::Get().game.render_texture->Bind();
     ImGui::Begin("Game");
     ImVec2 viewport_panel_size = ImGui::GetContentRegionAvail();
-    // RenderSystem::Resize(viewport_panel_size.x, viewport_panel_size.y, GAME);
+    RenderSystemProvider::Resize(viewport_panel_size.x, viewport_panel_size.y, GAME);
     ImGui::Image((void *)RenderSystemProvider::Get().game.render_texture,
                  ImVec2{viewport_panel_size.x, viewport_panel_size.y}, ImVec2{0, 1},
                  ImVec2{1, 0});

@@ -19,7 +19,6 @@ class RenderSystem : public System
   public:
     static void Update(UpdateTick meta_data);
     static void RegisterSystem();
-    static void Resize(int width, int height, unsigned int type);
 
   protected:
     void OnCreateEntity(Entity entity) override;

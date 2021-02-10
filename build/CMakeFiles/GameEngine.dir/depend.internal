@@ -29,6 +29,7 @@ CMakeFiles/GameEngine.dir/src/core/system_providers/render_system_provider.cpp.o
  ../include/ecs/system/system_provider.hpp
  ../include/ecs/world/world.hpp
  ../include/helpers/loading_state.h
+ ../include/helpers/shader_importer.h
  ../include/rendering/models/frame_buffer.h
  ../include/rendering/models/g_buffer.h
  ../include/rendering/models/index_buffer.h

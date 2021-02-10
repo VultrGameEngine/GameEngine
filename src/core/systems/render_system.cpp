@@ -172,29 +172,4 @@ void RenderSystem::RegisterSystem()
     World::RegisterSystem<RenderSystem>(provider.signature);
 }
 
-void RenderSystem::Resize(int width, int height, unsigned int type)
-{
-    // Get()->renderer->InitGBuffer(width, height);
-    // if (type == GAME)
-    // {
-    //     if (Get()->game.dimensions == glm::vec2(width, height))
-    //     {
-    //         return;
-    //     }
-    //     Get()->game.dimensions = glm::vec2(width, height);
-    //     GenerateRenderTexture(&Get()->game.fbo, &Get()->game.render_texture,
-    //                           &Get()->game.rbo, width, height);
-    // }
-    // else if (type == SCENE)
-    // {
-    //     if (Get()->scene.dimensions == glm::vec2(width, height))
-    //     {
-    //         return;
-    //     }
-    //     Get()->scene.dimensions = glm::vec2(width, height);
-    //     GenerateRenderTexture(&Get()->scene.fbo, &Get()->scene.render_texture,
-    //                           &Get()->scene.rbo, width, height);
-    // }
-}
-
 } // namespace Brick3D

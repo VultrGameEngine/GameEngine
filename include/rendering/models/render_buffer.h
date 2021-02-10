@@ -5,7 +5,7 @@ namespace Brick3D
 class RenderBuffer
 {
   public:
-    RenderBuffer();
+    RenderBuffer(unsigned int width, unsigned int height);
     ~RenderBuffer();
 
     void Generate(unsigned int width, unsigned int height);

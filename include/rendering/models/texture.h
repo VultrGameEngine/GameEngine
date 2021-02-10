@@ -14,6 +14,11 @@ class Texture
     void Bind();
     void Unbind();
 
+    unsigned int GetID() const
+    {
+        return this->m_id;
+    }
+
     void FrameBufferTexture2D();
 
   private:

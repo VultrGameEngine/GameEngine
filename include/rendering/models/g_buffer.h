@@ -14,6 +14,14 @@ class GBuffer : public FrameBuffer
     }
     ~GBuffer()
     {
+        glDeleteFramebuffers(1, &this->id);
+        glDeleteTextures(1, &this->position);
+        glDeleteTextures(1, &this->normal);
+        glDeleteTextures(1, &this->color_specular);
+        glDeleteRenderbuffers(1, &this->rbo_depth);
+
+        delete[] pnc_attachments;
+        delete[] light_attachments;
     }
 
     void Init(int width, int height)
@@ -77,12 +85,11 @@ class GBuffer : public FrameBuffer
     {
         if (this->position != 0)
         {
-            return;
-            // glDeleteFramebuffers(1, &this->id);
-            // glDeleteTextures(1, &this->position);
-            // glDeleteTextures(1, &this->normal);
-            // glDeleteTextures(1, &this->color_specular);
-            // glDeleteRenderbuffers(1, &this->rbo_depth);
+            glDeleteFramebuffers(1, &this->id);
+            glDeleteTextures(1, &this->position);
+            glDeleteTextures(1, &this->normal);
+            glDeleteTextures(1, &this->color_specular);
+            glDeleteRenderbuffers(1, &this->rbo_depth);
         }
         Init(width, height);
     }

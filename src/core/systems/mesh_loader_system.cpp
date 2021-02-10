@@ -25,8 +25,7 @@ void MeshLoaderSystem::OnCreateEntity(Entity entity)
 
     if (component.GetMesh() == nullptr)
     {
-        std::thread loadingThread(Import, component.m_path);
-        loadingThread.detach();
+        Import(component.m_path);
     }
 }
 

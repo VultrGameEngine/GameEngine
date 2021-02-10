@@ -1,10 +1,13 @@
 #include <GL/glew.h>
+#include <iostream>
 #include <rendering/models/render_buffer.h>
 
 namespace Brick3D
 {
-RenderBuffer::RenderBuffer()
+RenderBuffer::RenderBuffer(unsigned int width, unsigned int height)
 {
+    glGenRenderbuffers(1, &this->m_id);
+    Generate(width, height);
 }
 
 RenderBuffer::~RenderBuffer()
@@ -14,9 +17,9 @@ RenderBuffer::~RenderBuffer()
 
 void RenderBuffer::Generate(unsigned int width, unsigned int height)
 {
+    this->Bind();
     this->m_width = width;
     this->m_height = height;
-    glCreateRenderbuffers(1, &this->m_id);
 
     glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, width,
                           height); // use a single renderbuffer object for both a
@@ -26,8 +29,8 @@ void RenderBuffer::Generate(unsigned int width, unsigned int height)
                               this->m_id); // now actually attach it
     if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
     {
-        // std::cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!"
-        //           << std::endl;
+        std::cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!"
+                  << std::endl;
     }
 }
 

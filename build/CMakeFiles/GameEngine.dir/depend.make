@@ -28,6 +28,7 @@ CMakeFiles/GameEngine.dir/src/core/system_providers/render_system_provider.cpp.o
 CMakeFiles/GameEngine.dir/src/core/system_providers/render_system_provider.cpp.o: ../include/ecs/system/system_provider.hpp
 CMakeFiles/GameEngine.dir/src/core/system_providers/render_system_provider.cpp.o: ../include/ecs/world/world.hpp
 CMakeFiles/GameEngine.dir/src/core/system_providers/render_system_provider.cpp.o: ../include/helpers/loading_state.h
+CMakeFiles/GameEngine.dir/src/core/system_providers/render_system_provider.cpp.o: ../include/helpers/shader_importer.h
 CMakeFiles/GameEngine.dir/src/core/system_providers/render_system_provider.cpp.o: ../include/rendering/models/frame_buffer.h
 CMakeFiles/GameEngine.dir/src/core/system_providers/render_system_provider.cpp.o: ../include/rendering/models/g_buffer.h
 CMakeFiles/GameEngine.dir/src/core/system_providers/render_system_provider.cpp.o: ../include/rendering/models/index_buffer.h
