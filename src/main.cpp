@@ -129,9 +129,6 @@ int main(void)
     //                            });
     World::AddComponent(light, StaticMeshComponent("res/models/cube.obj"));
 
-    // RenderSystemProvider::Resize(1920, 1080, GAME);
-    // RenderSystemProvider::Resize(1920, 1080, SCENE);
-
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {

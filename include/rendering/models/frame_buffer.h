@@ -38,9 +38,11 @@ class FrameBuffer
     }
     FrameBuffer()
     {
+        glCreateFramebuffers(1, &this->id);
     }
     ~FrameBuffer()
     {
+        glDeleteFramebuffers(1, &this->id);
     }
 
   protected:

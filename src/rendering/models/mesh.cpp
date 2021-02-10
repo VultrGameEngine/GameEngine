@@ -28,9 +28,10 @@ void Mesh::Init(const std::vector<glm::vec3> &p_positions,
 
     vao = new VertexArray();
     vao->Bind();
+    vbo = new VertexBuffer(&m_vertices[0], m_vertices.size());
+    vbo->Bind();
     vao->Setup<Vertex>();
     ibo = new IndexBuffer(&m_indices[0], m_indices.size());
-    vbo = new VertexBuffer(&m_vertices[0], m_vertices.size());
 }
 
 } // namespace Brick3D
