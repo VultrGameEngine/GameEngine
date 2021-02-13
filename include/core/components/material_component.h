@@ -43,5 +43,10 @@ struct MaterialComponent
         std::vector<std::string> placeholder;
         return placeholder;
     }
+
+    virtual bool IsSkybox() const
+    {
+        return false;
+    }
 };
 } // namespace Brick3D

@@ -1,6 +1,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <core/components/material_component.h>
+#include <core/components/sky_box_component.h>
 #include <core/components/static_mesh_component.h>
 #include <core/system_providers/camera_system_provider.h>
 #include <core/system_providers/light_system_provider.h>
@@ -103,7 +104,6 @@ void RenderSystem::Update(UpdateTick meta_data)
 void RenderSystem::RenderElements(unsigned int type)
 {
     RenderSystemProvider &provider = RenderSystemProvider::Get();
-    Entity camera = CameraSystemProvider::Get().m_camera;
 
     for (Entity entity : provider.entities)
     {
@@ -114,14 +114,6 @@ void RenderSystem::RenderElements(unsigned int type)
         Renderer3D::ForwardRenderer::Submit(material, transform.Matrix(),
                                             *mesh.GetMesh());
     }
-
-    // Create a render context
-    // Update the renderer
-    // renderer->DeferredGeometryPass(context);
-    // renderer->StencilPass(context);
-    // renderer->LightPass(context);
-    // renderer->CompositePass(context);
-    // renderer->ForwardRenderingPass(context);
 }
 
 void RenderSystem::RenderSkybox(unsigned int type)
@@ -131,58 +123,33 @@ void RenderSystem::RenderSkybox(unsigned int type)
         return;
     glDepthFunc(GL_LEQUAL); // Ensure depth test passes when values are equal to
                             // the depth buffer's content
-    Signature skybox_signature;
-    // skybox_signature.set(World::GetComponentType<SkyBoxComponent>(), true);
-    // skybox_signature.set(World::GetComponentType<ShaderComponent>(), true);
 
-    // // If the camera has a texture, that means it has a skybox
-    // if ((World::GetSignature(camera) & skybox_signature) == skybox_signature)
-    // {
-    //     auto &shader_component = World::GetComponent<ShaderComponent>(camera);
-    //     auto &skybox_component = World::GetComponent<SkyBoxComponent>(camera);
-    //     LoadedTexture *texture =
-    //         TextureLoaderSystem::Get()->GetTexture(skybox_component.identifier);
-    //     // If we have loaded the bytes into memory
-    //     if (texture != nullptr && texture->loaded == loaded)
-    //     {
-    //         glDepthMask(GL_FALSE);
-    //         glActiveTexture(GL_TEXTURE0);
-    //         glBindTexture(GL_TEXTURE_CUBE_MAP, texture->id);
+    auto &material_component = camera.GetComponent<MaterialComponent>();
+    auto &skybox_component = camera.GetComponent<SkyBoxComponent>();
+    glDepthMask(GL_FALSE);
+    material_component.BindShaders();
+    material_component.SetModelUniforms(
+        RenderContext::GetContext().camera_transform.Matrix());
+    material_component.BindTextures();
 
-    //         Shader *shader = shader_component.GetShader();
-    //         if (shader == nullptr)
-    //             return;
-    //         shader->Bind();
-    //         shader->SetUniform1i("skybox", 0);
-    //         shader->SetUniformMatrix4fv(
-    //             "view", glm::value_ptr(
-    //                         glm::mat4(glm::mat3(camera_transform.GetViewMatrix()))));
-    //         shader->SetUniformMatrix4fv(
-    //             "projection", glm::value_ptr(camera_component.GetProjectionMatrix(
-    //                               GetDimensions(type).x, GetDimensions(type).y)));
+    if (skybox_component.vbo == 0 || skybox_component.vao == 0)
+    {
+        glGenVertexArrays(1, &skybox_component.vao);
+        glGenBuffers(1, &skybox_component.vbo);
+        glBindVertexArray(skybox_component.vao);
+        glBindBuffer(GL_ARRAY_BUFFER, skybox_component.vbo);
+        glBufferData(GL_ARRAY_BUFFER,
+                     sizeof(glm::vec3) * skybox_component.GetVertices().size(),
+                     &(skybox_component.GetVertices()[0]), GL_STATIC_DRAW);
+        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+    }
 
-    //         if (skybox_component.vbo == 0 || skybox_component.vao == 0)
-    //         {
-    //             glGenVertexArrays(1, &skybox_component.vao);
-    //             glGenBuffers(1, &skybox_component.vbo);
-    //             glBindVertexArray(skybox_component.vao);
-    //             glBindBuffer(GL_ARRAY_BUFFER, skybox_component.vbo);
-    //             glBufferData(GL_ARRAY_BUFFER,
-    //                          sizeof(glm::vec3) *
-    //                              skybox_component.GetVertices().size(),
-    //                          &(skybox_component.GetVertices()[0]),
-    //                          GL_STATIC_DRAW);
-    //             glEnableVertexAttribArray(0);
-    //             glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
-    //         }
-
-    //         glBindVertexArray(skybox_component.vao);
-    //         glBindBuffer(GL_ARRAY_BUFFER, skybox_component.vbo);
-    //         glDrawArrays(GL_TRIANGLES, 0, skybox_component.GetVertices().size());
-    //         glDepthMask(GL_TRUE);
-    //     }
-    // }
-    // glDepthFunc(GL_LESS); // Reset depth test
+    glBindVertexArray(skybox_component.vao);
+    glBindBuffer(GL_ARRAY_BUFFER, skybox_component.vbo);
+    glDrawArrays(GL_TRIANGLES, 0, skybox_component.GetVertices().size());
+    glDepthMask(GL_TRUE);
+    glDepthFunc(GL_LESS); // Reset depth test
 }
 
 // Internal private helper methods

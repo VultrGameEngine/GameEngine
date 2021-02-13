@@ -28,13 +28,26 @@ void TextureLoaderSystem::RegisterSystem()
 void TextureLoaderSystem::OnCreateEntity(Entity entity)
 {
     TextureLoaderSystemProvider &provider = TextureLoaderSystemProvider::Get();
-    auto &component = World::GetComponent<MaterialComponent>(entity);
-    for (std::string path : component.GetTextures())
+    auto &component = entity.GetComponent<MaterialComponent>();
+    if (component.IsSkybox())
     {
-        if (!provider.isLoaded(path))
+        auto &skybox_component = entity.GetComponent<SkyBoxComponent>();
+        if (!provider.isLoaded(skybox_component.identifier))
         {
-            provider.textures[path] = new Texture(GL_TEXTURE_2D);
-            TextureImporter::Import(path, *provider.textures[path]);
+            Texture *texture = new Texture(GL_TEXTURE_CUBE_MAP);
+            provider.textures[skybox_component.identifier] = texture;
+            TextureImporter::ImportSkybox(skybox_component.GetPaths(), *texture);
+        }
+    }
+    else
+    {
+        for (std::string path : component.GetTextures())
+        {
+            if (!provider.isLoaded(path))
+            {
+                provider.textures[path] = new Texture(GL_TEXTURE_2D);
+                TextureImporter::Import(path, *provider.textures[path]);
+            }
         }
     }
 }

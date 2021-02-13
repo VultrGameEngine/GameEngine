@@ -99,9 +99,7 @@ int main(void)
         "default", "res/textures/skybox/front.jpg", "res/textures/skybox/back.jpg",
         "res/textures/skybox/top.jpg", "res/textures/skybox/bottom.jpg",
         "res/textures/skybox/left.jpg", "res/textures/skybox/right.jpg"));
-    // World::AddComponent(camera, ShaderComponent{
-    //                                 .path = "res/shaders/skybox.glsl",
-    //                             });
+    World::AddComponent(camera, SkyboxMaterial::Create("default"));
     Entity light = Entity::New();
 
     light.AddComponent(LightComponent::Create());
