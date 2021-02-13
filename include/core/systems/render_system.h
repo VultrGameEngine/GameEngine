@@ -10,7 +10,6 @@
 #include <ecs/system/system.hpp>
 #include <ecs/world/world.hpp>
 #include <glm/glm.hpp>
-#include <rendering/renderer_3d.h>
 
 namespace Brick3D
 {

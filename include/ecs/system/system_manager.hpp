@@ -15,7 +15,8 @@ class SystemManager
     {
         const char *type_name = typeid(T).name();
 
-        assert(systems.find(type_name) == systems.end() && "Registering system more than once");
+        assert(systems.find(type_name) == systems.end() &&
+               "Registering system more than once");
 
         // Create a pointer to the system and return it so it can be used externally
         std::shared_ptr<T> system = std::make_shared<T>();
@@ -30,7 +31,8 @@ class SystemManager
     {
         const char *type_name = typeid(T).name();
 
-        assert(systems.find(type_name) != systems.end() && "Attempting to deregister system that does not exist");
+        assert(systems.find(type_name) != systems.end() &&
+               "Attempting to deregister system that does not exist");
 
         // Remove the system from the map
         systems.erase(type_name);
@@ -40,7 +42,8 @@ class SystemManager
     {
         const char *type_name = typeid(T).name();
 
-        assert(systems.find(type_name) != systems.end() && "System used before registered");
+        assert(systems.find(type_name) != systems.end() &&
+               "System used before registered");
 
         // Set the signature for the system
         signatures.insert({type_name, signature});
@@ -67,7 +70,7 @@ class SystemManager
             auto const &system_signature = signatures[type];
 
             // If entity signature matches system signature
-            if ((entity_signature & system_signature) == system_signature)
+            if (system->Match(entity_signature))
             {
                 // Insert into set
                 system->CreateEntity(entity);

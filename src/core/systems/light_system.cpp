@@ -5,20 +5,11 @@
 
 namespace Brick3D
 {
-void LightSystem::Update()
-{
-    LightSystemProvider &provider = LightSystemProvider::Get();
-    for (Entity entity : provider.entities)
-    {
-        provider.light = entity;
-        return;
-    }
-    provider.light = -1;
-}
 
 void LightSystem::OnCreateEntity(Entity entity)
 {
-    std::cout << "New light" << std::endl;
+    LightSystemProvider &provider = LightSystemProvider::Get();
+    provider.light = entity;
 }
 
 void LightSystem::RegisterSystem()

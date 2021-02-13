@@ -12,7 +12,6 @@ class LightSystemProvider : public SystemProvider
         static LightSystemProvider instance;
         return instance;
     }
-    Signature signature;
     Entity light = -1;
 };
 } // namespace Brick3D

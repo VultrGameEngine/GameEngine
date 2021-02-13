@@ -128,8 +128,6 @@ int main(void)
         lastTime = t;
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         ControllerSystem::Update(deltaTime);
-        TextureLoaderSystem::Update();
-        LightSystem::Update();
         RenderSystem::Update(UpdateTick(t));
 
         /* Poll for and process events */

@@ -16,6 +16,5 @@ class ControllerSystemProvider : public SystemProvider
     }
     GLFWwindow *m_window;
     bool m_focused = false;
-    Signature signature;
 };
 } // namespace Brick3D

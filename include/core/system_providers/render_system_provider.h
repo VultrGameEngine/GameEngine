@@ -57,7 +57,6 @@ class RenderSystemProvider : public SystemProvider
     std::vector<glm::vec3> lightColors;
     glm::vec3 lightPos = glm::vec3(0, 0, 2);
     glm::vec3 attenuation = glm::vec3(1, 0.01f, 0.001f);
-    Signature signature;
 
   private:
     RenderSystemProvider()

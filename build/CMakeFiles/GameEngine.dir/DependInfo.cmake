@@ -30,7 +30,6 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/brandon/Dev/GameEngine/src/rendering/models/vertex_array.cpp" "/home/brandon/Dev/GameEngine/build/CMakeFiles/GameEngine.dir/src/rendering/models/vertex_array.cpp.o"
   "/home/brandon/Dev/GameEngine/src/rendering/models/vertex_buffer.cpp" "/home/brandon/Dev/GameEngine/build/CMakeFiles/GameEngine.dir/src/rendering/models/vertex_buffer.cpp.o"
   "/home/brandon/Dev/GameEngine/src/rendering/render_group.cpp" "/home/brandon/Dev/GameEngine/build/CMakeFiles/GameEngine.dir/src/rendering/render_group.cpp.o"
-  "/home/brandon/Dev/GameEngine/src/rendering/renderer_3d.cpp" "/home/brandon/Dev/GameEngine/build/CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o"
   "/home/brandon/Dev/GameEngine/src/rendering/renderers/forward_renderer_3d.cpp" "/home/brandon/Dev/GameEngine/build/CMakeFiles/GameEngine.dir/src/rendering/renderers/forward_renderer_3d.cpp.o"
   "/home/brandon/Dev/GameEngine/vendor/imgui/imgui.cpp" "/home/brandon/Dev/GameEngine/build/CMakeFiles/GameEngine.dir/vendor/imgui/imgui.cpp.o"
   "/home/brandon/Dev/GameEngine/vendor/imgui/imgui_draw.cpp" "/home/brandon/Dev/GameEngine/build/CMakeFiles/GameEngine.dir/vendor/imgui/imgui_draw.cpp.o"

@@ -13,7 +13,6 @@ class MeshLoaderSystemProvider : public SystemProvider
         static MeshLoaderSystemProvider instance;
         return instance;
     }
-    Signature signature;
 
     static Mesh *GetMesh(std::string path)
     {

@@ -25,37 +25,18 @@ void TextureLoaderSystem::RegisterSystem()
     World::RegisterSystem<TextureLoaderSystem>(provider.signature);
 }
 
-void TextureLoaderSystem::Update()
-{
-    TextureLoaderSystemProvider &provider = TextureLoaderSystemProvider::Get();
-    for (Entity entity : provider.entities)
-    {
-        auto &component = World::GetComponent<MaterialComponent>(entity);
-        for (std::string path : component.GetTextures())
-        {
-            if (!provider.isLoaded(path))
-            {
-                provider.textures[path] = new Texture(GL_TEXTURE_2D);
-                TextureImporter::Import(path, *provider.textures[path]);
-            }
-        }
-    }
-    // Signature skybox_signature;
-    // skybox_signature.set(World::GetComponentType<SkyBoxComponent>());
-    // for (Entity entity : World::GetEntities(skybox_signature))
-    // {
-    //     auto &component = World::GetComponent<SkyBoxComponent>(entity);
-    //     if (!isLoaded(component.identifier))
-    //     {
-    //         state.textures[component.identifier] = {};
-    //         ImportSkybox(component.GetPaths(),
-    //         state.textures[component.identifier]);
-    //     }
-    // }
-}
-
 void TextureLoaderSystem::OnCreateEntity(Entity entity)
 {
+    TextureLoaderSystemProvider &provider = TextureLoaderSystemProvider::Get();
+    auto &component = World::GetComponent<MaterialComponent>(entity);
+    for (std::string path : component.GetTextures())
+    {
+        if (!provider.isLoaded(path))
+        {
+            provider.textures[path] = new Texture(GL_TEXTURE_2D);
+            TextureImporter::Import(path, *provider.textures[path]);
+        }
+    }
 }
 
 } // namespace Brick3D

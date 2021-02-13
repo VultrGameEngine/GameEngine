@@ -21,7 +21,6 @@ class ShaderLoaderSystemProvider : public SystemProvider
         return Get().loaded_shaders[path];
     }
 
-    Signature signature;
     std::unordered_map<std::string, Shader *> loaded_shaders;
 };
 } // namespace Brick3D

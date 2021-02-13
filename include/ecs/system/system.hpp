@@ -30,6 +30,10 @@ class System
         GetProvider().entities.insert(entity);
         OnCreateEntity(entity);
     }
+    virtual bool Match(Signature other)
+    {
+        return (other & GetProvider().signature) == GetProvider().signature;
+    }
 
   protected:
     // Methods that can be overriden by the child classes in order

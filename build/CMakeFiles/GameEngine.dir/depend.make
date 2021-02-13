@@ -175,7 +175,6 @@ CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o: ../include/rende
 CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o: ../include/rendering/render_context.h
 CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o: ../include/rendering/render_group.h
 CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o: ../include/rendering/render_type.h
-CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o: ../include/rendering/renderer_3d.h
 CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o: ../include/rendering/renderers/forward_renderer_3d.h
 CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o: ../src/core/systems/render_system.cpp
 
@@ -321,7 +320,6 @@ CMakeFiles/GameEngine.dir/src/editor/editor.cpp.o: ../include/rendering/models/v
 CMakeFiles/GameEngine.dir/src/editor/editor.cpp.o: ../include/rendering/render_context.h
 CMakeFiles/GameEngine.dir/src/editor/editor.cpp.o: ../include/rendering/render_group.h
 CMakeFiles/GameEngine.dir/src/editor/editor.cpp.o: ../include/rendering/render_type.h
-CMakeFiles/GameEngine.dir/src/editor/editor.cpp.o: ../include/rendering/renderer_3d.h
 CMakeFiles/GameEngine.dir/src/editor/editor.cpp.o: ../vendor/imgui/imconfig.h
 CMakeFiles/GameEngine.dir/src/editor/editor.cpp.o: ../vendor/imgui/imgui.h
 CMakeFiles/GameEngine.dir/src/editor/editor.cpp.o: ../vendor/imgui/imgui_impl_glfw.h
@@ -408,7 +406,6 @@ CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/rendering/models/vertex_buf
 CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/rendering/render_context.h
 CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/rendering/render_group.h
 CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/rendering/render_type.h
-CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/rendering/renderer_3d.h
 CMakeFiles/GameEngine.dir/src/main.cpp.o: ../vendor/imgui/imconfig.h
 CMakeFiles/GameEngine.dir/src/main.cpp.o: ../vendor/imgui/imgui.h
 CMakeFiles/GameEngine.dir/src/main.cpp.o: ../vendor/imgui/imgui_impl_glfw.h
@@ -447,9 +444,7 @@ CMakeFiles/GameEngine.dir/src/rendering/models/vertex_buffer.cpp.o: ../src/rende
 
 CMakeFiles/GameEngine.dir/src/rendering/render_group.cpp.o: ../include/core/components/camera_component.h
 CMakeFiles/GameEngine.dir/src/rendering/render_group.cpp.o: ../include/core/components/shader_cache.h
-CMakeFiles/GameEngine.dir/src/rendering/render_group.cpp.o: ../include/core/components/shader_component.h
 CMakeFiles/GameEngine.dir/src/rendering/render_group.cpp.o: ../include/core/components/transform_component.h
-CMakeFiles/GameEngine.dir/src/rendering/render_group.cpp.o: ../include/core/system_providers/shader_loader_system_provider.h
 CMakeFiles/GameEngine.dir/src/rendering/render_group.cpp.o: ../include/ecs/component/component.hpp
 CMakeFiles/GameEngine.dir/src/rendering/render_group.cpp.o: ../include/ecs/component/component_array.hpp
 CMakeFiles/GameEngine.dir/src/rendering/render_group.cpp.o: ../include/ecs/component/component_manager.hpp
@@ -471,35 +466,6 @@ CMakeFiles/GameEngine.dir/src/rendering/render_group.cpp.o: ../include/rendering
 CMakeFiles/GameEngine.dir/src/rendering/render_group.cpp.o: ../include/rendering/render_group.h
 CMakeFiles/GameEngine.dir/src/rendering/render_group.cpp.o: ../include/rendering/render_type.h
 CMakeFiles/GameEngine.dir/src/rendering/render_group.cpp.o: ../src/rendering/render_group.cpp
-
-CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../include/core/components/camera_component.h
-CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../include/core/components/shader_component.h
-CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../include/core/components/transform_component.h
-CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../include/core/system_providers/shader_loader_system_provider.h
-CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../include/ecs/component/component.hpp
-CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../include/ecs/component/component_array.hpp
-CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../include/ecs/component/component_manager.hpp
-CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../include/ecs/entity/entity.hpp
-CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../include/ecs/entity/entity_manager.hpp
-CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../include/ecs/system/system.hpp
-CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../include/ecs/system/system_manager.hpp
-CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../include/ecs/system/system_provider.hpp
-CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../include/ecs/world/world.hpp
-CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../include/helpers/loading_state.h
-CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../include/rendering/models/frame_buffer.h
-CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../include/rendering/models/g_buffer.h
-CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../include/rendering/models/index_buffer.h
-CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../include/rendering/models/mesh.h
-CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../include/rendering/models/shader.h
-CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../include/rendering/models/texture.h
-CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../include/rendering/models/vertex.h
-CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../include/rendering/models/vertex_array.h
-CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../include/rendering/models/vertex_buffer.h
-CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../include/rendering/render_context.h
-CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../include/rendering/render_group.h
-CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../include/rendering/render_type.h
-CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../include/rendering/renderer_3d.h
-CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../src/rendering/renderer_3d.cpp
 
 CMakeFiles/GameEngine.dir/src/rendering/renderers/forward_renderer_3d.cpp.o: ../include/core/components/material_component.h
 CMakeFiles/GameEngine.dir/src/rendering/renderers/forward_renderer_3d.cpp.o: ../include/core/components/transform_component.h

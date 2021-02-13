@@ -8,7 +8,6 @@ namespace Brick3D
 class LightSystem : public System
 {
   public:
-    static void Update();
     static void RegisterSystem();
 
   protected:

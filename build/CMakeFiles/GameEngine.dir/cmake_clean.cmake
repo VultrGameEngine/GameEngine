@@ -25,7 +25,6 @@ file(REMOVE_RECURSE
   "CMakeFiles/GameEngine.dir/src/rendering/models/vertex_array.cpp.o"
   "CMakeFiles/GameEngine.dir/src/rendering/models/vertex_buffer.cpp.o"
   "CMakeFiles/GameEngine.dir/src/rendering/render_group.cpp.o"
-  "CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o"
   "CMakeFiles/GameEngine.dir/src/rendering/renderers/forward_renderer_3d.cpp.o"
   "CMakeFiles/GameEngine.dir/vendor/imgui/imgui.cpp.o"
   "CMakeFiles/GameEngine.dir/vendor/imgui/imgui_draw.cpp.o"

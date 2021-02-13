@@ -131,11 +131,6 @@
 },
 {
   "directory": "/home/brandon/Dev/GameEngine/build",
-  "command": "/bin/clang++  -I/home/brandon/Dev/GameEngine/include -I/home/brandon/Dev/GameEngine/vendor -g -o CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o -c /home/brandon/Dev/GameEngine/src/rendering/renderer_3d.cpp",
-  "file": "/home/brandon/Dev/GameEngine/src/rendering/renderer_3d.cpp"
-},
-{
-  "directory": "/home/brandon/Dev/GameEngine/build",
   "command": "/bin/clang++  -I/home/brandon/Dev/GameEngine/include -I/home/brandon/Dev/GameEngine/vendor -g -o CMakeFiles/GameEngine.dir/src/rendering/renderers/forward_renderer_3d.cpp.o -c /home/brandon/Dev/GameEngine/src/rendering/renderers/forward_renderer_3d.cpp",
   "file": "/home/brandon/Dev/GameEngine/src/rendering/renderers/forward_renderer_3d.cpp"
 },

@@ -17,8 +17,6 @@ class TextureLoaderSystemProvider : public SystemProvider
     Texture *GetTexture(const std::string &texture);
     bool isLoaded(const std::string &texture);
 
-    Signature signature;
-
     std::unordered_map<std::string, Texture *> textures;
 };
 } // namespace Brick3D

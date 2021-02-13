@@ -57,7 +57,7 @@ void RenderSystem::Update(UpdateTick meta_data)
                    provider.GetDimensions(GAME).y);
 
         // Render both the skybox an the static meshes in the scene
-        // RenderSkybox(GAME, camera_transform, camera_component);
+        RenderSkybox(GAME);
         RenderElements(GAME);
 
         // Unbind the frame buffer
@@ -92,7 +92,7 @@ void RenderSystem::Update(UpdateTick meta_data)
                               camera_component);
 
     // Render both the skybox and the static meshes in the scene
-    // RenderSkybox(SCENE, camera_transform, camera_component);
+    RenderSkybox(SCENE);
     RenderElements(SCENE);
 
     // Unbind the frame buffer
