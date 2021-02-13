@@ -17,7 +17,6 @@ int main(void)
     World::Init();
     World::RegisterComponent<StaticMeshComponent>();
     World::RegisterComponent<MaterialComponent>();
-    World::RegisterComponent<PBRMaterial>();
     World::RegisterComponent<TransformComponent>();
     World::RegisterComponent<LightComponent>();
     World::RegisterComponent<CameraComponent>();
@@ -80,54 +79,46 @@ int main(void)
     // for (int k = 0; k < 10; k++) {
     Entity xwing = World::CreateEntity();
 
-    World::AddComponent(xwing, StaticMeshComponent("res/models/Clone.obj"));
-    World::AddComponent(xwing, TransformComponent{
-                                   .position = glm::vec3(0, 0, 0),
-                                   .scale = glm::vec3(5, 5, 5),
-                               });
-    World::AddComponent(xwing, PBRMaterial("res/shaders/material.glsl",
-                                           "res/textures/clone/albedo.jpeg",
-                                           "res/textures/clone/specular.jpeg"));
+    World::AddComponent(xwing, StaticMeshComponent::Create("res/models/Clone.obj"));
+    World::AddComponent(xwing, TransformComponent::Create(glm::vec3(0, 0, 0),
+                                                          glm::quat(1, 0, 0, 0),
+                                                          glm::vec3(5, 5, 5)));
+    World::AddComponent(xwing,
+                        ForwardMaterial::Create("res/textures/clone/albedo.jpeg"));
     // }
     // }
     // }
 
     Entity camera = World::CreateEntity();
 
-    World::AddComponent(camera, CameraComponent{
-                                    .enabled = true,
-                                });
+    World::AddComponent(camera, CameraComponent::Create());
 
-    World::AddComponent(camera, TransformComponent{.position = glm::vec3(4, 4, 4)});
+    World::AddComponent(camera, TransformComponent::Create(glm::vec3(4, 4, 4),
+                                                           glm::quat(1, 0, 0, 0),
+                                                           glm::vec3(5, 5, 5)));
 
-    World::AddComponent(camera, ControllerComponent{
-                                    .sens = 0.05,
-                                });
-    World::AddComponent(camera, SkyBoxComponent{
-                                    .identifier = "default",
-                                    .front = "res/textures/skybox/front.jpg",
-                                    .back = "res/textures/skybox/back.jpg",
-                                    .top = "res/textures/skybox/top.jpg",
-                                    .bottom = "res/textures/skybox/bottom.jpg",
-                                    .left = "res/textures/skybox/left.jpg",
-                                    .right = "res/textures/skybox/right.jpg",
-                                });
+    World::AddComponent(camera, ControllerComponent::Create());
+    World::AddComponent(
+        camera, SkyBoxComponent::Create(
+                    "default", "res/textures/skybox/front.jpg",
+                    "res/textures/skybox/back.jpg", "res/textures/skybox/top.jpg",
+                    "res/textures/skybox/bottom.jpg", "res/textures/skybox/left.jpg",
+                    "res/textures/skybox/right.jpg"));
     // World::AddComponent(camera, ShaderComponent{
     //                                 .path = "res/shaders/skybox.glsl",
     //                             });
     Entity light = World::CreateEntity();
 
-    World::AddComponent(light, LightComponent{});
+    World::AddComponent(light, LightComponent::Create());
 
-    World::AddComponent(light, TransformComponent{
-                                   .position = glm::vec3(0, 0, 2),
-                                   .scale = glm::vec3(0.2, 0.2, 0.2),
-                               });
+    World::AddComponent(light, TransformComponent::Create(glm::vec3(0, 0, 10),
+                                                          glm::quat(1, 0, 0, 0),
+                                                          glm::vec3(0.2, 0.2, 0.2)));
     // World::AddComponent(light, ShaderComponent{
     //                                .path = "res/shaders/unlit.glsl",
     //                                .type = Renderer::Forward,
     //                            });
-    World::AddComponent(light, StaticMeshComponent("res/models/cube.obj"));
+    World::AddComponent(light, StaticMeshComponent::Create("res/models/cube.obj"));
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))

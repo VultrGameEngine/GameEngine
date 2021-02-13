@@ -13,7 +13,7 @@ void TextureImporter::Import(const std::string &path, Texture &texture)
     int height;
     int bpp;
     unsigned char *buffer = stbi_load(path.c_str(), &width, &height, &bpp, 4);
-    texture.Bind();
+    texture.Bind(GL_TEXTURE0);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
@@ -21,7 +21,6 @@ void TextureImporter::Import(const std::string &path, Texture &texture)
 
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA,
                  GL_UNSIGNED_BYTE, buffer);
-    glBindTexture(GL_TEXTURE_2D, 0);
     if (buffer)
         stbi_image_free(buffer);
 }
@@ -29,8 +28,7 @@ void TextureImporter::ImportSkybox(const std::vector<std::string> &paths,
                                    Texture &texture)
 {
     stbi_set_flip_vertically_on_load(0);
-    glActiveTexture(GL_TEXTURE0);
-    texture.Bind();
+    texture.Bind(GL_TEXTURE0);
 
     int width, height, nrChannels;
     for (unsigned int i = 0; i < paths.size(); i++)
@@ -55,6 +53,5 @@ void TextureImporter::ImportSkybox(const std::vector<std::string> &paths,
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-    texture.Unbind();
 }
 } // namespace Brick3D

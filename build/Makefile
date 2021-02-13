@@ -1268,6 +1268,33 @@ src/rendering/renderer_3d.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/GameEngine.dir/build.make CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.s
 .PHONY : src/rendering/renderer_3d.cpp.s
 
+src/rendering/renderers/forward_renderer_3d.o: src/rendering/renderers/forward_renderer_3d.cpp.o
+
+.PHONY : src/rendering/renderers/forward_renderer_3d.o
+
+# target to build an object file
+src/rendering/renderers/forward_renderer_3d.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/GameEngine.dir/build.make CMakeFiles/GameEngine.dir/src/rendering/renderers/forward_renderer_3d.cpp.o
+.PHONY : src/rendering/renderers/forward_renderer_3d.cpp.o
+
+src/rendering/renderers/forward_renderer_3d.i: src/rendering/renderers/forward_renderer_3d.cpp.i
+
+.PHONY : src/rendering/renderers/forward_renderer_3d.i
+
+# target to preprocess a source file
+src/rendering/renderers/forward_renderer_3d.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/GameEngine.dir/build.make CMakeFiles/GameEngine.dir/src/rendering/renderers/forward_renderer_3d.cpp.i
+.PHONY : src/rendering/renderers/forward_renderer_3d.cpp.i
+
+src/rendering/renderers/forward_renderer_3d.s: src/rendering/renderers/forward_renderer_3d.cpp.s
+
+.PHONY : src/rendering/renderers/forward_renderer_3d.s
+
+# target to generate assembly for a file
+src/rendering/renderers/forward_renderer_3d.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/GameEngine.dir/build.make CMakeFiles/GameEngine.dir/src/rendering/renderers/forward_renderer_3d.cpp.s
+.PHONY : src/rendering/renderers/forward_renderer_3d.cpp.s
+
 vendor/imgui/imgui.o: vendor/imgui/imgui.cpp.o
 
 .PHONY : vendor/imgui/imgui.o
@@ -1578,6 +1605,9 @@ help:
 	@echo "... src/rendering/renderer_3d.o"
 	@echo "... src/rendering/renderer_3d.i"
 	@echo "... src/rendering/renderer_3d.s"
+	@echo "... src/rendering/renderers/forward_renderer_3d.o"
+	@echo "... src/rendering/renderers/forward_renderer_3d.i"
+	@echo "... src/rendering/renderers/forward_renderer_3d.s"
 	@echo "... vendor/imgui/imgui.o"
 	@echo "... vendor/imgui/imgui.i"
 	@echo "... vendor/imgui/imgui.s"

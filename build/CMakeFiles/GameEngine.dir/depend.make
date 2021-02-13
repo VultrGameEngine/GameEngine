@@ -52,15 +52,9 @@ CMakeFiles/GameEngine.dir/src/core/system_providers/texture_loader_system_provid
 CMakeFiles/GameEngine.dir/src/core/system_providers/texture_loader_system_provider.cpp.o: ../src/core/system_providers/texture_loader_system_provider.cpp
 
 CMakeFiles/GameEngine.dir/src/core/systems/camera_system.cpp.o: ../include/core/components/camera_component.h
+CMakeFiles/GameEngine.dir/src/core/systems/camera_system.cpp.o: ../include/core/components/controller_component.h
 CMakeFiles/GameEngine.dir/src/core/systems/camera_system.cpp.o: ../include/core/components/transform_component.h
 CMakeFiles/GameEngine.dir/src/core/systems/camera_system.cpp.o: ../include/core/system_providers/camera_system_provider.h
-CMakeFiles/GameEngine.dir/src/core/systems/camera_system.cpp.o: ../include/ecs/component/component.hpp
-CMakeFiles/GameEngine.dir/src/core/systems/camera_system.cpp.o: ../include/ecs/component/component_array.hpp
-CMakeFiles/GameEngine.dir/src/core/systems/camera_system.cpp.o: ../include/ecs/entity/entity.hpp
-CMakeFiles/GameEngine.dir/src/core/systems/camera_system.cpp.o: ../include/ecs/system/system.hpp
-CMakeFiles/GameEngine.dir/src/core/systems/camera_system.cpp.o: ../include/ecs/system/system_provider.hpp
-CMakeFiles/GameEngine.dir/src/core/systems/camera_system.cpp.o: ../include/ecs/world/world.hpp
-CMakeFiles/GameEngine.dir/src/core/systems/camera_system.cpp.o: ../include/core/components/camera_component.h
 CMakeFiles/GameEngine.dir/src/core/systems/camera_system.cpp.o: ../include/core/systems/camera_system.h
 CMakeFiles/GameEngine.dir/src/core/systems/camera_system.cpp.o: ../include/ecs/component/component.hpp
 CMakeFiles/GameEngine.dir/src/core/systems/camera_system.cpp.o: ../include/ecs/component/component_array.hpp
@@ -69,6 +63,7 @@ CMakeFiles/GameEngine.dir/src/core/systems/camera_system.cpp.o: ../include/ecs/e
 CMakeFiles/GameEngine.dir/src/core/systems/camera_system.cpp.o: ../include/ecs/entity/entity_manager.hpp
 CMakeFiles/GameEngine.dir/src/core/systems/camera_system.cpp.o: ../include/ecs/system/system.hpp
 CMakeFiles/GameEngine.dir/src/core/systems/camera_system.cpp.o: ../include/ecs/system/system_manager.hpp
+CMakeFiles/GameEngine.dir/src/core/systems/camera_system.cpp.o: ../include/ecs/system/system_provider.hpp
 CMakeFiles/GameEngine.dir/src/core/systems/camera_system.cpp.o: ../include/ecs/world/world.hpp
 CMakeFiles/GameEngine.dir/src/core/systems/camera_system.cpp.o: ../include/editor/editor.hpp
 CMakeFiles/GameEngine.dir/src/core/systems/camera_system.cpp.o: ../include/editor/imgui/element.hpp
@@ -78,6 +73,7 @@ CMakeFiles/GameEngine.dir/src/core/systems/camera_system.cpp.o: ../src/core/syst
 CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o: ../include/core/components/camera_component.h
 CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o: ../include/core/components/controller_component.h
 CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o: ../include/core/components/transform_component.h
+CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o: ../include/core/system_providers/camera_system_provider.h
 CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o: ../include/core/system_providers/controller_system_provider.h
 CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o: ../include/core/system_providers/render_system_provider.h
 CMakeFiles/GameEngine.dir/src/core/systems/controller_system.cpp.o: ../include/core/systems/controller_system.h
@@ -145,6 +141,7 @@ CMakeFiles/GameEngine.dir/src/core/systems/mesh_loader_system.cpp.o: ../include/
 CMakeFiles/GameEngine.dir/src/core/systems/mesh_loader_system.cpp.o: ../src/core/systems/mesh_loader_system.cpp
 
 CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o: ../include/core/components/camera_component.h
+CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o: ../include/core/components/controller_component.h
 CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o: ../include/core/components/material_component.h
 CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o: ../include/core/components/static_mesh_component.h
 CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o: ../include/core/components/transform_component.h
@@ -179,10 +176,12 @@ CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o: ../include/rende
 CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o: ../include/rendering/render_group.h
 CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o: ../include/rendering/render_type.h
 CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o: ../include/rendering/renderer_3d.h
+CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o: ../include/rendering/renderers/forward_renderer_3d.h
 CMakeFiles/GameEngine.dir/src/core/systems/render_system.cpp.o: ../src/core/systems/render_system.cpp
 
 CMakeFiles/GameEngine.dir/src/core/systems/shader_loader_system.cpp.o: ../include/core/components/material_component.h
 CMakeFiles/GameEngine.dir/src/core/systems/shader_loader_system.cpp.o: ../include/core/components/shader_cache.h
+CMakeFiles/GameEngine.dir/src/core/systems/shader_loader_system.cpp.o: ../include/core/components/transform_component.h
 CMakeFiles/GameEngine.dir/src/core/systems/shader_loader_system.cpp.o: ../include/core/system_providers/shader_loader_system_provider.h
 CMakeFiles/GameEngine.dir/src/core/systems/shader_loader_system.cpp.o: ../include/core/systems/shader_loader_system.h
 CMakeFiles/GameEngine.dir/src/core/systems/shader_loader_system.cpp.o: ../include/ecs/component/component.hpp
@@ -202,6 +201,7 @@ CMakeFiles/GameEngine.dir/src/core/systems/shader_loader_system.cpp.o: ../src/co
 
 CMakeFiles/GameEngine.dir/src/core/systems/texture_loader_system.cpp.o: ../include/core/components/material_component.h
 CMakeFiles/GameEngine.dir/src/core/systems/texture_loader_system.cpp.o: ../include/core/components/sky_box_component.h
+CMakeFiles/GameEngine.dir/src/core/systems/texture_loader_system.cpp.o: ../include/core/components/transform_component.h
 CMakeFiles/GameEngine.dir/src/core/systems/texture_loader_system.cpp.o: ../include/core/system_providers/shader_loader_system_provider.h
 CMakeFiles/GameEngine.dir/src/core/systems/texture_loader_system.cpp.o: ../include/core/system_providers/texture_loader_system_provider.h
 CMakeFiles/GameEngine.dir/src/core/systems/texture_loader_system.cpp.o: ../include/core/systems/texture_loader_system.h
@@ -356,6 +356,7 @@ CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/core/components/camera_comp
 CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/core/components/controller_component.h
 CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/core/components/light_component.h
 CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/core/components/material_component.h
+CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/core/components/material_types/forward_material.h
 CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/core/components/material_types/pbr_material.h
 CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/core/components/shader_cache.h
 CMakeFiles/GameEngine.dir/src/main.cpp.o: ../include/core/components/sky_box_component.h
@@ -499,6 +500,23 @@ CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../include/rendering/
 CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../include/rendering/render_type.h
 CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../include/rendering/renderer_3d.h
 CMakeFiles/GameEngine.dir/src/rendering/renderer_3d.cpp.o: ../src/rendering/renderer_3d.cpp
+
+CMakeFiles/GameEngine.dir/src/rendering/renderers/forward_renderer_3d.cpp.o: ../include/core/components/material_component.h
+CMakeFiles/GameEngine.dir/src/rendering/renderers/forward_renderer_3d.cpp.o: ../include/core/components/transform_component.h
+CMakeFiles/GameEngine.dir/src/rendering/renderers/forward_renderer_3d.cpp.o: ../include/core/system_providers/shader_loader_system_provider.h
+CMakeFiles/GameEngine.dir/src/rendering/renderers/forward_renderer_3d.cpp.o: ../include/ecs/component/component.hpp
+CMakeFiles/GameEngine.dir/src/rendering/renderers/forward_renderer_3d.cpp.o: ../include/ecs/entity/entity.hpp
+CMakeFiles/GameEngine.dir/src/rendering/renderers/forward_renderer_3d.cpp.o: ../include/ecs/system/system_provider.hpp
+CMakeFiles/GameEngine.dir/src/rendering/renderers/forward_renderer_3d.cpp.o: ../include/helpers/loading_state.h
+CMakeFiles/GameEngine.dir/src/rendering/renderers/forward_renderer_3d.cpp.o: ../include/rendering/models/index_buffer.h
+CMakeFiles/GameEngine.dir/src/rendering/renderers/forward_renderer_3d.cpp.o: ../include/rendering/models/mesh.h
+CMakeFiles/GameEngine.dir/src/rendering/renderers/forward_renderer_3d.cpp.o: ../include/rendering/models/shader.h
+CMakeFiles/GameEngine.dir/src/rendering/renderers/forward_renderer_3d.cpp.o: ../include/rendering/models/vertex.h
+CMakeFiles/GameEngine.dir/src/rendering/renderers/forward_renderer_3d.cpp.o: ../include/rendering/models/vertex_array.h
+CMakeFiles/GameEngine.dir/src/rendering/renderers/forward_renderer_3d.cpp.o: ../include/rendering/models/vertex_buffer.h
+CMakeFiles/GameEngine.dir/src/rendering/renderers/forward_renderer_3d.cpp.o: ../include/rendering/render_type.h
+CMakeFiles/GameEngine.dir/src/rendering/renderers/forward_renderer_3d.cpp.o: ../include/rendering/renderers/forward_renderer_3d.h
+CMakeFiles/GameEngine.dir/src/rendering/renderers/forward_renderer_3d.cpp.o: ../src/rendering/renderers/forward_renderer_3d.cpp
 
 CMakeFiles/GameEngine.dir/vendor/imgui/imgui.cpp.o: ../vendor/imgui/imconfig.h
 CMakeFiles/GameEngine.dir/vendor/imgui/imgui.cpp.o: ../vendor/imgui/imgui.cpp

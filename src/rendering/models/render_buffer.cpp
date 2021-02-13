@@ -6,7 +6,7 @@ namespace Brick3D
 {
 RenderBuffer::RenderBuffer(unsigned int width, unsigned int height)
 {
-    glGenRenderbuffers(1, &this->m_id);
+    glCreateRenderbuffers(1, &this->m_id);
     Generate(width, height);
 }
 

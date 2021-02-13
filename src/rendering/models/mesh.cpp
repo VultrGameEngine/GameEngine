@@ -34,4 +34,13 @@ void Mesh::Init(const std::vector<glm::vec3> &p_positions,
     ibo = new IndexBuffer(&m_indices[0], m_indices.size());
 }
 
+void Mesh::Draw() const
+{
+    vao->Bind();
+    ibo->Bind();
+
+    glDrawElements(GL_TRIANGLES, this->m_indices.size(), GL_UNSIGNED_SHORT,
+                   (void *)0);
+}
+
 } // namespace Brick3D

@@ -1,14 +1,21 @@
 #pragma once
 #include <glm/glm.hpp>
 
-struct CameraComponent {
-  bool enabled = false;
+struct CameraComponent
+{
+    static CameraComponent &Create()
+    {
+        CameraComponent *component = new CameraComponent();
+        return *component;
+    }
 
-  float fov = 45.0f;
-  float znear = 0.1f;
-  float zfar = 100.0f;
+    bool enabled = true;
 
-  unsigned int skybox = 0;
+    float fov = 45.0f;
+    float znear = 0.1f;
+    float zfar = 100.0f;
 
-  glm::mat4 GetProjectionMatrix(float width, float height);
+    unsigned int skybox = 0;
+
+    glm::mat4 GetProjectionMatrix(float width, float height) const;
 };

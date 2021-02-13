@@ -12,8 +12,12 @@ struct StaticMeshComponent
     StaticMeshComponent()
     {
     }
-    StaticMeshComponent(std::string p_path) : m_path(p_path)
+
+    static StaticMeshComponent &Create(std::string p_path)
     {
+        StaticMeshComponent *component = new StaticMeshComponent();
+        component->m_path = p_path;
+        return *component;
     }
 
     std::string m_path;

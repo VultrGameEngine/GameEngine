@@ -10,8 +10,8 @@ class IndexBuffer
     IndexBuffer(const GLvoid *indices, unsigned int count);
     ~IndexBuffer();
 
-    void Bind();
-    void Unbind();
+    void Bind() const;
+    void Unbind() const;
 
   private:
     unsigned int id;

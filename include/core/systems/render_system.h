@@ -30,10 +30,7 @@ class RenderSystem : public System
 
     // Private helper methods
   private:
-    static void RenderElements(unsigned int type,
-                               TransformComponent camera_transform,
-                               CameraComponent camera_component, Entity light);
-    static void RenderSkybox(unsigned int type, TransformComponent camera_transform,
-                             CameraComponent camera_component);
+    static void RenderElements(unsigned int type);
+    static void RenderSkybox(unsigned int type);
 };
 } // namespace Brick3D

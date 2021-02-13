@@ -1,5 +1,10 @@
 #pragma once
 struct ControllerComponent
 {
-    float sens = 0.01;
+    static ControllerComponent &Create()
+    {
+        ControllerComponent *component = new ControllerComponent();
+        return *component;
+    }
+    float sens = 0.03;
 };

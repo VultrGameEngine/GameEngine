@@ -52,7 +52,7 @@ class World
         Get()->component_manager->RegisterComponent<T>();
     }
 
-    template <typename T> static void AddComponent(Entity entity, T component)
+    template <typename T> static void AddComponent(Entity entity, T &component)
     {
         Get()->component_manager->AddComponent<T>(entity, component);
 
@@ -87,7 +87,8 @@ class World
     }
 
     // System methods
-    template <typename T> static std::shared_ptr<T> RegisterSystem(Signature signature)
+    template <typename T>
+    static std::shared_ptr<T> RegisterSystem(Signature signature)
     {
         return Get()->system_manager->RegisterSystem<T>(signature);
     }

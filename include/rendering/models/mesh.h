@@ -28,6 +28,8 @@ class Mesh
               const std::vector<glm::vec3> &p_normals,
               const std::vector<unsigned short> &p_indices);
 
+    void Draw() const;
+
   private:
     // Holds the saved vertices and indices in a buffer cpu side
     std::vector<Vertex> m_vertices;

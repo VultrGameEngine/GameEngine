@@ -11,8 +11,8 @@ class Texture
     ~Texture();
 
     void Generate(unsigned int width, unsigned int height);
-    void Bind();
-    void Unbind();
+    void Bind(GLenum slot);
+    void Unbind(GLenum slot);
 
     unsigned int GetID() const
     {

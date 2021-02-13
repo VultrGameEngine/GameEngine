@@ -9,6 +9,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtx/transform.hpp>
+#include <rendering/renderers/forward_renderer_3d.h>
 
 namespace Brick3D
 {
@@ -18,7 +19,6 @@ void RenderSystem::OnCreateEntity(Entity entity)
 
 void RenderSystem::OnDestroyEntity(Entity entity)
 {
-    auto &static_mesh_component = World::GetComponent<StaticMeshComponent>(entity);
 }
 
 // Used in the actual update loop in main
@@ -34,6 +34,7 @@ void RenderSystem::Update(UpdateTick meta_data)
     if (camera != -1)
     {
         // This renders to the game scene, important for the editor
+        provider.game.fbo->Bind();
 
         // Clear the screen
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -44,52 +45,76 @@ void RenderSystem::Update(UpdateTick meta_data)
         auto &camera_transform = World::GetComponent<TransformComponent>(camera);
         auto &camera_component = World::GetComponent<CameraComponent>(camera);
 
+        // Get the transform of the light
+        auto &light_transform = World::GetComponent<TransformComponent>(
+            LightSystemProvider::Get().light);
+        RenderContext::SetContext(provider.GetDimensions(GAME),
+                                  light_transform.position, camera_transform,
+                                  camera_component);
+
         // Set the vieport dimensions to match that in the editor
         glViewport(0, 0, provider.GetDimensions(GAME).x,
                    provider.GetDimensions(GAME).y);
 
         // Render both the skybox an the static meshes in the scene
         // RenderSkybox(GAME, camera_transform, camera_component);
-        RenderElements(GAME, camera_transform, camera_component, light);
+        RenderElements(GAME);
 
         // Unbind the frame buffer
+        provider.game.fbo->Unbind();
     }
     else
     {
         std::cout << "NO CAMERA FOUND" << std::endl;
     }
 
-    // // Get the transform of the scene camera
-    // auto &camera_transform =
-    //     CameraSystem::Get()->scene_camera.transform_component;
-    // auto &camera_component =
-    // CameraSystem::Get()->scene_camera.camera_component;
+    // Get the transform of the scene camera
+    auto &camera_transform =
+        CameraSystemProvider::Get().m_scene_camera.transform_component;
+    auto &camera_component =
+        CameraSystemProvider::Get().m_scene_camera.camera_component;
 
-    // // Always will have a scene camera, render to the editor scene view
-    // glBindFramebuffer(GL_FRAMEBUFFER, Get()->scene.fbo);
+    // Always will have a scene camera, render to the editor scene view
+    provider.scene.fbo->Bind();
 
-    // // Clear the screen
-    // glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    // Clear the screen
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    // // Set the viewport to match that in the editor
-    // glViewport(0, 0, scene.dimensions.x, scene.dimensions.y);
+    // Set the viewport to match that in the editor
+    glViewport(0, 0, provider.GetDimensions(SCENE).x,
+               provider.GetDimensions(SCENE).y);
+    // Get the transform of the light
+    auto &light_transform =
+        World::GetComponent<TransformComponent>(LightSystemProvider::Get().light);
 
-    // // Render both the skybox and the static meshes in the scene
+    RenderContext::SetContext(provider.GetDimensions(SCENE),
+                              light_transform.position, camera_transform,
+                              camera_component);
+
+    // Render both the skybox and the static meshes in the scene
     // RenderSkybox(SCENE, camera_transform, camera_component);
-    // RenderElements(SCENE, camera_transform, camera_component, light);
+    RenderElements(SCENE);
 
-    // // Unbind the frame buffer
-    // glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    // Unbind the frame buffer
+    provider.scene.fbo->Unbind();
 }
 
 // Render all of the static meshes in the scene
-void RenderSystem::RenderElements(unsigned int type,
-                                  TransformComponent camera_transform,
-                                  CameraComponent camera_component, Entity light)
+void RenderSystem::RenderElements(unsigned int type)
 {
+    RenderSystemProvider &provider = RenderSystemProvider::Get();
+    Entity camera = CameraSystemProvider::Get().m_camera;
 
-    // Get the transform of the light
-    auto &light_transform = World::GetComponent<TransformComponent>(light);
+    for (Entity entity : provider.entities)
+    {
+        MaterialComponent &material = World::GetComponent<MaterialComponent>(entity);
+        TransformComponent &transform =
+            World::GetComponent<TransformComponent>(entity);
+        StaticMeshComponent &mesh = World::GetComponent<StaticMeshComponent>(entity);
+
+        Renderer3D::ForwardRenderer::Submit(material, transform.Matrix(),
+                                            *mesh.GetMesh());
+    }
 
     // Create a render context
     // Update the renderer
@@ -100,9 +125,7 @@ void RenderSystem::RenderElements(unsigned int type,
     // renderer->ForwardRenderingPass(context);
 }
 
-void RenderSystem::RenderSkybox(unsigned int type,
-                                TransformComponent camera_transform,
-                                CameraComponent camera_component)
+void RenderSystem::RenderSkybox(unsigned int type)
 {
     Entity camera = CameraSystemProvider::Get().m_camera;
     if (camera == -1)

@@ -1,3 +1,4 @@
+#include <core/system_providers/camera_system_provider.h>
 #include <core/system_providers/render_system_provider.h>
 #include <core/systems/controller_system.h>
 #include <glm/glm.hpp>
@@ -14,6 +15,12 @@ void ControllerSystem::Init(GLFWwindow *window)
 
 void ControllerSystem::Update(float delta_time)
 {
+    TransformComponent &transform_component =
+        CameraSystemProvider::Get().m_scene_camera.transform_component;
+
+    ControllerComponent &controller_component =
+        CameraSystemProvider::Get().m_scene_camera.controller_component;
+
     ControllerSystemProvider &provider = ControllerSystemProvider::Get();
     if (!provider.m_focused)
         return;
@@ -30,58 +37,52 @@ void ControllerSystem::Update(float delta_time)
 
     glfwSetCursorPos(provider.m_window, dimensions.x / 2, dimensions.y / 2);
 
-    for (Entity entity : provider.entities)
+    glm::quat rotation_horiz = glm::angleAxis(
+        controller_component.sens * delta_time * float(dimensions.x / 2 - xpos),
+        glm::vec3(0, 1, 0));
+    glm::quat rotation_vert = glm::angleAxis(controller_component.sens * delta_time *
+                                                 float(dimensions.y / 2 - ypos),
+                                             transform_component.Right());
+    transform_component.rotation =
+        rotation_horiz * rotation_vert * transform_component.rotation;
+
+    glm::vec3 speed = glm::vec3(3, 3, 3);
+
+    // Move forward
+    if (glfwGetKey(provider.m_window, GLFW_KEY_W) == GLFW_PRESS)
     {
-        auto &transform_component = World::GetComponent<TransformComponent>(entity);
-        auto &controller_component =
-            World::GetComponent<ControllerComponent>(entity);
-        glm::quat rotation_horiz = glm::angleAxis(
-            controller_component.sens * delta_time * float(dimensions.x / 2 - xpos),
-            glm::vec3(0, 1, 0));
-        glm::quat rotation_vert = glm::angleAxis(
-            controller_component.sens * delta_time * float(dimensions.y / 2 - ypos),
-            transform_component.Right());
-        transform_component.rotation =
-            rotation_horiz * rotation_vert * transform_component.rotation;
-
-        glm::vec3 speed = glm::vec3(3, 3, 3);
-
-        // Move forward
-        if (glfwGetKey(provider.m_window, GLFW_KEY_W) == GLFW_PRESS)
-        {
-            transform_component.position +=
-                transform_component.Forward() * delta_time * speed;
-        }
-        // Move backward
-        if (glfwGetKey(provider.m_window, GLFW_KEY_S) == GLFW_PRESS)
-        {
-            transform_component.position -=
-                transform_component.Forward() * delta_time * speed;
-        }
-        // Strafe right
-        if (glfwGetKey(provider.m_window, GLFW_KEY_D) == GLFW_PRESS)
-        {
-            transform_component.position +=
-                transform_component.Right() * delta_time * speed;
-        }
-        // Strafe left
-        if (glfwGetKey(provider.m_window, GLFW_KEY_A) == GLFW_PRESS)
-        {
-            transform_component.position -=
-                transform_component.Right() * delta_time * speed;
-        }
-        // Strafe up
-        if (glfwGetKey(provider.m_window, GLFW_KEY_E) == GLFW_PRESS)
-        {
-            transform_component.position +=
-                transform_component.Up() * delta_time * speed;
-        }
-        // Strafe down
-        if (glfwGetKey(provider.m_window, GLFW_KEY_Q) == GLFW_PRESS)
-        {
-            transform_component.position -=
-                transform_component.Up() * delta_time * speed;
-        }
+        transform_component.position +=
+            transform_component.Forward() * delta_time * speed;
+    }
+    // Move backward
+    if (glfwGetKey(provider.m_window, GLFW_KEY_S) == GLFW_PRESS)
+    {
+        transform_component.position -=
+            transform_component.Forward() * delta_time * speed;
+    }
+    // Strafe right
+    if (glfwGetKey(provider.m_window, GLFW_KEY_D) == GLFW_PRESS)
+    {
+        transform_component.position +=
+            transform_component.Right() * delta_time * speed;
+    }
+    // Strafe left
+    if (glfwGetKey(provider.m_window, GLFW_KEY_A) == GLFW_PRESS)
+    {
+        transform_component.position -=
+            transform_component.Right() * delta_time * speed;
+    }
+    // Strafe up
+    if (glfwGetKey(provider.m_window, GLFW_KEY_E) == GLFW_PRESS)
+    {
+        transform_component.position +=
+            transform_component.Up() * delta_time * speed;
+    }
+    // Strafe down
+    if (glfwGetKey(provider.m_window, GLFW_KEY_Q) == GLFW_PRESS)
+    {
+        transform_component.position -=
+            transform_component.Up() * delta_time * speed;
     }
 }
 void ControllerSystem::WindowFocusCallback(GLFWwindow *window, int focused)
@@ -99,9 +100,8 @@ void ControllerSystem::WindowFocusCallback(GLFWwindow *window, int focused)
 void ControllerSystem::RegisterSystem()
 {
     ControllerSystemProvider &provider = ControllerSystemProvider::Get();
-    provider.signature.set(World::GetComponentType<CameraComponent>(), true);
+    provider.signature.set(World::GetComponentType<ControllerComponent>(), true);
     provider.signature.set(World::GetComponentType<TransformComponent>(), true);
-    std::shared_ptr<ControllerSystem> ptr =
-        World::RegisterSystem<ControllerSystem>(provider.signature);
+    World::RegisterSystem<ControllerSystem>(provider.signature);
 }
 } // namespace Brick3D

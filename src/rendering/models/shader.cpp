@@ -1,3 +1,4 @@
+#include <glm/gtc/type_ptr.hpp>
 #include <rendering/models/shader.h>
 
 namespace Brick3D

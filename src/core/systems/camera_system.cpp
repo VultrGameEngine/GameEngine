@@ -1,9 +1,9 @@
-#include "../../../include/core/systems/camera_system.h"
-#include "../../../include/core/components/camera_component.h"
-#include "../../../include/ecs/world/world.hpp"
-#include "../../../include/editor/editor.hpp"
+#include <core/components/camera_component.h>
+#include <core/systems/camera_system.h>
+#include <ecs/world/world.hpp>
+#include <editor/editor.hpp>
 
-glm::mat4 CameraComponent::GetProjectionMatrix(float width, float height)
+glm::mat4 CameraComponent::GetProjectionMatrix(float width, float height) const
 {
     return glm::perspective(fov, width / height, znear, zfar);
 }
@@ -28,7 +28,8 @@ void CameraSystem::OnDestroyEntity(Entity entity)
         provider.m_camera = -1;
         for (Entity camera_entity : provider.entities)
         {
-            auto &camera_component = World::GetComponent<CameraComponent>(camera_entity);
+            auto &camera_component =
+                World::GetComponent<CameraComponent>(camera_entity);
             if (camera_component.enabled)
             {
                 provider.m_camera = entity;

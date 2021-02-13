@@ -34,8 +34,8 @@ class VertexArray
                               (const void *)offsetof(Vertex, uv));
     }
 
-    void Bind();
-    void Unbind();
+    void Bind() const;
+    void Unbind() const;
 
   private:
     unsigned int id;

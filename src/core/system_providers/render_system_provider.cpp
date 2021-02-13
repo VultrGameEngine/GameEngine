@@ -51,7 +51,7 @@ void RenderSystemProvider::GenerateRenderTexture(ViewportData &data, int width,
     data.fbo = new FrameBuffer();
     data.fbo->Bind();
     data.render_texture = new Texture(GL_TEXTURE_2D);
-    data.render_texture->Bind();
+    data.render_texture->Bind(GL_TEXTURE0);
     data.render_texture->Generate(width, height);
     data.render_texture->FrameBufferTexture2D();
 

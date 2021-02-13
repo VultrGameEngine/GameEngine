@@ -10,6 +10,7 @@ uniform vec3 lightposition;
 
 layout(location = 0) in vec3 vposition;
 layout(location = 1) in vec3 vnormal;
+layout (location = 3) in vec2 vertexUV;
 
 out vec3 positionworldspace;
 out vec3 fnormal;

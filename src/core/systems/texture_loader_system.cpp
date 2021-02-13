@@ -35,7 +35,7 @@ void TextureLoaderSystem::Update()
         {
             if (!provider.isLoaded(path))
             {
-                provider.textures[path] = {};
+                provider.textures[path] = new Texture(GL_TEXTURE_2D);
                 TextureImporter::Import(path, *provider.textures[path]);
             }
         }

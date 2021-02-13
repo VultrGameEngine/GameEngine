@@ -1,5 +1,7 @@
 #pragma once
+#include <core/components/transform_component.h>
 #include <core/system_providers/shader_loader_system_provider.h>
+#include <iostream>
 #include <rendering/models/shader.h>
 #include <string>
 #include <vector>
@@ -14,17 +16,28 @@ struct MaterialComponent
         return RenderType::Deferred;
     }
 
-    virtual bool Bind()
+    virtual void BindShaders() const
     {
         assert("DON'T USE THIS COMPONENT DIRECTLY");
-        return false;
+        std::cout << "TEST" << std::endl;
     };
-    Shader *GetShader()
+
+    virtual void SetModelUniforms(const glm::mat4 &transform) const
+    {
+        assert("DON'T USE THIS COMPONENT DIRECTLY");
+    }
+
+    virtual void BindTextures() const
+    {
+        assert("DON'T USE THIS COMPONENT DIRECTLY");
+    }
+
+    Shader *GetShader() const
     {
         return ShaderLoaderSystemProvider::GetShader(shader_path);
     }
 
-    virtual std::vector<std::string> GetTextures()
+    virtual std::vector<std::string> GetTextures() const
     {
         assert("DON'T USE THIS COMPONENT DIRECTLY");
         std::vector<std::string> placeholder;
