@@ -2,7 +2,6 @@
 #pragma once
 #include "../component/component.hpp"
 #include "../component/component_manager.hpp"
-#include "../entity/entity.hpp"
 #include "../entity/entity_manager.hpp"
 #include "../system/system_manager.hpp"
 #include <memory>
@@ -103,8 +102,22 @@ class World
         return Get()->system_manager->DeregisterSystem<T>();
     }
 
-  private:
     std::unique_ptr<ComponentManager> component_manager;
     std::unique_ptr<EntityManager> entity_manager;
     std::unique_ptr<SystemManager> system_manager;
 };
+
+template <typename T> void Entity::AddComponent(T &component)
+{
+    World::AddComponent(*this, component);
+}
+
+template <typename T> void Entity::RemoveComponent()
+{
+    World::RemoveComponent<T>(*this);
+}
+
+template <typename T> T &Entity::GetComponent()
+{
+    return World::GetComponent<T>(*this);
+}

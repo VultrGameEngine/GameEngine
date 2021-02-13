@@ -77,48 +77,39 @@ int main(void)
     // for (int i = 0; i < 10; i++) {
     //   for (int j = 0; j < 10; j++) {
     // for (int k = 0; k < 10; k++) {
-    Entity xwing = World::CreateEntity();
+    Entity xwing = Entity::New();
 
-    World::AddComponent(xwing, StaticMeshComponent::Create("res/models/Clone.obj"));
-    World::AddComponent(xwing, TransformComponent::Create(glm::vec3(0, 0, 0),
-                                                          glm::quat(1, 0, 0, 0),
-                                                          glm::vec3(5, 5, 5)));
-    World::AddComponent(xwing,
-                        ForwardMaterial::Create("res/textures/clone/albedo.jpeg"));
+    xwing.AddComponent(StaticMeshComponent::Create("res/models/Clone.obj"));
+    xwing.AddComponent(TransformComponent::Create(
+        glm::vec3(0, 0, 0), glm::quat(1, 0, 0, 0), glm::vec3(5, 5, 5)));
+    xwing.AddComponent(ForwardMaterial::Create("res/textures/clone/albedo.jpeg"));
     // }
     // }
     // }
 
-    Entity camera = World::CreateEntity();
+    Entity camera = Entity::New();
 
-    World::AddComponent(camera, CameraComponent::Create());
+    camera.AddComponent(CameraComponent::Create());
 
-    World::AddComponent(camera, TransformComponent::Create(glm::vec3(4, 4, 4),
-                                                           glm::quat(1, 0, 0, 0),
-                                                           glm::vec3(5, 5, 5)));
+    camera.AddComponent(TransformComponent::Create(
+        glm::vec3(4, 4, 4), glm::quat(1, 0, 0, 0), glm::vec3(5, 5, 5)));
 
-    World::AddComponent(camera, ControllerComponent::Create());
-    World::AddComponent(
-        camera, SkyBoxComponent::Create(
-                    "default", "res/textures/skybox/front.jpg",
-                    "res/textures/skybox/back.jpg", "res/textures/skybox/top.jpg",
-                    "res/textures/skybox/bottom.jpg", "res/textures/skybox/left.jpg",
-                    "res/textures/skybox/right.jpg"));
+    camera.AddComponent(ControllerComponent::Create());
+    camera.AddComponent(SkyBoxComponent::Create(
+        "default", "res/textures/skybox/front.jpg", "res/textures/skybox/back.jpg",
+        "res/textures/skybox/top.jpg", "res/textures/skybox/bottom.jpg",
+        "res/textures/skybox/left.jpg", "res/textures/skybox/right.jpg"));
     // World::AddComponent(camera, ShaderComponent{
     //                                 .path = "res/shaders/skybox.glsl",
     //                             });
-    Entity light = World::CreateEntity();
+    Entity light = Entity::New();
 
-    World::AddComponent(light, LightComponent::Create());
+    light.AddComponent(LightComponent::Create());
 
-    World::AddComponent(light, TransformComponent::Create(glm::vec3(0, 0, 10),
-                                                          glm::quat(1, 0, 0, 0),
-                                                          glm::vec3(0.2, 0.2, 0.2)));
-    // World::AddComponent(light, ShaderComponent{
-    //                                .path = "res/shaders/unlit.glsl",
-    //                                .type = Renderer::Forward,
-    //                            });
-    World::AddComponent(light, StaticMeshComponent::Create("res/models/cube.obj"));
+    light.AddComponent(TransformComponent::Create(
+        glm::vec3(0, 0, 10), glm::quat(1, 0, 0, 0), glm::vec3(0.2, 0.2, 0.2)));
+    light.AddComponent(UnlitMaterial::Create());
+    light.AddComponent(StaticMeshComponent::Create("res/models/cube.obj"));
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))

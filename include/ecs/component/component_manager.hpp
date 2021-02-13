@@ -1,7 +1,6 @@
 // [ComponentManager] is in charge of talking to all of the [ComponentArrays]
 
 #pragma once
-#include "../entity/entity.hpp"
 #include "component.hpp"
 #include "component_array.hpp"
 #include <iostream>

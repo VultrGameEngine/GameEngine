@@ -14,78 +14,91 @@
 #include <queue>
 #include <set>
 
-class EntityManager {
-public:
-  EntityManager() {
+using EntityID = uint32_t;
 
-    for (Entity entity = 0; entity < MAX_ENTITIES; ++entity) {
-      available_entities.push(entity);
+class EntityManager
+{
+  public:
+    EntityManager()
+    {
+
+        for (EntityID entity = 0; entity < MAX_ENTITIES; ++entity)
+        {
+            available_entities.push(entity);
+        }
     }
-  }
 
-  Entity CreateEntity() {
+    Entity CreateEntity()
+    {
 
-    assert(living_entity_count < MAX_ENTITIES &&
-           "Too many entities in existence");
+        assert(living_entity_count < MAX_ENTITIES &&
+               "Too many entities in existence");
 
-    // Get the first ID from the queue and use that
-    Entity id = available_entities.front();
+        // Get the first ID from the queue and use that
+        EntityID id = available_entities.front();
 
-    // Remove this ID from the available entities, since we are now gonna use it
-    available_entities.pop();
+        // Remove this ID from the available entities, since we are now gonna use it
+        available_entities.pop();
 
-    // Increase the number of living entities
-    ++living_entity_count;
+        // Increase the number of living entities
+        ++living_entity_count;
 
-    return id;
-  }
-
-  void DestroyEntity(Entity entity) {
-
-    assert(entity < MAX_ENTITIES && "Entity out of range");
-
-    // We don't want the signature anymore
-    signatures[entity].reset();
-
-    // Put the destroyed ID at the back of the queue
-    available_entities.push(entity);
-    --living_entity_count;
-  }
-
-  // Set the components of an entity
-  void SetSignature(Entity entity, Signature signature) {
-
-    assert(entity < MAX_ENTITIES && "Entity out of range");
-
-    // Put the signature into the array
-    signatures[entity] = signature;
-  }
-  Signature GetSignature(Entity entity) {
-
-    assert(entity < MAX_ENTITIES && "Entity out of range");
-
-    // Get the entity signature from the array
-    return signatures[entity];
-  }
-
-  std::set<Entity> GetEntities(Signature signature) {
-    std::set<Entity> entities{};
-
-    for (Entity entity = 0; entity < signatures.size(); ++entity) {
-      if ((signatures[entity] & signature) == signature) {
-        entities.insert(entity);
-      }
+        return Entity(id);
     }
-    return entities;
-  }
 
-private:
-  // Queue of unused entity IDs
-  std::queue<Entity> available_entities{};
+    void DestroyEntity(Entity entity)
+    {
 
-  // Array of signatures where the index corresponds to the entity ID
-  std::array<Signature, MAX_ENTITIES> signatures{};
+        assert(entity.id < MAX_ENTITIES && "Entity out of range");
 
-  // Total living entities
-  uint32_t living_entity_count{};
+        // We don't want the signature anymore
+        signatures[entity.id].reset();
+
+        // Put the destroyed ID at the back of the queue
+        available_entities.push(entity.id);
+        --living_entity_count;
+    }
+
+    // Set the components of an entity
+    void SetSignature(Entity entity, Signature signature)
+    {
+
+        assert(entity.id < MAX_ENTITIES && "Entity out of range");
+
+        // Put the signature into the array
+        signatures[entity.id] = signature;
+    }
+
+    Signature GetSignature(Entity entity)
+    {
+
+        assert(entity.id < MAX_ENTITIES && "Entity out of range");
+
+        // Get the entity signature from the array
+        return signatures[entity.id];
+    }
+
+    std::set<Entity> GetEntities(Signature signature)
+    {
+        std::set<Entity> entities{};
+
+        for (EntityID entity = 0; entity < signatures.size(); ++entity)
+        {
+            if ((signatures[entity] & signature) == signature)
+            {
+                entities.insert(Entity(entity));
+            }
+        }
+        return entities;
+    }
+
+  private:
+    // Queue of unused entity IDs
+    std::queue<EntityID> available_entities{};
+
+    // Array of signatures where the index corresponds to the entity ID
+    std::array<Signature, MAX_ENTITIES> signatures{};
+
+    // Total living entities
+    uint32_t living_entity_count{};
 };

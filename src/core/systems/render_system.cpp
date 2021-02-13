@@ -42,12 +42,12 @@ void RenderSystem::Update(UpdateTick meta_data)
         // Get the transform of the game camera that will actually be present
         // in an entity, can be non existent which is why we check earlier to ensure
         // that there actually is one
-        auto &camera_transform = World::GetComponent<TransformComponent>(camera);
-        auto &camera_component = World::GetComponent<CameraComponent>(camera);
+        auto &camera_transform = camera.GetComponent<TransformComponent>();
+        auto &camera_component = camera.GetComponent<CameraComponent>();
 
         // Get the transform of the light
-        auto &light_transform = World::GetComponent<TransformComponent>(
-            LightSystemProvider::Get().light);
+        auto &light_transform =
+            LightSystemProvider::Get().light.GetComponent<TransformComponent>();
         RenderContext::SetContext(provider.GetDimensions(GAME),
                                   light_transform.position, camera_transform,
                                   camera_component);
@@ -85,7 +85,7 @@ void RenderSystem::Update(UpdateTick meta_data)
                provider.GetDimensions(SCENE).y);
     // Get the transform of the light
     auto &light_transform =
-        World::GetComponent<TransformComponent>(LightSystemProvider::Get().light);
+        LightSystemProvider::Get().light.GetComponent<TransformComponent>();
 
     RenderContext::SetContext(provider.GetDimensions(SCENE),
                               light_transform.position, camera_transform,
@@ -107,10 +107,9 @@ void RenderSystem::RenderElements(unsigned int type)
 
     for (Entity entity : provider.entities)
     {
-        MaterialComponent &material = World::GetComponent<MaterialComponent>(entity);
-        TransformComponent &transform =
-            World::GetComponent<TransformComponent>(entity);
-        StaticMeshComponent &mesh = World::GetComponent<StaticMeshComponent>(entity);
+        MaterialComponent &material = entity.GetComponent<MaterialComponent>();
+        TransformComponent &transform = entity.GetComponent<TransformComponent>();
+        StaticMeshComponent &mesh = entity.GetComponent<StaticMeshComponent>();
 
         Renderer3D::ForwardRenderer::Submit(material, transform.Matrix(),
                                             *mesh.GetMesh());

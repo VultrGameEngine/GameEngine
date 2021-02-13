@@ -4,6 +4,7 @@
 #include "components/light_component.h"
 #include "components/material_types/forward_material.h"
 #include "components/material_types/pbr_material.h"
+#include "components/material_types/unlit_material.h"
 #include "components/sky_box_component.h"
 #include "components/static_mesh_component.h"
 #include "components/transform_component.h"

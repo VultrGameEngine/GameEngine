@@ -6,7 +6,6 @@
 #include <cassert>
 #include <ecs/component/component.hpp>
 #include <ecs/component/component_array.hpp>
-#include <ecs/entity/entity.hpp>
 #include <ecs/system/system_provider.hpp>
 #include <memory>
 #include <set>
