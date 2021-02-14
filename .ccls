@@ -11,6 +11,10 @@ clang
 -I/usr/local/include
 -I/usr/lib/clang/11.0.1/include
 -I/usr/include
--I/home/brandon/Dev/GameEngine/include
--I/home/brandon/Dev/GameEngine/vendor
+-I/home/brandon/Dev/GameEngine/Vultr/include
+-I/home/brandon/Dev/GameEngine/Vultr/vendor
+-I/home/brandon/Dev/GameEngine/VultrEditor/include
+-I/home/brandon/Dev/GameEngine/VultrEditor/vendor
+-I/home/brandon/Dev/GameEngine/SandboxTesting/include
+-I/home/brandon/Dev/GameEngine/SandboxTesting/vendor
 
