@@ -2,7 +2,7 @@
 #include <iostream>
 #include <rendering/models/render_buffer.h>
 
-namespace Brick3D
+namespace Vultr
 {
 RenderBuffer::RenderBuffer(unsigned int width, unsigned int height)
 {
@@ -44,4 +44,4 @@ void RenderBuffer::Unbind()
     glBindRenderbuffer(GL_RENDERBUFFER, 0);
 }
 
-} // namespace Brick3D
+} // namespace Vultr

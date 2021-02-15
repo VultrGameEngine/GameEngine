@@ -4,7 +4,7 @@
 #include <sstream>
 #include <stdio.h>
 
-namespace Brick3D
+namespace Vultr
 {
 
 Mesh *MeshImporter::ImportMesh(std::string path)
@@ -192,4 +192,4 @@ bool MeshImporter::GetSimilarVertexIndex(
     }
 }
 
-} // namespace Brick3D
+} // namespace Vultr

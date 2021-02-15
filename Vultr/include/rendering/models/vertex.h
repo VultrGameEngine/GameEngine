@@ -2,7 +2,7 @@
 #include <cstring>
 #include <glm/glm.hpp>
 
-namespace Brick3D
+namespace Vultr
 {
 
 struct Vertex
@@ -25,4 +25,4 @@ struct Vertex
     };
 };
 
-} // namespace Brick3D
+} // namespace Vultr

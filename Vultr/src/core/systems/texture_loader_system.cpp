@@ -15,7 +15,7 @@
 #include <thread>
 #include <vector>
 
-namespace Brick3D
+namespace Vultr
 {
 
 void TextureLoaderSystem::RegisterSystem()
@@ -52,4 +52,4 @@ void TextureLoaderSystem::OnCreateEntity(Entity entity)
     }
 }
 
-} // namespace Brick3D
+} // namespace Vultr

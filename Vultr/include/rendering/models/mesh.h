@@ -8,7 +8,7 @@
 #include <rendering/models/vertex_buffer.h>
 #include <vector>
 
-namespace Brick3D
+namespace Vultr
 {
 class Mesh
 {
@@ -40,4 +40,4 @@ class Mesh
     IndexBuffer *ibo;
     VertexBuffer *vbo;
 };
-} // namespace Brick3D
+} // namespace Vultr

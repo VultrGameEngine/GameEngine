@@ -4,7 +4,7 @@
 #include <rendering/render_type.h>
 #include <string>
 
-namespace Brick3D
+namespace Vultr
 {
 class Shader
 {
@@ -31,4 +31,4 @@ class Shader
     unsigned int id = 0;
     RenderType type = Deferred;
 };
-} // namespace Brick3D
+} // namespace Vultr

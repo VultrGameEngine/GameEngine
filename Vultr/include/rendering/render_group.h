@@ -12,7 +12,7 @@
 #include <stdlib.h>
 #include <vector>
 
-namespace Brick3D
+namespace Vultr
 {
 struct RenderEntity
 {
@@ -40,4 +40,4 @@ class RenderGroup
     std::set<RenderEntity> entities;
     Shader *shader;
 };
-} // namespace Brick3D
+} // namespace Vultr

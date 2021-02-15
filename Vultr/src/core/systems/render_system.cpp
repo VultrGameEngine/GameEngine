@@ -12,7 +12,7 @@
 #include <glm/gtx/transform.hpp>
 #include <rendering/renderers/forward_renderer_3d.h>
 
-namespace Brick3D
+namespace Vultr
 {
 void RenderSystem::OnCreateEntity(Entity entity)
 {
@@ -165,4 +165,4 @@ void RenderSystem::RegisterSystem()
     World::RegisterSystem<RenderSystem>(provider.signature);
 }
 
-} // namespace Brick3D
+} // namespace Vultr

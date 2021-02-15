@@ -1,6 +1,6 @@
 #include <rendering/models/mesh.h>
 
-namespace Brick3D
+namespace Vultr
 {
 Mesh::Mesh()
 {
@@ -43,4 +43,4 @@ void Mesh::Draw() const
                    (void *)0);
 }
 
-} // namespace Brick3D
+} // namespace Vultr

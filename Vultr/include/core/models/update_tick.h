@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Brick3D
+namespace Vultr
 {
 struct UpdateTick
 {
@@ -13,4 +13,4 @@ struct UpdateTick
     bool debug = false;
 };
 
-} // namespace Brick3D
+} // namespace Vultr

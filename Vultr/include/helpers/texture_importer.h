@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-namespace Brick3D
+namespace Vultr
 {
 class TextureImporter
 {
@@ -12,4 +12,4 @@ class TextureImporter
     static void ImportSkybox(const std::vector<std::string> &paths,
                              Texture &texture);
 };
-} // namespace Brick3D
+} // namespace Vultr

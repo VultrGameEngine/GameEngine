@@ -3,7 +3,7 @@
 #include <ecs/system/system_provider.hpp>
 #include <glad/glad.h>
 
-namespace Brick3D
+namespace Vultr
 {
 class ControllerSystemProvider : public SystemProvider
 {
@@ -17,4 +17,4 @@ class ControllerSystemProvider : public SystemProvider
     GLFWwindow *m_window;
     bool m_focused = false;
 };
-} // namespace Brick3D
+} // namespace Vultr

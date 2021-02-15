@@ -11,7 +11,7 @@
 #include <string.h>
 #include <vector>
 
-namespace Brick3D
+namespace Vultr
 {
 
 class ShaderLoaderSystem : public System
@@ -28,4 +28,4 @@ class ShaderLoaderSystem : public System
         return ShaderLoaderSystemProvider::Get();
     }
 };
-} // namespace Brick3D
+} // namespace Vultr

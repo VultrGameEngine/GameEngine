@@ -1,11 +1,11 @@
 #include <Vultr.hpp>
 #include <stdio.h>
 
-using namespace Brick3D;
+using namespace Vultr;
 class TestGame : public Game
 {
   public:
-    TestGame(Vultr *engine)
+    TestGame(Engine *engine)
     {
         std::cout << "Test Game created... " << std::endl;
     }
@@ -56,7 +56,7 @@ class TestGame : public Game
             "/home/brandon/Dev/GameEngine/SandboxTesting/res/models/cube.obj"));
     }
 
-    void Update(Brick3D::UpdateTick tick) override
+    void Update(Vultr::UpdateTick tick) override
     {
         // std::cout << "Update!" << std::endl;
     }
@@ -67,12 +67,12 @@ class TestGame : public Game
     }
 
   private:
-    Vultr *engine;
+    Engine *engine;
 };
 
 extern "C"
 {
-    Game *init(Vultr *engine)
+    Game *init(Engine *engine)
     {
         return new TestGame(engine);
     }

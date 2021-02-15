@@ -3,7 +3,7 @@
 #include <ecs/system/system.hpp>
 #include <glm/glm.hpp>
 
-namespace Brick3D
+namespace Vultr
 {
 class LightSystem : public System
 {
@@ -17,4 +17,4 @@ class LightSystem : public System
         return LightSystemProvider::Get();
     }
 };
-} // namespace Brick3D
+} // namespace Vultr

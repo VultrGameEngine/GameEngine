@@ -5,7 +5,7 @@
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtx/quaternion.hpp>
 
-namespace Brick3D
+namespace Vultr
 {
 
 void ControllerSystem::Init(GLFWwindow *window)
@@ -103,4 +103,4 @@ void ControllerSystem::RegisterSystem()
     provider.signature.set(World::GetComponentType<TransformComponent>(), true);
     World::RegisterSystem<ControllerSystem>(provider.signature);
 }
-} // namespace Brick3D
+} // namespace Vultr

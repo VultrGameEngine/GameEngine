@@ -1,6 +1,6 @@
 #include <rendering/models/texture.h>
 
-namespace Brick3D
+namespace Vultr
 {
 Texture::Texture(GLenum type)
 {
@@ -41,4 +41,4 @@ void Texture::FrameBufferTexture2D()
     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_id,
                            0);
 }
-} // namespace Brick3D
+} // namespace Vultr

@@ -11,7 +11,7 @@
 #include <ecs/world/world.hpp>
 #include <glm/glm.hpp>
 
-namespace Brick3D
+namespace Vultr
 {
 class RenderSystem : public System
 {
@@ -32,4 +32,4 @@ class RenderSystem : public System
     static void RenderElements(unsigned int type);
     static void RenderSkybox(unsigned int type);
 };
-} // namespace Brick3D
+} // namespace Vultr

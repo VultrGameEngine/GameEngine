@@ -4,7 +4,7 @@
 #include <sstream>
 #include <stdio.h>
 
-namespace Brick3D
+namespace Vultr
 {
 Shader *ShaderImporter::ImportShader(const std::string &path)
 {
@@ -98,4 +98,4 @@ unsigned int ShaderImporter::CompileShader(unsigned int type,
     return id;
 }
 
-} // namespace Brick3D
+} // namespace Vultr

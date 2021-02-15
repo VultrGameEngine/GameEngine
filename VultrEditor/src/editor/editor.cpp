@@ -10,7 +10,7 @@
 #include <imgui/imgui_impl_glfw.h>
 #include <imgui/imgui_impl_opengl3.h>
 
-namespace Brick3D::Editor
+namespace Vultr::Editor
 {
 Editor::Editor() : selected_entity(Entity(0))
 {
@@ -76,4 +76,4 @@ void Editor::Editor::Render()
     glfwMakeContextCurrent(backup_current_context);
     glEnable(GL_DEPTH_TEST);
 }
-} // namespace Brick3D::Editor
+} // namespace Vultr::Editor

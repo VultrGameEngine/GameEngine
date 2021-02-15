@@ -5,7 +5,7 @@
 #include <rendering/models/texture.h>
 #include <rendering/render_context.h>
 
-namespace Brick3D
+namespace Vultr
 {
 struct SkyboxMaterial : public MaterialComponent
 {
@@ -74,4 +74,4 @@ struct SkyboxMaterial : public MaterialComponent
         return TextureLoaderSystemProvider::Get().GetTexture(identifier);
     }
 };
-} // namespace Brick3D
+} // namespace Vultr

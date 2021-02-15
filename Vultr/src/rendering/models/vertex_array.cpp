@@ -1,6 +1,6 @@
 #include <rendering/models/vertex_array.h>
 
-namespace Brick3D
+namespace Vultr
 {
 VertexArray::VertexArray()
 {
@@ -21,4 +21,4 @@ void VertexArray::Unbind() const
 {
     glBindVertexArray(0);
 }
-} // namespace Brick3D
+} // namespace Vultr

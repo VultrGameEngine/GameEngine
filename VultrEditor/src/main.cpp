@@ -2,10 +2,10 @@
 #include <editor/editor.hpp>
 #include <iostream>
 
-using namespace Brick3D;
+using namespace Vultr;
 int main(void)
 {
-    Vultr *vultr = new Vultr();
+    Engine *vultr = new Engine();
 
     float lastTime = 0;
     vultr->Init(true);
@@ -14,7 +14,7 @@ int main(void)
     while (!vultr->should_close)
     {
         vultr->UpdateGame(lastTime);
-        Brick3D::Editor::Editor::Get()->Render();
+        Vultr::Editor::Editor::Get()->Render();
         glfwSwapBuffers(vultr->window);
     }
     vultr->Destroy();

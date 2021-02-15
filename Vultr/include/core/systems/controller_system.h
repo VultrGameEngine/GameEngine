@@ -11,7 +11,7 @@
 #include <glm/glm.hpp>
 #include <memory>
 
-namespace Brick3D
+namespace Vultr
 {
 
 class ControllerSystem : public System
@@ -28,4 +28,4 @@ class ControllerSystem : public System
         return ControllerSystemProvider::Get();
     }
 };
-} // namespace Brick3D
+} // namespace Vultr

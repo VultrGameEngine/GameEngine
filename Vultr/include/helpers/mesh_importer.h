@@ -3,7 +3,7 @@
 #include <rendering/models/mesh.h>
 #include <string>
 
-namespace Brick3D
+namespace Vultr
 {
 class MeshImporter
 {
@@ -21,4 +21,4 @@ class MeshImporter
         unsigned short &result);
 };
 
-} // namespace Brick3D
+} // namespace Vultr

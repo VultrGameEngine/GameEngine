@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-namespace Brick3D
+namespace Vultr
 {
 struct StaticMeshComponent
 {
@@ -30,4 +30,4 @@ struct StaticMeshComponent
         return MeshLoaderSystemProvider::GetMesh(m_path);
     }
 };
-} // namespace Brick3D
+} // namespace Vultr

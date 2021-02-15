@@ -5,7 +5,7 @@
 #include <rendering/models/vertex.h>
 #include <vector>
 
-namespace Brick3D
+namespace Vultr
 {
 
 class VertexArray
@@ -41,4 +41,4 @@ class VertexArray
     unsigned int id;
 };
 
-} // namespace Brick3D
+} // namespace Vultr

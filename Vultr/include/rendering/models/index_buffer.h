@@ -1,7 +1,7 @@
 #pragma once
 #include <glad/glad.h>
 
-namespace Brick3D
+namespace Vultr
 {
 class IndexBuffer
 {
@@ -15,4 +15,4 @@ class IndexBuffer
   private:
     unsigned int id;
 };
-} // namespace Brick3D
+} // namespace Vultr

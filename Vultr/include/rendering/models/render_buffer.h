@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Brick3D
+namespace Vultr
 {
 class RenderBuffer
 {
@@ -18,4 +18,4 @@ class RenderBuffer
     unsigned int m_width;
     unsigned int m_height;
 };
-} // namespace Brick3D
+} // namespace Vultr

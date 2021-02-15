@@ -1,7 +1,7 @@
 #pragma once
 #include "frame_buffer.h"
 
-namespace Brick3D
+namespace Vultr
 {
 class GBuffer : public FrameBuffer
 {
@@ -149,4 +149,4 @@ class GBuffer : public FrameBuffer
     int width = 1920;
     int height = 1080;
 };
-} // namespace Brick3D
+} // namespace Vultr

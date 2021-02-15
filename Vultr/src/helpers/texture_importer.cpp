@@ -4,7 +4,7 @@
 #include <stb_image/stb_image.h>
 #include <string>
 
-namespace Brick3D
+namespace Vultr
 {
 void TextureImporter::Import(const std::string &path, Texture &texture)
 {
@@ -54,4 +54,4 @@ void TextureImporter::ImportSkybox(const std::vector<std::string> &paths,
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 }
-} // namespace Brick3D
+} // namespace Vultr

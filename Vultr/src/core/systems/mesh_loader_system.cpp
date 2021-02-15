@@ -9,7 +9,7 @@
 #include <thread>
 #include <vector>
 
-namespace Brick3D
+namespace Vultr
 {
 void MeshLoaderSystem::RegisterSystem()
 {
@@ -36,4 +36,4 @@ void MeshLoaderSystem::Import(std::string path)
     provider.AddMesh(path, mesh);
 }
 
-} // namespace Brick3D
+} // namespace Vultr

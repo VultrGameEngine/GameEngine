@@ -2,7 +2,7 @@
 #include <rendering/models/shader.h>
 #include <string>
 
-namespace Brick3D
+namespace Vultr
 {
 struct ShaderProgramSource
 {
@@ -19,4 +19,4 @@ class ShaderImporter
     static unsigned int CompileShader(unsigned int type, const std::string &source);
 };
 
-} // namespace Brick3D
+} // namespace Vultr

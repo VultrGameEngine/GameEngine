@@ -3,7 +3,7 @@
 #include <ecs/entity/entity.hpp>
 #include <vector>
 
-namespace Brick3D::Editor
+namespace Vultr::Editor
 {
 class Editor
 {
@@ -27,4 +27,4 @@ class Editor
     std::vector<Window *> windows;
     unsigned int dockspace = 1;
 };
-} // namespace Brick3D::Editor
+} // namespace Vultr::Editor

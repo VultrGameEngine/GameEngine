@@ -6,7 +6,7 @@
 #include <rendering/models/texture.h>
 #include <rendering/render_context.h>
 
-namespace Brick3D
+namespace Vultr
 {
 struct ForwardMaterial : public MaterialComponent
 {
@@ -77,4 +77,4 @@ struct ForwardMaterial : public MaterialComponent
         return TextureLoaderSystemProvider::Get().GetTexture(texture_path);
     }
 };
-} // namespace Brick3D
+} // namespace Vultr

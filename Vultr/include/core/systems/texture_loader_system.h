@@ -12,7 +12,7 @@
 #include <memory>
 #include <rendering/models/texture.h>
 
-namespace Brick3D
+namespace Vultr
 {
 class TextureLoaderSystem : public System
 {
@@ -26,4 +26,4 @@ class TextureLoaderSystem : public System
         return TextureLoaderSystemProvider::Get();
     }
 };
-} // namespace Brick3D
+} // namespace Vultr

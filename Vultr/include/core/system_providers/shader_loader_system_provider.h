@@ -3,7 +3,7 @@
 #include <rendering/models/shader.h>
 #include <unordered_map>
 
-namespace Brick3D
+namespace Vultr
 {
 class ShaderLoaderSystemProvider : public SystemProvider
 {
@@ -23,4 +23,4 @@ class ShaderLoaderSystemProvider : public SystemProvider
 
     std::unordered_map<std::string, Shader *> loaded_shaders;
 };
-} // namespace Brick3D
+} // namespace Vultr

@@ -1,7 +1,7 @@
 #pragma once
 #include <ecs/system/system_provider.hpp>
 
-namespace Brick3D
+namespace Vultr
 {
 class LightSystemProvider : public SystemProvider
 {
@@ -14,4 +14,4 @@ class LightSystemProvider : public SystemProvider
     }
     Entity light = Entity(-1);
 };
-} // namespace Brick3D
+} // namespace Vultr

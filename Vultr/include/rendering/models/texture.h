@@ -1,7 +1,7 @@
 #pragma once
 #include <glad/glad.h>
 
-namespace Brick3D
+namespace Vultr
 {
 class Texture
 {
@@ -26,4 +26,4 @@ class Texture
     unsigned int m_width;
     unsigned int m_height;
 };
-} // namespace Brick3D
+} // namespace Vultr

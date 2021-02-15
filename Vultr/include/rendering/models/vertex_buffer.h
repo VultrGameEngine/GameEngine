@@ -3,7 +3,7 @@
 #include <glad/glad.h>
 #include <vector>
 
-namespace Brick3D
+namespace Vultr
 {
 class VertexBuffer
 {
@@ -17,4 +17,4 @@ class VertexBuffer
   private:
     unsigned int id;
 };
-} // namespace Brick3D
+} // namespace Vultr

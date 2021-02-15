@@ -1,7 +1,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <rendering/models/shader.h>
 
-namespace Brick3D
+namespace Vultr
 {
 Shader::Shader()
 {
@@ -56,4 +56,4 @@ unsigned int Shader::GetUniformLocation(const std::string &uniform)
     return glGetUniformLocation(this->id, uniform.c_str());
 }
 
-} // namespace Brick3D
+} // namespace Vultr

@@ -2,7 +2,9 @@
 #include "Game.hpp"
 #include <core/core.h>
 
-class Vultr
+namespace Vultr
+{
+class Engine
 {
   public:
     void Init(bool debug);
@@ -17,3 +19,4 @@ class Vultr
     bool debug;
     Game *game;
 };
+} // namespace Vultr

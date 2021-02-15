@@ -3,7 +3,7 @@
 #include <rendering/models/mesh.h>
 #include <vector>
 
-namespace Brick3D::Renderer3D
+namespace Vultr::Renderer3D
 {
 
 class ForwardRenderer
@@ -14,4 +14,4 @@ class ForwardRenderer
                        const Mesh &mesh);
 };
 
-} // namespace Brick3D::Renderer3D
+} // namespace Vultr::Renderer3D

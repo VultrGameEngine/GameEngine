@@ -3,7 +3,7 @@
 #include <core/components/transform_component.h>
 #include <glm/glm.hpp>
 
-namespace Brick3D
+namespace Vultr
 {
 struct RenderContext
 {
@@ -38,4 +38,4 @@ struct RenderContext
     }
 };
 
-}; // namespace Brick3D
+}; // namespace Vultr

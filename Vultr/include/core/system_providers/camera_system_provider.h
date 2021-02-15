@@ -5,7 +5,7 @@
 #include <ecs/entity/entity.hpp>
 #include <ecs/system/system_provider.hpp>
 
-namespace Brick3D
+namespace Vultr
 {
 class CameraSystemProvider : public SystemProvider
 {
@@ -27,4 +27,4 @@ class CameraSystemProvider : public SystemProvider
     } m_scene_camera;
 };
 
-} // namespace Brick3D
+} // namespace Vultr

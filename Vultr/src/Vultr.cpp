@@ -15,8 +15,9 @@ void *GetFunctionPointer(void *dll, const std::string &name)
     return dlsym(dll, name.c_str());
 }
 
-using namespace Brick3D;
-void Vultr::Init(bool debug)
+namespace Vultr
+{
+void Engine::Init(bool debug)
 {
     World::Init();
     World::RegisterComponent<StaticMeshComponent>(RenderStaticMeshComponent);
@@ -89,11 +90,11 @@ void Vultr::Init(bool debug)
     RenderSystem::RegisterSystem();
 }
 
-void Vultr::LoadGame(const std::string &path)
+void Engine::LoadGame(const std::string &path)
 {
     void *DLL = LoadDLL(path);
 
-    typedef Game *(*GameInit_f)(Vultr *);
+    typedef Game *(*GameInit_f)(Engine *);
     typedef void (*GameDestroy_f)(Game *);
     GameInit_f init = (GameInit_f)GetFunctionPointer(DLL, "init");
     GameDestroy_f destroy = (GameDestroy_f)GetFunctionPointer(DLL, "flush");
@@ -102,7 +103,7 @@ void Vultr::LoadGame(const std::string &path)
     game->Init();
 }
 
-void Vultr::UpdateGame(float &last_time)
+void Engine::UpdateGame(float &last_time)
 {
     should_close = glfwWindowShouldClose(window);
 
@@ -118,6 +119,7 @@ void Vultr::UpdateGame(float &last_time)
     glfwPollEvents();
 }
 
-void Vultr::Destroy()
+void Engine::Destroy()
 {
 }
+} // namespace Vultr

@@ -1,5 +1,5 @@
 #pragma once
-namespace Brick3D
+namespace Vultr
 {
 enum RenderType
 {

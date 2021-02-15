@@ -10,7 +10,7 @@
 #include <ecs/world/world.hpp>
 #include <memory>
 
-namespace Brick3D
+namespace Vultr
 {
 
 class MeshLoaderSystem : public System
@@ -28,4 +28,4 @@ class MeshLoaderSystem : public System
   private:
     static void Import(std::string path);
 };
-} // namespace Brick3D
+} // namespace Vultr

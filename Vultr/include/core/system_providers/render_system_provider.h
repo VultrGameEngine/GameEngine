@@ -9,7 +9,7 @@
 const unsigned int GAME = 0;
 const unsigned int SCENE = 1;
 
-namespace Brick3D
+namespace Vultr
 {
 // Struct containing all of the texture data that will be rendered to
 // Mostly for the editor atm...
@@ -66,4 +66,4 @@ class RenderSystemProvider : public SystemProvider
     }
 };
 
-} // namespace Brick3D
+} // namespace Vultr

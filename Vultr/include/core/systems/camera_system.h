@@ -8,7 +8,7 @@
 #include <ecs/world/world.hpp>
 #include <memory>
 
-namespace Brick3D
+namespace Vultr
 {
 class CameraSystem : public System
 {
@@ -23,4 +23,4 @@ class CameraSystem : public System
         return CameraSystemProvider::Get();
     }
 };
-} // namespace Brick3D
+} // namespace Vultr

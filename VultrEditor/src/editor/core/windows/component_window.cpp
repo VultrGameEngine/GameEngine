@@ -3,7 +3,7 @@
 #include <core/component_renderer.h>
 #include <ecs/world/world.hpp>
 
-namespace Brick3D::Editor
+namespace Vultr::Editor
 {
 void ComponentWindow::Render()
 {
@@ -17,4 +17,4 @@ void ComponentWindow::Render()
 
     ImGui::End();
 }
-} // namespace Brick3D::Editor
+} // namespace Vultr::Editor

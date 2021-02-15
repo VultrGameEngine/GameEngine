@@ -1,7 +1,7 @@
 #include <rendering/models/vertex.h>
 #include <rendering/models/vertex_buffer.h>
 
-namespace Brick3D
+namespace Vultr
 {
 
 VertexBuffer::VertexBuffer(const GLvoid *vertices, unsigned int count)
@@ -26,4 +26,4 @@ void VertexBuffer::Unbind()
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-} // namespace Brick3D
+} // namespace Vultr

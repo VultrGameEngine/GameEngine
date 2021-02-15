@@ -1,7 +1,7 @@
 #include <core/component_renderer.h>
 #include <ecs/world/world.hpp>
 
-using namespace Brick3D;
+using namespace Vultr;
 void RenderVec3(const std::string &name, glm::vec3 &value)
 {
     ImGui::DragFloat((name + "X").c_str(), &value.x, 0.02f);

@@ -5,7 +5,7 @@
 
 #include <glad/glad.h>
 
-namespace Brick3D::Editor
+namespace Vultr::Editor
 {
 void SceneWindow::Render()
 {
@@ -19,4 +19,4 @@ void SceneWindow::Render()
                  ImVec2{1, 0});
     ImGui::End();
 }
-} // namespace Brick3D::Editor
+} // namespace Vultr::Editor

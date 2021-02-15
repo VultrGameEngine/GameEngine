@@ -2,7 +2,7 @@
 #include <core/systems/camera_system.h>
 #include <ecs/world/world.hpp>
 
-namespace Brick3D
+namespace Vultr
 {
 
 void CameraSystem::OnCreateEntity(Entity entity)
@@ -40,4 +40,4 @@ void CameraSystem::RegisterSystem()
     provider.signature.set(World::GetComponentType<TransformComponent>(), true);
     World::RegisterSystem<CameraSystem>(provider.signature);
 }
-} // namespace Brick3D
+} // namespace Vultr

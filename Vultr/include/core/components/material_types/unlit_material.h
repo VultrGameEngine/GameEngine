@@ -3,7 +3,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <rendering/render_context.h>
 
-namespace Brick3D
+namespace Vultr
 {
 struct UnlitMaterial : public MaterialComponent
 {
@@ -58,4 +58,4 @@ struct UnlitMaterial : public MaterialComponent
 
   private:
 };
-} // namespace Brick3D
+} // namespace Vultr

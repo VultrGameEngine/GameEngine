@@ -3,7 +3,7 @@
 #include <core/systems/light_system.h>
 #include <ecs/world/world.hpp>
 
-namespace Brick3D
+namespace Vultr
 {
 
 void LightSystem::OnCreateEntity(Entity entity)
@@ -19,4 +19,4 @@ void LightSystem::RegisterSystem()
     provider.signature.set(World::GetComponentType<TransformComponent>(), true);
     World::RegisterSystem<LightSystem>(provider.signature);
 }
-} // namespace Brick3D
+} // namespace Vultr

@@ -1,6 +1,6 @@
 #include <rendering/models/index_buffer.h>
 
-namespace Brick3D
+namespace Vultr
 {
 IndexBuffer::IndexBuffer(const GLvoid *indices, unsigned int count)
 {
@@ -25,4 +25,4 @@ void IndexBuffer::Unbind() const
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
-} // namespace Brick3D
+} // namespace Vultr

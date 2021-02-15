@@ -2,7 +2,7 @@
 #include <editor/imgui/window.hpp>
 #include <imgui/imgui.h>
 
-namespace Brick3D::Editor
+namespace Vultr::Editor
 {
 class ComponentWindow : public Window
 {
@@ -13,4 +13,4 @@ class ComponentWindow : public Window
         ImGui::Text("Component Window Not Defined!");
     }
 };
-} // namespace Brick3D::Editor
+} // namespace Vultr::Editor

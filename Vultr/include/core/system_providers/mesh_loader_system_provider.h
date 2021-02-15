@@ -3,7 +3,7 @@
 #include <rendering/models/mesh.h>
 #include <unordered_map>
 
-namespace Brick3D
+namespace Vultr
 {
 class MeshLoaderSystemProvider : public SystemProvider
 {
@@ -34,4 +34,4 @@ class MeshLoaderSystemProvider : public SystemProvider
     std::unordered_map<std::string, Mesh *> meshes;
 };
 
-} // namespace Brick3D
+} // namespace Vultr

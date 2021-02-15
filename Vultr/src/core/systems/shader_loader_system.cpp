@@ -5,7 +5,7 @@
 #include <ecs/world/world.hpp>
 #include <helpers/shader_importer.h>
 
-namespace Brick3D
+namespace Vultr
 {
 
 void ShaderLoaderSystem::OnCreateEntity(Entity entity)
@@ -45,4 +45,4 @@ void ShaderLoaderSystem::RegisterSystem()
     provider.signature.set(World::GetComponentType<MaterialComponent>(), true);
     World::RegisterSystem<ShaderLoaderSystem>(provider.signature);
 }
-} // namespace Brick3D
+} // namespace Vultr

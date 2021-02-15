@@ -3,7 +3,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <rendering/render_group.h>
 
-namespace Brick3D
+namespace Vultr
 {
 void RenderGroup::Render(RenderContext context, RenderType type)
 {
@@ -64,4 +64,4 @@ void RenderGroup::Render(RenderContext context, RenderType type)
     }
 }
 
-} // namespace Brick3D
+} // namespace Vultr

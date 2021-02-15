@@ -3,7 +3,7 @@
 #include <editor/editor.hpp>
 #include <imgui/imgui.h>
 
-namespace Brick3D::Editor
+namespace Vultr::Editor
 {
 void EntityWindow::Render()
 {
@@ -20,4 +20,4 @@ void EntityWindow::Render()
     }
     ImGui::End();
 }
-} // namespace Brick3D::Editor
+} // namespace Vultr::Editor

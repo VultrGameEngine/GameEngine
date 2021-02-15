@@ -5,7 +5,7 @@
 #include <rendering/models/texture.h>
 #include <rendering/render_context.h>
 
-namespace Brick3D
+namespace Vultr
 {
 struct PBRMaterial : public MaterialComponent
 {
@@ -88,4 +88,4 @@ struct PBRMaterial : public MaterialComponent
     }
 };
 
-} // namespace Brick3D
+} // namespace Vultr

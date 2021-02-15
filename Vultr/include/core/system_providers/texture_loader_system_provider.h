@@ -4,7 +4,7 @@
 #include <unordered_map>
 #include <vector>
 
-namespace Brick3D
+namespace Vultr
 {
 class TextureLoaderSystemProvider : public SystemProvider
 {
@@ -19,4 +19,4 @@ class TextureLoaderSystemProvider : public SystemProvider
 
     std::unordered_map<std::string, Texture *> textures;
 };
-} // namespace Brick3D
+} // namespace Vultr

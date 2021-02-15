@@ -3,11 +3,11 @@
 #include <string>
 #include <vector>
 
-namespace Brick3D::Editor
+namespace Vultr::Editor
 {
 class Window
 {
   public:
     virtual void Render() = 0;
 };
-}; // namespace Brick3D::Editor
+}; // namespace Vultr::Editor

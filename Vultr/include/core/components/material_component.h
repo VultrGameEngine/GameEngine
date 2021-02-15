@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-namespace Brick3D
+namespace Vultr
 {
 struct MaterialComponent
 {
@@ -49,4 +49,4 @@ struct MaterialComponent
         return false;
     }
 };
-} // namespace Brick3D
+} // namespace Vultr

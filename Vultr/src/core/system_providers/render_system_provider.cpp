@@ -1,7 +1,7 @@
 #include <core/system_providers/render_system_provider.h>
 #include <helpers/shader_importer.h>
 
-namespace Brick3D
+namespace Vultr
 {
 
 void RenderSystemProvider::InitGBuffer(int width, int height)
@@ -81,4 +81,4 @@ void RenderSystemProvider::Resize(int width, int height, unsigned int type)
         Get().GenerateRenderTexture(Get().scene, width, height);
     }
 }
-} // namespace Brick3D
+} // namespace Vultr

@@ -1,7 +1,7 @@
 #pragma once
 #include <glad/glad.h>
 
-namespace Brick3D
+namespace Vultr
 {
 class FrameBuffer
 {
@@ -47,4 +47,4 @@ class FrameBuffer
   protected:
     unsigned int id = 0;
 };
-} // namespace Brick3D
+} // namespace Vultr
