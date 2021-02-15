@@ -1,4 +1,4 @@
-#include <GL/glew.h>
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <core/systems/render_system.h>
 #include <editor/core/windows/component_window.hpp>

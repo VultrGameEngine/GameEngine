@@ -1,6 +1,5 @@
 #pragma once
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
+#include <glad/glad.h>
 #include <array>
 #include <core/components/shader_cache.h>
 #include <core/system_providers/shader_loader_system_provider.h>

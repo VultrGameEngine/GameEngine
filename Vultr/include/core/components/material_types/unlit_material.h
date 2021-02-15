@@ -9,7 +9,8 @@ struct UnlitMaterial : public MaterialComponent
 {
     UnlitMaterial()
     {
-        shader_path = "res/shaders/unlit.glsl";
+        shader_path =
+            "/home/brandon/Dev/GameEngine/SandboxTesting/res/shaders/unlit.glsl";
     }
 
     static MaterialComponent &Create()

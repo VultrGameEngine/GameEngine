@@ -1,5 +1,5 @@
 #pragma once
-#include <GL/glew.h>
+#include <glad/glad.h>
 #include <assert.h>
 #include <glm/glm.hpp>
 #include <rendering/models/vertex.h>

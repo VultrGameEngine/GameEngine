@@ -13,7 +13,8 @@ struct SkyboxMaterial : public MaterialComponent
 
     SkyboxMaterial()
     {
-        shader_path = "res/shaders/skybox.glsl";
+        shader_path =
+            "/home/brandon/Dev/GameEngine/SandboxTesting/res/shaders/skybox.glsl";
     }
 
     static MaterialComponent &Create(const std::string &p_identifier)

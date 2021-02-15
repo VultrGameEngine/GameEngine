@@ -16,7 +16,7 @@ file(GLOB_RECURSE Game_SRC
 include_directories(include vendor ../Vultr/include ../Vultr/vendor)
 
 add_library(Game SHARED ${Game_SRC})
-target_link_libraries(Game GL GLU glfw3 X11 Xxf86vm Xrandr pthread Xi dl GLEW /home/brandon/Dev/GameEngine/Vultr/build/libVultrStatic.a)
+target_link_libraries(Game GL GLU glfw3 X11 Xxf86vm Xrandr pthread Xi dl GLEW /home/brandon/Dev/GameEngine/Vultr/build/libVultr.so)
 
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})

@@ -24,12 +24,12 @@ void ControllerSystem::Update(float delta_time)
     ControllerSystemProvider &provider = ControllerSystemProvider::Get();
     if (!provider.m_focused)
         return;
-    if (!glfwGetMouseButton(provider.m_window, GLFW_MOUSE_BUTTON_LEFT))
+    if (!glfwGetMouseButton(provider.m_window, GLFW_MOUSE_BUTTON_RIGHT))
     {
         glfwSetInputMode(provider.m_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
         return;
     }
-    glm::vec2 dimensions = RenderSystemProvider::GetDimensions(GAME);
+    glm::vec2 dimensions = RenderSystemProvider::GetDimensions(SCENE);
 
     double xpos, ypos;
     glfwGetCursorPos(provider.m_window, &xpos, &ypos);

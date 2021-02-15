@@ -1,4 +1,4 @@
-#include <GL/glew.h>
+#include <glad/glad.h>
 #include <core/components/material_component.h>
 #include <core/system_providers/texture_loader_system_provider.h>
 #include <core/systems/texture_loader_system.h>

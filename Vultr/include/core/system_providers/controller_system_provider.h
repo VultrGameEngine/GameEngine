@@ -1,7 +1,7 @@
 #pragma once
-#include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <ecs/system/system_provider.hpp>
+#include <glad/glad.h>
 
 namespace Brick3D
 {

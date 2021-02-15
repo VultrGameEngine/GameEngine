@@ -14,7 +14,8 @@ struct ForwardMaterial : public MaterialComponent
 
     ForwardMaterial()
     {
-        shader_path = "res/shaders/forward_material.glsl";
+        shader_path = "/home/brandon/Dev/GameEngine/SandboxTesting/res/shaders/"
+                      "forward_material.glsl";
     }
 
     static MaterialComponent &Create(const std::string &p_texture)

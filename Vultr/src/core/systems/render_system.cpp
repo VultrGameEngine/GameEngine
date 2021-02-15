@@ -1,4 +1,4 @@
-#include <GL/glew.h>
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <core/components/material_component.h>
 #include <core/components/sky_box_component.h>

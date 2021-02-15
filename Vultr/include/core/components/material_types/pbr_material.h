@@ -14,14 +14,16 @@ struct PBRMaterial : public MaterialComponent
 
     PBRMaterial()
     {
-        shader_path = "res/shaders/material.glsl";
+        shader_path =
+            "/home/brandon/Dev/GameEngine/SandboxTesting/res/shaders/material.glsl";
     }
 
     PBRMaterial(const std::string &p_diffuse_path,
                 const std::string &p_specular_path)
         : diffuse_path(p_diffuse_path), specular_path(p_specular_path)
     {
-        shader_path = "res/shaders/material.glsl";
+        shader_path =
+            "/home/brandon/Dev/GameEngine/SandboxTesting/res/shaders/material.glsl";
     }
 
     void BindShaders() const override

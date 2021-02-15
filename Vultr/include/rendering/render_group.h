@@ -1,6 +1,5 @@
 #pragma once
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
+#include <glad/glad.h>
 #include <ecs/entity/entity.hpp>
 #include <ecs/world/world.hpp>
 #include <memory>

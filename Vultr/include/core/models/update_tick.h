@@ -4,7 +4,8 @@ namespace Brick3D
 {
 struct UpdateTick
 {
-    UpdateTick(float p_delta_time) : m_delta_time(p_delta_time)
+    UpdateTick(float p_delta_time, bool p_debug)
+        : debug(p_debug), m_delta_time(p_delta_time)
     {
     }
 

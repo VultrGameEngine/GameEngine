@@ -8,11 +8,11 @@ class Vultr
     void Init(bool debug);
     void LoadGame(const std::string &path);
     void InitGame();
-    void UpdateGame(const Brick3D::UpdateTick &tick);
+    void UpdateGame(float &t);
     void Destroy();
+    GLFWwindow *window;
 
   private:
-    GLFWwindow *window;
     bool debug;
     Game *game;
 };

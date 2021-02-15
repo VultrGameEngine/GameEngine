@@ -1,7 +1,6 @@
 #pragma once
 #include "vertex.h"
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
+#include <glad/glad.h>
 #include <vector>
 
 namespace Brick3D
