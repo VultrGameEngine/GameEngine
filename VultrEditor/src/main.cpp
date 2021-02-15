@@ -11,12 +11,13 @@ int main(void)
     vultr->Init(true);
     vultr->LoadGame("/home/brandon/Dev/GameEngine/SandboxTesting/build/libGame.so");
 
-    while (true)
+    while (!vultr->should_close)
     {
         vultr->UpdateGame(lastTime);
         Brick3D::Editor::Editor::Get()->Render();
         glfwSwapBuffers(vultr->window);
     }
+    vultr->Destroy();
 
     // imgui_implopengl3_shutdown();
     // imgui_implglfw_shutdown();

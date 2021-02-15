@@ -11,6 +11,7 @@ class Vultr
     void UpdateGame(float &t);
     void Destroy();
     GLFWwindow *window;
+    bool should_close = false;
 
   private:
     bool debug;

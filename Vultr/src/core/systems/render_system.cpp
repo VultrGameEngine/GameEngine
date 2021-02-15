@@ -55,8 +55,8 @@ void RenderSystem::Update(UpdateTick meta_data)
                                   camera_component);
 
         // Set the vieport dimensions to match that in the editor
-        // glViewport(0, 0, provider.GetDimensions(GAME).x,
-        //            provider.GetDimensions(GAME).y);
+        glViewport(0, 0, provider.GetDimensions(GAME).x,
+                   provider.GetDimensions(GAME).y);
 
         // Render both the skybox an the static meshes in the scene
         RenderSkybox(GAME);
@@ -86,8 +86,8 @@ void RenderSystem::Update(UpdateTick meta_data)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // Set the viewport to match that in the editor
-    // glViewport(0, 0, provider.GetDimensions(SCENE).x,
-    //            provider.GetDimensions(SCENE).y);
+    glViewport(0, 0, provider.GetDimensions(SCENE).x,
+               provider.GetDimensions(SCENE).y);
     // Get the transform of the light
     auto &light_transform =
         LightSystemProvider::Get().light.GetComponent<TransformComponent>();

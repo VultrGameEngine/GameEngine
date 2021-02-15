@@ -103,6 +103,7 @@ void Vultr::LoadGame(const std::string &path)
 
 void Vultr::UpdateGame(float &last_time)
 {
+    should_close = glfwWindowShouldClose(window);
 
     float t = glfwGetTime();
     float deltaTime = t - last_time;
