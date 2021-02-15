@@ -3,6 +3,7 @@
 #include <imgui/imgui.h>
 #include <imgui/imgui_impl_glfw.h>
 #include <imgui/imgui_impl_opengl3.h>
+#include <core/component_renderer.h>
 
 void *LoadDLL(const std::string &path)
 {
@@ -18,13 +19,13 @@ using namespace Brick3D;
 void Vultr::Init(bool debug)
 {
     World::Init();
-    World::RegisterComponent<StaticMeshComponent>();
-    World::RegisterComponent<MaterialComponent>();
-    World::RegisterComponent<TransformComponent>();
-    World::RegisterComponent<LightComponent>();
-    World::RegisterComponent<CameraComponent>();
-    World::RegisterComponent<ControllerComponent>();
-    World::RegisterComponent<SkyBoxComponent>();
+    World::RegisterComponent<StaticMeshComponent>(RenderStaticMeshComponent);
+    World::RegisterComponent<MaterialComponent>(RenderMaterialComponent);
+    World::RegisterComponent<TransformComponent>(RenderTransformComponent);
+    World::RegisterComponent<LightComponent>(RenderLightComponent);
+    World::RegisterComponent<CameraComponent>(RenderCameraComponent);
+    World::RegisterComponent<ControllerComponent>(RenderControllerComponent);
+    World::RegisterComponent<SkyBoxComponent>(RenderSkyboxComponent);
 
     if (!glfwInit())
     {

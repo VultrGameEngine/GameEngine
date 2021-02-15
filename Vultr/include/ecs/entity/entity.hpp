@@ -2,6 +2,7 @@
 #include <cstddef>
 #include <stdint.h>
 #include <string>
+#include <ecs/component/component.hpp>
 
 // An entity is just an ID
 // It has a bunch of operator overloads so that it can be treated as such, so that we
@@ -54,10 +55,15 @@ class Entity
         return this->id <= other.id;
     }
 
+    Signature GetSignature();
+
     static Entity New();
     template <typename T> void AddComponent(T &component);
     template <typename T> void RemoveComponent();
     template <typename T> T &GetComponent();
+
+    // ONLY FOR THE EDITOR
+    template <typename T> T *GetComponentUnsafe();
 
     uint32_t id;
 };

@@ -5,3 +5,8 @@ Entity Entity::New()
 {
     return World::CreateEntity();
 }
+
+Signature Entity::GetSignature()
+{
+    return World::GetSignature(*this);
+}

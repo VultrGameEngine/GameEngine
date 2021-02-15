@@ -6,13 +6,12 @@
 #include "../system/system_manager.hpp"
 #include <memory>
 #include <set>
+#include "../../core/component_renderer.h"
 
 class World
 {
-  private:
-    static World *Get();
-
   public:
+    static World *Get();
     static void Init()
     {
         Get()->component_manager = std::make_unique<ComponentManager>();
@@ -46,9 +45,9 @@ class World
     }
 
     // Component methods
-    template <typename T> static void RegisterComponent()
+    template <typename T> static void RegisterComponent(ComponentRender func)
     {
-        Get()->component_manager->RegisterComponent<T>();
+        Get()->component_manager->RegisterComponent<T>(func);
     }
 
     template <typename T> static void AddComponent(Entity entity, T &component)
@@ -75,6 +74,12 @@ class World
     {
         return Get()->component_manager->GetComponent<T>(entity);
     }
+
+    template <typename T> static T *GetComponentUnsafe(Entity entity)
+    {
+        return Get()->component_manager->GetComponentUnsafe<T>(entity);
+    }
+
     template <typename T> static std::shared_ptr<ComponentArray<T>> GetComponents()
     {
         return Get()->component_manager->GetComponents<T>();
@@ -120,4 +125,9 @@ template <typename T> void Entity::RemoveComponent()
 template <typename T> T &Entity::GetComponent()
 {
     return World::GetComponent<T>(*this);
+}
+
+template <typename T> T *Entity::GetComponentUnsafe()
+{
+    return World::GetComponentUnsafe<T>(*this);
 }

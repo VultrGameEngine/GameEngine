@@ -4,6 +4,7 @@
 #include <editor/core/windows/component_window.hpp>
 #include <editor/core/windows/game_window.hpp>
 #include <editor/core/windows/scene_window.hpp>
+#include <editor/core/windows/entity_window.hpp>
 #include <editor/editor.hpp>
 #include <imgui/imgui.h>
 #include <imgui/imgui_impl_glfw.h>
@@ -11,11 +12,12 @@
 
 namespace Brick3D::Editor
 {
-Editor::Editor()
+Editor::Editor() : selected_entity(Entity(0))
 {
     windows.push_back(new GameWindow());
     windows.push_back(new SceneWindow());
     windows.push_back(new ComponentWindow());
+    windows.push_back(new EntityWindow());
 }
 
 Editor::~Editor()

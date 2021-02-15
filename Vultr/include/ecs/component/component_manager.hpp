@@ -3,6 +3,7 @@
 #pragma once
 #include "component.hpp"
 #include "component_array.hpp"
+#include "../../core/component_renderer.h"
 #include <iostream>
 #include <memory>
 #include <unordered_map>
@@ -10,7 +11,7 @@
 class ComponentManager
 {
   public:
-    template <typename T> void RegisterComponent()
+    template <typename T> void RegisterComponent(ComponentRender func)
     {
         const char *type_name = typeid(T).name();
 
@@ -22,6 +23,9 @@ class ComponentManager
 
         // Create a component array pointer and add it to the component array map
         component_arrays.insert({type_name, std::make_shared<ComponentArray<T>>()});
+
+        // Add the component to the map
+        component_renderers.insert({type_name, func});
 
         // Increment the next component type
         ++next_component_type;
@@ -53,6 +57,11 @@ class ComponentManager
         return GetComponentArray<T>()->GetData(entity);
     }
 
+    template <typename T> T *GetComponentUnsafe(Entity entity)
+    {
+        return GetComponentArray<T>()->GetDataUnsafe(entity);
+    }
+
     template <typename T> std::shared_ptr<ComponentArray<T>> GetComponents()
     {
         return GetComponentArray<T>();
@@ -68,6 +77,14 @@ class ComponentManager
         }
     }
 
+    void RenderEntityComponents(Entity entity)
+    {
+        for (auto const [type, render] : component_renderers)
+        {
+            render(entity);
+        }
+    }
+
   private:
     // Map from type string pointer to a component type
     std::unordered_map<const char *, ComponentType> component_types{};
@@ -75,6 +92,9 @@ class ComponentManager
     // Map from type string poiner to a component array
     std::unordered_map<const char *, std::shared_ptr<IComponentArray>>
         component_arrays{};
+
+    // Map from type string pointer to a render function
+    std::unordered_map<const char *, ComponentRender> component_renderers{};
 
     // The component type to be assigned to the next registered component starting at
     // 0

@@ -21,10 +21,10 @@ class Editor
     }
     static unsigned int GetDockSpace();
     static void Render();
+    Entity selected_entity;
 
   private:
     std::vector<Window *> windows;
     unsigned int dockspace = 1;
-    Entity selected = Entity(-1);
 };
 } // namespace Brick3D::Editor

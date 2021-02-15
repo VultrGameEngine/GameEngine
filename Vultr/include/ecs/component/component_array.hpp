@@ -69,6 +69,14 @@ template <typename T> class ComponentArray : public IComponentArray
 
         return *component_array[entity_to_index_map[entity]];
     }
+
+    T *GetDataUnsafe(Entity entity)
+    {
+        if (entity_to_index_map.find(entity) == entity_to_index_map.end())
+            return nullptr;
+        return component_array[entity_to_index_map[entity]];
+    }
+
     void EntityDestroyed(Entity entity) override
     {
         if (entity_to_index_map.find(entity) != entity_to_index_map.end())
