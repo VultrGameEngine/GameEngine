@@ -9,6 +9,8 @@ class Engine
   public:
     void Init(bool debug);
     void LoadGame(const std::string &path);
+    void RegisterComponents();
+    void InitSystems();
     void InitGame();
     void UpdateGame(float &t);
     void Destroy();

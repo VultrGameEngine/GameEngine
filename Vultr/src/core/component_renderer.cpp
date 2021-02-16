@@ -36,11 +36,18 @@ void RenderTransformComponent(Entity entity)
 
 void RenderMaterialComponent(Entity entity)
 {
+}
+
+void RenderForwardMaterialComponent(Entity entity)
+{
     std::shared_ptr<MaterialComponent> component =
         entity.GetComponentUnsafe<MaterialComponent>();
     if (component == nullptr)
         return;
-    ImGui::Text("Here is a material component");
+    if (std::dynamic_pointer_cast<ForwardMaterial>(component) != nullptr)
+    {
+        ImGui::Text("We have a forward material");
+    }
 }
 
 void RenderLightComponent(Entity entity)
@@ -57,7 +64,10 @@ void RenderStaticMeshComponent(Entity entity)
         entity.GetComponentUnsafe<StaticMeshComponent>();
     if (component == nullptr)
         return;
-    ImGui::Text("Here is a controller component");
+    if (ImGui::CollapsingHeader("Static Mesh Component"))
+    {
+        ImGui::Text(component->m_path.c_str());
+    }
 }
 
 void RenderCameraComponent(Entity entity)

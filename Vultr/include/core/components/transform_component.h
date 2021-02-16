@@ -3,16 +3,16 @@
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtx/transform.hpp>
 #include <ecs/entity/entity.hpp>
-#include <cereal/cereal.hpp>
 #include <memory>
 
 struct TransformComponent
 {
     TransformComponent() = default;
 
-    static std::shared_ptr<TransformComponent> Create(const glm::vec3 &p_position,
-                                                      const glm::quat &p_rotation,
-                                                      const glm::vec3 &p_scale)
+    static std::shared_ptr<TransformComponent> Create(
+        const glm::vec3 &p_position = glm::vec3(0, 0, 0),
+        const glm::quat &p_rotation = glm::quat(1, 0, 0, 0),
+        const glm::vec3 &p_scale = glm::vec3(1, 1, 1))
     {
         std::shared_ptr<TransformComponent> component =
             std::make_shared<TransformComponent>();

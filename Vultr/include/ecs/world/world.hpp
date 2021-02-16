@@ -7,16 +7,54 @@
 #include <memory>
 #include <set>
 #include "../../core/component_renderer.h"
+#include <cereal/archives/binary.hpp>
+#include <cereal/types/polymorphic.hpp>
+#include <fstream>
 
 class World
 {
   public:
-    static World *Get();
-    static void Init()
+    World() = default;
+    template <class Archive> void serialize(Archive &ar)
     {
-        Get()->component_manager = std::make_unique<ComponentManager>();
-        Get()->entity_manager = std::make_unique<EntityManager>();
-        Get()->system_manager = std::make_unique<SystemManager>();
+        ar(component_manager, entity_manager);
+    }
+
+    static std::shared_ptr<World> Get()
+    {
+        return current_world;
+    }
+    static void ChangeWorld(std::shared_ptr<World> world)
+    {
+
+        current_world = world;
+    }
+
+    static std::shared_ptr<World> Init()
+    {
+        std::shared_ptr<World> world = std::make_shared<World>();
+        world->component_manager = std::make_unique<ComponentManager>();
+        world->entity_manager = std::make_unique<EntityManager>();
+        world->system_manager = std::make_unique<SystemManager>();
+        return world;
+    }
+
+    static void ExportWorld(const std::string &path, std::shared_ptr<World> world)
+    {
+        std::ofstream os(path);
+        cereal::BinaryOutputArchive oarchive(os);
+
+        oarchive(world);
+    }
+
+    static std::shared_ptr<World> ImportWorld(const std::string &path)
+    {
+        std::shared_ptr<World> world;
+        std::ifstream is(path);
+        cereal::BinaryInputArchive iarchive(is);
+
+        iarchive(world);
+        return world;
     }
 
     // Entity methods
@@ -48,6 +86,12 @@ class World
     template <typename T> static void RegisterComponent(ComponentRender func)
     {
         Get()->component_manager->RegisterComponent<T>(func);
+    }
+    template <typename T>
+    static void RegisterMaterial(ComponentRender func,
+                                 ComponentConstructor constructor)
+    {
+        Get()->component_manager->RegisterMaterial<T>(func, constructor);
     }
 
     template <typename T>
@@ -111,6 +155,9 @@ class World
     std::unique_ptr<ComponentManager> component_manager;
     std::unique_ptr<EntityManager> entity_manager;
     std::unique_ptr<SystemManager> system_manager;
+
+  private:
+    static std::shared_ptr<World> current_world;
 };
 
 template <typename T> void Entity::AddComponent(std::shared_ptr<T> component)

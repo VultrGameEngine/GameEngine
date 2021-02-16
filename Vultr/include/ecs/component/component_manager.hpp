@@ -4,11 +4,16 @@
 #include "component.hpp"
 #include "component_array.hpp"
 #include "../../core/component_renderer.h"
+#include "../../core/component_constructor.h"
 #include <iostream>
 #include <memory>
 #include <unordered_map>
 #include <cereal/types/memory.hpp>
 #include <cereal/types/unordered_map.hpp>
+
+#define GetName(x) #x
+#define CallConstructor(entity, T) entity.AddComponent<T>(T::Create());
+#define GET_VARIABLE_NAME(Variable) std::cout << (#Variable) << std::endl;
 
 class ComponentManager
 {
@@ -29,8 +34,25 @@ class ComponentManager
         // Add the component to the map
         component_renderers.insert({type_name, func});
 
+        ComponentConstructor constructor = [](Entity entity) {
+            CallConstructor(entity, T);
+        };
+
+        component_constructors.insert({type_name, constructor});
+
         // Increment the next component type
         ++next_component_type;
+    }
+
+    template <typename T>
+    void RegisterMaterial(ComponentRender func, ComponentConstructor constructor)
+    {
+        const char *type_name = typeid(T).name();
+
+        // Add the component to the map
+        component_renderers.insert({type_name, func});
+
+        component_constructors.insert({type_name, constructor});
     }
 
     template <typename T> ComponentType GetComponentType()
@@ -87,22 +109,14 @@ class ComponentManager
             render(entity);
         }
     }
+    std::unordered_map<const char *, ComponentConstructor> GetComponentConstructors()
+    {
+        return component_constructors;
+    }
 
     template <class Archive> void serialize(Archive &archive)
     {
         archive(component_arrays); // serialize things by passing them to the archive
-    }
-
-    // Get the statically casted pointer to the ComponentArray of type T
-    template <typename T> std::shared_ptr<ComponentArray<T>> GetComponentArray()
-    {
-        const char *type_name = typeid(T).name();
-
-        assert(component_types.find(type_name) != component_types.end() &&
-               "Component not registered before use");
-
-        return std::static_pointer_cast<ComponentArray<T>>(
-            component_arrays[type_name]);
     }
 
   private:
@@ -116,7 +130,22 @@ class ComponentManager
     // Map from type string pointer to a render function
     std::unordered_map<const char *, ComponentRender> component_renderers{};
 
+    // Map from name to the creator, for use in the editor
+    std::unordered_map<const char *, ComponentConstructor> component_constructors{};
+
     // The component type to be assigned to the next registered component starting at
     // 0
     ComponentType next_component_type{};
+
+    // Get the statically casted pointer to the ComponentArray of type T
+    template <typename T> std::shared_ptr<ComponentArray<T>> GetComponentArray()
+    {
+        const char *type_name = typeid(T).name();
+
+        assert(component_types.find(type_name) != component_types.end() &&
+               "Component not registered before use");
+
+        return std::static_pointer_cast<ComponentArray<T>>(
+            component_arrays[type_name]);
+    }
 };

@@ -20,7 +20,9 @@ struct ForwardMaterial : public MaterialComponent
                       "forward_material.glsl";
     }
 
-    static std::shared_ptr<MaterialComponent> Create(const std::string &p_texture)
+    static std::shared_ptr<MaterialComponent> Create(
+        const std::string &p_texture = "/home/brandon/Dev/GameEngine/SandboxTesting/"
+                                       "res/textures/clone/albedo.jpeg")
     {
         std::shared_ptr<ForwardMaterial> mat = std::make_shared<ForwardMaterial>();
         mat->texture_path = p_texture;

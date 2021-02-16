@@ -16,7 +16,7 @@ file(GLOB_RECURSE VultrEditor_SRC
 include_directories(include vendor ../Vultr/include ../Vultr/vendor)
 
 add_executable(VultrEditor ${VultrEditor_SRC})
-target_link_libraries(VultrEditor GL GLU glfw3 X11 Xxf86vm Xrandr pthread Xi dl GLEW /home/brandon/Dev/GameEngine/Vultr/build/libVultrStatic.a)
+target_link_libraries(VultrEditor GL GLU glfw3 X11 Xxf86vm Xrandr pthread Xi dl GLEW /home/brandon/Dev/GameEngine/Vultr/build/libVultr.so)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})

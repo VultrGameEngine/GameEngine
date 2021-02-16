@@ -16,7 +16,9 @@ struct StaticMeshComponent
         ar(m_path);
     }
 
-    static std::shared_ptr<StaticMeshComponent> Create(std::string p_path)
+    static std::shared_ptr<StaticMeshComponent> Create(
+        std::string p_path =
+            "/home/brandon/Dev/GameEngine/SandboxTesting/res/models/cube.obj")
     {
         std::shared_ptr<StaticMeshComponent> component =
             std::make_shared<StaticMeshComponent>();

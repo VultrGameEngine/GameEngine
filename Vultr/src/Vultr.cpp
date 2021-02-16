@@ -19,14 +19,6 @@ namespace Vultr
 {
 void Engine::Init(bool debug)
 {
-    World::Init();
-    World::RegisterComponent<StaticMeshComponent>(RenderStaticMeshComponent);
-    World::RegisterComponent<MaterialComponent>(RenderMaterialComponent);
-    World::RegisterComponent<TransformComponent>(RenderTransformComponent);
-    World::RegisterComponent<LightComponent>(RenderLightComponent);
-    World::RegisterComponent<CameraComponent>(RenderCameraComponent);
-    World::RegisterComponent<ControllerComponent>(RenderControllerComponent);
-    World::RegisterComponent<SkyBoxComponent>(RenderSkyboxComponent);
 
     if (!glfwInit())
     {
@@ -80,6 +72,24 @@ void Engine::Init(bool debug)
 
     ControllerSystem::Init(window);
     glfwSetWindowFocusCallback(window, ControllerSystem::WindowFocusCallback);
+}
+
+void Engine::RegisterComponents()
+{
+    World::RegisterComponent<StaticMeshComponent>(RenderStaticMeshComponent);
+    World::RegisterComponent<MaterialComponent>(RenderMaterialComponent);
+    World::RegisterComponent<TransformComponent>(RenderTransformComponent);
+    World::RegisterComponent<LightComponent>(RenderLightComponent);
+    World::RegisterComponent<CameraComponent>(RenderCameraComponent);
+    World::RegisterComponent<ControllerComponent>(RenderControllerComponent);
+    World::RegisterComponent<SkyBoxComponent>(RenderSkyboxComponent);
+
+    World::RegisterMaterial<ForwardMaterial>(RenderForwardMaterialComponent,
+                                             ConstructForwardMaterialComponent);
+}
+
+void Engine::InitSystems()
+{
 
     MeshLoaderSystem::RegisterSystem();
     ShaderLoaderSystem::RegisterSystem();

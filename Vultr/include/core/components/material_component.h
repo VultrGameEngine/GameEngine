@@ -15,6 +15,11 @@ struct MaterialComponent
         ar(shader_path);
     }
 
+    static std::shared_ptr<MaterialComponent> Create()
+    {
+        return std::make_shared<MaterialComponent>();
+    }
+
     virtual void BindShaders() const
     {
         assert("DON'T USE THIS COMPONENT DIRECTLY");

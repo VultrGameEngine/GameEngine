@@ -1,12 +1,3 @@
 #include "world.hpp"
 
-World *World::Get()
-{
-    static World *instance;
-
-    if (instance == 0)
-    {
-        instance = new World();
-    }
-    return instance;
-}
+std::shared_ptr<World> World::current_world = nullptr;

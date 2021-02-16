@@ -1,4 +1,4 @@
-
+#pragma once
 // In charge of distributing entity IDs and keeping record of which IDs are in
 // use and which are not
 //
@@ -13,6 +13,10 @@
 #include <assert.h>
 #include <queue>
 #include <set>
+#include <cereal/types/array.hpp>
+#include <cereal/types/queue.hpp>
+#include <cereal/types/queue.hpp>
+#include <cereal/types/bitset.hpp>
 
 using EntityID = uint32_t;
 
@@ -26,6 +30,11 @@ class EntityManager
         {
             available_entities.push(entity);
         }
+    }
+
+    template <class Archive> void serialize(Archive &ar)
+    {
+        ar(available_entities, signatures, living_entity_count);
     }
 
     Entity CreateEntity()

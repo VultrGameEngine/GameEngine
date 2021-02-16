@@ -65,3 +65,4 @@ struct UnlitMaterial : public MaterialComponent
   private:
 };
 } // namespace Vultr
+CEREAL_REGISTER_TYPE(UnlitMaterial)
