@@ -6,10 +6,18 @@
 #include <assert.h>
 #include <unordered_map>
 #include <memory>
+#include <cereal/types/memory.hpp>
+#include <cereal/types/unordered_map.hpp>
+#include <cereal/types/array.hpp>
 
 class IComponentArray
 {
   public:
+    template <class Archive> void serialize(Archive &archive)
+    {
+        archive(x); // serialize things by passing them to the archive
+    }
+    int x = 0;
     virtual ~IComponentArray() = default;
     virtual void EntityDestroyed(Entity entity){};
 };
@@ -17,6 +25,12 @@ class IComponentArray
 template <typename T> class ComponentArray : public IComponentArray
 {
   public:
+    template <class Archive> void serialize(Archive &archive)
+    {
+        archive(component_array, entity_to_index_map, index_to_entity_map,
+                size); // serialize things by passing them to the archive
+    }
+
     void InsertData(Entity entity, std::shared_ptr<T> component)
     {
         assert(entity_to_index_map.find(entity) == entity_to_index_map.end() &&

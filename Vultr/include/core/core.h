@@ -4,3 +4,4 @@
 #include "core_components.h"
 #include "core_system_components.h"
 #include "core_systems.h"
+#include "cereal_component_registration.h"

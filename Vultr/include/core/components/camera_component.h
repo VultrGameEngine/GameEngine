@@ -23,4 +23,9 @@ struct CameraComponent
     {
         return glm::perspective(fov, width / height, znear, zfar);
     }
+
+    template <class Archive> void serialize(Archive &ar)
+    {
+        ar(enabled, fov, znear, zfar);
+    }
 };

@@ -5,12 +5,15 @@
 #include <string>
 #include <vector>
 
-namespace Vultr
-{
+using namespace Vultr;
 struct StaticMeshComponent
 {
     StaticMeshComponent()
     {
+    }
+    template <class Archive> void serialize(Archive &ar)
+    {
+        ar(m_path);
     }
 
     static std::shared_ptr<StaticMeshComponent> Create(std::string p_path)
@@ -31,4 +34,3 @@ struct StaticMeshComponent
         return MeshLoaderSystemProvider::GetMesh(m_path);
     }
 };
-} // namespace Vultr

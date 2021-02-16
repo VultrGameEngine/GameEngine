@@ -112,7 +112,8 @@ void Engine::UpdateGame(float &last_time)
     last_time = t;
     UpdateTick tick = UpdateTick(deltaTime, this->debug);
 
-    game->Update(tick);
+    if (game != nullptr)
+        game->Update(tick);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     ControllerSystem::Update(tick.m_delta_time);
     RenderSystem::Update(tick);

@@ -59,6 +59,11 @@ class Entity
 
     Signature GetSignature();
 
+    template <class Archive> void serialize(Archive &archive)
+    {
+        archive(id); // serialize things by passing them to the archive
+    }
+
     static Entity New();
     template <typename T> void AddComponent(std::shared_ptr<T> component);
     template <typename T> void RemoveComponent();

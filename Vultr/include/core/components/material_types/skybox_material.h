@@ -4,6 +4,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <rendering/models/texture.h>
 #include <rendering/render_context.h>
+#include <cereal/types/polymorphic.hpp>
 
 namespace Vultr
 {
@@ -22,6 +23,11 @@ struct SkyboxMaterial : public MaterialComponent
         std::shared_ptr<SkyboxMaterial> mat = std::make_shared<SkyboxMaterial>();
         mat->identifier = p_identifier;
         return mat;
+    }
+
+    template <class Archive> void serialize(Archive &ar)
+    {
+        ar(cereal::base_class<MaterialComponent>(this), shader_path, identifier);
     }
 
     void BindShaders() const override
@@ -75,3 +81,4 @@ struct SkyboxMaterial : public MaterialComponent
     }
 };
 } // namespace Vultr
+CEREAL_REGISTER_TYPE(SkyboxMaterial)

@@ -29,6 +29,6 @@ class Shader
 
   private:
     unsigned int id = 0;
-    RenderType type = Deferred;
+    RenderType type = Forward;
 };
 } // namespace Vultr

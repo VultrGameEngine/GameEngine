@@ -33,6 +33,10 @@ struct SkyBoxComponent
     std::string bottom;
     std::string left;
     std::string right;
+    template <class Archive> void serialize(Archive &ar)
+    {
+        ar(identifier, front, back, top, bottom, left, right);
+    }
 
     std::vector<std::string> GetPaths()
     {

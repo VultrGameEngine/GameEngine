@@ -23,7 +23,7 @@ void ShaderLoaderSystem::OnCreateEntity(Entity entity)
         ShaderImporter::CreateShader(material_component.shader_path);
 
     // Create the shader wrapper with the given shader id
-    Shader *shader = new Shader(shader_id, material_component.GetRenderType());
+    Shader *shader = new Shader(shader_id, Forward);
 
     // Add it to the loaded shaders
     provider.loaded_shaders[material_component.shader_path] = shader;

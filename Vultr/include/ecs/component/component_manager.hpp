@@ -7,6 +7,8 @@
 #include <iostream>
 #include <memory>
 #include <unordered_map>
+#include <cereal/types/memory.hpp>
+#include <cereal/types/unordered_map.hpp>
 
 class ComponentManager
 {
@@ -86,20 +88,10 @@ class ComponentManager
         }
     }
 
-  private:
-    // Map from type string pointer to a component type
-    std::unordered_map<const char *, ComponentType> component_types{};
-
-    // Map from type string poiner to a component array
-    std::unordered_map<const char *, std::shared_ptr<IComponentArray>>
-        component_arrays{};
-
-    // Map from type string pointer to a render function
-    std::unordered_map<const char *, ComponentRender> component_renderers{};
-
-    // The component type to be assigned to the next registered component starting at
-    // 0
-    ComponentType next_component_type{};
+    template <class Archive> void serialize(Archive &archive)
+    {
+        archive(component_arrays); // serialize things by passing them to the archive
+    }
 
     // Get the statically casted pointer to the ComponentArray of type T
     template <typename T> std::shared_ptr<ComponentArray<T>> GetComponentArray()
@@ -112,4 +104,19 @@ class ComponentManager
         return std::static_pointer_cast<ComponentArray<T>>(
             component_arrays[type_name]);
     }
+
+  private:
+    // Map from type string pointer to a component type
+    std::unordered_map<const char *, ComponentType> component_types{};
+
+    // Map from type string poiner to a component array
+    std::unordered_map<std::string, std::shared_ptr<IComponentArray>>
+        component_arrays{};
+
+    // Map from type string pointer to a render function
+    std::unordered_map<const char *, ComponentRender> component_renderers{};
+
+    // The component type to be assigned to the next registered component starting at
+    // 0
+    ComponentType next_component_type{};
 };

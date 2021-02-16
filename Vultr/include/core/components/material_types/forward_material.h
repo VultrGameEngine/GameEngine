@@ -6,6 +6,7 @@
 #include <rendering/models/texture.h>
 #include <rendering/render_context.h>
 #include <memory>
+#include <cereal/types/polymorphic.hpp>
 
 namespace Vultr
 {
@@ -24,6 +25,11 @@ struct ForwardMaterial : public MaterialComponent
         std::shared_ptr<ForwardMaterial> mat = std::make_shared<ForwardMaterial>();
         mat->texture_path = p_texture;
         return mat;
+    }
+
+    template <class Archive> void serialize(Archive &ar)
+    {
+        ar(cereal::base_class<MaterialComponent>(this), shader_path, texture_path);
     }
 
     void BindShaders() const override
@@ -79,3 +85,4 @@ struct ForwardMaterial : public MaterialComponent
     }
 };
 } // namespace Vultr
+CEREAL_REGISTER_TYPE(ForwardMaterial)

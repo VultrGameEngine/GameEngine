@@ -6,14 +6,13 @@
 #include <string>
 #include <vector>
 
-namespace Vultr
-{
+using namespace Vultr;
 struct MaterialComponent
 {
     std::string shader_path;
-    virtual RenderType GetRenderType()
+    template <class Archive> void serialize(Archive &ar)
     {
-        return RenderType::Deferred;
+        ar(shader_path);
     }
 
     virtual void BindShaders() const
@@ -49,4 +48,3 @@ struct MaterialComponent
         return false;
     }
 };
-} // namespace Vultr
