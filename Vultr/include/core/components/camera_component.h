@@ -2,13 +2,15 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtx/transform.hpp>
+#include <memory>
 
 struct CameraComponent
 {
-    static CameraComponent &Create()
+    static std::shared_ptr<CameraComponent> Create()
     {
-        CameraComponent *component = new CameraComponent();
-        return *component;
+        std::shared_ptr<CameraComponent> component =
+            std::make_shared<CameraComponent>();
+        return component;
     }
 
     bool enabled = true;

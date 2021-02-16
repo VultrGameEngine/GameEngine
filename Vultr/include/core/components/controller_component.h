@@ -1,10 +1,13 @@
 #pragma once
+#include <memory>
+
 struct ControllerComponent
 {
-    static ControllerComponent &Create()
+    static std::shared_ptr<ControllerComponent> Create()
     {
-        ControllerComponent *component = new ControllerComponent();
-        return *component;
+        std::shared_ptr<ControllerComponent> component =
+            std::make_shared<ControllerComponent>();
+        return component;
     }
     float sens = 0.03;
 };

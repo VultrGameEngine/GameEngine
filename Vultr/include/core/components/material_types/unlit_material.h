@@ -13,10 +13,10 @@ struct UnlitMaterial : public MaterialComponent
             "/home/brandon/Dev/GameEngine/SandboxTesting/res/shaders/unlit.glsl";
     }
 
-    static MaterialComponent &Create()
+    static std::shared_ptr<MaterialComponent> Create()
     {
-        UnlitMaterial *mat = new UnlitMaterial();
-        return *mat;
+        std::shared_ptr<UnlitMaterial> mat = std::make_shared<UnlitMaterial>();
+        return mat;
     }
 
     void BindShaders() const override

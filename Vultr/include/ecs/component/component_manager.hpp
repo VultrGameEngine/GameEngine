@@ -42,9 +42,10 @@ class ComponentManager
         return component_types[type_name];
     }
 
-    template <typename T> void AddComponent(Entity entity, T &component)
+    template <typename T>
+    void AddComponent(Entity entity, std::shared_ptr<T> component)
     {
-        GetComponentArray<T>()->InsertData(entity, &component);
+        GetComponentArray<T>()->InsertData(entity, component);
     }
 
     template <typename T> void RemoveComponent(Entity entity)
@@ -57,7 +58,7 @@ class ComponentManager
         return GetComponentArray<T>()->GetData(entity);
     }
 
-    template <typename T> T *GetComponentUnsafe(Entity entity)
+    template <typename T> std::shared_ptr<T> GetComponentUnsafe(Entity entity)
     {
         return GetComponentArray<T>()->GetDataUnsafe(entity);
     }

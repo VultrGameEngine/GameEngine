@@ -1,7 +1,6 @@
 #pragma once
 #include <glad/glad.h>
 #include <array>
-#include <core/components/shader_cache.h>
 #include <core/system_providers/shader_loader_system_provider.h>
 #include <ecs/system/system.hpp>
 #include <fstream>

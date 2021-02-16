@@ -1,10 +1,12 @@
 #pragma once
+#include <memory>
 
 struct LightComponent
 {
-    static LightComponent &Create()
+    static std::shared_ptr<LightComponent> Create()
     {
-        LightComponent *component = new LightComponent();
-        return *component;
+        std::shared_ptr<LightComponent> component =
+            std::make_shared<LightComponent>();
+        return component;
     }
 };

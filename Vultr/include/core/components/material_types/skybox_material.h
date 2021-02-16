@@ -17,11 +17,11 @@ struct SkyboxMaterial : public MaterialComponent
             "/home/brandon/Dev/GameEngine/SandboxTesting/res/shaders/skybox.glsl";
     }
 
-    static MaterialComponent &Create(const std::string &p_identifier)
+    static std::shared_ptr<MaterialComponent> Create(const std::string &p_identifier)
     {
-        SkyboxMaterial *mat = new SkyboxMaterial();
+        std::shared_ptr<SkyboxMaterial> mat = std::make_shared<SkyboxMaterial>();
         mat->identifier = p_identifier;
-        return *mat;
+        return mat;
     }
 
     void BindShaders() const override

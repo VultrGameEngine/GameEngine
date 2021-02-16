@@ -50,7 +50,8 @@ class World
         Get()->component_manager->RegisterComponent<T>(func);
     }
 
-    template <typename T> static void AddComponent(Entity entity, T &component)
+    template <typename T>
+    static void AddComponent(Entity entity, std::shared_ptr<T> component)
     {
         Get()->component_manager->AddComponent<T>(entity, component);
 
@@ -75,7 +76,7 @@ class World
         return Get()->component_manager->GetComponent<T>(entity);
     }
 
-    template <typename T> static T *GetComponentUnsafe(Entity entity)
+    template <typename T> static std::shared_ptr<T> GetComponentUnsafe(Entity entity)
     {
         return Get()->component_manager->GetComponentUnsafe<T>(entity);
     }
@@ -112,7 +113,7 @@ class World
     std::unique_ptr<SystemManager> system_manager;
 };
 
-template <typename T> void Entity::AddComponent(T &component)
+template <typename T> void Entity::AddComponent(std::shared_ptr<T> component)
 {
     World::AddComponent(*this, component);
 }
@@ -127,7 +128,7 @@ template <typename T> T &Entity::GetComponent()
     return World::GetComponent<T>(*this);
 }
 
-template <typename T> T *Entity::GetComponentUnsafe()
+template <typename T> std::shared_ptr<T> Entity::GetComponentUnsafe()
 {
     return World::GetComponentUnsafe<T>(*this);
 }

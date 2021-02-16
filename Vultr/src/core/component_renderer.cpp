@@ -19,7 +19,8 @@ void RenderQuat(const std::string &name, glm::quat &value)
 
 void RenderTransformComponent(Entity entity)
 {
-    TransformComponent *component = entity.GetComponentUnsafe<TransformComponent>();
+    std::shared_ptr<TransformComponent> component =
+        entity.GetComponentUnsafe<TransformComponent>();
     if (component == nullptr)
         return;
     if (ImGui::CollapsingHeader("Transform Component"))
@@ -35,7 +36,8 @@ void RenderTransformComponent(Entity entity)
 
 void RenderMaterialComponent(Entity entity)
 {
-    MaterialComponent *component = entity.GetComponentUnsafe<MaterialComponent>();
+    std::shared_ptr<MaterialComponent> component =
+        entity.GetComponentUnsafe<MaterialComponent>();
     if (component == nullptr)
         return;
     ImGui::Text("Here is a material component");
@@ -51,7 +53,7 @@ void RenderControllerComponent(Entity entity)
 
 void RenderStaticMeshComponent(Entity entity)
 {
-    StaticMeshComponent *component =
+    std::shared_ptr<StaticMeshComponent> component =
         entity.GetComponentUnsafe<StaticMeshComponent>();
     if (component == nullptr)
         return;
@@ -60,7 +62,8 @@ void RenderStaticMeshComponent(Entity entity)
 
 void RenderCameraComponent(Entity entity)
 {
-    CameraComponent *component = entity.GetComponentUnsafe<CameraComponent>();
+    std::shared_ptr<CameraComponent> component =
+        entity.GetComponentUnsafe<CameraComponent>();
     if (component == nullptr)
         return;
     if (ImGui::CollapsingHeader("Camera Component"))
@@ -74,7 +77,8 @@ void RenderCameraComponent(Entity entity)
 
 void RenderSkyboxComponent(Entity entity)
 {
-    SkyBoxComponent *component = entity.GetComponentUnsafe<SkyBoxComponent>();
+    std::shared_ptr<SkyBoxComponent> component =
+        entity.GetComponentUnsafe<SkyBoxComponent>();
     if (component == nullptr)
         return;
 }

@@ -3,19 +3,23 @@
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtx/transform.hpp>
 #include <ecs/entity/entity.hpp>
+#include <cereal/cereal.hpp>
+#include <memory>
 
 struct TransformComponent
 {
+    TransformComponent() = default;
 
-    static TransformComponent &Create(const glm::vec3 &p_position,
-                                      const glm::quat &p_rotation,
-                                      const glm::vec3 &p_scale)
+    static std::shared_ptr<TransformComponent> Create(const glm::vec3 &p_position,
+                                                      const glm::quat &p_rotation,
+                                                      const glm::vec3 &p_scale)
     {
-        TransformComponent *component = new TransformComponent();
+        std::shared_ptr<TransformComponent> component =
+            std::make_shared<TransformComponent>();
         component->position = p_position;
         component->rotation = p_rotation;
         component->scale = p_scale;
-        return *component;
+        return component;
     }
 
     glm::vec3 position = glm::vec3(0, 0, 0);
@@ -47,5 +51,11 @@ struct TransformComponent
     inline glm::mat4 GetViewMatrix() const
     {
         return glm::lookAt(position, position + Forward(), glm::vec3(0, 1, 0));
+    }
+
+    template <class Archive> void serialize(Archive &ar)
+    {
+        ar(position.x, position.y, position.z, rotation.x, rotation.y, rotation.z,
+           rotation.w, scale.x, scale.y, scale.z);
     }
 };

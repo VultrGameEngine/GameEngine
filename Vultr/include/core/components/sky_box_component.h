@@ -2,25 +2,26 @@
 #include <glm/glm.hpp>
 #include <string>
 #include <vector>
+#include <memory>
 
 struct SkyBoxComponent
 {
 
-    static SkyBoxComponent &Create(const std::string &identifier,
-                                   const std::string &front, const std::string &back,
-                                   const std::string &top, const std::string &bottom,
-                                   const std::string &left, const std::string &right)
+    static std::shared_ptr<SkyBoxComponent> Create(
+        const std::string &identifier, const std::string &front,
+        const std::string &back, const std::string &top, const std::string &bottom,
+        const std::string &left, const std::string &right)
     {
-        SkyBoxComponent *component = new SkyBoxComponent{
-            .identifier = identifier,
-            .front = front,
-            .back = back,
-            .top = top,
-            .bottom = bottom,
-            .left = left,
-            .right = right,
-        };
-        return *component;
+        std::shared_ptr<SkyBoxComponent> component =
+            std::make_shared<SkyBoxComponent>();
+        component->identifier = identifier;
+        component->front = front;
+        component->back = back;
+        component->top = top;
+        component->bottom = bottom;
+        component->left = left;
+        component->right = right;
+        return component;
     }
     unsigned int vao = 0;
     unsigned int vbo = 0;

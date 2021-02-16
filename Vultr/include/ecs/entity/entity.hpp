@@ -3,10 +3,12 @@
 #include <stdint.h>
 #include <string>
 #include <ecs/component/component.hpp>
+#include <memory>
 
 // An entity is just an ID
-// It has a bunch of operator overloads so that it can be treated as such, so that we
-// don't have to manually write out the id every single time we need to compare
+// It has a bunch of operator overloads so that it can be treated as such, so
+// that we don't have to manually write out the id every single time we need to
+// compare
 class Entity
 {
   public:
@@ -58,12 +60,12 @@ class Entity
     Signature GetSignature();
 
     static Entity New();
-    template <typename T> void AddComponent(T &component);
+    template <typename T> void AddComponent(std::shared_ptr<T> component);
     template <typename T> void RemoveComponent();
     template <typename T> T &GetComponent();
 
     // ONLY FOR THE EDITOR
-    template <typename T> T *GetComponentUnsafe();
+    template <typename T> std::shared_ptr<T> GetComponentUnsafe();
 
     uint32_t id;
 };

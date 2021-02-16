@@ -5,6 +5,7 @@
 #include <array>
 #include <assert.h>
 #include <unordered_map>
+#include <memory>
 
 class IComponentArray
 {
@@ -16,7 +17,7 @@ class IComponentArray
 template <typename T> class ComponentArray : public IComponentArray
 {
   public:
-    void InsertData(Entity entity, T *component)
+    void InsertData(Entity entity, std::shared_ptr<T> component)
     {
         assert(entity_to_index_map.find(entity) == entity_to_index_map.end() &&
                "Component added to same entity more than once");
@@ -70,7 +71,7 @@ template <typename T> class ComponentArray : public IComponentArray
         return *component_array[entity_to_index_map[entity]];
     }
 
-    T *GetDataUnsafe(Entity entity)
+    std::shared_ptr<T> GetDataUnsafe(Entity entity)
     {
         if (entity_to_index_map.find(entity) == entity_to_index_map.end())
             return nullptr;
@@ -89,7 +90,7 @@ template <typename T> class ComponentArray : public IComponentArray
     // Packed array of components
     // Set to be of maximum length of the maximum number of entities
     // each entity has a unique spot
-    std::array<T *, MAX_ENTITIES> component_array{};
+    std::array<std::shared_ptr<T>, MAX_ENTITIES> component_array{};
 
     // Map from entity ID to an array index;
     std::unordered_map<Entity, size_t> entity_to_index_map{};

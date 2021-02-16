@@ -1,4 +1,3 @@
-#include <core/components/shader_cache.h>
 #include <ecs/world/world.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <rendering/render_group.h>

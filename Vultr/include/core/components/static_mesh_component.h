@@ -13,11 +13,12 @@ struct StaticMeshComponent
     {
     }
 
-    static StaticMeshComponent &Create(std::string p_path)
+    static std::shared_ptr<StaticMeshComponent> Create(std::string p_path)
     {
-        StaticMeshComponent *component = new StaticMeshComponent();
+        std::shared_ptr<StaticMeshComponent> component =
+            std::make_shared<StaticMeshComponent>();
         component->m_path = p_path;
-        return *component;
+        return component;
     }
 
     std::string m_path;

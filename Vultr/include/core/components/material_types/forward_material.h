@@ -5,6 +5,7 @@
 #include <iostream>
 #include <rendering/models/texture.h>
 #include <rendering/render_context.h>
+#include <memory>
 
 namespace Vultr
 {
@@ -18,11 +19,11 @@ struct ForwardMaterial : public MaterialComponent
                       "forward_material.glsl";
     }
 
-    static MaterialComponent &Create(const std::string &p_texture)
+    static std::shared_ptr<MaterialComponent> Create(const std::string &p_texture)
     {
-        ForwardMaterial *mat = new ForwardMaterial();
+        std::shared_ptr<ForwardMaterial> mat = std::make_shared<ForwardMaterial>();
         mat->texture_path = p_texture;
-        return *mat;
+        return mat;
     }
 
     void BindShaders() const override
