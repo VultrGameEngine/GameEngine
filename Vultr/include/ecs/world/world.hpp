@@ -26,8 +26,21 @@ class World
     }
     static void ChangeWorld(std::shared_ptr<World> world)
     {
-
+        if (current_world != nullptr)
+            current_world->system_manager->DestroyAllEntities();
         current_world = world;
+        world->system_manager = std::make_unique<SystemManager>();
+    }
+
+    static void FixSystems()
+    {
+        std::array<Signature, MAX_ENTITIES> signatures =
+            current_world->entity_manager->GetSignatures();
+        for (int i = 0; i < signatures.size(); i++)
+        {
+            current_world->system_manager->EntitySignatureChanged(Entity(i),
+                                                                  signatures[i]);
+        }
     }
 
     static std::shared_ptr<World> Init()

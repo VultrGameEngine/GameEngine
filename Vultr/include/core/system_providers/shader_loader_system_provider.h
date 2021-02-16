@@ -21,6 +21,15 @@ class ShaderLoaderSystemProvider : public SystemProvider
         return Get().loaded_shaders[path];
     }
 
+    void Reset() override
+    {
+        for (auto [id, shader] : loaded_shaders)
+        {
+            delete shader;
+        }
+        loaded_shaders.clear();
+    }
+
     std::unordered_map<std::string, Shader *> loaded_shaders;
 };
 } // namespace Vultr

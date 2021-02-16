@@ -30,6 +30,15 @@ class MeshLoaderSystemProvider : public SystemProvider
         Get().meshes[path] = mesh;
     }
 
+    void Reset() override
+    {
+        for (auto [id, mesh] : meshes)
+        {
+            delete mesh;
+        }
+        meshes.clear();
+    }
+
   private:
     std::unordered_map<std::string, Mesh *> meshes;
 };

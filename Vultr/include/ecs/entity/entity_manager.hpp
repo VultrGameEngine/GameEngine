@@ -101,6 +101,11 @@ class EntityManager
         return entities;
     }
 
+    std::array<Signature, MAX_ENTITIES> GetSignatures()
+    {
+        return signatures;
+    }
+
   private:
     // Queue of unused entity IDs
     std::queue<EntityID> available_entities{};

@@ -13,5 +13,10 @@ class LightSystemProvider : public SystemProvider
         return instance;
     }
     Entity light = Entity(-1);
+
+    void Reset() override
+    {
+        light = Entity(-1);
+    }
 };
 } // namespace Vultr

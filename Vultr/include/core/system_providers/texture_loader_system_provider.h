@@ -16,6 +16,14 @@ class TextureLoaderSystemProvider : public SystemProvider
     }
     Texture *GetTexture(const std::string &texture);
     bool isLoaded(const std::string &texture);
+    void Reset() override
+    {
+        for (auto [id, shader] : textures)
+        {
+            delete shader;
+        }
+        textures.clear();
+    }
 
     std::unordered_map<std::string, Texture *> textures;
 };

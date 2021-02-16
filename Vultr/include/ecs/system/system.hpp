@@ -24,6 +24,16 @@ class System
         OnDestroyEntity(entity);
     }
 
+    void DestroyAll()
+    {
+        SystemProvider &provider = GetProvider();
+        for (Entity entity : provider.entities)
+        {
+            OnDestroyEntity(entity);
+        }
+        provider.entities.clear();
+    }
+
     void CreateEntity(Entity entity)
     {
         GetProvider().entities.insert(entity);
@@ -33,6 +43,10 @@ class System
     {
         return (other & GetProvider().signature) == GetProvider().signature;
     }
+    // Get the system provider for this system which will hold the
+    // current entities of the system
+    // MUST BE IMPLEMENTED
+    virtual SystemProvider &GetProvider() = 0;
 
   protected:
     // Methods that can be overriden by the child classes in order
@@ -44,9 +58,4 @@ class System
     virtual void OnCreateEntity(Entity entity)
     {
     }
-
-    // Get the system provider for this system which will hold the
-    // current entities of the system
-    // MUST BE IMPLEMENTED
-    virtual SystemProvider &GetProvider() = 0;
 };

@@ -35,28 +35,14 @@ class RenderSystemProvider : public SystemProvider
     static void GenerateRenderTexture(ViewportData &data, int width, int height);
     static void Resize(int width, int height, unsigned int type);
 
-    std::unordered_map<unsigned int, RenderGroup *> render_groups_deferred;
-    std::unordered_map<unsigned int, RenderGroup *> render_groups_forward;
-
-    // GBuffer used for deferred rendering
-    GBuffer *g_buffer;
-
-    // Primitives used during deferred rendering
-    Mesh *render_quad, render_sphere;
-
-    // Shaders for each of the passes
-    Shader *lighting_pass_shader;
-    Shader *stencil_pass_shader;
-    Shader *composite_pass_shader;
-
     ViewportData scene;
     ViewportData game;
 
-    // Temprorary light stuff for testing
-    std::vector<glm::vec3> lightPositions;
-    std::vector<glm::vec3> lightColors;
-    glm::vec3 lightPos = glm::vec3(0, 0, 2);
-    glm::vec3 attenuation = glm::vec3(1, 0.01f, 0.001f);
+    void Reset() override
+    {
+        GenerateRenderTexture(scene, 1920, 1080);
+        GenerateRenderTexture(game, 1920, 1080);
+    }
 
   private:
     RenderSystemProvider()

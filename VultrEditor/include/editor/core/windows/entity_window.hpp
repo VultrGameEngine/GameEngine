@@ -6,6 +6,7 @@
 #include <imgui/imgui.h>
 #include <core/core_components.h>
 #include <ecs/world/world.hpp>
+#include <Vultr.hpp>
 
 namespace Vultr::Editor
 {
@@ -39,6 +40,10 @@ class EntityWindow : public Window
         if (ImGui::Button("Load Scene"))
         {
             std::shared_ptr<World> world = World::ImportWorld("test_world.world");
+            World::ChangeWorld(world);
+            Engine::RegisterComponents();
+            Engine::InitSystems();
+            World::FixSystems();
         }
         ImGui::End();
     }

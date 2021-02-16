@@ -84,6 +84,17 @@ class SystemManager
         }
     }
 
+    void DestroyAllEntities()
+    {
+
+        for (auto const &pair : systems)
+        {
+            auto const &system = pair.second;
+            system->DestroyAll();
+            system->GetProvider().Reset();
+        }
+    }
+
   private:
     // Map from system type string pointer to a signature
     std::unordered_map<const char *, Signature> signatures{};

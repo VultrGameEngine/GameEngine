@@ -18,13 +18,18 @@ class CameraSystemProvider : public SystemProvider
     }
 
     // Member variables for state
-    Entity m_camera;
+    Entity m_camera = Entity(-1);
     struct Camera
     {
         TransformComponent transform_component;
         CameraComponent camera_component;
         ControllerComponent controller_component;
     } m_scene_camera;
+
+    void Reset() override
+    {
+        m_camera = Entity(-1);
+    }
 };
 
 } // namespace Vultr

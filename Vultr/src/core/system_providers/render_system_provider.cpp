@@ -6,11 +6,11 @@ namespace Vultr
 
 void RenderSystemProvider::InitGBuffer(int width, int height)
 {
-    if (Get().g_buffer == nullptr)
-    {
-        Get().g_buffer = new GBuffer();
-        Get().g_buffer->Init(width, height);
-    }
+    // if (Get().g_buffer == nullptr)
+    // {
+    //     Get().g_buffer = new GBuffer();
+    //     Get().g_buffer->Init(width, height);
+    // }
 
     // InitQuad();
     //     InitSphere();
