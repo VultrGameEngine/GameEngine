@@ -122,7 +122,7 @@ class World
         Get()->component_manager->RemoveComponent<T>(entity);
 
         auto signature = Get()->entity_manager->GetSignature(entity);
-        signature.set(Get()->component_manager->GetComponent<T>(), false);
+        signature.set(Get()->component_manager->GetComponentType<T>(), false);
         Get()->system_manager->EntitySignatureChanged(entity, signature);
         Get()->entity_manager->SetSignature(entity, signature);
     }

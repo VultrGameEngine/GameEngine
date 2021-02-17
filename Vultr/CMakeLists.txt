@@ -17,7 +17,6 @@ file(GLOB_RECURSE Vultr_SRC
 include_directories(include vendor)
 
 
-# add_executable(Vultr ${Vultr_SRC})
 add_library(Vultr SHARED ${Vultr_SRC})
 target_link_libraries(Vultr GL glfw3 X11 Xxf86vm Xrandr pthread Xi dl /home/brandon/Dev/assimp/bin/libassimp.so)
 

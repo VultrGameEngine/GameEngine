@@ -32,7 +32,9 @@ void Engine::Init(bool debug)
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_DOUBLEBUFFER, GL_TRUE);
 
-    this->window = glfwCreateWindow(1920, 1080, "VultrEditor", nullptr, nullptr);
+    this->window =
+        glfwCreateWindow(1920, 1080, "VultrEditor",
+                         debug ? nullptr : glfwGetPrimaryMonitor(), nullptr);
     if (!window)
     {
         printf("Failed to initialize glfw window\n");
@@ -111,6 +113,11 @@ void Engine::LoadGame(const std::string &path)
     GameDestroy_f destroy = (GameDestroy_f)GetFunctionPointer(DLL, "flush");
 
     game = init(this);
+    game->Init();
+}
+void Engine::LoadGame(Game *p_game)
+{
+    game = p_game;
     game->Init();
 }
 

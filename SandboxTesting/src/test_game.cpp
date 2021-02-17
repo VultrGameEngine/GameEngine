@@ -52,3 +52,12 @@ void TestGame::Init()
     light.AddComponent(StaticMeshComponent::Create(
         "/home/brandon/Dev/GameEngine/SandboxTesting/res/models/cube.obj"));
 }
+
+Game *init(Engine *engine)
+{
+    return new TestGame(engine);
+}
+void flush(Game *game)
+{
+    delete game;
+}

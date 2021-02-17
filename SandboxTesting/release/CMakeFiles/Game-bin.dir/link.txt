@@ -1,0 +1,1 @@
+/bin/clang++ -O3 -DNDEBUG -rdynamic CMakeFiles/Game-bin.dir/src/main.cpp.o CMakeFiles/Game-bin.dir/src/test_game.cpp.o -o Game  -Wl,-rpath,/home/brandon/Dev/GameEngine/SandboxTesting/release:/home/brandon/Dev/GameEngine/Vultr/release libGame.so -lGL -lGLU -lglfw3 -lX11 -lXxf86vm -lXrandr -lpthread -lXi -ldl -lGLEW /home/brandon/Dev/GameEngine/Vultr/release/libVultr.so 

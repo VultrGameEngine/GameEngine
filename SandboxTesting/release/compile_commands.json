@@ -1,0 +1,22 @@
+[
+{
+  "directory": "/home/brandon/Dev/GameEngine/SandboxTesting/release",
+  "command": "/bin/clang++ -DGame_EXPORTS -I/home/brandon/Dev/GameEngine/SandboxTesting/include -I/home/brandon/Dev/GameEngine/SandboxTesting/vendor -I/home/brandon/Dev/GameEngine/SandboxTesting/../Vultr/include -I/home/brandon/Dev/GameEngine/SandboxTesting/../Vultr/vendor -O3 -DNDEBUG -fPIC -o CMakeFiles/Game.dir/src/main.cpp.o -c /home/brandon/Dev/GameEngine/SandboxTesting/src/main.cpp",
+  "file": "/home/brandon/Dev/GameEngine/SandboxTesting/src/main.cpp"
+},
+{
+  "directory": "/home/brandon/Dev/GameEngine/SandboxTesting/release",
+  "command": "/bin/clang++ -DGame_EXPORTS -I/home/brandon/Dev/GameEngine/SandboxTesting/include -I/home/brandon/Dev/GameEngine/SandboxTesting/vendor -I/home/brandon/Dev/GameEngine/SandboxTesting/../Vultr/include -I/home/brandon/Dev/GameEngine/SandboxTesting/../Vultr/vendor -O3 -DNDEBUG -fPIC -o CMakeFiles/Game.dir/src/test_game.cpp.o -c /home/brandon/Dev/GameEngine/SandboxTesting/src/test_game.cpp",
+  "file": "/home/brandon/Dev/GameEngine/SandboxTesting/src/test_game.cpp"
+},
+{
+  "directory": "/home/brandon/Dev/GameEngine/SandboxTesting/release",
+  "command": "/bin/clang++  -I/home/brandon/Dev/GameEngine/SandboxTesting/include -I/home/brandon/Dev/GameEngine/SandboxTesting/vendor -I/home/brandon/Dev/GameEngine/SandboxTesting/../Vultr/include -I/home/brandon/Dev/GameEngine/SandboxTesting/../Vultr/vendor -O3 -DNDEBUG -o CMakeFiles/Game-bin.dir/src/main.cpp.o -c /home/brandon/Dev/GameEngine/SandboxTesting/src/main.cpp",
+  "file": "/home/brandon/Dev/GameEngine/SandboxTesting/src/main.cpp"
+},
+{
+  "directory": "/home/brandon/Dev/GameEngine/SandboxTesting/release",
+  "command": "/bin/clang++  -I/home/brandon/Dev/GameEngine/SandboxTesting/include -I/home/brandon/Dev/GameEngine/SandboxTesting/vendor -I/home/brandon/Dev/GameEngine/SandboxTesting/../Vultr/include -I/home/brandon/Dev/GameEngine/SandboxTesting/../Vultr/vendor -O3 -DNDEBUG -o CMakeFiles/Game-bin.dir/src/test_game.cpp.o -c /home/brandon/Dev/GameEngine/SandboxTesting/src/test_game.cpp",
+  "file": "/home/brandon/Dev/GameEngine/SandboxTesting/src/test_game.cpp"
+}
+]

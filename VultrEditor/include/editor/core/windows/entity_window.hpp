@@ -29,7 +29,17 @@ class EntityWindow : public Window
             {
                 if (ImGui::Selectable(("Entity " + std::to_string(entity)).c_str(),
                                       Editor::Get()->selected_entity.id == entity))
+                {
                     Editor::Get()->selected_entity = Entity(entity);
+                    if (ImGui::BeginPopupContextWindow())
+                    {
+                        if (ImGui::MenuItem("New camera"))
+                        {
+                        }
+
+                        ImGui::EndPopup();
+                    }
+                }
             }
         }
 

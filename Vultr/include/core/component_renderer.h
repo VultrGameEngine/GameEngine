@@ -20,6 +20,10 @@ typedef void (*ComponentRender)(Entity);
         if (ImGui::CollapsingHeader(#T))                                            \
         {                                                                           \
             MAP(_RENDER_MEMBER, component, __VA_ARGS__);                            \
+            if (ImGui::Button("Remove"))                                            \
+            {                                                                       \
+                entity.RemoveComponent<T>();                                        \
+            }                                                                       \
         }                                                                           \
     }
 
@@ -36,6 +40,10 @@ typedef void (*ComponentRender)(Entity);
         if (ImGui::CollapsingHeader(#T))                                            \
         {                                                                           \
             MAP(_RENDER_MEMBER, material, __VA_ARGS__);                             \
+            if (ImGui::Button("Remove"))                                            \
+            {                                                                       \
+                entity.RemoveComponent<MaterialComponent>();                        \
+            }                                                                       \
         }                                                                           \
     }
 template <typename T> void RenderComponent(Entity entity)

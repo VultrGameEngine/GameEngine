@@ -1,3 +1,4 @@
+#pragma once
 #include <Vultr.hpp>
 #include <stdio.h>
 
@@ -28,12 +29,6 @@ class TestGame : public Game
 
 extern "C"
 {
-    Game *init(Engine *engine)
-    {
-        return new TestGame(engine);
-    }
-    void flush(Game *game)
-    {
-        delete game;
-    }
+    Game *init(Engine *engine);
+    void flush(Game *game);
 }

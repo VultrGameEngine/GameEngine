@@ -11,7 +11,7 @@
 #include <cereal/types/memory.hpp>
 #include <cereal/types/unordered_map.hpp>
 
-#define CallConstructor(entity, T) entity.AddComponent<T>(T::Create())
+#define CallConstructor(entity, T) entity.AddComponent(T::Create())
 #define CallRenderer(entity, T) RenderComponent<T>(entity)
 
 class ComponentManager
@@ -55,7 +55,7 @@ class ComponentManager
         component_renderers.insert({type_name, renderer});
 
         ComponentConstructor constructor = [](Entity entity) {
-            CallConstructor(entity, MaterialComponent);
+            CallConstructor(entity, T);
         };
 
         component_constructors.insert({type_name, constructor});
