@@ -19,7 +19,21 @@ void MeshLoaderSystem::RegisterSystem()
         World::RegisterSystem<MeshLoaderSystem>(provider.signature);
 }
 
+void MeshLoaderSystem::Update()
+{
+    MeshLoaderSystemProvider &provider = MeshLoaderSystemProvider::Get();
+    for (Entity entity : provider.entities)
+    {
+        CheckAndLoadMesh(entity);
+    }
+}
+
 void MeshLoaderSystem::OnCreateEntity(Entity entity)
+{
+    CheckAndLoadMesh(entity);
+}
+
+void MeshLoaderSystem::CheckAndLoadMesh(Entity entity)
 {
     auto &component = World::GetComponent<StaticMeshComponent>(entity);
 

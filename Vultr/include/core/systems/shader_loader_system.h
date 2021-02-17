@@ -18,8 +18,11 @@ class ShaderLoaderSystem : public System
 
   public:
     static void RegisterSystem();
+    static void Update();
 
   protected:
+    static void CheckAndLoadShader(Entity entity);
+
     void OnDestroyEntity(Entity entity) override;
     void OnCreateEntity(Entity entity) override;
     SystemProvider &GetProvider() override

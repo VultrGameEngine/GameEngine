@@ -8,7 +8,31 @@
 namespace Vultr
 {
 
+void ShaderLoaderSystem::Update()
+{
+    ShaderLoaderSystemProvider &provider = ShaderLoaderSystemProvider::Get();
+    for (Entity entity : provider.entities)
+    {
+        CheckAndLoadShader(entity);
+    }
+}
+
 void ShaderLoaderSystem::OnCreateEntity(Entity entity)
+{
+    CheckAndLoadShader(entity);
+}
+
+void ShaderLoaderSystem::OnDestroyEntity(Entity entity)
+{
+    // auto &shader_component = World::GetComponent<MaterialComponent>(entity);
+    // Shader *shader = shader_component.GetShader();
+    // if (shader != nullptr)
+    // {
+    //     delete shader;
+    // }
+}
+
+void ShaderLoaderSystem::CheckAndLoadShader(Entity entity)
 {
     ShaderLoaderSystemProvider &provider = ShaderLoaderSystemProvider::Get();
     auto &material_component = World::GetComponent<MaterialComponent>(entity);
@@ -27,16 +51,6 @@ void ShaderLoaderSystem::OnCreateEntity(Entity entity)
 
     // Add it to the loaded shaders
     provider.loaded_shaders[material_component.shader_path] = shader;
-}
-
-void ShaderLoaderSystem::OnDestroyEntity(Entity entity)
-{
-    // auto &shader_component = World::GetComponent<MaterialComponent>(entity);
-    // Shader *shader = shader_component.GetShader();
-    // if (shader != nullptr)
-    // {
-    //     delete shader;
-    // }
 }
 
 void ShaderLoaderSystem::RegisterSystem()

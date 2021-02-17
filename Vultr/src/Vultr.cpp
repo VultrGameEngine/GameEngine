@@ -127,6 +127,16 @@ void Engine::UpdateGame(float &last_time)
         game->Update(tick);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     ControllerSystem::Update(tick.m_delta_time);
+    // Only continuously update the meshes if we are planning on changing these
+    // components at random (really will only happen in the editor)
+    // If you need to change these components at runtime, destroy and then readd the
+    // components
+    if (debug)
+    {
+        ShaderLoaderSystem::Update();
+        TextureLoaderSystem::Update();
+        MeshLoaderSystem::Update();
+    }
     RenderSystem::Update(tick);
     glfwPollEvents();
 }

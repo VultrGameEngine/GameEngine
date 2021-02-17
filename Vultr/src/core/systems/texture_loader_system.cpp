@@ -25,7 +25,21 @@ void TextureLoaderSystem::RegisterSystem()
     World::RegisterSystem<TextureLoaderSystem>(provider.signature);
 }
 
+void TextureLoaderSystem::Update()
+{
+    TextureLoaderSystemProvider &provider = TextureLoaderSystemProvider::Get();
+    for (Entity entity : provider.entities)
+    {
+        CheckAndLoadTexture(entity);
+    }
+}
+
 void TextureLoaderSystem::OnCreateEntity(Entity entity)
+{
+    CheckAndLoadTexture(entity);
+}
+
+void TextureLoaderSystem::CheckAndLoadTexture(Entity entity)
 {
     TextureLoaderSystemProvider &provider = TextureLoaderSystemProvider::Get();
     auto &component = entity.GetComponent<MaterialComponent>();

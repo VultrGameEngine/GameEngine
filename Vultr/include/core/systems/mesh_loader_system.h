@@ -17,8 +17,10 @@ class MeshLoaderSystem : public System
 {
   public:
     static void RegisterSystem();
+    static void Update();
 
   protected:
+    static void CheckAndLoadMesh(Entity entity);
     void OnCreateEntity(Entity entity) override;
     SystemProvider &GetProvider() override
     {
