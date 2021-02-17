@@ -27,6 +27,8 @@ class Mesh
               const std::vector<glm::vec2> &p_uvs,
               const std::vector<glm::vec3> &p_normals,
               const std::vector<unsigned short> &p_indices);
+    void Init(const std::vector<Vertex> &p_vertices,
+              const std::vector<unsigned short> &p_indices);
 
     void Draw() const;
 

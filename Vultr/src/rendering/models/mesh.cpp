@@ -34,6 +34,21 @@ void Mesh::Init(const std::vector<glm::vec3> &p_positions,
     ibo = new IndexBuffer(&m_indices[0], m_indices.size());
 }
 
+void Mesh::Init(const std::vector<Vertex> &p_vertices,
+                const std::vector<unsigned short> &p_indices)
+{
+    this->m_vertices.clear();
+    this->m_indices = p_indices;
+    this->m_vertices = p_vertices;
+
+    vao = new VertexArray();
+    vao->Bind();
+    vbo = new VertexBuffer(&m_vertices[0], m_vertices.size());
+    vbo->Bind();
+    vao->Setup<Vertex>();
+    ibo = new IndexBuffer(&m_indices[0], m_indices.size());
+}
+
 void Mesh::Draw() const
 {
     vao->Bind();

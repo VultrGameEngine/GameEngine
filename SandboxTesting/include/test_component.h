@@ -1,6 +1,7 @@
 #pragma once
 #include <memory>
 #include <ecs/entity/entity.hpp>
+#include <core/component_renderer.h>
 
 struct TestComponent
 {
@@ -16,6 +17,8 @@ struct TestComponent
         ar(x);
     }
 };
+
+VULTR_REGISTER_COMPONENT(TestComponent, x);
 
 void RenderTestComponent(Entity entity)
 {
