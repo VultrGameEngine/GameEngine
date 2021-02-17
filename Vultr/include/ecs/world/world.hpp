@@ -96,15 +96,14 @@ class World
     }
 
     // Component methods
-    template <typename T> static void RegisterComponent(ComponentRender func)
-    {
-        Get()->component_manager->RegisterComponent<T>(func);
-    }
     template <typename T>
-    static void RegisterMaterial(ComponentRender func,
-                                 ComponentConstructor constructor)
+    static void RegisterComponent(bool inspector_available = true)
     {
-        Get()->component_manager->RegisterMaterial<T>(func, constructor);
+        Get()->component_manager->RegisterComponent<T>(inspector_available);
+    }
+    template <typename T> static void RegisterMaterial()
+    {
+        Get()->component_manager->RegisterMaterial<T>();
     }
 
     template <typename T>

@@ -18,7 +18,8 @@ struct SkyboxMaterial : public MaterialComponent
             "/home/brandon/Dev/GameEngine/SandboxTesting/res/shaders/skybox.glsl";
     }
 
-    static std::shared_ptr<MaterialComponent> Create(const std::string &p_identifier)
+    static std::shared_ptr<MaterialComponent> Create(
+        const std::string &p_identifier = "default")
     {
         std::shared_ptr<SkyboxMaterial> mat = std::make_shared<SkyboxMaterial>();
         mat->identifier = p_identifier;

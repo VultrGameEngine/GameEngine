@@ -1,10 +1,12 @@
 #include <TestGame.h>
+#include <test_component.h>
 
 void TestGame::Init()
 {
     World::ChangeWorld(World::Init());
 
     engine->RegisterComponents();
+    World::RegisterComponent<TestComponent>();
     engine->InitSystems();
 
     std::cout << "Test Game initialized... " << std::endl;

@@ -11,14 +11,13 @@
 #include <cereal/types/memory.hpp>
 #include <cereal/types/unordered_map.hpp>
 
-#define GetName(x) #x
-#define CallConstructor(entity, T) entity.AddComponent<T>(T::Create());
-#define GET_VARIABLE_NAME(Variable) std::cout << (#Variable) << std::endl;
+#define CallConstructor(entity, T) entity.AddComponent<T>(T::Create())
+#define CallRenderer(entity, T) RenderComponent<T>(entity)
 
 class ComponentManager
 {
   public:
-    template <typename T> void RegisterComponent(ComponentRender func)
+    template <typename T> void RegisterComponent(bool inspector_available = true)
     {
         const char *type_name = typeid(T).name();
 
@@ -31,8 +30,10 @@ class ComponentManager
         // Create a component array pointer and add it to the component array map
         component_arrays.insert({type_name, std::make_shared<ComponentArray<T>>()});
 
+        ComponentRender renderer = [](Entity entity) { CallRenderer(entity, T); };
+
         // Add the component to the map
-        component_renderers.insert({type_name, func});
+        component_renderers.insert({type_name, renderer});
 
         ComponentConstructor constructor = [](Entity entity) {
             CallConstructor(entity, T);
@@ -44,13 +45,18 @@ class ComponentManager
         ++next_component_type;
     }
 
-    template <typename T>
-    void RegisterMaterial(ComponentRender func, ComponentConstructor constructor)
+    template <typename T> void RegisterMaterial()
     {
         const char *type_name = typeid(T).name();
 
+        ComponentRender renderer = [](Entity entity) { CallRenderer(entity, T); };
+
         // Add the component to the map
-        component_renderers.insert({type_name, func});
+        component_renderers.insert({type_name, renderer});
+
+        ComponentConstructor constructor = [](Entity entity) {
+            CallConstructor(entity, MaterialComponent);
+        };
 
         component_constructors.insert({type_name, constructor});
     }

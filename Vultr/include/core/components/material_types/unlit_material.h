@@ -8,6 +8,7 @@ namespace Vultr
 {
 struct UnlitMaterial : public MaterialComponent
 {
+    glm::vec3 color;
     UnlitMaterial()
     {
         shader_path =

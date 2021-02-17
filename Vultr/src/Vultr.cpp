@@ -76,16 +76,17 @@ void Engine::Init(bool debug)
 
 void Engine::RegisterComponents()
 {
-    World::RegisterComponent<StaticMeshComponent>(RenderStaticMeshComponent);
-    World::RegisterComponent<MaterialComponent>(RenderMaterialComponent);
-    World::RegisterComponent<TransformComponent>(RenderTransformComponent);
-    World::RegisterComponent<LightComponent>(RenderLightComponent);
-    World::RegisterComponent<CameraComponent>(RenderCameraComponent);
-    World::RegisterComponent<ControllerComponent>(RenderControllerComponent);
-    World::RegisterComponent<SkyBoxComponent>(RenderSkyboxComponent);
+    World::RegisterComponent<StaticMeshComponent>();
+    World::RegisterComponent<MaterialComponent>(false);
+    World::RegisterComponent<TransformComponent>();
+    World::RegisterComponent<LightComponent>();
+    World::RegisterComponent<CameraComponent>();
+    World::RegisterComponent<ControllerComponent>();
+    World::RegisterComponent<SkyBoxComponent>();
 
-    World::RegisterMaterial<ForwardMaterial>(RenderForwardMaterialComponent,
-                                             ConstructForwardMaterialComponent);
+    World::RegisterMaterial<ForwardMaterial>();
+    World::RegisterMaterial<SkyboxMaterial>();
+    World::RegisterMaterial<UnlitMaterial>();
 }
 
 void Engine::InitSystems()
