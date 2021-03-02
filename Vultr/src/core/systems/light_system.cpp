@@ -8,15 +8,15 @@ namespace Vultr
 
 void LightSystem::OnCreateEntity(Entity entity)
 {
-    LightSystemProvider &provider = LightSystemProvider::Get();
+    LightSystemProvider &provider = *LightSystemProvider::Get();
     provider.light = entity;
 }
 
 void LightSystem::RegisterSystem()
 {
-    LightSystemProvider &provider = LightSystemProvider::Get();
+    LightSystemProvider &provider = *LightSystemProvider::Get();
     provider.signature.set(World::GetComponentType<LightComponent>(), true);
     provider.signature.set(World::GetComponentType<TransformComponent>(), true);
-    World::RegisterSystem<LightSystem>(provider.signature);
+    World::RegisterSystem<LightSystemProvider>(provider.signature);
 }
 } // namespace Vultr

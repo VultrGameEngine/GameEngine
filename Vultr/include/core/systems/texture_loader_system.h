@@ -6,7 +6,6 @@
 #pragma once
 #include <core/components/sky_box_component.h>
 #include <core/system_providers/texture_loader_system_provider.h>
-#include <ecs/system/system.hpp>
 #include <ecs/world/world.hpp>
 #include <glm/glm.hpp>
 #include <memory>
@@ -14,19 +13,18 @@
 
 namespace Vultr
 {
-class TextureLoaderSystem : public System
+class TextureLoaderSystem
 {
   public:
     static void RegisterSystem();
     static void Update();
+    static void OnCreateEntity(Entity entity);
+    static SystemProvider &GetProvider()
+    {
+        return *TextureLoaderSystemProvider::Get();
+    }
 
   protected:
     static void CheckAndLoadTexture(Entity entity);
-
-    void OnCreateEntity(Entity entity) override;
-    SystemProvider &GetProvider() override
-    {
-        return TextureLoaderSystemProvider::Get();
-    }
 };
 } // namespace Vultr

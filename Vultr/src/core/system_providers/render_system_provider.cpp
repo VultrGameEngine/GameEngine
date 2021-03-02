@@ -1,8 +1,17 @@
 #include <core/system_providers/render_system_provider.h>
+#include <core/systems/render_system.h>
 #include <helpers/shader_importer.h>
 
 namespace Vultr
 {
+
+void RenderSystemProvider::OnCreateEntity(Entity entity)
+{
+}
+
+void RenderSystemProvider::OnDestroyEntity(Entity entity)
+{
+}
 
 void RenderSystemProvider::InitGBuffer(int width, int height)
 {
@@ -31,11 +40,11 @@ glm::vec2 RenderSystemProvider::GetDimensions(unsigned int type)
 {
     if (type == SCENE)
     {
-        return Get().scene.dimensions;
+        return Get()->scene.dimensions;
     }
     else
     {
-        return Get().game.dimensions;
+        return Get()->game.dimensions;
     }
 }
 void RenderSystemProvider::GenerateRenderTexture(ViewportData &data, int width,
@@ -61,24 +70,24 @@ void RenderSystemProvider::GenerateRenderTexture(ViewportData &data, int width,
 }
 void RenderSystemProvider::Resize(int width, int height, unsigned int type)
 {
-    Get().InitGBuffer(width, height);
+    Get()->InitGBuffer(width, height);
     if (type == GAME)
     {
-        if (Get().game.dimensions == glm::vec2(width, height))
+        if (Get()->game.dimensions == glm::vec2(width, height))
         {
             return;
         }
-        Get().game.dimensions = glm::vec2(width, height);
-        Get().GenerateRenderTexture(Get().game, width, height);
+        Get()->game.dimensions = glm::vec2(width, height);
+        Get()->GenerateRenderTexture(Get()->game, width, height);
     }
     else if (type == SCENE)
     {
-        if (Get().scene.dimensions == glm::vec2(width, height))
+        if (Get()->scene.dimensions == glm::vec2(width, height))
         {
             return;
         }
-        Get().scene.dimensions = glm::vec2(width, height);
-        Get().GenerateRenderTexture(Get().scene, width, height);
+        Get()->scene.dimensions = glm::vec2(width, height);
+        Get()->GenerateRenderTexture(Get()->scene, width, height);
     }
 }
 } // namespace Vultr

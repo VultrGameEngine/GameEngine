@@ -10,18 +10,18 @@ namespace Vultr
 
 void ControllerSystem::Init(GLFWwindow *window)
 {
-    ControllerSystemProvider::Get().m_window = window;
+    ControllerSystemProvider::Get()->m_window = window;
 }
 
 void ControllerSystem::Update(float delta_time)
 {
     TransformComponent &transform_component =
-        CameraSystemProvider::Get().m_scene_camera.transform_component;
+        CameraSystemProvider::Get()->m_scene_camera.transform_component;
 
     ControllerComponent &controller_component =
-        CameraSystemProvider::Get().m_scene_camera.controller_component;
+        CameraSystemProvider::Get()->m_scene_camera.controller_component;
 
-    ControllerSystemProvider &provider = ControllerSystemProvider::Get();
+    ControllerSystemProvider &provider = *ControllerSystemProvider::Get();
     if (!provider.m_focused)
         return;
     if (!glfwGetMouseButton(provider.m_window, GLFW_MOUSE_BUTTON_RIGHT))
@@ -86,7 +86,7 @@ void ControllerSystem::Update(float delta_time)
 }
 void ControllerSystem::WindowFocusCallback(GLFWwindow *window, int focused)
 {
-    ControllerSystemProvider &provider = ControllerSystemProvider::Get();
+    ControllerSystemProvider &provider = *ControllerSystemProvider::Get();
     provider.m_focused = focused;
     if (provider.m_focused)
     {
@@ -98,9 +98,9 @@ void ControllerSystem::WindowFocusCallback(GLFWwindow *window, int focused)
 
 void ControllerSystem::RegisterSystem()
 {
-    ControllerSystemProvider &provider = ControllerSystemProvider::Get();
+    ControllerSystemProvider &provider = *ControllerSystemProvider::Get();
     provider.signature.set(World::GetComponentType<ControllerComponent>(), true);
     provider.signature.set(World::GetComponentType<TransformComponent>(), true);
-    World::RegisterSystem<ControllerSystem>(provider.signature);
+    World::RegisterSystem<ControllerSystemProvider>(provider.signature);
 }
 } // namespace Vultr

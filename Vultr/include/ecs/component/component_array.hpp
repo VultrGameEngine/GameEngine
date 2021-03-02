@@ -1,14 +1,14 @@
-// Interface is used by the ComponentManager to tell a ageneric ComponentArray that
-// an entity has been destroyed
+// Interface is used by the ComponentManager to tell a ageneric ComponentArray
+// that an entity has been destroyed
 #pragma once
 #include "../entity/entity.hpp"
 #include <array>
 #include <assert.h>
-#include <unordered_map>
-#include <memory>
+#include <cereal/types/array.hpp>
 #include <cereal/types/memory.hpp>
 #include <cereal/types/unordered_map.hpp>
-#include <cereal/types/array.hpp>
+#include <memory>
+#include <unordered_map>
 
 class IComponentArray
 {
@@ -31,7 +31,7 @@ template <typename T> class ComponentArray : public IComponentArray
                 size); // serialize things by passing them to the archive
     }
 
-    void InsertData(Entity entity, std::shared_ptr<T> component)
+    void InsertData(Entity entity, T component)
     {
         assert(entity_to_index_map.find(entity) == entity_to_index_map.end() &&
                "Component added to same entity more than once");
@@ -82,14 +82,14 @@ template <typename T> class ComponentArray : public IComponentArray
         assert(entity_to_index_map.find(entity) != entity_to_index_map.end() &&
                "Attempting to retreive data from nonexistent component");
 
-        return *component_array[entity_to_index_map[entity]];
+        return component_array[entity_to_index_map[entity]];
     }
 
-    std::shared_ptr<T> GetDataUnsafe(Entity entity)
+    T *GetDataUnsafe(Entity entity)
     {
         if (entity_to_index_map.find(entity) == entity_to_index_map.end())
             return nullptr;
-        return component_array[entity_to_index_map[entity]];
+        return &component_array[entity_to_index_map[entity]];
     }
 
     void EntityDestroyed(Entity entity) override
@@ -104,7 +104,7 @@ template <typename T> class ComponentArray : public IComponentArray
     // Packed array of components
     // Set to be of maximum length of the maximum number of entities
     // each entity has a unique spot
-    std::array<std::shared_ptr<T>, MAX_ENTITIES> component_array{};
+    std::array<T, MAX_ENTITIES> component_array{};
 
     // Map from entity ID to an array index;
     std::unordered_map<Entity, size_t> entity_to_index_map{};

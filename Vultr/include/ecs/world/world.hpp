@@ -1,5 +1,6 @@
 // Bundles the EntityManager, ComponentManager, and SystemManager into one World
 #pragma once
+#define GLFW_INCLUDE_NONE
 #include "../component/component.hpp"
 #include "../component/component_manager.hpp"
 #include "../entity/entity_manager.hpp"
@@ -26,21 +27,8 @@ class World
     }
     static void ChangeWorld(std::shared_ptr<World> world)
     {
-        if (current_world != nullptr)
-            current_world->system_manager->DestroyAllEntities();
         current_world = world;
         world->system_manager = std::make_unique<SystemManager>();
-    }
-
-    static void FixSystems()
-    {
-        std::array<Signature, MAX_ENTITIES> signatures =
-            current_world->entity_manager->GetSignatures();
-        for (int i = 0; i < signatures.size(); i++)
-        {
-            current_world->system_manager->EntitySignatureChanged(Entity(i),
-                                                                  signatures[i]);
-        }
     }
 
     static std::shared_ptr<World> Init()
@@ -57,7 +45,7 @@ class World
         std::ofstream os(path);
         cereal::BinaryOutputArchive oarchive(os);
 
-        oarchive(world);
+        // oarchive(world);
     }
 
     static std::shared_ptr<World> ImportWorld(const std::string &path)
@@ -66,7 +54,7 @@ class World
         std::ifstream is(path);
         cereal::BinaryInputArchive iarchive(is);
 
-        iarchive(world);
+        // iarchive(world);
         return world;
     }
 
@@ -106,8 +94,7 @@ class World
         Get()->component_manager->RegisterMaterial<T>();
     }
 
-    template <typename T>
-    static void AddComponent(Entity entity, std::shared_ptr<T> component)
+    template <typename T> static void AddComponent(Entity entity, T component)
     {
         Get()->component_manager->AddComponent<T>(entity, component);
 
@@ -132,7 +119,7 @@ class World
         return Get()->component_manager->GetComponent<T>(entity);
     }
 
-    template <typename T> static std::shared_ptr<T> GetComponentUnsafe(Entity entity)
+    template <typename T> static T *GetComponentUnsafe(Entity entity)
     {
         return Get()->component_manager->GetComponentUnsafe<T>(entity);
     }
@@ -164,6 +151,11 @@ class World
         return Get()->system_manager->DeregisterSystem<T>();
     }
 
+    template <typename T> static std::shared_ptr<T> GetSystemProvider()
+    {
+        return Get()->system_manager->GetSystemProvider<T>();
+    }
+
     std::unique_ptr<ComponentManager> component_manager;
     std::unique_ptr<EntityManager> entity_manager;
     std::unique_ptr<SystemManager> system_manager;
@@ -172,7 +164,7 @@ class World
     static std::shared_ptr<World> current_world;
 };
 
-template <typename T> void Entity::AddComponent(std::shared_ptr<T> component)
+template <typename T> void Entity::AddComponent(T component)
 {
     World::AddComponent(*this, component);
 }
@@ -187,7 +179,7 @@ template <typename T> T &Entity::GetComponent()
     return World::GetComponent<T>(*this);
 }
 
-template <typename T> std::shared_ptr<T> Entity::GetComponentUnsafe()
+template <typename T> T *Entity::GetComponentUnsafe()
 {
     return World::GetComponentUnsafe<T>(*this);
 }

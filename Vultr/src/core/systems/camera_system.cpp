@@ -10,13 +10,13 @@ void CameraSystem::OnCreateEntity(Entity entity)
     auto &camera_component = World::GetComponent<CameraComponent>(entity);
     if (camera_component.enabled)
     {
-        CameraSystemProvider::Get().m_camera = entity;
+        CameraSystemProvider::Get()->m_camera = entity;
     }
 }
 
 void CameraSystem::OnDestroyEntity(Entity entity)
 {
-    CameraSystemProvider &provider = CameraSystemProvider::Get();
+    CameraSystemProvider &provider = *CameraSystemProvider::Get();
     if (provider.m_camera == entity)
     {
         provider.m_camera = -1;
@@ -35,9 +35,9 @@ void CameraSystem::OnDestroyEntity(Entity entity)
 
 void CameraSystem::RegisterSystem()
 {
-    CameraSystemProvider &provider = CameraSystemProvider::Get();
+    CameraSystemProvider &provider = *CameraSystemProvider::Get();
     provider.signature.set(World::GetComponentType<CameraComponent>(), true);
     provider.signature.set(World::GetComponentType<TransformComponent>(), true);
-    World::RegisterSystem<CameraSystem>(provider.signature);
+    World::RegisterSystem<CameraSystemProvider>(provider.signature);
 }
 } // namespace Vultr

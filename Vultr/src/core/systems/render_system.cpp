@@ -14,20 +14,12 @@
 
 namespace Vultr
 {
-void RenderSystem::OnCreateEntity(Entity entity)
-{
-}
-
-void RenderSystem::OnDestroyEntity(Entity entity)
-{
-}
-
 // Used in the actual update loop in main
 void RenderSystem::Update(UpdateTick meta_data)
 {
-    RenderSystemProvider &provider = RenderSystemProvider::Get();
-    Entity camera = CameraSystemProvider::Get().m_camera;
-    Entity light = LightSystemProvider::Get().light;
+    RenderSystemProvider &provider = *RenderSystemProvider::Get();
+    Entity camera = CameraSystemProvider::Get()->m_camera;
+    Entity light = LightSystemProvider::Get()->light;
     if (light == -1)
         return;
 
@@ -49,7 +41,7 @@ void RenderSystem::Update(UpdateTick meta_data)
 
         // Get the transform of the light
         auto &light_transform =
-            LightSystemProvider::Get().light.GetComponent<TransformComponent>();
+            LightSystemProvider::Get()->light.GetComponent<TransformComponent>();
         RenderContext::SetContext(provider.GetDimensions(GAME),
                                   light_transform.position, camera_transform,
                                   camera_component);
@@ -75,9 +67,9 @@ void RenderSystem::Update(UpdateTick meta_data)
 
     // Get the transform of the scene camera
     auto &camera_transform =
-        CameraSystemProvider::Get().m_scene_camera.transform_component;
+        CameraSystemProvider::Get()->m_scene_camera.transform_component;
     auto &camera_component =
-        CameraSystemProvider::Get().m_scene_camera.camera_component;
+        CameraSystemProvider::Get()->m_scene_camera.camera_component;
 
     // Always will have a scene camera, render to the editor scene view
     provider.scene.fbo->Bind();
@@ -90,7 +82,7 @@ void RenderSystem::Update(UpdateTick meta_data)
                provider.GetDimensions(SCENE).y);
     // Get the transform of the light
     auto &light_transform =
-        LightSystemProvider::Get().light.GetComponent<TransformComponent>();
+        LightSystemProvider::Get()->light.GetComponent<TransformComponent>();
 
     RenderContext::SetContext(provider.GetDimensions(SCENE),
                               light_transform.position, camera_transform,
@@ -107,7 +99,7 @@ void RenderSystem::Update(UpdateTick meta_data)
 // Render all of the static meshes in the scene
 void RenderSystem::RenderElements(unsigned int type)
 {
-    RenderSystemProvider &provider = RenderSystemProvider::Get();
+    RenderSystemProvider &provider = *RenderSystemProvider::Get();
 
     for (Entity entity : provider.entities)
     {
@@ -122,7 +114,7 @@ void RenderSystem::RenderElements(unsigned int type)
 
 void RenderSystem::RenderSkybox(unsigned int type)
 {
-    Entity camera = CameraSystemProvider::Get().m_camera;
+    Entity camera = CameraSystemProvider::Get()->m_camera;
     if (camera == -1)
         return;
     glDepthFunc(GL_LEQUAL); // Ensure depth test passes when values are equal to
@@ -159,10 +151,10 @@ void RenderSystem::RenderSkybox(unsigned int type)
 // Internal private helper methods
 void RenderSystem::RegisterSystem()
 {
-    RenderSystemProvider &provider = RenderSystemProvider::Get();
+    RenderSystemProvider &provider = *RenderSystemProvider::Get();
     provider.signature.set(World::GetComponentType<MaterialComponent>(), true);
     provider.signature.set(World::GetComponentType<StaticMeshComponent>(), true);
-    World::RegisterSystem<RenderSystem>(provider.signature);
+    World::RegisterSystem<RenderSystemProvider>(provider.signature);
 }
 
 } // namespace Vultr

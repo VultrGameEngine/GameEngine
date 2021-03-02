@@ -10,7 +10,7 @@ namespace Vultr
 
 void ShaderLoaderSystem::Update()
 {
-    ShaderLoaderSystemProvider &provider = ShaderLoaderSystemProvider::Get();
+    ShaderLoaderSystemProvider &provider = *ShaderLoaderSystemProvider::Get();
     for (Entity entity : provider.entities)
     {
         CheckAndLoadShader(entity);
@@ -34,7 +34,7 @@ void ShaderLoaderSystem::OnDestroyEntity(Entity entity)
 
 void ShaderLoaderSystem::CheckAndLoadShader(Entity entity)
 {
-    ShaderLoaderSystemProvider &provider = ShaderLoaderSystemProvider::Get();
+    ShaderLoaderSystemProvider &provider = *ShaderLoaderSystemProvider::Get();
     auto &material_component = World::GetComponent<MaterialComponent>(entity);
     // If we have already loaded the shader and cached it, then reuse the id and
     // don't reload
@@ -55,8 +55,8 @@ void ShaderLoaderSystem::CheckAndLoadShader(Entity entity)
 
 void ShaderLoaderSystem::RegisterSystem()
 {
-    ShaderLoaderSystemProvider &provider = ShaderLoaderSystemProvider::Get();
+    ShaderLoaderSystemProvider &provider = *ShaderLoaderSystemProvider::Get();
     provider.signature.set(World::GetComponentType<MaterialComponent>(), true);
-    World::RegisterSystem<ShaderLoaderSystem>(provider.signature);
+    World::RegisterSystem<ShaderLoaderSystemProvider>(provider.signature);
 }
 } // namespace Vultr

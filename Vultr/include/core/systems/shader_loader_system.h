@@ -2,7 +2,6 @@
 #include <glad/glad.h>
 #include <array>
 #include <core/system_providers/shader_loader_system_provider.h>
-#include <ecs/system/system.hpp>
 #include <fstream>
 #include <iostream>
 #include <memory>
@@ -13,21 +12,21 @@
 namespace Vultr
 {
 
-class ShaderLoaderSystem : public System
+class ShaderLoaderSystem
 {
 
   public:
     static void RegisterSystem();
     static void Update();
 
+    static void OnDestroyEntity(Entity entity);
+    static void OnCreateEntity(Entity entity);
+    static SystemProvider &GetProvider()
+    {
+        return *ShaderLoaderSystemProvider::Get();
+    }
+
   protected:
     static void CheckAndLoadShader(Entity entity);
-
-    void OnDestroyEntity(Entity entity) override;
-    void OnCreateEntity(Entity entity) override;
-    SystemProvider &GetProvider() override
-    {
-        return ShaderLoaderSystemProvider::Get();
-    }
 };
 } // namespace Vultr

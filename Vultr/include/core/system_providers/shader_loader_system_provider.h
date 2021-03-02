@@ -8,28 +8,19 @@ namespace Vultr
 class ShaderLoaderSystemProvider : public SystemProvider
 {
   public:
-    static ShaderLoaderSystemProvider &Get()
-    {
-        static ShaderLoaderSystemProvider instance;
-        return instance;
-    }
+    static std::shared_ptr<ShaderLoaderSystemProvider> Get();
     static Shader *GetShader(const std::string &path)
     {
-        if (Get().loaded_shaders.find(path) == Get().loaded_shaders.end())
+        if (Get()->loaded_shaders.find(path) == Get()->loaded_shaders.end())
             return nullptr;
 
-        return Get().loaded_shaders[path];
-    }
-
-    void Reset() override
-    {
-        for (auto [id, shader] : loaded_shaders)
-        {
-            delete shader;
-        }
-        loaded_shaders.clear();
+        return Get()->loaded_shaders[path];
     }
 
     std::unordered_map<std::string, Shader *> loaded_shaders;
+
+  protected:
+    void OnCreateEntity(Entity entity) override;
+    void OnDestroyEntity(Entity entity) override;
 };
 } // namespace Vultr

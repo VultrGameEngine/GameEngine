@@ -20,14 +20,14 @@ namespace Vultr
 
 void TextureLoaderSystem::RegisterSystem()
 {
-    TextureLoaderSystemProvider &provider = TextureLoaderSystemProvider::Get();
+    TextureLoaderSystemProvider &provider = *TextureLoaderSystemProvider::Get();
     provider.signature.set(World::GetComponentType<MaterialComponent>());
-    World::RegisterSystem<TextureLoaderSystem>(provider.signature);
+    World::RegisterSystem<TextureLoaderSystemProvider>(provider.signature);
 }
 
 void TextureLoaderSystem::Update()
 {
-    TextureLoaderSystemProvider &provider = TextureLoaderSystemProvider::Get();
+    TextureLoaderSystemProvider &provider = *TextureLoaderSystemProvider::Get();
     for (Entity entity : provider.entities)
     {
         CheckAndLoadTexture(entity);
@@ -41,9 +41,9 @@ void TextureLoaderSystem::OnCreateEntity(Entity entity)
 
 void TextureLoaderSystem::CheckAndLoadTexture(Entity entity)
 {
-    TextureLoaderSystemProvider &provider = TextureLoaderSystemProvider::Get();
+    TextureLoaderSystemProvider &provider = *TextureLoaderSystemProvider::Get();
     auto &component = entity.GetComponent<MaterialComponent>();
-    if (component.IsSkybox())
+    if (component.is_skybox)
     {
         auto &skybox_component = entity.GetComponent<SkyBoxComponent>();
         if (!provider.isLoaded(skybox_component.identifier))
@@ -55,7 +55,7 @@ void TextureLoaderSystem::CheckAndLoadTexture(Entity entity)
     }
     else
     {
-        for (std::string path : component.GetTextures())
+        for (std::string path : component.textures)
         {
             if (!provider.isLoaded(path))
             {

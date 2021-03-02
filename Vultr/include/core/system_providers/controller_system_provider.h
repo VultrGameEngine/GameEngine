@@ -1,7 +1,8 @@
 #pragma once
-#include <GLFW/glfw3.h>
 #include <ecs/system/system_provider.hpp>
-#include <glad/glad.h>
+#include <memory.h>
+#include <ecs/world/world.hpp>
+#include <GLFW/glfw3.h>
 
 namespace Vultr
 {
@@ -9,12 +10,15 @@ class ControllerSystemProvider : public SystemProvider
 {
   public:
     // Singleton pattern for all providers
-    static ControllerSystemProvider &Get()
+    static std::shared_ptr<ControllerSystemProvider> Get()
     {
-        static ControllerSystemProvider instance;
-        return instance;
+        return World::GetSystemProvider<ControllerSystemProvider>();
     }
     GLFWwindow *m_window;
     bool m_focused = false;
+
+  protected:
+    void OnDestroyEntity(Entity entity) override;
+    void OnCreateEntity(Entity entity) override;
 };
 } // namespace Vultr

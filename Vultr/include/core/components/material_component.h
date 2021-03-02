@@ -5,51 +5,41 @@
 #include <rendering/models/shader.h>
 #include <string>
 #include <vector>
+#include <cereal/types/vector.hpp>
 
-using namespace Vultr;
+namespace Vultr
+{
 struct MaterialComponent
 {
     std::string shader_path;
+    std::vector<std::string> textures;
+    std::vector<glm::vec3> vec3s;
+
+    static MaterialComponent Create()
+    {
+        return MaterialComponent();
+    }
+
+    bool is_skybox = false;
+
     template <class Archive> void serialize(Archive &ar)
     {
-        ar(shader_path);
+        ar(shader_path, textures);
     }
 
-    static std::shared_ptr<MaterialComponent> Create()
+    void BindShaders() const {};
+
+    void SetModelUniforms(const glm::mat4 &transform) const
     {
-        return std::make_shared<MaterialComponent>();
     }
 
-    virtual void BindShaders() const
+    void BindTextures() const
     {
-        assert("DON'T USE THIS COMPONENT DIRECTLY");
-        std::cout << "TEST" << std::endl;
-    };
-
-    virtual void SetModelUniforms(const glm::mat4 &transform) const
-    {
-        assert("DON'T USE THIS COMPONENT DIRECTLY");
-    }
-
-    virtual void BindTextures() const
-    {
-        assert("DON'T USE THIS COMPONENT DIRECTLY");
     }
 
     Shader *GetShader() const
     {
         return ShaderLoaderSystemProvider::GetShader(shader_path);
     }
-
-    virtual std::vector<std::string> GetTextures() const
-    {
-        assert("DON'T USE THIS COMPONENT DIRECTLY");
-        std::vector<std::string> placeholder;
-        return placeholder;
-    }
-
-    virtual bool IsSkybox() const
-    {
-        return false;
-    }
 };
+} // namespace Vultr

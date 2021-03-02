@@ -7,7 +7,7 @@
 struct SkyBoxComponent
 {
 
-    static std::shared_ptr<SkyBoxComponent> Create(
+    static SkyBoxComponent Create(
         const std::string &identifier = "default",
         const std::string &front = "/home/brandon/Dev/GameEngine/SandboxTesting/"
                                    "res/textures/skybox/front.jpg",
@@ -22,15 +22,14 @@ struct SkyBoxComponent
         const std::string &right = "/home/brandon/Dev/GameEngine/SandboxTesting/"
                                    "res/textures/skybox/right.jpg")
     {
-        std::shared_ptr<SkyBoxComponent> component =
-            std::make_shared<SkyBoxComponent>();
-        component->identifier = identifier;
-        component->front = front;
-        component->back = back;
-        component->top = top;
-        component->bottom = bottom;
-        component->left = left;
-        component->right = right;
+        SkyBoxComponent component = SkyBoxComponent();
+        component.identifier = identifier;
+        component.front = front;
+        component.back = back;
+        component.top = top;
+        component.bottom = bottom;
+        component.left = left;
+        component.right = right;
         return component;
     }
     unsigned int vao = 0;

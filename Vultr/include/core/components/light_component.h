@@ -1,12 +1,10 @@
 #pragma once
-#include <memory>
 
 struct LightComponent
 {
-    static std::shared_ptr<LightComponent> Create()
+    static LightComponent Create()
     {
-        std::shared_ptr<LightComponent> component =
-            std::make_shared<LightComponent>();
+        LightComponent component = LightComponent();
         return component;
     }
     int some_param = 0;

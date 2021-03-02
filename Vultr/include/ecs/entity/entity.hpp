@@ -65,12 +65,12 @@ class Entity
     }
 
     static Entity New();
-    template <typename T> void AddComponent(std::shared_ptr<T> component);
+    template <typename T> void AddComponent(T component);
     template <typename T> void RemoveComponent();
     template <typename T> T &GetComponent();
 
     // ONLY FOR THE EDITOR
-    template <typename T> std::shared_ptr<T> GetComponentUnsafe();
+    template <typename T> T *GetComponentUnsafe();
 
     uint32_t id;
 };

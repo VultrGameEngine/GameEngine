@@ -85,10 +85,11 @@ void Engine::RegisterComponents()
     World::RegisterComponent<CameraComponent>();
     World::RegisterComponent<ControllerComponent>();
     World::RegisterComponent<SkyBoxComponent>();
+    World::RegisterComponent<MaterialComponent>();
 
-    World::RegisterMaterial<ForwardMaterial>();
-    World::RegisterMaterial<SkyboxMaterial>();
-    World::RegisterMaterial<UnlitMaterial>();
+    // World::RegisterMaterial<ForwardMaterial>();
+    // World::RegisterMaterial<SkyboxMaterial>();
+    // World::RegisterMaterial<UnlitMaterial>();
 }
 
 void Engine::InitSystems()

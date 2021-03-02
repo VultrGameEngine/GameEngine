@@ -14,7 +14,7 @@ typedef void (*ComponentRender)(Entity);
 #define VULTR_REGISTER_COMPONENT(T, ...)                                            \
     template <> inline void RenderComponent<T>(Entity entity)                       \
     {                                                                               \
-        std::shared_ptr<T> component = entity.GetComponentUnsafe<T>();              \
+        T *component = entity.GetComponentUnsafe<T>();                              \
         if (component == nullptr)                                                   \
             return;                                                                 \
         if (ImGui::CollapsingHeader(#T))                                            \
@@ -30,11 +30,11 @@ typedef void (*ComponentRender)(Entity);
 #define VULTR_REGISTER_MATERIAL(T, ...)                                             \
     template <> inline void RenderComponent<T>(Entity entity)                       \
     {                                                                               \
-        std::shared_ptr<MaterialComponent> component =                              \
+        MaterialComponent *component =                                              \
             entity.GetComponentUnsafe<MaterialComponent>();                         \
         if (component == nullptr)                                                   \
             return;                                                                 \
-        std::shared_ptr<T> material = std::dynamic_pointer_cast<T>(component);      \
+        T *material = std::dynamic_pointer_cast<T>(component);                      \
         if (material == nullptr)                                                    \
             return;                                                                 \
         if (ImGui::CollapsingHeader(#T))                                            \
@@ -93,6 +93,6 @@ VULTR_REGISTER_COMPONENT(ControllerComponent, sens);
 VULTR_REGISTER_COMPONENT(LightComponent, some_param);
 VULTR_REGISTER_COMPONENT(SkyBoxComponent, identifier, front, back, top, bottom, left,
                          right);
-VULTR_REGISTER_MATERIAL(ForwardMaterial, texture_path);
-VULTR_REGISTER_MATERIAL(SkyboxMaterial, identifier);
-VULTR_REGISTER_MATERIAL(UnlitMaterial, color);
+// VULTR_REGISTER_MATERIAL(ForwardMaterial, texture_path);
+// VULTR_REGISTER_MATERIAL(SkyboxMaterial, identifier);
+// VULTR_REGISTER_MATERIAL(UnlitMaterial, color);

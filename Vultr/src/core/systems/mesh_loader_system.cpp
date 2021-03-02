@@ -8,20 +8,20 @@
 #include <string>
 #include <thread>
 #include <vector>
+#include <ecs/world/world.hpp>
 
 namespace Vultr
 {
 void MeshLoaderSystem::RegisterSystem()
 {
-    MeshLoaderSystemProvider &provider = MeshLoaderSystemProvider::Get();
+    MeshLoaderSystemProvider &provider = *MeshLoaderSystemProvider::Get();
     provider.signature.set(World::GetComponentType<StaticMeshComponent>());
-    std::shared_ptr<MeshLoaderSystem> ptr =
-        World::RegisterSystem<MeshLoaderSystem>(provider.signature);
+    World::RegisterSystem<MeshLoaderSystemProvider>(provider.signature);
 }
 
 void MeshLoaderSystem::Update()
 {
-    MeshLoaderSystemProvider &provider = MeshLoaderSystemProvider::Get();
+    MeshLoaderSystemProvider &provider = *MeshLoaderSystemProvider::Get();
     for (Entity entity : provider.entities)
     {
         CheckAndLoadMesh(entity);
@@ -45,7 +45,7 @@ void MeshLoaderSystem::CheckAndLoadMesh(Entity entity)
 
 void MeshLoaderSystem::Import(std::string path)
 {
-    MeshLoaderSystemProvider &provider = MeshLoaderSystemProvider::Get();
+    MeshLoaderSystemProvider &provider = *MeshLoaderSystemProvider::Get();
     Mesh *mesh = MeshImporter::ImportMesh(path);
     provider.AddMesh(path, mesh);
 }

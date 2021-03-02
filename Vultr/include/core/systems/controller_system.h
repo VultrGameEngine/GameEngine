@@ -6,7 +6,6 @@
 #include <core/components/controller_component.h>
 #include <core/components/transform_component.h>
 #include <core/system_providers/controller_system_provider.h>
-#include <ecs/system/system.hpp>
 #include <ecs/world/world.hpp>
 #include <glm/glm.hpp>
 #include <memory>
@@ -14,7 +13,7 @@
 namespace Vultr
 {
 
-class ControllerSystem : public System
+class ControllerSystem
 {
   public:
     static void Init(GLFWwindow *window);
@@ -23,9 +22,9 @@ class ControllerSystem : public System
     static void WindowFocusCallback(GLFWwindow *window, int focused);
 
   protected:
-    SystemProvider &GetProvider() override
+    SystemProvider &GetProvider()
     {
-        return ControllerSystemProvider::Get();
+        return *ControllerSystemProvider::Get();
     }
 };
 } // namespace Vultr

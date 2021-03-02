@@ -4,6 +4,7 @@
 #include <core/components/transform_component.h>
 #include <ecs/entity/entity.hpp>
 #include <ecs/system/system_provider.hpp>
+#include <ecs/world/world.hpp>
 
 namespace Vultr
 {
@@ -11,10 +12,9 @@ class CameraSystemProvider : public SystemProvider
 {
   public:
     // Singleton pattern for all providers
-    static CameraSystemProvider &Get()
+    static std::shared_ptr<CameraSystemProvider> Get()
     {
-        static CameraSystemProvider instance;
-        return instance;
+        return World::GetSystemProvider<CameraSystemProvider>();
     }
 
     // Member variables for state
@@ -26,10 +26,9 @@ class CameraSystemProvider : public SystemProvider
         ControllerComponent controller_component;
     } m_scene_camera;
 
-    void Reset() override
-    {
-        m_camera = Entity(-1);
-    }
+  protected:
+    void OnDestroyEntity(Entity entity) override;
+    void OnCreateEntity(Entity entity) override;
 };
 
 } // namespace Vultr

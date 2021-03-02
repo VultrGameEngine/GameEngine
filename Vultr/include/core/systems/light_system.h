@@ -1,20 +1,19 @@
 #pragma once
 #include <core/system_providers/light_system_provider.h>
-#include <ecs/system/system.hpp>
 #include <glm/glm.hpp>
 
 namespace Vultr
 {
-class LightSystem : public System
+class LightSystem
 {
   public:
     static void RegisterSystem();
+    static void OnCreateEntity(Entity entity);
 
   protected:
-    void OnCreateEntity(Entity entity) override;
-    SystemProvider &GetProvider() override
+    SystemProvider &GetProvider()
     {
-        return LightSystemProvider::Get();
+        return *LightSystemProvider::Get();
     }
 };
 } // namespace Vultr
