@@ -8,6 +8,7 @@ out vec3 TexCoords;
 
 uniform mat4 projection;
 uniform mat4 view;
+uniform mat4 model;
 
 void main() 
 {

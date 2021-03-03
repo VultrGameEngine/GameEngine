@@ -33,6 +33,8 @@ void ForwardRenderer::BindMaterial(const MaterialComponent &material,
         if (texture != nullptr)
             texture->Bind(slot);
     }
+    shader->SetUniformMatrix4fv(
+        "view", glm::value_ptr(context.camera_transform.GetViewMatrix()));
 
     for (auto [uniform, value] : material.vec3s)
     {
