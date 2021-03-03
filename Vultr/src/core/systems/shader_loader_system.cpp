@@ -38,7 +38,9 @@ void ShaderLoaderSystem::CheckAndLoadShader(Entity entity)
     auto &material_component = World::GetComponent<MaterialComponent>(entity);
     // If we have already loaded the shader and cached it, then reuse the id and
     // don't reload
-    if (material_component.GetShader() != nullptr)
+    Shader *material_shader =
+        ShaderLoaderSystemProvider::GetShader(material_component.shader_path);
+    if (material_shader != nullptr)
         return;
 
     // If we haven't cached this shader, load it and save it in the loaded shaders
@@ -55,8 +57,8 @@ void ShaderLoaderSystem::CheckAndLoadShader(Entity entity)
 
 void ShaderLoaderSystem::RegisterSystem()
 {
-    ShaderLoaderSystemProvider &provider = *ShaderLoaderSystemProvider::Get();
-    provider.signature.set(World::GetComponentType<MaterialComponent>(), true);
-    World::RegisterSystem<ShaderLoaderSystemProvider>(provider.signature);
+    Signature signature;
+    signature.set(World::GetComponentType<MaterialComponent>(), true);
+    World::RegisterSystem<ShaderLoaderSystemProvider>(signature);
 }
 } // namespace Vultr

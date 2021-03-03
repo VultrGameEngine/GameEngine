@@ -98,9 +98,9 @@ void ControllerSystem::WindowFocusCallback(GLFWwindow *window, int focused)
 
 void ControllerSystem::RegisterSystem()
 {
-    ControllerSystemProvider &provider = *ControllerSystemProvider::Get();
-    provider.signature.set(World::GetComponentType<ControllerComponent>(), true);
-    provider.signature.set(World::GetComponentType<TransformComponent>(), true);
-    World::RegisterSystem<ControllerSystemProvider>(provider.signature);
+    Signature signature;
+    signature.set(World::GetComponentType<ControllerComponent>(), true);
+    signature.set(World::GetComponentType<TransformComponent>(), true);
+    World::RegisterSystem<ControllerSystemProvider>(signature);
 }
 } // namespace Vultr

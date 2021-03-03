@@ -620,32 +620,221 @@ src/core/component_constructor.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/component_constructor.cpp.s
 .PHONY : src/core/component_constructor.cpp.s
 
-src/core/component_renderer.o: src/core/component_renderer.cpp.o
+src/core/models/materials/forward_material.o: src/core/models/materials/forward_material.cpp.o
 
-.PHONY : src/core/component_renderer.o
+.PHONY : src/core/models/materials/forward_material.o
 
 # target to build an object file
-src/core/component_renderer.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/component_renderer.cpp.o
-.PHONY : src/core/component_renderer.cpp.o
+src/core/models/materials/forward_material.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/models/materials/forward_material.cpp.o
+.PHONY : src/core/models/materials/forward_material.cpp.o
 
-src/core/component_renderer.i: src/core/component_renderer.cpp.i
+src/core/models/materials/forward_material.i: src/core/models/materials/forward_material.cpp.i
 
-.PHONY : src/core/component_renderer.i
+.PHONY : src/core/models/materials/forward_material.i
 
 # target to preprocess a source file
-src/core/component_renderer.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/component_renderer.cpp.i
-.PHONY : src/core/component_renderer.cpp.i
+src/core/models/materials/forward_material.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/models/materials/forward_material.cpp.i
+.PHONY : src/core/models/materials/forward_material.cpp.i
 
-src/core/component_renderer.s: src/core/component_renderer.cpp.s
+src/core/models/materials/forward_material.s: src/core/models/materials/forward_material.cpp.s
 
-.PHONY : src/core/component_renderer.s
+.PHONY : src/core/models/materials/forward_material.s
 
 # target to generate assembly for a file
-src/core/component_renderer.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/component_renderer.cpp.s
-.PHONY : src/core/component_renderer.cpp.s
+src/core/models/materials/forward_material.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/models/materials/forward_material.cpp.s
+.PHONY : src/core/models/materials/forward_material.cpp.s
+
+src/core/models/materials/pbr_material.o: src/core/models/materials/pbr_material.cpp.o
+
+.PHONY : src/core/models/materials/pbr_material.o
+
+# target to build an object file
+src/core/models/materials/pbr_material.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/models/materials/pbr_material.cpp.o
+.PHONY : src/core/models/materials/pbr_material.cpp.o
+
+src/core/models/materials/pbr_material.i: src/core/models/materials/pbr_material.cpp.i
+
+.PHONY : src/core/models/materials/pbr_material.i
+
+# target to preprocess a source file
+src/core/models/materials/pbr_material.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/models/materials/pbr_material.cpp.i
+.PHONY : src/core/models/materials/pbr_material.cpp.i
+
+src/core/models/materials/pbr_material.s: src/core/models/materials/pbr_material.cpp.s
+
+.PHONY : src/core/models/materials/pbr_material.s
+
+# target to generate assembly for a file
+src/core/models/materials/pbr_material.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/models/materials/pbr_material.cpp.s
+.PHONY : src/core/models/materials/pbr_material.cpp.s
+
+src/core/models/materials/skybox_material.o: src/core/models/materials/skybox_material.cpp.o
+
+.PHONY : src/core/models/materials/skybox_material.o
+
+# target to build an object file
+src/core/models/materials/skybox_material.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/models/materials/skybox_material.cpp.o
+.PHONY : src/core/models/materials/skybox_material.cpp.o
+
+src/core/models/materials/skybox_material.i: src/core/models/materials/skybox_material.cpp.i
+
+.PHONY : src/core/models/materials/skybox_material.i
+
+# target to preprocess a source file
+src/core/models/materials/skybox_material.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/models/materials/skybox_material.cpp.i
+.PHONY : src/core/models/materials/skybox_material.cpp.i
+
+src/core/models/materials/skybox_material.s: src/core/models/materials/skybox_material.cpp.s
+
+.PHONY : src/core/models/materials/skybox_material.s
+
+# target to generate assembly for a file
+src/core/models/materials/skybox_material.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/models/materials/skybox_material.cpp.s
+.PHONY : src/core/models/materials/skybox_material.cpp.s
+
+src/core/models/materials/unlit_material.o: src/core/models/materials/unlit_material.cpp.o
+
+.PHONY : src/core/models/materials/unlit_material.o
+
+# target to build an object file
+src/core/models/materials/unlit_material.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/models/materials/unlit_material.cpp.o
+.PHONY : src/core/models/materials/unlit_material.cpp.o
+
+src/core/models/materials/unlit_material.i: src/core/models/materials/unlit_material.cpp.i
+
+.PHONY : src/core/models/materials/unlit_material.i
+
+# target to preprocess a source file
+src/core/models/materials/unlit_material.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/models/materials/unlit_material.cpp.i
+.PHONY : src/core/models/materials/unlit_material.cpp.i
+
+src/core/models/materials/unlit_material.s: src/core/models/materials/unlit_material.cpp.s
+
+.PHONY : src/core/models/materials/unlit_material.s
+
+# target to generate assembly for a file
+src/core/models/materials/unlit_material.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/models/materials/unlit_material.cpp.s
+.PHONY : src/core/models/materials/unlit_material.cpp.s
+
+src/core/system_providers/camera_system_provider.o: src/core/system_providers/camera_system_provider.cpp.o
+
+.PHONY : src/core/system_providers/camera_system_provider.o
+
+# target to build an object file
+src/core/system_providers/camera_system_provider.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/system_providers/camera_system_provider.cpp.o
+.PHONY : src/core/system_providers/camera_system_provider.cpp.o
+
+src/core/system_providers/camera_system_provider.i: src/core/system_providers/camera_system_provider.cpp.i
+
+.PHONY : src/core/system_providers/camera_system_provider.i
+
+# target to preprocess a source file
+src/core/system_providers/camera_system_provider.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/system_providers/camera_system_provider.cpp.i
+.PHONY : src/core/system_providers/camera_system_provider.cpp.i
+
+src/core/system_providers/camera_system_provider.s: src/core/system_providers/camera_system_provider.cpp.s
+
+.PHONY : src/core/system_providers/camera_system_provider.s
+
+# target to generate assembly for a file
+src/core/system_providers/camera_system_provider.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/system_providers/camera_system_provider.cpp.s
+.PHONY : src/core/system_providers/camera_system_provider.cpp.s
+
+src/core/system_providers/controller_system_provider.o: src/core/system_providers/controller_system_provider.cpp.o
+
+.PHONY : src/core/system_providers/controller_system_provider.o
+
+# target to build an object file
+src/core/system_providers/controller_system_provider.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/system_providers/controller_system_provider.cpp.o
+.PHONY : src/core/system_providers/controller_system_provider.cpp.o
+
+src/core/system_providers/controller_system_provider.i: src/core/system_providers/controller_system_provider.cpp.i
+
+.PHONY : src/core/system_providers/controller_system_provider.i
+
+# target to preprocess a source file
+src/core/system_providers/controller_system_provider.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/system_providers/controller_system_provider.cpp.i
+.PHONY : src/core/system_providers/controller_system_provider.cpp.i
+
+src/core/system_providers/controller_system_provider.s: src/core/system_providers/controller_system_provider.cpp.s
+
+.PHONY : src/core/system_providers/controller_system_provider.s
+
+# target to generate assembly for a file
+src/core/system_providers/controller_system_provider.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/system_providers/controller_system_provider.cpp.s
+.PHONY : src/core/system_providers/controller_system_provider.cpp.s
+
+src/core/system_providers/light_system_provider.o: src/core/system_providers/light_system_provider.cpp.o
+
+.PHONY : src/core/system_providers/light_system_provider.o
+
+# target to build an object file
+src/core/system_providers/light_system_provider.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/system_providers/light_system_provider.cpp.o
+.PHONY : src/core/system_providers/light_system_provider.cpp.o
+
+src/core/system_providers/light_system_provider.i: src/core/system_providers/light_system_provider.cpp.i
+
+.PHONY : src/core/system_providers/light_system_provider.i
+
+# target to preprocess a source file
+src/core/system_providers/light_system_provider.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/system_providers/light_system_provider.cpp.i
+.PHONY : src/core/system_providers/light_system_provider.cpp.i
+
+src/core/system_providers/light_system_provider.s: src/core/system_providers/light_system_provider.cpp.s
+
+.PHONY : src/core/system_providers/light_system_provider.s
+
+# target to generate assembly for a file
+src/core/system_providers/light_system_provider.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/system_providers/light_system_provider.cpp.s
+.PHONY : src/core/system_providers/light_system_provider.cpp.s
+
+src/core/system_providers/mesh_loader_system_provider.o: src/core/system_providers/mesh_loader_system_provider.cpp.o
+
+.PHONY : src/core/system_providers/mesh_loader_system_provider.o
+
+# target to build an object file
+src/core/system_providers/mesh_loader_system_provider.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/system_providers/mesh_loader_system_provider.cpp.o
+.PHONY : src/core/system_providers/mesh_loader_system_provider.cpp.o
+
+src/core/system_providers/mesh_loader_system_provider.i: src/core/system_providers/mesh_loader_system_provider.cpp.i
+
+.PHONY : src/core/system_providers/mesh_loader_system_provider.i
+
+# target to preprocess a source file
+src/core/system_providers/mesh_loader_system_provider.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/system_providers/mesh_loader_system_provider.cpp.i
+.PHONY : src/core/system_providers/mesh_loader_system_provider.cpp.i
+
+src/core/system_providers/mesh_loader_system_provider.s: src/core/system_providers/mesh_loader_system_provider.cpp.s
+
+.PHONY : src/core/system_providers/mesh_loader_system_provider.s
+
+# target to generate assembly for a file
+src/core/system_providers/mesh_loader_system_provider.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/system_providers/mesh_loader_system_provider.cpp.s
+.PHONY : src/core/system_providers/mesh_loader_system_provider.cpp.s
 
 src/core/system_providers/render_system_provider.o: src/core/system_providers/render_system_provider.cpp.o
 
@@ -673,6 +862,33 @@ src/core/system_providers/render_system_provider.s: src/core/system_providers/re
 src/core/system_providers/render_system_provider.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/system_providers/render_system_provider.cpp.s
 .PHONY : src/core/system_providers/render_system_provider.cpp.s
+
+src/core/system_providers/shader_loader_system_provider.o: src/core/system_providers/shader_loader_system_provider.cpp.o
+
+.PHONY : src/core/system_providers/shader_loader_system_provider.o
+
+# target to build an object file
+src/core/system_providers/shader_loader_system_provider.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/system_providers/shader_loader_system_provider.cpp.o
+.PHONY : src/core/system_providers/shader_loader_system_provider.cpp.o
+
+src/core/system_providers/shader_loader_system_provider.i: src/core/system_providers/shader_loader_system_provider.cpp.i
+
+.PHONY : src/core/system_providers/shader_loader_system_provider.i
+
+# target to preprocess a source file
+src/core/system_providers/shader_loader_system_provider.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/system_providers/shader_loader_system_provider.cpp.i
+.PHONY : src/core/system_providers/shader_loader_system_provider.cpp.i
+
+src/core/system_providers/shader_loader_system_provider.s: src/core/system_providers/shader_loader_system_provider.cpp.s
+
+.PHONY : src/core/system_providers/shader_loader_system_provider.s
+
+# target to generate assembly for a file
+src/core/system_providers/shader_loader_system_provider.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/system_providers/shader_loader_system_provider.cpp.s
+.PHONY : src/core/system_providers/shader_loader_system_provider.cpp.s
 
 src/core/system_providers/texture_loader_system_provider.o: src/core/system_providers/texture_loader_system_provider.cpp.o
 
@@ -1560,12 +1776,36 @@ help:
 	@echo "... src/core/component_constructor.o"
 	@echo "... src/core/component_constructor.i"
 	@echo "... src/core/component_constructor.s"
-	@echo "... src/core/component_renderer.o"
-	@echo "... src/core/component_renderer.i"
-	@echo "... src/core/component_renderer.s"
+	@echo "... src/core/models/materials/forward_material.o"
+	@echo "... src/core/models/materials/forward_material.i"
+	@echo "... src/core/models/materials/forward_material.s"
+	@echo "... src/core/models/materials/pbr_material.o"
+	@echo "... src/core/models/materials/pbr_material.i"
+	@echo "... src/core/models/materials/pbr_material.s"
+	@echo "... src/core/models/materials/skybox_material.o"
+	@echo "... src/core/models/materials/skybox_material.i"
+	@echo "... src/core/models/materials/skybox_material.s"
+	@echo "... src/core/models/materials/unlit_material.o"
+	@echo "... src/core/models/materials/unlit_material.i"
+	@echo "... src/core/models/materials/unlit_material.s"
+	@echo "... src/core/system_providers/camera_system_provider.o"
+	@echo "... src/core/system_providers/camera_system_provider.i"
+	@echo "... src/core/system_providers/camera_system_provider.s"
+	@echo "... src/core/system_providers/controller_system_provider.o"
+	@echo "... src/core/system_providers/controller_system_provider.i"
+	@echo "... src/core/system_providers/controller_system_provider.s"
+	@echo "... src/core/system_providers/light_system_provider.o"
+	@echo "... src/core/system_providers/light_system_provider.i"
+	@echo "... src/core/system_providers/light_system_provider.s"
+	@echo "... src/core/system_providers/mesh_loader_system_provider.o"
+	@echo "... src/core/system_providers/mesh_loader_system_provider.i"
+	@echo "... src/core/system_providers/mesh_loader_system_provider.s"
 	@echo "... src/core/system_providers/render_system_provider.o"
 	@echo "... src/core/system_providers/render_system_provider.i"
 	@echo "... src/core/system_providers/render_system_provider.s"
+	@echo "... src/core/system_providers/shader_loader_system_provider.o"
+	@echo "... src/core/system_providers/shader_loader_system_provider.i"
+	@echo "... src/core/system_providers/shader_loader_system_provider.s"
 	@echo "... src/core/system_providers/texture_loader_system_provider.o"
 	@echo "... src/core/system_providers/texture_loader_system_provider.i"
 	@echo "... src/core/system_providers/texture_loader_system_provider.s"

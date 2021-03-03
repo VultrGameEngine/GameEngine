@@ -9,12 +9,12 @@ namespace Vultr::Editor
 {
 void SceneWindow::Render()
 {
-    RenderSystemProvider::Get().scene.render_texture->Bind(GL_TEXTURE0);
+    RenderSystemProvider::Get()->scene.render_texture->Bind(GL_TEXTURE0);
     ImGui::Begin("Scene");
     ImVec2 viewport_panel_size = ImGui::GetContentRegionAvail();
     RenderSystemProvider::Resize(viewport_panel_size.x, viewport_panel_size.y,
                                  SCENE);
-    ImGui::Image((void *)RenderSystemProvider::Get().scene.render_texture->GetID(),
+    ImGui::Image((void *)RenderSystemProvider::Get()->scene.render_texture->GetID(),
                  ImVec2{viewport_panel_size.x, viewport_panel_size.y}, ImVec2{0, 1},
                  ImVec2{1, 0});
     ImGui::End();

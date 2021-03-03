@@ -14,8 +14,8 @@ class TextureLoaderSystemProvider : public SystemProvider
     {
         return World::GetSystemProvider<TextureLoaderSystemProvider>();
     }
-    Texture *GetTexture(const std::string &texture);
-    bool isLoaded(const std::string &texture);
+    static Texture *GetTexture(const std::string &texture);
+    static bool isLoaded(const std::string &texture);
 
     std::unordered_map<std::string, Texture *> textures;
 

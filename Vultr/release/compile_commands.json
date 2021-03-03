@@ -16,13 +16,53 @@
 },
 {
   "directory": "/home/brandon/Dev/GameEngine/Vultr/release",
-  "command": "/bin/clang++ -DVultr_EXPORTS -I/home/brandon/Dev/GameEngine/Vultr/include -I/home/brandon/Dev/GameEngine/Vultr/vendor -O3 -DNDEBUG -fPIC -o CMakeFiles/Vultr.dir/src/core/component_renderer.cpp.o -c /home/brandon/Dev/GameEngine/Vultr/src/core/component_renderer.cpp",
-  "file": "/home/brandon/Dev/GameEngine/Vultr/src/core/component_renderer.cpp"
+  "command": "/bin/clang++ -DVultr_EXPORTS -I/home/brandon/Dev/GameEngine/Vultr/include -I/home/brandon/Dev/GameEngine/Vultr/vendor -O3 -DNDEBUG -fPIC -o CMakeFiles/Vultr.dir/src/core/models/materials/forward_material.cpp.o -c /home/brandon/Dev/GameEngine/Vultr/src/core/models/materials/forward_material.cpp",
+  "file": "/home/brandon/Dev/GameEngine/Vultr/src/core/models/materials/forward_material.cpp"
+},
+{
+  "directory": "/home/brandon/Dev/GameEngine/Vultr/release",
+  "command": "/bin/clang++ -DVultr_EXPORTS -I/home/brandon/Dev/GameEngine/Vultr/include -I/home/brandon/Dev/GameEngine/Vultr/vendor -O3 -DNDEBUG -fPIC -o CMakeFiles/Vultr.dir/src/core/models/materials/pbr_material.cpp.o -c /home/brandon/Dev/GameEngine/Vultr/src/core/models/materials/pbr_material.cpp",
+  "file": "/home/brandon/Dev/GameEngine/Vultr/src/core/models/materials/pbr_material.cpp"
+},
+{
+  "directory": "/home/brandon/Dev/GameEngine/Vultr/release",
+  "command": "/bin/clang++ -DVultr_EXPORTS -I/home/brandon/Dev/GameEngine/Vultr/include -I/home/brandon/Dev/GameEngine/Vultr/vendor -O3 -DNDEBUG -fPIC -o CMakeFiles/Vultr.dir/src/core/models/materials/skybox_material.cpp.o -c /home/brandon/Dev/GameEngine/Vultr/src/core/models/materials/skybox_material.cpp",
+  "file": "/home/brandon/Dev/GameEngine/Vultr/src/core/models/materials/skybox_material.cpp"
+},
+{
+  "directory": "/home/brandon/Dev/GameEngine/Vultr/release",
+  "command": "/bin/clang++ -DVultr_EXPORTS -I/home/brandon/Dev/GameEngine/Vultr/include -I/home/brandon/Dev/GameEngine/Vultr/vendor -O3 -DNDEBUG -fPIC -o CMakeFiles/Vultr.dir/src/core/models/materials/unlit_material.cpp.o -c /home/brandon/Dev/GameEngine/Vultr/src/core/models/materials/unlit_material.cpp",
+  "file": "/home/brandon/Dev/GameEngine/Vultr/src/core/models/materials/unlit_material.cpp"
+},
+{
+  "directory": "/home/brandon/Dev/GameEngine/Vultr/release",
+  "command": "/bin/clang++ -DVultr_EXPORTS -I/home/brandon/Dev/GameEngine/Vultr/include -I/home/brandon/Dev/GameEngine/Vultr/vendor -O3 -DNDEBUG -fPIC -o CMakeFiles/Vultr.dir/src/core/system_providers/camera_system_provider.cpp.o -c /home/brandon/Dev/GameEngine/Vultr/src/core/system_providers/camera_system_provider.cpp",
+  "file": "/home/brandon/Dev/GameEngine/Vultr/src/core/system_providers/camera_system_provider.cpp"
+},
+{
+  "directory": "/home/brandon/Dev/GameEngine/Vultr/release",
+  "command": "/bin/clang++ -DVultr_EXPORTS -I/home/brandon/Dev/GameEngine/Vultr/include -I/home/brandon/Dev/GameEngine/Vultr/vendor -O3 -DNDEBUG -fPIC -o CMakeFiles/Vultr.dir/src/core/system_providers/controller_system_provider.cpp.o -c /home/brandon/Dev/GameEngine/Vultr/src/core/system_providers/controller_system_provider.cpp",
+  "file": "/home/brandon/Dev/GameEngine/Vultr/src/core/system_providers/controller_system_provider.cpp"
+},
+{
+  "directory": "/home/brandon/Dev/GameEngine/Vultr/release",
+  "command": "/bin/clang++ -DVultr_EXPORTS -I/home/brandon/Dev/GameEngine/Vultr/include -I/home/brandon/Dev/GameEngine/Vultr/vendor -O3 -DNDEBUG -fPIC -o CMakeFiles/Vultr.dir/src/core/system_providers/light_system_provider.cpp.o -c /home/brandon/Dev/GameEngine/Vultr/src/core/system_providers/light_system_provider.cpp",
+  "file": "/home/brandon/Dev/GameEngine/Vultr/src/core/system_providers/light_system_provider.cpp"
+},
+{
+  "directory": "/home/brandon/Dev/GameEngine/Vultr/release",
+  "command": "/bin/clang++ -DVultr_EXPORTS -I/home/brandon/Dev/GameEngine/Vultr/include -I/home/brandon/Dev/GameEngine/Vultr/vendor -O3 -DNDEBUG -fPIC -o CMakeFiles/Vultr.dir/src/core/system_providers/mesh_loader_system_provider.cpp.o -c /home/brandon/Dev/GameEngine/Vultr/src/core/system_providers/mesh_loader_system_provider.cpp",
+  "file": "/home/brandon/Dev/GameEngine/Vultr/src/core/system_providers/mesh_loader_system_provider.cpp"
 },
 {
   "directory": "/home/brandon/Dev/GameEngine/Vultr/release",
   "command": "/bin/clang++ -DVultr_EXPORTS -I/home/brandon/Dev/GameEngine/Vultr/include -I/home/brandon/Dev/GameEngine/Vultr/vendor -O3 -DNDEBUG -fPIC -o CMakeFiles/Vultr.dir/src/core/system_providers/render_system_provider.cpp.o -c /home/brandon/Dev/GameEngine/Vultr/src/core/system_providers/render_system_provider.cpp",
   "file": "/home/brandon/Dev/GameEngine/Vultr/src/core/system_providers/render_system_provider.cpp"
+},
+{
+  "directory": "/home/brandon/Dev/GameEngine/Vultr/release",
+  "command": "/bin/clang++ -DVultr_EXPORTS -I/home/brandon/Dev/GameEngine/Vultr/include -I/home/brandon/Dev/GameEngine/Vultr/vendor -O3 -DNDEBUG -fPIC -o CMakeFiles/Vultr.dir/src/core/system_providers/shader_loader_system_provider.cpp.o -c /home/brandon/Dev/GameEngine/Vultr/src/core/system_providers/shader_loader_system_provider.cpp",
+  "file": "/home/brandon/Dev/GameEngine/Vultr/src/core/system_providers/shader_loader_system_provider.cpp"
 },
 {
   "directory": "/home/brandon/Dev/GameEngine/Vultr/release",

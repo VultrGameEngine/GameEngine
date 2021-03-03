@@ -14,9 +14,9 @@ void LightSystem::OnCreateEntity(Entity entity)
 
 void LightSystem::RegisterSystem()
 {
-    LightSystemProvider &provider = *LightSystemProvider::Get();
-    provider.signature.set(World::GetComponentType<LightComponent>(), true);
-    provider.signature.set(World::GetComponentType<TransformComponent>(), true);
-    World::RegisterSystem<LightSystemProvider>(provider.signature);
+    Signature signature;
+    signature.set(World::GetComponentType<LightComponent>(), true);
+    signature.set(World::GetComponentType<TransformComponent>(), true);
+    World::RegisterSystem<LightSystemProvider>(signature);
 }
 } // namespace Vultr

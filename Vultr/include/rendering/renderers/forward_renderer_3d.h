@@ -12,6 +12,8 @@ class ForwardRenderer
     // Render a vao and ibo with a shader and transform
     static void Submit(const MaterialComponent &material, const glm::mat4 &transform,
                        const Mesh &mesh);
+    static void BindMaterial(const MaterialComponent &material,
+                             const glm::mat4 &transform);
 };
 
 } // namespace Vultr::Renderer3D

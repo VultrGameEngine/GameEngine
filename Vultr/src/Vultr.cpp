@@ -72,8 +72,8 @@ void Engine::Init(bool debug)
     ImGui_ImplOpenGL3_Init("#version 410");
     ImGui::StyleColorsDark();
 
-    ControllerSystem::Init(window);
-    glfwSetWindowFocusCallback(window, ControllerSystem::WindowFocusCallback);
+    // ControllerSystem::Init(window);
+    // glfwSetWindowFocusCallback(window, ControllerSystem::WindowFocusCallback);
 }
 
 void Engine::RegisterComponents()
@@ -85,7 +85,6 @@ void Engine::RegisterComponents()
     World::RegisterComponent<CameraComponent>();
     World::RegisterComponent<ControllerComponent>();
     World::RegisterComponent<SkyBoxComponent>();
-    World::RegisterComponent<MaterialComponent>();
 
     // World::RegisterMaterial<ForwardMaterial>();
     // World::RegisterMaterial<SkyboxMaterial>();

@@ -29,6 +29,7 @@ class SystemManager
 
         // Create a pointer to the system and return it so it can be used externally
         std::shared_ptr<T> system_provider = std::make_shared<T>();
+        ((std::shared_ptr<SystemProvider>)system_provider)->signature = signature;
         system_providers.insert({type_name, system_provider});
 
         SetSignature<T>(signature);

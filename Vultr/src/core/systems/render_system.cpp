@@ -104,6 +104,8 @@ void RenderSystem::RenderElements(unsigned int type)
     for (Entity entity : provider.entities)
     {
         MaterialComponent &material = entity.GetComponent<MaterialComponent>();
+        if (material.identifier != nullptr)
+            continue;
         TransformComponent &transform = entity.GetComponent<TransformComponent>();
         StaticMeshComponent &mesh = entity.GetComponent<StaticMeshComponent>();
 
@@ -123,10 +125,8 @@ void RenderSystem::RenderSkybox(unsigned int type)
     auto &material_component = camera.GetComponent<MaterialComponent>();
     auto &skybox_component = camera.GetComponent<SkyBoxComponent>();
     glDepthMask(GL_FALSE);
-    material_component.BindShaders();
-    material_component.SetModelUniforms(
-        RenderContext::GetContext().camera_transform.Matrix());
-    material_component.BindTextures();
+    Renderer3D::ForwardRenderer::BindMaterial(
+        material_component, RenderContext::GetContext().camera_transform.Matrix());
 
     if (skybox_component.vbo == 0 || skybox_component.vao == 0)
     {
@@ -151,10 +151,10 @@ void RenderSystem::RenderSkybox(unsigned int type)
 // Internal private helper methods
 void RenderSystem::RegisterSystem()
 {
-    RenderSystemProvider &provider = *RenderSystemProvider::Get();
-    provider.signature.set(World::GetComponentType<MaterialComponent>(), true);
-    provider.signature.set(World::GetComponentType<StaticMeshComponent>(), true);
-    World::RegisterSystem<RenderSystemProvider>(provider.signature);
+    Signature signature;
+    signature.set(World::GetComponentType<MaterialComponent>(), true);
+    signature.set(World::GetComponentType<StaticMeshComponent>(), true);
+    World::RegisterSystem<RenderSystemProvider>(signature);
 }
 
 } // namespace Vultr

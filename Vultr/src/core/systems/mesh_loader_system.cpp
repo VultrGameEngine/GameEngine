@@ -14,9 +14,9 @@ namespace Vultr
 {
 void MeshLoaderSystem::RegisterSystem()
 {
-    MeshLoaderSystemProvider &provider = *MeshLoaderSystemProvider::Get();
-    provider.signature.set(World::GetComponentType<StaticMeshComponent>());
-    World::RegisterSystem<MeshLoaderSystemProvider>(provider.signature);
+    Signature signature;
+    signature.set(World::GetComponentType<StaticMeshComponent>());
+    World::RegisterSystem<MeshLoaderSystemProvider>(signature);
 }
 
 void MeshLoaderSystem::Update()

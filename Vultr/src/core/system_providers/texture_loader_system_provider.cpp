@@ -16,7 +16,7 @@ Texture *TextureLoaderSystemProvider::GetTexture(const std::string &texture)
 {
     if (isLoaded(texture))
     {
-        return textures[texture];
+        return Get()->textures[texture];
     }
     else
     {
@@ -26,6 +26,6 @@ Texture *TextureLoaderSystemProvider::GetTexture(const std::string &texture)
 
 bool TextureLoaderSystemProvider::isLoaded(const std::string &texture)
 {
-    return textures.find(texture) != textures.end();
+    return Get()->textures.find(texture) != Get()->textures.end();
 }
 } // namespace Vultr

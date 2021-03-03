@@ -1,10 +1,10 @@
 #pragma once
-#include <core/components/transform_component.h>
-#include <core/system_providers/shader_loader_system_provider.h>
+#include <glm/glm.hpp>
+#include <glad/glad.h>
 #include <iostream>
-#include <rendering/models/shader.h>
 #include <string>
 #include <vector>
+#include <unordered_map>
 #include <cereal/types/vector.hpp>
 
 namespace Vultr
@@ -12,34 +12,21 @@ namespace Vultr
 struct MaterialComponent
 {
     std::string shader_path;
-    std::vector<std::string> textures;
-    std::vector<glm::vec3> vec3s;
+    std::unordered_map<std::string, GLenum> textures;
+    std::unordered_map<std::string, glm::vec3> vec3s;
+    std::unordered_map<std::string, int> ints;
+    std::unordered_map<std::string, float> floats;
 
     static MaterialComponent Create()
     {
         return MaterialComponent();
     }
 
-    bool is_skybox = false;
+    char *identifier = nullptr;
 
     template <class Archive> void serialize(Archive &ar)
     {
         ar(shader_path, textures);
-    }
-
-    void BindShaders() const {};
-
-    void SetModelUniforms(const glm::mat4 &transform) const
-    {
-    }
-
-    void BindTextures() const
-    {
-    }
-
-    Shader *GetShader() const
-    {
-        return ShaderLoaderSystemProvider::GetShader(shader_path);
     }
 };
 } // namespace Vultr

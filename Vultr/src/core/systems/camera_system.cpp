@@ -35,9 +35,9 @@ void CameraSystem::OnDestroyEntity(Entity entity)
 
 void CameraSystem::RegisterSystem()
 {
-    CameraSystemProvider &provider = *CameraSystemProvider::Get();
-    provider.signature.set(World::GetComponentType<CameraComponent>(), true);
-    provider.signature.set(World::GetComponentType<TransformComponent>(), true);
-    World::RegisterSystem<CameraSystemProvider>(provider.signature);
+    Signature signature;
+    signature.set(World::GetComponentType<CameraComponent>(), true);
+    signature.set(World::GetComponentType<TransformComponent>(), true);
+    World::RegisterSystem<CameraSystemProvider>(signature);
 }
 } // namespace Vultr

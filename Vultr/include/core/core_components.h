@@ -6,3 +6,7 @@
 #include "components/static_mesh_component.h"
 #include "components/transform_component.h"
 #include "components/material_component.h"
+#include "models/materials/forward_material.h"
+#include "models/materials/pbr_material.h"
+#include "models/materials/skybox_material.h"
+#include "models/materials/unlit_material.h"

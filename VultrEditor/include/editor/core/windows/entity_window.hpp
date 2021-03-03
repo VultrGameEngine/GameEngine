@@ -53,7 +53,7 @@ class EntityWindow : public Window
             World::ChangeWorld(world);
             Engine::RegisterComponents();
             Engine::InitSystems();
-            World::FixSystems();
+            // World::FixSystems();
         }
         ImGui::End();
     }
