@@ -3,6 +3,7 @@
 #include <iostream>
 #include <stb_image/stb_image.h>
 #include <string>
+#include <helpers/path.h>
 
 namespace Vultr
 {
@@ -12,7 +13,8 @@ void TextureImporter::Import(const std::string &path, Texture &texture)
     int width;
     int height;
     int bpp;
-    unsigned char *buffer = stbi_load(path.c_str(), &width, &height, &bpp, 4);
+    unsigned char *buffer =
+        stbi_load(Path::GetFullPath(path).c_str(), &width, &height, &bpp, 4);
     texture.Bind(GL_TEXTURE0);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);

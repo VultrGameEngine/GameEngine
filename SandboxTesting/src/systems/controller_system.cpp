@@ -61,6 +61,8 @@ void ControllerSystem::Update(float delta_time)
     ControllerSystemProvider &provider = GetProvider();
     if (provider.controller.id == -1 || provider.window == nullptr)
         return;
+    if (!Vultr::ControllerSystemProvider::Get()->m_focused)
+        return;
 
     const GLFWvidmode *mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
     glm::vec2 dimensions = glm::vec2(mode->width, mode->height);

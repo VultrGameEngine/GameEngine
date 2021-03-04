@@ -72,7 +72,6 @@ CMAKE_BINARY_DIR = /home/brandon/Dev/GameEngine/SandboxTesting/release
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/Game-bin.dir/all
 all: CMakeFiles/Game.dir/all
 
 .PHONY : all
@@ -83,7 +82,6 @@ preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/Game-bin.dir/clean
 clean: CMakeFiles/NightlyTest.dir/clean
 clean: CMakeFiles/ContinuousConfigure.dir/clean
 clean: CMakeFiles/ContinuousBuild.dir/clean
@@ -115,33 +113,6 @@ clean: CMakeFiles/ContinuousTest.dir/clean
 clean: CMakeFiles/ContinuousSubmit.dir/clean
 
 .PHONY : clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/Game-bin.dir
-
-# All Build rule for target.
-CMakeFiles/Game-bin.dir/all: CMakeFiles/Game.dir/all
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game-bin.dir/build.make CMakeFiles/Game-bin.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game-bin.dir/build.make CMakeFiles/Game-bin.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/brandon/Dev/GameEngine/SandboxTesting/release/CMakeFiles --progress-num=8,9,10,11,12,13,14 "Built target Game-bin"
-.PHONY : CMakeFiles/Game-bin.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/Game-bin.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brandon/Dev/GameEngine/SandboxTesting/release/CMakeFiles 14
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/Game-bin.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brandon/Dev/GameEngine/SandboxTesting/release/CMakeFiles 0
-.PHONY : CMakeFiles/Game-bin.dir/rule
-
-# Convenience name for target.
-Game-bin: CMakeFiles/Game-bin.dir/rule
-
-.PHONY : Game-bin
-
-# clean rule for target.
-CMakeFiles/Game-bin.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game-bin.dir/build.make CMakeFiles/Game-bin.dir/clean
-.PHONY : CMakeFiles/Game-bin.dir/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/NightlyTest.dir

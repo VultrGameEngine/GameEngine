@@ -14,6 +14,12 @@
 # EXTERNAL cache entries
 ########################
 
+//The directory containing a CMake configuration file for ASSIMP.
+ASSIMP_DIR:PATH=/usr/lib64/cmake/assimp-5.0
+
+//the suffix for the assimp libraries
+ASSIMP_LIBRARY_SUFFIX:STRING=
+
 //Build the testing tree.
 BUILD_TESTING:BOOL=ON
 
@@ -329,7 +335,7 @@ SVNCOMMAND:FILEPATH=/usr/bin/svn
 Vultr_BINARY_DIR:STATIC=/home/brandon/Dev/GameEngine/Vultr/release
 
 //Dependencies for the target
-Vultr_LIB_DEPENDS:STATIC=general;GL;general;glfw3;general;X11;general;Xxf86vm;general;Xrandr;general;pthread;general;Xi;general;dl;general;/home/brandon/Dev/assimp/bin/libassimp.so;
+Vultr_LIB_DEPENDS:STATIC=general;GL;general;glfw3;general;X11;general;Xxf86vm;general;Xrandr;general;pthread;general;Xi;general;dl;general;libassimp.so.5;
 
 //Value Computed by CMake
 Vultr_SOURCE_DIR:STATIC=/home/brandon/Dev/GameEngine/Vultr
@@ -339,6 +345,8 @@ Vultr_SOURCE_DIR:STATIC=/home/brandon/Dev/GameEngine/Vultr
 # INTERNAL cache entries
 ########################
 
+//ADVANCED property for variable: ASSIMP_LIBRARY_SUFFIX
+ASSIMP_LIBRARY_SUFFIX-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: BZRCOMMAND
 BZRCOMMAND-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: CMAKE_ADDR2LINE

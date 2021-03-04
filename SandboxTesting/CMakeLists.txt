@@ -15,19 +15,22 @@ file(GLOB_RECURSE Game_SRC
 
 include_directories(include vendor ../Vultr/include ../Vultr/vendor)
 
+
+
 add_library(Game SHARED ${Game_SRC})
-target_link_libraries(Game GL glfw3 X11 Xxf86vm Xrandr pthread Xi dl /home/brandon/Dev/assimp/bin/libassimp.so)
+# add_executable(Game ${Game_SRC})
+target_link_libraries(Game GL glfw3 X11 Xxf86vm Xrandr pthread Xi dl assimp)
 target_link_libraries(Game debug /home/brandon/Dev/GameEngine/Vultr/build/libVultr.so)
-target_link_libraries(Game optimized /home/brandon/Dev/GameEngine/Vultr/release/libVultr.so)
-
-add_executable(Game-bin ${Game_SRC})
-target_link_libraries(Game-bin Game)
-
-set_target_properties(Game-bin
-        PROPERTIES OUTPUT_NAME Game)
+target_link_libraries(Game optimized /home/brandon/Dev/GameEngine/Vultr/release/libVultr.a)
 
 
+install(TARGETS ${PROJECT_NAME} DESTINATION bin)
+install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/res/" DESTINATION "bin/res")
+
+
+
+include(InstallRequiredSystemLibraries)
+set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/License.txt")
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
-set(CPACK_GENERATOR DEB)
 include(CPack)

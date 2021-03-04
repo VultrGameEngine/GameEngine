@@ -401,9 +401,22 @@ CMakeFiles/Vultr.dir/src/helpers/mesh_importer.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Vultr.dir/src/helpers/mesh_importer.cpp.s"
 	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Dev/GameEngine/Vultr/src/helpers/mesh_importer.cpp -o CMakeFiles/Vultr.dir/src/helpers/mesh_importer.cpp.s
 
+CMakeFiles/Vultr.dir/src/helpers/path.cpp.o: CMakeFiles/Vultr.dir/flags.make
+CMakeFiles/Vultr.dir/src/helpers/path.cpp.o: ../src/helpers/path.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building CXX object CMakeFiles/Vultr.dir/src/helpers/path.cpp.o"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Vultr.dir/src/helpers/path.cpp.o -c /home/brandon/Dev/GameEngine/Vultr/src/helpers/path.cpp
+
+CMakeFiles/Vultr.dir/src/helpers/path.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Vultr.dir/src/helpers/path.cpp.i"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Dev/GameEngine/Vultr/src/helpers/path.cpp > CMakeFiles/Vultr.dir/src/helpers/path.cpp.i
+
+CMakeFiles/Vultr.dir/src/helpers/path.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Vultr.dir/src/helpers/path.cpp.s"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Dev/GameEngine/Vultr/src/helpers/path.cpp -o CMakeFiles/Vultr.dir/src/helpers/path.cpp.s
+
 CMakeFiles/Vultr.dir/src/helpers/shader_importer.cpp.o: CMakeFiles/Vultr.dir/flags.make
 CMakeFiles/Vultr.dir/src/helpers/shader_importer.cpp.o: ../src/helpers/shader_importer.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_26) "Building CXX object CMakeFiles/Vultr.dir/src/helpers/shader_importer.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building CXX object CMakeFiles/Vultr.dir/src/helpers/shader_importer.cpp.o"
 	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Vultr.dir/src/helpers/shader_importer.cpp.o -c /home/brandon/Dev/GameEngine/Vultr/src/helpers/shader_importer.cpp
 
 CMakeFiles/Vultr.dir/src/helpers/shader_importer.cpp.i: cmake_force
@@ -416,7 +429,7 @@ CMakeFiles/Vultr.dir/src/helpers/shader_importer.cpp.s: cmake_force
 
 CMakeFiles/Vultr.dir/src/helpers/texture_importer.cpp.o: CMakeFiles/Vultr.dir/flags.make
 CMakeFiles/Vultr.dir/src/helpers/texture_importer.cpp.o: ../src/helpers/texture_importer.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_27) "Building CXX object CMakeFiles/Vultr.dir/src/helpers/texture_importer.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_28) "Building CXX object CMakeFiles/Vultr.dir/src/helpers/texture_importer.cpp.o"
 	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Vultr.dir/src/helpers/texture_importer.cpp.o -c /home/brandon/Dev/GameEngine/Vultr/src/helpers/texture_importer.cpp
 
 CMakeFiles/Vultr.dir/src/helpers/texture_importer.cpp.i: cmake_force
@@ -429,7 +442,7 @@ CMakeFiles/Vultr.dir/src/helpers/texture_importer.cpp.s: cmake_force
 
 CMakeFiles/Vultr.dir/src/main.cpp.o: CMakeFiles/Vultr.dir/flags.make
 CMakeFiles/Vultr.dir/src/main.cpp.o: ../src/main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_28) "Building CXX object CMakeFiles/Vultr.dir/src/main.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Building CXX object CMakeFiles/Vultr.dir/src/main.cpp.o"
 	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Vultr.dir/src/main.cpp.o -c /home/brandon/Dev/GameEngine/Vultr/src/main.cpp
 
 CMakeFiles/Vultr.dir/src/main.cpp.i: cmake_force
@@ -442,7 +455,7 @@ CMakeFiles/Vultr.dir/src/main.cpp.s: cmake_force
 
 CMakeFiles/Vultr.dir/src/rendering/models/index_buffer.cpp.o: CMakeFiles/Vultr.dir/flags.make
 CMakeFiles/Vultr.dir/src/rendering/models/index_buffer.cpp.o: ../src/rendering/models/index_buffer.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_29) "Building CXX object CMakeFiles/Vultr.dir/src/rendering/models/index_buffer.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_30) "Building CXX object CMakeFiles/Vultr.dir/src/rendering/models/index_buffer.cpp.o"
 	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Vultr.dir/src/rendering/models/index_buffer.cpp.o -c /home/brandon/Dev/GameEngine/Vultr/src/rendering/models/index_buffer.cpp
 
 CMakeFiles/Vultr.dir/src/rendering/models/index_buffer.cpp.i: cmake_force
@@ -455,7 +468,7 @@ CMakeFiles/Vultr.dir/src/rendering/models/index_buffer.cpp.s: cmake_force
 
 CMakeFiles/Vultr.dir/src/rendering/models/mesh.cpp.o: CMakeFiles/Vultr.dir/flags.make
 CMakeFiles/Vultr.dir/src/rendering/models/mesh.cpp.o: ../src/rendering/models/mesh.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_30) "Building CXX object CMakeFiles/Vultr.dir/src/rendering/models/mesh.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Building CXX object CMakeFiles/Vultr.dir/src/rendering/models/mesh.cpp.o"
 	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Vultr.dir/src/rendering/models/mesh.cpp.o -c /home/brandon/Dev/GameEngine/Vultr/src/rendering/models/mesh.cpp
 
 CMakeFiles/Vultr.dir/src/rendering/models/mesh.cpp.i: cmake_force
@@ -468,7 +481,7 @@ CMakeFiles/Vultr.dir/src/rendering/models/mesh.cpp.s: cmake_force
 
 CMakeFiles/Vultr.dir/src/rendering/models/render_buffer.cpp.o: CMakeFiles/Vultr.dir/flags.make
 CMakeFiles/Vultr.dir/src/rendering/models/render_buffer.cpp.o: ../src/rendering/models/render_buffer.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_31) "Building CXX object CMakeFiles/Vultr.dir/src/rendering/models/render_buffer.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_32) "Building CXX object CMakeFiles/Vultr.dir/src/rendering/models/render_buffer.cpp.o"
 	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Vultr.dir/src/rendering/models/render_buffer.cpp.o -c /home/brandon/Dev/GameEngine/Vultr/src/rendering/models/render_buffer.cpp
 
 CMakeFiles/Vultr.dir/src/rendering/models/render_buffer.cpp.i: cmake_force
@@ -481,7 +494,7 @@ CMakeFiles/Vultr.dir/src/rendering/models/render_buffer.cpp.s: cmake_force
 
 CMakeFiles/Vultr.dir/src/rendering/models/shader.cpp.o: CMakeFiles/Vultr.dir/flags.make
 CMakeFiles/Vultr.dir/src/rendering/models/shader.cpp.o: ../src/rendering/models/shader.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_32) "Building CXX object CMakeFiles/Vultr.dir/src/rendering/models/shader.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_33) "Building CXX object CMakeFiles/Vultr.dir/src/rendering/models/shader.cpp.o"
 	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Vultr.dir/src/rendering/models/shader.cpp.o -c /home/brandon/Dev/GameEngine/Vultr/src/rendering/models/shader.cpp
 
 CMakeFiles/Vultr.dir/src/rendering/models/shader.cpp.i: cmake_force
@@ -494,7 +507,7 @@ CMakeFiles/Vultr.dir/src/rendering/models/shader.cpp.s: cmake_force
 
 CMakeFiles/Vultr.dir/src/rendering/models/texture.cpp.o: CMakeFiles/Vultr.dir/flags.make
 CMakeFiles/Vultr.dir/src/rendering/models/texture.cpp.o: ../src/rendering/models/texture.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_33) "Building CXX object CMakeFiles/Vultr.dir/src/rendering/models/texture.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_34) "Building CXX object CMakeFiles/Vultr.dir/src/rendering/models/texture.cpp.o"
 	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Vultr.dir/src/rendering/models/texture.cpp.o -c /home/brandon/Dev/GameEngine/Vultr/src/rendering/models/texture.cpp
 
 CMakeFiles/Vultr.dir/src/rendering/models/texture.cpp.i: cmake_force
@@ -507,7 +520,7 @@ CMakeFiles/Vultr.dir/src/rendering/models/texture.cpp.s: cmake_force
 
 CMakeFiles/Vultr.dir/src/rendering/models/vertex_array.cpp.o: CMakeFiles/Vultr.dir/flags.make
 CMakeFiles/Vultr.dir/src/rendering/models/vertex_array.cpp.o: ../src/rendering/models/vertex_array.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_34) "Building CXX object CMakeFiles/Vultr.dir/src/rendering/models/vertex_array.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_35) "Building CXX object CMakeFiles/Vultr.dir/src/rendering/models/vertex_array.cpp.o"
 	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Vultr.dir/src/rendering/models/vertex_array.cpp.o -c /home/brandon/Dev/GameEngine/Vultr/src/rendering/models/vertex_array.cpp
 
 CMakeFiles/Vultr.dir/src/rendering/models/vertex_array.cpp.i: cmake_force
@@ -520,7 +533,7 @@ CMakeFiles/Vultr.dir/src/rendering/models/vertex_array.cpp.s: cmake_force
 
 CMakeFiles/Vultr.dir/src/rendering/models/vertex_buffer.cpp.o: CMakeFiles/Vultr.dir/flags.make
 CMakeFiles/Vultr.dir/src/rendering/models/vertex_buffer.cpp.o: ../src/rendering/models/vertex_buffer.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_35) "Building CXX object CMakeFiles/Vultr.dir/src/rendering/models/vertex_buffer.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_36) "Building CXX object CMakeFiles/Vultr.dir/src/rendering/models/vertex_buffer.cpp.o"
 	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Vultr.dir/src/rendering/models/vertex_buffer.cpp.o -c /home/brandon/Dev/GameEngine/Vultr/src/rendering/models/vertex_buffer.cpp
 
 CMakeFiles/Vultr.dir/src/rendering/models/vertex_buffer.cpp.i: cmake_force
@@ -533,7 +546,7 @@ CMakeFiles/Vultr.dir/src/rendering/models/vertex_buffer.cpp.s: cmake_force
 
 CMakeFiles/Vultr.dir/src/rendering/render_group.cpp.o: CMakeFiles/Vultr.dir/flags.make
 CMakeFiles/Vultr.dir/src/rendering/render_group.cpp.o: ../src/rendering/render_group.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_36) "Building CXX object CMakeFiles/Vultr.dir/src/rendering/render_group.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_37) "Building CXX object CMakeFiles/Vultr.dir/src/rendering/render_group.cpp.o"
 	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Vultr.dir/src/rendering/render_group.cpp.o -c /home/brandon/Dev/GameEngine/Vultr/src/rendering/render_group.cpp
 
 CMakeFiles/Vultr.dir/src/rendering/render_group.cpp.i: cmake_force
@@ -546,7 +559,7 @@ CMakeFiles/Vultr.dir/src/rendering/render_group.cpp.s: cmake_force
 
 CMakeFiles/Vultr.dir/src/rendering/renderers/forward_renderer_3d.cpp.o: CMakeFiles/Vultr.dir/flags.make
 CMakeFiles/Vultr.dir/src/rendering/renderers/forward_renderer_3d.cpp.o: ../src/rendering/renderers/forward_renderer_3d.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_37) "Building CXX object CMakeFiles/Vultr.dir/src/rendering/renderers/forward_renderer_3d.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_38) "Building CXX object CMakeFiles/Vultr.dir/src/rendering/renderers/forward_renderer_3d.cpp.o"
 	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Vultr.dir/src/rendering/renderers/forward_renderer_3d.cpp.o -c /home/brandon/Dev/GameEngine/Vultr/src/rendering/renderers/forward_renderer_3d.cpp
 
 CMakeFiles/Vultr.dir/src/rendering/renderers/forward_renderer_3d.cpp.i: cmake_force
@@ -559,7 +572,7 @@ CMakeFiles/Vultr.dir/src/rendering/renderers/forward_renderer_3d.cpp.s: cmake_fo
 
 CMakeFiles/Vultr.dir/vendor/imgui/imgui.cpp.o: CMakeFiles/Vultr.dir/flags.make
 CMakeFiles/Vultr.dir/vendor/imgui/imgui.cpp.o: ../vendor/imgui/imgui.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_38) "Building CXX object CMakeFiles/Vultr.dir/vendor/imgui/imgui.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_39) "Building CXX object CMakeFiles/Vultr.dir/vendor/imgui/imgui.cpp.o"
 	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Vultr.dir/vendor/imgui/imgui.cpp.o -c /home/brandon/Dev/GameEngine/Vultr/vendor/imgui/imgui.cpp
 
 CMakeFiles/Vultr.dir/vendor/imgui/imgui.cpp.i: cmake_force
@@ -572,7 +585,7 @@ CMakeFiles/Vultr.dir/vendor/imgui/imgui.cpp.s: cmake_force
 
 CMakeFiles/Vultr.dir/vendor/imgui/imgui_draw.cpp.o: CMakeFiles/Vultr.dir/flags.make
 CMakeFiles/Vultr.dir/vendor/imgui/imgui_draw.cpp.o: ../vendor/imgui/imgui_draw.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_39) "Building CXX object CMakeFiles/Vultr.dir/vendor/imgui/imgui_draw.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_40) "Building CXX object CMakeFiles/Vultr.dir/vendor/imgui/imgui_draw.cpp.o"
 	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Vultr.dir/vendor/imgui/imgui_draw.cpp.o -c /home/brandon/Dev/GameEngine/Vultr/vendor/imgui/imgui_draw.cpp
 
 CMakeFiles/Vultr.dir/vendor/imgui/imgui_draw.cpp.i: cmake_force
@@ -585,7 +598,7 @@ CMakeFiles/Vultr.dir/vendor/imgui/imgui_draw.cpp.s: cmake_force
 
 CMakeFiles/Vultr.dir/vendor/imgui/imgui_impl_glfw.cpp.o: CMakeFiles/Vultr.dir/flags.make
 CMakeFiles/Vultr.dir/vendor/imgui/imgui_impl_glfw.cpp.o: ../vendor/imgui/imgui_impl_glfw.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_40) "Building CXX object CMakeFiles/Vultr.dir/vendor/imgui/imgui_impl_glfw.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_41) "Building CXX object CMakeFiles/Vultr.dir/vendor/imgui/imgui_impl_glfw.cpp.o"
 	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Vultr.dir/vendor/imgui/imgui_impl_glfw.cpp.o -c /home/brandon/Dev/GameEngine/Vultr/vendor/imgui/imgui_impl_glfw.cpp
 
 CMakeFiles/Vultr.dir/vendor/imgui/imgui_impl_glfw.cpp.i: cmake_force
@@ -598,7 +611,7 @@ CMakeFiles/Vultr.dir/vendor/imgui/imgui_impl_glfw.cpp.s: cmake_force
 
 CMakeFiles/Vultr.dir/vendor/imgui/imgui_impl_opengl3.cpp.o: CMakeFiles/Vultr.dir/flags.make
 CMakeFiles/Vultr.dir/vendor/imgui/imgui_impl_opengl3.cpp.o: ../vendor/imgui/imgui_impl_opengl3.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_41) "Building CXX object CMakeFiles/Vultr.dir/vendor/imgui/imgui_impl_opengl3.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_42) "Building CXX object CMakeFiles/Vultr.dir/vendor/imgui/imgui_impl_opengl3.cpp.o"
 	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Vultr.dir/vendor/imgui/imgui_impl_opengl3.cpp.o -c /home/brandon/Dev/GameEngine/Vultr/vendor/imgui/imgui_impl_opengl3.cpp
 
 CMakeFiles/Vultr.dir/vendor/imgui/imgui_impl_opengl3.cpp.i: cmake_force
@@ -611,7 +624,7 @@ CMakeFiles/Vultr.dir/vendor/imgui/imgui_impl_opengl3.cpp.s: cmake_force
 
 CMakeFiles/Vultr.dir/vendor/imgui/imgui_tables.cpp.o: CMakeFiles/Vultr.dir/flags.make
 CMakeFiles/Vultr.dir/vendor/imgui/imgui_tables.cpp.o: ../vendor/imgui/imgui_tables.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_42) "Building CXX object CMakeFiles/Vultr.dir/vendor/imgui/imgui_tables.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_43) "Building CXX object CMakeFiles/Vultr.dir/vendor/imgui/imgui_tables.cpp.o"
 	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Vultr.dir/vendor/imgui/imgui_tables.cpp.o -c /home/brandon/Dev/GameEngine/Vultr/vendor/imgui/imgui_tables.cpp
 
 CMakeFiles/Vultr.dir/vendor/imgui/imgui_tables.cpp.i: cmake_force
@@ -624,7 +637,7 @@ CMakeFiles/Vultr.dir/vendor/imgui/imgui_tables.cpp.s: cmake_force
 
 CMakeFiles/Vultr.dir/vendor/imgui/imgui_widgets.cpp.o: CMakeFiles/Vultr.dir/flags.make
 CMakeFiles/Vultr.dir/vendor/imgui/imgui_widgets.cpp.o: ../vendor/imgui/imgui_widgets.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_43) "Building CXX object CMakeFiles/Vultr.dir/vendor/imgui/imgui_widgets.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_44) "Building CXX object CMakeFiles/Vultr.dir/vendor/imgui/imgui_widgets.cpp.o"
 	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Vultr.dir/vendor/imgui/imgui_widgets.cpp.o -c /home/brandon/Dev/GameEngine/Vultr/vendor/imgui/imgui_widgets.cpp
 
 CMakeFiles/Vultr.dir/vendor/imgui/imgui_widgets.cpp.i: cmake_force
@@ -637,7 +650,7 @@ CMakeFiles/Vultr.dir/vendor/imgui/imgui_widgets.cpp.s: cmake_force
 
 CMakeFiles/Vultr.dir/vendor/stb_image/stb_image.cpp.o: CMakeFiles/Vultr.dir/flags.make
 CMakeFiles/Vultr.dir/vendor/stb_image/stb_image.cpp.o: ../vendor/stb_image/stb_image.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_44) "Building CXX object CMakeFiles/Vultr.dir/vendor/stb_image/stb_image.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_45) "Building CXX object CMakeFiles/Vultr.dir/vendor/stb_image/stb_image.cpp.o"
 	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Vultr.dir/vendor/stb_image/stb_image.cpp.o -c /home/brandon/Dev/GameEngine/Vultr/vendor/stb_image/stb_image.cpp
 
 CMakeFiles/Vultr.dir/vendor/stb_image/stb_image.cpp.i: cmake_force
@@ -675,6 +688,7 @@ Vultr_OBJECTS = \
 "CMakeFiles/Vultr.dir/src/errors/error_handler.cpp.o" \
 "CMakeFiles/Vultr.dir/src/glad/glad.c.o" \
 "CMakeFiles/Vultr.dir/src/helpers/mesh_importer.cpp.o" \
+"CMakeFiles/Vultr.dir/src/helpers/path.cpp.o" \
 "CMakeFiles/Vultr.dir/src/helpers/shader_importer.cpp.o" \
 "CMakeFiles/Vultr.dir/src/helpers/texture_importer.cpp.o" \
 "CMakeFiles/Vultr.dir/src/main.cpp.o" \
@@ -698,58 +712,59 @@ Vultr_OBJECTS = \
 # External object files for target Vultr
 Vultr_EXTERNAL_OBJECTS =
 
-libVultr.so: CMakeFiles/Vultr.dir/include/ecs/world/world.cpp.o
-libVultr.so: CMakeFiles/Vultr.dir/src/Vultr.cpp.o
-libVultr.so: CMakeFiles/Vultr.dir/src/core/component_constructor.cpp.o
-libVultr.so: CMakeFiles/Vultr.dir/src/core/models/materials/forward_material.cpp.o
-libVultr.so: CMakeFiles/Vultr.dir/src/core/models/materials/pbr_material.cpp.o
-libVultr.so: CMakeFiles/Vultr.dir/src/core/models/materials/skybox_material.cpp.o
-libVultr.so: CMakeFiles/Vultr.dir/src/core/models/materials/unlit_material.cpp.o
-libVultr.so: CMakeFiles/Vultr.dir/src/core/system_providers/camera_system_provider.cpp.o
-libVultr.so: CMakeFiles/Vultr.dir/src/core/system_providers/controller_system_provider.cpp.o
-libVultr.so: CMakeFiles/Vultr.dir/src/core/system_providers/light_system_provider.cpp.o
-libVultr.so: CMakeFiles/Vultr.dir/src/core/system_providers/mesh_loader_system_provider.cpp.o
-libVultr.so: CMakeFiles/Vultr.dir/src/core/system_providers/render_system_provider.cpp.o
-libVultr.so: CMakeFiles/Vultr.dir/src/core/system_providers/shader_loader_system_provider.cpp.o
-libVultr.so: CMakeFiles/Vultr.dir/src/core/system_providers/texture_loader_system_provider.cpp.o
-libVultr.so: CMakeFiles/Vultr.dir/src/core/systems/camera_system.cpp.o
-libVultr.so: CMakeFiles/Vultr.dir/src/core/systems/controller_system.cpp.o
-libVultr.so: CMakeFiles/Vultr.dir/src/core/systems/light_system.cpp.o
-libVultr.so: CMakeFiles/Vultr.dir/src/core/systems/mesh_loader_system.cpp.o
-libVultr.so: CMakeFiles/Vultr.dir/src/core/systems/render_system.cpp.o
-libVultr.so: CMakeFiles/Vultr.dir/src/core/systems/shader_loader_system.cpp.o
-libVultr.so: CMakeFiles/Vultr.dir/src/core/systems/texture_loader_system.cpp.o
-libVultr.so: CMakeFiles/Vultr.dir/src/ecs/entity/entity.cpp.o
-libVultr.so: CMakeFiles/Vultr.dir/src/errors/error_handler.cpp.o
-libVultr.so: CMakeFiles/Vultr.dir/src/glad/glad.c.o
-libVultr.so: CMakeFiles/Vultr.dir/src/helpers/mesh_importer.cpp.o
-libVultr.so: CMakeFiles/Vultr.dir/src/helpers/shader_importer.cpp.o
-libVultr.so: CMakeFiles/Vultr.dir/src/helpers/texture_importer.cpp.o
-libVultr.so: CMakeFiles/Vultr.dir/src/main.cpp.o
-libVultr.so: CMakeFiles/Vultr.dir/src/rendering/models/index_buffer.cpp.o
-libVultr.so: CMakeFiles/Vultr.dir/src/rendering/models/mesh.cpp.o
-libVultr.so: CMakeFiles/Vultr.dir/src/rendering/models/render_buffer.cpp.o
-libVultr.so: CMakeFiles/Vultr.dir/src/rendering/models/shader.cpp.o
-libVultr.so: CMakeFiles/Vultr.dir/src/rendering/models/texture.cpp.o
-libVultr.so: CMakeFiles/Vultr.dir/src/rendering/models/vertex_array.cpp.o
-libVultr.so: CMakeFiles/Vultr.dir/src/rendering/models/vertex_buffer.cpp.o
-libVultr.so: CMakeFiles/Vultr.dir/src/rendering/render_group.cpp.o
-libVultr.so: CMakeFiles/Vultr.dir/src/rendering/renderers/forward_renderer_3d.cpp.o
-libVultr.so: CMakeFiles/Vultr.dir/vendor/imgui/imgui.cpp.o
-libVultr.so: CMakeFiles/Vultr.dir/vendor/imgui/imgui_draw.cpp.o
-libVultr.so: CMakeFiles/Vultr.dir/vendor/imgui/imgui_impl_glfw.cpp.o
-libVultr.so: CMakeFiles/Vultr.dir/vendor/imgui/imgui_impl_opengl3.cpp.o
-libVultr.so: CMakeFiles/Vultr.dir/vendor/imgui/imgui_tables.cpp.o
-libVultr.so: CMakeFiles/Vultr.dir/vendor/imgui/imgui_widgets.cpp.o
-libVultr.so: CMakeFiles/Vultr.dir/vendor/stb_image/stb_image.cpp.o
-libVultr.so: CMakeFiles/Vultr.dir/build.make
-libVultr.so: /home/brandon/Dev/assimp/bin/libassimp.so
-libVultr.so: CMakeFiles/Vultr.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_45) "Linking CXX shared library libVultr.so"
+libVultr.a: CMakeFiles/Vultr.dir/include/ecs/world/world.cpp.o
+libVultr.a: CMakeFiles/Vultr.dir/src/Vultr.cpp.o
+libVultr.a: CMakeFiles/Vultr.dir/src/core/component_constructor.cpp.o
+libVultr.a: CMakeFiles/Vultr.dir/src/core/models/materials/forward_material.cpp.o
+libVultr.a: CMakeFiles/Vultr.dir/src/core/models/materials/pbr_material.cpp.o
+libVultr.a: CMakeFiles/Vultr.dir/src/core/models/materials/skybox_material.cpp.o
+libVultr.a: CMakeFiles/Vultr.dir/src/core/models/materials/unlit_material.cpp.o
+libVultr.a: CMakeFiles/Vultr.dir/src/core/system_providers/camera_system_provider.cpp.o
+libVultr.a: CMakeFiles/Vultr.dir/src/core/system_providers/controller_system_provider.cpp.o
+libVultr.a: CMakeFiles/Vultr.dir/src/core/system_providers/light_system_provider.cpp.o
+libVultr.a: CMakeFiles/Vultr.dir/src/core/system_providers/mesh_loader_system_provider.cpp.o
+libVultr.a: CMakeFiles/Vultr.dir/src/core/system_providers/render_system_provider.cpp.o
+libVultr.a: CMakeFiles/Vultr.dir/src/core/system_providers/shader_loader_system_provider.cpp.o
+libVultr.a: CMakeFiles/Vultr.dir/src/core/system_providers/texture_loader_system_provider.cpp.o
+libVultr.a: CMakeFiles/Vultr.dir/src/core/systems/camera_system.cpp.o
+libVultr.a: CMakeFiles/Vultr.dir/src/core/systems/controller_system.cpp.o
+libVultr.a: CMakeFiles/Vultr.dir/src/core/systems/light_system.cpp.o
+libVultr.a: CMakeFiles/Vultr.dir/src/core/systems/mesh_loader_system.cpp.o
+libVultr.a: CMakeFiles/Vultr.dir/src/core/systems/render_system.cpp.o
+libVultr.a: CMakeFiles/Vultr.dir/src/core/systems/shader_loader_system.cpp.o
+libVultr.a: CMakeFiles/Vultr.dir/src/core/systems/texture_loader_system.cpp.o
+libVultr.a: CMakeFiles/Vultr.dir/src/ecs/entity/entity.cpp.o
+libVultr.a: CMakeFiles/Vultr.dir/src/errors/error_handler.cpp.o
+libVultr.a: CMakeFiles/Vultr.dir/src/glad/glad.c.o
+libVultr.a: CMakeFiles/Vultr.dir/src/helpers/mesh_importer.cpp.o
+libVultr.a: CMakeFiles/Vultr.dir/src/helpers/path.cpp.o
+libVultr.a: CMakeFiles/Vultr.dir/src/helpers/shader_importer.cpp.o
+libVultr.a: CMakeFiles/Vultr.dir/src/helpers/texture_importer.cpp.o
+libVultr.a: CMakeFiles/Vultr.dir/src/main.cpp.o
+libVultr.a: CMakeFiles/Vultr.dir/src/rendering/models/index_buffer.cpp.o
+libVultr.a: CMakeFiles/Vultr.dir/src/rendering/models/mesh.cpp.o
+libVultr.a: CMakeFiles/Vultr.dir/src/rendering/models/render_buffer.cpp.o
+libVultr.a: CMakeFiles/Vultr.dir/src/rendering/models/shader.cpp.o
+libVultr.a: CMakeFiles/Vultr.dir/src/rendering/models/texture.cpp.o
+libVultr.a: CMakeFiles/Vultr.dir/src/rendering/models/vertex_array.cpp.o
+libVultr.a: CMakeFiles/Vultr.dir/src/rendering/models/vertex_buffer.cpp.o
+libVultr.a: CMakeFiles/Vultr.dir/src/rendering/render_group.cpp.o
+libVultr.a: CMakeFiles/Vultr.dir/src/rendering/renderers/forward_renderer_3d.cpp.o
+libVultr.a: CMakeFiles/Vultr.dir/vendor/imgui/imgui.cpp.o
+libVultr.a: CMakeFiles/Vultr.dir/vendor/imgui/imgui_draw.cpp.o
+libVultr.a: CMakeFiles/Vultr.dir/vendor/imgui/imgui_impl_glfw.cpp.o
+libVultr.a: CMakeFiles/Vultr.dir/vendor/imgui/imgui_impl_opengl3.cpp.o
+libVultr.a: CMakeFiles/Vultr.dir/vendor/imgui/imgui_tables.cpp.o
+libVultr.a: CMakeFiles/Vultr.dir/vendor/imgui/imgui_widgets.cpp.o
+libVultr.a: CMakeFiles/Vultr.dir/vendor/stb_image/stb_image.cpp.o
+libVultr.a: CMakeFiles/Vultr.dir/build.make
+libVultr.a: CMakeFiles/Vultr.dir/link.txt
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_46) "Linking CXX static library libVultr.a"
+	$(CMAKE_COMMAND) -P CMakeFiles/Vultr.dir/cmake_clean_target.cmake
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Vultr.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
-CMakeFiles/Vultr.dir/build: libVultr.so
+CMakeFiles/Vultr.dir/build: libVultr.a
 
 .PHONY : CMakeFiles/Vultr.dir/build
 

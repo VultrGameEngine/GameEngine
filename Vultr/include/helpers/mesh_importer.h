@@ -8,7 +8,7 @@ namespace Vultr
 class MeshImporter
 {
   public:
-    static Mesh *ImportMesh(std::string path);
+    static Mesh *ImportMesh(const std::string &path);
     static Mesh *InitQuad();
 };
 

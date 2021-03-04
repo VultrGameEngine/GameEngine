@@ -1,8 +1,8 @@
 #pragma once
 #include <Vultr.hpp>
-#define ROWS 16
-#define COLS 16
-#define ZOLS 16
+#define ROWS 10
+#define COLS 10
+#define ZOLS 10
 
 class GameOfLife : public Game
 {

@@ -1214,6 +1214,33 @@ src/helpers/mesh_importer.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/helpers/mesh_importer.cpp.s
 .PHONY : src/helpers/mesh_importer.cpp.s
 
+src/helpers/path.o: src/helpers/path.cpp.o
+
+.PHONY : src/helpers/path.o
+
+# target to build an object file
+src/helpers/path.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/helpers/path.cpp.o
+.PHONY : src/helpers/path.cpp.o
+
+src/helpers/path.i: src/helpers/path.cpp.i
+
+.PHONY : src/helpers/path.i
+
+# target to preprocess a source file
+src/helpers/path.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/helpers/path.cpp.i
+.PHONY : src/helpers/path.cpp.i
+
+src/helpers/path.s: src/helpers/path.cpp.s
+
+.PHONY : src/helpers/path.s
+
+# target to generate assembly for a file
+src/helpers/path.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/helpers/path.cpp.s
+.PHONY : src/helpers/path.cpp.s
+
 src/helpers/shader_importer.o: src/helpers/shader_importer.cpp.o
 
 .PHONY : src/helpers/shader_importer.o
@@ -1842,6 +1869,9 @@ help:
 	@echo "... src/helpers/mesh_importer.o"
 	@echo "... src/helpers/mesh_importer.i"
 	@echo "... src/helpers/mesh_importer.s"
+	@echo "... src/helpers/path.o"
+	@echo "... src/helpers/path.i"
+	@echo "... src/helpers/path.s"
 	@echo "... src/helpers/shader_importer.o"
 	@echo "... src/helpers/shader_importer.i"
 	@echo "... src/helpers/shader_importer.s"

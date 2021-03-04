@@ -107,11 +107,8 @@ void Engine::InitSystems()
     LightSystem::RegisterSystem();
     RenderSystem::RegisterSystem();
 
-    if (debug)
-    {
-        ControllerSystem::Init(window);
-        glfwSetWindowFocusCallback(window, ControllerSystem::WindowFocusCallback);
-    }
+    ControllerSystem::Init(window);
+    glfwSetWindowFocusCallback(window, ControllerSystem::WindowFocusCallback);
 }
 
 void Engine::LoadGame(const std::string &path)

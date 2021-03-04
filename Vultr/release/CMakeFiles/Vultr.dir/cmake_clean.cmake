@@ -24,6 +24,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/Vultr.dir/src/errors/error_handler.cpp.o"
   "CMakeFiles/Vultr.dir/src/glad/glad.c.o"
   "CMakeFiles/Vultr.dir/src/helpers/mesh_importer.cpp.o"
+  "CMakeFiles/Vultr.dir/src/helpers/path.cpp.o"
   "CMakeFiles/Vultr.dir/src/helpers/shader_importer.cpp.o"
   "CMakeFiles/Vultr.dir/src/helpers/texture_importer.cpp.o"
   "CMakeFiles/Vultr.dir/src/main.cpp.o"
@@ -43,8 +44,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/Vultr.dir/vendor/imgui/imgui_tables.cpp.o"
   "CMakeFiles/Vultr.dir/vendor/imgui/imgui_widgets.cpp.o"
   "CMakeFiles/Vultr.dir/vendor/stb_image/stb_image.cpp.o"
+  "libVultr.a"
   "libVultr.pdb"
-  "libVultr.so"
 )
 
 # Per-language clean rules from dependency scanning.

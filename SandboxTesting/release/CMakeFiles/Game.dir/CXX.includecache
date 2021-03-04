@@ -938,17 +938,3 @@ systems/board_system.h
 systems/controller_system.h
 -
 
-/home/brandon/Dev/GameEngine/SandboxTesting/src/system_providers/controller_system_provider.cpp
-system_providers/controller_system_provider.h
--
-systems/controller_system.h
--
-
-/home/brandon/Dev/GameEngine/SandboxTesting/src/systems/controller_system.cpp
-systems/controller_system.h
--
-GLFW/glfw3.h
--
-glm/gtc/quaternion.hpp
--
-

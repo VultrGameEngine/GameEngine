@@ -14,12 +14,14 @@ file(GLOB_RECURSE Vultr_SRC
     "vendor/*.cpp"
 )
 
+find_package(ASSIMP REQUIRED)
 include_directories(include vendor)
+include_directories(${ASSIMP_INCLUDE_DIRS})
 
 
 add_library(Vultr SHARED ${Vultr_SRC})
-target_link_libraries(Vultr GL glfw3 X11 Xxf86vm Xrandr pthread Xi dl /home/brandon/Dev/assimp/bin/libassimp.so)
-
+# add_library(Vultr STATIC ${Vultr_SRC})
+target_link_libraries(Vultr GL glfw3 X11 Xxf86vm Xrandr pthread Xi dl ${ASSIMP_LIBRARIES})
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
 include(CPack)

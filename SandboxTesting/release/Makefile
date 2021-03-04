@@ -75,6 +75,40 @@ CMAKE_BINARY_DIR = /home/brandon/Dev/GameEngine/SandboxTesting/release
 #=============================================================================
 # Targets provided globally by CMake.
 
+# Special rule for the target install/strip
+install/strip: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
+	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip
+
+# Special rule for the target install/strip
+install/strip/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
+	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip/fast
+
+# Special rule for the target install/local
+install/local: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local
+
+# Special rule for the target install/local
+install/local/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local/fast
+
+# Special rule for the target list_install_components
+list_install_components:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Available install components are: \"Unspecified\""
+.PHONY : list_install_components
+
+# Special rule for the target list_install_components
+list_install_components/fast: list_install_components
+
+.PHONY : list_install_components/fast
+
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
@@ -119,6 +153,18 @@ edit_cache/fast: edit_cache
 
 .PHONY : edit_cache/fast
 
+# Special rule for the target install
+install: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install
+
+# Special rule for the target install
+install/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
+	/usr/bin/cmake -P cmake_install.cmake
+.PHONY : install/fast
+
 # Special rule for the target package
 package: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Run CPack packaging tool..."
@@ -161,19 +207,6 @@ preinstall/fast:
 depend:
 	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
-
-#=============================================================================
-# Target rules for targets named Game-bin
-
-# Build rule for target.
-Game-bin: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Game-bin
-.PHONY : Game-bin
-
-# fast build rule for target.
-Game-bin/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game-bin.dir/build.make CMakeFiles/Game-bin.dir/build
-.PHONY : Game-bin/fast
 
 #=============================================================================
 # Target rules for targets named NightlyTest
@@ -558,7 +591,6 @@ src/game_of_life.o: src/game_of_life.cpp.o
 
 # target to build an object file
 src/game_of_life.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game-bin.dir/build.make CMakeFiles/Game-bin.dir/src/game_of_life.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game.dir/build.make CMakeFiles/Game.dir/src/game_of_life.cpp.o
 .PHONY : src/game_of_life.cpp.o
 
@@ -568,7 +600,6 @@ src/game_of_life.i: src/game_of_life.cpp.i
 
 # target to preprocess a source file
 src/game_of_life.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game-bin.dir/build.make CMakeFiles/Game-bin.dir/src/game_of_life.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game.dir/build.make CMakeFiles/Game.dir/src/game_of_life.cpp.i
 .PHONY : src/game_of_life.cpp.i
 
@@ -578,7 +609,6 @@ src/game_of_life.s: src/game_of_life.cpp.s
 
 # target to generate assembly for a file
 src/game_of_life.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game-bin.dir/build.make CMakeFiles/Game-bin.dir/src/game_of_life.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game.dir/build.make CMakeFiles/Game.dir/src/game_of_life.cpp.s
 .PHONY : src/game_of_life.cpp.s
 
@@ -588,7 +618,6 @@ src/main.o: src/main.cpp.o
 
 # target to build an object file
 src/main.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game-bin.dir/build.make CMakeFiles/Game-bin.dir/src/main.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game.dir/build.make CMakeFiles/Game.dir/src/main.cpp.o
 .PHONY : src/main.cpp.o
 
@@ -598,7 +627,6 @@ src/main.i: src/main.cpp.i
 
 # target to preprocess a source file
 src/main.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game-bin.dir/build.make CMakeFiles/Game-bin.dir/src/main.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game.dir/build.make CMakeFiles/Game.dir/src/main.cpp.i
 .PHONY : src/main.cpp.i
 
@@ -608,7 +636,6 @@ src/main.s: src/main.cpp.s
 
 # target to generate assembly for a file
 src/main.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game-bin.dir/build.make CMakeFiles/Game-bin.dir/src/main.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game.dir/build.make CMakeFiles/Game.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
@@ -618,7 +645,6 @@ src/system_providers/board_system_provider.o: src/system_providers/board_system_
 
 # target to build an object file
 src/system_providers/board_system_provider.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game-bin.dir/build.make CMakeFiles/Game-bin.dir/src/system_providers/board_system_provider.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game.dir/build.make CMakeFiles/Game.dir/src/system_providers/board_system_provider.cpp.o
 .PHONY : src/system_providers/board_system_provider.cpp.o
 
@@ -628,7 +654,6 @@ src/system_providers/board_system_provider.i: src/system_providers/board_system_
 
 # target to preprocess a source file
 src/system_providers/board_system_provider.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game-bin.dir/build.make CMakeFiles/Game-bin.dir/src/system_providers/board_system_provider.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game.dir/build.make CMakeFiles/Game.dir/src/system_providers/board_system_provider.cpp.i
 .PHONY : src/system_providers/board_system_provider.cpp.i
 
@@ -638,7 +663,6 @@ src/system_providers/board_system_provider.s: src/system_providers/board_system_
 
 # target to generate assembly for a file
 src/system_providers/board_system_provider.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game-bin.dir/build.make CMakeFiles/Game-bin.dir/src/system_providers/board_system_provider.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game.dir/build.make CMakeFiles/Game.dir/src/system_providers/board_system_provider.cpp.s
 .PHONY : src/system_providers/board_system_provider.cpp.s
 
@@ -648,7 +672,6 @@ src/system_providers/controller_system_provider.o: src/system_providers/controll
 
 # target to build an object file
 src/system_providers/controller_system_provider.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game-bin.dir/build.make CMakeFiles/Game-bin.dir/src/system_providers/controller_system_provider.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game.dir/build.make CMakeFiles/Game.dir/src/system_providers/controller_system_provider.cpp.o
 .PHONY : src/system_providers/controller_system_provider.cpp.o
 
@@ -658,7 +681,6 @@ src/system_providers/controller_system_provider.i: src/system_providers/controll
 
 # target to preprocess a source file
 src/system_providers/controller_system_provider.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game-bin.dir/build.make CMakeFiles/Game-bin.dir/src/system_providers/controller_system_provider.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game.dir/build.make CMakeFiles/Game.dir/src/system_providers/controller_system_provider.cpp.i
 .PHONY : src/system_providers/controller_system_provider.cpp.i
 
@@ -668,7 +690,6 @@ src/system_providers/controller_system_provider.s: src/system_providers/controll
 
 # target to generate assembly for a file
 src/system_providers/controller_system_provider.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game-bin.dir/build.make CMakeFiles/Game-bin.dir/src/system_providers/controller_system_provider.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game.dir/build.make CMakeFiles/Game.dir/src/system_providers/controller_system_provider.cpp.s
 .PHONY : src/system_providers/controller_system_provider.cpp.s
 
@@ -678,7 +699,6 @@ src/systems/board_system.o: src/systems/board_system.cpp.o
 
 # target to build an object file
 src/systems/board_system.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game-bin.dir/build.make CMakeFiles/Game-bin.dir/src/systems/board_system.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game.dir/build.make CMakeFiles/Game.dir/src/systems/board_system.cpp.o
 .PHONY : src/systems/board_system.cpp.o
 
@@ -688,7 +708,6 @@ src/systems/board_system.i: src/systems/board_system.cpp.i
 
 # target to preprocess a source file
 src/systems/board_system.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game-bin.dir/build.make CMakeFiles/Game-bin.dir/src/systems/board_system.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game.dir/build.make CMakeFiles/Game.dir/src/systems/board_system.cpp.i
 .PHONY : src/systems/board_system.cpp.i
 
@@ -698,7 +717,6 @@ src/systems/board_system.s: src/systems/board_system.cpp.s
 
 # target to generate assembly for a file
 src/systems/board_system.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game-bin.dir/build.make CMakeFiles/Game-bin.dir/src/systems/board_system.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game.dir/build.make CMakeFiles/Game.dir/src/systems/board_system.cpp.s
 .PHONY : src/systems/board_system.cpp.s
 
@@ -708,7 +726,6 @@ src/systems/controller_system.o: src/systems/controller_system.cpp.o
 
 # target to build an object file
 src/systems/controller_system.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game-bin.dir/build.make CMakeFiles/Game-bin.dir/src/systems/controller_system.cpp.o
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game.dir/build.make CMakeFiles/Game.dir/src/systems/controller_system.cpp.o
 .PHONY : src/systems/controller_system.cpp.o
 
@@ -718,7 +735,6 @@ src/systems/controller_system.i: src/systems/controller_system.cpp.i
 
 # target to preprocess a source file
 src/systems/controller_system.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game-bin.dir/build.make CMakeFiles/Game-bin.dir/src/systems/controller_system.cpp.i
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game.dir/build.make CMakeFiles/Game.dir/src/systems/controller_system.cpp.i
 .PHONY : src/systems/controller_system.cpp.i
 
@@ -728,7 +744,6 @@ src/systems/controller_system.s: src/systems/controller_system.cpp.s
 
 # target to generate assembly for a file
 src/systems/controller_system.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game-bin.dir/build.make CMakeFiles/Game-bin.dir/src/systems/controller_system.cpp.s
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game.dir/build.make CMakeFiles/Game.dir/src/systems/controller_system.cpp.s
 .PHONY : src/systems/controller_system.cpp.s
 
@@ -739,6 +754,10 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... edit_cache"
+	@echo "... install"
+	@echo "... install/local"
+	@echo "... install/strip"
+	@echo "... list_install_components"
 	@echo "... package"
 	@echo "... package_source"
 	@echo "... rebuild_cache"
@@ -772,7 +791,6 @@ help:
 	@echo "... NightlyTest"
 	@echo "... NightlyUpdate"
 	@echo "... Game"
-	@echo "... Game-bin"
 	@echo "... src/game_of_life.o"
 	@echo "... src/game_of_life.i"
 	@echo "... src/game_of_life.s"

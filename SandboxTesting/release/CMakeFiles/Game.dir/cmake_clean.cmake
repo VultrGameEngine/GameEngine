@@ -5,8 +5,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/Game.dir/src/system_providers/controller_system_provider.cpp.o"
   "CMakeFiles/Game.dir/src/systems/board_system.cpp.o"
   "CMakeFiles/Game.dir/src/systems/controller_system.cpp.o"
-  "libGame.pdb"
-  "libGame.so"
+  "Game"
+  "Game.pdb"
 )
 
 # Per-language clean rules from dependency scanning.

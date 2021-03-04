@@ -6,11 +6,12 @@
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
+#include <helpers/path.h>
 
 namespace Vultr
 {
 
-Mesh *MeshImporter::ImportMesh(std::string path)
+Mesh *MeshImporter::ImportMesh(const std::string &path)
 {
     Mesh *mesh = new Mesh();
     Assimp::Importer importer;
@@ -19,8 +20,9 @@ Mesh *MeshImporter::ImportMesh(std::string path)
     std::vector<unsigned short> indices;
 
     const aiScene *scene = importer.ReadFile(
-        path, aiProcess_CalcTangentSpace | aiProcess_Triangulate |
-                  aiProcess_JoinIdenticalVertices | aiProcess_SortByPType);
+        Path::GetFullPath(path), aiProcess_CalcTangentSpace | aiProcess_Triangulate |
+                                     aiProcess_JoinIdenticalVertices |
+                                     aiProcess_SortByPType);
     if (!scene)
     {
         std::cout << "FAILED TO IMPORT MESH" << std::endl;

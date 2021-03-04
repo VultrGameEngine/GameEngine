@@ -3,12 +3,13 @@
 #include <iostream>
 #include <sstream>
 #include <stdio.h>
+#include <helpers/path.h>
 
 namespace Vultr
 {
 Shader *ShaderImporter::ImportShader(const std::string &path)
 {
-    Shader *shader = new Shader(CreateShader(path), Deferred);
+    Shader *shader = new Shader(CreateShader(Path::GetFullPath(path)), Deferred);
     return shader;
 }
 

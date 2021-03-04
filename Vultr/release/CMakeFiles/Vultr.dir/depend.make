@@ -1299,6 +1299,7 @@ CMakeFiles/Vultr.dir/src/errors/error_handler.cpp.o: ../src/errors/error_handler
 
 CMakeFiles/Vultr.dir/src/helpers/mesh_importer.cpp.o: ../include/helpers/loading_state.h
 CMakeFiles/Vultr.dir/src/helpers/mesh_importer.cpp.o: ../include/helpers/mesh_importer.h
+CMakeFiles/Vultr.dir/src/helpers/mesh_importer.cpp.o: ../include/helpers/path.h
 CMakeFiles/Vultr.dir/src/helpers/mesh_importer.cpp.o: ../include/rendering/models/index_buffer.h
 CMakeFiles/Vultr.dir/src/helpers/mesh_importer.cpp.o: ../include/rendering/models/mesh.h
 CMakeFiles/Vultr.dir/src/helpers/mesh_importer.cpp.o: ../include/rendering/models/shader.h
@@ -1307,40 +1308,13 @@ CMakeFiles/Vultr.dir/src/helpers/mesh_importer.cpp.o: ../include/rendering/model
 CMakeFiles/Vultr.dir/src/helpers/mesh_importer.cpp.o: ../include/rendering/models/vertex_buffer.h
 CMakeFiles/Vultr.dir/src/helpers/mesh_importer.cpp.o: ../include/rendering/render_type.h
 CMakeFiles/Vultr.dir/src/helpers/mesh_importer.cpp.o: ../vendor/KHR/khrplatform.h
-CMakeFiles/Vultr.dir/src/helpers/mesh_importer.cpp.o: ../vendor/assimp/Compiler/poppack1.h
-CMakeFiles/Vultr.dir/src/helpers/mesh_importer.cpp.o: ../vendor/assimp/Compiler/pstdint.h
-CMakeFiles/Vultr.dir/src/helpers/mesh_importer.cpp.o: ../vendor/assimp/Compiler/pushpack1.h
-CMakeFiles/Vultr.dir/src/helpers/mesh_importer.cpp.o: ../vendor/assimp/Importer.hpp
-CMakeFiles/Vultr.dir/src/helpers/mesh_importer.cpp.o: ../vendor/assimp/MathFunctions.h
-CMakeFiles/Vultr.dir/src/helpers/mesh_importer.cpp.o: ../vendor/assimp/aabb.h
-CMakeFiles/Vultr.dir/src/helpers/mesh_importer.cpp.o: ../vendor/assimp/anim.h
-CMakeFiles/Vultr.dir/src/helpers/mesh_importer.cpp.o: ../vendor/assimp/camera.h
-CMakeFiles/Vultr.dir/src/helpers/mesh_importer.cpp.o: ../vendor/assimp/color4.h
-CMakeFiles/Vultr.dir/src/helpers/mesh_importer.cpp.o: ../vendor/assimp/color4.inl
-CMakeFiles/Vultr.dir/src/helpers/mesh_importer.cpp.o: ../vendor/assimp/config.h
-CMakeFiles/Vultr.dir/src/helpers/mesh_importer.cpp.o: ../vendor/assimp/defs.h
-CMakeFiles/Vultr.dir/src/helpers/mesh_importer.cpp.o: ../vendor/assimp/light.h
-CMakeFiles/Vultr.dir/src/helpers/mesh_importer.cpp.o: ../vendor/assimp/material.h
-CMakeFiles/Vultr.dir/src/helpers/mesh_importer.cpp.o: ../vendor/assimp/material.inl
-CMakeFiles/Vultr.dir/src/helpers/mesh_importer.cpp.o: ../vendor/assimp/matrix3x3.h
-CMakeFiles/Vultr.dir/src/helpers/mesh_importer.cpp.o: ../vendor/assimp/matrix3x3.inl
-CMakeFiles/Vultr.dir/src/helpers/mesh_importer.cpp.o: ../vendor/assimp/matrix4x4.h
-CMakeFiles/Vultr.dir/src/helpers/mesh_importer.cpp.o: ../vendor/assimp/matrix4x4.inl
-CMakeFiles/Vultr.dir/src/helpers/mesh_importer.cpp.o: ../vendor/assimp/mesh.h
-CMakeFiles/Vultr.dir/src/helpers/mesh_importer.cpp.o: ../vendor/assimp/metadata.h
-CMakeFiles/Vultr.dir/src/helpers/mesh_importer.cpp.o: ../vendor/assimp/postprocess.h
-CMakeFiles/Vultr.dir/src/helpers/mesh_importer.cpp.o: ../vendor/assimp/quaternion.h
-CMakeFiles/Vultr.dir/src/helpers/mesh_importer.cpp.o: ../vendor/assimp/quaternion.inl
-CMakeFiles/Vultr.dir/src/helpers/mesh_importer.cpp.o: ../vendor/assimp/scene.h
-CMakeFiles/Vultr.dir/src/helpers/mesh_importer.cpp.o: ../vendor/assimp/texture.h
-CMakeFiles/Vultr.dir/src/helpers/mesh_importer.cpp.o: ../vendor/assimp/types.h
-CMakeFiles/Vultr.dir/src/helpers/mesh_importer.cpp.o: ../vendor/assimp/vector2.h
-CMakeFiles/Vultr.dir/src/helpers/mesh_importer.cpp.o: ../vendor/assimp/vector2.inl
-CMakeFiles/Vultr.dir/src/helpers/mesh_importer.cpp.o: ../vendor/assimp/vector3.h
-CMakeFiles/Vultr.dir/src/helpers/mesh_importer.cpp.o: ../vendor/assimp/vector3.inl
 CMakeFiles/Vultr.dir/src/helpers/mesh_importer.cpp.o: ../vendor/glad/glad.h
 CMakeFiles/Vultr.dir/src/helpers/mesh_importer.cpp.o: ../src/helpers/mesh_importer.cpp
 
+CMakeFiles/Vultr.dir/src/helpers/path.cpp.o: ../include/helpers/path.h
+CMakeFiles/Vultr.dir/src/helpers/path.cpp.o: ../src/helpers/path.cpp
+
+CMakeFiles/Vultr.dir/src/helpers/shader_importer.cpp.o: ../include/helpers/path.h
 CMakeFiles/Vultr.dir/src/helpers/shader_importer.cpp.o: ../include/helpers/shader_importer.h
 CMakeFiles/Vultr.dir/src/helpers/shader_importer.cpp.o: ../include/rendering/models/shader.h
 CMakeFiles/Vultr.dir/src/helpers/shader_importer.cpp.o: ../include/rendering/render_type.h
@@ -1348,6 +1322,7 @@ CMakeFiles/Vultr.dir/src/helpers/shader_importer.cpp.o: ../vendor/KHR/khrplatfor
 CMakeFiles/Vultr.dir/src/helpers/shader_importer.cpp.o: ../vendor/glad/glad.h
 CMakeFiles/Vultr.dir/src/helpers/shader_importer.cpp.o: ../src/helpers/shader_importer.cpp
 
+CMakeFiles/Vultr.dir/src/helpers/texture_importer.cpp.o: ../include/helpers/path.h
 CMakeFiles/Vultr.dir/src/helpers/texture_importer.cpp.o: ../include/helpers/texture_importer.h
 CMakeFiles/Vultr.dir/src/helpers/texture_importer.cpp.o: ../include/rendering/models/texture.h
 CMakeFiles/Vultr.dir/src/helpers/texture_importer.cpp.o: ../vendor/KHR/khrplatform.h
