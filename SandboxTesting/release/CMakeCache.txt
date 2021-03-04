@@ -302,7 +302,7 @@ GITCOMMAND:FILEPATH=/usr/bin/git
 Game_BINARY_DIR:STATIC=/home/brandon/Dev/GameEngine/SandboxTesting/release
 
 //Dependencies for the target
-Game_LIB_DEPENDS:STATIC=general;GL;general;GLU;general;glfw3;general;X11;general;Xxf86vm;general;Xrandr;general;pthread;general;Xi;general;dl;general;GLEW;debug;/home/brandon/Dev/GameEngine/Vultr/build/libVultr.so;optimized;/home/brandon/Dev/GameEngine/Vultr/release/libVultr.so;
+Game_LIB_DEPENDS:STATIC=general;GL;general;glfw3;general;X11;general;Xxf86vm;general;Xrandr;general;pthread;general;Xi;general;dl;general;/home/brandon/Dev/assimp/bin/libassimp.so;debug;/home/brandon/Dev/GameEngine/Vultr/build/libVultr.so;optimized;/home/brandon/Dev/GameEngine/Vultr/release/libVultr.so;
 
 //Value Computed by CMake
 Game_SOURCE_DIR:STATIC=/home/brandon/Dev/GameEngine/SandboxTesting
@@ -352,7 +352,7 @@ CMAKE_CACHE_MAJOR_VERSION:INTERNAL=3
 //Minor version of cmake used to create the current loaded cache
 CMAKE_CACHE_MINOR_VERSION:INTERNAL=19
 //Patch version of cmake used to create the current loaded cache
-CMAKE_CACHE_PATCH_VERSION:INTERNAL=3
+CMAKE_CACHE_PATCH_VERSION:INTERNAL=6
 //ADVANCED property for variable: CMAKE_COLOR_MAKEFILE
 CMAKE_COLOR_MAKEFILE-ADVANCED:INTERNAL=1
 //Path to CMake executable.

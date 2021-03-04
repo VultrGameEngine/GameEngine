@@ -63,7 +63,7 @@ UpdateType:
 
 # Compiler info
 Compiler: /bin/clang++
-CompilerVersion: 11.0.1
+CompilerVersion: 11.1.0
 
 # Dynamic analysis (MemCheck)
 PurifyCommand: 

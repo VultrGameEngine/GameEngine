@@ -76,9 +76,22 @@ include CMakeFiles/Game.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/Game.dir/flags.make
 
+CMakeFiles/Game.dir/src/game_of_life.cpp.o: CMakeFiles/Game.dir/flags.make
+CMakeFiles/Game.dir/src/game_of_life.cpp.o: ../src/game_of_life.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/SandboxTesting/release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Game.dir/src/game_of_life.cpp.o"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Game.dir/src/game_of_life.cpp.o -c /home/brandon/Dev/GameEngine/SandboxTesting/src/game_of_life.cpp
+
+CMakeFiles/Game.dir/src/game_of_life.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Game.dir/src/game_of_life.cpp.i"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Dev/GameEngine/SandboxTesting/src/game_of_life.cpp > CMakeFiles/Game.dir/src/game_of_life.cpp.i
+
+CMakeFiles/Game.dir/src/game_of_life.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Game.dir/src/game_of_life.cpp.s"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Dev/GameEngine/SandboxTesting/src/game_of_life.cpp -o CMakeFiles/Game.dir/src/game_of_life.cpp.s
+
 CMakeFiles/Game.dir/src/main.cpp.o: CMakeFiles/Game.dir/flags.make
 CMakeFiles/Game.dir/src/main.cpp.o: ../src/main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/SandboxTesting/release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Game.dir/src/main.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/SandboxTesting/release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Game.dir/src/main.cpp.o"
 	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Game.dir/src/main.cpp.o -c /home/brandon/Dev/GameEngine/SandboxTesting/src/main.cpp
 
 CMakeFiles/Game.dir/src/main.cpp.i: cmake_force
@@ -89,33 +102,81 @@ CMakeFiles/Game.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Game.dir/src/main.cpp.s"
 	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Dev/GameEngine/SandboxTesting/src/main.cpp -o CMakeFiles/Game.dir/src/main.cpp.s
 
-CMakeFiles/Game.dir/src/test_game.cpp.o: CMakeFiles/Game.dir/flags.make
-CMakeFiles/Game.dir/src/test_game.cpp.o: ../src/test_game.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/SandboxTesting/release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Game.dir/src/test_game.cpp.o"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Game.dir/src/test_game.cpp.o -c /home/brandon/Dev/GameEngine/SandboxTesting/src/test_game.cpp
+CMakeFiles/Game.dir/src/system_providers/board_system_provider.cpp.o: CMakeFiles/Game.dir/flags.make
+CMakeFiles/Game.dir/src/system_providers/board_system_provider.cpp.o: ../src/system_providers/board_system_provider.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/SandboxTesting/release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Game.dir/src/system_providers/board_system_provider.cpp.o"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Game.dir/src/system_providers/board_system_provider.cpp.o -c /home/brandon/Dev/GameEngine/SandboxTesting/src/system_providers/board_system_provider.cpp
 
-CMakeFiles/Game.dir/src/test_game.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Game.dir/src/test_game.cpp.i"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Dev/GameEngine/SandboxTesting/src/test_game.cpp > CMakeFiles/Game.dir/src/test_game.cpp.i
+CMakeFiles/Game.dir/src/system_providers/board_system_provider.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Game.dir/src/system_providers/board_system_provider.cpp.i"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Dev/GameEngine/SandboxTesting/src/system_providers/board_system_provider.cpp > CMakeFiles/Game.dir/src/system_providers/board_system_provider.cpp.i
 
-CMakeFiles/Game.dir/src/test_game.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Game.dir/src/test_game.cpp.s"
-	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Dev/GameEngine/SandboxTesting/src/test_game.cpp -o CMakeFiles/Game.dir/src/test_game.cpp.s
+CMakeFiles/Game.dir/src/system_providers/board_system_provider.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Game.dir/src/system_providers/board_system_provider.cpp.s"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Dev/GameEngine/SandboxTesting/src/system_providers/board_system_provider.cpp -o CMakeFiles/Game.dir/src/system_providers/board_system_provider.cpp.s
+
+CMakeFiles/Game.dir/src/system_providers/controller_system_provider.cpp.o: CMakeFiles/Game.dir/flags.make
+CMakeFiles/Game.dir/src/system_providers/controller_system_provider.cpp.o: ../src/system_providers/controller_system_provider.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/SandboxTesting/release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Game.dir/src/system_providers/controller_system_provider.cpp.o"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Game.dir/src/system_providers/controller_system_provider.cpp.o -c /home/brandon/Dev/GameEngine/SandboxTesting/src/system_providers/controller_system_provider.cpp
+
+CMakeFiles/Game.dir/src/system_providers/controller_system_provider.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Game.dir/src/system_providers/controller_system_provider.cpp.i"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Dev/GameEngine/SandboxTesting/src/system_providers/controller_system_provider.cpp > CMakeFiles/Game.dir/src/system_providers/controller_system_provider.cpp.i
+
+CMakeFiles/Game.dir/src/system_providers/controller_system_provider.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Game.dir/src/system_providers/controller_system_provider.cpp.s"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Dev/GameEngine/SandboxTesting/src/system_providers/controller_system_provider.cpp -o CMakeFiles/Game.dir/src/system_providers/controller_system_provider.cpp.s
+
+CMakeFiles/Game.dir/src/systems/board_system.cpp.o: CMakeFiles/Game.dir/flags.make
+CMakeFiles/Game.dir/src/systems/board_system.cpp.o: ../src/systems/board_system.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/SandboxTesting/release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/Game.dir/src/systems/board_system.cpp.o"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Game.dir/src/systems/board_system.cpp.o -c /home/brandon/Dev/GameEngine/SandboxTesting/src/systems/board_system.cpp
+
+CMakeFiles/Game.dir/src/systems/board_system.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Game.dir/src/systems/board_system.cpp.i"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Dev/GameEngine/SandboxTesting/src/systems/board_system.cpp > CMakeFiles/Game.dir/src/systems/board_system.cpp.i
+
+CMakeFiles/Game.dir/src/systems/board_system.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Game.dir/src/systems/board_system.cpp.s"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Dev/GameEngine/SandboxTesting/src/systems/board_system.cpp -o CMakeFiles/Game.dir/src/systems/board_system.cpp.s
+
+CMakeFiles/Game.dir/src/systems/controller_system.cpp.o: CMakeFiles/Game.dir/flags.make
+CMakeFiles/Game.dir/src/systems/controller_system.cpp.o: ../src/systems/controller_system.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brandon/Dev/GameEngine/SandboxTesting/release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/Game.dir/src/systems/controller_system.cpp.o"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Game.dir/src/systems/controller_system.cpp.o -c /home/brandon/Dev/GameEngine/SandboxTesting/src/systems/controller_system.cpp
+
+CMakeFiles/Game.dir/src/systems/controller_system.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Game.dir/src/systems/controller_system.cpp.i"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/brandon/Dev/GameEngine/SandboxTesting/src/systems/controller_system.cpp > CMakeFiles/Game.dir/src/systems/controller_system.cpp.i
+
+CMakeFiles/Game.dir/src/systems/controller_system.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Game.dir/src/systems/controller_system.cpp.s"
+	/bin/clang++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/brandon/Dev/GameEngine/SandboxTesting/src/systems/controller_system.cpp -o CMakeFiles/Game.dir/src/systems/controller_system.cpp.s
 
 # Object files for target Game
 Game_OBJECTS = \
+"CMakeFiles/Game.dir/src/game_of_life.cpp.o" \
 "CMakeFiles/Game.dir/src/main.cpp.o" \
-"CMakeFiles/Game.dir/src/test_game.cpp.o"
+"CMakeFiles/Game.dir/src/system_providers/board_system_provider.cpp.o" \
+"CMakeFiles/Game.dir/src/system_providers/controller_system_provider.cpp.o" \
+"CMakeFiles/Game.dir/src/systems/board_system.cpp.o" \
+"CMakeFiles/Game.dir/src/systems/controller_system.cpp.o"
 
 # External object files for target Game
 Game_EXTERNAL_OBJECTS =
 
+libGame.so: CMakeFiles/Game.dir/src/game_of_life.cpp.o
 libGame.so: CMakeFiles/Game.dir/src/main.cpp.o
-libGame.so: CMakeFiles/Game.dir/src/test_game.cpp.o
+libGame.so: CMakeFiles/Game.dir/src/system_providers/board_system_provider.cpp.o
+libGame.so: CMakeFiles/Game.dir/src/system_providers/controller_system_provider.cpp.o
+libGame.so: CMakeFiles/Game.dir/src/systems/board_system.cpp.o
+libGame.so: CMakeFiles/Game.dir/src/systems/controller_system.cpp.o
 libGame.so: CMakeFiles/Game.dir/build.make
+libGame.so: /home/brandon/Dev/assimp/bin/libassimp.so
 libGame.so: /home/brandon/Dev/GameEngine/Vultr/release/libVultr.so
 libGame.so: CMakeFiles/Game.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/brandon/Dev/GameEngine/SandboxTesting/release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX shared library libGame.so"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/brandon/Dev/GameEngine/SandboxTesting/release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX shared library libGame.so"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Game.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

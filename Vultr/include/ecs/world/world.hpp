@@ -68,9 +68,9 @@ class World
     {
         Get()->entity_manager->DestroyEntity(entity);
 
-        Get()->component_manager->EntityDestroyed(entity);
-
         Get()->system_manager->EntityDestroyed(entity);
+
+        Get()->component_manager->EntityDestroyed(entity);
     }
 
     static std::set<Entity> GetEntities(Signature signature)
@@ -106,12 +106,13 @@ class World
 
     template <typename T> static void RemoveComponent(Entity entity)
     {
-        Get()->component_manager->RemoveComponent<T>(entity);
 
         auto signature = Get()->entity_manager->GetSignature(entity);
         signature.set(Get()->component_manager->GetComponentType<T>(), false);
         Get()->system_manager->EntitySignatureChanged(entity, signature);
         Get()->entity_manager->SetSignature(entity, signature);
+
+        Get()->component_manager->RemoveComponent<T>(entity);
     }
 
     template <typename T> static T &GetComponent(Entity entity)

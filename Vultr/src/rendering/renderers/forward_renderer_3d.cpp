@@ -22,6 +22,7 @@ void ForwardRenderer::BindMaterial(const MaterialComponent &material,
     shader->SetUniformMatrix4fv("model", glm::value_ptr(transform));
 
     const RenderContext &context = RenderContext::GetContext();
+
     shader->SetUniformMatrix4fv(
         "projection", glm::value_ptr(context.camera_component.GetProjectionMatrix(
                           context.dimensions.x, context.dimensions.y)));
@@ -33,8 +34,17 @@ void ForwardRenderer::BindMaterial(const MaterialComponent &material,
         if (texture != nullptr)
             texture->Bind(slot);
     }
-    shader->SetUniformMatrix4fv(
-        "view", glm::value_ptr(context.camera_transform.GetViewMatrix()));
+    if (material.identifier != nullptr)
+    {
+        shader->SetUniformMatrix4fv(
+            "view", glm::value_ptr(glm::mat4(
+                        glm::mat3(context.camera_transform.GetViewMatrix()))));
+    }
+    else
+    {
+        shader->SetUniformMatrix4fv(
+            "view", glm::value_ptr(context.camera_transform.GetViewMatrix()));
+    }
 
     for (auto [uniform, value] : material.vec3s)
     {

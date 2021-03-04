@@ -29,4 +29,5 @@ set_target_properties(Game-bin
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
+set(CPACK_GENERATOR DEB)
 include(CPack)

@@ -52,7 +52,7 @@ class EntityWindow : public Window
             std::shared_ptr<World> world = World::ImportWorld("test_world.world");
             World::ChangeWorld(world);
             Engine::RegisterComponents();
-            Engine::InitSystems();
+            // Engine::InitSystems();
             // World::FixSystems();
         }
         ImGui::End();

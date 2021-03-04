@@ -72,7 +72,7 @@ class Entity
     // ONLY FOR THE EDITOR
     template <typename T> T *GetComponentUnsafe();
 
-    uint32_t id;
+    int id;
 };
 
 // Used to define the size of the arrays to hold all of these entities

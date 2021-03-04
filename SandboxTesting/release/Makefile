@@ -552,6 +552,36 @@ ContinuousSubmit/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ContinuousSubmit.dir/build.make CMakeFiles/ContinuousSubmit.dir/build
 .PHONY : ContinuousSubmit/fast
 
+src/game_of_life.o: src/game_of_life.cpp.o
+
+.PHONY : src/game_of_life.o
+
+# target to build an object file
+src/game_of_life.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game-bin.dir/build.make CMakeFiles/Game-bin.dir/src/game_of_life.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game.dir/build.make CMakeFiles/Game.dir/src/game_of_life.cpp.o
+.PHONY : src/game_of_life.cpp.o
+
+src/game_of_life.i: src/game_of_life.cpp.i
+
+.PHONY : src/game_of_life.i
+
+# target to preprocess a source file
+src/game_of_life.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game-bin.dir/build.make CMakeFiles/Game-bin.dir/src/game_of_life.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game.dir/build.make CMakeFiles/Game.dir/src/game_of_life.cpp.i
+.PHONY : src/game_of_life.cpp.i
+
+src/game_of_life.s: src/game_of_life.cpp.s
+
+.PHONY : src/game_of_life.s
+
+# target to generate assembly for a file
+src/game_of_life.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game-bin.dir/build.make CMakeFiles/Game-bin.dir/src/game_of_life.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game.dir/build.make CMakeFiles/Game.dir/src/game_of_life.cpp.s
+.PHONY : src/game_of_life.cpp.s
+
 src/main.o: src/main.cpp.o
 
 .PHONY : src/main.o
@@ -582,35 +612,125 @@ src/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game.dir/build.make CMakeFiles/Game.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
-src/test_game.o: src/test_game.cpp.o
+src/system_providers/board_system_provider.o: src/system_providers/board_system_provider.cpp.o
 
-.PHONY : src/test_game.o
+.PHONY : src/system_providers/board_system_provider.o
 
 # target to build an object file
-src/test_game.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game-bin.dir/build.make CMakeFiles/Game-bin.dir/src/test_game.cpp.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game.dir/build.make CMakeFiles/Game.dir/src/test_game.cpp.o
-.PHONY : src/test_game.cpp.o
+src/system_providers/board_system_provider.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game-bin.dir/build.make CMakeFiles/Game-bin.dir/src/system_providers/board_system_provider.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game.dir/build.make CMakeFiles/Game.dir/src/system_providers/board_system_provider.cpp.o
+.PHONY : src/system_providers/board_system_provider.cpp.o
 
-src/test_game.i: src/test_game.cpp.i
+src/system_providers/board_system_provider.i: src/system_providers/board_system_provider.cpp.i
 
-.PHONY : src/test_game.i
+.PHONY : src/system_providers/board_system_provider.i
 
 # target to preprocess a source file
-src/test_game.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game-bin.dir/build.make CMakeFiles/Game-bin.dir/src/test_game.cpp.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game.dir/build.make CMakeFiles/Game.dir/src/test_game.cpp.i
-.PHONY : src/test_game.cpp.i
+src/system_providers/board_system_provider.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game-bin.dir/build.make CMakeFiles/Game-bin.dir/src/system_providers/board_system_provider.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game.dir/build.make CMakeFiles/Game.dir/src/system_providers/board_system_provider.cpp.i
+.PHONY : src/system_providers/board_system_provider.cpp.i
 
-src/test_game.s: src/test_game.cpp.s
+src/system_providers/board_system_provider.s: src/system_providers/board_system_provider.cpp.s
 
-.PHONY : src/test_game.s
+.PHONY : src/system_providers/board_system_provider.s
 
 # target to generate assembly for a file
-src/test_game.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game-bin.dir/build.make CMakeFiles/Game-bin.dir/src/test_game.cpp.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game.dir/build.make CMakeFiles/Game.dir/src/test_game.cpp.s
-.PHONY : src/test_game.cpp.s
+src/system_providers/board_system_provider.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game-bin.dir/build.make CMakeFiles/Game-bin.dir/src/system_providers/board_system_provider.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game.dir/build.make CMakeFiles/Game.dir/src/system_providers/board_system_provider.cpp.s
+.PHONY : src/system_providers/board_system_provider.cpp.s
+
+src/system_providers/controller_system_provider.o: src/system_providers/controller_system_provider.cpp.o
+
+.PHONY : src/system_providers/controller_system_provider.o
+
+# target to build an object file
+src/system_providers/controller_system_provider.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game-bin.dir/build.make CMakeFiles/Game-bin.dir/src/system_providers/controller_system_provider.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game.dir/build.make CMakeFiles/Game.dir/src/system_providers/controller_system_provider.cpp.o
+.PHONY : src/system_providers/controller_system_provider.cpp.o
+
+src/system_providers/controller_system_provider.i: src/system_providers/controller_system_provider.cpp.i
+
+.PHONY : src/system_providers/controller_system_provider.i
+
+# target to preprocess a source file
+src/system_providers/controller_system_provider.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game-bin.dir/build.make CMakeFiles/Game-bin.dir/src/system_providers/controller_system_provider.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game.dir/build.make CMakeFiles/Game.dir/src/system_providers/controller_system_provider.cpp.i
+.PHONY : src/system_providers/controller_system_provider.cpp.i
+
+src/system_providers/controller_system_provider.s: src/system_providers/controller_system_provider.cpp.s
+
+.PHONY : src/system_providers/controller_system_provider.s
+
+# target to generate assembly for a file
+src/system_providers/controller_system_provider.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game-bin.dir/build.make CMakeFiles/Game-bin.dir/src/system_providers/controller_system_provider.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game.dir/build.make CMakeFiles/Game.dir/src/system_providers/controller_system_provider.cpp.s
+.PHONY : src/system_providers/controller_system_provider.cpp.s
+
+src/systems/board_system.o: src/systems/board_system.cpp.o
+
+.PHONY : src/systems/board_system.o
+
+# target to build an object file
+src/systems/board_system.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game-bin.dir/build.make CMakeFiles/Game-bin.dir/src/systems/board_system.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game.dir/build.make CMakeFiles/Game.dir/src/systems/board_system.cpp.o
+.PHONY : src/systems/board_system.cpp.o
+
+src/systems/board_system.i: src/systems/board_system.cpp.i
+
+.PHONY : src/systems/board_system.i
+
+# target to preprocess a source file
+src/systems/board_system.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game-bin.dir/build.make CMakeFiles/Game-bin.dir/src/systems/board_system.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game.dir/build.make CMakeFiles/Game.dir/src/systems/board_system.cpp.i
+.PHONY : src/systems/board_system.cpp.i
+
+src/systems/board_system.s: src/systems/board_system.cpp.s
+
+.PHONY : src/systems/board_system.s
+
+# target to generate assembly for a file
+src/systems/board_system.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game-bin.dir/build.make CMakeFiles/Game-bin.dir/src/systems/board_system.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game.dir/build.make CMakeFiles/Game.dir/src/systems/board_system.cpp.s
+.PHONY : src/systems/board_system.cpp.s
+
+src/systems/controller_system.o: src/systems/controller_system.cpp.o
+
+.PHONY : src/systems/controller_system.o
+
+# target to build an object file
+src/systems/controller_system.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game-bin.dir/build.make CMakeFiles/Game-bin.dir/src/systems/controller_system.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game.dir/build.make CMakeFiles/Game.dir/src/systems/controller_system.cpp.o
+.PHONY : src/systems/controller_system.cpp.o
+
+src/systems/controller_system.i: src/systems/controller_system.cpp.i
+
+.PHONY : src/systems/controller_system.i
+
+# target to preprocess a source file
+src/systems/controller_system.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game-bin.dir/build.make CMakeFiles/Game-bin.dir/src/systems/controller_system.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game.dir/build.make CMakeFiles/Game.dir/src/systems/controller_system.cpp.i
+.PHONY : src/systems/controller_system.cpp.i
+
+src/systems/controller_system.s: src/systems/controller_system.cpp.s
+
+.PHONY : src/systems/controller_system.s
+
+# target to generate assembly for a file
+src/systems/controller_system.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game-bin.dir/build.make CMakeFiles/Game-bin.dir/src/systems/controller_system.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game.dir/build.make CMakeFiles/Game.dir/src/systems/controller_system.cpp.s
+.PHONY : src/systems/controller_system.cpp.s
 
 # Help Target
 help:
@@ -653,12 +773,24 @@ help:
 	@echo "... NightlyUpdate"
 	@echo "... Game"
 	@echo "... Game-bin"
+	@echo "... src/game_of_life.o"
+	@echo "... src/game_of_life.i"
+	@echo "... src/game_of_life.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
-	@echo "... src/test_game.o"
-	@echo "... src/test_game.i"
-	@echo "... src/test_game.s"
+	@echo "... src/system_providers/board_system_provider.o"
+	@echo "... src/system_providers/board_system_provider.i"
+	@echo "... src/system_providers/board_system_provider.s"
+	@echo "... src/system_providers/controller_system_provider.o"
+	@echo "... src/system_providers/controller_system_provider.i"
+	@echo "... src/system_providers/controller_system_provider.s"
+	@echo "... src/systems/board_system.o"
+	@echo "... src/systems/board_system.i"
+	@echo "... src/systems/board_system.s"
+	@echo "... src/systems/controller_system.o"
+	@echo "... src/systems/controller_system.i"
+	@echo "... src/systems/controller_system.s"
 .PHONY : help
 
 

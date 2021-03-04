@@ -30,11 +30,19 @@ void Engine::Init(bool debug)
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    glfwWindowHint(GLFW_DOUBLEBUFFER, GL_TRUE);
+    glfwWindowHint(GLFW_DOUBLEBUFFER, GL_FALSE);
+    const GLFWvidmode *mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 
-    this->window =
-        glfwCreateWindow(1920, 1080, "VultrEditor",
-                         debug ? nullptr : glfwGetPrimaryMonitor(), nullptr);
+    if (debug)
+    {
+        glfwWindowHint(GLFW_RED_BITS, mode->redBits);
+        glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
+        glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
+        glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
+    }
+
+    this->window = glfwCreateWindow(mode->width, mode->height, "VultrEditor",
+                                    glfwGetPrimaryMonitor(), nullptr);
     if (!window)
     {
         printf("Failed to initialize glfw window\n");
@@ -71,9 +79,6 @@ void Engine::Init(bool debug)
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init("#version 410");
     ImGui::StyleColorsDark();
-
-    // ControllerSystem::Init(window);
-    // glfwSetWindowFocusCallback(window, ControllerSystem::WindowFocusCallback);
 }
 
 void Engine::RegisterComponents()
@@ -101,6 +106,12 @@ void Engine::InitSystems()
     CameraSystem::RegisterSystem();
     LightSystem::RegisterSystem();
     RenderSystem::RegisterSystem();
+
+    if (debug)
+    {
+        ControllerSystem::Init(window);
+        glfwSetWindowFocusCallback(window, ControllerSystem::WindowFocusCallback);
+    }
 }
 
 void Engine::LoadGame(const std::string &path)
@@ -133,7 +144,6 @@ void Engine::UpdateGame(float &last_time)
     if (game != nullptr)
         game->Update(tick);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    ControllerSystem::Update(tick.m_delta_time);
     // Only continuously update the meshes if we are planning on changing these
     // components at random (really will only happen in the editor)
     // If you need to change these components at runtime, destroy and then readd the
@@ -143,6 +153,7 @@ void Engine::UpdateGame(float &last_time)
         ShaderLoaderSystem::Update();
         TextureLoaderSystem::Update();
         MeshLoaderSystem::Update();
+        ControllerSystem::Update(tick.m_delta_time);
     }
     RenderSystem::Update(tick);
     glfwPollEvents();

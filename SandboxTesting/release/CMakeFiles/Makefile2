@@ -123,12 +123,12 @@ clean: CMakeFiles/ContinuousSubmit.dir/clean
 CMakeFiles/Game-bin.dir/all: CMakeFiles/Game.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game-bin.dir/build.make CMakeFiles/Game-bin.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game-bin.dir/build.make CMakeFiles/Game-bin.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/brandon/Dev/GameEngine/SandboxTesting/release/CMakeFiles --progress-num=4,5,6 "Built target Game-bin"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/brandon/Dev/GameEngine/SandboxTesting/release/CMakeFiles --progress-num=8,9,10,11,12,13,14 "Built target Game-bin"
 .PHONY : CMakeFiles/Game-bin.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/Game-bin.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brandon/Dev/GameEngine/SandboxTesting/release/CMakeFiles 6
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brandon/Dev/GameEngine/SandboxTesting/release/CMakeFiles 14
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/Game-bin.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/brandon/Dev/GameEngine/SandboxTesting/release/CMakeFiles 0
 .PHONY : CMakeFiles/Game-bin.dir/rule
@@ -501,12 +501,12 @@ CMakeFiles/NightlyMemCheck.dir/clean:
 CMakeFiles/Game.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game.dir/build.make CMakeFiles/Game.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Game.dir/build.make CMakeFiles/Game.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/brandon/Dev/GameEngine/SandboxTesting/release/CMakeFiles --progress-num=1,2,3 "Built target Game"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/brandon/Dev/GameEngine/SandboxTesting/release/CMakeFiles --progress-num=1,2,3,4,5,6,7 "Built target Game"
 .PHONY : CMakeFiles/Game.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/Game.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/brandon/Dev/GameEngine/SandboxTesting/release/CMakeFiles 3
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brandon/Dev/GameEngine/SandboxTesting/release/CMakeFiles 7
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/Game.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/brandon/Dev/GameEngine/SandboxTesting/release/CMakeFiles 0
 .PHONY : CMakeFiles/Game.dir/rule

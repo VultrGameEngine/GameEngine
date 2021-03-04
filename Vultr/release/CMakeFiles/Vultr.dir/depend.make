@@ -116,6 +116,8 @@ CMakeFiles/Vultr.dir/src/Vultr.cpp.o: ../include/ecs/system/system_provider.hpp
 CMakeFiles/Vultr.dir/src/Vultr.cpp.o: ../include/ecs/world/world.hpp
 CMakeFiles/Vultr.dir/src/Vultr.cpp.o: ../include/errors/error_handler.h
 CMakeFiles/Vultr.dir/src/Vultr.cpp.o: ../include/helpers/loading_state.h
+CMakeFiles/Vultr.dir/src/Vultr.cpp.o: ../include/helpers/mesh_importer.h
+CMakeFiles/Vultr.dir/src/Vultr.cpp.o: ../include/helpers/shader_importer.h
 CMakeFiles/Vultr.dir/src/Vultr.cpp.o: ../include/macros/map.h
 CMakeFiles/Vultr.dir/src/Vultr.cpp.o: ../include/rendering/models/frame_buffer.h
 CMakeFiles/Vultr.dir/src/Vultr.cpp.o: ../include/rendering/models/g_buffer.h
@@ -566,6 +568,7 @@ CMakeFiles/Vultr.dir/src/core/system_providers/render_system_provider.cpp.o: ../
 CMakeFiles/Vultr.dir/src/core/system_providers/render_system_provider.cpp.o: ../include/ecs/system/system_provider.hpp
 CMakeFiles/Vultr.dir/src/core/system_providers/render_system_provider.cpp.o: ../include/ecs/world/world.hpp
 CMakeFiles/Vultr.dir/src/core/system_providers/render_system_provider.cpp.o: ../include/helpers/loading_state.h
+CMakeFiles/Vultr.dir/src/core/system_providers/render_system_provider.cpp.o: ../include/helpers/mesh_importer.h
 CMakeFiles/Vultr.dir/src/core/system_providers/render_system_provider.cpp.o: ../include/helpers/shader_importer.h
 CMakeFiles/Vultr.dir/src/core/system_providers/render_system_provider.cpp.o: ../include/macros/map.h
 CMakeFiles/Vultr.dir/src/core/system_providers/render_system_provider.cpp.o: ../include/rendering/models/frame_buffer.h
@@ -836,6 +839,8 @@ CMakeFiles/Vultr.dir/src/core/systems/controller_system.cpp.o: ../include/ecs/sy
 CMakeFiles/Vultr.dir/src/core/systems/controller_system.cpp.o: ../include/ecs/system/system_provider.hpp
 CMakeFiles/Vultr.dir/src/core/systems/controller_system.cpp.o: ../include/ecs/world/world.hpp
 CMakeFiles/Vultr.dir/src/core/systems/controller_system.cpp.o: ../include/helpers/loading_state.h
+CMakeFiles/Vultr.dir/src/core/systems/controller_system.cpp.o: ../include/helpers/mesh_importer.h
+CMakeFiles/Vultr.dir/src/core/systems/controller_system.cpp.o: ../include/helpers/shader_importer.h
 CMakeFiles/Vultr.dir/src/core/systems/controller_system.cpp.o: ../include/macros/map.h
 CMakeFiles/Vultr.dir/src/core/systems/controller_system.cpp.o: ../include/rendering/models/frame_buffer.h
 CMakeFiles/Vultr.dir/src/core/systems/controller_system.cpp.o: ../include/rendering/models/g_buffer.h
@@ -1041,6 +1046,8 @@ CMakeFiles/Vultr.dir/src/core/systems/render_system.cpp.o: ../include/ecs/system
 CMakeFiles/Vultr.dir/src/core/systems/render_system.cpp.o: ../include/ecs/system/system_provider.hpp
 CMakeFiles/Vultr.dir/src/core/systems/render_system.cpp.o: ../include/ecs/world/world.hpp
 CMakeFiles/Vultr.dir/src/core/systems/render_system.cpp.o: ../include/helpers/loading_state.h
+CMakeFiles/Vultr.dir/src/core/systems/render_system.cpp.o: ../include/helpers/mesh_importer.h
+CMakeFiles/Vultr.dir/src/core/systems/render_system.cpp.o: ../include/helpers/shader_importer.h
 CMakeFiles/Vultr.dir/src/core/systems/render_system.cpp.o: ../include/macros/map.h
 CMakeFiles/Vultr.dir/src/core/systems/render_system.cpp.o: ../include/rendering/models/frame_buffer.h
 CMakeFiles/Vultr.dir/src/core/systems/render_system.cpp.o: ../include/rendering/models/g_buffer.h
@@ -1393,6 +1400,8 @@ CMakeFiles/Vultr.dir/src/main.cpp.o: ../include/ecs/system/system_provider.hpp
 CMakeFiles/Vultr.dir/src/main.cpp.o: ../include/ecs/world/world.hpp
 CMakeFiles/Vultr.dir/src/main.cpp.o: ../include/errors/error_handler.h
 CMakeFiles/Vultr.dir/src/main.cpp.o: ../include/helpers/loading_state.h
+CMakeFiles/Vultr.dir/src/main.cpp.o: ../include/helpers/mesh_importer.h
+CMakeFiles/Vultr.dir/src/main.cpp.o: ../include/helpers/shader_importer.h
 CMakeFiles/Vultr.dir/src/main.cpp.o: ../include/macros/map.h
 CMakeFiles/Vultr.dir/src/main.cpp.o: ../include/rendering/models/frame_buffer.h
 CMakeFiles/Vultr.dir/src/main.cpp.o: ../include/rendering/models/g_buffer.h

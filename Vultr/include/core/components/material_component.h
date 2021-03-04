@@ -7,8 +7,6 @@
 #include <unordered_map>
 #include <cereal/types/vector.hpp>
 
-namespace Vultr
-{
 struct MaterialComponent
 {
     std::string shader_path;
@@ -29,4 +27,3 @@ struct MaterialComponent
         ar(shader_path, textures);
     }
 };
-} // namespace Vultr

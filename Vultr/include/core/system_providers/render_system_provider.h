@@ -6,6 +6,8 @@
 #include <rendering/render_group.h>
 #include <unordered_map>
 #include <ecs/world/world.hpp>
+#include <helpers/shader_importer.h>
+#include <helpers/mesh_importer.h>
 
 const unsigned int GAME = 0;
 const unsigned int SCENE = 1;
@@ -28,6 +30,10 @@ class RenderSystemProvider : public SystemProvider
     {
         GenerateRenderTexture(scene, 1920, 1080);
         GenerateRenderTexture(game, 1920, 1080);
+        post_processing_shader = ShaderImporter::ImportShader(
+            "/home/brandon/Dev/GameEngine/SandboxTesting/res/shaders/"
+            "post_processing.glsl");
+        render_quad = MeshImporter::InitQuad();
     }
     // Singleton pattern
     static std::shared_ptr<RenderSystemProvider> Get()
@@ -42,6 +48,9 @@ class RenderSystemProvider : public SystemProvider
 
     ViewportData scene;
     ViewportData game;
+
+    Shader *post_processing_shader;
+    Mesh *render_quad;
 
   protected:
     void OnCreateEntity(Entity entity) override;

@@ -4,8 +4,12 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
+  "/home/brandon/Dev/GameEngine/SandboxTesting/src/game_of_life.cpp" "/home/brandon/Dev/GameEngine/SandboxTesting/release/CMakeFiles/Game-bin.dir/src/game_of_life.cpp.o"
   "/home/brandon/Dev/GameEngine/SandboxTesting/src/main.cpp" "/home/brandon/Dev/GameEngine/SandboxTesting/release/CMakeFiles/Game-bin.dir/src/main.cpp.o"
-  "/home/brandon/Dev/GameEngine/SandboxTesting/src/test_game.cpp" "/home/brandon/Dev/GameEngine/SandboxTesting/release/CMakeFiles/Game-bin.dir/src/test_game.cpp.o"
+  "/home/brandon/Dev/GameEngine/SandboxTesting/src/system_providers/board_system_provider.cpp" "/home/brandon/Dev/GameEngine/SandboxTesting/release/CMakeFiles/Game-bin.dir/src/system_providers/board_system_provider.cpp.o"
+  "/home/brandon/Dev/GameEngine/SandboxTesting/src/system_providers/controller_system_provider.cpp" "/home/brandon/Dev/GameEngine/SandboxTesting/release/CMakeFiles/Game-bin.dir/src/system_providers/controller_system_provider.cpp.o"
+  "/home/brandon/Dev/GameEngine/SandboxTesting/src/systems/board_system.cpp" "/home/brandon/Dev/GameEngine/SandboxTesting/release/CMakeFiles/Game-bin.dir/src/systems/board_system.cpp.o"
+  "/home/brandon/Dev/GameEngine/SandboxTesting/src/systems/controller_system.cpp" "/home/brandon/Dev/GameEngine/SandboxTesting/release/CMakeFiles/Game-bin.dir/src/systems/controller_system.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "Clang")
 

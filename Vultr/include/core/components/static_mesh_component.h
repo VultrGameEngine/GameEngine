@@ -5,7 +5,6 @@
 #include <string>
 #include <vector>
 
-using namespace Vultr;
 struct StaticMeshComponent
 {
     StaticMeshComponent()
@@ -27,11 +26,11 @@ struct StaticMeshComponent
 
     std::string m_path;
 
-    Mesh *GetMesh()
+    Vultr::Mesh *GetMesh()
     {
         // We cannot find a mesh for a path that has not been intialized
         if (m_path.empty())
             return nullptr;
-        return MeshLoaderSystemProvider::GetMesh(m_path);
+        return Vultr::MeshLoaderSystemProvider::GetMesh(m_path);
     }
 };

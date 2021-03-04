@@ -56,4 +56,20 @@ Mesh *MeshImporter::ImportMesh(std::string path)
     return mesh;
 }
 
+Mesh *MeshImporter::InitQuad()
+{
+    std::vector<Vertex> vertices = {
+        Vertex(glm::vec3(-1, -1, 0)),
+        Vertex(glm::vec3(-1, 1, 0)),
+        Vertex(glm::vec3(1, -1, 0)),
+        Vertex(glm::vec3(1, 1, 0)),
+    };
+    std::vector<unsigned short> indices = {
+        0, 2, 1, 1, 2, 3,
+    };
+    Mesh *mesh = new Mesh();
+    mesh->Init(vertices, indices);
+    return mesh;
+}
+
 } // namespace Vultr

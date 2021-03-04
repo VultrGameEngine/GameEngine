@@ -27,8 +27,7 @@ void RenderSystem::Update(UpdateTick meta_data)
     if (camera != -1)
     {
         // This renders to the game scene, important for the editor
-        if (meta_data.debug)
-            provider.game.fbo->Bind();
+        provider.game.fbo->Bind();
 
         // Clear the screen
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -55,45 +54,55 @@ void RenderSystem::Update(UpdateTick meta_data)
         RenderElements(GAME);
 
         // Unbind the frame buffer
-        if (meta_data.debug)
-            provider.game.fbo->Unbind();
+        provider.game.fbo->Unbind();
     }
     else
     {
         std::cout << "NO CAMERA FOUND" << std::endl;
     }
+
     if (!meta_data.debug)
-        return;
+    {
+        const GLFWvidmode *mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+        glViewport(0, 0, mode->width, mode->height);
+        provider.post_processing_shader->Bind();
+        provider.post_processing_shader->SetUniform1i("renderedTexture", 0);
+        provider.game.render_texture->Bind(GL_TEXTURE0);
+        provider.render_quad->Draw();
+    }
 
-    // Get the transform of the scene camera
-    auto &camera_transform =
-        CameraSystemProvider::Get()->m_scene_camera.transform_component;
-    auto &camera_component =
-        CameraSystemProvider::Get()->m_scene_camera.camera_component;
+    if (meta_data.debug)
+    {
+        // Get the transform of the scene camera
+        auto &camera_transform =
+            CameraSystemProvider::Get()->m_scene_camera.transform_component;
+        auto &camera_component =
+            CameraSystemProvider::Get()->m_scene_camera.camera_component;
 
-    // Always will have a scene camera, render to the editor scene view
-    provider.scene.fbo->Bind();
+        // Always will have a scene camera, render to the editor scene view
+        provider.scene.fbo->Bind();
 
-    // Clear the screen
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        // Clear the screen
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    // Set the viewport to match that in the editor
-    glViewport(0, 0, provider.GetDimensions(SCENE).x,
-               provider.GetDimensions(SCENE).y);
-    // Get the transform of the light
-    auto &light_transform =
-        LightSystemProvider::Get()->light.GetComponent<TransformComponent>();
+        // Set the viewport to match that in the editor
+        glViewport(0, 0, provider.GetDimensions(SCENE).x,
+                   provider.GetDimensions(SCENE).y);
+        // Get the transform of the light
+        auto &light_transform =
+            LightSystemProvider::Get()->light.GetComponent<TransformComponent>();
 
-    RenderContext::SetContext(provider.GetDimensions(SCENE),
-                              light_transform.position, camera_transform,
-                              camera_component);
+        RenderContext::SetContext(provider.GetDimensions(SCENE),
+                                  light_transform.position, camera_transform,
+                                  camera_component);
 
-    // Render both the skybox and the static meshes in the scene
-    RenderSkybox(SCENE);
-    RenderElements(SCENE);
+        // Render both the skybox and the static meshes in the scene
+        RenderSkybox(SCENE);
+        RenderElements(SCENE);
 
-    // Unbind the frame buffer
-    provider.scene.fbo->Unbind();
+        // Unbind the frame buffer
+        provider.scene.fbo->Unbind();
+    }
 }
 
 // Render all of the static meshes in the scene
@@ -118,6 +127,11 @@ void RenderSystem::RenderSkybox(unsigned int type)
 {
     Entity camera = CameraSystemProvider::Get()->m_camera;
     if (camera == -1)
+        return;
+    Signature signature;
+    signature.set(World::GetComponentType<SkyBoxComponent>(), true);
+    signature.set(World::GetComponentType<MaterialComponent>(), true);
+    if ((signature & camera.GetSignature()) != camera.GetSignature())
         return;
     glDepthFunc(GL_LEQUAL); // Ensure depth test passes when values are equal to
                             // the depth buffer's content

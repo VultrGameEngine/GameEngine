@@ -11,7 +11,7 @@ class Engine
     void LoadGame(const std::string &path);
     void LoadGame(Game *game);
     static void RegisterComponents();
-    static void InitSystems();
+    void InitSystems();
     void InitGame();
     void UpdateGame(float &t);
     void Destroy();
