@@ -17,11 +17,11 @@ include_directories(include vendor ../Vultr/include ../Vultr/vendor)
 
 
 
-add_library(Game SHARED ${Game_SRC})
-# add_executable(Game ${Game_SRC})
+# add_library(Game SHARED ${Game_SRC})
+add_executable(Game ${Game_SRC})
 target_link_libraries(Game GL glfw3 X11 Xxf86vm Xrandr pthread Xi dl assimp)
 target_link_libraries(Game debug /home/brandon/Dev/GameEngine/Vultr/build/libVultr.so)
-target_link_libraries(Game optimized /home/brandon/Dev/GameEngine/Vultr/release/libVultr.a)
+target_link_libraries(Game optimized /home/brandon/Dev/GameEngine/Vultr/release/libVultrStatic.a)
 
 
 install(TARGETS ${PROJECT_NAME} DESTINATION bin)

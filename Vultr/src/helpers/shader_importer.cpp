@@ -9,7 +9,8 @@ namespace Vultr
 {
 Shader *ShaderImporter::ImportShader(const std::string &path)
 {
-    Shader *shader = new Shader(CreateShader(Path::GetFullPath(path)), Deferred);
+    std::string correct_path = Path::GetFullPath(path);
+    Shader *shader = new Shader(CreateShader(correct_path), Deferred);
     return shader;
 }
 

@@ -31,4 +31,5 @@
 /home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles/ContinuousStart.dir
 /home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles/ContinuousMemCheck.dir
 /home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles/ContinuousTest.dir
+/home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles/VultrStatic.dir
 /home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles/ContinuousSubmit.dir

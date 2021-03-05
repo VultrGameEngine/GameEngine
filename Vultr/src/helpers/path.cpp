@@ -7,26 +7,25 @@ namespace Vultr::Path
 {
 std::string GetFullPath(const std::string &path)
 {
-
+#ifdef ENABLE_DEBUG_MACRO
+    return "/home/brandon/Dev/GameEngine/SandboxTesting/" + path;
+#else
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
     char buff[256];
-    size_t len = sizeof(buff);
-    int bytes = GetModuleFileName(NULL, buff, len);
-    if (bytes != -1)
-    {
-        buff[bytes] = '\0';
-        return std::string(buff) + path;
-    }
+    ssize_t len = GetModuleFileName(NULL, buff, sizeof(buff));
 #else
     char buff[PATH_MAX];
     ssize_t len = readlink("/proc/self/exe", buff, sizeof(buff) - 1);
+#endif
     if (len != -1)
     {
         buff[len] = '\0';
-        return std::string(buff) + path;
+        std::string base = std::string(buff);
+        std::string full_path = base.replace(base.rfind("Game"), len, "") + path;
+        return full_path;
     }
-#endif
     assert(false && "COULD NOT GET EXE PATH");
     return std::string("ERROR");
+#endif
 }
 } // namespace Vultr::Path

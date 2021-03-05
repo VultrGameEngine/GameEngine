@@ -9,6 +9,11 @@ set(CMAKE_DEPENDS_CHECK_C
   )
 set(CMAKE_C_COMPILER_ID "Clang")
 
+# Preprocessor definitions for this target.
+set(CMAKE_TARGET_DEFINITIONS_C
+  "Vultr_EXPORTS"
+  )
+
 # The include file search paths:
 set(CMAKE_C_TARGET_INCLUDE_PATH
   "../include"
@@ -61,6 +66,11 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/brandon/Dev/GameEngine/Vultr/vendor/stb_image/stb_image.cpp" "/home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles/Vultr.dir/vendor/stb_image/stb_image.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "Clang")
+
+# Preprocessor definitions for this target.
+set(CMAKE_TARGET_DEFINITIONS_CXX
+  "Vultr_EXPORTS"
+  )
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH

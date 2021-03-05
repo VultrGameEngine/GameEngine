@@ -44,8 +44,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/Vultr.dir/vendor/imgui/imgui_tables.cpp.o"
   "CMakeFiles/Vultr.dir/vendor/imgui/imgui_widgets.cpp.o"
   "CMakeFiles/Vultr.dir/vendor/stb_image/stb_image.cpp.o"
-  "libVultr.a"
   "libVultr.pdb"
+  "libVultr.so"
 )
 
 # Per-language clean rules from dependency scanning.

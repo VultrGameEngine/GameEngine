@@ -712,59 +712,58 @@ Vultr_OBJECTS = \
 # External object files for target Vultr
 Vultr_EXTERNAL_OBJECTS =
 
-libVultr.a: CMakeFiles/Vultr.dir/include/ecs/world/world.cpp.o
-libVultr.a: CMakeFiles/Vultr.dir/src/Vultr.cpp.o
-libVultr.a: CMakeFiles/Vultr.dir/src/core/component_constructor.cpp.o
-libVultr.a: CMakeFiles/Vultr.dir/src/core/models/materials/forward_material.cpp.o
-libVultr.a: CMakeFiles/Vultr.dir/src/core/models/materials/pbr_material.cpp.o
-libVultr.a: CMakeFiles/Vultr.dir/src/core/models/materials/skybox_material.cpp.o
-libVultr.a: CMakeFiles/Vultr.dir/src/core/models/materials/unlit_material.cpp.o
-libVultr.a: CMakeFiles/Vultr.dir/src/core/system_providers/camera_system_provider.cpp.o
-libVultr.a: CMakeFiles/Vultr.dir/src/core/system_providers/controller_system_provider.cpp.o
-libVultr.a: CMakeFiles/Vultr.dir/src/core/system_providers/light_system_provider.cpp.o
-libVultr.a: CMakeFiles/Vultr.dir/src/core/system_providers/mesh_loader_system_provider.cpp.o
-libVultr.a: CMakeFiles/Vultr.dir/src/core/system_providers/render_system_provider.cpp.o
-libVultr.a: CMakeFiles/Vultr.dir/src/core/system_providers/shader_loader_system_provider.cpp.o
-libVultr.a: CMakeFiles/Vultr.dir/src/core/system_providers/texture_loader_system_provider.cpp.o
-libVultr.a: CMakeFiles/Vultr.dir/src/core/systems/camera_system.cpp.o
-libVultr.a: CMakeFiles/Vultr.dir/src/core/systems/controller_system.cpp.o
-libVultr.a: CMakeFiles/Vultr.dir/src/core/systems/light_system.cpp.o
-libVultr.a: CMakeFiles/Vultr.dir/src/core/systems/mesh_loader_system.cpp.o
-libVultr.a: CMakeFiles/Vultr.dir/src/core/systems/render_system.cpp.o
-libVultr.a: CMakeFiles/Vultr.dir/src/core/systems/shader_loader_system.cpp.o
-libVultr.a: CMakeFiles/Vultr.dir/src/core/systems/texture_loader_system.cpp.o
-libVultr.a: CMakeFiles/Vultr.dir/src/ecs/entity/entity.cpp.o
-libVultr.a: CMakeFiles/Vultr.dir/src/errors/error_handler.cpp.o
-libVultr.a: CMakeFiles/Vultr.dir/src/glad/glad.c.o
-libVultr.a: CMakeFiles/Vultr.dir/src/helpers/mesh_importer.cpp.o
-libVultr.a: CMakeFiles/Vultr.dir/src/helpers/path.cpp.o
-libVultr.a: CMakeFiles/Vultr.dir/src/helpers/shader_importer.cpp.o
-libVultr.a: CMakeFiles/Vultr.dir/src/helpers/texture_importer.cpp.o
-libVultr.a: CMakeFiles/Vultr.dir/src/main.cpp.o
-libVultr.a: CMakeFiles/Vultr.dir/src/rendering/models/index_buffer.cpp.o
-libVultr.a: CMakeFiles/Vultr.dir/src/rendering/models/mesh.cpp.o
-libVultr.a: CMakeFiles/Vultr.dir/src/rendering/models/render_buffer.cpp.o
-libVultr.a: CMakeFiles/Vultr.dir/src/rendering/models/shader.cpp.o
-libVultr.a: CMakeFiles/Vultr.dir/src/rendering/models/texture.cpp.o
-libVultr.a: CMakeFiles/Vultr.dir/src/rendering/models/vertex_array.cpp.o
-libVultr.a: CMakeFiles/Vultr.dir/src/rendering/models/vertex_buffer.cpp.o
-libVultr.a: CMakeFiles/Vultr.dir/src/rendering/render_group.cpp.o
-libVultr.a: CMakeFiles/Vultr.dir/src/rendering/renderers/forward_renderer_3d.cpp.o
-libVultr.a: CMakeFiles/Vultr.dir/vendor/imgui/imgui.cpp.o
-libVultr.a: CMakeFiles/Vultr.dir/vendor/imgui/imgui_draw.cpp.o
-libVultr.a: CMakeFiles/Vultr.dir/vendor/imgui/imgui_impl_glfw.cpp.o
-libVultr.a: CMakeFiles/Vultr.dir/vendor/imgui/imgui_impl_opengl3.cpp.o
-libVultr.a: CMakeFiles/Vultr.dir/vendor/imgui/imgui_tables.cpp.o
-libVultr.a: CMakeFiles/Vultr.dir/vendor/imgui/imgui_widgets.cpp.o
-libVultr.a: CMakeFiles/Vultr.dir/vendor/stb_image/stb_image.cpp.o
-libVultr.a: CMakeFiles/Vultr.dir/build.make
-libVultr.a: CMakeFiles/Vultr.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_46) "Linking CXX static library libVultr.a"
-	$(CMAKE_COMMAND) -P CMakeFiles/Vultr.dir/cmake_clean_target.cmake
+libVultr.so: CMakeFiles/Vultr.dir/include/ecs/world/world.cpp.o
+libVultr.so: CMakeFiles/Vultr.dir/src/Vultr.cpp.o
+libVultr.so: CMakeFiles/Vultr.dir/src/core/component_constructor.cpp.o
+libVultr.so: CMakeFiles/Vultr.dir/src/core/models/materials/forward_material.cpp.o
+libVultr.so: CMakeFiles/Vultr.dir/src/core/models/materials/pbr_material.cpp.o
+libVultr.so: CMakeFiles/Vultr.dir/src/core/models/materials/skybox_material.cpp.o
+libVultr.so: CMakeFiles/Vultr.dir/src/core/models/materials/unlit_material.cpp.o
+libVultr.so: CMakeFiles/Vultr.dir/src/core/system_providers/camera_system_provider.cpp.o
+libVultr.so: CMakeFiles/Vultr.dir/src/core/system_providers/controller_system_provider.cpp.o
+libVultr.so: CMakeFiles/Vultr.dir/src/core/system_providers/light_system_provider.cpp.o
+libVultr.so: CMakeFiles/Vultr.dir/src/core/system_providers/mesh_loader_system_provider.cpp.o
+libVultr.so: CMakeFiles/Vultr.dir/src/core/system_providers/render_system_provider.cpp.o
+libVultr.so: CMakeFiles/Vultr.dir/src/core/system_providers/shader_loader_system_provider.cpp.o
+libVultr.so: CMakeFiles/Vultr.dir/src/core/system_providers/texture_loader_system_provider.cpp.o
+libVultr.so: CMakeFiles/Vultr.dir/src/core/systems/camera_system.cpp.o
+libVultr.so: CMakeFiles/Vultr.dir/src/core/systems/controller_system.cpp.o
+libVultr.so: CMakeFiles/Vultr.dir/src/core/systems/light_system.cpp.o
+libVultr.so: CMakeFiles/Vultr.dir/src/core/systems/mesh_loader_system.cpp.o
+libVultr.so: CMakeFiles/Vultr.dir/src/core/systems/render_system.cpp.o
+libVultr.so: CMakeFiles/Vultr.dir/src/core/systems/shader_loader_system.cpp.o
+libVultr.so: CMakeFiles/Vultr.dir/src/core/systems/texture_loader_system.cpp.o
+libVultr.so: CMakeFiles/Vultr.dir/src/ecs/entity/entity.cpp.o
+libVultr.so: CMakeFiles/Vultr.dir/src/errors/error_handler.cpp.o
+libVultr.so: CMakeFiles/Vultr.dir/src/glad/glad.c.o
+libVultr.so: CMakeFiles/Vultr.dir/src/helpers/mesh_importer.cpp.o
+libVultr.so: CMakeFiles/Vultr.dir/src/helpers/path.cpp.o
+libVultr.so: CMakeFiles/Vultr.dir/src/helpers/shader_importer.cpp.o
+libVultr.so: CMakeFiles/Vultr.dir/src/helpers/texture_importer.cpp.o
+libVultr.so: CMakeFiles/Vultr.dir/src/main.cpp.o
+libVultr.so: CMakeFiles/Vultr.dir/src/rendering/models/index_buffer.cpp.o
+libVultr.so: CMakeFiles/Vultr.dir/src/rendering/models/mesh.cpp.o
+libVultr.so: CMakeFiles/Vultr.dir/src/rendering/models/render_buffer.cpp.o
+libVultr.so: CMakeFiles/Vultr.dir/src/rendering/models/shader.cpp.o
+libVultr.so: CMakeFiles/Vultr.dir/src/rendering/models/texture.cpp.o
+libVultr.so: CMakeFiles/Vultr.dir/src/rendering/models/vertex_array.cpp.o
+libVultr.so: CMakeFiles/Vultr.dir/src/rendering/models/vertex_buffer.cpp.o
+libVultr.so: CMakeFiles/Vultr.dir/src/rendering/render_group.cpp.o
+libVultr.so: CMakeFiles/Vultr.dir/src/rendering/renderers/forward_renderer_3d.cpp.o
+libVultr.so: CMakeFiles/Vultr.dir/vendor/imgui/imgui.cpp.o
+libVultr.so: CMakeFiles/Vultr.dir/vendor/imgui/imgui_draw.cpp.o
+libVultr.so: CMakeFiles/Vultr.dir/vendor/imgui/imgui_impl_glfw.cpp.o
+libVultr.so: CMakeFiles/Vultr.dir/vendor/imgui/imgui_impl_opengl3.cpp.o
+libVultr.so: CMakeFiles/Vultr.dir/vendor/imgui/imgui_tables.cpp.o
+libVultr.so: CMakeFiles/Vultr.dir/vendor/imgui/imgui_widgets.cpp.o
+libVultr.so: CMakeFiles/Vultr.dir/vendor/stb_image/stb_image.cpp.o
+libVultr.so: CMakeFiles/Vultr.dir/build.make
+libVultr.so: CMakeFiles/Vultr.dir/link.txt
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_46) "Linking CXX shared library libVultr.so"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Vultr.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
-CMakeFiles/Vultr.dir/build: libVultr.a
+CMakeFiles/Vultr.dir/build: libVultr.so
 
 .PHONY : CMakeFiles/Vultr.dir/build
 

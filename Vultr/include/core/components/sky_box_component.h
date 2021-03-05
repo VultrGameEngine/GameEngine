@@ -9,18 +9,12 @@ struct SkyBoxComponent
 
     static SkyBoxComponent Create(
         const std::string &identifier = "default",
-        const std::string &front = "/home/brandon/Dev/GameEngine/SandboxTesting/"
-                                   "res/textures/skybox/front.jpg",
-        const std::string &back = "/home/brandon/Dev/GameEngine/SandboxTesting/"
-                                  "res/textures/skybox/back.jpg",
-        const std::string &top = "/home/brandon/Dev/GameEngine/SandboxTesting/"
-                                 "res/textures/skybox/top.jpg",
-        const std::string &bottom = "/home/brandon/Dev/GameEngine/SandboxTesting/"
-                                    "res/textures/skybox/bottom.jpg",
-        const std::string &left = "/home/brandon/Dev/GameEngine/SandboxTesting/"
-                                  "res/textures/skybox/left.jpg",
-        const std::string &right = "/home/brandon/Dev/GameEngine/SandboxTesting/"
-                                   "res/textures/skybox/right.jpg")
+        const std::string &front = "res/textures/skybox/front.jpg",
+        const std::string &back = "res/textures/skybox/back.jpg",
+        const std::string &top = "res/textures/skybox/top.jpg",
+        const std::string &bottom = "res/textures/skybox/bottom.jpg",
+        const std::string &left = "res/textures/skybox/left.jpg",
+        const std::string &right = "res/textures/skybox/right.jpg")
     {
         SkyBoxComponent component = SkyBoxComponent();
         component.identifier = identifier;

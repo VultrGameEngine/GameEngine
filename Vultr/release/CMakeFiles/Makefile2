@@ -73,6 +73,7 @@ CMAKE_BINARY_DIR = /home/brandon/Dev/GameEngine/Vultr/release
 
 # The main recursive "all" target.
 all: CMakeFiles/Vultr.dir/all
+all: CMakeFiles/VultrStatic.dir/all
 
 .PHONY : all
 
@@ -110,6 +111,7 @@ clean: CMakeFiles/ExperimentalUpdate.dir/clean
 clean: CMakeFiles/ContinuousStart.dir/clean
 clean: CMakeFiles/ContinuousMemCheck.dir/clean
 clean: CMakeFiles/ContinuousTest.dir/clean
+clean: CMakeFiles/VultrStatic.dir/clean
 clean: CMakeFiles/ContinuousSubmit.dir/clean
 
 .PHONY : clean
@@ -869,6 +871,33 @@ ContinuousTest: CMakeFiles/ContinuousTest.dir/rule
 CMakeFiles/ContinuousTest.dir/clean:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ContinuousTest.dir/build.make CMakeFiles/ContinuousTest.dir/clean
 .PHONY : CMakeFiles/ContinuousTest.dir/clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/VultrStatic.dir
+
+# All Build rule for target.
+CMakeFiles/VultrStatic.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles --progress-num=47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92 "Built target VultrStatic"
+.PHONY : CMakeFiles/VultrStatic.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/VultrStatic.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles 46
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/VultrStatic.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles 0
+.PHONY : CMakeFiles/VultrStatic.dir/rule
+
+# Convenience name for target.
+VultrStatic: CMakeFiles/VultrStatic.dir/rule
+
+.PHONY : VultrStatic
+
+# clean rule for target.
+CMakeFiles/VultrStatic.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/clean
+.PHONY : CMakeFiles/VultrStatic.dir/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/ContinuousSubmit.dir

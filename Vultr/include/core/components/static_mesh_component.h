@@ -15,9 +15,7 @@ struct StaticMeshComponent
         ar(m_path);
     }
 
-    static StaticMeshComponent Create(
-        std::string p_path =
-            "/home/brandon/Dev/GameEngine/SandboxTesting/res/models/cube.obj")
+    static StaticMeshComponent Create(std::string p_path = "res/models/cube.obj")
     {
         StaticMeshComponent component = StaticMeshComponent();
         component.m_path = p_path;

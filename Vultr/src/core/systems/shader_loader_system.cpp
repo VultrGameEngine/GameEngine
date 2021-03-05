@@ -45,11 +45,12 @@ void ShaderLoaderSystem::CheckAndLoadShader(Entity entity)
 
     // If we haven't cached this shader, load it and save it in the loaded shaders
     // Create the shader on the gpu
-    unsigned int shader_id =
-        ShaderImporter::CreateShader(material_component.shader_path);
+    // unsigned int shader_id =
+    //     ShaderImporter::CreateShader(material_component.shader_path);
+    Shader *shader = ShaderImporter::ImportShader(material_component.shader_path);
 
     // Create the shader wrapper with the given shader id
-    Shader *shader = new Shader(shader_id, Forward);
+    // Shader *shader = new Shader(shader_id, Forward);
 
     // Add it to the loaded shaders
     provider.loaded_shaders[material_component.shader_path] = shader;

@@ -527,6 +527,19 @@ ContinuousTest/fast:
 .PHONY : ContinuousTest/fast
 
 #=============================================================================
+# Target rules for targets named VultrStatic
+
+# Build rule for target.
+VultrStatic: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 VultrStatic
+.PHONY : VultrStatic
+
+# fast build rule for target.
+VultrStatic/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/build
+.PHONY : VultrStatic/fast
+
+#=============================================================================
 # Target rules for targets named ContinuousSubmit
 
 # Build rule for target.
@@ -546,6 +559,7 @@ include/ecs/world/world.o: include/ecs/world/world.cpp.o
 # target to build an object file
 include/ecs/world/world.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/include/ecs/world/world.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/include/ecs/world/world.cpp.o
 .PHONY : include/ecs/world/world.cpp.o
 
 include/ecs/world/world.i: include/ecs/world/world.cpp.i
@@ -555,6 +569,7 @@ include/ecs/world/world.i: include/ecs/world/world.cpp.i
 # target to preprocess a source file
 include/ecs/world/world.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/include/ecs/world/world.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/include/ecs/world/world.cpp.i
 .PHONY : include/ecs/world/world.cpp.i
 
 include/ecs/world/world.s: include/ecs/world/world.cpp.s
@@ -564,6 +579,7 @@ include/ecs/world/world.s: include/ecs/world/world.cpp.s
 # target to generate assembly for a file
 include/ecs/world/world.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/include/ecs/world/world.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/include/ecs/world/world.cpp.s
 .PHONY : include/ecs/world/world.cpp.s
 
 src/Vultr.o: src/Vultr.cpp.o
@@ -573,6 +589,7 @@ src/Vultr.o: src/Vultr.cpp.o
 # target to build an object file
 src/Vultr.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/Vultr.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/Vultr.cpp.o
 .PHONY : src/Vultr.cpp.o
 
 src/Vultr.i: src/Vultr.cpp.i
@@ -582,6 +599,7 @@ src/Vultr.i: src/Vultr.cpp.i
 # target to preprocess a source file
 src/Vultr.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/Vultr.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/Vultr.cpp.i
 .PHONY : src/Vultr.cpp.i
 
 src/Vultr.s: src/Vultr.cpp.s
@@ -591,6 +609,7 @@ src/Vultr.s: src/Vultr.cpp.s
 # target to generate assembly for a file
 src/Vultr.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/Vultr.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/Vultr.cpp.s
 .PHONY : src/Vultr.cpp.s
 
 src/core/component_constructor.o: src/core/component_constructor.cpp.o
@@ -600,6 +619,7 @@ src/core/component_constructor.o: src/core/component_constructor.cpp.o
 # target to build an object file
 src/core/component_constructor.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/component_constructor.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/core/component_constructor.cpp.o
 .PHONY : src/core/component_constructor.cpp.o
 
 src/core/component_constructor.i: src/core/component_constructor.cpp.i
@@ -609,6 +629,7 @@ src/core/component_constructor.i: src/core/component_constructor.cpp.i
 # target to preprocess a source file
 src/core/component_constructor.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/component_constructor.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/core/component_constructor.cpp.i
 .PHONY : src/core/component_constructor.cpp.i
 
 src/core/component_constructor.s: src/core/component_constructor.cpp.s
@@ -618,6 +639,7 @@ src/core/component_constructor.s: src/core/component_constructor.cpp.s
 # target to generate assembly for a file
 src/core/component_constructor.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/component_constructor.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/core/component_constructor.cpp.s
 .PHONY : src/core/component_constructor.cpp.s
 
 src/core/models/materials/forward_material.o: src/core/models/materials/forward_material.cpp.o
@@ -627,6 +649,7 @@ src/core/models/materials/forward_material.o: src/core/models/materials/forward_
 # target to build an object file
 src/core/models/materials/forward_material.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/models/materials/forward_material.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/core/models/materials/forward_material.cpp.o
 .PHONY : src/core/models/materials/forward_material.cpp.o
 
 src/core/models/materials/forward_material.i: src/core/models/materials/forward_material.cpp.i
@@ -636,6 +659,7 @@ src/core/models/materials/forward_material.i: src/core/models/materials/forward_
 # target to preprocess a source file
 src/core/models/materials/forward_material.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/models/materials/forward_material.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/core/models/materials/forward_material.cpp.i
 .PHONY : src/core/models/materials/forward_material.cpp.i
 
 src/core/models/materials/forward_material.s: src/core/models/materials/forward_material.cpp.s
@@ -645,6 +669,7 @@ src/core/models/materials/forward_material.s: src/core/models/materials/forward_
 # target to generate assembly for a file
 src/core/models/materials/forward_material.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/models/materials/forward_material.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/core/models/materials/forward_material.cpp.s
 .PHONY : src/core/models/materials/forward_material.cpp.s
 
 src/core/models/materials/pbr_material.o: src/core/models/materials/pbr_material.cpp.o
@@ -654,6 +679,7 @@ src/core/models/materials/pbr_material.o: src/core/models/materials/pbr_material
 # target to build an object file
 src/core/models/materials/pbr_material.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/models/materials/pbr_material.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/core/models/materials/pbr_material.cpp.o
 .PHONY : src/core/models/materials/pbr_material.cpp.o
 
 src/core/models/materials/pbr_material.i: src/core/models/materials/pbr_material.cpp.i
@@ -663,6 +689,7 @@ src/core/models/materials/pbr_material.i: src/core/models/materials/pbr_material
 # target to preprocess a source file
 src/core/models/materials/pbr_material.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/models/materials/pbr_material.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/core/models/materials/pbr_material.cpp.i
 .PHONY : src/core/models/materials/pbr_material.cpp.i
 
 src/core/models/materials/pbr_material.s: src/core/models/materials/pbr_material.cpp.s
@@ -672,6 +699,7 @@ src/core/models/materials/pbr_material.s: src/core/models/materials/pbr_material
 # target to generate assembly for a file
 src/core/models/materials/pbr_material.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/models/materials/pbr_material.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/core/models/materials/pbr_material.cpp.s
 .PHONY : src/core/models/materials/pbr_material.cpp.s
 
 src/core/models/materials/skybox_material.o: src/core/models/materials/skybox_material.cpp.o
@@ -681,6 +709,7 @@ src/core/models/materials/skybox_material.o: src/core/models/materials/skybox_ma
 # target to build an object file
 src/core/models/materials/skybox_material.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/models/materials/skybox_material.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/core/models/materials/skybox_material.cpp.o
 .PHONY : src/core/models/materials/skybox_material.cpp.o
 
 src/core/models/materials/skybox_material.i: src/core/models/materials/skybox_material.cpp.i
@@ -690,6 +719,7 @@ src/core/models/materials/skybox_material.i: src/core/models/materials/skybox_ma
 # target to preprocess a source file
 src/core/models/materials/skybox_material.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/models/materials/skybox_material.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/core/models/materials/skybox_material.cpp.i
 .PHONY : src/core/models/materials/skybox_material.cpp.i
 
 src/core/models/materials/skybox_material.s: src/core/models/materials/skybox_material.cpp.s
@@ -699,6 +729,7 @@ src/core/models/materials/skybox_material.s: src/core/models/materials/skybox_ma
 # target to generate assembly for a file
 src/core/models/materials/skybox_material.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/models/materials/skybox_material.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/core/models/materials/skybox_material.cpp.s
 .PHONY : src/core/models/materials/skybox_material.cpp.s
 
 src/core/models/materials/unlit_material.o: src/core/models/materials/unlit_material.cpp.o
@@ -708,6 +739,7 @@ src/core/models/materials/unlit_material.o: src/core/models/materials/unlit_mate
 # target to build an object file
 src/core/models/materials/unlit_material.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/models/materials/unlit_material.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/core/models/materials/unlit_material.cpp.o
 .PHONY : src/core/models/materials/unlit_material.cpp.o
 
 src/core/models/materials/unlit_material.i: src/core/models/materials/unlit_material.cpp.i
@@ -717,6 +749,7 @@ src/core/models/materials/unlit_material.i: src/core/models/materials/unlit_mate
 # target to preprocess a source file
 src/core/models/materials/unlit_material.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/models/materials/unlit_material.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/core/models/materials/unlit_material.cpp.i
 .PHONY : src/core/models/materials/unlit_material.cpp.i
 
 src/core/models/materials/unlit_material.s: src/core/models/materials/unlit_material.cpp.s
@@ -726,6 +759,7 @@ src/core/models/materials/unlit_material.s: src/core/models/materials/unlit_mate
 # target to generate assembly for a file
 src/core/models/materials/unlit_material.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/models/materials/unlit_material.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/core/models/materials/unlit_material.cpp.s
 .PHONY : src/core/models/materials/unlit_material.cpp.s
 
 src/core/system_providers/camera_system_provider.o: src/core/system_providers/camera_system_provider.cpp.o
@@ -735,6 +769,7 @@ src/core/system_providers/camera_system_provider.o: src/core/system_providers/ca
 # target to build an object file
 src/core/system_providers/camera_system_provider.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/system_providers/camera_system_provider.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/core/system_providers/camera_system_provider.cpp.o
 .PHONY : src/core/system_providers/camera_system_provider.cpp.o
 
 src/core/system_providers/camera_system_provider.i: src/core/system_providers/camera_system_provider.cpp.i
@@ -744,6 +779,7 @@ src/core/system_providers/camera_system_provider.i: src/core/system_providers/ca
 # target to preprocess a source file
 src/core/system_providers/camera_system_provider.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/system_providers/camera_system_provider.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/core/system_providers/camera_system_provider.cpp.i
 .PHONY : src/core/system_providers/camera_system_provider.cpp.i
 
 src/core/system_providers/camera_system_provider.s: src/core/system_providers/camera_system_provider.cpp.s
@@ -753,6 +789,7 @@ src/core/system_providers/camera_system_provider.s: src/core/system_providers/ca
 # target to generate assembly for a file
 src/core/system_providers/camera_system_provider.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/system_providers/camera_system_provider.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/core/system_providers/camera_system_provider.cpp.s
 .PHONY : src/core/system_providers/camera_system_provider.cpp.s
 
 src/core/system_providers/controller_system_provider.o: src/core/system_providers/controller_system_provider.cpp.o
@@ -762,6 +799,7 @@ src/core/system_providers/controller_system_provider.o: src/core/system_provider
 # target to build an object file
 src/core/system_providers/controller_system_provider.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/system_providers/controller_system_provider.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/core/system_providers/controller_system_provider.cpp.o
 .PHONY : src/core/system_providers/controller_system_provider.cpp.o
 
 src/core/system_providers/controller_system_provider.i: src/core/system_providers/controller_system_provider.cpp.i
@@ -771,6 +809,7 @@ src/core/system_providers/controller_system_provider.i: src/core/system_provider
 # target to preprocess a source file
 src/core/system_providers/controller_system_provider.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/system_providers/controller_system_provider.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/core/system_providers/controller_system_provider.cpp.i
 .PHONY : src/core/system_providers/controller_system_provider.cpp.i
 
 src/core/system_providers/controller_system_provider.s: src/core/system_providers/controller_system_provider.cpp.s
@@ -780,6 +819,7 @@ src/core/system_providers/controller_system_provider.s: src/core/system_provider
 # target to generate assembly for a file
 src/core/system_providers/controller_system_provider.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/system_providers/controller_system_provider.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/core/system_providers/controller_system_provider.cpp.s
 .PHONY : src/core/system_providers/controller_system_provider.cpp.s
 
 src/core/system_providers/light_system_provider.o: src/core/system_providers/light_system_provider.cpp.o
@@ -789,6 +829,7 @@ src/core/system_providers/light_system_provider.o: src/core/system_providers/lig
 # target to build an object file
 src/core/system_providers/light_system_provider.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/system_providers/light_system_provider.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/core/system_providers/light_system_provider.cpp.o
 .PHONY : src/core/system_providers/light_system_provider.cpp.o
 
 src/core/system_providers/light_system_provider.i: src/core/system_providers/light_system_provider.cpp.i
@@ -798,6 +839,7 @@ src/core/system_providers/light_system_provider.i: src/core/system_providers/lig
 # target to preprocess a source file
 src/core/system_providers/light_system_provider.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/system_providers/light_system_provider.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/core/system_providers/light_system_provider.cpp.i
 .PHONY : src/core/system_providers/light_system_provider.cpp.i
 
 src/core/system_providers/light_system_provider.s: src/core/system_providers/light_system_provider.cpp.s
@@ -807,6 +849,7 @@ src/core/system_providers/light_system_provider.s: src/core/system_providers/lig
 # target to generate assembly for a file
 src/core/system_providers/light_system_provider.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/system_providers/light_system_provider.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/core/system_providers/light_system_provider.cpp.s
 .PHONY : src/core/system_providers/light_system_provider.cpp.s
 
 src/core/system_providers/mesh_loader_system_provider.o: src/core/system_providers/mesh_loader_system_provider.cpp.o
@@ -816,6 +859,7 @@ src/core/system_providers/mesh_loader_system_provider.o: src/core/system_provide
 # target to build an object file
 src/core/system_providers/mesh_loader_system_provider.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/system_providers/mesh_loader_system_provider.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/core/system_providers/mesh_loader_system_provider.cpp.o
 .PHONY : src/core/system_providers/mesh_loader_system_provider.cpp.o
 
 src/core/system_providers/mesh_loader_system_provider.i: src/core/system_providers/mesh_loader_system_provider.cpp.i
@@ -825,6 +869,7 @@ src/core/system_providers/mesh_loader_system_provider.i: src/core/system_provide
 # target to preprocess a source file
 src/core/system_providers/mesh_loader_system_provider.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/system_providers/mesh_loader_system_provider.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/core/system_providers/mesh_loader_system_provider.cpp.i
 .PHONY : src/core/system_providers/mesh_loader_system_provider.cpp.i
 
 src/core/system_providers/mesh_loader_system_provider.s: src/core/system_providers/mesh_loader_system_provider.cpp.s
@@ -834,6 +879,7 @@ src/core/system_providers/mesh_loader_system_provider.s: src/core/system_provide
 # target to generate assembly for a file
 src/core/system_providers/mesh_loader_system_provider.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/system_providers/mesh_loader_system_provider.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/core/system_providers/mesh_loader_system_provider.cpp.s
 .PHONY : src/core/system_providers/mesh_loader_system_provider.cpp.s
 
 src/core/system_providers/render_system_provider.o: src/core/system_providers/render_system_provider.cpp.o
@@ -843,6 +889,7 @@ src/core/system_providers/render_system_provider.o: src/core/system_providers/re
 # target to build an object file
 src/core/system_providers/render_system_provider.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/system_providers/render_system_provider.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/core/system_providers/render_system_provider.cpp.o
 .PHONY : src/core/system_providers/render_system_provider.cpp.o
 
 src/core/system_providers/render_system_provider.i: src/core/system_providers/render_system_provider.cpp.i
@@ -852,6 +899,7 @@ src/core/system_providers/render_system_provider.i: src/core/system_providers/re
 # target to preprocess a source file
 src/core/system_providers/render_system_provider.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/system_providers/render_system_provider.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/core/system_providers/render_system_provider.cpp.i
 .PHONY : src/core/system_providers/render_system_provider.cpp.i
 
 src/core/system_providers/render_system_provider.s: src/core/system_providers/render_system_provider.cpp.s
@@ -861,6 +909,7 @@ src/core/system_providers/render_system_provider.s: src/core/system_providers/re
 # target to generate assembly for a file
 src/core/system_providers/render_system_provider.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/system_providers/render_system_provider.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/core/system_providers/render_system_provider.cpp.s
 .PHONY : src/core/system_providers/render_system_provider.cpp.s
 
 src/core/system_providers/shader_loader_system_provider.o: src/core/system_providers/shader_loader_system_provider.cpp.o
@@ -870,6 +919,7 @@ src/core/system_providers/shader_loader_system_provider.o: src/core/system_provi
 # target to build an object file
 src/core/system_providers/shader_loader_system_provider.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/system_providers/shader_loader_system_provider.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/core/system_providers/shader_loader_system_provider.cpp.o
 .PHONY : src/core/system_providers/shader_loader_system_provider.cpp.o
 
 src/core/system_providers/shader_loader_system_provider.i: src/core/system_providers/shader_loader_system_provider.cpp.i
@@ -879,6 +929,7 @@ src/core/system_providers/shader_loader_system_provider.i: src/core/system_provi
 # target to preprocess a source file
 src/core/system_providers/shader_loader_system_provider.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/system_providers/shader_loader_system_provider.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/core/system_providers/shader_loader_system_provider.cpp.i
 .PHONY : src/core/system_providers/shader_loader_system_provider.cpp.i
 
 src/core/system_providers/shader_loader_system_provider.s: src/core/system_providers/shader_loader_system_provider.cpp.s
@@ -888,6 +939,7 @@ src/core/system_providers/shader_loader_system_provider.s: src/core/system_provi
 # target to generate assembly for a file
 src/core/system_providers/shader_loader_system_provider.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/system_providers/shader_loader_system_provider.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/core/system_providers/shader_loader_system_provider.cpp.s
 .PHONY : src/core/system_providers/shader_loader_system_provider.cpp.s
 
 src/core/system_providers/texture_loader_system_provider.o: src/core/system_providers/texture_loader_system_provider.cpp.o
@@ -897,6 +949,7 @@ src/core/system_providers/texture_loader_system_provider.o: src/core/system_prov
 # target to build an object file
 src/core/system_providers/texture_loader_system_provider.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/system_providers/texture_loader_system_provider.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/core/system_providers/texture_loader_system_provider.cpp.o
 .PHONY : src/core/system_providers/texture_loader_system_provider.cpp.o
 
 src/core/system_providers/texture_loader_system_provider.i: src/core/system_providers/texture_loader_system_provider.cpp.i
@@ -906,6 +959,7 @@ src/core/system_providers/texture_loader_system_provider.i: src/core/system_prov
 # target to preprocess a source file
 src/core/system_providers/texture_loader_system_provider.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/system_providers/texture_loader_system_provider.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/core/system_providers/texture_loader_system_provider.cpp.i
 .PHONY : src/core/system_providers/texture_loader_system_provider.cpp.i
 
 src/core/system_providers/texture_loader_system_provider.s: src/core/system_providers/texture_loader_system_provider.cpp.s
@@ -915,6 +969,7 @@ src/core/system_providers/texture_loader_system_provider.s: src/core/system_prov
 # target to generate assembly for a file
 src/core/system_providers/texture_loader_system_provider.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/system_providers/texture_loader_system_provider.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/core/system_providers/texture_loader_system_provider.cpp.s
 .PHONY : src/core/system_providers/texture_loader_system_provider.cpp.s
 
 src/core/systems/camera_system.o: src/core/systems/camera_system.cpp.o
@@ -924,6 +979,7 @@ src/core/systems/camera_system.o: src/core/systems/camera_system.cpp.o
 # target to build an object file
 src/core/systems/camera_system.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/systems/camera_system.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/core/systems/camera_system.cpp.o
 .PHONY : src/core/systems/camera_system.cpp.o
 
 src/core/systems/camera_system.i: src/core/systems/camera_system.cpp.i
@@ -933,6 +989,7 @@ src/core/systems/camera_system.i: src/core/systems/camera_system.cpp.i
 # target to preprocess a source file
 src/core/systems/camera_system.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/systems/camera_system.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/core/systems/camera_system.cpp.i
 .PHONY : src/core/systems/camera_system.cpp.i
 
 src/core/systems/camera_system.s: src/core/systems/camera_system.cpp.s
@@ -942,6 +999,7 @@ src/core/systems/camera_system.s: src/core/systems/camera_system.cpp.s
 # target to generate assembly for a file
 src/core/systems/camera_system.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/systems/camera_system.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/core/systems/camera_system.cpp.s
 .PHONY : src/core/systems/camera_system.cpp.s
 
 src/core/systems/controller_system.o: src/core/systems/controller_system.cpp.o
@@ -951,6 +1009,7 @@ src/core/systems/controller_system.o: src/core/systems/controller_system.cpp.o
 # target to build an object file
 src/core/systems/controller_system.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/systems/controller_system.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/core/systems/controller_system.cpp.o
 .PHONY : src/core/systems/controller_system.cpp.o
 
 src/core/systems/controller_system.i: src/core/systems/controller_system.cpp.i
@@ -960,6 +1019,7 @@ src/core/systems/controller_system.i: src/core/systems/controller_system.cpp.i
 # target to preprocess a source file
 src/core/systems/controller_system.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/systems/controller_system.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/core/systems/controller_system.cpp.i
 .PHONY : src/core/systems/controller_system.cpp.i
 
 src/core/systems/controller_system.s: src/core/systems/controller_system.cpp.s
@@ -969,6 +1029,7 @@ src/core/systems/controller_system.s: src/core/systems/controller_system.cpp.s
 # target to generate assembly for a file
 src/core/systems/controller_system.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/systems/controller_system.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/core/systems/controller_system.cpp.s
 .PHONY : src/core/systems/controller_system.cpp.s
 
 src/core/systems/light_system.o: src/core/systems/light_system.cpp.o
@@ -978,6 +1039,7 @@ src/core/systems/light_system.o: src/core/systems/light_system.cpp.o
 # target to build an object file
 src/core/systems/light_system.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/systems/light_system.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/core/systems/light_system.cpp.o
 .PHONY : src/core/systems/light_system.cpp.o
 
 src/core/systems/light_system.i: src/core/systems/light_system.cpp.i
@@ -987,6 +1049,7 @@ src/core/systems/light_system.i: src/core/systems/light_system.cpp.i
 # target to preprocess a source file
 src/core/systems/light_system.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/systems/light_system.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/core/systems/light_system.cpp.i
 .PHONY : src/core/systems/light_system.cpp.i
 
 src/core/systems/light_system.s: src/core/systems/light_system.cpp.s
@@ -996,6 +1059,7 @@ src/core/systems/light_system.s: src/core/systems/light_system.cpp.s
 # target to generate assembly for a file
 src/core/systems/light_system.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/systems/light_system.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/core/systems/light_system.cpp.s
 .PHONY : src/core/systems/light_system.cpp.s
 
 src/core/systems/mesh_loader_system.o: src/core/systems/mesh_loader_system.cpp.o
@@ -1005,6 +1069,7 @@ src/core/systems/mesh_loader_system.o: src/core/systems/mesh_loader_system.cpp.o
 # target to build an object file
 src/core/systems/mesh_loader_system.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/systems/mesh_loader_system.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/core/systems/mesh_loader_system.cpp.o
 .PHONY : src/core/systems/mesh_loader_system.cpp.o
 
 src/core/systems/mesh_loader_system.i: src/core/systems/mesh_loader_system.cpp.i
@@ -1014,6 +1079,7 @@ src/core/systems/mesh_loader_system.i: src/core/systems/mesh_loader_system.cpp.i
 # target to preprocess a source file
 src/core/systems/mesh_loader_system.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/systems/mesh_loader_system.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/core/systems/mesh_loader_system.cpp.i
 .PHONY : src/core/systems/mesh_loader_system.cpp.i
 
 src/core/systems/mesh_loader_system.s: src/core/systems/mesh_loader_system.cpp.s
@@ -1023,6 +1089,7 @@ src/core/systems/mesh_loader_system.s: src/core/systems/mesh_loader_system.cpp.s
 # target to generate assembly for a file
 src/core/systems/mesh_loader_system.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/systems/mesh_loader_system.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/core/systems/mesh_loader_system.cpp.s
 .PHONY : src/core/systems/mesh_loader_system.cpp.s
 
 src/core/systems/render_system.o: src/core/systems/render_system.cpp.o
@@ -1032,6 +1099,7 @@ src/core/systems/render_system.o: src/core/systems/render_system.cpp.o
 # target to build an object file
 src/core/systems/render_system.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/systems/render_system.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/core/systems/render_system.cpp.o
 .PHONY : src/core/systems/render_system.cpp.o
 
 src/core/systems/render_system.i: src/core/systems/render_system.cpp.i
@@ -1041,6 +1109,7 @@ src/core/systems/render_system.i: src/core/systems/render_system.cpp.i
 # target to preprocess a source file
 src/core/systems/render_system.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/systems/render_system.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/core/systems/render_system.cpp.i
 .PHONY : src/core/systems/render_system.cpp.i
 
 src/core/systems/render_system.s: src/core/systems/render_system.cpp.s
@@ -1050,6 +1119,7 @@ src/core/systems/render_system.s: src/core/systems/render_system.cpp.s
 # target to generate assembly for a file
 src/core/systems/render_system.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/systems/render_system.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/core/systems/render_system.cpp.s
 .PHONY : src/core/systems/render_system.cpp.s
 
 src/core/systems/shader_loader_system.o: src/core/systems/shader_loader_system.cpp.o
@@ -1059,6 +1129,7 @@ src/core/systems/shader_loader_system.o: src/core/systems/shader_loader_system.c
 # target to build an object file
 src/core/systems/shader_loader_system.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/systems/shader_loader_system.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/core/systems/shader_loader_system.cpp.o
 .PHONY : src/core/systems/shader_loader_system.cpp.o
 
 src/core/systems/shader_loader_system.i: src/core/systems/shader_loader_system.cpp.i
@@ -1068,6 +1139,7 @@ src/core/systems/shader_loader_system.i: src/core/systems/shader_loader_system.c
 # target to preprocess a source file
 src/core/systems/shader_loader_system.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/systems/shader_loader_system.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/core/systems/shader_loader_system.cpp.i
 .PHONY : src/core/systems/shader_loader_system.cpp.i
 
 src/core/systems/shader_loader_system.s: src/core/systems/shader_loader_system.cpp.s
@@ -1077,6 +1149,7 @@ src/core/systems/shader_loader_system.s: src/core/systems/shader_loader_system.c
 # target to generate assembly for a file
 src/core/systems/shader_loader_system.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/systems/shader_loader_system.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/core/systems/shader_loader_system.cpp.s
 .PHONY : src/core/systems/shader_loader_system.cpp.s
 
 src/core/systems/texture_loader_system.o: src/core/systems/texture_loader_system.cpp.o
@@ -1086,6 +1159,7 @@ src/core/systems/texture_loader_system.o: src/core/systems/texture_loader_system
 # target to build an object file
 src/core/systems/texture_loader_system.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/systems/texture_loader_system.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/core/systems/texture_loader_system.cpp.o
 .PHONY : src/core/systems/texture_loader_system.cpp.o
 
 src/core/systems/texture_loader_system.i: src/core/systems/texture_loader_system.cpp.i
@@ -1095,6 +1169,7 @@ src/core/systems/texture_loader_system.i: src/core/systems/texture_loader_system
 # target to preprocess a source file
 src/core/systems/texture_loader_system.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/systems/texture_loader_system.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/core/systems/texture_loader_system.cpp.i
 .PHONY : src/core/systems/texture_loader_system.cpp.i
 
 src/core/systems/texture_loader_system.s: src/core/systems/texture_loader_system.cpp.s
@@ -1104,6 +1179,7 @@ src/core/systems/texture_loader_system.s: src/core/systems/texture_loader_system
 # target to generate assembly for a file
 src/core/systems/texture_loader_system.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/core/systems/texture_loader_system.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/core/systems/texture_loader_system.cpp.s
 .PHONY : src/core/systems/texture_loader_system.cpp.s
 
 src/ecs/entity/entity.o: src/ecs/entity/entity.cpp.o
@@ -1113,6 +1189,7 @@ src/ecs/entity/entity.o: src/ecs/entity/entity.cpp.o
 # target to build an object file
 src/ecs/entity/entity.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/ecs/entity/entity.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/ecs/entity/entity.cpp.o
 .PHONY : src/ecs/entity/entity.cpp.o
 
 src/ecs/entity/entity.i: src/ecs/entity/entity.cpp.i
@@ -1122,6 +1199,7 @@ src/ecs/entity/entity.i: src/ecs/entity/entity.cpp.i
 # target to preprocess a source file
 src/ecs/entity/entity.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/ecs/entity/entity.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/ecs/entity/entity.cpp.i
 .PHONY : src/ecs/entity/entity.cpp.i
 
 src/ecs/entity/entity.s: src/ecs/entity/entity.cpp.s
@@ -1131,6 +1209,7 @@ src/ecs/entity/entity.s: src/ecs/entity/entity.cpp.s
 # target to generate assembly for a file
 src/ecs/entity/entity.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/ecs/entity/entity.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/ecs/entity/entity.cpp.s
 .PHONY : src/ecs/entity/entity.cpp.s
 
 src/errors/error_handler.o: src/errors/error_handler.cpp.o
@@ -1140,6 +1219,7 @@ src/errors/error_handler.o: src/errors/error_handler.cpp.o
 # target to build an object file
 src/errors/error_handler.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/errors/error_handler.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/errors/error_handler.cpp.o
 .PHONY : src/errors/error_handler.cpp.o
 
 src/errors/error_handler.i: src/errors/error_handler.cpp.i
@@ -1149,6 +1229,7 @@ src/errors/error_handler.i: src/errors/error_handler.cpp.i
 # target to preprocess a source file
 src/errors/error_handler.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/errors/error_handler.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/errors/error_handler.cpp.i
 .PHONY : src/errors/error_handler.cpp.i
 
 src/errors/error_handler.s: src/errors/error_handler.cpp.s
@@ -1158,6 +1239,7 @@ src/errors/error_handler.s: src/errors/error_handler.cpp.s
 # target to generate assembly for a file
 src/errors/error_handler.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/errors/error_handler.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/errors/error_handler.cpp.s
 .PHONY : src/errors/error_handler.cpp.s
 
 src/glad/glad.o: src/glad/glad.c.o
@@ -1167,6 +1249,7 @@ src/glad/glad.o: src/glad/glad.c.o
 # target to build an object file
 src/glad/glad.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/glad/glad.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/glad/glad.c.o
 .PHONY : src/glad/glad.c.o
 
 src/glad/glad.i: src/glad/glad.c.i
@@ -1176,6 +1259,7 @@ src/glad/glad.i: src/glad/glad.c.i
 # target to preprocess a source file
 src/glad/glad.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/glad/glad.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/glad/glad.c.i
 .PHONY : src/glad/glad.c.i
 
 src/glad/glad.s: src/glad/glad.c.s
@@ -1185,6 +1269,7 @@ src/glad/glad.s: src/glad/glad.c.s
 # target to generate assembly for a file
 src/glad/glad.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/glad/glad.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/glad/glad.c.s
 .PHONY : src/glad/glad.c.s
 
 src/helpers/mesh_importer.o: src/helpers/mesh_importer.cpp.o
@@ -1194,6 +1279,7 @@ src/helpers/mesh_importer.o: src/helpers/mesh_importer.cpp.o
 # target to build an object file
 src/helpers/mesh_importer.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/helpers/mesh_importer.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/helpers/mesh_importer.cpp.o
 .PHONY : src/helpers/mesh_importer.cpp.o
 
 src/helpers/mesh_importer.i: src/helpers/mesh_importer.cpp.i
@@ -1203,6 +1289,7 @@ src/helpers/mesh_importer.i: src/helpers/mesh_importer.cpp.i
 # target to preprocess a source file
 src/helpers/mesh_importer.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/helpers/mesh_importer.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/helpers/mesh_importer.cpp.i
 .PHONY : src/helpers/mesh_importer.cpp.i
 
 src/helpers/mesh_importer.s: src/helpers/mesh_importer.cpp.s
@@ -1212,6 +1299,7 @@ src/helpers/mesh_importer.s: src/helpers/mesh_importer.cpp.s
 # target to generate assembly for a file
 src/helpers/mesh_importer.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/helpers/mesh_importer.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/helpers/mesh_importer.cpp.s
 .PHONY : src/helpers/mesh_importer.cpp.s
 
 src/helpers/path.o: src/helpers/path.cpp.o
@@ -1221,6 +1309,7 @@ src/helpers/path.o: src/helpers/path.cpp.o
 # target to build an object file
 src/helpers/path.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/helpers/path.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/helpers/path.cpp.o
 .PHONY : src/helpers/path.cpp.o
 
 src/helpers/path.i: src/helpers/path.cpp.i
@@ -1230,6 +1319,7 @@ src/helpers/path.i: src/helpers/path.cpp.i
 # target to preprocess a source file
 src/helpers/path.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/helpers/path.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/helpers/path.cpp.i
 .PHONY : src/helpers/path.cpp.i
 
 src/helpers/path.s: src/helpers/path.cpp.s
@@ -1239,6 +1329,7 @@ src/helpers/path.s: src/helpers/path.cpp.s
 # target to generate assembly for a file
 src/helpers/path.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/helpers/path.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/helpers/path.cpp.s
 .PHONY : src/helpers/path.cpp.s
 
 src/helpers/shader_importer.o: src/helpers/shader_importer.cpp.o
@@ -1248,6 +1339,7 @@ src/helpers/shader_importer.o: src/helpers/shader_importer.cpp.o
 # target to build an object file
 src/helpers/shader_importer.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/helpers/shader_importer.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/helpers/shader_importer.cpp.o
 .PHONY : src/helpers/shader_importer.cpp.o
 
 src/helpers/shader_importer.i: src/helpers/shader_importer.cpp.i
@@ -1257,6 +1349,7 @@ src/helpers/shader_importer.i: src/helpers/shader_importer.cpp.i
 # target to preprocess a source file
 src/helpers/shader_importer.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/helpers/shader_importer.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/helpers/shader_importer.cpp.i
 .PHONY : src/helpers/shader_importer.cpp.i
 
 src/helpers/shader_importer.s: src/helpers/shader_importer.cpp.s
@@ -1266,6 +1359,7 @@ src/helpers/shader_importer.s: src/helpers/shader_importer.cpp.s
 # target to generate assembly for a file
 src/helpers/shader_importer.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/helpers/shader_importer.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/helpers/shader_importer.cpp.s
 .PHONY : src/helpers/shader_importer.cpp.s
 
 src/helpers/texture_importer.o: src/helpers/texture_importer.cpp.o
@@ -1275,6 +1369,7 @@ src/helpers/texture_importer.o: src/helpers/texture_importer.cpp.o
 # target to build an object file
 src/helpers/texture_importer.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/helpers/texture_importer.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/helpers/texture_importer.cpp.o
 .PHONY : src/helpers/texture_importer.cpp.o
 
 src/helpers/texture_importer.i: src/helpers/texture_importer.cpp.i
@@ -1284,6 +1379,7 @@ src/helpers/texture_importer.i: src/helpers/texture_importer.cpp.i
 # target to preprocess a source file
 src/helpers/texture_importer.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/helpers/texture_importer.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/helpers/texture_importer.cpp.i
 .PHONY : src/helpers/texture_importer.cpp.i
 
 src/helpers/texture_importer.s: src/helpers/texture_importer.cpp.s
@@ -1293,6 +1389,7 @@ src/helpers/texture_importer.s: src/helpers/texture_importer.cpp.s
 # target to generate assembly for a file
 src/helpers/texture_importer.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/helpers/texture_importer.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/helpers/texture_importer.cpp.s
 .PHONY : src/helpers/texture_importer.cpp.s
 
 src/main.o: src/main.cpp.o
@@ -1302,6 +1399,7 @@ src/main.o: src/main.cpp.o
 # target to build an object file
 src/main.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/main.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/main.cpp.o
 .PHONY : src/main.cpp.o
 
 src/main.i: src/main.cpp.i
@@ -1311,6 +1409,7 @@ src/main.i: src/main.cpp.i
 # target to preprocess a source file
 src/main.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/main.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/main.cpp.i
 .PHONY : src/main.cpp.i
 
 src/main.s: src/main.cpp.s
@@ -1320,6 +1419,7 @@ src/main.s: src/main.cpp.s
 # target to generate assembly for a file
 src/main.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/main.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/main.cpp.s
 .PHONY : src/main.cpp.s
 
 src/rendering/models/index_buffer.o: src/rendering/models/index_buffer.cpp.o
@@ -1329,6 +1429,7 @@ src/rendering/models/index_buffer.o: src/rendering/models/index_buffer.cpp.o
 # target to build an object file
 src/rendering/models/index_buffer.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/rendering/models/index_buffer.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/rendering/models/index_buffer.cpp.o
 .PHONY : src/rendering/models/index_buffer.cpp.o
 
 src/rendering/models/index_buffer.i: src/rendering/models/index_buffer.cpp.i
@@ -1338,6 +1439,7 @@ src/rendering/models/index_buffer.i: src/rendering/models/index_buffer.cpp.i
 # target to preprocess a source file
 src/rendering/models/index_buffer.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/rendering/models/index_buffer.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/rendering/models/index_buffer.cpp.i
 .PHONY : src/rendering/models/index_buffer.cpp.i
 
 src/rendering/models/index_buffer.s: src/rendering/models/index_buffer.cpp.s
@@ -1347,6 +1449,7 @@ src/rendering/models/index_buffer.s: src/rendering/models/index_buffer.cpp.s
 # target to generate assembly for a file
 src/rendering/models/index_buffer.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/rendering/models/index_buffer.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/rendering/models/index_buffer.cpp.s
 .PHONY : src/rendering/models/index_buffer.cpp.s
 
 src/rendering/models/mesh.o: src/rendering/models/mesh.cpp.o
@@ -1356,6 +1459,7 @@ src/rendering/models/mesh.o: src/rendering/models/mesh.cpp.o
 # target to build an object file
 src/rendering/models/mesh.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/rendering/models/mesh.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/rendering/models/mesh.cpp.o
 .PHONY : src/rendering/models/mesh.cpp.o
 
 src/rendering/models/mesh.i: src/rendering/models/mesh.cpp.i
@@ -1365,6 +1469,7 @@ src/rendering/models/mesh.i: src/rendering/models/mesh.cpp.i
 # target to preprocess a source file
 src/rendering/models/mesh.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/rendering/models/mesh.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/rendering/models/mesh.cpp.i
 .PHONY : src/rendering/models/mesh.cpp.i
 
 src/rendering/models/mesh.s: src/rendering/models/mesh.cpp.s
@@ -1374,6 +1479,7 @@ src/rendering/models/mesh.s: src/rendering/models/mesh.cpp.s
 # target to generate assembly for a file
 src/rendering/models/mesh.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/rendering/models/mesh.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/rendering/models/mesh.cpp.s
 .PHONY : src/rendering/models/mesh.cpp.s
 
 src/rendering/models/render_buffer.o: src/rendering/models/render_buffer.cpp.o
@@ -1383,6 +1489,7 @@ src/rendering/models/render_buffer.o: src/rendering/models/render_buffer.cpp.o
 # target to build an object file
 src/rendering/models/render_buffer.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/rendering/models/render_buffer.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/rendering/models/render_buffer.cpp.o
 .PHONY : src/rendering/models/render_buffer.cpp.o
 
 src/rendering/models/render_buffer.i: src/rendering/models/render_buffer.cpp.i
@@ -1392,6 +1499,7 @@ src/rendering/models/render_buffer.i: src/rendering/models/render_buffer.cpp.i
 # target to preprocess a source file
 src/rendering/models/render_buffer.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/rendering/models/render_buffer.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/rendering/models/render_buffer.cpp.i
 .PHONY : src/rendering/models/render_buffer.cpp.i
 
 src/rendering/models/render_buffer.s: src/rendering/models/render_buffer.cpp.s
@@ -1401,6 +1509,7 @@ src/rendering/models/render_buffer.s: src/rendering/models/render_buffer.cpp.s
 # target to generate assembly for a file
 src/rendering/models/render_buffer.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/rendering/models/render_buffer.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/rendering/models/render_buffer.cpp.s
 .PHONY : src/rendering/models/render_buffer.cpp.s
 
 src/rendering/models/shader.o: src/rendering/models/shader.cpp.o
@@ -1410,6 +1519,7 @@ src/rendering/models/shader.o: src/rendering/models/shader.cpp.o
 # target to build an object file
 src/rendering/models/shader.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/rendering/models/shader.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/rendering/models/shader.cpp.o
 .PHONY : src/rendering/models/shader.cpp.o
 
 src/rendering/models/shader.i: src/rendering/models/shader.cpp.i
@@ -1419,6 +1529,7 @@ src/rendering/models/shader.i: src/rendering/models/shader.cpp.i
 # target to preprocess a source file
 src/rendering/models/shader.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/rendering/models/shader.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/rendering/models/shader.cpp.i
 .PHONY : src/rendering/models/shader.cpp.i
 
 src/rendering/models/shader.s: src/rendering/models/shader.cpp.s
@@ -1428,6 +1539,7 @@ src/rendering/models/shader.s: src/rendering/models/shader.cpp.s
 # target to generate assembly for a file
 src/rendering/models/shader.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/rendering/models/shader.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/rendering/models/shader.cpp.s
 .PHONY : src/rendering/models/shader.cpp.s
 
 src/rendering/models/texture.o: src/rendering/models/texture.cpp.o
@@ -1437,6 +1549,7 @@ src/rendering/models/texture.o: src/rendering/models/texture.cpp.o
 # target to build an object file
 src/rendering/models/texture.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/rendering/models/texture.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/rendering/models/texture.cpp.o
 .PHONY : src/rendering/models/texture.cpp.o
 
 src/rendering/models/texture.i: src/rendering/models/texture.cpp.i
@@ -1446,6 +1559,7 @@ src/rendering/models/texture.i: src/rendering/models/texture.cpp.i
 # target to preprocess a source file
 src/rendering/models/texture.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/rendering/models/texture.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/rendering/models/texture.cpp.i
 .PHONY : src/rendering/models/texture.cpp.i
 
 src/rendering/models/texture.s: src/rendering/models/texture.cpp.s
@@ -1455,6 +1569,7 @@ src/rendering/models/texture.s: src/rendering/models/texture.cpp.s
 # target to generate assembly for a file
 src/rendering/models/texture.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/rendering/models/texture.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/rendering/models/texture.cpp.s
 .PHONY : src/rendering/models/texture.cpp.s
 
 src/rendering/models/vertex_array.o: src/rendering/models/vertex_array.cpp.o
@@ -1464,6 +1579,7 @@ src/rendering/models/vertex_array.o: src/rendering/models/vertex_array.cpp.o
 # target to build an object file
 src/rendering/models/vertex_array.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/rendering/models/vertex_array.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/rendering/models/vertex_array.cpp.o
 .PHONY : src/rendering/models/vertex_array.cpp.o
 
 src/rendering/models/vertex_array.i: src/rendering/models/vertex_array.cpp.i
@@ -1473,6 +1589,7 @@ src/rendering/models/vertex_array.i: src/rendering/models/vertex_array.cpp.i
 # target to preprocess a source file
 src/rendering/models/vertex_array.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/rendering/models/vertex_array.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/rendering/models/vertex_array.cpp.i
 .PHONY : src/rendering/models/vertex_array.cpp.i
 
 src/rendering/models/vertex_array.s: src/rendering/models/vertex_array.cpp.s
@@ -1482,6 +1599,7 @@ src/rendering/models/vertex_array.s: src/rendering/models/vertex_array.cpp.s
 # target to generate assembly for a file
 src/rendering/models/vertex_array.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/rendering/models/vertex_array.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/rendering/models/vertex_array.cpp.s
 .PHONY : src/rendering/models/vertex_array.cpp.s
 
 src/rendering/models/vertex_buffer.o: src/rendering/models/vertex_buffer.cpp.o
@@ -1491,6 +1609,7 @@ src/rendering/models/vertex_buffer.o: src/rendering/models/vertex_buffer.cpp.o
 # target to build an object file
 src/rendering/models/vertex_buffer.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/rendering/models/vertex_buffer.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/rendering/models/vertex_buffer.cpp.o
 .PHONY : src/rendering/models/vertex_buffer.cpp.o
 
 src/rendering/models/vertex_buffer.i: src/rendering/models/vertex_buffer.cpp.i
@@ -1500,6 +1619,7 @@ src/rendering/models/vertex_buffer.i: src/rendering/models/vertex_buffer.cpp.i
 # target to preprocess a source file
 src/rendering/models/vertex_buffer.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/rendering/models/vertex_buffer.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/rendering/models/vertex_buffer.cpp.i
 .PHONY : src/rendering/models/vertex_buffer.cpp.i
 
 src/rendering/models/vertex_buffer.s: src/rendering/models/vertex_buffer.cpp.s
@@ -1509,6 +1629,7 @@ src/rendering/models/vertex_buffer.s: src/rendering/models/vertex_buffer.cpp.s
 # target to generate assembly for a file
 src/rendering/models/vertex_buffer.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/rendering/models/vertex_buffer.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/rendering/models/vertex_buffer.cpp.s
 .PHONY : src/rendering/models/vertex_buffer.cpp.s
 
 src/rendering/render_group.o: src/rendering/render_group.cpp.o
@@ -1518,6 +1639,7 @@ src/rendering/render_group.o: src/rendering/render_group.cpp.o
 # target to build an object file
 src/rendering/render_group.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/rendering/render_group.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/rendering/render_group.cpp.o
 .PHONY : src/rendering/render_group.cpp.o
 
 src/rendering/render_group.i: src/rendering/render_group.cpp.i
@@ -1527,6 +1649,7 @@ src/rendering/render_group.i: src/rendering/render_group.cpp.i
 # target to preprocess a source file
 src/rendering/render_group.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/rendering/render_group.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/rendering/render_group.cpp.i
 .PHONY : src/rendering/render_group.cpp.i
 
 src/rendering/render_group.s: src/rendering/render_group.cpp.s
@@ -1536,6 +1659,7 @@ src/rendering/render_group.s: src/rendering/render_group.cpp.s
 # target to generate assembly for a file
 src/rendering/render_group.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/rendering/render_group.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/rendering/render_group.cpp.s
 .PHONY : src/rendering/render_group.cpp.s
 
 src/rendering/renderers/forward_renderer_3d.o: src/rendering/renderers/forward_renderer_3d.cpp.o
@@ -1545,6 +1669,7 @@ src/rendering/renderers/forward_renderer_3d.o: src/rendering/renderers/forward_r
 # target to build an object file
 src/rendering/renderers/forward_renderer_3d.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/rendering/renderers/forward_renderer_3d.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/rendering/renderers/forward_renderer_3d.cpp.o
 .PHONY : src/rendering/renderers/forward_renderer_3d.cpp.o
 
 src/rendering/renderers/forward_renderer_3d.i: src/rendering/renderers/forward_renderer_3d.cpp.i
@@ -1554,6 +1679,7 @@ src/rendering/renderers/forward_renderer_3d.i: src/rendering/renderers/forward_r
 # target to preprocess a source file
 src/rendering/renderers/forward_renderer_3d.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/rendering/renderers/forward_renderer_3d.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/rendering/renderers/forward_renderer_3d.cpp.i
 .PHONY : src/rendering/renderers/forward_renderer_3d.cpp.i
 
 src/rendering/renderers/forward_renderer_3d.s: src/rendering/renderers/forward_renderer_3d.cpp.s
@@ -1563,6 +1689,7 @@ src/rendering/renderers/forward_renderer_3d.s: src/rendering/renderers/forward_r
 # target to generate assembly for a file
 src/rendering/renderers/forward_renderer_3d.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/src/rendering/renderers/forward_renderer_3d.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/src/rendering/renderers/forward_renderer_3d.cpp.s
 .PHONY : src/rendering/renderers/forward_renderer_3d.cpp.s
 
 vendor/imgui/imgui.o: vendor/imgui/imgui.cpp.o
@@ -1572,6 +1699,7 @@ vendor/imgui/imgui.o: vendor/imgui/imgui.cpp.o
 # target to build an object file
 vendor/imgui/imgui.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/vendor/imgui/imgui.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/vendor/imgui/imgui.cpp.o
 .PHONY : vendor/imgui/imgui.cpp.o
 
 vendor/imgui/imgui.i: vendor/imgui/imgui.cpp.i
@@ -1581,6 +1709,7 @@ vendor/imgui/imgui.i: vendor/imgui/imgui.cpp.i
 # target to preprocess a source file
 vendor/imgui/imgui.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/vendor/imgui/imgui.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/vendor/imgui/imgui.cpp.i
 .PHONY : vendor/imgui/imgui.cpp.i
 
 vendor/imgui/imgui.s: vendor/imgui/imgui.cpp.s
@@ -1590,6 +1719,7 @@ vendor/imgui/imgui.s: vendor/imgui/imgui.cpp.s
 # target to generate assembly for a file
 vendor/imgui/imgui.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/vendor/imgui/imgui.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/vendor/imgui/imgui.cpp.s
 .PHONY : vendor/imgui/imgui.cpp.s
 
 vendor/imgui/imgui_draw.o: vendor/imgui/imgui_draw.cpp.o
@@ -1599,6 +1729,7 @@ vendor/imgui/imgui_draw.o: vendor/imgui/imgui_draw.cpp.o
 # target to build an object file
 vendor/imgui/imgui_draw.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/vendor/imgui/imgui_draw.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/vendor/imgui/imgui_draw.cpp.o
 .PHONY : vendor/imgui/imgui_draw.cpp.o
 
 vendor/imgui/imgui_draw.i: vendor/imgui/imgui_draw.cpp.i
@@ -1608,6 +1739,7 @@ vendor/imgui/imgui_draw.i: vendor/imgui/imgui_draw.cpp.i
 # target to preprocess a source file
 vendor/imgui/imgui_draw.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/vendor/imgui/imgui_draw.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/vendor/imgui/imgui_draw.cpp.i
 .PHONY : vendor/imgui/imgui_draw.cpp.i
 
 vendor/imgui/imgui_draw.s: vendor/imgui/imgui_draw.cpp.s
@@ -1617,6 +1749,7 @@ vendor/imgui/imgui_draw.s: vendor/imgui/imgui_draw.cpp.s
 # target to generate assembly for a file
 vendor/imgui/imgui_draw.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/vendor/imgui/imgui_draw.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/vendor/imgui/imgui_draw.cpp.s
 .PHONY : vendor/imgui/imgui_draw.cpp.s
 
 vendor/imgui/imgui_impl_glfw.o: vendor/imgui/imgui_impl_glfw.cpp.o
@@ -1626,6 +1759,7 @@ vendor/imgui/imgui_impl_glfw.o: vendor/imgui/imgui_impl_glfw.cpp.o
 # target to build an object file
 vendor/imgui/imgui_impl_glfw.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/vendor/imgui/imgui_impl_glfw.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/vendor/imgui/imgui_impl_glfw.cpp.o
 .PHONY : vendor/imgui/imgui_impl_glfw.cpp.o
 
 vendor/imgui/imgui_impl_glfw.i: vendor/imgui/imgui_impl_glfw.cpp.i
@@ -1635,6 +1769,7 @@ vendor/imgui/imgui_impl_glfw.i: vendor/imgui/imgui_impl_glfw.cpp.i
 # target to preprocess a source file
 vendor/imgui/imgui_impl_glfw.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/vendor/imgui/imgui_impl_glfw.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/vendor/imgui/imgui_impl_glfw.cpp.i
 .PHONY : vendor/imgui/imgui_impl_glfw.cpp.i
 
 vendor/imgui/imgui_impl_glfw.s: vendor/imgui/imgui_impl_glfw.cpp.s
@@ -1644,6 +1779,7 @@ vendor/imgui/imgui_impl_glfw.s: vendor/imgui/imgui_impl_glfw.cpp.s
 # target to generate assembly for a file
 vendor/imgui/imgui_impl_glfw.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/vendor/imgui/imgui_impl_glfw.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/vendor/imgui/imgui_impl_glfw.cpp.s
 .PHONY : vendor/imgui/imgui_impl_glfw.cpp.s
 
 vendor/imgui/imgui_impl_opengl3.o: vendor/imgui/imgui_impl_opengl3.cpp.o
@@ -1653,6 +1789,7 @@ vendor/imgui/imgui_impl_opengl3.o: vendor/imgui/imgui_impl_opengl3.cpp.o
 # target to build an object file
 vendor/imgui/imgui_impl_opengl3.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/vendor/imgui/imgui_impl_opengl3.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/vendor/imgui/imgui_impl_opengl3.cpp.o
 .PHONY : vendor/imgui/imgui_impl_opengl3.cpp.o
 
 vendor/imgui/imgui_impl_opengl3.i: vendor/imgui/imgui_impl_opengl3.cpp.i
@@ -1662,6 +1799,7 @@ vendor/imgui/imgui_impl_opengl3.i: vendor/imgui/imgui_impl_opengl3.cpp.i
 # target to preprocess a source file
 vendor/imgui/imgui_impl_opengl3.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/vendor/imgui/imgui_impl_opengl3.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/vendor/imgui/imgui_impl_opengl3.cpp.i
 .PHONY : vendor/imgui/imgui_impl_opengl3.cpp.i
 
 vendor/imgui/imgui_impl_opengl3.s: vendor/imgui/imgui_impl_opengl3.cpp.s
@@ -1671,6 +1809,7 @@ vendor/imgui/imgui_impl_opengl3.s: vendor/imgui/imgui_impl_opengl3.cpp.s
 # target to generate assembly for a file
 vendor/imgui/imgui_impl_opengl3.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/vendor/imgui/imgui_impl_opengl3.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/vendor/imgui/imgui_impl_opengl3.cpp.s
 .PHONY : vendor/imgui/imgui_impl_opengl3.cpp.s
 
 vendor/imgui/imgui_tables.o: vendor/imgui/imgui_tables.cpp.o
@@ -1680,6 +1819,7 @@ vendor/imgui/imgui_tables.o: vendor/imgui/imgui_tables.cpp.o
 # target to build an object file
 vendor/imgui/imgui_tables.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/vendor/imgui/imgui_tables.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/vendor/imgui/imgui_tables.cpp.o
 .PHONY : vendor/imgui/imgui_tables.cpp.o
 
 vendor/imgui/imgui_tables.i: vendor/imgui/imgui_tables.cpp.i
@@ -1689,6 +1829,7 @@ vendor/imgui/imgui_tables.i: vendor/imgui/imgui_tables.cpp.i
 # target to preprocess a source file
 vendor/imgui/imgui_tables.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/vendor/imgui/imgui_tables.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/vendor/imgui/imgui_tables.cpp.i
 .PHONY : vendor/imgui/imgui_tables.cpp.i
 
 vendor/imgui/imgui_tables.s: vendor/imgui/imgui_tables.cpp.s
@@ -1698,6 +1839,7 @@ vendor/imgui/imgui_tables.s: vendor/imgui/imgui_tables.cpp.s
 # target to generate assembly for a file
 vendor/imgui/imgui_tables.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/vendor/imgui/imgui_tables.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/vendor/imgui/imgui_tables.cpp.s
 .PHONY : vendor/imgui/imgui_tables.cpp.s
 
 vendor/imgui/imgui_widgets.o: vendor/imgui/imgui_widgets.cpp.o
@@ -1707,6 +1849,7 @@ vendor/imgui/imgui_widgets.o: vendor/imgui/imgui_widgets.cpp.o
 # target to build an object file
 vendor/imgui/imgui_widgets.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/vendor/imgui/imgui_widgets.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/vendor/imgui/imgui_widgets.cpp.o
 .PHONY : vendor/imgui/imgui_widgets.cpp.o
 
 vendor/imgui/imgui_widgets.i: vendor/imgui/imgui_widgets.cpp.i
@@ -1716,6 +1859,7 @@ vendor/imgui/imgui_widgets.i: vendor/imgui/imgui_widgets.cpp.i
 # target to preprocess a source file
 vendor/imgui/imgui_widgets.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/vendor/imgui/imgui_widgets.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/vendor/imgui/imgui_widgets.cpp.i
 .PHONY : vendor/imgui/imgui_widgets.cpp.i
 
 vendor/imgui/imgui_widgets.s: vendor/imgui/imgui_widgets.cpp.s
@@ -1725,6 +1869,7 @@ vendor/imgui/imgui_widgets.s: vendor/imgui/imgui_widgets.cpp.s
 # target to generate assembly for a file
 vendor/imgui/imgui_widgets.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/vendor/imgui/imgui_widgets.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/vendor/imgui/imgui_widgets.cpp.s
 .PHONY : vendor/imgui/imgui_widgets.cpp.s
 
 vendor/stb_image/stb_image.o: vendor/stb_image/stb_image.cpp.o
@@ -1734,6 +1879,7 @@ vendor/stb_image/stb_image.o: vendor/stb_image/stb_image.cpp.o
 # target to build an object file
 vendor/stb_image/stb_image.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/vendor/stb_image/stb_image.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/vendor/stb_image/stb_image.cpp.o
 .PHONY : vendor/stb_image/stb_image.cpp.o
 
 vendor/stb_image/stb_image.i: vendor/stb_image/stb_image.cpp.i
@@ -1743,6 +1889,7 @@ vendor/stb_image/stb_image.i: vendor/stb_image/stb_image.cpp.i
 # target to preprocess a source file
 vendor/stb_image/stb_image.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/vendor/stb_image/stb_image.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/vendor/stb_image/stb_image.cpp.i
 .PHONY : vendor/stb_image/stb_image.cpp.i
 
 vendor/stb_image/stb_image.s: vendor/stb_image/stb_image.cpp.s
@@ -1752,6 +1899,7 @@ vendor/stb_image/stb_image.s: vendor/stb_image/stb_image.cpp.s
 # target to generate assembly for a file
 vendor/stb_image/stb_image.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Vultr.dir/build.make CMakeFiles/Vultr.dir/vendor/stb_image/stb_image.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/VultrStatic.dir/build.make CMakeFiles/VultrStatic.dir/vendor/stb_image/stb_image.cpp.s
 .PHONY : vendor/stb_image/stb_image.cpp.s
 
 # Help Target
@@ -1794,6 +1942,7 @@ help:
 	@echo "... NightlyTest"
 	@echo "... NightlyUpdate"
 	@echo "... Vultr"
+	@echo "... VultrStatic"
 	@echo "... include/ecs/world/world.o"
 	@echo "... include/ecs/world/world.i"
 	@echo "... include/ecs/world/world.s"

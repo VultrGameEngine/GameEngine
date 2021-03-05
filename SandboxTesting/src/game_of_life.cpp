@@ -47,8 +47,7 @@ void GameOfLife::Init()
                 cell.AddComponent(CellComponent::Create(i, j, k));
                 cell.AddComponent(StaticMeshComponent::Create());
                 cell.AddComponent(Vultr::ForwardMaterial::Create(
-                    "/home/brandon/Dev/GameEngine/SandboxTesting/res/textures/cube/"
-                    "cube_texture.jpg"));
+                    "res/textures/cube/cube_texture.jpg"));
             }
         }
     }

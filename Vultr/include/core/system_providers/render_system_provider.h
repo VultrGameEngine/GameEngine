@@ -30,9 +30,8 @@ class RenderSystemProvider : public SystemProvider
     {
         GenerateRenderTexture(scene, 1920, 1080);
         GenerateRenderTexture(game, 1920, 1080);
-        post_processing_shader = ShaderImporter::ImportShader(
-            "/home/brandon/Dev/GameEngine/SandboxTesting/res/shaders/"
-            "post_processing.glsl");
+        post_processing_shader =
+            ShaderImporter::ImportShader("res/shaders/post_processing.glsl");
         render_quad = MeshImporter::InitQuad();
     }
     // Singleton pattern

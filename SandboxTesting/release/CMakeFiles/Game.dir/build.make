@@ -173,7 +173,7 @@ Game: CMakeFiles/Game.dir/src/system_providers/controller_system_provider.cpp.o
 Game: CMakeFiles/Game.dir/src/systems/board_system.cpp.o
 Game: CMakeFiles/Game.dir/src/systems/controller_system.cpp.o
 Game: CMakeFiles/Game.dir/build.make
-Game: /home/brandon/Dev/GameEngine/Vultr/release/libVultr.a
+Game: /home/brandon/Dev/GameEngine/Vultr/release/libVultrStatic.a
 Game: CMakeFiles/Game.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/brandon/Dev/GameEngine/SandboxTesting/release/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable Game"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Game.dir/link.txt --verbose=$(VERBOSE)
