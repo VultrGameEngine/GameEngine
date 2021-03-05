@@ -4,6 +4,7 @@
 #include <imgui/imgui_impl_glfw.h>
 #include <imgui/imgui_impl_opengl3.h>
 #include <core/component_renderer.h>
+#include <rmlui/ShellRenderInterfaceOpenGL.h>
 
 void *LoadDLL(const std::string &path)
 {
@@ -79,6 +80,13 @@ void Engine::Init(bool debug)
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init("#version 410");
     ImGui::StyleColorsDark();
+
+    // RMLUI stuff
+    this->ui_interface = new RmlUiInterface(this);
+    Rml::SetSystemInterface(this->ui_interface);
+    ShellRenderInterfaceOpenGL *interface = new ShellRenderInterfaceOpenGL();
+    Rml::SetRenderInterface(interface);
+    Rml::Initialise();
 }
 
 void Engine::RegisterComponents()
@@ -156,7 +164,14 @@ void Engine::UpdateGame(float &last_time)
     glfwPollEvents();
 }
 
+double Engine::GetElapsedTime()
+{
+    return glfwGetTime();
+}
+
 void Engine::Destroy()
 {
+    Rml::Shutdown();
+    delete this->ui_interface;
 }
 } // namespace Vultr

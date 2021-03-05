@@ -1,6 +1,7 @@
 #pragma once
 #include "Game.hpp"
 #include <core/core.h>
+#include <rmlui/interface/rmlui_system_interface.h>
 
 namespace Vultr
 {
@@ -15,11 +16,13 @@ class Engine
     void InitGame();
     void UpdateGame(float &t);
     void Destroy();
+    double GetElapsedTime();
     GLFWwindow *window;
     bool should_close = false;
 
   private:
     bool debug;
     Game *game;
+    RmlUiInterface *ui_interface;
 };
 } // namespace Vultr
