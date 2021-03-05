@@ -114,9 +114,16 @@ void Engine::InitSystems()
     CameraSystem::RegisterSystem();
     LightSystem::RegisterSystem();
     RenderSystem::RegisterSystem();
+    RmlUiSystem::RegisterSystem();
 
     ControllerSystem::Init(window);
     glfwSetWindowFocusCallback(window, ControllerSystem::WindowFocusCallback);
+
+    glm::vec2 dimensions = RenderSystemProvider::GetDimensions(GAME);
+    RmlUiSystemProvider::Get()->context =
+        Rml::CreateContext("default", Rml::Vector2i(dimensions.x, dimensions.y));
+    RmlUiSystemProvider::LoadFont("res/fonts/font.ttf");
+    RmlUiSystemProvider::LoadDocument("res/rml/test.rml");
 }
 
 void Engine::LoadGame(const std::string &path)
@@ -160,6 +167,7 @@ void Engine::UpdateGame(float &last_time)
         MeshLoaderSystem::Update();
         ControllerSystem::Update(tick.m_delta_time);
     }
+    RmlUiSystem::Update();
     RenderSystem::Update(tick);
     glfwPollEvents();
 }

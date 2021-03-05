@@ -13,11 +13,15 @@ class RmlUiSystemProvider : public SystemProvider
         return World::GetSystemProvider<RmlUiSystemProvider>();
     }
 
-    Rml::Context *context;
+    static void LoadDocument(const std::string &path);
+    static void LoadFont(const std::string &path);
 
-    // protected:
-    //   void OnDestroyEntity(Entity entity) override;
-    //   void OnCreateEntity(Entity entity) override;
+    Rml::Context *context;
+    Rml::ElementDocument *document;
+
+  protected:
+    void OnDestroyEntity(Entity entity) override;
+    void OnCreateEntity(Entity entity) override;
 };
 
 } // namespace Vultr

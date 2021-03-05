@@ -6,6 +6,7 @@
 #include <core/system_providers/camera_system_provider.h>
 #include <core/system_providers/light_system_provider.h>
 #include <core/system_providers/render_system_provider.h>
+#include <core/system_providers/rmlui_system_provider.h>
 #include <core/systems/render_system.h>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/quaternion.hpp>
@@ -52,6 +53,8 @@ void RenderSystem::Update(UpdateTick meta_data)
         // Render both the skybox an the static meshes in the scene
         RenderSkybox(GAME);
         RenderElements(GAME);
+
+        RmlUiSystemProvider::Get()->context->Render();
 
         // Unbind the frame buffer
         provider.game.fbo->Unbind();

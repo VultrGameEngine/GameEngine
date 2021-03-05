@@ -1,1 +1,0 @@
-/bin/clang++ -O3 -DNDEBUG -rdynamic CMakeFiles/GameEXE.dir/src/main.cpp.o CMakeFiles/GameEXE.dir/src/test_game.cpp.o -o GameEXE 

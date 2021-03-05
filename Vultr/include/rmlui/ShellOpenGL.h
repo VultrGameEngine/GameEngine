@@ -41,10 +41,8 @@
 #include <OpenGL/glu.h>
 #include <OpenGL/glext.h>
 #elif defined RMLUI_PLATFORM_UNIX
+#include <glad/glad.h>
 #include <GL/glx.h>
-#include <GL/gl.h>
-#include <GL/glext.h>
-#include <GL/glu.h>
 // The None define from X.h conflicts with RmlUi code base,
 // use the constant 0L instead where necessary
 #ifdef None

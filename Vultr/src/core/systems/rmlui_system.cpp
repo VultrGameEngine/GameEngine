@@ -11,5 +11,6 @@ void RmlUiSystem::RegisterSystem()
 void RmlUiSystem::Update()
 {
     RmlUiSystemProvider &provider = GetProvider();
+    provider.context->Update();
 }
 } // namespace Vultr

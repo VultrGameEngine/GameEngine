@@ -1,5 +1,5 @@
 #include <Vultr.hpp>
-#include <game_of_life.h>
+#include <sandbox_test.h>
 
 using namespace Vultr;
 int main(void)
