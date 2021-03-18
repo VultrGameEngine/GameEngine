@@ -1,7 +1,6 @@
 #pragma once
 #include "Game.hpp"
 #include <core/core.h>
-#include <rmlui/interface/rmlui_system_interface.h>
 
 namespace Vultr
 {
@@ -23,6 +22,5 @@ class Engine
   private:
     bool debug;
     Game *game;
-    RmlUiInterface *ui_interface;
 };
 } // namespace Vultr

@@ -8,6 +8,7 @@ namespace Vultr
 class VertexBuffer
 {
   public:
+    VertexBuffer(size_t size);
     VertexBuffer(const GLvoid *vertices, unsigned int count);
     ~VertexBuffer();
 

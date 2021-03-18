@@ -6,4 +6,4 @@
 #include "systems/shader_loader_system.h"
 #include "systems/controller_system.h"
 #include "systems/camera_system.h"
-#include "systems/rmlui_system.h"
+#include "systems/gui_system.h"

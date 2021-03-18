@@ -4,7 +4,7 @@
 #include <imgui/imgui_impl_glfw.h>
 #include <imgui/imgui_impl_opengl3.h>
 #include <core/component_renderer.h>
-#include <rmlui/ShellRenderInterfaceOpenGL.h>
+#include <gui/framework/basic.h>
 
 void *LoadDLL(const std::string &path)
 {
@@ -20,7 +20,6 @@ namespace Vultr
 {
 void Engine::Init(bool debug)
 {
-
     if (!glfwInit())
     {
 
@@ -80,13 +79,6 @@ void Engine::Init(bool debug)
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init("#version 410");
     ImGui::StyleColorsDark();
-
-    // RMLUI stuff
-    this->ui_interface = new RmlUiInterface(this);
-    Rml::SetSystemInterface(this->ui_interface);
-    ShellRenderInterfaceOpenGL *interface = new ShellRenderInterfaceOpenGL();
-    Rml::SetRenderInterface(interface);
-    Rml::Initialise();
 }
 
 void Engine::RegisterComponents()
@@ -114,16 +106,15 @@ void Engine::InitSystems()
     CameraSystem::RegisterSystem();
     LightSystem::RegisterSystem();
     RenderSystem::RegisterSystem();
-    RmlUiSystem::RegisterSystem();
+    GUISystem::RegisterSystem();
 
     ControllerSystem::Init(window);
     glfwSetWindowFocusCallback(window, ControllerSystem::WindowFocusCallback);
 
     glm::vec2 dimensions = RenderSystemProvider::GetDimensions(GAME);
-    RmlUiSystemProvider::Get()->context =
-        Rml::CreateContext("default", Rml::Vector2i(dimensions.x, dimensions.y));
-    RmlUiSystemProvider::LoadFont("res/fonts/font.ttf");
-    RmlUiSystemProvider::LoadDocument("res/rml/test.rml");
+    GUISystem::Init(new GUI::Window(new GUI::Container({
+        .color = glm::vec4(1, 1, 1, 1),
+    })));
 }
 
 void Engine::LoadGame(const std::string &path)
@@ -167,7 +158,6 @@ void Engine::UpdateGame(float &last_time)
         MeshLoaderSystem::Update();
         ControllerSystem::Update(tick.m_delta_time);
     }
-    RmlUiSystem::Update();
     RenderSystem::Update(tick);
     glfwPollEvents();
 }
@@ -179,7 +169,5 @@ double Engine::GetElapsedTime()
 
 void Engine::Destroy()
 {
-    Rml::Shutdown();
-    delete this->ui_interface;
 }
 } // namespace Vultr

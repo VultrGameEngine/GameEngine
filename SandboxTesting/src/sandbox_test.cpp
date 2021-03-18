@@ -20,7 +20,7 @@ void SandboxTest::Init()
     light.AddComponent(LightComponent::Create());
 
     light.AddComponent(TransformComponent::Create(
-        glm::vec3(0, 0, -10), glm::quat(1, 0, 0, 0), glm::vec3(4, 4, 4)));
+        glm::vec3(0, 0, -30), glm::quat(1, 0, 0, 0), glm::vec3(4, 4, 4)));
     light.AddComponent(Vultr::UnlitMaterial::Create());
     light.AddComponent(StaticMeshComponent::Create());
 }
