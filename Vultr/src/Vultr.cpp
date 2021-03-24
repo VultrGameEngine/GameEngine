@@ -90,10 +90,6 @@ void Engine::RegisterComponents()
     World::RegisterComponent<CameraComponent>();
     World::RegisterComponent<ControllerComponent>();
     World::RegisterComponent<SkyBoxComponent>();
-
-    // World::RegisterMaterial<ForwardMaterial>();
-    // World::RegisterMaterial<SkyboxMaterial>();
-    // World::RegisterMaterial<UnlitMaterial>();
 }
 
 void Engine::InitSystems()
@@ -112,8 +108,21 @@ void Engine::InitSystems()
     glfwSetWindowFocusCallback(window, ControllerSystem::WindowFocusCallback);
 
     glm::vec2 dimensions = RenderSystemProvider::GetDimensions(GAME);
-    GUISystem::Init(new GUI::Window(new GUI::Container({
-        .color = glm::vec4(1, 1, 1, 1),
+    GUISystem::Init(new GUI::Window(new GUI::Center({
+        .child = new GUI::Container({
+            .child = new GUI::Padding({
+                .child = new GUI::Container({
+                    .width = 0.5,
+                    .height = 0.5,
+                    .color = glm::vec4(0, 1, 0, 1),
+                }),
+                .left = 0.2,
+                .right = 0.2,
+                .top = 0.2,
+                .bottom = 0.2,
+            }),
+            .color = glm::vec4(1, 0, 0, 1),
+        }),
     })));
 }
 

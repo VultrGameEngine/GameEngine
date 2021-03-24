@@ -21,7 +21,7 @@ class GUISystemProvider : public SystemProvider
     }
     GUI::Window *window;
     GUI::BuildContext *context;
-    GUI::Element *root_element;
+    GUI::WindowElement *root_element;
     Shader *gui_shader;
 
   protected:

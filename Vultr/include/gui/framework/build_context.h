@@ -1,6 +1,7 @@
 #pragma once
 #include <gui/rendering/gui_render_group.h>
 #include <vector>
+#include <stack>
 
 namespace Vultr
 {
@@ -13,13 +14,12 @@ class BuildContext
     BuildContext()
     {
         groups.push_back(RenderGroup());
+        positions.push(glm::vec2(0, 0));
+        zindex.push(0);
     }
-    // Our starting accumulators
-    struct Accumulator
-    {
-        glm::vec2 size = glm::vec2(2, 2);
-        glm::vec2 position = glm::vec2(0, 0);
-    } accumulator;
+
+    std::stack<glm::vec2> positions;
+    std::stack<int> zindex;
 
     Quad GetQuad(int index, int layer = 0)
     {
@@ -33,30 +33,60 @@ class BuildContext
         return group.DeleteQuadAtIndex(index);
     }
 
-    int SubmitQuad(int layer = 0)
+    int SubmitQuad()
     {
-        RenderGroup &group = groups[layer];
-        return group.SubmitQuad();
+        for (int i = 0; i < groups.size(); i++)
+        {
+            RenderGroup &group = groups[i];
+            int res = group.SubmitQuad();
+            if (res != -1)
+                return res;
+        }
+        RenderGroup new_group = RenderGroup();
+        groups.push_back(new_group);
+        return new_group.SubmitQuad();
     }
 
     void Draw()
     {
-        RenderGroup &group = groups[0];
-        group.Draw();
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        glEnable(GL_DEPTH_TEST);
+        glDepthFunc(GL_LEQUAL);
+        for (RenderGroup &group : groups)
+            group.Draw();
+
+        zindex.empty();
+        zindex.push(0);
+        positions.empty();
+        positions.push(glm::vec2(0, 0));
     }
 
-    Accumulator GetCurrentDimensions() const
+    glm::vec2 GetPosition() const
     {
-        return accumulator;
+        return positions.top();
     }
 
-    void AccumulatePosition(glm::vec2 position)
+    void ExitBranch()
     {
-        accumulator.position = position;
+        assert(positions.size() > 1 && zindex.size() > 1 && "Cannot pop!");
+        positions.pop();
+        zindex.pop();
     }
-    void AccumulateSize(glm::vec2 size)
+
+    void Branch()
     {
-        accumulator.size = size;
+        positions.push(positions.top());
+        zindex.push(zindex.top());
+    }
+
+    void AccumulatePosition(glm::vec2 position, bool branch = false)
+    {
+        positions.top() += position;
+    }
+
+    int IncreaseZ()
+    {
+        return zindex.top()--;
     }
 
   private:

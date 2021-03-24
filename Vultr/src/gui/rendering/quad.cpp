@@ -6,11 +6,11 @@ namespace GUI
 {
 void Quad::Commit(const QuadProperties &properties, BuildContext *context)
 {
-    BuildContext::Accumulator current = context->GetCurrentDimensions();
-    double width = properties.height->ApplySize(current.size.x);
-    double height = properties.height->ApplySize(current.size.y);
-    double x = properties.x->ApplyPosition(current.position.x, current.size.x);
-    double y = properties.y->ApplyPosition(current.position.y, current.size.y);
+    double width = properties.size.width;
+    double height = properties.size.height;
+    glm::vec2 position = context->GetPosition();
+    double x = position.x;
+    double y = position.y;
 
     // ORDER
     // Top Left [0]
@@ -18,11 +18,12 @@ void Quad::Commit(const QuadProperties &properties, BuildContext *context)
     // Bottom Right [2]
     // Top Right [3]
 
+    int zindex = context->IncreaseZ();
     // TODO add z index
-    vertices[0]->position = glm::vec3(x - width / 2, y + height / 2, 0);
-    vertices[1]->position = glm::vec3(x - width / 2, y - height / 2, 0);
-    vertices[2]->position = glm::vec3(x + width / 2, y - height / 2, 0);
-    vertices[3]->position = glm::vec3(x + width / 2, y + height / 2, 0);
+    vertices[0]->position = glm::vec3(x - width / 2, y + height / 2, zindex);
+    vertices[1]->position = glm::vec3(x - width / 2, y - height / 2, zindex);
+    vertices[2]->position = glm::vec3(x + width / 2, y - height / 2, zindex);
+    vertices[3]->position = glm::vec3(x + width / 2, y + height / 2, zindex);
 
     for (GUIVertex *vertex : vertices)
     {

@@ -1,12 +1,14 @@
 #pragma once
 #include <gui/rendering/gui_vertex.h>
 #include "build_context.h"
+#include "box_constraints.h"
 
 namespace Vultr
 {
 namespace GUI
 {
 class Widget;
+
 class RenderObject
 {
   public:
@@ -24,6 +26,8 @@ class RenderObject
     }
 
     virtual void Paint(BuildContext *context) = 0;
+
+    virtual Size Layout(BuildContext *context, BoxConstraints constraints) = 0;
 
     void MarkForRepaint()
     {
@@ -57,7 +61,21 @@ class RenderObject
         return context->GetQuad(index, layer);
     }
 
+    Size GetSize()
+    {
+        return size;
+    }
+
+    Size UpdateSize(Size size)
+    {
+        if (this->size != size)
+            MarkForRepaint();
+        this->size = size;
+        return this->size;
+    }
+
   private:
+    Size size;
 };
 } // namespace GUI
 } // namespace Vultr

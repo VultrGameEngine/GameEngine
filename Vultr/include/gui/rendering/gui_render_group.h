@@ -2,12 +2,15 @@
 #include <rendering/models/vertex_array.h>
 #include <rendering/models/vertex_buffer.h>
 #include <rendering/models/index_buffer.h>
+#include <rendering/models/texture.h>
 #include "gui_vertex.h"
+#include <string>
 #include "quad.h"
 #include <array>
 #include <unordered_map>
 #include <queue>
 #define MAX_QUADS 1000
+#define MAX_TEXTURES 16
 
 namespace Vultr
 {
@@ -67,7 +70,16 @@ class RenderGroup
 
     int SubmitQuad()
     {
-        assert(num_quads < MAX_QUADS && "Reached max quads in this layer");
+        // If there is no room for either quads or textures, we need to tell whoever
+        // submitted to us that we don't have room
+        if (num_quads >= MAX_QUADS)
+        {
+            return -1;
+        }
+        else if (textures.size() >= MAX_TEXTURES)
+        {
+            return -1;
+        }
         int index = num_quads * 4;
         num_quads++;
         return index;
@@ -75,6 +87,22 @@ class RenderGroup
 
     void Draw()
     {
+        // Draw all of our dependencies (basically just framebuffers that have to get
+        // rendered first)
+        for (RenderGroup *group : dependent_render_groups)
+        {
+            group->Draw();
+        }
+
+        // Then bind all of our textures
+        int counter = 0;
+        for (auto [id, texture] : textures)
+        {
+            texture->Bind(GL_TEXTURE0 + counter);
+            counter++;
+        }
+
+        // Then render our quad
         vbo->Bind();
         glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
         vao->Bind();
@@ -91,6 +119,10 @@ class RenderGroup
     GUI::GUIVertex vertices[MAX_QUADS * 4];
 
     unsigned int num_quads = 0;
+
+    std::vector<RenderGroup *> dependent_render_groups;
+
+    std::unordered_map<std::string, Texture *> textures;
     // std::queue<WidgetID> available_widgets;
 
     // Quad quads[MAX_QUADS];

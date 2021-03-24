@@ -1,4 +1,5 @@
 #include <core/systems/gui_system.h>
+#include <core/system_providers/render_system_provider.h>
 
 namespace Vultr
 {
@@ -34,7 +35,7 @@ void GUISystem::Update()
     GUISystemProvider &provider = GetProvider();
     if (provider.root_element == nullptr)
         return;
-    provider.root_element->Rebuild(provider.context);
+    provider.root_element->Layout(provider.context, GUI::Size(2, 2));
     provider.root_element->Update(provider.context);
     provider.gui_shader->Bind();
     provider.context->Draw();

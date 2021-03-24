@@ -22,6 +22,7 @@ class MultiChildRenderObjectWidget : public RenderObjectWidget
   protected:
     std::vector<Widget *> children;
 };
+
 class MultiChildElement : public RenderObjectElement
 {
   public:
@@ -62,26 +63,32 @@ class MultiChildElement : public RenderObjectElement
                 // The element's currently attached child element widget
                 Widget *old_widget = children.at(i)->GetWidget();
 
-                if (old_widget != nullptr)
+                // If the widget memory addresses are equal, that definitely means
+                // nothing needs to be reattached or anything, don't touch or delete
+                // anything
+                if (old_widget != new_widget)
                 {
-
-                    // If we don't have to recreate the element, then don't
-                    if (old_widget->GetType() == new_widget->GetType() &&
-                        old_widget->key == new_widget->key)
+                    if (old_widget != nullptr)
                     {
-                        // We can just delete the old widget of the child
-                        delete old_widget;
 
-                        // Add reattach the new update widget
-                        children.at(i)->Reattach(new_widget);
-                    }
-                    // Otherwise if the types don't match and we need to
-                    // recreate, then delete our child since it obviously doesn't
-                    // work and create from scratch
-                    else
-                    {
-                        children.at(i)->DeleteElement(context);
-                        children.at(i) = new_widget->CreateElement(context);
+                        // If we don't have to recreate the element, then don't
+                        if (old_widget->GetType() == new_widget->GetType() &&
+                            old_widget->key == new_widget->key)
+                        {
+                            // We can just delete the old widget of the child
+                            delete old_widget;
+
+                            // Add reattach the new update widget
+                            children.at(i)->Reattach(new_widget);
+                        }
+                        // Otherwise if the types don't match and we need to
+                        // recreate, then delete our child since it obviously doesn't
+                        // work and create from scratch
+                        else
+                        {
+                            children.at(i)->DeleteElement(context);
+                            children.at(i) = new_widget->CreateElement(context);
+                        }
                     }
                 }
                 // If the widget of the child was never attached in the first place,

@@ -1,92 +1,19 @@
 #pragma once
 #include "gui_vertex.h"
 #include <array>
+#include "../framework/size.h"
 
-namespace Vultr::GUI
+namespace Vultr
 {
-class Constraint
-{
-  public:
-    virtual double ApplySize(double in) = 0;
-    virtual double ApplyPosition(double parent_pos, double parent_dimension) = 0;
-    virtual ~Constraint() = default;
-
-  protected:
-    double value;
-};
-class AbsoluteConstraint : public Constraint
-{
-  public:
-    AbsoluteConstraint(double p_value)
-    {
-        this->value = p_value;
-    }
-
-    double ApplySize(double in) override
-    {
-        return value;
-    }
-
-    double ApplyPosition(double parent_pos, double parent_dimension) override
-    {
-        return parent_pos + value;
-    }
-};
-
-class FractionalConstraint : public Constraint
-{
-  public:
-    FractionalConstraint(double p_value)
-    {
-        this->value = p_value;
-    }
-
-    double ApplySize(double in) override
-    {
-        return in * value;
-    }
-
-    double ApplyPosition(double parent_pos, double parent_dimension) override
-    {
-        double left = parent_pos - parent_dimension / 2;
-        double right = parent_pos + parent_dimension / 2;
-
-        // Get the distance between the two points and then multliply that by the
-        // value to then be added to the left side
-        return (right - left) * value + left;
-    }
-};
-
-class EmptyConstraint : public Constraint
+namespace GUI
 {
 
-  public:
-    EmptyConstraint()
-    {
-        this->value = 0;
-    }
-
-    // Don't need to do anything to the constraint because an empty constraint just
-    // carries over the existing one
-    double ApplySize(double in) override
-    {
-        return in;
-    }
-
-    double ApplyPosition(double parent_pos, double parent_dimension) override
-    {
-        return parent_pos;
-    }
-};
 struct QuadProperties
 {
     QuadProperties() = default;
 
     glm::vec4 color = glm::vec4(1);
-    Constraint *width = new EmptyConstraint();
-    Constraint *height = new EmptyConstraint();
-    Constraint *x = new EmptyConstraint();
-    Constraint *y = new EmptyConstraint();
+    Size size = Size(0, 0);
     double rotation = 0;
 };
 
@@ -109,4 +36,5 @@ class Quad
   private:
     std::array<GUIVertex *, 4> vertices;
 };
-} // namespace Vultr::GUI
+} // namespace GUI
+} // namespace Vultr

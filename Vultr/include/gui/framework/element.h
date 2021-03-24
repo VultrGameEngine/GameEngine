@@ -18,6 +18,8 @@ class Element
 
     virtual void Rebuild(BuildContext *context) = 0;
 
+    virtual Size Layout(BuildContext *context, BoxConstraints constraints) = 0;
+
     virtual void Update(BuildContext *context) = 0;
 
     virtual Widget *GetWidget() const
@@ -65,6 +67,12 @@ class RenderObjectElement : public Element
         {
             render_object->Paint(context);
         }
+    }
+
+    virtual Size Layout(BuildContext *context, BoxConstraints constraints) override
+    {
+        // By default fill up the maximum area
+        return render_object->Layout(context, constraints);
     }
 
     virtual RenderObjectWidget *GetWidget() const override

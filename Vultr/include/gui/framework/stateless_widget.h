@@ -37,6 +37,12 @@ class StatelessElement : public Element
         }
     }
 
+    Size Layout(BuildContext *context, BoxConstraints constraints) override
+    {
+        assert(child != nullptr && "No child for this stateless widget!");
+        return child->Layout(context, constraints);
+    }
+
     void Rebuild(BuildContext *context) override
     {
         Widget *build_res = GetWidget()->Build();

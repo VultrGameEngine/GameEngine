@@ -7,6 +7,29 @@ namespace Vultr
 namespace GUI
 {
 
+class SingleChildRenderObject : public RenderObject
+{
+  public:
+    SingleChildRenderObject(Widget *widget) : RenderObject(widget)
+    {
+    }
+
+    virtual ~SingleChildRenderObject()
+    {
+    }
+    Size Layout(BuildContext *context, BoxConstraints constraints) override
+    {
+        assert("Incorrect method called!");
+        return constraints.Min();
+    }
+
+    virtual Size Layout(BuildContext *context, BoxConstraints constraints,
+                        Element *child) = 0;
+
+  protected:
+    glm::vec2 position;
+};
+
 class SingleChildRenderObjectWidget : public RenderObjectWidget
 {
   public:
@@ -20,6 +43,9 @@ class SingleChildRenderObjectWidget : public RenderObjectWidget
         return child;
     }
     WidgetTypeGetter(SingleChildRenderObjectWidget);
+
+    virtual SingleChildRenderObject *CreateRenderObject(
+        BuildContext *context) override = 0;
 
   protected:
     Widget *child;
@@ -47,7 +73,15 @@ class SingleChildElement : public RenderObjectElement
         }
     }
 
-    void Reattach(Widget *self)
+    Size Layout(BuildContext *context, BoxConstraints constraints) override
+    {
+        assert(render_object != nullptr &&
+               "No render object attached to this element");
+        return ((SingleChildRenderObject *)render_object)
+            ->Layout(context, constraints, child);
+    }
+
+    void Reattach(Widget *self) override
     {
         widget = self;
         render_object->Reattach(widget);
@@ -65,21 +99,27 @@ class SingleChildElement : public RenderObjectElement
                 // The element's currently attached child element widget
                 Widget *old_widget = child->GetWidget();
 
-                // If we don't have to recreate the element, then don't
-                if (old_widget->GetType() == new_widget->GetType() &&
-                    old_widget->key == new_widget->key)
+                // If the widget memory addresses are equal, that definitely means
+                // nothing needs to be reattached or anything, don't touch or delete
+                // anything
+                if (old_widget != new_widget)
                 {
-                    // We can just delete the old widget of the child
-                    delete old_widget;
+                    // If we don't have to recreate the element, then don't
+                    if (old_widget->GetType() == new_widget->GetType() &&
+                        old_widget->key == new_widget->key)
+                    {
+                        // We can just delete the old widget of the child
+                        delete old_widget;
 
-                    // Add reattach the new update widget
-                    child->Reattach(new_widget);
-                }
-                // Otherwise if the types don't match and we need to recreate, then
-                // delete our child since it obviously doesn't work
-                else
-                {
-                    child->DeleteElement(context);
+                        // Add reattach the new update widget
+                        child->Reattach(new_widget);
+                    }
+                    // Otherwise if the types don't match and we need to recreate,
+                    // then delete our child since it obviously doesn't work
+                    else
+                    {
+                        child->DeleteElement(context);
+                    }
                 }
             }
             else
