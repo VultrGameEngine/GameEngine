@@ -16,9 +16,12 @@ class RenderObject
     {
     }
 
-    void DeleteRenderObject(BuildContext *context)
+    virtual void DeleteRenderObject(BuildContext *context)
     {
-        context->DeleteQuad(vertex_index);
+        if (quad_id != -1)
+        {
+            context->DeleteQuad(quad_id);
+        }
     }
 
     virtual ~RenderObject()
@@ -28,6 +31,12 @@ class RenderObject
     virtual void Paint(BuildContext *context) = 0;
 
     virtual Size Layout(BuildContext *context, BoxConstraints constraints) = 0;
+
+    // This is only used so that if you want to lay out a flex widget
+    virtual Size GetSize(BuildContext *context, BoxConstraints constraints)
+    {
+        return Layout(context, constraints);
+    }
 
     void MarkForRepaint()
     {
@@ -47,7 +56,7 @@ class RenderObject
 
   protected:
     bool repaint_required = true;
-    unsigned int vertex_index;
+    QuadID quad_id = -1;
     Widget *configuration;
     QuadProperties properties;
 

@@ -26,6 +26,9 @@ struct BoxConstraints
 
     Size Max()
     {
+        assert(!std::isinf(max_width) && !std::isinf(max_height) &&
+               "Cannot get max size of infinite constraints. Please surround this "
+               "child widget with a widget that will give a definite size.");
         return Size(max_width, max_height);
     }
 
@@ -52,6 +55,19 @@ struct BoxConstraints
     BoxConstraints GenerateLoose()
     {
         return BoxConstraints::Loose(Size(max_width, max_height));
+    }
+
+    BoxConstraints GenerateConstraints(BoxConstraints constraints)
+    {
+        if (constraints.min_width < min_width)
+            constraints.min_width = min_width;
+        if (constraints.max_width > max_width)
+            constraints.max_width = max_width;
+        if (constraints.min_height < min_height)
+            constraints.min_height = min_height;
+        if (constraints.max_height > max_height)
+            constraints.max_height = max_height;
+        return constraints;
     }
 
     double min_width;

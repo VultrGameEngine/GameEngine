@@ -27,7 +27,6 @@ void GUISystem::Init(GUI::Window *window)
     provider.root_element = window->CreateElement(provider.context);
     provider.root_element->Rebuild(provider.context);
     provider.gui_shader = ShaderImporter::ImportShader("res/shaders/gui.glsl");
-    assert(provider.root_element != nullptr && "AHHHHHHHH");
 }
 
 void GUISystem::Update()
@@ -38,6 +37,6 @@ void GUISystem::Update()
     provider.root_element->Layout(provider.context, GUI::Size(2, 2));
     provider.root_element->Update(provider.context);
     provider.gui_shader->Bind();
-    provider.context->Draw();
+    provider.context->Draw(provider.gui_shader);
 }
 } // namespace Vultr

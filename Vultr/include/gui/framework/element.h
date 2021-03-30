@@ -20,6 +20,12 @@ class Element
 
     virtual Size Layout(BuildContext *context, BoxConstraints constraints) = 0;
 
+    // This is only used so that if you want to lay out a flex widget
+    virtual Size GetSize(BuildContext *context, BoxConstraints constraints)
+    {
+        return Layout(context, constraints);
+    }
+
     virtual void Update(BuildContext *context) = 0;
 
     virtual Widget *GetWidget() const

@@ -7,6 +7,7 @@ class Texture
 {
   public:
     Texture(GLenum type);
+    Texture(GLenum type, unsigned int p_id);
     ~Texture();
 
     void Generate(unsigned int width, unsigned int height);

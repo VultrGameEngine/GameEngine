@@ -9,7 +9,7 @@ namespace GUI
 class StatelessWidget : public Widget
 {
   public:
-    virtual Widget *Build() = 0;
+    virtual Widget *Build(BuildContext *context) = 0;
     Element *CreateElement(BuildContext *context) override;
     WidgetTypeGetter(StatelessWidget)
 };
@@ -45,7 +45,7 @@ class StatelessElement : public Element
 
     void Rebuild(BuildContext *context) override
     {
-        Widget *build_res = GetWidget()->Build();
+        Widget *build_res = GetWidget()->Build(context);
         if (child != nullptr && child->GetWidget() != nullptr)
         {
             // The element's currently attached child element widget
@@ -93,7 +93,7 @@ class StatelessElement : public Element
     }
 
   private:
-    Element *child;
+    Element *child = nullptr;
     virtual ~StatelessElement()
     {
     }

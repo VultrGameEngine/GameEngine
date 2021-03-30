@@ -9,7 +9,8 @@ struct GUIVertex
 {
     glm::vec3 position;
     glm::vec4 color;
-    float texture = 0;
+    glm::vec2 uv;
+    float texture = -1;
 };
 } // namespace GUI
 template <> void VertexArray::Setup<GUI::GUIVertex>();

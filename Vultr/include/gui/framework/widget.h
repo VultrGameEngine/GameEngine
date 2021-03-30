@@ -9,7 +9,9 @@
         return #T;                                                                  \
     }
 
-namespace Vultr::GUI
+namespace Vultr
+{
+namespace GUI
 {
 class Element;
 class Widget
@@ -27,4 +29,5 @@ class Widget
   protected:
   private:
 };
-} // namespace Vultr::GUI
+} // namespace GUI
+} // namespace Vultr

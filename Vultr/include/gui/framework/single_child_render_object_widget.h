@@ -17,17 +17,25 @@ class SingleChildRenderObject : public RenderObject
     virtual ~SingleChildRenderObject()
     {
     }
+
+    virtual Size Layout(BuildContext *context, BoxConstraints constraints,
+                        Element *child) = 0;
+
+    virtual Size Layout(BuildContext *context, BoxConstraints constraints,
+                        Element *child, bool layout)
+    {
+        return Layout(context, constraints, child);
+    }
+
+  protected:
+    glm::vec2 position;
+
+  private:
     Size Layout(BuildContext *context, BoxConstraints constraints) override
     {
         assert("Incorrect method called!");
         return constraints.Min();
     }
-
-    virtual Size Layout(BuildContext *context, BoxConstraints constraints,
-                        Element *child) = 0;
-
-  protected:
-    glm::vec2 position;
 };
 
 class SingleChildRenderObjectWidget : public RenderObjectWidget
@@ -79,6 +87,15 @@ class SingleChildElement : public RenderObjectElement
                "No render object attached to this element");
         return ((SingleChildRenderObject *)render_object)
             ->Layout(context, constraints, child);
+    }
+
+    // This is only used so that if you want to lay out a flex widget
+    virtual Size GetSize(BuildContext *context, BoxConstraints constraints) override
+    {
+        assert(render_object != nullptr &&
+               "No render object attached to this element");
+        return ((SingleChildRenderObject *)render_object)
+            ->Layout(context, constraints, child, false);
     }
 
     void Reattach(Widget *self) override
@@ -139,7 +156,7 @@ class SingleChildElement : public RenderObjectElement
     }
 
   protected:
-    Element *child;
+    Element *child = nullptr;
     virtual ~SingleChildElement()
     {
     }

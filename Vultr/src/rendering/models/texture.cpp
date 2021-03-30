@@ -7,6 +7,11 @@ Texture::Texture(GLenum type)
     this->m_type = type;
     glCreateTextures(type, 1, &m_id);
 }
+Texture::Texture(GLenum type, unsigned int p_id)
+{
+    this->m_type = type;
+    this->m_id = p_id;
+}
 Texture::~Texture()
 {
     glDeleteTextures(1, &m_id);

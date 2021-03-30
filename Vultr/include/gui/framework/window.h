@@ -30,7 +30,7 @@ class Window : public SingleChildRenderObjectWidget
         {
             // TODO Fix this so that the layer is dependent on that given by the
             // parent
-            vertex_index = context->SubmitQuad();
+            quad_id = context->SubmitQuad();
         }
 
         Window *GetConfig() override

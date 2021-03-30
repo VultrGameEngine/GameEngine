@@ -1,7 +1,10 @@
 #pragma once
 #include <glm/glm.hpp>
 #include "single_child_render_object_widget.h"
+#include "multi_child_render_object_widget.h"
 #include "stateless_widget.h"
+#include "stateful_widget.h"
+#include "text.h"
 
 namespace Vultr
 {
@@ -19,7 +22,7 @@ class ColoredBox : public SingleChildRenderObjectWidget
         {
             // TODO Fix this so that the layer is dependent on that given by the
             // parent
-            vertex_index = context->SubmitQuad();
+            quad_id = context->SubmitQuad();
         }
 
         ColoredBox *GetConfig() override
@@ -29,7 +32,7 @@ class ColoredBox : public SingleChildRenderObjectWidget
 
         void Paint(BuildContext *context) override
         {
-            Quad quad = context->GetQuad(vertex_index);
+            Quad quad = context->GetQuad(quad_id);
             properties.color = GetConfig()->GetColor();
             properties.size = GetSize();
             quad.Commit(properties, context);
@@ -127,12 +130,10 @@ class SizedBox : public SingleChildRenderObjectWidget
         }
     };
 
-    SizedBox(Params params)
+    SizedBox(Params params) : width(params.width), height(params.height)
     {
         key = params.key;
         child = params.child;
-        width = params.width;
-        height = params.height;
     }
 
     virtual ~SizedBox()
@@ -276,9 +277,6 @@ class Center : public SingleChildRenderObjectWidget
 
 struct Alignment
 {
-    Alignment() : x(0), y(0)
-    {
-    }
     Alignment(double p_x, double p_y) : x(p_x), y(p_y)
     {
     }
@@ -381,11 +379,10 @@ class Align : public SingleChildRenderObjectWidget
             return constraints.Max();
         }
     };
-    Align(Params params)
+    Align(Params params) : alignment(params.alignment)
     {
         this->key = params.key;
         this->child = params.child;
-        this->alignment = params.alignment;
     }
 
     virtual ~Align()
@@ -503,6 +500,435 @@ class Padding : public SingleChildRenderObjectWidget
     double bottom;
 };
 
+class ConstraintedBox : public SingleChildRenderObjectWidget
+{
+  private:
+    struct Params
+    {
+        Widget *child;
+        Key key;
+        BoxConstraints constraints;
+    };
+
+    BoxConstraints constraints;
+
+  public:
+    class RenderConstrainedBox : public SingleChildRenderObject
+    {
+      public:
+        RenderConstrainedBox(BuildContext *context, ConstraintedBox *widget)
+            : SingleChildRenderObject(widget)
+        {
+        }
+
+        ConstraintedBox *GetConfig() override
+        {
+            return (ConstraintedBox *)configuration;
+        }
+
+        void Paint(BuildContext *context) override
+        {
+            repaint_required = false;
+            context->AccumulatePosition(position);
+        }
+
+        Size Layout(BuildContext *context, BoxConstraints constraints,
+                    Element *child) override
+        {
+            if (child == nullptr)
+            {
+                return constraints.Max();
+            }
+            BoxConstraints additional_constraints =
+                constraints.GenerateConstraints(GetConfig()->GetConstraints());
+            return child->Layout(context, additional_constraints);
+        }
+    };
+
+    ConstraintedBox(Params params) : constraints(params.constraints)
+    {
+        this->child = params.child;
+        this->key = params.key;
+    }
+    BoxConstraints GetConstraints()
+    {
+        return constraints;
+    }
+    virtual ~ConstraintedBox()
+    {
+    }
+
+    RenderConstrainedBox *CreateRenderObject(BuildContext *context) override
+    {
+        return new RenderConstrainedBox(context, this);
+    }
+};
+
+class Flex : public SingleChildRenderObjectWidget
+{
+  private:
+    struct Params
+    {
+        Key key;
+        Widget *child;
+        double flex = 1.0;
+    };
+    double flex;
+
+  public:
+    class RenderFlex : public SingleChildRenderObject
+    {
+      public:
+        RenderFlex(BuildContext *context, Flex *widget)
+            : SingleChildRenderObject(widget)
+        {
+        }
+
+        Flex *GetConfig() override
+        {
+            return (Flex *)configuration;
+        }
+
+        void Paint(BuildContext *context) override
+        {
+            repaint_required = false;
+        }
+
+        // Special for the flex widget
+        Size Layout(BuildContext *context, BoxConstraints constraints,
+                    Element *child, bool layout) override
+        {
+            return Size(GetConfig()->flex);
+        }
+
+        Size Layout(BuildContext *context, BoxConstraints constraints,
+                    Element *child) override
+        {
+            return child->Layout(context, constraints);
+        }
+    };
+
+    Flex(Params params) : flex(params.flex)
+    {
+        this->key = params.key;
+        this->child = params.child;
+    }
+
+    virtual ~Flex()
+    {
+    }
+
+    RenderFlex *CreateRenderObject(BuildContext *context) override
+    {
+        return new RenderFlex(context, this);
+    }
+};
+
+class Row : public MultiChildRenderObjectWidget
+{
+  private:
+    struct Params
+    {
+        Key key;
+        std::vector<Widget *> children;
+        Alignment alignment = Alignment::Center();
+    };
+
+    Alignment alignment;
+
+  public:
+    class RenderRow : public GUI::MultiChildRenderObject
+    {
+      public:
+        RenderRow(BuildContext *context, Row *widget)
+            : MultiChildRenderObject(widget)
+        {
+        }
+
+        Row *GetConfig() override
+        {
+            return (Row *)configuration;
+        }
+
+        void Paint(BuildContext *context) override
+        {
+            repaint_required = false;
+        }
+
+        void ApplyPosition(BuildContext *context, int index) override
+        {
+            context->AccumulatePosition(positions.at(index));
+        }
+
+        Size Layout(BuildContext *context, BoxConstraints constraints,
+                    std::vector<Element *> children) override
+        {
+            double width = 0;
+            double height = 0;
+            std::vector<Size> child_sizes;
+            int flex_total = 0;
+            for (Element *child : children)
+            {
+                // If it is not a flex, then it will just call layout. But if it is a
+                // flex then it will actually just return the flex size with the
+                // value. It will then get laid out later
+                Size child_size =
+                    child->GetSize(context, constraints.GenerateLoose());
+                if (std::isinf(child_size.width))
+                {
+                    flex_total += child_size.value;
+                }
+                else
+                {
+                    if (child_size.height > height)
+                        height = child_size.height;
+                    width += child_size.width;
+                }
+                child_sizes.push_back(child_size);
+            }
+
+            if (flex_total > 0)
+            {
+                double empty_width = constraints.max_width - width;
+                width = constraints.max_width;
+                for (int i = 0; i < child_sizes.size(); i++)
+                {
+                    Size &size = child_sizes.at(i);
+                    if (std::isinf(size.width))
+                    {
+                        BoxConstraints flex_constraints =
+                            constraints.GenerateLoose();
+                        double flex_width = empty_width * (size.value / flex_total);
+                        // These are now the tight constraints which the flex will
+                        // properly layout its children with
+                        flex_constraints.max_width = flex_width;
+                        flex_constraints.min_width = flex_width;
+
+                        // Actually layout this time
+                        // This will also put the proper height in
+                        size = children.at(i)->Layout(context, flex_constraints);
+                        if (size.height > height)
+                            height = size.height;
+                    }
+                }
+            }
+
+            glm::vec2 position = glm::vec2(0, 0);
+
+            // Essentially do the same thing as align, but this time using the entire
+            // dimensions of the children combined
+            if (GetConfig()->alignment.x != 0 && constraints.max_width != width)
+            {
+                double difference = constraints.max_width - width;
+                double padding = 0.5 * difference * GetConfig()->alignment.x;
+                position.x = padding;
+            }
+            if (GetConfig()->alignment.y != 0 && constraints.max_height != height)
+            {
+                double difference = constraints.max_height - height;
+                double padding = 0.5 * difference * GetConfig()->alignment.y;
+                position.y = padding;
+            }
+
+            double current_offset = position.x - (width / 2);
+
+            for (int i = 0; i < child_sizes.size(); i++)
+            {
+                assert(i <= positions.size() &&
+                       "Something went wrong while laying out");
+                Size child_size = child_sizes.at(i);
+                glm::vec2 child_pos;
+                child_pos.x = current_offset + (child_size.width / 2);
+                current_offset += child_size.width;
+                child_pos.y = position.y;
+                if (i == positions.size())
+                {
+                    positions.push_back(child_pos);
+                }
+                else
+                {
+                    positions.at(i) = child_pos;
+                }
+            }
+
+            return constraints.Max();
+        }
+    };
+
+    Row(Params params) : alignment(params.alignment)
+    {
+        this->key = params.key;
+        this->children = params.children;
+    }
+
+    const std::vector<Widget *> &GetChildren()
+    {
+        return children;
+    }
+
+    virtual ~Row()
+    {
+    }
+
+    RenderRow *CreateRenderObject(BuildContext *context) override
+    {
+        return new RenderRow(context, this);
+    }
+};
+class Column : public MultiChildRenderObjectWidget
+{
+  private:
+    struct Params
+    {
+        Key key;
+        std::vector<Widget *> children;
+        Alignment alignment = Alignment::Center();
+    };
+
+    Alignment alignment;
+
+  public:
+    class RenderColumn : public GUI::MultiChildRenderObject
+    {
+      public:
+        RenderColumn(BuildContext *context, Column *widget)
+            : MultiChildRenderObject(widget)
+        {
+        }
+
+        Column *GetConfig() override
+        {
+            return (Column *)configuration;
+        }
+
+        void Paint(BuildContext *context) override
+        {
+            repaint_required = false;
+        }
+
+        void ApplyPosition(BuildContext *context, int index) override
+        {
+            context->AccumulatePosition(positions.at(index));
+        }
+
+        Size Layout(BuildContext *context, BoxConstraints constraints,
+                    std::vector<Element *> children) override
+        {
+            double height = 0;
+            double width = 0;
+            std::vector<Size> child_sizes;
+            int flex_total = 0;
+            for (Element *child : children)
+            {
+                // If it is not a flex, then it will just call layout. But if it is a
+                // flex then it will actually just return the flex size with the
+                // value. It will then get laid out later
+                Size child_size =
+                    child->GetSize(context, constraints.GenerateLoose());
+                if (std::isinf(child_size.height))
+                {
+                    flex_total += child_size.value;
+                }
+                else
+                {
+                    if (child_size.width > width)
+                        width = child_size.width;
+                    height += child_size.height;
+                }
+                child_sizes.push_back(child_size);
+            }
+
+            if (flex_total > 0)
+            {
+                double empty_height = constraints.max_height - height;
+                height = constraints.max_height;
+                for (int i = 0; i < child_sizes.size(); i++)
+                {
+                    Size &size = child_sizes.at(i);
+                    if (std::isinf(size.height))
+                    {
+                        BoxConstraints flex_constraints =
+                            constraints.GenerateLoose();
+                        double flex_height =
+                            empty_height * (size.value / flex_total);
+                        // These are now the tight constraints which the flex will
+                        // properly layout its children with
+                        flex_constraints.max_height = flex_height;
+                        flex_constraints.min_height = flex_height;
+
+                        // Actually layout this time
+                        // This will also put the proper height in
+                        size = children.at(i)->Layout(context, flex_constraints);
+                        if (size.width > width)
+                            width = size.width;
+                    }
+                }
+            }
+
+            glm::vec2 position = glm::vec2(0, 0);
+
+            // Essentially do the same thing as align, but this time using the entire
+            // dimensions of the children combined
+            if (GetConfig()->alignment.x != 0 && constraints.max_width != width)
+            {
+                double difference = constraints.max_width - width;
+                double padding = 0.5 * difference * GetConfig()->alignment.x;
+                position.x = padding;
+            }
+
+            if (GetConfig()->alignment.y != 0 && constraints.max_height != height)
+            {
+                double difference = constraints.max_height - height;
+                double padding = 0.5 * difference * GetConfig()->alignment.y;
+                position.y = padding;
+            }
+
+            double current_offset = position.y - (height / 2);
+
+            for (int i = 0; i < child_sizes.size(); i++)
+            {
+                assert(i <= positions.size() &&
+                       "Something went wrong while laying out");
+                Size child_size = child_sizes.at(i);
+                glm::vec2 child_pos;
+                child_pos.y = current_offset + (child_size.height / 2);
+                current_offset += child_size.height;
+                child_pos.x = position.x;
+                if (i == positions.size())
+                {
+                    positions.push_back(child_pos);
+                }
+                else
+                {
+                    positions.at(i) = child_pos;
+                }
+            }
+
+            return constraints.Max();
+        }
+    };
+
+    Column(Params params) : alignment(params.alignment)
+    {
+        this->key = params.key;
+        this->children = params.children;
+    }
+
+    const std::vector<Widget *> &GetChildren()
+    {
+        return children;
+    }
+
+    virtual ~Column()
+    {
+    }
+
+    RenderColumn *CreateRenderObject(BuildContext *context) override
+    {
+        return new RenderColumn(context, this);
+    }
+};
+
 class Container : public StatelessWidget
 {
   private:
@@ -534,7 +960,7 @@ class Container : public StatelessWidget
     {
     }
 
-    Widget *Build() override
+    Widget *Build(BuildContext *context) override
     {
         Widget *current;
         if (color != glm::vec4(0, 0, 0, 0))

@@ -1,4 +1,6 @@
 #pragma once
+#include <cmath>
+#include <glm/glm.hpp>
 
 namespace Vultr
 {
@@ -10,7 +12,15 @@ struct Size
     {
     }
 
+    Size(glm::vec2 dimensions) : width(dimensions.x), height(dimensions.y)
+    {
+    }
+
     Size(double p_width, double p_height) : width(p_width), height(p_height)
+    {
+    }
+
+    Size(double p_value) : width(INFINITY), height(INFINITY), value(p_value)
     {
     }
 
@@ -25,6 +35,9 @@ struct Size
     {
         return !(*this == other);
     }
+
+    // If the size wants to be a flex, it will set width and height to infinity
+    double value;
 };
 } // namespace GUI
 

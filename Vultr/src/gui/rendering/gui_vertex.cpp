@@ -12,7 +12,10 @@ template <> void VertexArray::Setup<GUI::GUIVertex>()
     glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(GUI::GUIVertex),
                           (const void *)offsetof(GUI::GUIVertex, color));
     glEnableVertexAttribArray(2);
-    glVertexAttribPointer(2, 1, GL_FLOAT, GL_FALSE, sizeof(GUI::GUIVertex),
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(GUI::GUIVertex),
+                          (const void *)offsetof(GUI::GUIVertex, uv));
+    glEnableVertexAttribArray(3);
+    glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, sizeof(GUI::GUIVertex),
                           (const void *)offsetof(GUI::GUIVertex, texture));
 }
 } // namespace Vultr

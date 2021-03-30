@@ -3,6 +3,9 @@
 #include <rendering/models/vertex_buffer.h>
 #include <rendering/models/index_buffer.h>
 #include <rendering/models/texture.h>
+#include <rendering/models/shader.h>
+#include <helpers/texture_importer.h>
+#include <gui/rendering/quad.h>
 #include "gui_vertex.h"
 #include <string>
 #include "quad.h"
@@ -40,67 +43,129 @@ class RenderGroup
             indices[i + 5] = 0 + offset;
             offset += 4;
         }
+        for (QuadID quad = 0; quad < MAX_QUADS; quad++)
+        {
+            available_quad_ids.push(quad);
+        }
+
+        for (int i = 0; i < MAX_TEXTURES; i++)
+        {
+            textures[i] = nullptr;
+        }
+
         ibo = new IndexBuffer(indices, MAX_QUADS * 6);
     }
 
-    unsigned int GetWidgetCount()
+    unsigned int GetQuadCount()
     {
         return num_quads;
     }
 
-    Quad GetQuadAtIndex(int index)
+    Quad GetQuad(QuadID id)
     {
-        assert(index <= (num_quads - 1) * 4 && "Index out of bounds");
+        assert(quad_to_vertex.find(id) != quad_to_vertex.end() &&
+               "Quad does not exist");
+        VertexID index = quad_to_vertex[id];
+        int texture_slot = -1;
+        if (quad_to_texture.find(id) != quad_to_texture.end())
+        {
+            texture_slot = quad_to_texture[id];
+        }
         return Quad(vertices[index], vertices[index + 1], vertices[index + 2],
-                    vertices[index + 3]);
+                    vertices[index + 3], texture_slot);
     }
-    bool DeleteQuadAtIndex(int index)
+
+    bool DeleteQuad(QuadID id)
     {
-        assert(index <= (num_quads - 1) * 4 && "Index out of bounds");
+        assert(quad_to_vertex.find(id) != quad_to_vertex.end() &&
+               "Quad does not exist");
+        VertexID index = quad_to_vertex[id];
+        quad_to_vertex.erase(id);
         if (num_quads > 1)
         {
+            // Get the ids of the last vertex and last quad
+            VertexID last_vertex = (num_quads - 1) * 4;
+            QuadID last_quad = vertex_to_quad[last_vertex];
+
+            // Remove the last vertex
+            vertex_to_quad.erase(last_vertex);
+
+            // Change the last quad to direct to the hole (index)
+            quad_to_vertex[last_quad] = index;
             for (int i = 0; i < 4; i++)
             {
-                vertices[index + i] = vertices[(num_quads - 1) * 4 + i];
+                // Move all of the vertices to fill the hole
+                vertices[index + i] = vertices[last_vertex + i];
             }
         }
+        available_quad_ids.push(id);
         num_quads--;
         return true;
     }
 
-    int SubmitQuad()
+    QuadID SubmitQuad(Texture *texture)
     {
+        QuadID quad = available_quad_ids.front();
         // If there is no room for either quads or textures, we need to tell whoever
         // submitted to us that we don't have room
         if (num_quads >= MAX_QUADS)
         {
             return -1;
         }
-        else if (textures.size() >= MAX_TEXTURES)
+        else if (texture != nullptr)
         {
-            return -1;
+            bool already_have_texture = false;
+            for (int i = 0; i < num_textures; i++)
+            {
+                if (textures[i] == texture)
+                {
+                    already_have_texture = true;
+                    quad_to_texture[quad] = i;
+                }
+            }
+            if (!already_have_texture)
+            {
+                if (num_textures < MAX_TEXTURES)
+                {
+                    textures[num_textures] = texture;
+                    quad_to_texture[quad] = num_textures;
+                    num_textures++;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
         }
-        int index = num_quads * 4;
+        available_quad_ids.pop();
+        VertexID index = num_quads * 4;
+        vertex_to_quad[index] = quad;
+        quad_to_vertex[quad] = index;
         num_quads++;
-        return index;
+        return quad;
     }
 
-    void Draw()
+    void Draw(Shader *shader)
     {
         // Draw all of our dependencies (basically just framebuffers that have to get
         // rendered first)
         for (RenderGroup *group : dependent_render_groups)
         {
-            group->Draw();
+            group->Draw(shader);
         }
 
         // Then bind all of our textures
         int counter = 0;
-        for (auto [id, texture] : textures)
+        for (int i = 0; i < num_textures; i++)
         {
-            texture->Bind(GL_TEXTURE0 + counter);
+            textures[i]->Bind(GL_TEXTURE0 + counter);
+            samplers[i] = i;
             counter++;
         }
+
+        glUniform1i(shader->GetUniformLocation("bound_texture"), 0);
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
         // Then render our quad
         vbo->Bind();
@@ -122,7 +187,13 @@ class RenderGroup
 
     std::vector<RenderGroup *> dependent_render_groups;
 
-    std::unordered_map<std::string, Texture *> textures;
+    unsigned int num_textures = 0;
+    Texture *textures[MAX_TEXTURES];
+    int samplers[MAX_TEXTURES];
+    std::unordered_map<QuadID, VertexID> quad_to_vertex;
+    std::unordered_map<QuadID, unsigned int> quad_to_texture;
+    std::unordered_map<VertexID, QuadID> vertex_to_quad;
+    std::queue<QuadID> available_quad_ids;
     // std::queue<WidgetID> available_widgets;
 
     // Quad quads[MAX_QUADS];

@@ -1,8 +1,11 @@
 #pragma once
 #include "widget.h"
 
-namespace Vultr::GUI
+namespace Vultr
 {
+namespace GUI
+{
+
 class RenderObjectWidget : public Widget
 {
   public:
@@ -11,4 +14,5 @@ class RenderObjectWidget : public Widget
   protected:
     RenderObject *render_object;
 };
-} // namespace Vultr::GUI
+} // namespace GUI
+} // namespace Vultr

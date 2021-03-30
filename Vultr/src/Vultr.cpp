@@ -5,6 +5,7 @@
 #include <imgui/imgui_impl_opengl3.h>
 #include <core/component_renderer.h>
 #include <gui/framework/basic.h>
+#include <gui/layouts/test_layout.h>
 
 void *LoadDLL(const std::string &path)
 {
@@ -103,27 +104,14 @@ void Engine::InitSystems()
     LightSystem::RegisterSystem();
     RenderSystem::RegisterSystem();
     GUISystem::RegisterSystem();
+    FontSystem::RegisterSystem();
+    FontSystem::Init();
 
     ControllerSystem::Init(window);
     glfwSetWindowFocusCallback(window, ControllerSystem::WindowFocusCallback);
 
     glm::vec2 dimensions = RenderSystemProvider::GetDimensions(GAME);
-    GUISystem::Init(new GUI::Window(new GUI::Center({
-        .child = new GUI::Container({
-            .child = new GUI::Padding({
-                .child = new GUI::Container({
-                    .width = 0.5,
-                    .height = 0.5,
-                    .color = glm::vec4(0, 1, 0, 1),
-                }),
-                .left = 0.2,
-                .right = 0.2,
-                .top = 0.2,
-                .bottom = 0.2,
-            }),
-            .color = glm::vec4(1, 0, 0, 1),
-        }),
-    })));
+    GUISystem::Init(TestLayout());
 }
 
 void Engine::LoadGame(const std::string &path)
