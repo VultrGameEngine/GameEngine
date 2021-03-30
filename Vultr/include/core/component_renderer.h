@@ -86,6 +86,7 @@ template <> inline void RenderMember(const std::string &name, glm::quat &m)
     ImGui::DragFloat((name + ".w").c_str(), &m.w, 0.02f);
 }
 
+#ifndef WIN32
 VULTR_REGISTER_COMPONENT(StaticMeshComponent, m_path);
 VULTR_REGISTER_COMPONENT(TransformComponent, position, rotation, scale);
 VULTR_REGISTER_COMPONENT(CameraComponent, enabled, fov, znear, zfar);
@@ -93,6 +94,7 @@ VULTR_REGISTER_COMPONENT(ControllerComponent, sens);
 VULTR_REGISTER_COMPONENT(LightComponent, some_param);
 VULTR_REGISTER_COMPONENT(SkyBoxComponent, identifier, front, back, top, bottom, left,
                          right);
+#endif
 // VULTR_REGISTER_MATERIAL(ForwardMaterial, texture_path);
 // VULTR_REGISTER_MATERIAL(SkyboxMaterial, identifier);
 // VULTR_REGISTER_MATERIAL(UnlitMaterial, color);

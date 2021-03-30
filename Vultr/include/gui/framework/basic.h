@@ -962,7 +962,7 @@ class Container : public StatelessWidget
 
     Widget *Build(BuildContext *context) override
     {
-        Widget *current;
+        Widget *current = nullptr;
         if (color != glm::vec4(0, 0, 0, 0))
             current = new ColoredBox({
                 .child = child,

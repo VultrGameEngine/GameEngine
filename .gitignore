@@ -1,2 +1,6 @@
 build/
 release/
+.vs/
+.cache/
+Testing/
+out/

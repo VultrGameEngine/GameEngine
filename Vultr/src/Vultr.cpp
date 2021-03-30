@@ -1,5 +1,9 @@
 #include <Vultr.hpp>
+#ifdef WIN32
+#include <windows.h>
+#else
 #include <dlfcn.h>
+#endif
 #include <imgui/imgui.h>
 #include <imgui/imgui_impl_glfw.h>
 #include <imgui/imgui_impl_opengl3.h>
@@ -9,12 +13,20 @@
 
 void *LoadDLL(const std::string &path)
 {
+#ifdef _WIN32
+    return LoadLibrary(path.c_str());
+#else
     return dlopen(path.c_str(), RTLD_NOW);
+#endif
 }
 
 void *GetFunctionPointer(void *dll, const std::string &name)
 {
+#ifdef _WIN32
+    return GetProcAddress((HMODULE)dll, name.c_str());
+#else
     return dlsym(dll, name.c_str());
+#endif
 }
 
 namespace Vultr
