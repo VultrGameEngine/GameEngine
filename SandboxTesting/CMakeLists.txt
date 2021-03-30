@@ -15,19 +15,35 @@ file(GLOB_RECURSE Game_SRC
 
 include_directories(include vendor ../Vultr/include ../Vultr/vendor)
 
+if(WIN32)
+    if (MSVC_VERSION GREATER_EQUAL "1900")
+        include(CheckCXXCompilerFlag)
+        CHECK_CXX_COMPILER_FLAG("/std:c++latest" _cpp_latest_flag_supported)
+        if (_cpp_latest_flag_supported)
+            add_compile_options("/std:c++latest")
+        endif()
+    endif()
+endif(WIN32)
 
+if(UNIX)
+    add_library(Game SHARED ${Game_SRC})
+    # add_executable(Game ${Game_SRC})
+    target_link_libraries(Game GL glfw3 X11 Xxf86vm Xrandr pthread Xi dl assimp)
+    target_link_libraries(Game debug /home/brandon/Dev/GameEngine/Vultr/build/libVultrShared.so)
+    target_link_libraries(Game optimized /home/brandon/Dev/GameEngine/Vultr/release/libVultrStatic.a)
+endif(UNIX)
 
-add_library(Game SHARED ${Game_SRC})
-# add_executable(Game ${Game_SRC})
-target_link_libraries(Game GL glfw3 X11 Xxf86vm Xrandr pthread Xi dl assimp)
-target_link_libraries(Game debug /home/brandon/Dev/GameEngine/Vultr/build/libVultrShared.so)
-target_link_libraries(Game optimized /home/brandon/Dev/GameEngine/Vultr/release/libVultrStatic.a)
-
+if(WIN32)
+    add_executable(Game ${Game_SRC})
+    target_link_libraries(Game C:/Users/Brand/Dev/GameEngine/Vultr/out/build/x64-Debug/Vultr.lib C:/Users/Brand/Dev/GameEngine/Vultr/vendor/libs/WIN32/glfw3.lib C:/Users/Brand/Dev/GameEngine/Vultr/vendor/libs/WIN32/freetyped.lib C:/Users/Brand/Dev/GameEngine/Vultr/vendor/libs/WIN32/assimp-vc142-mtd.lib)
+    add_custom_command(TARGET Game POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different  
+        "C:/Users/Brand/Dev/GameEngine/Vultr/vendor/libs/WIN32/assimp-vc142-mtd.dll"
+        $<TARGET_FILE_DIR:Game>)
+endif(WIN32)
 
 install(TARGETS ${PROJECT_NAME} DESTINATION bin)
 install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/res/" DESTINATION "bin/res")
-
-
 
 include(InstallRequiredSystemLibraries)
 set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/License.txt")
