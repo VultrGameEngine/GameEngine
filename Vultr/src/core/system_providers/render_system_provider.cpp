@@ -67,6 +67,8 @@ void RenderSystemProvider::GenerateRenderTexture(ViewportData &data, int width,
     data.rbo = new RenderBuffer(width, height);
 
     data.fbo->Unbind();
+    data.dimensions.x = width;
+    data.dimensions.y = height;
 }
 void RenderSystemProvider::Resize(int width, int height, unsigned int type)
 {

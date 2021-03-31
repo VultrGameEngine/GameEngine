@@ -17,7 +17,8 @@ class MeshLoaderSystem
     static void OnCreateEntity(Entity entity);
     static SystemProvider &GetProvider()
     {
-        return *MeshLoaderSystemProvider::Get();
+        std::shared_ptr<MeshLoaderSystemProvider> provider = MeshLoaderSystemProvider::Get();
+        return *provider;
     }
 
   protected:

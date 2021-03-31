@@ -29,7 +29,7 @@ class RichText : public RenderObjectWidget
         Key key;
         std::string text;
         std::string font;
-        unsigned int max_lines = INFINITY;
+        unsigned int max_lines = 0;
         Overflow overflow = Overflow::clip;
         TextAlign alignment = TextAlign::left;
         glm::vec4 color = glm::vec4(255);
@@ -214,12 +214,14 @@ class RichText : public RenderObjectWidget
 
                 int current_line = 0;
                 double *widths = new double[1000];
+                widths[0] = 0;
                 std::string *lines = new std::string[1000];
+                lines[0] = "";
                 // Figure out where each of the words goes
                 for (int i = 0; i < words.size(); i++)
                 {
                     double &width = widths[current_line];
-                    if (std::isinf(GetConfig()->max_lines) ||
+                    if (GetConfig()->max_lines == 0 ||
                         current_line < GetConfig()->max_lines - 1)
                     {
                         if (width + word_widths[i] > constraints.max_width &&

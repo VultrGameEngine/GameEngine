@@ -10,7 +10,7 @@ namespace GUI
 class SingleChildRenderObject : public RenderObject
 {
   public:
-    SingleChildRenderObject(Widget *widget) : RenderObject(widget)
+    SingleChildRenderObject(Widget *widget) : RenderObject(widget), position(glm::vec2(0, 0))
     {
     }
 

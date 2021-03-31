@@ -13,7 +13,8 @@ class LightSystem
   protected:
     SystemProvider &GetProvider()
     {
-        return *LightSystemProvider::Get();
+        std::shared_ptr<LightSystemProvider> provider = LightSystemProvider::Get();
+        return *provider;
     }
 };
 } // namespace Vultr

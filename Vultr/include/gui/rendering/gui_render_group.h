@@ -195,11 +195,6 @@ class RenderGroup
     std::unordered_map<QuadID, unsigned int> quad_to_texture;
     std::unordered_map<VertexID, QuadID> vertex_to_quad;
     std::queue<QuadID> available_quad_ids;
-    // std::queue<WidgetID> available_widgets;
-
-    // Quad quads[MAX_QUADS];
-
-    // std::unordered_map<uint32_t, WidgetID> vertex_to_quad;
 };
 } // namespace GUI
 } // namespace Vultr

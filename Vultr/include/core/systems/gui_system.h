@@ -18,7 +18,8 @@ class GUISystem
   private:
     static GUISystemProvider &GetProvider()
     {
-        return *GUISystemProvider::Get();
+        std::shared_ptr<GUISystemProvider> provider = GUISystemProvider::Get();
+        return *provider;
     }
 };
 } // namespace Vultr

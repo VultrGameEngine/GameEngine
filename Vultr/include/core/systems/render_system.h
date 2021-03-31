@@ -24,7 +24,8 @@ class RenderSystem
     static void RenderSkybox(unsigned int type);
     static SystemProvider &GetProvider()
     {
-        return *RenderSystemProvider::Get();
+        std::shared_ptr<RenderSystemProvider> provider = RenderSystemProvider::Get();
+        return *provider;
     }
 };
 } // namespace Vultr

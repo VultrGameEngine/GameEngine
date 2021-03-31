@@ -4,7 +4,7 @@ namespace Vultr
 {
 IndexBuffer::IndexBuffer(const GLvoid *indices, unsigned int count)
 {
-    glCreateBuffers(1, &this->id);
+    glGenBuffers(1, &this->id);
     Bind();
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned short) * count, indices,
                  GL_STATIC_DRAW);

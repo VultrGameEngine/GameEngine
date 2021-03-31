@@ -8,6 +8,7 @@
 #include <ecs/world/world.hpp>
 #include <helpers/shader_importer.h>
 #include <helpers/mesh_importer.h>
+#include <GLFW/glfw3.h>
 
 const unsigned int GAME = 0;
 const unsigned int SCENE = 1;
@@ -28,8 +29,9 @@ class RenderSystemProvider : public SystemProvider
   public:
     RenderSystemProvider()
     {
-        GenerateRenderTexture(scene, 1920, 1080);
-        GenerateRenderTexture(game, 1920, 1080);
+        const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+        GenerateRenderTexture(scene, mode->width, mode->height);
+        GenerateRenderTexture(game, mode->width, mode->height);
         post_processing_shader =
             ShaderImporter::ImportShader("res/shaders/post_processing.glsl");
         render_quad = MeshImporter::InitQuad();

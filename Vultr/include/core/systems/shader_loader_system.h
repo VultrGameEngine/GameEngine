@@ -23,7 +23,8 @@ class ShaderLoaderSystem
     static void OnCreateEntity(Entity entity);
     static SystemProvider &GetProvider()
     {
-        return *ShaderLoaderSystemProvider::Get();
+        std::shared_ptr<ShaderLoaderSystemProvider> provider = ShaderLoaderSystemProvider::Get();
+        return *provider;
     }
 
   protected:

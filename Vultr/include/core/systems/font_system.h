@@ -13,7 +13,8 @@ class FontSystem
   private:
     static FontSystemProvider &GetProvider()
     {
-        return *FontSystemProvider::Get();
+        std::shared_ptr<FontSystemProvider> provider = FontSystemProvider::Get();
+        return *provider;
     }
 };
 } // namespace Vultr

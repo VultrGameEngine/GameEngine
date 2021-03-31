@@ -24,7 +24,8 @@ class ControllerSystem
   protected:
     SystemProvider &GetProvider()
     {
-        return *ControllerSystemProvider::Get();
+        std::shared_ptr<ControllerSystemProvider> provider = ControllerSystemProvider::Get();
+        return *provider;
     }
 };
 } // namespace Vultr

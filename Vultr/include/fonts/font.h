@@ -10,7 +10,7 @@ namespace Vultr
 struct FontCharacter
 {
     FontCharacter()
-        : size(glm::vec2(0, 0)), bearing(glm::vec2(0, 0)), advance(glm::vec2(0, 0))
+        : size(glm::vec2(0, 0)), bearing(glm::vec2(0, 0)), advance(glm::vec2(0, 0)), uv(0)
     {
     }
 

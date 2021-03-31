@@ -27,7 +27,7 @@ struct RenderContext
     }
 
   private:
-    RenderContext()
+      RenderContext() : dimensions(glm::vec2(0)), light_position(glm::vec3(0))
     {
     }
     static RenderContext &InternalGetContext()

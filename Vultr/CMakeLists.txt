@@ -37,8 +37,12 @@ if (UNIX)
     target_link_libraries(VultrShared GL glfw3 X11 Xxf86vm Xrandr pthread Xi dl freetype ${ASSIMP_LIBRARIES})
 endif(UNIX)
 if(WIN32)
+    find_library(GLFW3 glfw3 HINTS C:/Users/Brand/Dev/GameEngine/Vultr/vendor/libs/WIN32)
+    find_library(FREETYPE freetyped HINTS C:/Users/Brand/Dev/GameEngine/Vultr/vendor/libs/WIN32)
+    find_library(ASSIMP assimp HINTS C:/Users/Brand/Dev/GameEngine/Vultr/vendor/libs/WIN32)
+    # add_executable(Vultr ${Vultr_SRC})
     add_library(Vultr STATIC ${Vultr_SRC})
-    target_link_libraries(Vultr vendor/WIN32/libs/glfw3 vendor/WIN32/libs/freetyped vendor/WIN32/libs/assimp-vc142-mtd)
+    target_link_libraries(Vultr ${GLFW3} ${FREETYPE} ${ASSIMP} opengl32)
     add_custom_command(TARGET Vultr POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different  
             "${PROJECT_SOURCE_DIR}/vendor/libs/WIN32/assimp-vc142-mtd.dll"

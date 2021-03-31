@@ -19,10 +19,10 @@ class GUISystemProvider : public SystemProvider
     {
         return World::GetSystemProvider<GUISystemProvider>();
     }
-    GUI::Window *window;
-    GUI::BuildContext *context;
-    GUI::WindowElement *root_element;
-    Shader *gui_shader;
+    GUI::Window *window = nullptr;
+    GUI::BuildContext *context = nullptr;
+    GUI::WindowElement *root_element = nullptr;
+    Shader *gui_shader = nullptr;
 
   protected:
     void OnCreateEntity(Entity entity) override;

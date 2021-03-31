@@ -8,15 +8,15 @@ namespace GUI
 {
 struct Size
 {
-    Size() : width(0), height(0)
+    Size() : width(0), height(0), value(0)
     {
     }
 
-    Size(glm::vec2 dimensions) : width(dimensions.x), height(dimensions.y)
+    Size(glm::vec2 dimensions) : width(dimensions.x), height(dimensions.y), value(0)
     {
     }
 
-    Size(double p_width, double p_height) : width(p_width), height(p_height)
+    Size(double p_width, double p_height) : width(p_width), height(p_height), value(0)
     {
     }
 

@@ -19,7 +19,8 @@ class CameraSystem
   private:
     static SystemProvider &GetProvider()
     {
-        return *CameraSystemProvider::Get();
+        std::shared_ptr<CameraSystemProvider> provider = CameraSystemProvider::Get();
+        return *provider;
     }
 };
 } // namespace Vultr

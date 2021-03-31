@@ -11,6 +11,7 @@
 #include <gui/framework/basic.h>
 #include <gui/layouts/test_layout.h>
 
+
 void *LoadDLL(const std::string &path)
 {
 #ifdef _WIN32
@@ -31,6 +32,7 @@ void *GetFunctionPointer(void *dll, const std::string &name)
 
 namespace Vultr
 {
+
 void Engine::Init(bool debug)
 {
     if (!glfwInit())
@@ -41,9 +43,12 @@ void Engine::Init(bool debug)
     }
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+#ifndef _WIN32
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_DOUBLEBUFFER, GL_FALSE);
+#endif
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
     const GLFWvidmode *mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 
     if (debug)
@@ -53,10 +58,16 @@ void Engine::Init(bool debug)
         glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
         glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
     }
-
+#ifdef _WIN32
+    glfwWindowHint(GLFW_DECORATED, GL_FALSE);
     this->window = glfwCreateWindow(mode->width, mode->height, "VultrEditor",
-                                    glfwGetPrimaryMonitor(), nullptr);
-    if (!window)
+        nullptr, nullptr);
+#else
+    this->window = glfwCreateWindow(mode->width, mode->height, "VultrEditor",
+        glfwGetPrimaryMonitor(), nullptr);
+#endif
+
+    if (window == nullptr)
     {
         printf("Failed to initialize glfw window\n");
         glfwTerminate();
@@ -76,22 +87,20 @@ void Engine::Init(bool debug)
     glEnable(GL_CULL_FACE);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_DEBUG_OUTPUT);
-    if (debug)
-    {
-        glDebugMessageCallback(ErrorHandler::ErrorCallback, 0);
+    glDebugMessageCallback(ErrorHandler::ErrorCallback, 0);
+    if (debug) {
+        IMGUI_CHECKVERSION();
+        ImGui::CreateContext();
+        ImGuiIO& io = ImGui::GetIO();
+        io.ConfigFlags |= ImGuiConfigFlags_DockingEnable; // Enable Docking
+        // io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable; // Enable
+        // Multi - Viewport /
+        // Platform Windows
+        ImGui::StyleColorsDark();
+        ImGui_ImplGlfw_InitForOpenGL(window, true);
+        ImGui_ImplOpenGL3_Init("#version 410");
+        ImGui::StyleColorsDark();
     }
-
-    IMGUI_CHECKVERSION();
-    ImGui::CreateContext();
-    ImGuiIO &io = ImGui::GetIO();
-    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable; // Enable Docking
-    // io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable; // Enable
-    // Multi - Viewport /
-    // Platform Windows
-    ImGui::StyleColorsDark();
-    ImGui_ImplGlfw_InitForOpenGL(window, true);
-    ImGui_ImplOpenGL3_Init("#version 410");
-    ImGui::StyleColorsDark();
 }
 
 void Engine::RegisterComponents()

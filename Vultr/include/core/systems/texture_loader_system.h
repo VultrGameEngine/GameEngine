@@ -21,7 +21,8 @@ class TextureLoaderSystem
     static void OnCreateEntity(Entity entity);
     static SystemProvider &GetProvider()
     {
-        return *TextureLoaderSystemProvider::Get();
+        std::shared_ptr<TextureLoaderSystemProvider> provider = TextureLoaderSystemProvider::Get();
+        return *provider;
     }
 
   protected:

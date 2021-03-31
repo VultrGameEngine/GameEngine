@@ -36,7 +36,7 @@ class InputReceiver
   public:
     InputReceiver(Params params)
         : on_hover(params.on_hover), on_unhover(params.on_unhover),
-          on_mouse_down(params.on_mouse_down), on_mouse_up(params.on_mouse_up)
+          on_mouse_down(params.on_mouse_down), on_mouse_up(params.on_mouse_up), bottom_right(glm::vec2(1, -1)), top_left(-1, 1)
     {
     }
 

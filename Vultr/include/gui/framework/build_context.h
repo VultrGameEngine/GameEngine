@@ -19,7 +19,7 @@ class BuildContext
   public:
     BuildContext() : tick_info(UpdateTick(0, false))
     {
-        groups.push_back(RenderGroup());
+        groups.push_back(new RenderGroup());
         positions.push(glm::vec2(0, 0));
         zindex.push(0);
     }
@@ -39,28 +39,28 @@ class BuildContext
 
     Quad GetQuad(QuadID quad, int layer = 0)
     {
-        RenderGroup &group = groups[layer];
-        return group.GetQuad(quad);
+        RenderGroup *group = groups[layer];
+        return group->GetQuad(quad);
     }
 
     bool DeleteQuad(QuadID quad, int layer = 0)
     {
-        RenderGroup &group = groups[layer];
-        return group.DeleteQuad(quad);
+        RenderGroup *group = groups[layer];
+        return group->DeleteQuad(quad);
     }
 
     QuadID SubmitQuad(Texture *texture = nullptr)
     {
         for (int i = 0; i < groups.size(); i++)
         {
-            RenderGroup &group = groups[i];
-            QuadID res = group.SubmitQuad(texture);
+            RenderGroup *group = groups[i];
+            QuadID res = group->SubmitQuad(texture);
             if (res != -1)
                 return res;
         }
-        RenderGroup new_group = RenderGroup();
+        RenderGroup *new_group = new RenderGroup();
         groups.push_back(new_group);
-        return new_group.SubmitQuad(texture);
+        return new_group->SubmitQuad(texture);
     }
 
     Font *GetFont(const std::string &path)
@@ -85,11 +85,11 @@ class BuildContext
 
     void Draw(Shader *shader)
     {
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LEQUAL);
-        for (RenderGroup &group : groups)
-            group.Draw(shader);
+        for (RenderGroup *group : groups)
+            group->Draw(shader);
 
         zindex.empty();
         zindex.push(0);
@@ -162,7 +162,7 @@ class BuildContext
     }
 
   private:
-    std::vector<RenderGroup> groups;
+    std::vector<RenderGroup *> groups;
     std::unordered_map<std::string, Font *> fonts;
     std::map<unsigned int, InputReceiver *> input_receivers;
     UpdateTick tick_info;

@@ -12,7 +12,7 @@ class RenderObjectWidget : public Widget
     virtual RenderObject *CreateRenderObject(BuildContext *context) = 0;
 
   protected:
-    RenderObject *render_object;
+    RenderObject *render_object = nullptr;
 };
 } // namespace GUI
 } // namespace Vultr

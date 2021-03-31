@@ -14,7 +14,8 @@ class InputSystem
   protected:
     static InputSystemProvider &GetProvider()
     {
-        return *InputSystemProvider::Get();
+        std::shared_ptr<InputSystemProvider> provider = InputSystemProvider::Get();
+        return *provider;
     }
 };
 

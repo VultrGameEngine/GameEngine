@@ -2,12 +2,12 @@
 
 namespace Vultr
 {
-Texture::Texture(GLenum type)
+Texture::Texture(GLenum type) : m_height(0), m_width(0)
 {
     this->m_type = type;
-    glCreateTextures(type, 1, &m_id);
+    glGenTextures(1, &m_id);
 }
-Texture::Texture(GLenum type, unsigned int p_id)
+Texture::Texture(GLenum type, unsigned int p_id) : m_height(0), m_width(0)
 {
     this->m_type = type;
     this->m_id = p_id;
