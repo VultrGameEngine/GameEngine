@@ -51,6 +51,7 @@ class RenderGroup
         for (int i = 0; i < MAX_TEXTURES; i++)
         {
             textures[i] = nullptr;
+            samplers[i] = i;
         }
 
         ibo = new IndexBuffer(indices, MAX_QUADS * 6);
@@ -159,11 +160,11 @@ class RenderGroup
         for (int i = 0; i < num_textures; i++)
         {
             textures[i]->Bind(GL_TEXTURE0 + counter);
-            samplers[i] = i;
             counter++;
         }
 
-        glUniform1i(shader->GetUniformLocation("bound_texture"), 0);
+        glUniform1iv(shader->GetUniformLocation("u_Textures"), MAX_TEXTURES,
+                     samplers);
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 

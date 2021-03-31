@@ -8,3 +8,4 @@
 #include "systems/camera_system.h"
 #include "systems/gui_system.h"
 #include "systems/font_system.h"
+#include "systems/input_system.h"

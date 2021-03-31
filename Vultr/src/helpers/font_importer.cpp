@@ -6,8 +6,7 @@
 
 namespace Vultr
 {
-Font *FontImporter::ImportFont(const std::string &path, const FT_Library &library,
-                               double height)
+Font *FontImporter::ImportFont(const std::string &path, const FT_Library &library)
 {
     int w = 0;
     int h = 0;
@@ -19,7 +18,7 @@ Font *FontImporter::ImportFont(const std::string &path, const FT_Library &librar
         return font;
     }
 
-    FT_Set_Pixel_Sizes(face, 0, height);
+    FT_Set_Pixel_Sizes(face, 0, 100);
 
     FT_GlyphSlot g = face->glyph;
 
@@ -46,7 +45,7 @@ Font *FontImporter::ImportFont(const std::string &path, const FT_Library &librar
         }
     }
 
-    font->height = (double)face->size->metrics.height / 64 / 2000;
+    font->SetHeight((double)face->size->metrics.height / 64 / TEXT_SCALE_FACTOR);
     font->texture_dimensions = glm::vec2(w, h);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, w, h, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -68,32 +67,31 @@ Font *FontImporter::ImportFont(const std::string &path, const FT_Library &librar
         glTexSubImage2D(GL_TEXTURE_2D, 0, x, 0, g->bitmap.width, g->bitmap.rows,
                         GL_RED, GL_UNSIGNED_BYTE, g->bitmap.buffer);
 
-        font->characters[c] = FontCharacter();
+        FontCharacter character = FontCharacter();
 
-        font->characters[c].advance.x = g->advance.x >> 6;
-        font->characters[c].advance.y = g->advance.y >> 6;
+        character.advance.x = g->advance.x >> 6;
+        character.advance.y = g->advance.y >> 6;
 
-        font->characters[c].size.x = g->bitmap.width;
-        font->characters[c].size.y = g->bitmap.rows;
+        character.size.x = g->bitmap.width;
+        character.size.y = g->bitmap.rows;
 
-        font->characters[c].bearing.x = g->bitmap_left;
-        font->characters[c].bearing.y = g->bitmap_top;
+        character.bearing.x = g->bitmap_left;
+        character.bearing.y = g->bitmap_top;
 
-        font->characters[c].advance /= glm::vec2(2000, 2000);
-        font->characters[c].size /= glm::vec2(2000, 2000);
-        font->characters[c].bearing /= glm::vec2(2000, 2000);
+        character.advance /= glm::vec2(TEXT_SCALE_FACTOR, TEXT_SCALE_FACTOR);
+        character.size /= glm::vec2(TEXT_SCALE_FACTOR, TEXT_SCALE_FACTOR);
+        character.bearing /= glm::vec2(TEXT_SCALE_FACTOR, TEXT_SCALE_FACTOR);
 
-        font->characters[c].uv = (float)x / w;
+        character.uv = (float)x / w;
 
-        if (c == 'A')
-        {
-        }
+        font->SetCharacter(c, character);
 
         x += g->bitmap.width;
     }
 
     Texture *texture = new Texture(GL_TEXTURE_2D, tex);
     font->texture = texture;
+    FT_Done_Face(face);
 
     return font;
 }

@@ -5,7 +5,9 @@
 #include <fonts/font.h>
 #include <helpers/font_importer.h>
 #include <core/system_providers/font_system_provider.h>
+#include <core/system_providers/input_system_provider.h>
 #include "input_receiver.h"
+#include <core/models/update_tick.h>
 
 namespace Vultr
 {
@@ -15,11 +17,21 @@ namespace GUI
 class BuildContext
 {
   public:
-    BuildContext()
+    BuildContext() : tick_info(UpdateTick(0, false))
     {
         groups.push_back(RenderGroup());
         positions.push(glm::vec2(0, 0));
         zindex.push(0);
+    }
+
+    UpdateTick GetTickInfo()
+    {
+        return tick_info;
+    }
+
+    void PassUpdate(UpdateTick tick)
+    {
+        tick_info = tick;
     }
 
     std::stack<glm::vec2> positions;
@@ -51,14 +63,14 @@ class BuildContext
         return new_group.SubmitQuad(texture);
     }
 
-    Font *GetFont(const std::string &path, double size)
+    Font *GetFont(const std::string &path)
     {
         if (fonts.find(path) != fonts.end())
         {
             return fonts[path];
         }
         fonts[path] =
-            FontImporter::ImportFont(path, FontSystemProvider::Get()->library, size);
+            FontImporter::ImportFont(path, FontSystemProvider::Get()->library);
         return fonts[path];
     }
 
@@ -130,10 +142,30 @@ class BuildContext
         input_receivers.erase(-p_zindex);
     }
 
+    bool SubmitMouseInputEvent(Input::MouseInputEvent event)
+    {
+        for (auto [z, receiver] : input_receivers)
+        {
+            if (receiver->ReceiveMouseEvent(event))
+                return true;
+        }
+        return false;
+    }
+    bool SubmitMouseButtonInputEvent(Input::MouseButtonInputEvent event)
+    {
+        for (auto [z, receiver] : input_receivers)
+        {
+            if (receiver->ReceiveMouseButtonEvent(event))
+                return true;
+        }
+        return false;
+    }
+
   private:
     std::vector<RenderGroup> groups;
     std::unordered_map<std::string, Font *> fonts;
     std::map<unsigned int, InputReceiver *> input_receivers;
+    UpdateTick tick_info;
 };
 } // namespace GUI
 } // namespace Vultr

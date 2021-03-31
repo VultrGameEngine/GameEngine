@@ -21,6 +21,8 @@ struct QuadProperties
     glm::vec2 uv = glm::vec2(0, 0);
     glm::vec2 uv_dimensions = glm::vec2(0, 0);
     glm::vec2 texture_dimensions = glm::vec2(0, 0);
+    glm::vec4 border_widths = glm::vec4(0);
+    glm::vec4 border_color = glm::vec4(0);
 };
 
 class BuildContext;

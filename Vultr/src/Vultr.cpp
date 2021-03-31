@@ -116,8 +116,10 @@ void Engine::InitSystems()
     LightSystem::RegisterSystem();
     RenderSystem::RegisterSystem();
     GUISystem::RegisterSystem();
+    InputSystem::RegisterSystem();
     FontSystem::RegisterSystem();
     FontSystem::Init();
+    InputSystem::Init(window);
 
     ControllerSystem::Init(window);
     glfwSetWindowFocusCallback(window, ControllerSystem::WindowFocusCallback);
@@ -167,6 +169,7 @@ void Engine::UpdateGame(float &last_time)
         MeshLoaderSystem::Update();
         ControllerSystem::Update(tick.m_delta_time);
     }
+    InputSystem::Update();
     RenderSystem::Update(tick);
     glfwPollEvents();
 }

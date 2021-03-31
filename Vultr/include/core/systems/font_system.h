@@ -8,7 +8,7 @@ class FontSystem
   public:
     static void RegisterSystem();
     static void Init();
-    static void PreloadFont(const std::string &path, double size);
+    static void PreloadFont(const std::string &path);
 
   private:
     static FontSystemProvider &GetProvider()

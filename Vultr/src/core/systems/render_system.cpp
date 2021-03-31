@@ -55,7 +55,7 @@ void RenderSystem::Update(UpdateTick meta_data)
         RenderElements(GAME);
 
         // Update the gui system for the game
-        GUISystem::Update();
+        GUISystem::Update(meta_data);
 
         // Unbind the frame buffer
         provider.game.fbo->Unbind();

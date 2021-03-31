@@ -10,6 +10,8 @@ struct GUIVertex
     glm::vec3 position;
     glm::vec4 color;
     glm::vec2 uv;
+    glm::vec4 borders = glm::vec4(0);
+    glm::vec4 border_color = glm::vec4(0);
     float texture = -1;
 };
 } // namespace GUI

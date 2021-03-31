@@ -10,7 +10,7 @@ Window *TestLayout()
 
 Widget *RootWidget::Build(BuildContext *context)
 {
-    Vultr::Font *font = context->GetFont("res/fonts/RobotoMono-Regular.ttf", 100);
+    // Vultr::Font *font = context->GetFont("res/fonts/RobotoMono-Regular.ttf");
     return new Center({
         .child = new TestStateWidget({}),
     });
@@ -18,7 +18,7 @@ Widget *RootWidget::Build(BuildContext *context)
     //     .child = new Container({
     //         .child = new RichText({
     //             .text = "abcdygp,a!.;:",
-    //             .font = font,
+    //             .font = "res/fonts/RobotoMono-Regular.ttf",
     //         }),
     //         .color = glm::vec4(1, 0, 0, 1),
     //     }),

@@ -46,12 +46,27 @@ void Quad::Commit(const QuadProperties &properties, BuildContext *context)
         vertices[2]->uv = glm::vec2(right, bottom);
         vertices[3]->uv = glm::vec2(right, top);
     }
+    else
+    {
+        vertices[0]->uv = glm::vec2(0, 1);
+        vertices[1]->uv = glm::vec2(0, 0);
+        vertices[2]->uv = glm::vec2(1, 0);
+        vertices[3]->uv = glm::vec2(1, 1);
+    }
 
     for (int i = 0; i < 4; i++)
     {
         GUIVertex *vertex = vertices[i];
-        vertex->color = properties.color;
+        vertex->color = properties.color / glm::vec4(255);
         vertex->texture = texture_slot;
+        vertex->border_color = properties.border_color;
+        if (properties.border_widths != glm::vec4(0))
+        {
+            vertex->borders.x = properties.border_widths.x / width;
+            vertex->borders.z = 1 - properties.border_widths.y / width;
+            vertex->borders.y = properties.border_widths.w / height;
+            vertex->borders.w = 1 - properties.border_widths.z / height;
+        }
     }
 }
 } // namespace GUI

@@ -9,7 +9,31 @@ class TestStateWidgetState : public State
     Widget *Build(BuildContext *context) override;
 
   private:
-    std::string text = "";
+    bool hovered = false;
+    bool mouse_down = false;
+
+    glm::vec2 GetScale()
+    {
+        if (mouse_down)
+        {
+            return glm::vec2(0.88, 0.2);
+        }
+        else if (hovered)
+        {
+            return glm::vec2(1.1, 0.3);
+        }
+        else
+        {
+            return glm::vec2(1, 0.25);
+        }
+    }
+
+    double GetBorderAlpha()
+    {
+        if (mouse_down || hovered)
+            return 255;
+        return 0;
+    }
 };
 class TestStateWidget : public StatefulWidget<TestStateWidgetState>
 {
@@ -20,8 +44,7 @@ class TestStateWidget : public StatefulWidget<TestStateWidgetState>
     };
 
   public:
-    TestStateWidget(Params params)
-        : StatefulWidget(params.key, new TestStateWidgetState())
+    TestStateWidget(Params params) : StatefulWidget(params.key)
     {
     }
 };

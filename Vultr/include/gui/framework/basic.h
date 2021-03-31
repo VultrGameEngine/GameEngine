@@ -5,6 +5,8 @@
 #include "stateless_widget.h"
 #include "stateful_widget.h"
 #include "text.h"
+#include <math/lerp.h>
+#include "edge_insets.h"
 
 namespace Vultr
 {
@@ -35,6 +37,8 @@ class ColoredBox : public SingleChildRenderObjectWidget
             Quad quad = context->GetQuad(quad_id);
             properties.color = GetConfig()->GetColor();
             properties.size = GetSize();
+            properties.border_widths = GetConfig()->GetBorders();
+            properties.border_color = GetConfig()->GetBorderColor();
             quad.Commit(properties, context);
             repaint_required = false;
             context->AccumulatePosition(position);
@@ -58,10 +62,14 @@ class ColoredBox : public SingleChildRenderObjectWidget
     {
         Key key;
         Widget *child = nullptr;
-        glm::vec4 color = glm::vec4(0, 0, 0, 0);
+        glm::vec4 color = glm::vec4(0);
+        glm::vec4 border_color = glm::vec4(0);
+        EdgeInsets insets;
     };
 
     glm::vec4 color;
+    glm::vec4 border_color;
+    EdgeInsets insets;
 
   public:
     ColoredBox(Params params)
@@ -69,6 +77,8 @@ class ColoredBox : public SingleChildRenderObjectWidget
         this->key = params.key;
         this->child = params.child;
         this->color = params.color;
+        this->border_color = params.border_color;
+        this->insets = params.insets;
     }
 
     ~ColoredBox()
@@ -83,6 +93,16 @@ class ColoredBox : public SingleChildRenderObjectWidget
     const glm::vec4 &GetColor() const
     {
         return color;
+    }
+
+    glm::vec4 GetBorders() const
+    {
+        return insets.GetBorders();
+    }
+
+    const glm::vec4 &GetBorderColor() const
+    {
+        return border_color;
     }
 };
 
@@ -155,7 +175,95 @@ class SizedBox : public SingleChildRenderObjectWidget
     double height;
 };
 
-// class PositionedBox : public SingleChildRenderObjectWidget
+class AnimatedSizedBox : public SingleChildRenderObjectWidget
+{
+  private:
+    struct Params
+    {
+        Widget *child = nullptr;
+        Key key;
+        double width = 0;
+        double height = 0;
+        double speed = 1;
+    };
+
+  public:
+    class RenderAnimatedSizedBox : public SingleChildRenderObject
+    {
+      public:
+        RenderAnimatedSizedBox(BuildContext *context, AnimatedSizedBox *widget)
+            : SingleChildRenderObject(widget)
+        {
+        }
+
+        AnimatedSizedBox *GetConfig() override
+        {
+            return (AnimatedSizedBox *)configuration;
+        }
+
+        void Paint(BuildContext *context) override
+        {
+            context->AccumulatePosition(position);
+        }
+
+        Size Layout(BuildContext *context, BoxConstraints constraints,
+                    Element *child) override
+        {
+            Size size = constraints.GetSize(GetConfig()->GetSize());
+            if (layed_out)
+            {
+                size.width =
+                    Math::Lerp(GetSize().width, size.width, GetConfig()->GetSpeed(),
+                               context->GetTickInfo().m_delta_time);
+                size.height = Math::Lerp(GetSize().height, size.height,
+                                         GetConfig()->GetSpeed(),
+                                         context->GetTickInfo().m_delta_time);
+            }
+            if (child != nullptr)
+            {
+                BoxConstraints child_constraints = BoxConstraints::Tight(size);
+                child->Layout(context, child_constraints);
+            }
+            layed_out = true;
+            return UpdateSize(size);
+        }
+
+      private:
+        bool layed_out = false;
+    };
+
+    AnimatedSizedBox(Params params)
+        : width(params.width), height(params.height), speed(params.speed)
+    {
+        key = params.key;
+        child = params.child;
+    }
+
+    virtual ~AnimatedSizedBox()
+    {
+    }
+
+    RenderAnimatedSizedBox *CreateRenderObject(BuildContext *context) override
+    {
+        return new RenderAnimatedSizedBox(context, this);
+    }
+
+    Size GetSize()
+    {
+        return Size(width, height);
+    }
+    double GetSpeed()
+    {
+        return speed;
+    }
+
+  protected:
+    double width;
+    double height;
+    double speed;
+};
+
+// class BorderBox : public SingleChildRenderObjectWidget
 // {
 //   private:
 //     struct Params
@@ -939,12 +1047,16 @@ class Container : public StatelessWidget
         double width = 0;
         double height = 0;
         glm::vec4 color = glm::vec4(0, 0, 0, 0);
+        EdgeInsets borders;
+        glm::vec4 border_color = glm::vec4(0);
     };
 
     glm::vec4 color;
     Widget *child;
     double width;
     double height;
+    EdgeInsets borders;
+    glm::vec4 border_color;
 
   public:
     Container(Params params)
@@ -954,6 +1066,9 @@ class Container : public StatelessWidget
         this->color = params.color;
         this->width = params.width;
         this->height = params.height;
+
+        this->borders = params.borders;
+        this->border_color = params.border_color;
     }
 
     ~Container()
@@ -962,11 +1077,13 @@ class Container : public StatelessWidget
 
     Widget *Build(BuildContext *context) override
     {
-        Widget *current = nullptr;
-        if (color != glm::vec4(0, 0, 0, 0))
+        Widget *current = child;
+        if (color != glm::vec4(0, 0, 0, 0) || borders.GetBorders() != glm::vec4(0))
             current = new ColoredBox({
                 .child = child,
                 .color = color,
+                .border_color = border_color,
+                .insets = borders,
             });
         if (width != 0 || height != 0)
             current = new SizedBox({

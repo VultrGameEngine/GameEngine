@@ -48,7 +48,7 @@ class RenderObject
         return repaint_required;
     }
 
-    void Reattach(Widget *new_config)
+    virtual void Reattach(Widget *new_config)
     {
         this->configuration = new_config;
         MarkForRepaint();

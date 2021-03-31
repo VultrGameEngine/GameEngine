@@ -7,6 +7,8 @@ class InputSystem
 {
   public:
     static void RegisterSystem();
+    static void Init(GLFWwindow *window);
+    static void OnMouseInput(GLFWwindow *window, int button, int action, int mods);
     static void Update();
 
   protected:

@@ -6,6 +6,28 @@
 
 namespace Vultr
 {
+namespace Input
+{
+struct MouseInputEvent
+{
+    MouseInputEvent(glm::vec2 p_pos, bool p_mouse_down)
+        : pos(p_pos), mouse_down(p_mouse_down)
+    {
+    }
+    glm::vec2 pos;
+    bool mouse_down;
+};
+
+struct MouseButtonInputEvent
+{
+    MouseButtonInputEvent(glm::vec2 p_pos, bool p_mouse_down)
+        : pos(p_pos), mouse_down(p_mouse_down)
+    {
+    }
+    glm::vec2 pos;
+    bool mouse_down;
+};
+} // namespace Input
 class InputSystemProvider : public SystemProvider
 {
   public:
@@ -15,6 +37,7 @@ class InputSystemProvider : public SystemProvider
     }
 
     glm::vec2 mouse_pos = glm::vec2(0, 0);
+    bool mouse_down = false;
     GLFWwindow *window;
 
   protected:

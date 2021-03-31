@@ -10,16 +10,20 @@ class State
 {
   public:
     virtual Widget *Build(BuildContext *context) = 0;
+    virtual ~State()
+    {
+    }
 };
 template <typename T> class StatefulWidget : public Widget
 {
   public:
-    class StatefulElement : public Element
+    template <typename U> class StatefulElement : public Element
     {
       public:
-        StatefulElement(BuildContext *context, Widget *p_widget)
+        StatefulElement(BuildContext *context, StatefulWidget *p_widget)
             : Element(context, p_widget)
         {
+            this->state = new U();
         }
 
         void DeleteElement(BuildContext *context) override
@@ -45,7 +49,7 @@ template <typename T> class StatefulWidget : public Widget
 
         void Rebuild(BuildContext *context) override
         {
-            Widget *build_res = GetWidget()->Build(context);
+            Widget *build_res = GetState().Build(context);
             if (child != nullptr && child->GetWidget() != nullptr)
             {
                 // The element's currently attached child element widget
@@ -87,44 +91,41 @@ template <typename T> class StatefulWidget : public Widget
             child->Rebuild(context);
         }
 
-        StatefulWidget<T> *GetWidget() const override
+        StatefulWidget *GetWidget() const override
         {
-            return (StatefulWidget<T> *)widget;
+            return (StatefulWidget *)widget;
         }
 
       private:
         Element *child = nullptr;
         virtual ~StatefulElement()
         {
+            delete state;
         }
+        State &GetState()
+        {
+            return *state;
+        }
+        State *state;
     };
-    StatefulWidget(Key key, T *state)
+    StatefulWidget(Key key)
     {
         this->key = key;
-        this->state = state;
     }
-    Widget *Build(BuildContext *context)
-    {
-        return GetState().Build(context);
-    }
+    // Widget *Build(BuildContext *context)
+    // {
+    //     return GetState().Build(context);
+    // }
     Element *CreateElement(BuildContext *context) override
     {
-        return new StatefulElement(context, this);
+        return new StatefulElement<T>(context, this);
     }
     WidgetTypeGetter(StatefulWidget);
 
   protected:
-    T &GetState()
-    {
-        return *state;
-    }
     virtual ~StatefulWidget()
     {
-        delete state;
     }
-
-  private:
-    T *state;
 };
 } // namespace GUI
 } // namespace Vultr

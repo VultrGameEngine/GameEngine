@@ -8,14 +8,15 @@ namespace GUI
 {
 class Input : public SingleChildRenderObjectWidget
 {
-
   private:
     struct Params
     {
         Key key;
-        Widget *child;
-        InputReceiver::OnHover on_hover = nullptr;
-        InputReceiver::OnUnhover on_unhover = nullptr;
+        Widget *child = nullptr;
+        OnHover on_hover;
+        OnUnhover on_unhover;
+        OnMouseDown on_mouse_down;
+        OnMouseUp on_mouse_up;
     };
     class RenderInput : public SingleChildRenderObject
     {
@@ -53,20 +54,31 @@ class Input : public SingleChildRenderObjectWidget
             UpdateReceiver(context);
             repaint_required = false;
         }
+        void Reattach(Widget *new_config) override
+        {
+            this->configuration = new_config;
+            MarkForRepaint();
+            receiver->on_hover = GetConfig()->on_hover;
+            receiver->on_unhover = GetConfig()->on_unhover;
+            receiver->on_mouse_down = GetConfig()->on_mouse_down;
+            receiver->on_mouse_up = GetConfig()->on_mouse_up;
+        }
 
         void UpdateReceiver(BuildContext *context)
         {
             cached_z_index = context->zindex.top();
             receiver->on_hover = GetConfig()->on_hover;
             receiver->on_unhover = GetConfig()->on_unhover;
+            receiver->on_mouse_down = GetConfig()->on_mouse_down;
+            receiver->on_mouse_up = GetConfig()->on_mouse_up;
             receiver->top_left =
                 (glm::vec2(context->GetPosition().x - GetSize().width / 2,
-                           context->GetPosition().y + GetSize().width / 2) +
+                           context->GetPosition().y + GetSize().height / 2) +
                  glm::vec2(1, 1)) /
                 glm::vec2(2, 2);
             receiver->bottom_right =
                 (glm::vec2(context->GetPosition().x + GetSize().width / 2,
-                           context->GetPosition().y - GetSize().width / 2) +
+                           context->GetPosition().y - GetSize().height / 2) +
                  glm::vec2(1, 1)) /
                 glm::vec2(2, 2);
             context->SubmitInputReceiver(cached_z_index, receiver);
@@ -80,10 +92,12 @@ class Input : public SingleChildRenderObjectWidget
   public:
     Input(Params params)
     {
-        this->key = key;
-        this->child = child;
+        this->key = params.key;
+        this->child = params.child;
         this->on_hover = params.on_hover;
         this->on_unhover = params.on_unhover;
+        this->on_mouse_down = params.on_mouse_down;
+        this->on_mouse_up = params.on_mouse_up;
     }
     SingleChildRenderObject *CreateRenderObject(BuildContext *context) override
     {
@@ -96,8 +110,10 @@ class Input : public SingleChildRenderObjectWidget
     }
 
   private:
-    InputReceiver::OnHover on_hover = nullptr;
-    InputReceiver::OnUnhover on_unhover = nullptr;
+    OnHover on_hover;
+    OnUnhover on_unhover;
+    OnMouseDown on_mouse_down;
+    OnMouseUp on_mouse_up;
 };
 } // namespace GUI
 } // namespace Vultr
