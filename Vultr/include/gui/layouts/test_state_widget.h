@@ -3,9 +3,37 @@
 
 using namespace Vultr::GUI;
 
+class TestStateWidgetState;
+class TestStateWidget : public StatefulWidget<TestStateWidgetState>
+{
+  private:
+    struct Params
+    {
+        Key key;
+        glm::vec2 size = glm::vec2(1, 1);
+        double font_size = 20;
+        std::string text = "";
+        std::string font = "res/fonts/Roboto-Regular.ttf";
+    };
+
+  public:
+    glm::vec2 size;
+    double font_size;
+    std::string text;
+    std::string font;
+    TestStateWidget(Params params)
+        : StatefulWidget(params.key), size(params.size), font_size(params.font_size),
+          text(params.text), font(params.font)
+    {
+    }
+};
+
 class TestStateWidgetState : public State
 {
   public:
+    TestStateWidgetState(Element *element) : State(element)
+    {
+    }
     Widget *Build(BuildContext *context) override;
 
   private:
@@ -44,8 +72,9 @@ class TestStateWidget : public StatefulWidget<TestStateWidgetState>
         Key key;
     };
 
-  public:
-    TestStateWidget(Params params) : StatefulWidget(params.key)
+  protected:
+    TestStateWidget *GetWidget() override
     {
+        return (TestStateWidget *)element->GetWidget();
     }
 };

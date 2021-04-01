@@ -11,7 +11,11 @@ Window *TestLayout()
 Widget *RootWidget::Build(BuildContext *context)
 {
     return new Center({
-        .child = new TestStateWidget({}),
+        .child = new TestStateWidget({
+            .size = glm::vec2(0.5, 0.5),
+            .font_size = 12,
+            .text = "Join Game",
+        }),
     });
     // return new Center({
     //     .child = new Container({

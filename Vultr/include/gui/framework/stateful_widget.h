@@ -9,10 +9,18 @@ namespace GUI
 class State
 {
   public:
+    State(Element *element)
+    {
+        this->element = element;
+    }
     virtual Widget *Build(BuildContext *context) = 0;
     virtual ~State()
     {
     }
+
+  protected:
+    virtual Widget *GetWidget() = 0;
+    Element *element;
 };
 template <typename T> class StatefulWidget : public Widget
 {
@@ -23,7 +31,7 @@ template <typename T> class StatefulWidget : public Widget
         StatefulElement(BuildContext *context, StatefulWidget *p_widget)
             : Element(context, p_widget)
         {
-            this->state = new U();
+            this->state = new U(this);
         }
 
         void DeleteElement(BuildContext *context) override
@@ -45,6 +53,11 @@ template <typename T> class StatefulWidget : public Widget
         {
             assert(child != nullptr && "No child for this stateful widget!");
             return child->Layout(context, constraints);
+        }
+
+        T *GetConfig()
+        {
+            this->widget;
         }
 
         void Rebuild(BuildContext *context) override
@@ -112,10 +125,6 @@ template <typename T> class StatefulWidget : public Widget
     {
         this->key = key;
     }
-    // Widget *Build(BuildContext *context)
-    // {
-    //     return GetState().Build(context);
-    // }
     Element *CreateElement(BuildContext *context) override
     {
         return new StatefulElement<T>(context, this);
