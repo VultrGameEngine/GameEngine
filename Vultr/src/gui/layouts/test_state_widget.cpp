@@ -13,6 +13,7 @@ Widget *TestStateWidgetState::Build(BuildContext *context)
                     .child = new RichText({
                         .text = GetWidget()->text,
                         .font = GetWidget()->font,
+                        .max_lines = 1,
                         .alignment = RichText::TextAlign::center,
                         .size = GetWidget()->font_size,
                     }),
@@ -21,7 +22,7 @@ Widget *TestStateWidgetState::Build(BuildContext *context)
                     .speed = 0.00000001,
                 }),
                 .color = glm::vec4(252, 152, 3, 255),
-                .borders = EdgeInsets::All(0.005),
+                .borders = EdgeInsets::All(10),
                 .border_color = glm::vec4(255, 255, 255, GetBorderAlpha()),
             }),
             .on_hover =

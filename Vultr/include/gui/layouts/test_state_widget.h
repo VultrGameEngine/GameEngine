@@ -10,9 +10,9 @@ class TestStateWidget : public StatefulWidget<TestStateWidgetState>
     struct Params
     {
         Key key;
-        glm::vec2 size = glm::vec2(1, 1);
-        double font_size = 20;
-        std::string text = "";
+        glm::vec2 size = glm::vec2(400, 200);
+        double font_size = 12;
+        std::string text = "Submit";
         std::string font = "res/fonts/Roboto-Regular.ttf";
     };
 
@@ -62,17 +62,7 @@ class TestStateWidgetState : public State
             return 255;
         return 0;
     }
-};
 
-class TestStateWidget : public StatefulWidget<TestStateWidgetState>
-{
-  private:
-    struct Params
-    {
-        Key key;
-    };
-
-  protected:
     TestStateWidget *GetWidget() override
     {
         return (TestStateWidget *)element->GetWidget();

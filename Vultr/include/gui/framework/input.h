@@ -1,6 +1,7 @@
 #pragma once
 #include "single_child_render_object_widget.h"
 #include "input_receiver.h"
+#include <core/system_providers/render_system_provider.h>
 
 namespace Vultr
 {
@@ -71,16 +72,19 @@ class Input : public SingleChildRenderObjectWidget
             receiver->on_unhover = GetConfig()->on_unhover;
             receiver->on_mouse_down = GetConfig()->on_mouse_down;
             receiver->on_mouse_up = GetConfig()->on_mouse_up;
+            glm::vec2 offset =
+                RenderSystemProvider::GetDimensions(GAME) / glm::vec2(2);
+            glm::vec2 size = RenderSystemProvider::GetDimensions(GAME);
             receiver->top_left =
                 (glm::vec2(context->GetPosition().x - GetSize().width / 2,
                            context->GetPosition().y + GetSize().height / 2) +
-                 glm::vec2(1, 1)) /
-                glm::vec2(2, 2);
+                 offset) /
+                size;
             receiver->bottom_right =
                 (glm::vec2(context->GetPosition().x + GetSize().width / 2,
                            context->GetPosition().y - GetSize().height / 2) +
-                 glm::vec2(1, 1)) /
-                glm::vec2(2, 2);
+                 offset) /
+                size;
             context->SubmitInputReceiver(cached_z_index, receiver);
         }
 

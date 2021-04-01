@@ -11,7 +11,6 @@
 #include <gui/framework/basic.h>
 #include <gui/layouts/test_layout.h>
 
-
 void *LoadDLL(const std::string &path)
 {
 #ifdef _WIN32
@@ -60,11 +59,11 @@ void Engine::Init(bool debug)
     }
 #ifdef _WIN32
     glfwWindowHint(GLFW_DECORATED, GL_FALSE);
-    this->window = glfwCreateWindow(mode->width, mode->height, "VultrEditor",
-        nullptr, nullptr);
+    this->window =
+        glfwCreateWindow(mode->width, mode->height, "VultrEditor", nullptr, nullptr);
 #else
-    this->window = glfwCreateWindow(mode->width, mode->height, "VultrEditor",
-        glfwGetPrimaryMonitor(), nullptr);
+    this->window =
+        glfwCreateWindow(mode->width, mode->height, "VultrEditor", nullptr, nullptr);
 #endif
 
     if (window == nullptr)
@@ -88,10 +87,11 @@ void Engine::Init(bool debug)
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_DEBUG_OUTPUT);
     glDebugMessageCallback(ErrorHandler::ErrorCallback, 0);
-    if (debug) {
+    if (debug)
+    {
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
-        ImGuiIO& io = ImGui::GetIO();
+        ImGuiIO &io = ImGui::GetIO();
         io.ConfigFlags |= ImGuiConfigFlags_DockingEnable; // Enable Docking
         // io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable; // Enable
         // Multi - Viewport /
