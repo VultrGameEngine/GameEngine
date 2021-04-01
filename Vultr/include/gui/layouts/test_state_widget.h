@@ -16,15 +16,15 @@ class TestStateWidgetState : public State
     {
         if (mouse_down)
         {
-            return glm::vec2(0.88, 0.2);
+            return glm::vec2(0.95);
         }
         else if (hovered)
         {
-            return glm::vec2(1.1, 0.3);
+            return glm::vec2(1.1);
         }
         else
         {
-            return glm::vec2(1, 0.25);
+            return glm::vec2(1);
         }
     }
 
@@ -35,6 +35,7 @@ class TestStateWidgetState : public State
         return 0;
     }
 };
+
 class TestStateWidget : public StatefulWidget<TestStateWidgetState>
 {
   private:

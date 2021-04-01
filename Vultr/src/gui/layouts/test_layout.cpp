@@ -10,7 +10,6 @@ Window *TestLayout()
 
 Widget *RootWidget::Build(BuildContext *context)
 {
-    // Vultr::Font *font = context->GetFont("res/fonts/RobotoMono-Regular.ttf");
     return new Center({
         .child = new TestStateWidget({}),
     });
@@ -19,35 +18,39 @@ Widget *RootWidget::Build(BuildContext *context)
     //         .child = new RichText({
     //             .text = "abcdygp,a!.;:",
     //             .font = "res/fonts/RobotoMono-Regular.ttf",
+    //             .color = glm::vec4(0, 0, 0, 255),
     //         }),
-    //         .color = glm::vec4(1, 0, 0, 1),
+    //         //         .child = new Row({
+    //         //     .children =
+    //         //         {
+    //         //             new Flex({
+    //         //                  .child = new Container({
+    //         //                     .width = 250,
+    //         //                     .height = 750,
+    //         //                     .color = glm::vec4(255, 0, 0, 255),
+    //         //                 }),
+    //         //                 .flex = 1,
+    //         //             }),
+    //         //             new Container({
+    //         //                 .width = 400,
+    //         //                 .height = 400,
+    //         //                 .color = glm::vec4(0, 255, 0,  255),
+    //         //             }),
+    //         //             new Flex({
+    //         //             .child = new Container({
+    //         //                 .width = 750,
+    //         //                 .height = 250,
+    //         //                 .color = glm::vec4(0, 0, 255, 255),
+    //         //             }),
+    //         //                 .flex = 5,
+    //         //             }),
+    //         //         },
+    //         //     .alignment = Alignment::Center(),
+    //         // }),
+    //         // .width = 700,
+    //         // .height = 500,
+    //         .color = glm::vec4(255),
     //     }),
     // });
-    // return new Row({
-    //     .children =
-    //         {
-    //             new Flex({
-    //                 .child = new Container({
-    //                     .width = 25,
-    //                     .height = 0.75,
-    //                     .color = glm::vec4(1, 0, 0, 1),
-    //                 }),
-    //                 .flex = 1,
-    //             }),
-    //             // new Flex({
-    //             new Container({
-    //                 .width = 0.75,
-    //                 .height = 0.25,
-    //                 .color = glm::vec4(0, 0, 1, 1),
-    //             }),
-    //             //     .flex = 5,
-    //             // }),
-    //             // new Container({
-    //             //     .width = 100,
-    //             //     .height = 50,
-    //             //     .color = glm::vec4(0, 1, 0, 1),
-    //             // }),
-    //         },
-    //     .alignment = Alignment::TopRight(),
-    // });
+    // return ;
 }

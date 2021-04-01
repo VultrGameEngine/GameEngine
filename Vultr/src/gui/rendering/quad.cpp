@@ -1,11 +1,23 @@
 #include <gui/rendering/quad.h>
 #include <gui/framework/build_context.h>
 #include <core/system_providers/render_system_provider.h>
+#include <math/map.h>
 
 namespace Vultr
 {
 namespace GUI
 {
+double translateX(double value)
+{
+    double w = RenderSystemProvider::GetDimensions(GAME).x;
+    return (2.0 * value + 1.0) / w;
+}
+double translateY(double value)
+{
+    double h = RenderSystemProvider::GetDimensions(GAME).y;
+    return (2.0 * value + 1.0) / h;
+}
+
 void Quad::Commit(const QuadProperties &properties, BuildContext *context)
 {
     double width = properties.size.width;
@@ -22,7 +34,6 @@ void Quad::Commit(const QuadProperties &properties, BuildContext *context)
 
     int zindex = context->IncreaseZ();
 
-    glm::vec2 window_dimensions = RenderSystemProvider::GetDimensions(GAME);
     // vertices[0]->position = glm::vec3(-1, 1, zindex);
     // vertices[1]->position = glm::vec3(-1, -1, zindex);
     // vertices[2]->position = glm::vec3(1, -1, zindex);
@@ -31,6 +42,7 @@ void Quad::Commit(const QuadProperties &properties, BuildContext *context)
     vertices[1]->position = glm::vec3(x - width / 2, y - height / 2, zindex);
     vertices[2]->position = glm::vec3(x + width / 2, y - height / 2, zindex);
     vertices[3]->position = glm::vec3(x + width / 2, y + height / 2, zindex);
+
     if (texture_slot != -1)
     {
         double left = properties.uv.x;
@@ -60,6 +72,8 @@ void Quad::Commit(const QuadProperties &properties, BuildContext *context)
         vertex->color = properties.color / glm::vec4(255);
         vertex->texture = texture_slot;
         vertex->border_color = properties.border_color;
+        vertex->position.x = translateX(vertex->position.x);
+        vertex->position.y = translateY(vertex->position.y);
         if (properties.border_widths != glm::vec4(0))
         {
             vertex->borders.x = properties.border_widths.x / width;

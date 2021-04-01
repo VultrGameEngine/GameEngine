@@ -46,7 +46,9 @@ void GUISystem::Update(UpdateTick tick)
     provider.context->PassUpdate(tick);
     if (provider.root_element == nullptr)
         return;
-    provider.root_element->Layout(provider.context, GUI::Size(2, 2));
+    provider.root_element->Layout(
+        provider.context, GUI::Size(RenderSystemProvider::GetDimensions(GAME).x,
+                                    RenderSystemProvider::GetDimensions(GAME).y));
     provider.root_element->Update(provider.context);
     provider.root_element->Rebuild(provider.context);
     provider.gui_shader->Bind();

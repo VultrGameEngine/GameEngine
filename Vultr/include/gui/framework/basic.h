@@ -848,7 +848,8 @@ class Row : public MultiChildRenderObjectWidget
                 glm::vec2 child_pos;
                 child_pos.x = current_offset + (child_size.width / 2);
                 current_offset += child_size.width;
-                child_pos.y = position.y;
+                double difference = (height - child_size.height) / 2;
+                child_pos.y = difference * GetConfig()->alignment.y + position.y;
                 if (i == positions.size())
                 {
                     positions.push_back(child_pos);

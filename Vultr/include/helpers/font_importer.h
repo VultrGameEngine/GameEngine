@@ -1,7 +1,7 @@
 #pragma once
 #include <fonts/font.h>
 #include <string>
-#define TEXT_SCALE_FACTOR 48000
+#define TEXT_SCALE_FACTOR 24
 
 namespace Vultr
 {
