@@ -1,5 +1,7 @@
 #include <helpers/path.h>
-#ifndef WIN32
+#ifdef WIN32
+#include <Windows.h>
+#else
 #include <unistd.h>
 #endif
 #include <limits.h>
@@ -32,7 +34,7 @@ std::string GetFullPath(const std::string &path)
 #else
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
     char buff[256];
-    ssize_t len = GetModuleFileName(NULL, buff, sizeof(buff));
+    DWORD len = GetModuleFileName(NULL, buff, sizeof(buff));
 #else
     char buff[PATH_MAX];
     ssize_t len = readlink("/proc/self/exe", buff, sizeof(buff) - 1);

@@ -44,6 +44,10 @@ if(WIN32)
     COMMAND ${CMAKE_COMMAND} -E copy_if_different  
         "C:/Users/Brand/Dev/GameEngine/Vultr/vendor/libs/WIN32/assimp-vc142-mtd.dll"
         $<TARGET_FILE_DIR:Game>)
+    add_custom_command(TARGET Game POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${PROJECT_SOURCE_DIR}/res"
+        $<TARGET_FILE_DIR:Game>/res)
 endif(WIN32)
 
 install(TARGETS ${PROJECT_NAME} DESTINATION bin)
