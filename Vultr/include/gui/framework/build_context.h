@@ -85,15 +85,21 @@ class BuildContext
 
     void Draw(Shader *shader)
     {
-        //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        // glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LEQUAL);
         for (RenderGroup *group : groups)
             group->Draw(shader);
 
-        zindex.empty();
+        for (int i = 0; i < zindex.size(); i++)
+        {
+            zindex.pop();
+        }
+        for (int i = 0; i < positions.size(); i++)
+        {
+            positions.pop();
+        }
         zindex.push(0);
-        positions.empty();
         positions.push(glm::vec2(0, 0));
     }
 
@@ -156,6 +162,15 @@ class BuildContext
         for (auto [z, receiver] : input_receivers)
         {
             if (receiver->ReceiveMouseButtonEvent(event))
+                return true;
+        }
+        return false;
+    }
+    bool SubmitScrollInputEvent(Input::ScrollInputEvent event)
+    {
+        for (auto [z, receiver] : input_receivers)
+        {
+            if (receiver->ReceiveScrollEvent(event))
                 return true;
         }
         return false;

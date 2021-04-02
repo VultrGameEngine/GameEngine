@@ -9,6 +9,7 @@ class InputSystem
     static void RegisterSystem();
     static void Init(GLFWwindow *window);
     static void OnMouseInput(GLFWwindow *window, int button, int action, int mods);
+    static void OnScroll(GLFWwindow *window, double xoffset, double yoffset);
     static void Update();
 
   protected:

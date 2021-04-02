@@ -16,8 +16,18 @@ void InputSystem::OnMouseInput(GLFWwindow *window, int button, int action, int m
         Input::MouseButtonInputEvent(provider.mouse_pos, provider.mouse_down);
     if (!GUISystem::ReceiveMouseButtonEvent(event))
     {
-        std::cout << "GUI did not receive mouse button event " << provider.mouse_down
-                  << std::endl;
+    }
+}
+
+void InputSystem::OnScroll(GLFWwindow *window, double xamount, double yamount)
+{
+    InputSystemProvider &provider = GetProvider();
+    Input::ScrollInputEvent event =
+        Input::ScrollInputEvent(provider.mouse_pos, glm::vec2(xamount, yamount));
+    provider.AddScrollInput(glm::vec2(xamount, yamount));
+    if (!GUISystem::ReceiveScrollEvent(event))
+    {
+        std::cout << "GUI did not receive scroll event" << std::endl;
     }
 }
 
@@ -26,6 +36,7 @@ void InputSystem::Init(GLFWwindow *window)
     InputSystemProvider &provider = GetProvider();
     provider.window = window;
     glfwSetMouseButtonCallback(provider.window, OnMouseInput);
+    glfwSetScrollCallback(provider.window, OnScroll);
 }
 
 void InputSystem::Update()
@@ -50,8 +61,6 @@ void InputSystem::Update()
             Input::MouseInputEvent(provider.mouse_pos, provider.mouse_down);
         if (!GUISystem::ReceiveMouseEvent(event))
         {
-            // std::cout << "GUI did not receive mouse event " << provider.mouse_down
-            //           << std::endl;
         }
     }
 }

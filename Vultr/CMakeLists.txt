@@ -15,6 +15,7 @@ file(GLOB_RECURSE Vultr_SRC
 )
 
 if(UNIX)
+    set(CMAKE_CXX_STANDARD 17)
     find_package(ASSIMP REQUIRED)
     include_directories(${ASSIMP_INCLUDE_DIRS})
 endif (UNIX)

@@ -10,7 +10,8 @@ namespace GUI
 class SingleChildRenderObject : public RenderObject
 {
   public:
-    SingleChildRenderObject(Widget *widget) : RenderObject(widget), position(glm::vec2(0, 0))
+    SingleChildRenderObject(Widget *widget)
+        : RenderObject(widget), position(glm::vec2(0, 0))
     {
     }
 
@@ -70,7 +71,7 @@ class SingleChildElement : public RenderObjectElement
 
     void Update(BuildContext *context) override
     {
-        if (render_object->NeedsRepaint())
+        if (render_object->NeedsRepaint(context))
         {
             render_object->Paint(context);
         }

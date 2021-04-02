@@ -43,9 +43,16 @@ class RenderObject
         repaint_required = true;
     }
 
-    bool NeedsRepaint()
+    bool NeedsRepaint(BuildContext *context)
     {
-        return repaint_required;
+        if (repaint_required)
+            return true;
+        if (position != context->GetPosition())
+        {
+            position = context->GetPosition();
+            return true;
+        }
+        return false;
     }
 
     virtual void Reattach(Widget *new_config)
@@ -75,6 +82,11 @@ class RenderObject
         return size;
     }
 
+    glm::vec2 GetPosition()
+    {
+        return position;
+    }
+
     Size UpdateSize(Size size)
     {
         if (this->size != size)
@@ -85,6 +97,7 @@ class RenderObject
 
   private:
     Size size;
+    glm::vec2 position;
 };
 } // namespace GUI
 } // namespace Vultr

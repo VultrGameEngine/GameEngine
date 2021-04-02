@@ -11,20 +11,22 @@ namespace GUI
 class InputReceiver
 {
   public:
-    OnHover on_hover;
-    OnUnhover on_unhover;
-    OnMouseDown on_mouse_down;
-    OnMouseUp on_mouse_up;
+    OnHoverCallback on_hover;
+    OnUnhoverCallback on_unhover;
+    OnMouseDownCallback on_mouse_down;
+    OnMouseUpCallback on_mouse_up;
+    OnScrollCallback on_scroll;
     glm::vec2 top_left;
     glm::vec2 bottom_right;
 
   private:
     struct Params
     {
-        OnHover on_hover;
-        OnUnhover on_unhover;
-        OnMouseDown on_mouse_down;
-        OnMouseUp on_mouse_up;
+        OnHoverCallback on_hover;
+        OnUnhoverCallback on_unhover;
+        OnMouseDownCallback on_mouse_down;
+        OnMouseUpCallback on_mouse_up;
+        OnScrollCallback on_scroll;
     };
 
     struct State
@@ -36,7 +38,9 @@ class InputReceiver
   public:
     InputReceiver(Params params)
         : on_hover(params.on_hover), on_unhover(params.on_unhover),
-          on_mouse_down(params.on_mouse_down), on_mouse_up(params.on_mouse_up), bottom_right(glm::vec2(1, -1)), top_left(-1, 1)
+          on_mouse_down(params.on_mouse_down), on_mouse_up(params.on_mouse_up),
+          bottom_right(glm::vec2(1, -1)), top_left(-1, 1),
+          on_scroll(params.on_scroll)
     {
     }
 
@@ -52,7 +56,7 @@ class InputReceiver
         {
             if (!state.is_hovered)
             {
-                if (on_hover.IsValid() && on_hover.Call(HoverEvent(event)))
+                if (on_hover && on_hover(HoverEvent(event)))
                 {
                     state.is_hovered = true;
                     return true;
@@ -67,9 +71,9 @@ class InputReceiver
                 return false;
             }
         }
-        else if (state.is_hovered && on_unhover.IsValid())
+        else if (state.is_hovered && on_unhover)
         {
-            if (on_unhover.Call(UnhoverEvent(event)))
+            if (on_unhover(UnhoverEvent(event)))
             {
                 state.is_hovered = false;
                 return true;
@@ -88,14 +92,13 @@ class InputReceiver
         {
             if (InBounds(event.pos))
             {
-                if (!on_mouse_down.IsValid())
+                if (!on_mouse_down)
                 {
                 }
                 // On mouse down
                 if (!state.mouse_down)
                 {
-                    if (on_mouse_down.IsValid() &&
-                        on_mouse_down.Call(MouseDownEvent(event)))
+                    if (on_mouse_down && on_mouse_down(MouseDownEvent(event)))
                     {
                         state.mouse_down = true;
                         return true;
@@ -122,7 +125,7 @@ class InputReceiver
             // On mouse up
             if (state.mouse_down)
             {
-                if (on_mouse_up.IsValid() && on_mouse_up.Call(MouseUpEvent(event)))
+                if (on_mouse_up && on_mouse_up(MouseUpEvent(event)))
                 {
                     state.mouse_down = false;
                     return true;
@@ -141,6 +144,17 @@ class InputReceiver
                 return true;
             }
         }
+    }
+    bool ReceiveScrollEvent(Input::ScrollInputEvent event)
+    {
+        if (InBounds(event.pos))
+        {
+            if (on_scroll && on_scroll(ScrollEvent(event)))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     ~InputReceiver()

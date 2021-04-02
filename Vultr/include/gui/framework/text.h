@@ -284,7 +284,7 @@ class RichText : public RenderObjectWidget
 
         void Update(BuildContext *context) override
         {
-            if (render_object->NeedsRepaint())
+            if (render_object->NeedsRepaint(context))
             {
                 render_object->Paint(context);
             }

@@ -39,7 +39,7 @@ class Element
     }
 
   protected:
-    Widget *widget;
+    Widget *widget = nullptr;
     virtual ~Element()
     {
         delete widget;
@@ -69,7 +69,7 @@ class RenderObjectElement : public Element
 
     virtual void Update(BuildContext *context) override
     {
-        if (render_object->NeedsRepaint())
+        if (render_object->NeedsRepaint(context))
         {
             render_object->Paint(context);
         }

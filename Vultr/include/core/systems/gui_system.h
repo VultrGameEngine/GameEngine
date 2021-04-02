@@ -14,6 +14,7 @@ class GUISystem
     static void Update(UpdateTick tick);
     static bool ReceiveMouseEvent(Input::MouseInputEvent event);
     static bool ReceiveMouseButtonEvent(Input::MouseButtonInputEvent event);
+    static bool ReceiveScrollEvent(Input::ScrollInputEvent event);
 
   private:
     static GUISystemProvider &GetProvider()

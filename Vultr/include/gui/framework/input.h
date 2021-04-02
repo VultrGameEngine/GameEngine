@@ -14,10 +14,10 @@ class Input : public SingleChildRenderObjectWidget
     {
         Key key;
         Widget *child = nullptr;
-        OnHover on_hover;
-        OnUnhover on_unhover;
-        OnMouseDown on_mouse_down;
-        OnMouseUp on_mouse_up;
+        OnHoverCallback on_hover;
+        OnUnhoverCallback on_unhover;
+        OnMouseDownCallback on_mouse_down;
+        OnMouseUpCallback on_mouse_up;
     };
     class RenderInput : public SingleChildRenderObject
     {
@@ -114,10 +114,10 @@ class Input : public SingleChildRenderObjectWidget
     }
 
   private:
-    OnHover on_hover;
-    OnUnhover on_unhover;
-    OnMouseDown on_mouse_down;
-    OnMouseUp on_mouse_up;
+    OnHoverCallback on_hover;
+    OnUnhoverCallback on_unhover;
+    OnMouseDownCallback on_mouse_down;
+    OnMouseUpCallback on_mouse_up;
 };
 } // namespace GUI
 } // namespace Vultr

@@ -39,6 +39,11 @@ bool GUISystem::ReceiveMouseButtonEvent(Input::MouseButtonInputEvent event)
     GUISystemProvider &provider = GetProvider();
     return provider.context->SubmitMouseButtonInputEvent(event);
 }
+bool GUISystem::ReceiveScrollEvent(Input::ScrollInputEvent event)
+{
+    GUISystemProvider &provider = GetProvider();
+    return provider.context->SubmitScrollInputEvent(event);
+}
 
 void GUISystem::Update(UpdateTick tick)
 {
