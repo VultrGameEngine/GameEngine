@@ -40,17 +40,17 @@ Widget *RootWidget::Build(BuildContext *context)
                             //         },
                             // }),
                             .height = 200,
-			    .color = glm::vec4(0, 255, 0, 255),
+                            .color = glm::vec4(0, 255, 0, 255),
                             // .borders = EdgeInsets::All(5),
                             // .border_color = glm::vec4(0, 0, 0, 255),
                         });
                     },
-                .count = 5,
+                .count = 100,
 
             }),
             .width = 1920,
             .height = 1080,
-            .color = glm::vec4(0),
+            .color = glm::vec4(255),
         }),
     });
     // return new Center({

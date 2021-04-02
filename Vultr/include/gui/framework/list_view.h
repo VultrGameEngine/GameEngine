@@ -33,8 +33,7 @@ struct ElementWidget
     ChildDimensions dimensions;
     void Delete(BuildContext *context)
     {
-        // element->DeleteElement(context);
-        // delete widget;
+        element->DeleteElement(context);
     }
 };
 } // namespace List

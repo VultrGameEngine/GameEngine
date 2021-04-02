@@ -32,7 +32,7 @@ void Quad::Commit(const QuadProperties &properties, BuildContext *context)
     // Bottom Right [2]
     // Top Right [3]
 
-    int zindex = context->IncreaseZ();
+    double zindex = (double)context->IncreaseZ() / 100;
 
     // vertices[0]->position = glm::vec3(-1, 1, zindex);
     // vertices[1]->position = glm::vec3(-1, -1, zindex);

@@ -45,7 +45,6 @@ void ListViewRenderObject::ApplyPosition(BuildContext *context, int index)
 void ListViewRenderObject::Paint(BuildContext *context)
 {
     UpdateReceiver(context);
-    // MarkForRepaint();
     repaint_required = false;
 }
 void ListViewRenderObject::UpdateReceiver(BuildContext *context)
@@ -97,7 +96,6 @@ void ListViewElement::Update(BuildContext *context)
     }
     scroll_pos = Math::Lerp(scroll_pos, GetRenderObject()->scroll_pos, 0.0000000001,
                             context->GetTickInfo().m_delta_time);
-    // std::cout << "Scroll pos " << GetRenderObject()->scroll_pos << std::endl;
 
     if (!GetRenderObject()->LayedOut())
         return;
@@ -129,23 +127,27 @@ void ListViewElement::Rebuild(BuildContext *context)
         return;
 
     // Check to make sure within the boundaries
-    // for (auto [index, child] : children)
-    // {
-    //     // If the bottom edge is too far up the screen, we can safely delete it
-    //     if (GetRenderObject()->scroll_pos + child.dimensions.offset -
-    //             child.dimensions.height >
-    //         LISTVIEW_PADDING)
-    //     {
-    //         child.Delete(context);
-    //         children.erase(index);
-    //     }
-    //     else if (GetRenderObject()->scroll_pos + child.dimensions.offset <
-    //              -LISTVIEW_PADDING - GetRenderObject()->GetCachedSize().height)
-    //     {
-    //         child.Delete(context);
-    //         children.erase(index);
-    //     }
-    // }
+    for (auto it = children.cbegin(), next_it = it; it != children.cend();
+         it = next_it)
+    {
+        ++next_it;
+
+        List::ElementWidget child = it->second;
+        if (GetRenderObject()->scroll_pos + child.dimensions.offset -
+                child.dimensions.height >
+            LISTVIEW_PADDING)
+        {
+            child.Delete(context);
+            children.erase(it);
+        }
+        else if (GetRenderObject()->scroll_pos + child.dimensions.offset <
+                 -LISTVIEW_PADDING - GetRenderObject()->GetCachedSize().height)
+        {
+            child.Delete(context);
+            children.erase(it);
+        }
+    }
+
     int top_index;
     double offset;
     if (children.size() == 0)
@@ -165,8 +167,11 @@ void ListViewElement::Rebuild(BuildContext *context)
         BoxConstraints::Tight(GetRenderObject()->GetCachedSize());
     constraints.min_height = 0;
     constraints.max_height = INFINITY;
+
+    double last_child_height =
+        index - 1 > top_index ? children.at(index - 1).dimensions.height : 0;
     while (index < GetWidget()->count &&
-           offset + scroll_pos >
+           offset + scroll_pos + last_child_height >
                -GetRenderObject()->GetCachedSize().height - LISTVIEW_PADDING)
     {
         // If we've already built this widget, no need to do it again
