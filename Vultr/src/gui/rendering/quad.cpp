@@ -18,7 +18,7 @@ double translateY(double value)
     return (2.0 * value + 1.0) / h;
 }
 
-void Quad::Commit(const QuadProperties &properties, BuildContext *context)
+void Quad::Commit(QuadID id, const QuadProperties &properties, BuildContext *context)
 {
     double width = properties.size.width;
     double height = properties.size.height;
@@ -32,7 +32,7 @@ void Quad::Commit(const QuadProperties &properties, BuildContext *context)
     // Bottom Right [2]
     // Top Right [3]
 
-    double zindex = (double)context->IncreaseZ() / 100;
+    double zindex = (double)context->zindex.top() / 100;
 
     // vertices[0]->position = glm::vec3(-1, 1, zindex);
     // vertices[1]->position = glm::vec3(-1, -1, zindex);
@@ -82,6 +82,7 @@ void Quad::Commit(const QuadProperties &properties, BuildContext *context)
             vertex->borders.w = 1 - properties.border_widths.z / height;
         }
     }
+    context->CommitQuad(id, context->zindex.top());
 }
 } // namespace GUI
 } // namespace Vultr

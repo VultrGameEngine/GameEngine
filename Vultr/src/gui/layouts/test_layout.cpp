@@ -11,48 +11,60 @@ Window *TestLayout()
 
 Widget *RootWidget::Build(BuildContext *context)
 {
-    return new Center({
+    return new Container({
+        .child = new Center({
         .child = new Container({
             .child = new ListView({
                 .builder =
-                    [](BuildContext *context, int index) {
+                    [](BuildContext* context, int index) {
                         return new Container({
-                            .child = new Container({
-                                .color = glm::vec4(255, 0, 0, 255),
-                            }),
-                            // .child = new Row({
-                            //     .children =
-                            //         {
-                            //             new Flex({
-                            //                 .child = new Container({
-                            //                     .color = glm::vec4(0, 255, 0,
-                            //                     255),
-                            //                     }),
-                            //                 .flex = 2,
-                            //             }),
-                            //             new Flex({
-                            //                 .child = new Container({
-                            //                     .color = glm::vec4(0, 0, 255,
-                            //                     255),
-                            //                     }),
-                            //                 .flex = 1,
-                            //             }),
-                            //         },
-                            // }),
-                            .height = 200,
-                            .color = glm::vec4(0, 255, 0, 255),
-                            // .borders = EdgeInsets::All(5),
-                            // .border_color = glm::vec4(0, 0, 0, 255),
-                        });
-                    },
-                .count = 100,
+                            //.child = new Container({
+                                .child = new Center({
+                                    .child = new RichText({
+                                        .text = std::to_string(index),
+                                        .font = "res/fonts/RobotoMono-Regular.ttf",
+                                        .color = glm::vec4(0, 0, 255, 255),
+                                    }),
+                                }),
+                                //    .color = glm::vec4(255, 0, 0, 255),
+                                //    .borders = EdgeInsets::All(5),
+                                //    .border_color = glm::vec4(0, 0, 0, 255),
+                                //}),
+                                // .child = new Row({
+                                //     .children =
+                                //         {
+                                //             new Flex({
+                                //                 .child = new Container({
+                                //                     .color = glm::vec4(0, 255, 0,
+                                //                     255),
+                                //                     }),
+                                //                 .flex = 2,
+                                //             }),
+                                //             new Flex({
+                                //                 .child = new Container({
+                                //                     .color = glm::vec4(0, 0, 255,
+                                //                     255),
+                                //                     }),
+                                //                 .flex = 1,
+                                //             }),
+                                //         },
+                                // }),
+                                .height = 1080,
+                                .color = glm::vec4(255),
+                                .borders = EdgeInsets::All(5),
+                                .border_color = glm::vec4(0, 0, 0, 255),
+                            });
+                        },
+                    .count = 10,
 
+                }),
+                .width = 1920,
+                .height = 1080,
+                .color = glm::vec4(0),
             }),
-            .width = 1920,
-            .height = 1080,
-            .color = glm::vec4(255),
-        }),
-    });
+        }), 
+        .color = glm::vec4(255, 0, 0, 255),
+        });
     // return new Center({
     //     .child = new TestStateWidget({
     //         .text = "Join Game",

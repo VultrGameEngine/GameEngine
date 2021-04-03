@@ -71,6 +71,7 @@ class RichText : public RenderObjectWidget
 
         void Paint(BuildContext *context) override
         {
+            context->IncreaseZ();
             glm::vec2 cursor = glm::vec2(0, 0);
             Font *font = context->GetFont(GetConfig()->font);
 
@@ -96,7 +97,7 @@ class RichText : public RenderObjectWidget
                     // If the new text is longer
                     if (i > text.size() - 1 || quads == nullptr)
                     {
-                        new_quads[i] = context->SubmitQuad(font);
+                        new_quads[i] = context->SubmitQuad(context->zindex.top(), font);
                     }
                     else
                     {
@@ -156,7 +157,7 @@ class RichText : public RenderObjectWidget
                     context->AccumulatePosition(glm::vec2(
                         cursor.x + character.bearing.x + character.size.x / 2,
                         cursor.y + character.bearing.y - character.size.y / 2));
-                    quad.Commit(property, context);
+                    quad.Commit(id, property, context);
                     context->ExitBranch();
 
                     cursor.x += character.advance.x;

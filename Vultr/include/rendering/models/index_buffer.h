@@ -7,7 +7,7 @@ class IndexBuffer
 {
   public:
     IndexBuffer(const GLvoid *indices, unsigned int count);
-    IndexBuffer();
+    IndexBuffer(size_t size);
 
     ~IndexBuffer();
 

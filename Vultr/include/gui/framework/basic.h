@@ -24,7 +24,6 @@ class ColoredBox : public SingleChildRenderObjectWidget
         {
             // TODO Fix this so that the layer is dependent on that given by the
             // parent
-            quad_id = context->SubmitQuad();
         }
 
         ColoredBox *GetConfig() override
@@ -34,12 +33,17 @@ class ColoredBox : public SingleChildRenderObjectWidget
 
         void Paint(BuildContext *context) override
         {
+            context->IncreaseZ();
+            if (quad_id == -1) 
+            {
+                quad_id = context->SubmitQuad(context->zindex.top());
+            }
             Quad quad = context->GetQuad(quad_id);
             properties.color = GetConfig()->GetColor();
             properties.size = GetSize();
             properties.border_widths = GetConfig()->GetBorders();
             properties.border_color = GetConfig()->GetBorderColor();
-            quad.Commit(properties, context);
+            quad.Commit(quad_id, properties, context);
             repaint_required = false;
             context->AccumulatePosition(position);
         }

@@ -69,6 +69,7 @@ class MultiChildElement : public RenderObjectElement
 
     void DeleteElement(BuildContext *context) override
     {
+        render_object->DeleteRenderObject(context);
         for (Element *element : children)
         {
             element->DeleteElement(context);

@@ -13,6 +13,16 @@ struct GUIVertex
     glm::vec4 borders = glm::vec4(0);
     glm::vec4 border_color = glm::vec4(0);
     float texture = -1;
+
+    GUIVertex() = default;
+    GUIVertex(const GUIVertex& other) {
+        this->position = other.position;
+        this->color = other.color;
+        this->uv = other.uv;
+        this->borders = other.borders;
+        this->border_color = other.border_color;
+        this->texture = other.texture;
+    }
 };
 } // namespace GUI
 template <> void VertexArray::Setup<GUI::GUIVertex>();

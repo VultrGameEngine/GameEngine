@@ -57,6 +57,7 @@ void GUISystem::Update(UpdateTick tick)
     provider.root_element->Update(provider.context);
     provider.root_element->Rebuild(provider.context);
     provider.gui_shader->Bind();
+    glDisable(GL_DEPTH_TEST);
     provider.context->Draw(provider.gui_shader);
 }
 } // namespace Vultr

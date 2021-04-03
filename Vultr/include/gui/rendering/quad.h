@@ -10,6 +10,8 @@ namespace GUI
 
 using QuadID = int;
 using VertexID = int;
+using IndexID = int;
+using Zindex = unsigned int;
 
 struct QuadProperties
 {
@@ -41,7 +43,7 @@ class Quad
         vertices[3] = &p_vertex4;
     }
 
-    void Commit(const QuadProperties &properties, BuildContext *context);
+    void Commit(QuadID id, const QuadProperties &properties, BuildContext *context);
 
   private:
     std::array<GUIVertex *, 4> vertices;

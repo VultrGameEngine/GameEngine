@@ -106,6 +106,16 @@ class SingleChildElement : public RenderObjectElement
         render_object->MarkForRepaint();
     }
 
+    virtual void DeleteElement(BuildContext* context) override 
+    {
+        if (child != nullptr) 
+        {
+            child->DeleteElement(context);
+        }
+        render_object->DeleteRenderObject(context);
+        delete this;
+    }
+
     void Rebuild(BuildContext *context) override
     {
         // What this element widget says the child is

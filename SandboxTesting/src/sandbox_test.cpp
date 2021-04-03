@@ -36,7 +36,7 @@ void SandboxTest::Init()
 
 void SandboxTest::Update(Vultr::UpdateTick tick)
 {
-    printf("%f ms\n", tick.m_delta_time);
+    //printf("%f ms\n", tick.m_delta_time);
 }
 
 void SandboxTest::Flush()

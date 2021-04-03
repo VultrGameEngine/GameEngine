@@ -10,6 +10,13 @@ IndexBuffer::IndexBuffer(const GLvoid *indices, unsigned int count)
                  GL_STATIC_DRAW);
 }
 
+IndexBuffer::IndexBuffer(size_t size) 
+{
+    glGenBuffers(1, &this->id);
+    Bind();
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, nullptr, GL_DYNAMIC_DRAW);
+}
+
 IndexBuffer::~IndexBuffer()
 {
     glDeleteBuffers(1, &this->id);

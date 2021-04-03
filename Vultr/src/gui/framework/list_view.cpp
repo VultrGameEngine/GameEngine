@@ -86,6 +86,11 @@ ListViewElement::ListViewElement(BuildContext *context, ListView *p_widget)
 
 void ListViewElement::DeleteElement(BuildContext *context)
 {
+    for (auto [index, element] : children) 
+    {
+        element.Delete(context);
+    }
+    delete this;
 }
 
 void ListViewElement::Update(BuildContext *context)
@@ -171,11 +176,11 @@ void ListViewElement::Rebuild(BuildContext *context)
     double last_child_height =
         index - 1 > top_index ? children.at(index - 1).dimensions.height : 0;
     while (index < GetWidget()->count &&
-           offset + scroll_pos + last_child_height >
+           offset + GetRenderObject()->scroll_pos + last_child_height >
                -GetRenderObject()->GetCachedSize().height - LISTVIEW_PADDING)
     {
         // If we've already built this widget, no need to do it again
-        if (index >= children.size())
+        if (index >= children.size() + top_index)
         {
             Widget *build_res = GetWidget()->builder(context, index);
             Element *element = build_res->CreateElement(context);
@@ -189,11 +194,45 @@ void ListViewElement::Rebuild(BuildContext *context)
         index++;
     }
 
+    if (children.size() == 0)
+    {
+        return;
+    }
+    else
+    {
+        top_index = children.begin()->first;
+        offset = children.begin()->second.dimensions.offset;
+    }
+
+    index = top_index;
+
+    double top_child_height = children.at(top_index).dimensions.height;
+    while (index > 0 && offset + scroll_pos - top_child_height < LISTVIEW_PADDING) 
+    {
+        index--;
+        Widget *build_res = GetWidget()->builder(context, index);
+        Element *element = build_res->CreateElement(context);
+        element->Rebuild(context);
+        children[index] = List::ElementWidget(build_res, element);
+        Size size = children.at(index).element->Layout(context, constraints);
+        children.at(index).dimensions.height = size.height;
+        offset += size.height;
+        children.at(index).dimensions.offset = offset;
+
+    }
+
     // If we still technically had room for more widgets, it means that our count
     // maxed out and that we can no longer increase our scroll_pos
-    if (index < GetWidget()->count - 1)
-    {
-    }
+    //if (children.size() > 0 && top_index + children.size() - 1 == GetWidget()->count - 1) 
+    //{
+    //    List::ElementWidget child = children[top_index + children.size()-1];
+
+    //    // If the bottom edge of the last element is above the bottom edge of our scroll window, then we need to limit scroll_pos
+    //    if (GetRenderObject()->scroll_pos + child.dimensions.offset - child.dimensions.height >
+    //        -GetRenderObject()->GetCachedSize().height / 2) {
+    //        GetRenderObject()->scroll_pos -= GetRenderObject()->scroll_pos + child.dimensions.offset - child.dimensions.height + GetRenderObject()->GetCachedSize().height / 2;
+    //    }
+    //}
 }
 
 ListViewElement::~ListViewElement()

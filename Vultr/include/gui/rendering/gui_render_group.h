@@ -12,6 +12,8 @@
 #include <array>
 #include <unordered_map>
 #include <queue>
+#include <iostream>
+#include <map>
 #define MAX_QUADS 1000
 #define MAX_TEXTURES 16
 
@@ -22,6 +24,27 @@ namespace GUI
 
 class RenderGroup
 {
+  private:
+    struct ZIndexGroup 
+    {
+        std::vector<VertexID> vertices;
+        void AddVertex(VertexID vertex) 
+        {
+            vertices.push_back(vertex);
+        }
+
+        void RemoveVertex(VertexID vertex) 
+        {
+            for (int i = 0; i < vertices.size(); i++) 
+            {
+                if (vertices[i] == vertex) 
+                {
+                    vertices.erase(vertices.begin() + i);
+                    return;
+                }
+            }
+        }
+    };
   public:
     RenderGroup()
     {
@@ -48,13 +71,18 @@ class RenderGroup
             available_quad_ids.push(quad);
         }
 
+        for (VertexID vertex = 0; vertex < MAX_QUADS * 4; vertex += 4)
+        {
+            available_vertex_ids.push(vertex);
+        }
+
         for (int i = 0; i < MAX_TEXTURES; i++)
         {
             textures[i] = nullptr;
             samplers[i] = i;
         }
 
-        ibo = new IndexBuffer(indices, MAX_QUADS * 6);
+        ibo = new IndexBuffer(sizeof(unsigned short) * MAX_QUADS * 6);
     }
 
     unsigned int GetQuadCount()
@@ -81,30 +109,17 @@ class RenderGroup
         assert(quad_to_vertex.find(id) != quad_to_vertex.end() &&
                "Quad does not exist");
         VertexID index = quad_to_vertex[id];
+        z_index_groups[quad_to_zindex[id]]->RemoveVertex(quad_to_vertex[id]);
+        quad_to_zindex.erase(id);
         quad_to_vertex.erase(id);
-        if (num_quads > 1)
-        {
-            // Get the ids of the last vertex and last quad
-            VertexID last_vertex = (num_quads - 1) * 4;
-            QuadID last_quad = vertex_to_quad[last_vertex];
-
-            // Remove the last vertex
-            vertex_to_quad.erase(last_vertex);
-
-            // Change the last quad to direct to the hole (index)
-            quad_to_vertex[last_quad] = index;
-            for (int i = 0; i < 4; i++)
-            {
-                // Move all of the vertices to fill the hole
-                vertices[index + i] = vertices[last_vertex + i];
-            }
-        }
+        vertex_to_quad.erase(index);
         available_quad_ids.push(id);
+        available_vertex_ids.push(index);
         num_quads--;
         return true;
     }
 
-    QuadID SubmitQuad(Texture *texture)
+    QuadID SubmitQuad(Zindex z_index, Texture *texture)
     {
         QuadID quad = available_quad_ids.front();
         // If there is no room for either quads or textures, we need to tell whoever
@@ -139,11 +154,54 @@ class RenderGroup
             }
         }
         available_quad_ids.pop();
-        VertexID index = num_quads * 4;
+        VertexID index = available_vertex_ids.front();
+        available_vertex_ids.pop();
         vertex_to_quad[index] = quad;
         quad_to_vertex[quad] = index;
+        quad_to_zindex[quad] = -z_index;
+        AddVertex(index, z_index);
         num_quads++;
         return quad;
+    }
+    
+    void AddVertex(VertexID id, Zindex z_index) 
+    {
+        z_index = -z_index;
+        if (z_index_groups.find(z_index) == z_index_groups.end()) 
+        {
+            z_index_groups[z_index] = new ZIndexGroup();
+        }
+        z_index_groups[z_index]->AddVertex(id);
+    }
+
+    void OrderIndices() 
+    {
+        IndexID index = 0;
+        for (auto [z_index, group] : z_index_groups) 
+        {
+            for (VertexID vertex : group->vertices) 
+            {
+                indices[index + 0] = 0 + vertex;
+                indices[index + 1] = 1 + vertex;
+                indices[index + 2] = 2 + vertex;
+
+                indices[index + 3] = 2 + vertex;
+                indices[index + 4] = 3 + vertex;
+                indices[index + 5] = 0 + vertex;
+                index += 6;
+            }
+
+        }
+    }
+
+    void CommitQuad(QuadID id, Zindex z_index) 
+    {
+        z_index = -z_index;
+        if (quad_to_zindex[id] == z_index) return;
+
+        z_index_groups[quad_to_zindex[id]]->RemoveVertex(quad_to_vertex[id]);
+        quad_to_zindex[id] = z_index;
+        AddVertex(quad_to_vertex[id], z_index);
     }
 
     void Draw(Shader *shader)
@@ -167,14 +225,18 @@ class RenderGroup
                      samplers);
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         // Then render our quad
         vbo->Bind();
         glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices);
         vao->Bind();
         ibo->Bind();
+        OrderIndices();
+        glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, 0, sizeof(indices), indices);
         glDrawElements(GL_TRIANGLES, num_quads * 6, GL_UNSIGNED_SHORT, (void *)0);
     }
+
 
   private:
     VertexArray *vao;
@@ -194,7 +256,12 @@ class RenderGroup
     std::unordered_map<QuadID, VertexID> quad_to_vertex;
     std::unordered_map<QuadID, unsigned int> quad_to_texture;
     std::unordered_map<VertexID, QuadID> vertex_to_quad;
+    std::unordered_map<QuadID, Zindex> quad_to_zindex;
+    std::map<Zindex, ZIndexGroup*> z_index_groups;
     std::queue<QuadID> available_quad_ids;
+    std::queue<VertexID> available_vertex_ids;
+    
+    bool needs_reorder = true;
 };
 } // namespace GUI
 } // namespace Vultr

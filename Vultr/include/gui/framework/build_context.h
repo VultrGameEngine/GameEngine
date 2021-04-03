@@ -49,18 +49,18 @@ class BuildContext
         return group->DeleteQuad(quad);
     }
 
-    QuadID SubmitQuad(Texture *texture = nullptr)
+    QuadID SubmitQuad(Zindex z_index, Texture *texture = nullptr)
     {
         for (int i = 0; i < groups.size(); i++)
         {
             RenderGroup *group = groups[i];
-            QuadID res = group->SubmitQuad(texture);
+            QuadID res = group->SubmitQuad(z_index, texture);
             if (res != -1)
                 return res;
         }
         RenderGroup *new_group = new RenderGroup();
         groups.push_back(new_group);
-        return new_group->SubmitQuad(texture);
+        return new_group->SubmitQuad(z_index, texture);
     }
 
     Font *GetFont(const std::string &path)
@@ -78,9 +78,20 @@ class BuildContext
     // {
     // }
 
-    QuadID SubmitQuad(Font *font)
+    QuadID SubmitQuad(Zindex z_index, Font *font)
     {
-        return SubmitQuad(font->texture);
+        return SubmitQuad(z_index, font->texture);
+    }
+
+    void SubmitRenderGroup(RenderGroup* group) 
+    {
+        
+    }
+
+    void CommitQuad(QuadID id, Zindex z_index) 
+    {
+        RenderGroup *group = groups[0];
+        group->CommitQuad(id, z_index);
     }
 
     void Draw(Shader *shader)

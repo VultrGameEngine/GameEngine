@@ -12,7 +12,7 @@ class Widget;
 class RenderObject
 {
   public:
-    RenderObject(Widget *widget) : configuration(widget)
+    RenderObject(Widget *widget) : configuration(widget), position(glm::vec2(0, 0))
     {
     }
 
