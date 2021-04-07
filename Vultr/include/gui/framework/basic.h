@@ -22,8 +22,6 @@ class ColoredBox : public SingleChildRenderObjectWidget
         RenderedColoredBox(BuildContext *context, Widget *widget)
             : SingleChildRenderObject(widget)
         {
-            // TODO Fix this so that the layer is dependent on that given by the
-            // parent
         }
 
         ColoredBox *GetConfig() override
@@ -34,9 +32,9 @@ class ColoredBox : public SingleChildRenderObjectWidget
         void Paint(BuildContext *context) override
         {
             context->IncreaseZ();
-            if (quad_id == -1) 
+            if (quad_id == -1)
             {
-                quad_id = context->SubmitQuad(context->zindex.top());
+                quad_id = context->SubmitQuad();
             }
             Quad quad = context->GetQuad(quad_id);
             properties.color = GetConfig()->GetColor();
@@ -108,6 +106,7 @@ class ColoredBox : public SingleChildRenderObjectWidget
     {
         return border_color;
     }
+    WidgetTypeGetter(ColoredBox)
 };
 
 class SizedBox : public SingleChildRenderObjectWidget
@@ -173,6 +172,7 @@ class SizedBox : public SingleChildRenderObjectWidget
     {
         return Size(width, height);
     }
+    WidgetTypeGetter(ColoredBox);
 
   protected:
     double width;
@@ -260,6 +260,7 @@ class AnimatedSizedBox : public SingleChildRenderObjectWidget
     {
         return speed;
     }
+    WidgetTypeGetter(ColoredBox);
 
   protected:
     double width;

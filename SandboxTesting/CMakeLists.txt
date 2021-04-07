@@ -30,7 +30,7 @@ if(UNIX)
     add_executable(Game ${Game_SRC})
     target_link_libraries(Game GL glfw3 X11 Xxf86vm Xrandr pthread Xi dl assimp)
     target_link_libraries(Game debug /home/brandon/Dev/GameEngine/Vultr/build/libVultrShared.so)
-    target_link_libraries(Game optimized /home/brandon/Dev/GameEngine/Vultr/release/libVultrStatic.a)
+    target_link_libraries(Game optimized /home/brandon/Dev/GameEngine/Vultr/release/libVultrShared.so)
 endif(UNIX)
 
 if(WIN32)

@@ -7,7 +7,6 @@
 /home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles/ContinuousConfigure.dir
 /home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles/ContinuousBuild.dir
 /home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles/NightlyConfigure.dir
-/home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles/Vultr.dir
 /home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles/NightlyMemoryCheck.dir
 /home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles/ExperimentalTest.dir
 /home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles/ContinuousUpdate.dir
@@ -31,5 +30,11 @@
 /home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles/ContinuousStart.dir
 /home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles/ContinuousMemCheck.dir
 /home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles/ContinuousTest.dir
-/home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles/VultrStatic.dir
 /home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles/ContinuousSubmit.dir
+/home/brandon/Dev/GameEngine/Vultr/release/CMakeFiles/VultrShared.dir
+/home/brandon/Dev/GameEngine/Vultr/release/tests/CMakeFiles/edit_cache.dir
+/home/brandon/Dev/GameEngine/Vultr/release/tests/CMakeFiles/test.dir
+/home/brandon/Dev/GameEngine/Vultr/release/tests/CMakeFiles/package_source.dir
+/home/brandon/Dev/GameEngine/Vultr/release/tests/CMakeFiles/rebuild_cache.dir
+/home/brandon/Dev/GameEngine/Vultr/release/tests/CMakeFiles/package.dir
+/home/brandon/Dev/GameEngine/Vultr/release/tests/CMakeFiles/VultrTests.dir

@@ -1,5 +1,5 @@
 #pragma once
-#include <gui/rendering/gui_render_group.h>
+// #include <gui/rendering/gui_render_group.h>
 #include <vector>
 #include <stack>
 #include <fonts/font.h>
@@ -8,6 +8,7 @@
 #include <core/system_providers/input_system_provider.h>
 #include "input_receiver.h"
 #include <core/models/update_tick.h>
+#include <gui/rendering/gui_renderer.h>
 
 namespace Vultr
 {
@@ -19,9 +20,13 @@ class BuildContext
   public:
     BuildContext() : tick_info(UpdateTick(0, false))
     {
-        groups.push_back(new RenderGroup());
+        renderer = new GUIRenderer();
         positions.push(glm::vec2(0, 0));
         zindex.push(0);
+        for (QuadID quad = 0; quad < 10000; quad++)
+        {
+            available_quad_ids.push(quad);
+        }
     }
 
     UpdateTick GetTickInfo()
@@ -37,30 +42,19 @@ class BuildContext
     std::stack<glm::vec2> positions;
     std::stack<int> zindex;
 
-    Quad GetQuad(QuadID quad, int layer = 0)
+    void DeleteQuad(QuadID quad)
     {
-        RenderGroup *group = groups[layer];
-        return group->GetQuad(quad);
+        available_quad_ids.push(quad);
+        renderer->DeleteQuad(quad);
     }
 
-    bool DeleteQuad(QuadID quad, int layer = 0)
+    QuadID SubmitQuad(Texture *texture = nullptr)
     {
-        RenderGroup *group = groups[layer];
-        return group->DeleteQuad(quad);
-    }
-
-    QuadID SubmitQuad(Zindex z_index, Texture *texture = nullptr)
-    {
-        for (int i = 0; i < groups.size(); i++)
-        {
-            RenderGroup *group = groups[i];
-            QuadID res = group->SubmitQuad(z_index, texture);
-            if (res != -1)
-                return res;
-        }
-        RenderGroup *new_group = new RenderGroup();
-        groups.push_back(new_group);
-        return new_group->SubmitQuad(z_index, texture);
+        QuadID quad = available_quad_ids.front();
+        available_quad_ids.pop();
+        if (texture != nullptr)
+            renderer->SubmitTexture(quad, texture);
+        return quad;
     }
 
     Font *GetFont(const std::string &path)
@@ -74,33 +68,26 @@ class BuildContext
         return fonts[path];
     }
 
-    // QuadID SubmitQuad(std::string texture)
-    // {
-    // }
-
-    QuadID SubmitQuad(Zindex z_index, Font *font)
+    QuadID SubmitQuad(Font *font)
     {
-        return SubmitQuad(z_index, font->texture);
+        return SubmitQuad(font->texture);
     }
 
-    void SubmitRenderGroup(RenderGroup* group) 
+    void CommitQuad(QuadID id, GUIVertex vertices[4])
     {
-        
+        renderer->CommitVertices(id, vertices);
     }
 
-    void CommitQuad(QuadID id, Zindex z_index) 
+    Quad GetQuad(QuadID id)
     {
-        RenderGroup *group = groups[0];
-        group->CommitQuad(id, z_index);
+        return renderer->GetQuad(id);
     }
 
     void Draw(Shader *shader)
     {
-        // glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         glEnable(GL_DEPTH_TEST);
         glDepthFunc(GL_LEQUAL);
-        for (RenderGroup *group : groups)
-            group->Draw(shader);
+        renderer->Draw(shader);
 
         for (int i = 0; i < zindex.size(); i++)
         {
@@ -188,9 +175,10 @@ class BuildContext
     }
 
   private:
-    std::vector<RenderGroup *> groups;
     std::unordered_map<std::string, Font *> fonts;
     std::map<unsigned int, InputReceiver *> input_receivers;
+    std::queue<QuadID> available_quad_ids;
+    GUIRenderer *renderer;
     UpdateTick tick_info;
 };
 } // namespace GUI

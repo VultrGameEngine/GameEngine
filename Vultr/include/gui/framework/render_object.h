@@ -72,9 +72,9 @@ class RenderObject
         return configuration;
     }
 
-    Quad GetQuad(BuildContext *context, int index, int layer = 0)
+    Quad GetQuad(BuildContext *context, int index)
     {
-        return context->GetQuad(index, layer);
+        return context->GetQuad(index);
     }
 
     Size GetSize()

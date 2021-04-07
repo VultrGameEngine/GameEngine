@@ -14,6 +14,7 @@ int main(void)
     {
         engine->UpdateGame(lastTime);
         glfwSwapBuffers(engine->window);
+        glfwPollEvents();
     }
     engine->Destroy();
 }

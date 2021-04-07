@@ -10,12 +10,7 @@ ListViewRenderObject::ListViewRenderObject(Widget *p_widget) : RenderObject(p_wi
 {
     receiver = new InputReceiver({});
     receiver->on_scroll = [this](ScrollEvent event) {
-        // if (event.scroll_amount.y == 0)
-        //     return false;
-        scroll_pos -= event.scroll_amount.y * 20;
-        // Don't scroll past top
-        if (scroll_pos < 0)
-            scroll_pos = 0;
+        AccumulateScroll(-event.scroll_amount.y * 20);
         MarkForRepaint();
         return true;
     };
@@ -86,7 +81,7 @@ ListViewElement::ListViewElement(BuildContext *context, ListView *p_widget)
 
 void ListViewElement::DeleteElement(BuildContext *context)
 {
-    for (auto [index, element] : children) 
+    for (auto [index, element] : children)
     {
         element.Delete(context);
     }
@@ -101,13 +96,25 @@ void ListViewElement::Update(BuildContext *context)
     }
     scroll_pos = Math::Lerp(scroll_pos, GetRenderObject()->scroll_pos, 0.0000000001,
                             context->GetTickInfo().m_delta_time);
+    if (!std::isinf(max_scroll))
+    {
+        if (scroll_pos > max_scroll)
+        {
+            scroll_pos = max_scroll;
+            GetRenderObject()->scroll_pos = max_scroll;
+        }
+        else if (scroll_pos < 0)
+        {
+            scroll_pos = 0;
+            GetRenderObject()->scroll_pos = 0;
+        }
+    }
 
     if (!GetRenderObject()->LayedOut())
         return;
     for (auto [index, child] : children)
     {
         context->Branch();
-
         context->AccumulatePosition(glm::vec2(
             context->GetPosition().x,
             context->GetPosition().y +
@@ -130,6 +137,7 @@ void ListViewElement::Rebuild(BuildContext *context)
 {
     if (GetRenderObject() == nullptr || !GetRenderObject()->LayedOut())
         return;
+    GetRenderObject()->ApplyScrollAccumulation();
 
     // Check to make sure within the boundaries
     for (auto it = children.cbegin(), next_it = it; it != children.cend();
@@ -180,7 +188,7 @@ void ListViewElement::Rebuild(BuildContext *context)
                -GetRenderObject()->GetCachedSize().height - LISTVIEW_PADDING)
     {
         // If we've already built this widget, no need to do it again
-        if (index >= children.size() + top_index)
+        if (children.find(index) == children.end())
         {
             Widget *build_res = GetWidget()->builder(context, index);
             Element *element = build_res->CreateElement(context);
@@ -206,8 +214,9 @@ void ListViewElement::Rebuild(BuildContext *context)
 
     index = top_index;
 
-    double top_child_height = children.at(top_index).dimensions.height;
-    while (index > 0 && offset + scroll_pos - top_child_height < LISTVIEW_PADDING) 
+    while (index > 0 &&
+           children[index].dimensions.offset + GetRenderObject()->scroll_pos <
+               LISTVIEW_PADDING)
     {
         index--;
         Widget *build_res = GetWidget()->builder(context, index);
@@ -216,23 +225,27 @@ void ListViewElement::Rebuild(BuildContext *context)
         children[index] = List::ElementWidget(build_res, element);
         Size size = children.at(index).element->Layout(context, constraints);
         children.at(index).dimensions.height = size.height;
-        offset += size.height;
-        children.at(index).dimensions.offset = offset;
-
+        children.at(index).dimensions.offset = offset + size.height;
     }
 
     // If we still technically had room for more widgets, it means that our count
     // maxed out and that we can no longer increase our scroll_pos
-    //if (children.size() > 0 && top_index + children.size() - 1 == GetWidget()->count - 1) 
-    //{
-    //    List::ElementWidget child = children[top_index + children.size()-1];
+    if (children.size() > 0 &&
+        children.find(GetWidget()->count - 1) != children.end())
+    {
+        List::ElementWidget child = children[GetWidget()->count - 1];
+        double bottom_edge = GetRenderObject()->scroll_pos +
+                             child.dimensions.offset - child.dimensions.height;
+        double height = -GetRenderObject()->GetCachedSize().height;
 
-    //    // If the bottom edge of the last element is above the bottom edge of our scroll window, then we need to limit scroll_pos
-    //    if (GetRenderObject()->scroll_pos + child.dimensions.offset - child.dimensions.height >
-    //        -GetRenderObject()->GetCachedSize().height / 2) {
-    //        GetRenderObject()->scroll_pos -= GetRenderObject()->scroll_pos + child.dimensions.offset - child.dimensions.height + GetRenderObject()->GetCachedSize().height / 2;
-    //    }
-    //}
+        // If the bottom edge of the last element is above the bottom edge of our
+        // scroll window, then we need to limit scroll_pos
+        if (bottom_edge > height)
+        {
+            max_scroll = -GetRenderObject()->GetCachedSize().height -
+                         child.dimensions.offset + child.dimensions.height;
+        }
+    }
 }
 
 ListViewElement::~ListViewElement()

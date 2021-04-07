@@ -3,6 +3,7 @@
 #include "render_object_widget.h"
 #include "element.h"
 #include <functional>
+#include <queue>
 #define LISTVIEW_PADDING 40
 
 namespace Vultr
@@ -65,15 +66,35 @@ class ListViewRenderObject : public RenderObject
         return layed_out;
     }
 
+    void ApplyScrollAccumulation()
+    {
+        while (scroll_pos_accumulator.size() > 0)
+        {
+            scroll_pos += scroll_pos_accumulator.front();
+            scroll_pos_accumulator.pop();
+        }
+        if (scroll_pos < 0)
+        {
+            scroll_pos = 0;
+        }
+    }
+
   private:
     Size Layout(BuildContext *context, BoxConstraints constraints) override
     {
         assert("Incorrect method called!");
         return constraints.Min();
     }
+
+    void AccumulateScroll(double scroll)
+    {
+        scroll_pos_accumulator.push(scroll);
+    }
+
     InputReceiver *receiver = nullptr;
     int cached_z_index = 0;
     bool layed_out = false;
+    std::queue<double> scroll_pos_accumulator;
 };
 
 class ListView : public RenderObjectWidget
@@ -152,6 +173,7 @@ class ListViewElement : public RenderObjectElement
     virtual ~ListViewElement();
     std::map<int, List::ElementWidget> children;
     double scroll_pos = 0;
+    double max_scroll = INFINITY;
 };
 
 } // namespace GUI

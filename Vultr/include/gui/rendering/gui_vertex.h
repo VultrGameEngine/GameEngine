@@ -15,7 +15,8 @@ struct GUIVertex
     float texture = -1;
 
     GUIVertex() = default;
-    GUIVertex(const GUIVertex& other) {
+    GUIVertex(const GUIVertex &other)
+    {
         this->position = other.position;
         this->color = other.color;
         this->uv = other.uv;

@@ -97,7 +97,7 @@ class RichText : public RenderObjectWidget
                     // If the new text is longer
                     if (i > text.size() - 1 || quads == nullptr)
                     {
-                        new_quads[i] = context->SubmitQuad(context->zindex.top(), font);
+                        new_quads[i] = context->SubmitQuad(font);
                     }
                     else
                     {

@@ -38,12 +38,12 @@ void Quad::Commit(QuadID id, const QuadProperties &properties, BuildContext *con
     // vertices[1]->position = glm::vec3(-1, -1, zindex);
     // vertices[2]->position = glm::vec3(1, -1, zindex);
     // vertices[3]->position = glm::vec3(1, 1, zindex);
-    vertices[0]->position = glm::vec3(x - width / 2, y + height / 2, zindex);
-    vertices[1]->position = glm::vec3(x - width / 2, y - height / 2, zindex);
-    vertices[2]->position = glm::vec3(x + width / 2, y - height / 2, zindex);
-    vertices[3]->position = glm::vec3(x + width / 2, y + height / 2, zindex);
+    vertices[0].position = glm::vec3(x - width / 2, y + height / 2, zindex);
+    vertices[1].position = glm::vec3(x - width / 2, y - height / 2, zindex);
+    vertices[2].position = glm::vec3(x + width / 2, y - height / 2, zindex);
+    vertices[3].position = glm::vec3(x + width / 2, y + height / 2, zindex);
 
-    if (texture_slot != -1)
+    if (has_texture)
     {
         double left = properties.uv.x;
         double right = properties.uv.x +
@@ -53,36 +53,35 @@ void Quad::Commit(QuadID id, const QuadProperties &properties, BuildContext *con
         double bottom = properties.uv.y +
                         properties.uv_dimensions.y / properties.texture_dimensions.y;
 
-        vertices[0]->uv = glm::vec2(left, top);
-        vertices[1]->uv = glm::vec2(left, bottom);
-        vertices[2]->uv = glm::vec2(right, bottom);
-        vertices[3]->uv = glm::vec2(right, top);
+        vertices[0].uv = glm::vec2(left, top);
+        vertices[1].uv = glm::vec2(left, bottom);
+        vertices[2].uv = glm::vec2(right, bottom);
+        vertices[3].uv = glm::vec2(right, top);
     }
     else
     {
-        vertices[0]->uv = glm::vec2(0, 1);
-        vertices[1]->uv = glm::vec2(0, 0);
-        vertices[2]->uv = glm::vec2(1, 0);
-        vertices[3]->uv = glm::vec2(1, 1);
+        vertices[0].uv = glm::vec2(0, 1);
+        vertices[1].uv = glm::vec2(0, 0);
+        vertices[2].uv = glm::vec2(1, 0);
+        vertices[3].uv = glm::vec2(1, 1);
     }
 
     for (int i = 0; i < 4; i++)
     {
-        GUIVertex *vertex = vertices[i];
-        vertex->color = properties.color / glm::vec4(255);
-        vertex->texture = texture_slot;
-        vertex->border_color = properties.border_color;
-        vertex->position.x = translateX(vertex->position.x);
-        vertex->position.y = translateY(vertex->position.y);
+        GUIVertex &vertex = vertices[i];
+        vertex.color = properties.color / glm::vec4(255);
+        vertex.border_color = properties.border_color;
+        vertex.position.x = translateX(vertex.position.x);
+        vertex.position.y = translateY(vertex.position.y);
         if (properties.border_widths != glm::vec4(0))
         {
-            vertex->borders.x = properties.border_widths.x / width;
-            vertex->borders.z = 1 - properties.border_widths.y / width;
-            vertex->borders.y = properties.border_widths.w / height;
-            vertex->borders.w = 1 - properties.border_widths.z / height;
+            vertex.borders.x = properties.border_widths.x / width;
+            vertex.borders.z = 1 - properties.border_widths.y / width;
+            vertex.borders.y = properties.border_widths.w / height;
+            vertex.borders.w = 1 - properties.border_widths.z / height;
         }
     }
-    context->CommitQuad(id, context->zindex.top());
+    context->CommitQuad(id, vertices);
 }
 } // namespace GUI
 } // namespace Vultr

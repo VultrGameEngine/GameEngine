@@ -11,7 +11,8 @@ namespace GUI
 using QuadID = int;
 using VertexID = int;
 using IndexID = int;
-using Zindex = unsigned int;
+using Zindex = int;
+using RenderGroupID = unsigned int;
 
 struct QuadProperties
 {
@@ -32,22 +33,15 @@ class BuildContext;
 class Quad
 {
   public:
-    Quad() = default;
-    Quad(GUIVertex &p_vertex1, GUIVertex &p_vertex2, GUIVertex &p_vertex3,
-         GUIVertex &p_vertex4, int p_texture_slot = -1)
-        : texture_slot(p_texture_slot)
+    Quad(bool p_has_texture = false) : has_texture(p_has_texture)
     {
-        vertices[0] = &p_vertex1;
-        vertices[1] = &p_vertex2;
-        vertices[2] = &p_vertex3;
-        vertices[3] = &p_vertex4;
     }
 
     void Commit(QuadID id, const QuadProperties &properties, BuildContext *context);
 
   private:
-    std::array<GUIVertex *, 4> vertices;
-    int texture_slot;
+    GUIVertex vertices[4];
+    bool has_texture = false;
 };
 } // namespace GUI
 } // namespace Vultr

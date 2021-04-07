@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0.0)
+cmake_minimum_required(VERSION 3.20.0)
 project(Vultr VERSION 0.1.0)
 
 include(CTest)
@@ -17,6 +17,7 @@ file(GLOB_RECURSE Vultr_SRC
 if(UNIX)
     set(CMAKE_CXX_STANDARD 17)
     find_package(ASSIMP REQUIRED)
+    find_package(GTest CONFIG REQUIRED)
     include_directories(${ASSIMP_INCLUDE_DIRS})
 endif (UNIX)
 
@@ -35,7 +36,8 @@ include_directories(include vendor /usr/include/freetype2)
 
 if (UNIX)
     add_library(VultrShared SHARED ${Vultr_SRC})
-    target_link_libraries(VultrShared GL glfw3 X11 Xxf86vm Xrandr pthread Xi dl freetype ${ASSIMP_LIBRARIES})
+    target_link_libraries(VultrShared PUBLIC GL glfw3 X11 Xxf86vm Xrandr pthread Xi dl freetype ${ASSIMP_LIBRARIES} GTest::gtest)
+    add_subdirectory(tests)
 endif(UNIX)
 if(WIN32)
     find_library(GLFW3 glfw3 HINTS C:/Users/Brand/Dev/GameEngine/Vultr/vendor/libs/WIN32)

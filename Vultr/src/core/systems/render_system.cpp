@@ -28,7 +28,7 @@ void RenderSystem::Update(UpdateTick meta_data)
     if (camera != -1)
     {
         // This renders to the game scene, important for the editor
-         provider.game.fbo->Bind();
+        provider.game.fbo->Bind();
 
         // Clear the screen
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -57,11 +57,10 @@ void RenderSystem::Update(UpdateTick meta_data)
         // Update the gui system for the game
         GUISystem::Update(meta_data);
 
-
-        //glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        // glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
         // Unbind the frame buffer
-         provider.game.fbo->Unbind();
+        provider.game.fbo->Unbind();
     }
     else
     {
