@@ -18,6 +18,6 @@ class Game
 
 extern "C"
 {
-    Game *init(Vultr::Engine *engine);
+    Game *init(Vultr::Engine &engine);
     void flush(Game *game);
 }

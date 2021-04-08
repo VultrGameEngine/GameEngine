@@ -23,13 +23,14 @@ struct ViewportData
     Texture *render_texture = nullptr;
     RenderBuffer *rbo = nullptr;
     glm::vec2 dimensions = glm::vec2(1920, 1080);
+    glm::vec2 position = glm::vec2(0);
 };
 class RenderSystemProvider : public SystemProvider
 {
   public:
     RenderSystemProvider()
     {
-        const GLFWvidmode* mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+        const GLFWvidmode *mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
         GenerateRenderTexture(scene, mode->width, mode->height);
         GenerateRenderTexture(game, mode->width, mode->height);
         post_processing_shader =
@@ -46,6 +47,7 @@ class RenderSystemProvider : public SystemProvider
     static glm::vec2 GetDimensions(unsigned int type);
     static void GenerateRenderTexture(ViewportData &data, int width, int height);
     static void Resize(int width, int height, unsigned int type);
+    static void UpdateViewportPos(int x, int y, unsigned int type);
 
     ViewportData scene;
     ViewportData game;

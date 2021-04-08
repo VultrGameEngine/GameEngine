@@ -4,9 +4,9 @@ void SandboxTest::Init()
 {
     World::ChangeWorld(World::Init());
 
-    engine->RegisterComponents();
+    engine.RegisterComponents();
 
-    engine->InitSystems();
+    engine.InitSystems();
     Entity camera = Entity::New();
     CameraComponent camera_component = CameraComponent::Create();
     camera.AddComponent(camera_component);
@@ -36,14 +36,14 @@ void SandboxTest::Init()
 
 void SandboxTest::Update(Vultr::UpdateTick tick)
 {
-    printf("%f ms\n", tick.m_delta_time);
+    // printf("%f ms\n", tick.m_delta_time);
 }
 
 void SandboxTest::Flush()
 {
 }
 
-Game *init(Vultr::Engine *engine)
+Game *init(Vultr::Engine &engine)
 {
     return new SandboxTest(engine);
 }

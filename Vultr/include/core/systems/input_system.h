@@ -1,5 +1,6 @@
 #pragma once
 #include <core/system_providers/input_system_provider.h>
+#include <core/models/update_tick.h>
 
 namespace Vultr
 {
@@ -10,7 +11,7 @@ class InputSystem
     static void Init(GLFWwindow *window);
     static void OnMouseInput(GLFWwindow *window, int button, int action, int mods);
     static void OnScroll(GLFWwindow *window, double xoffset, double yoffset);
-    static void Update();
+    static void Update(const UpdateTick &tick);
 
   protected:
     static InputSystemProvider &GetProvider()

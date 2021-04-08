@@ -4,17 +4,17 @@
 using namespace Vultr;
 int main(void)
 {
-    Engine *engine = new Engine();
+    Engine &engine = Engine::Get();
 
     float lastTime = 0;
-    engine->Init(false);
-    engine->LoadGame(init(engine));
+    engine.Init(false);
+    engine.LoadGame(init(engine));
 
-    while (!engine->should_close)
+    while (!engine.should_close)
     {
-        engine->UpdateGame(lastTime);
-        glfwSwapBuffers(engine->window);
+        engine.UpdateGame(lastTime);
+        glfwSwapBuffers(engine.window);
         glfwPollEvents();
     }
-    engine->Destroy();
+    engine.Destroy();
 }

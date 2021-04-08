@@ -92,4 +92,16 @@ void RenderSystemProvider::Resize(int width, int height, unsigned int type)
         Get()->GenerateRenderTexture(Get()->scene, width, height);
     }
 }
+
+void RenderSystemProvider::UpdateViewportPos(int x, int y, unsigned int type)
+{
+    if (type == GAME)
+    {
+        Get()->game.position = glm::vec2(x, y);
+    }
+    else if (type == SCENE)
+    {
+        Get()->scene.position = glm::vec2(x, y);
+    }
+}
 } // namespace Vultr

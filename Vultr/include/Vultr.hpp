@@ -7,6 +7,7 @@ namespace Vultr
 class Engine
 {
   public:
+    static Engine &Get();
     void Init(bool debug);
     void LoadGame(const std::string &path);
     void LoadGame(Game *game);
@@ -20,6 +21,10 @@ class Engine
     bool should_close = false;
 
   private:
+    Engine() = default;
+    ~Engine()
+    {
+    }
     bool debug;
     Game *game;
 };

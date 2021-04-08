@@ -15,7 +15,6 @@ out float fTexture;
 out vec4 fBorders;
 out vec4 fBorder_color;
 
-
 void main()
 {
     gl_Position = vec4(vposition, 1);

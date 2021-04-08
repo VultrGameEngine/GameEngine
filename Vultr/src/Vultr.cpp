@@ -32,6 +32,12 @@ void *GetFunctionPointer(void *dll, const std::string &name)
 namespace Vultr
 {
 
+Engine &Engine::Get()
+{
+    static Engine engine;
+    return engine;
+}
+
 void Engine::Init(bool debug)
 {
     if (!glfwInit())
@@ -177,7 +183,7 @@ void Engine::UpdateGame(float &last_time)
         MeshLoaderSystem::Update();
         ControllerSystem::Update(tick.m_delta_time);
     }
-    InputSystem::Update();
+    InputSystem::Update(tick);
     RenderSystem::Update(tick);
 }
 
