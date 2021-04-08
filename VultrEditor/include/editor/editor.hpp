@@ -1,5 +1,7 @@
 #pragma once
 #include "imgui/window.hpp"
+#include <imgui/imgui.h>
+#include <ImGuizmo/ImGuizmo.h>
 #include <ecs/entity/entity.hpp>
 #include <vector>
 

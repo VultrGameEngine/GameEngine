@@ -9,6 +9,7 @@
 #include <imgui/imgui.h>
 #include <imgui/imgui_impl_glfw.h>
 #include <imgui/imgui_impl_opengl3.h>
+#include <ImGuizmo/ImGuizmo.h>
 
 namespace Vultr::Editor
 {
@@ -34,6 +35,7 @@ void Editor::Editor::Render()
 
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
+    ImGuizmo::BeginFrame();
 
     ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar;
 
