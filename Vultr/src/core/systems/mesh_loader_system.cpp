@@ -9,14 +9,16 @@
 #include <thread>
 #include <vector>
 #include <ecs/world/world.hpp>
+#include <engine.hpp>
 
 namespace Vultr
 {
 void MeshLoaderSystem::RegisterSystem()
 {
     Signature signature;
-    signature.set(World::GetComponentType<StaticMeshComponent>());
-    World::RegisterSystem<MeshLoaderSystemProvider>(signature);
+    signature.set(
+        Engine::GetComponentRegistry().GetComponentType<StaticMeshComponent>());
+    Engine::RegisterGlobalSystem<MeshLoaderSystemProvider>(signature);
 }
 
 void MeshLoaderSystem::Update()

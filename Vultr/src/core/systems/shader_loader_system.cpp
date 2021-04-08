@@ -4,6 +4,7 @@
 #include <ecs/component/component.hpp>
 #include <ecs/world/world.hpp>
 #include <helpers/shader_importer.h>
+#include <engine.hpp>
 
 namespace Vultr
 {
@@ -59,7 +60,8 @@ void ShaderLoaderSystem::CheckAndLoadShader(Entity entity)
 void ShaderLoaderSystem::RegisterSystem()
 {
     Signature signature;
-    signature.set(World::GetComponentType<MaterialComponent>(), true);
-    World::RegisterSystem<ShaderLoaderSystemProvider>(signature);
+    signature.set(
+        Engine::GetComponentRegistry().GetComponentType<MaterialComponent>(), true);
+    Engine::RegisterGlobalSystem<ShaderLoaderSystemProvider>(signature);
 }
 } // namespace Vultr

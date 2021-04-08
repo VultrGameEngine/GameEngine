@@ -12,7 +12,9 @@ struct ShaderProgramSource
 class ShaderImporter
 {
   public:
+    const static ShaderProgramSource OUTLINE;
     static Shader *ImportShader(const std::string &path);
+    static Shader *ImportEngineShader(ShaderProgramSource source);
     static ShaderProgramSource ParseShader(const std::string &filepath);
     static unsigned int CreateShader(const std::string &path);
 

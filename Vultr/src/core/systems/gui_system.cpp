@@ -1,12 +1,13 @@
 #include <core/systems/gui_system.h>
 #include <core/system_providers/render_system_provider.h>
+#include <engine.hpp>
 
 namespace Vultr
 {
 void GUISystem::RegisterSystem()
 {
     Signature signature;
-    World::RegisterSystem<GUISystemProvider>(signature);
+    Engine::RegisterGlobalSystem<GUISystemProvider>(signature);
 }
 
 void GUISystem::Init(GUI::Window *window)

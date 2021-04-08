@@ -7,6 +7,7 @@
 #include <gui/framework/build_context.h>
 #include <rendering/models/shader.h>
 #include <helpers/shader_importer.h>
+#include <engine.hpp>
 
 #define MAX_GROUPS 10
 
@@ -17,7 +18,7 @@ class GUISystemProvider : public SystemProvider
   public:
     static std::shared_ptr<GUISystemProvider> Get()
     {
-        return World::GetSystemProvider<GUISystemProvider>();
+        return Engine::GetSystemProvider<GUISystemProvider>();
     }
     GUI::Window *window = nullptr;
     GUI::BuildContext *context = nullptr;

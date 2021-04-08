@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include <vector>
 #include <ecs/world/world.hpp>
+#include <engine.hpp>
 
 namespace Vultr
 {
@@ -12,7 +13,7 @@ class TextureLoaderSystemProvider : public SystemProvider
   public:
     static std::shared_ptr<TextureLoaderSystemProvider> Get()
     {
-        return World::GetSystemProvider<TextureLoaderSystemProvider>();
+        return Engine::GetSystemProvider<TextureLoaderSystemProvider>();
     }
     static Texture *GetTexture(const std::string &texture);
     static bool isLoaded(const std::string &texture);

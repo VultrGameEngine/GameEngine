@@ -135,8 +135,10 @@ void RenderSystem::RenderSkybox(unsigned int type)
     if (camera == -1)
         return;
     Signature signature;
-    signature.set(World::GetComponentType<SkyBoxComponent>(), true);
-    signature.set(World::GetComponentType<MaterialComponent>(), true);
+    signature.set(Engine::GetComponentRegistry().GetComponentType<SkyBoxComponent>(),
+                  true);
+    signature.set(
+        Engine::GetComponentRegistry().GetComponentType<MaterialComponent>(), true);
     if ((signature & camera.GetSignature()) != camera.GetSignature())
         return;
     glDepthFunc(GL_LEQUAL); // Ensure depth test passes when values are equal to
@@ -172,9 +174,12 @@ void RenderSystem::RenderSkybox(unsigned int type)
 void RenderSystem::RegisterSystem()
 {
     Signature signature;
-    signature.set(World::GetComponentType<MaterialComponent>(), true);
-    signature.set(World::GetComponentType<StaticMeshComponent>(), true);
-    World::RegisterSystem<RenderSystemProvider>(signature);
+    signature.set(
+        Engine::GetComponentRegistry().GetComponentType<MaterialComponent>(), true);
+    signature.set(
+        Engine::GetComponentRegistry().GetComponentType<StaticMeshComponent>(),
+        true);
+    Engine::RegisterGlobalSystem<RenderSystemProvider>(signature);
 }
 
 } // namespace Vultr

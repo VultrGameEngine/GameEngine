@@ -1,13 +1,14 @@
 #include <core/systems/input_system.h>
 #include <core/systems/gui_system.h>
 #include <core/system_providers/render_system_provider.h>
+#include <engine.hpp>
 
 namespace Vultr
 {
 void InputSystem::RegisterSystem()
 {
     Signature signature;
-    World::RegisterSystem<InputSystemProvider>(signature);
+    Engine::RegisterGlobalSystem<InputSystemProvider>(signature);
 }
 void InputSystem::OnMouseInput(GLFWwindow *window, int button, int action, int mods)
 {

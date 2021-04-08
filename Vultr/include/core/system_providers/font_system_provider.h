@@ -2,6 +2,7 @@
 #include <ecs/system/system_provider.hpp>
 #include <ecs/world/world.hpp>
 #include <fonts/font.h>
+#include <engine.hpp>
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
@@ -12,7 +13,8 @@ class FontSystemProvider : public SystemProvider
   public:
     static std::shared_ptr<FontSystemProvider> Get()
     {
-        return World::GetSystemProvider<FontSystemProvider>();
+        return Engine::GetGlobalSystemManager()
+            .GetSystemProvider<FontSystemProvider>();
     }
     FT_Library library;
 

@@ -1,12 +1,13 @@
 #include <core/systems/font_system.h>
 #include <helpers/font_importer.h>
+#include <engine.hpp>
 
 namespace Vultr
 {
 void FontSystem::RegisterSystem()
 {
     Signature signature;
-    World::RegisterSystem<FontSystemProvider>(signature);
+    Engine::RegisterGlobalSystem<FontSystemProvider>(signature);
 }
 
 void FontSystem::Init()

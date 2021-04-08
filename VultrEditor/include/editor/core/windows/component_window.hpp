@@ -5,6 +5,7 @@
 #include <editor/editor.hpp>
 #include <core/component_renderer.h>
 #include <ecs/world/world.hpp>
+#include <engine.hpp>
 
 namespace Vultr::Editor
 {
@@ -17,7 +18,7 @@ class ComponentWindow : public Window
         Entity entity = Editor::Get()->selected_entity;
         if (entity.id >= 0)
         {
-            World::Get()->component_manager->RenderEntityComponents(
+            Vultr::Engine::GetComponentRegistry().RenderEntityComponents(
                 Editor::Get()->selected_entity);
             if (ImGui::Button("Add Component"))
             {
@@ -25,8 +26,8 @@ class ComponentWindow : public Window
             }
             if (ImGui::BeginPopup("ComponentList"))
             {
-                for (auto [name, constructor] :
-                     World::Get()->component_manager->GetComponentConstructors())
+                for (auto [name, constructor] : Vultr::Engine::GetComponentRegistry()
+                                                    .GetComponentConstructors())
                 {
                     if (ImGui::MenuItem(name))
                     {

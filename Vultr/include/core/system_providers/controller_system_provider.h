@@ -3,6 +3,7 @@
 #include <memory.h>
 #include <ecs/world/world.hpp>
 #include <GLFW/glfw3.h>
+#include <engine.hpp>
 
 namespace Vultr
 {
@@ -12,7 +13,7 @@ class ControllerSystemProvider : public SystemProvider
     // Singleton pattern for all providers
     static std::shared_ptr<ControllerSystemProvider> Get()
     {
-        return World::GetSystemProvider<ControllerSystemProvider>();
+        return Engine::GetSystemProvider<ControllerSystemProvider>();
     }
     GLFWwindow *m_window;
     bool m_focused = false;

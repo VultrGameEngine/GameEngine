@@ -4,6 +4,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
 #include <glm/gtx/quaternion.hpp>
+#include <engine.hpp>
 
 namespace Vultr
 {
@@ -99,8 +100,11 @@ void ControllerSystem::WindowFocusCallback(GLFWwindow *window, int focused)
 void ControllerSystem::RegisterSystem()
 {
     Signature signature;
-    signature.set(World::GetComponentType<ControllerComponent>(), true);
-    signature.set(World::GetComponentType<TransformComponent>(), true);
-    World::RegisterSystem<ControllerSystemProvider>(signature);
+    signature.set(
+        Engine::GetComponentRegistry().GetComponentType<ControllerComponent>(),
+        true);
+    signature.set(
+        Engine::GetComponentRegistry().GetComponentType<TransformComponent>(), true);
+    Engine::RegisterGlobalSystem<ControllerSystemProvider>(signature);
 }
 } // namespace Vultr

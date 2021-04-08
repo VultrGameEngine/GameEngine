@@ -1,6 +1,7 @@
 #pragma once
 #include <ecs/system/system_provider.hpp>
 #include <ecs/world/world.hpp>
+#include <engine.hpp>
 
 namespace Vultr
 {
@@ -10,7 +11,7 @@ class LightSystemProvider : public SystemProvider
     // Singleton pattern for all providers
     static std::shared_ptr<LightSystemProvider> Get()
     {
-        return World::GetSystemProvider<LightSystemProvider>();
+        return Engine::GetSystemProvider<LightSystemProvider>();
     }
     Entity light = Entity(-1);
 

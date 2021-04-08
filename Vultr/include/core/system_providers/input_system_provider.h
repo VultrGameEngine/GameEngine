@@ -3,6 +3,7 @@
 #include <ecs/world/world.hpp>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <engine.hpp>
 
 namespace Vultr
 {
@@ -42,7 +43,7 @@ class InputSystemProvider : public SystemProvider
   public:
     static std::shared_ptr<InputSystemProvider> Get()
     {
-        return World::GetSystemProvider<InputSystemProvider>();
+        return Engine::GetSystemProvider<InputSystemProvider>();
     }
 
     glm::vec2 mouse_pos = glm::vec2(0, 0);

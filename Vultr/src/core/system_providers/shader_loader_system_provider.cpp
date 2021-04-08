@@ -1,6 +1,7 @@
 #include <core/system_providers/shader_loader_system_provider.h>
 #include <core/systems/shader_loader_system.h>
 #include <ecs/world/world.hpp>
+#include <engine.hpp>
 
 namespace Vultr
 {
@@ -17,6 +18,6 @@ void ShaderLoaderSystemProvider::OnDestroyEntity(Entity entity)
 
 std::shared_ptr<ShaderLoaderSystemProvider> ShaderLoaderSystemProvider::Get()
 {
-    return World::GetSystemProvider<ShaderLoaderSystemProvider>();
+    return Engine::GetSystemProvider<ShaderLoaderSystemProvider>();
 }
 } // namespace Vultr

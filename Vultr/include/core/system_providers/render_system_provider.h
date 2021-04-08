@@ -9,6 +9,7 @@
 #include <helpers/shader_importer.h>
 #include <helpers/mesh_importer.h>
 #include <GLFW/glfw3.h>
+#include <engine.hpp>
 
 const unsigned int GAME = 0;
 const unsigned int SCENE = 1;
@@ -40,7 +41,7 @@ class RenderSystemProvider : public SystemProvider
     // Singleton pattern
     static std::shared_ptr<RenderSystemProvider> Get()
     {
-        return World::GetSystemProvider<RenderSystemProvider>();
+        return Engine::GetSystemProvider<RenderSystemProvider>();
     }
 
     static void InitGBuffer(int width, int height);

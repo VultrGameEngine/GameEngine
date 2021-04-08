@@ -5,6 +5,7 @@
 #include <ecs/entity/entity.hpp>
 #include <ecs/system/system_provider.hpp>
 #include <ecs/world/world.hpp>
+#include <engine.hpp>
 
 namespace Vultr
 {
@@ -14,7 +15,7 @@ class CameraSystemProvider : public SystemProvider
     // Singleton pattern for all providers
     static std::shared_ptr<CameraSystemProvider> Get()
     {
-        return World::GetSystemProvider<CameraSystemProvider>();
+        return Engine::GetSystemProvider<CameraSystemProvider>();
     }
 
     // Member variables for state

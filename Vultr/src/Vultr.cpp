@@ -111,13 +111,13 @@ void Engine::Init(bool debug)
 
 void Engine::RegisterComponents()
 {
-    World::RegisterComponent<StaticMeshComponent>();
-    World::RegisterComponent<MaterialComponent>(false);
-    World::RegisterComponent<TransformComponent>();
-    World::RegisterComponent<LightComponent>();
-    World::RegisterComponent<CameraComponent>();
-    World::RegisterComponent<ControllerComponent>();
-    World::RegisterComponent<SkyBoxComponent>();
+    RegisterComponent<StaticMeshComponent>();
+    RegisterComponent<MaterialComponent>(false);
+    RegisterComponent<TransformComponent>();
+    RegisterComponent<LightComponent>();
+    RegisterComponent<CameraComponent>();
+    RegisterComponent<ControllerComponent>();
+    RegisterComponent<SkyBoxComponent>();
 }
 
 void Engine::InitSystems()
@@ -194,5 +194,14 @@ double Engine::GetElapsedTime()
 
 void Engine::Destroy()
 {
+}
+
+ComponentRegistry &Engine::GetComponentRegistry()
+{
+    return *Get().registry;
+}
+SystemManager &Engine::GetGlobalSystemManager()
+{
+    return *Get().system_manager;
 }
 } // namespace Vultr

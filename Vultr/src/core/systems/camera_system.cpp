@@ -1,6 +1,7 @@
 #include <core/components/camera_component.h>
 #include <core/systems/camera_system.h>
 #include <ecs/world/world.hpp>
+#include <engine.hpp>
 
 namespace Vultr
 {
@@ -36,8 +37,10 @@ void CameraSystem::OnDestroyEntity(Entity entity)
 void CameraSystem::RegisterSystem()
 {
     Signature signature;
-    signature.set(World::GetComponentType<CameraComponent>(), true);
-    signature.set(World::GetComponentType<TransformComponent>(), true);
-    World::RegisterSystem<CameraSystemProvider>(signature);
+    signature.set(Engine::GetComponentRegistry().GetComponentType<CameraComponent>(),
+                  true);
+    signature.set(
+        Engine::GetComponentRegistry().GetComponentType<TransformComponent>(), true);
+    Engine::RegisterGlobalSystem<CameraSystemProvider>(signature);
 }
 } // namespace Vultr

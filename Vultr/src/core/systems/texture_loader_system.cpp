@@ -14,6 +14,7 @@
 #include <string>
 #include <thread>
 #include <vector>
+#include <engine.hpp>
 
 namespace Vultr
 {
@@ -21,8 +22,9 @@ namespace Vultr
 void TextureLoaderSystem::RegisterSystem()
 {
     Signature signature;
-    signature.set(World::GetComponentType<MaterialComponent>());
-    World::RegisterSystem<TextureLoaderSystemProvider>(signature);
+    signature.set(
+        Engine::GetComponentRegistry().GetComponentType<MaterialComponent>());
+    Engine::RegisterGlobalSystem<TextureLoaderSystemProvider>(signature);
 }
 
 void TextureLoaderSystem::Update()

@@ -11,6 +11,7 @@
 #include <cereal/archives/binary.hpp>
 #include <cereal/types/polymorphic.hpp>
 #include <fstream>
+#include <engine.hpp>
 
 class World
 {
@@ -18,7 +19,7 @@ class World
     World() = default;
     template <class Archive> void serialize(Archive &ar)
     {
-        ar(component_manager, entity_manager);
+        ar(component_manager, entity_manager, system_manager);
     }
 
     static std::shared_ptr<World> Get()
@@ -28,7 +29,7 @@ class World
     static void ChangeWorld(std::shared_ptr<World> world)
     {
         current_world = world;
-        world->system_manager = std::make_unique<SystemManager>();
+        // world->system_manager = std::make_unique<SystemManager>();
     }
 
     static std::shared_ptr<World> Init()
@@ -70,6 +71,8 @@ class World
 
         Get()->system_manager->EntityDestroyed(entity);
 
+        Vultr::Engine::GetGlobalSystemManager().EntityDestroyed(entity);
+
         Get()->component_manager->EntityDestroyed(entity);
     }
 
@@ -83,24 +86,16 @@ class World
         return Get()->entity_manager->GetSignature(entity);
     }
 
-    // Component methods
-    template <typename T>
-    static void RegisterComponent(bool inspector_available = true)
-    {
-        Get()->component_manager->RegisterComponent<T>(inspector_available);
-    }
-    template <typename T> static void RegisterMaterial()
-    {
-        Get()->component_manager->RegisterMaterial<T>();
-    }
-
     template <typename T> static void AddComponent(Entity entity, T component)
     {
         Get()->component_manager->AddComponent<T>(entity, component);
 
         auto signature = Get()->entity_manager->GetSignature(entity);
-        signature.set(Get()->component_manager->GetComponentType<T>(), true);
+        signature.set(Vultr::Engine::GetComponentRegistry().GetComponentType<T>(),
+                      true);
         Get()->system_manager->EntitySignatureChanged(entity, signature);
+        Vultr::Engine::GetGlobalSystemManager().EntitySignatureChanged(entity,
+                                                                       signature);
         Get()->entity_manager->SetSignature(entity, signature);
     }
 
@@ -108,8 +103,11 @@ class World
     {
 
         auto signature = Get()->entity_manager->GetSignature(entity);
-        signature.set(Get()->component_manager->GetComponentType<T>(), false);
+        signature.set(Vultr::Engine::GetComponentRegistry().GetComponentType<T>(),
+                      false);
         Get()->system_manager->EntitySignatureChanged(entity, signature);
+        Vultr::Engine::GetGlobalSystemManager().EntitySignatureChanged(entity,
+                                                                       signature);
         Get()->entity_manager->SetSignature(entity, signature);
 
         Get()->component_manager->RemoveComponent<T>(entity);
@@ -128,11 +126,6 @@ class World
     template <typename T> static std::shared_ptr<ComponentArray<T>> GetComponents()
     {
         return Get()->component_manager->GetComponents<T>();
-    }
-
-    template <typename T> static ComponentType GetComponentType()
-    {
-        return Get()->component_manager->GetComponentType<T>();
     }
 
     // System methods
