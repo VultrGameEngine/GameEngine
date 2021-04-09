@@ -36,7 +36,7 @@ void ShaderLoaderSystem::OnDestroyEntity(Entity entity)
 void ShaderLoaderSystem::CheckAndLoadShader(Entity entity)
 {
     ShaderLoaderSystemProvider &provider = *ShaderLoaderSystemProvider::Get();
-    auto &material_component = World::GetComponent<MaterialComponent>(entity);
+    auto &material_component = entity.GetComponent<MaterialComponent>();
     // If we have already loaded the shader and cached it, then reuse the id and
     // don't reload
     Shader *material_shader =

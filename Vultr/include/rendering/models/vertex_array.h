@@ -19,7 +19,7 @@ class VertexArray
         assert(false && "Unsupported buffer layout type");
     }
 
-    template <> void Setup<Vertex>()
+    template <> void Setup<Vultr::Vertex>()
     {
         glEnableVertexAttribArray(0);
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),

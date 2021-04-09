@@ -23,3 +23,4 @@ class ControllerSystemProvider : public SystemProvider
     void OnCreateEntity(Entity entity) override;
 };
 } // namespace Vultr
+VultrRegisterSystemProvider(Vultr::ControllerSystemProvider)

@@ -2,7 +2,7 @@
 
 void SandboxTest::Init()
 {
-    World::ChangeWorld(World::Init());
+    // World::ChangeWorld(World::Init());
 
     engine.RegisterComponents();
 

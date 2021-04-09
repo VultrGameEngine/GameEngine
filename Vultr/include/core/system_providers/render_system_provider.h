@@ -56,9 +56,15 @@ class RenderSystemProvider : public SystemProvider
     Shader *post_processing_shader;
     Mesh *render_quad;
 
+    template <class Archive> void serialize(Archive &archive)
+    {
+        archive(); // Nothing needs to be serialized here
+    }
+
   protected:
     void OnCreateEntity(Entity entity) override;
     void OnDestroyEntity(Entity entity) override;
 };
 
 } // namespace Vultr
+VultrRegisterSystemProvider(Vultr::RenderSystemProvider)

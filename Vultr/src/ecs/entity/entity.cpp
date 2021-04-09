@@ -3,10 +3,10 @@
 
 Entity Entity::New()
 {
-    return World::CreateEntity();
+    return World::Get()->CreateEntity();
 }
 
 Signature Entity::GetSignature()
 {
-    return World::GetSignature(*this);
+    return World::Get()->GetSignature(*this);
 }

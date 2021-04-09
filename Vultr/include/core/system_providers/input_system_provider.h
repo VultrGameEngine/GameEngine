@@ -56,6 +56,11 @@ class InputSystemProvider : public SystemProvider
         scroll_queue.push(input);
     }
 
+    template <class Archive> void serialize(Archive &archive)
+    {
+        archive(); // Nothing needs to be serialized here
+    }
+
   protected:
     void OnCreateEntity(Entity entity) override;
     void OnDestroyEntity(Entity entity) override;
@@ -63,3 +68,4 @@ class InputSystemProvider : public SystemProvider
 };
 
 } // namespace Vultr
+VultrRegisterSystemProvider(Vultr::InputSystemProvider)

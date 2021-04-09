@@ -15,6 +15,7 @@ file(GLOB_RECURSE VultrEditor_SRC
 
 include_directories(include vendor ../Vultr/include ../Vultr/vendor)
 
+set(CMAKE_CXX_STANDARD 17)
 add_executable(VultrEditor ${VultrEditor_SRC})
 target_link_libraries(VultrEditor GL glfw3 X11 Xxf86vm Xrandr pthread Xi dl assimp /home/brandon/Dev/GameEngine/Vultr/build/libVultrShared.so)
 

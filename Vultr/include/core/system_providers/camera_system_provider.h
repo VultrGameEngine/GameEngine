@@ -27,9 +27,16 @@ class CameraSystemProvider : public SystemProvider
         ControllerComponent controller_component;
     } m_scene_camera;
 
+    template <class Archive> void serialize(Archive &archive)
+    {
+        archive(m_camera, m_scene_camera); // Nothing needs to be serialized here
+    }
+
   protected:
     void OnDestroyEntity(Entity entity) override;
     void OnCreateEntity(Entity entity) override;
 };
 
 } // namespace Vultr
+
+VultrRegisterSystemProvider(Vultr::CameraSystemProvider)

@@ -20,6 +20,7 @@
 
 using EntityID = uint32_t;
 
+class World;
 class EntityManager
 {
   public:
@@ -34,7 +35,7 @@ class EntityManager
 
     template <class Archive> void serialize(Archive &ar)
     {
-        ar(available_entities, signatures, living_entity_count);
+        ar(available_entities, signatures, living_entites, living_entity_count);
     }
 
     Entity CreateEntity()
@@ -48,6 +49,9 @@ class EntityManager
 
         // Remove this ID from the available entities, since we are now gonna use it
         available_entities.pop();
+
+        // Add the entity to the living entities
+        living_entites.insert(id);
 
         // Increase the number of living entities
         ++living_entity_count;
@@ -65,6 +69,11 @@ class EntityManager
 
         // Put the destroyed ID at the back of the queue
         available_entities.push(entity.id);
+
+        // Remove the entity id from the living entities
+        living_entites.erase(entity.id);
+
+        // Decrease the number of living entities
         --living_entity_count;
     }
 
@@ -113,6 +122,9 @@ class EntityManager
     // Array of signatures where the index corresponds to the entity ID
     std::array<Signature, MAX_ENTITIES> signatures{};
 
+    std::set<EntityID> living_entites{};
+
     // Total living entities
     uint32_t living_entity_count{};
+    friend World;
 };

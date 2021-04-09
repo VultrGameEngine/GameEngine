@@ -4,3 +4,5 @@ release/
 .cache/
 Testing/
 out/
+cmake-build-debug/
+.idea/

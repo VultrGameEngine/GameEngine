@@ -24,6 +24,10 @@ class MeshLoaderSystemProvider : public SystemProvider
     {
         Get()->meshes[path] = mesh;
     }
+    template <class Archive> void serialize(Archive &archive)
+    {
+        archive(); // Nothing needs to be serialized here
+    }
 
   protected:
     void OnDestroyEntity(Entity entity) override;
@@ -34,3 +38,4 @@ class MeshLoaderSystemProvider : public SystemProvider
 };
 
 } // namespace Vultr
+VultrRegisterSystemProvider(Vultr::MeshLoaderSystemProvider)

@@ -7,6 +7,18 @@
 #include <ecs/entity/entity.hpp>
 #include <set>
 
+template <typename T> std::string GetName()
+{
+    assert(true && "Please call VultrRegisterSystemProvider to create the template "
+                   "specialization for this function");
+}
+
+#define VultrRegisterSystemProvider(T)                                              \
+    template <> inline std::string GetName<T>()                                     \
+    {                                                                               \
+        return #T;                                                                  \
+    }
+
 class SystemProvider
 {
   public:

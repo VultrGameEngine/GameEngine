@@ -20,9 +20,12 @@ void SceneWindow::Render()
     ImVec2 viewport_panel_size = ImGui::GetContentRegionAvail();
     RenderSystemProvider::Resize(viewport_panel_size.x, viewport_panel_size.y,
                                  SCENE);
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wint-to-void-pointer-cast"
     ImGui::Image((void *)RenderSystemProvider::Get()->scene.render_texture->GetID(),
                  ImVec2{viewport_panel_size.x, viewport_panel_size.y}, ImVec2{0, 1},
                  ImVec2{1, 0});
+#pragma clang diagnostic pop
     if (Vultr::Editor::Editor::Get()->selected_entity.id != -1)
     {
         ImGuizmo::SetOrthographic(false);

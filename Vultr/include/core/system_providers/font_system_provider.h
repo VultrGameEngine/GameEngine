@@ -20,8 +20,14 @@ class FontSystemProvider : public SystemProvider
 
     std::unordered_map<std::string, Font *> fonts;
 
+    template <class Archive> void serialize(Archive &archive)
+    {
+        archive(); // Nothing needs to be serialized here
+    }
+
   protected:
     void OnCreateEntity(Entity entity) override;
     void OnDestroyEntity(Entity entity) override;
 };
 } // namespace Vultr
+VultrRegisterSystemProvider(Vultr::FontSystemProvider)

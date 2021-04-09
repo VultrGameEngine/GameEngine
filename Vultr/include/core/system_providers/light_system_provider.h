@@ -15,8 +15,14 @@ class LightSystemProvider : public SystemProvider
     }
     Entity light = Entity(-1);
 
+    template <class Archive> void serialize(Archive &archive)
+    {
+        archive(light); // Nothing needs to be serialized here
+    }
+
   protected:
     void OnDestroyEntity(Entity entity) override;
     void OnCreateEntity(Entity entity) override;
 };
 } // namespace Vultr
+VultrRegisterSystemProvider(Vultr::LightSystemProvider)

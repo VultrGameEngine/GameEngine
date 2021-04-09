@@ -25,8 +25,14 @@ class GUISystemProvider : public SystemProvider
     GUI::WindowElement *root_element = nullptr;
     Shader *gui_shader = nullptr;
 
+    template <class Archive> void serialize(Archive &archive)
+    {
+        archive(); // Nothing needs to be serialized here
+    }
+
   protected:
     void OnCreateEntity(Entity entity) override;
     void OnDestroyEntity(Entity entity) override;
 };
 } // namespace Vultr
+VultrRegisterSystemProvider(Vultr::GUISystemProvider)

@@ -8,6 +8,7 @@
 #include <cereal/types/memory.hpp>
 #include <cereal/types/polymorphic.hpp>
 #include <cereal/types/unordered_map.hpp>
+#include <cereal/types/string.hpp>
 #include "../system/system_provider.hpp"
 #include <memory>
 #include <unordered_map>
@@ -22,7 +23,7 @@ class SystemManager
 
     template <typename T> std::shared_ptr<T> RegisterSystem(Signature signature)
     {
-        const char *type_name = typeid(T).name();
+        std::string type_name = GetName<T>();
 
         assert(system_providers.find(type_name) == system_providers.end() &&
                "Registering system provider more than once");
@@ -39,7 +40,7 @@ class SystemManager
 
     template <typename T> void DeregisterSystem()
     {
-        const char *type_name = typeid(T).name();
+        std::string type_name = GetName<T>();
 
         assert(system_providers.find(type_name) != system_providers.end() &&
                "Attempting to deregister system that does not exist");
@@ -50,7 +51,7 @@ class SystemManager
 
     template <typename T> void SetSignature(Signature signature)
     {
-        const char *type_name = typeid(T).name();
+        std::string type_name = GetName<T>();
 
         assert(system_providers.find(type_name) != system_providers.end() &&
                "System used before registered");
@@ -61,7 +62,7 @@ class SystemManager
 
     template <typename T> std::shared_ptr<T> GetSystemProvider()
     {
-        const char *type_name = typeid(T).name();
+        std::string type_name = GetName<T>();
 
         assert(system_providers.find(type_name) != system_providers.end() &&
                "System used before registered");
@@ -106,9 +107,9 @@ class SystemManager
 
   private:
     // Map from system type string pointer to a signature
-    std::unordered_map<const char *, Signature> signatures{};
+    std::unordered_map<std::string, Signature> signatures{};
 
     // Map from system type string pointer to a system provider
-    std::unordered_map<const char *, std::shared_ptr<SystemProvider>>
+    std::unordered_map<std::string, std::shared_ptr<SystemProvider>>
         system_providers{};
 };

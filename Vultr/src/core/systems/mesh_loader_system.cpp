@@ -37,7 +37,7 @@ void MeshLoaderSystem::OnCreateEntity(Entity entity)
 
 void MeshLoaderSystem::CheckAndLoadMesh(Entity entity)
 {
-    auto &component = World::GetComponent<StaticMeshComponent>(entity);
+    auto &component = entity.GetComponent<StaticMeshComponent>();
 
     if (component.GetMesh() == nullptr)
     {

@@ -53,7 +53,7 @@ template <typename T> void RenderComponent(Entity entity)
 
 template <typename T> void RenderMember(const std::string &name, T &m)
 {
-    ImGui::Text(("Unable to render type for member " + name).c_str());
+    ImGui::Text("Unable to render type for member %s", name.c_str());
 }
 
 template <> inline void RenderMember(const std::string &name, std::string &m)
