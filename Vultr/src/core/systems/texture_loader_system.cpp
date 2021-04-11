@@ -41,6 +41,19 @@ void TextureLoaderSystem::OnCreateEntity(Entity entity)
     CheckAndLoadTexture(entity);
 }
 
+void TextureLoaderSystem::LoadTexture(const MaterialComponent &mat)
+{
+    TextureLoaderSystemProvider &provider = *TextureLoaderSystemProvider::Get();
+    for (auto [path, slot] : mat.textures)
+    {
+        if (!provider.isLoaded(path))
+        {
+            provider.textures[path] = new Texture(GL_TEXTURE_2D);
+            TextureImporter::Import(path, *provider.textures[path]);
+        }
+    }
+}
+
 void TextureLoaderSystem::CheckAndLoadTexture(Entity entity)
 {
     TextureLoaderSystemProvider &provider = *TextureLoaderSystemProvider::Get();

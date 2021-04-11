@@ -15,9 +15,12 @@ class LightSystemProvider : public SystemProvider
     }
     Entity light = Entity(-1);
 
-    template <class Archive> void serialize(Archive &archive)
+    template <class Archive> void serialize(Archive &ar)
     {
-        archive(light); // Nothing needs to be serialized here
+        // We pass this cast to the base type for each base type we
+        // need to serialize.  Do this instead of calling serialize functions
+        // directly
+        ar(cereal::base_class<SystemProvider>(this), light);
     }
 
   protected:

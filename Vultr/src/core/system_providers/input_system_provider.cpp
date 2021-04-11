@@ -11,4 +11,10 @@ void InputSystemProvider::OnDestroyEntity(Entity entity)
 {
 }
 
+bool InputSystemProvider::KeyDown(const char key) const
+{
+    int state = glfwGetKey(window, std::toupper(key));
+    return state == GLFW_PRESS;
+}
+
 } // namespace Vultr

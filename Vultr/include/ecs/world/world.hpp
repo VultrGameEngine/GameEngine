@@ -50,7 +50,7 @@ class World
         world->system_manager = std::make_unique<SystemManager>();
     }
 
-    std::shared_ptr<World> Init()
+    static std::shared_ptr<World> Init()
     {
         std::shared_ptr<World> world = std::make_shared<World>();
         world->component_manager = std::make_unique<ComponentManager>();

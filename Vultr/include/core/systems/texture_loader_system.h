@@ -16,12 +16,14 @@ namespace Vultr
 class TextureLoaderSystem
 {
   public:
+    static void LoadTexture(const MaterialComponent &mat);
     static void RegisterSystem();
     static void Update();
     static void OnCreateEntity(Entity entity);
     static SystemProvider &GetProvider()
     {
-        std::shared_ptr<TextureLoaderSystemProvider> provider = TextureLoaderSystemProvider::Get();
+        std::shared_ptr<TextureLoaderSystemProvider> provider =
+            TextureLoaderSystemProvider::Get();
         return *provider;
     }
 

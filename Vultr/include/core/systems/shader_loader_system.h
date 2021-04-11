@@ -8,6 +8,7 @@
 #include <sstream>
 #include <string.h>
 #include <vector>
+#include <core/components/material_component.h>
 
 namespace Vultr
 {
@@ -16,6 +17,7 @@ class ShaderLoaderSystem
 {
 
   public:
+    static void LoadShader(const MaterialComponent &mat);
     static void RegisterSystem();
     static void Update();
 
@@ -23,7 +25,8 @@ class ShaderLoaderSystem
     static void OnCreateEntity(Entity entity);
     static SystemProvider &GetProvider()
     {
-        std::shared_ptr<ShaderLoaderSystemProvider> provider = ShaderLoaderSystemProvider::Get();
+        std::shared_ptr<ShaderLoaderSystemProvider> provider =
+            ShaderLoaderSystemProvider::Get();
         return *provider;
     }
 

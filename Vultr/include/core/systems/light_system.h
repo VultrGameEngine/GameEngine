@@ -8,7 +8,6 @@ class LightSystem
 {
   public:
     static void RegisterSystem();
-    static void OnCreateEntity(Entity entity);
 
   protected:
     SystemProvider &GetProvider()
@@ -16,5 +15,9 @@ class LightSystem
         std::shared_ptr<LightSystemProvider> provider = LightSystemProvider::Get();
         return *provider;
     }
+
+  private:
+    static void OnCreateEntity(Entity entity);
+    friend LightSystemProvider;
 };
 } // namespace Vultr

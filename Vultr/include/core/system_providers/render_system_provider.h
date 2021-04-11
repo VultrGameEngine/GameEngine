@@ -26,6 +26,7 @@ struct ViewportData
     glm::vec2 dimensions = glm::vec2(1920, 1080);
     glm::vec2 position = glm::vec2(0);
 };
+class RenderSystem;
 class RenderSystemProvider : public SystemProvider
 {
   public:
@@ -37,6 +38,8 @@ class RenderSystemProvider : public SystemProvider
         post_processing_shader =
             ShaderImporter::ImportShader("res/shaders/post_processing.glsl");
         render_quad = MeshImporter::InitQuad();
+        m_camera_mesh = MeshImporter::ImportMesh("res/models/editor/Camera.blend");
+        camera_mat = Vultr::ForwardMaterial::Create("res/textures/cube/blank.jpg");
     }
     // Singleton pattern
     static std::shared_ptr<RenderSystemProvider> Get()
@@ -56,14 +59,20 @@ class RenderSystemProvider : public SystemProvider
     Shader *post_processing_shader;
     Mesh *render_quad;
 
-    template <class Archive> void serialize(Archive &archive)
+    template <class Archive> void serialize(Archive &ar)
     {
-        archive(); // Nothing needs to be serialized here
+        // We pass this cast to the base type for each base type we
+        // need to serialize.  Do this instead of calling serialize functions
+        // directly
+        ar(cereal::base_class<SystemProvider>(this));
     }
 
   protected:
     void OnCreateEntity(Entity entity) override;
     void OnDestroyEntity(Entity entity) override;
+    Mesh *m_camera_mesh;
+    MaterialComponent camera_mat;
+    friend RenderSystem;
 };
 
 } // namespace Vultr

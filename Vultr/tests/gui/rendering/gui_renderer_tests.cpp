@@ -1,3 +1,4 @@
+#include <glad/glad.h>
 #include <gtest/gtest.h>
 // Ugly but it works
 #define private public

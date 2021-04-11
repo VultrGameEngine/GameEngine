@@ -1,4 +1,5 @@
 #pragma once
+#include <cereal/types/base_class.hpp>
 #include <core/components/camera_component.h>
 #include <core/components/controller_component.h>
 #include <core/components/transform_component.h>
@@ -27,9 +28,12 @@ class CameraSystemProvider : public SystemProvider
         ControllerComponent controller_component;
     } m_scene_camera;
 
-    template <class Archive> void serialize(Archive &archive)
+    template <class Archive> void serialize(Archive &ar)
     {
-        archive(m_camera, m_scene_camera); // Nothing needs to be serialized here
+        // We pass this cast to the base type for each base type we
+        // need to serialize.  Do this instead of calling serialize functions
+        // directly
+        ar(cereal::base_class<SystemProvider>(this), m_camera, m_scene_camera);
     }
 
   protected:

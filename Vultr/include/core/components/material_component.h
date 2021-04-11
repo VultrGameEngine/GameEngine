@@ -1,11 +1,11 @@
 #pragma once
 #include <glm/glm.hpp>
-#include <glad/glad.h>
 #include <iostream>
 #include <string>
 #include <vector>
 #include <unordered_map>
 #include <cereal/types/vector.hpp>
+#include <glad/glad.h>
 
 struct MaterialComponent
 {

@@ -6,6 +6,8 @@
 #include <core/system_providers/camera_system_provider.h>
 #include <core/system_providers/light_system_provider.h>
 #include <core/system_providers/render_system_provider.h>
+#include <core/systems/shader_loader_system.h>
+#include <core/systems/texture_loader_system.h>
 #include <core/systems/gui_system.h>
 #include <core/systems/render_system.h>
 #include <glm/gtc/type_ptr.hpp>
@@ -15,6 +17,7 @@
 
 namespace Vultr
 {
+
 // Used in the actual update loop in main
 void RenderSystem::Update(UpdateTick meta_data)
 {
@@ -106,6 +109,20 @@ void RenderSystem::Update(UpdateTick meta_data)
         RenderSkybox(SCENE);
         RenderElements(SCENE);
 
+        // if (CameraSystemProvider::Get()->m_camera.id != -1)
+        // {
+        //     auto camera_transform =
+        //         CameraSystemProvider::Get()
+        //             ->m_camera.GetComponent<TransformComponent>();
+        //     camera_transform.scale = glm::vec3(0.01);
+        //     ShaderLoaderSystem::LoadShader(provider.camera_mat);
+        //     TextureLoaderSystem::LoadTexture(provider.camera_mat);
+        //     auto &mesh = provider.m_camera_mesh;
+
+        //     Renderer3D::ForwardRenderer::Submit(provider.camera_mat,
+        //                                         camera_transform.Matrix(), *mesh);
+        // }
+
         // Unbind the frame buffer
         provider.scene.fbo->Unbind();
     }
@@ -139,7 +156,7 @@ void RenderSystem::RenderSkybox(unsigned int type)
                   true);
     signature.set(
         Engine::GetComponentRegistry().GetComponentType<MaterialComponent>(), true);
-    if ((signature & camera.GetSignature()) != camera.GetSignature())
+    if (!((camera.GetSignature() & signature) == signature))
         return;
     glDepthFunc(GL_LEQUAL); // Ensure depth test passes when values are equal to
                             // the depth buffer's content

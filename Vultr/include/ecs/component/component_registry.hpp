@@ -2,6 +2,7 @@
 #include "component.hpp"
 #include "component_array.hpp"
 #include <unordered_map>
+#include <cereal/details/traits.hpp>
 #include "../../core/component_renderer.h"
 #include "../../core/component_constructor.h"
 
@@ -16,6 +17,10 @@ class ComponentRegistry
     template <typename T> void RegisterComponent(bool inspector_available = true)
     {
         const char *type_name = typeid(T).name();
+        static_assert(
+            cereal::traits::detail::count_input_serializers<
+                T, cereal::InputArchive<cereal::BinaryInputArchive>>::value != 0,
+            "Please make sure to call VultrRegisterComponent");
 
         assert(component_types.find(type_name) == component_types.end() &&
                "Registered component type more than once");

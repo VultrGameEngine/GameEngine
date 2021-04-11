@@ -1,7 +1,6 @@
 // Controller system handles input from the user translated to transform changes
 
 #pragma once
-#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <core/components/controller_component.h>
 #include <core/components/transform_component.h>

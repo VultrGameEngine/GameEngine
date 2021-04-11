@@ -19,10 +19,12 @@ class TextureLoaderSystemProvider : public SystemProvider
     static bool isLoaded(const std::string &texture);
 
     std::unordered_map<std::string, Texture *> textures;
-
-    template <class Archive> void serialize(Archive &archive)
+    template <class Archive> void serialize(Archive &ar)
     {
-        archive(); // Nothing needs to be serialized here
+        // We pass this cast to the base type for each base type we
+        // need to serialize.  Do this instead of calling serialize functions
+        // directly
+        ar(cereal::base_class<SystemProvider>(this));
     }
 
   protected:

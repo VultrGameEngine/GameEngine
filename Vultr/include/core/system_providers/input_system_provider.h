@@ -1,7 +1,6 @@
 #pragma once
 #include <ecs/system/system_provider.hpp>
 #include <ecs/world/world.hpp>
-#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <engine.hpp>
 
@@ -37,7 +36,9 @@ struct ScrollInputEvent
     glm::vec2 pos;
     glm::vec2 scroll_amount;
 };
+
 } // namespace Input
+class InputSystem;
 class InputSystemProvider : public SystemProvider
 {
   public:
@@ -46,25 +47,43 @@ class InputSystemProvider : public SystemProvider
         return Engine::GetSystemProvider<InputSystemProvider>();
     }
 
-    glm::vec2 mouse_pos = glm::vec2(0, 0);
-    bool mouse_down = false;
-    glm::vec2 scroll_amount = glm::vec2(0, 0);
-    GLFWwindow *window;
-
-    void AddScrollInput(glm::vec2 input)
+    glm::vec2 MousePosition() const
     {
-        scroll_queue.push(input);
+        return mouse_pos;
     }
 
-    template <class Archive> void serialize(Archive &archive)
+    bool MouseDown() const
     {
-        archive(); // Nothing needs to be serialized here
+        return mouse_down;
+    }
+
+    glm::vec2 ScrollDelta() const
+    {
+        return scroll_amount;
+    }
+
+    bool KeyDown(const char key) const;
+    template <class Archive> void serialize(Archive &ar)
+    {
+        // We pass this cast to the base type for each base type we
+        // need to serialize.  Do this instead of calling serialize functions
+        // directly
+        ar(cereal::base_class<SystemProvider>(this));
     }
 
   protected:
     void OnCreateEntity(Entity entity) override;
     void OnDestroyEntity(Entity entity) override;
     std::queue<glm::vec2> scroll_queue;
+    void AddScrollInput(glm::vec2 input)
+    {
+        scroll_queue.push(input);
+    }
+    GLFWwindow *window;
+    glm::vec2 mouse_pos = glm::vec2(0, 0);
+    bool mouse_down = false;
+    glm::vec2 scroll_amount = glm::vec2(0, 0);
+    friend InputSystem;
 };
 
 } // namespace Vultr

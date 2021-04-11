@@ -33,14 +33,12 @@ void ShaderLoaderSystem::OnDestroyEntity(Entity entity)
     // }
 }
 
-void ShaderLoaderSystem::CheckAndLoadShader(Entity entity)
+void ShaderLoaderSystem::LoadShader(const MaterialComponent &mat)
 {
     ShaderLoaderSystemProvider &provider = *ShaderLoaderSystemProvider::Get();
-    auto &material_component = entity.GetComponent<MaterialComponent>();
     // If we have already loaded the shader and cached it, then reuse the id and
     // don't reload
-    Shader *material_shader =
-        ShaderLoaderSystemProvider::GetShader(material_component.shader_path);
+    Shader *material_shader = ShaderLoaderSystemProvider::GetShader(mat.shader_path);
     if (material_shader != nullptr)
         return;
 
@@ -48,13 +46,19 @@ void ShaderLoaderSystem::CheckAndLoadShader(Entity entity)
     // Create the shader on the gpu
     // unsigned int shader_id =
     //     ShaderImporter::CreateShader(material_component.shader_path);
-    Shader *shader = ShaderImporter::ImportShader(material_component.shader_path);
+    Shader *shader = ShaderImporter::ImportShader(mat.shader_path);
 
     // Create the shader wrapper with the given shader id
     // Shader *shader = new Shader(shader_id, Forward);
 
     // Add it to the loaded shaders
-    provider.loaded_shaders[material_component.shader_path] = shader;
+    provider.loaded_shaders[mat.shader_path] = shader;
+}
+
+void ShaderLoaderSystem::CheckAndLoadShader(Entity entity)
+{
+    auto &material_component = entity.GetComponent<MaterialComponent>();
+    LoadShader(material_component);
 }
 
 void ShaderLoaderSystem::RegisterSystem()
