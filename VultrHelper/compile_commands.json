@@ -1,0 +1,82 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/clang-11",
+      "-DDEBUG",
+      "-DENABLE_DEBUG_MACRO",
+      "-Iinclude",
+      "-I../Vultr/include",
+      "-I../Vultr/vendor",
+      "-m64",
+      "-g",
+      "-std=c++17",
+      "-o",
+      "obj/Debug/generator.o",
+      "-c",
+      "src/scripting/generator.cpp"
+    ],
+    "directory": "/home/brandon/Dev/GameEngine/VultrHelper",
+    "file": "/home/brandon/Dev/GameEngine/VultrHelper/src/scripting/generator.cpp",
+    "output": "/home/brandon/Dev/GameEngine/VultrHelper/obj/Debug/generator.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang-11",
+      "-DDEBUG",
+      "-DENABLE_DEBUG_MACRO",
+      "-Iinclude",
+      "-I../Vultr/include",
+      "-I../Vultr/vendor",
+      "-m64",
+      "-g",
+      "-std=c++17",
+      "-o",
+      "obj/Debug/main.o",
+      "-c",
+      "src/main.cpp"
+    ],
+    "directory": "/home/brandon/Dev/GameEngine/VultrHelper",
+    "file": "/home/brandon/Dev/GameEngine/VultrHelper/src/main.cpp",
+    "output": "/home/brandon/Dev/GameEngine/VultrHelper/obj/Debug/main.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang-11",
+      "-DDEBUG",
+      "-DENABLE_DEBUG_MACRO",
+      "-Iinclude",
+      "-I../Vultr/include",
+      "-I../Vultr/vendor",
+      "-m64",
+      "-g",
+      "-std=c++17",
+      "-o",
+      "obj/Debug/script_parser.o",
+      "-c",
+      "src/scripting/script_parser.cpp"
+    ],
+    "directory": "/home/brandon/Dev/GameEngine/VultrHelper",
+    "file": "/home/brandon/Dev/GameEngine/VultrHelper/src/scripting/script_parser.cpp",
+    "output": "/home/brandon/Dev/GameEngine/VultrHelper/obj/Debug/script_parser.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/clang-11",
+      "-DDEBUG",
+      "-DENABLE_DEBUG_MACRO",
+      "-Iinclude",
+      "-I../Vultr/include",
+      "-I../Vultr/vendor",
+      "-m64",
+      "-g",
+      "-std=c++17",
+      "-o",
+      "obj/Debug/script_scanner.o",
+      "-c",
+      "src/scripting/script_scanner.cpp"
+    ],
+    "directory": "/home/brandon/Dev/GameEngine/VultrHelper",
+    "file": "/home/brandon/Dev/GameEngine/VultrHelper/src/scripting/script_scanner.cpp",
+    "output": "/home/brandon/Dev/GameEngine/VultrHelper/obj/Debug/script_scanner.o"
+  }
+]

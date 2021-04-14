@@ -1,5 +1,6 @@
 #include <core/system_providers/render_system_provider.h>
 #include <core/system_providers/camera_system_provider.h>
+#include <core/system_providers/input_system_provider.h>
 #include <math/decompose_transform.h>
 #include <editor/core/windows/scene_window.hpp>
 #include <editor/editor.hpp>
@@ -15,7 +16,19 @@ namespace Vultr::Editor
 {
 void SceneWindow::Render()
 {
-    RenderSystemProvider::Get()->scene.render_texture->Bind(GL_TEXTURE0);
+    if (InputSystemProvider::Get()->KeyDown('q'))
+    {
+        Editor::Editor::Get()->current_operation = ImGuizmo::OPERATION::TRANSLATE;
+    }
+    else if (InputSystemProvider::Get()->KeyDown('w'))
+    {
+        Editor::Editor::Get()->current_operation = ImGuizmo::OPERATION::ROTATE;
+    }
+    else if (InputSystemProvider::Get()->KeyDown('e'))
+    {
+        Editor::Editor::Get()->current_operation = ImGuizmo::OPERATION::SCALE;
+    }
+    RenderSystemProvider ::Get()->scene.render_texture->Bind(GL_TEXTURE0);
     ImGui::Begin("Scene");
     ImVec2 viewport_panel_size = ImGui::GetContentRegionAvail();
     RenderSystemProvider::Resize(viewport_panel_size.x, viewport_panel_size.y,
@@ -63,7 +76,7 @@ void SceneWindow::Render()
 
         ImGuizmo::Manipulate(
             glm::value_ptr(cameraView), glm::value_ptr(cameraProjection),
-            (ImGuizmo::OPERATION)ImGuizmo::OPERATION::ROTATE, ImGuizmo::LOCAL,
+            (ImGuizmo::OPERATION)Editor::Get()->current_operation, ImGuizmo::LOCAL,
             glm::value_ptr(transform), nullptr, nullptr);
 
         if (ImGuizmo::IsUsing())

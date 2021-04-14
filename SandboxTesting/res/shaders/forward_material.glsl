@@ -59,7 +59,7 @@ void main()
     
     vec3 result = (ambient + diffuse + specular) * objectColor;
     
-    vec3 textureColor = texture(textureSampler, FragUV).rgb;
+    vec3 textureColor =  texture(textureSampler, FragUV).rgb;
 
     // color = vec4(result, 1.0f);
     color = vec4(result * textureColor, 1.0f);

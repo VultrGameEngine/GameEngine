@@ -6,3 +6,7 @@ Testing/
 out/
 cmake-build-debug/
 .idea/
+obj/
+Makefile
+*.make
+generated/

@@ -24,6 +24,7 @@ class Editor
     static unsigned int GetDockSpace();
     static void Render();
     Entity selected_entity;
+    ImGuizmo::OPERATION current_operation = ImGuizmo::OPERATION::TRANSLATE;
 
   private:
     std::vector<Window *> windows;
