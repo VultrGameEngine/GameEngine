@@ -51,10 +51,4 @@ struct TransformComponent
     {
         return glm::lookAt(position, position + Forward(), glm::vec3(0, 1, 0));
     }
-
-    template <class Archive> void serialize(Archive &ar)
-    {
-        ar(position.x, position.y, position.z, rotation.x, rotation.y, rotation.z,
-           rotation.w, scale.x, scale.y, scale.z);
-    }
 };

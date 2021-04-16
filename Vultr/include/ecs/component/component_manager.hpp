@@ -7,37 +7,11 @@
 #include <iostream>
 #include <memory>
 #include <unordered_map>
-#include <cereal/types/memory.hpp>
-#include <cereal/types/unordered_map.hpp>
 
+class World;
 class ComponentManager
 {
   public:
-    template <typename T> void AddComponent(Entity entity, T component)
-    {
-        GetComponentArray<T>()->InsertData(entity, component);
-    }
-
-    template <typename T> void RemoveComponent(Entity entity)
-    {
-        GetComponentArray<T>()->RemoveData(entity);
-    }
-
-    template <typename T> T &GetComponent(Entity entity)
-    {
-        return GetComponentArray<T>()->GetData(entity);
-    }
-
-    template <typename T> T *GetComponentUnsafe(Entity entity)
-    {
-        return GetComponentArray<T>()->GetDataUnsafe(entity);
-    }
-
-    template <typename T> std::shared_ptr<ComponentArray<T>> GetComponents()
-    {
-        return GetComponentArray<T>();
-    }
-
     void EntityDestroyed(Entity entity)
     {
         // Notify all component arrays that an entity has been destroyed
@@ -46,11 +20,6 @@ class ComponentManager
             auto const &component = pair.second;
             component->EntityDestroyed(entity);
         }
-    }
-
-    template <class Archive> void serialize(Archive &archive)
-    {
-        archive(component_arrays); // serialize things by passing them to the archive
     }
 
   private:
@@ -63,8 +32,6 @@ class ComponentManager
     {
         const char *type_name = typeid(T).name();
 
-        // assert(Vultr::ComponentRegistry::ComponentRegistered(type_name) &&
-        //        "Component not registered before use");
         if (component_arrays.find(type_name) == component_arrays.end())
         {
             component_arrays.insert(
@@ -74,4 +41,6 @@ class ComponentManager
         return std::static_pointer_cast<ComponentArray<T>>(
             component_arrays[type_name]);
     }
+    friend World;
+    friend Entity;
 };

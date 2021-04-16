@@ -85,6 +85,11 @@ template <typename T> class ComponentArray : public IComponentArray
         return component_array[entity_to_index_map[entity]];
     }
 
+    bool HasData(Entity entity)
+    {
+        return entity_to_index_map.find(entity) != entity_to_index_map.end();
+    }
+
     T *GetDataUnsafe(Entity entity)
     {
         if (entity_to_index_map.find(entity) == entity_to_index_map.end())
@@ -98,6 +103,10 @@ template <typename T> class ComponentArray : public IComponentArray
         {
             RemoveData(entity);
         }
+    }
+
+    void SerializeEntity(Entity entity)
+    {
     }
 
   private:

@@ -29,10 +29,6 @@ class Engine
     {
         Get().registry->RegisterComponent<T>(inspector_available);
     }
-    template <typename T> static void RegisterMaterial()
-    {
-        Get().registry->RegisterMaterial<T>();
-    }
 
     template <typename T>
     static std::shared_ptr<T> RegisterGlobalSystem(Signature signature)

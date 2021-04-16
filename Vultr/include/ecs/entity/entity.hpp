@@ -2,8 +2,9 @@
 #include <cstddef>
 #include <stdint.h>
 #include <string>
-#include <ecs/component/component.hpp>
 #include <memory>
+#include <ecs/component/component.hpp>
+#include <yaml-cpp/yaml.h>
 
 // An entity is just an ID
 // It has a bunch of operator overloads so that it can be treated as such, so
@@ -18,14 +19,6 @@ class Entity
     Entity(int p_id) : id(p_id)
     {
     }
-    // Entity(uint32_t p_id) : id(p_id)
-    // {
-    // }
-
-    // Entity(const Entity &entity)
-    // {
-    //     id = entity.id;
-    // }
 
     bool operator==(const Entity &other) const
     {
@@ -68,6 +61,7 @@ class Entity
     template <typename T> void AddComponent(T component);
     template <typename T> void RemoveComponent();
     template <typename T> T &GetComponent();
+    template <typename T> bool HasComponent();
 
     // ONLY FOR THE EDITOR
     template <typename T> T *GetComponentUnsafe();

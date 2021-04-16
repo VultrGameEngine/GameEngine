@@ -17,7 +17,6 @@ template <typename T> std::string GetName()
     {                                                                               \
         return #T;                                                                  \
     }
-// CEREAL_REGISTER_TYPE(T)
 
 class SystemProvider
 {

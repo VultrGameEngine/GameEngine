@@ -17,3 +17,4 @@ class TestSystemProvider : public SystemProvider
     void OnCreateEntity(Entity entity) override;
     void OnDestroyEntity(Entity entity) override;
 };
+VultrRegisterSystemProvider(TestSystemProvider)

@@ -67,34 +67,13 @@ int main(void)
     GenerateInDir(systems);
     Directory components(std::filesystem::current_path() / "include/components/");
     GenerateInDir(components);
-    // std::string path = "include/components/test_component.h";
-    // std::string full_path = Path::GetFullPath(path);
-    // ScriptScanner fileScanner = ScriptScanner(full_path);
-    // std::vector<Token> fileTokens = fileScanner.ScanTokens();
-    // ScriptParser fileParser = ScriptParser(fileTokens, full_path);
-    // fileParser.Parse();
-
-    // std::string out_path = Path::GetFullPath("res/out/test_file.generated.h");
-    // std::ofstream myfile;
-    // myfile.open(Path::GetFullPath("res/out/test_file.generated.h"));
-    // myfile << fileParser.GenerateHeaderFile().c_str();
-    // myfile.close();
-    // IFile::WriteFile(fileParser.GenerateHeaderFile().c_str(), path);
-
-    // GenerateInitFiles();
-    // Engine &vultr = Engine::Get();
-
-    // float lastTime = 0;
-    // vultr.Init(true);
-    // vultr.LoadGame("/home/brandon/Dev/GameEngine/SandboxTesting/build/Debug/"
-    //                "libSandboxTesting.so");
-
-    // while (!vultr.should_close)
-    // {
-    //     vultr.UpdateGame(lastTime);
-    //     Vultr::Editor::Editor::Get()->Render();
-    //     glfwSwapBuffers(vultr.window);
-    //     glfwPollEvents();
-    // }
-    // vultr.Destroy();
+    system(
+        "/usr/bin/cmake --no-warn-unused-cli "
+        "-DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE -DCMAKE_BUILD_TYPE:STRING=Debug "
+        "-DCMAKE_C_COMPILER:FILEPATH=/bin/clang-11 "
+        "-DCMAKE_CXX_COMPILER:FILEPATH=/bin/clang++ "
+        "build -G \"Unix Makefiles\"");
+    system(
+        "/usr/bin/cmake --build /home/brandon/Dev/GameEngine/SandboxTesting/build "
+        "--config Debug --target all -- -j 10");
 }

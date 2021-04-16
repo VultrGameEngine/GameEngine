@@ -32,8 +32,27 @@ project "VultrEditor"
       "../Vultr/vendor"
     }
     linkoptions{ "-R/home/brandon/Dev/GameEngine/Vultr/build/Debug" }
-    libdirs {
+
+    runpathdirs 
+    { 
       "../Vultr/build/Debug",
+      "../Vultr/vendor/libs/linux",
+      os.findlib("yaml-cpp"),
+      os.findlib("assimp"),
+      os.findlib("freetype"),
+      os.findlib("X11"),
+      os.findlib("GL"),
+      os.findlib("Xxf86vm"),
+      os.findlib("Xrandr"),
+      os.findlib("pthread"),
+      os.findlib("Xi"),
+      os.findlib("dl"),
+      os.findlib("glfw3"),
+    }
+    libdirs 
+    {
+      "../Vultr/build/Debug",
+      os.findlib("yaml-cpp"),
       os.findlib("assimp"),
       os.findlib("freetype"),
       os.findlib("X11"),
@@ -46,7 +65,7 @@ project "VultrEditor"
       os.findlib("glfw3"),
     }
 
-    links { "glfw3", "assimp", "Vultr", "X11", "GL", "Xxf86vm", "Xrandr", "pthread", "Xi", "dl", "freetype"}
+    links { "glfw3", "assimp", "Vultr", "X11", "GL", "Xxf86vm", "Xrandr", "pthread", "Xi", "dl", "freetype", "yaml-cpp"}
 
     cppdialect "C++17"
 

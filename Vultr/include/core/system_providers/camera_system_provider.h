@@ -33,7 +33,7 @@ class CameraSystemProvider : public SystemProvider
         // We pass this cast to the base type for each base type we
         // need to serialize.  Do this instead of calling serialize functions
         // directly
-        ar(cereal::base_class<SystemProvider>(this), m_camera, m_scene_camera);
+        ar(cereal::base_class<SystemProvider>(this));
     }
 
   protected:
@@ -42,5 +42,4 @@ class CameraSystemProvider : public SystemProvider
 };
 
 } // namespace Vultr
-
 VultrRegisterSystemProvider(Vultr::CameraSystemProvider)

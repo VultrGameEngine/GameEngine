@@ -4,23 +4,13 @@
 // update its list
 #pragma once
 #include "../component/component.hpp"
-#include <cereal/types/bitset.hpp>
-#include <cereal/types/memory.hpp>
-#include <cereal/types/polymorphic.hpp>
-#include <cereal/types/unordered_map.hpp>
-#include <cereal/types/string.hpp>
-#include "../system/system_provider.hpp"
+#include "system_provider.hpp"
 #include <memory>
 #include <unordered_map>
 
 class SystemManager
 {
   public:
-    template <class Archive> void serialize(Archive &ar)
-    {
-        ar(signatures, system_providers);
-    }
-
     template <typename T> std::shared_ptr<T> RegisterSystem(Signature signature)
     {
         std::string type_name = GetName<T>();

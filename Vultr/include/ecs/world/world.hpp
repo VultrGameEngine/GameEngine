@@ -8,8 +8,6 @@
 #include <memory>
 #include <set>
 #include "../../core/component_renderer.h"
-#include <cereal/archives/binary.hpp>
-#include <cereal/types/polymorphic.hpp>
 #include <fstream>
 #include <engine.hpp>
 
@@ -17,133 +15,32 @@ class World
 {
   public:
     World() = default;
-    template <class Archive> void serialize(Archive &ar)
-    {
-        ar(component_manager, entity_manager, system_manager);
-    }
 
-    static std::shared_ptr<World> Get()
-    {
-        return current_world;
-    }
+    static std::shared_ptr<World> Get();
 
-    static void ChangeWorld(std::shared_ptr<World> world)
-    {
-        if (current_world != nullptr)
-        {
-            for (EntityID id : current_world->entity_manager->living_entites)
-            {
-                Entity entity(id);
-                Vultr::Engine::GetGlobalSystemManager().EntityDestroyed(entity);
-            }
-        }
+    static void ChangeWorld(std::shared_ptr<World> world);
 
-        current_world = world;
-        for (EntityID id : current_world->entity_manager->living_entites)
-        {
-            Entity entity(id);
-            Signature signature =
-                current_world->entity_manager->GetSignature(entity);
-            Vultr::Engine::GetGlobalSystemManager().EntitySignatureChanged(
-                id, signature);
-        }
-        world->system_manager = std::make_unique<SystemManager>();
-    }
+    static std::shared_ptr<World> Init();
 
-    static std::shared_ptr<World> Init()
-    {
-        std::shared_ptr<World> world = std::make_shared<World>();
-        world->component_manager = std::make_unique<ComponentManager>();
-        world->entity_manager = std::make_unique<EntityManager>();
-        world->system_manager = std::make_unique<SystemManager>();
-        return world;
-    }
+    static void ExportWorld(const std::string &path, std::shared_ptr<World> world);
 
-    static void ExportWorld(const std::string &path, std::shared_ptr<World> world)
-    {
-        std::ofstream os(path);
-        cereal::BinaryOutputArchive oarchive(os);
+    static void ExportWorldEditor(const std::string &path,
+                                  std::shared_ptr<World> world);
 
-        oarchive(world);
-    }
-
-    static std::shared_ptr<World> ImportWorld(const std::string &path)
-    {
-        std::shared_ptr<World> world;
-        std::ifstream is(path);
-        cereal::BinaryInputArchive iarchive(is);
-
-        iarchive(world);
-        return world;
-    }
+    static std::shared_ptr<World> ImportWorld(const std::string &path);
 
     // Entity methods
-    Entity CreateEntity()
-    {
-        return entity_manager->CreateEntity();
-    }
+    Entity CreateEntity();
 
-    void DestroyEntity(Entity entity)
-    {
-        entity_manager->DestroyEntity(entity);
+    void DestroyEntity(Entity entity);
 
-        system_manager->EntityDestroyed(entity);
+    std::set<Entity> GetEntities(Signature signature);
 
-        Vultr::Engine::GetGlobalSystemManager().EntityDestroyed(entity);
-
-        component_manager->EntityDestroyed(entity);
-    }
-
-    std::set<Entity> GetEntities(Signature signature)
-    {
-        return entity_manager->GetEntities(signature);
-    }
-
-    Signature GetSignature(Entity entity)
-    {
-        return entity_manager->GetSignature(entity);
-    }
-
-    template <typename T> void AddComponent(Entity entity, T component)
-    {
-        component_manager->AddComponent<T>(entity, component);
-
-        auto signature = entity_manager->GetSignature(entity);
-        signature.set(Vultr::Engine::GetComponentRegistry().GetComponentType<T>(),
-                      true);
-        system_manager->EntitySignatureChanged(entity, signature);
-        Vultr::Engine::GetGlobalSystemManager().EntitySignatureChanged(entity,
-                                                                       signature);
-        entity_manager->SetSignature(entity, signature);
-    }
-
-    template <typename T> void RemoveComponent(Entity entity)
-    {
-
-        auto signature = entity_manager->GetSignature(entity);
-        signature.set(Vultr::Engine::GetComponentRegistry().GetComponentType<T>(),
-                      false);
-        system_manager->EntitySignatureChanged(entity, signature);
-        Vultr::Engine::GetGlobalSystemManager().EntitySignatureChanged(entity,
-                                                                       signature);
-        entity_manager->SetSignature(entity, signature);
-
-        component_manager->RemoveComponent<T>(entity);
-    }
-
-    template <typename T> T &GetComponent(Entity entity)
-    {
-        return component_manager->GetComponent<T>(entity);
-    }
-
-    template <typename T> T *GetComponentUnsafe(Entity entity)
-    {
-        return component_manager->GetComponentUnsafe<T>(entity);
-    }
+    Signature GetSignature(Entity entity);
 
     template <typename T> std::shared_ptr<ComponentArray<T>> GetComponents()
     {
-        return component_manager->GetComponents<T>();
+        return component_manager->GetComponentArray<T>();
     }
 
     // System methods
@@ -174,24 +71,55 @@ class World
   private:
     static std::shared_ptr<World> current_world;
     friend Vultr::Engine;
+    friend Entity;
 };
 
 template <typename T> void Entity::AddComponent(T component)
 {
-    World::Get()->AddComponent(*this, component);
+    std::shared_ptr<World> world = World::Get();
+    assert(world != nullptr && "World does not exist! Make sure you create a world "
+                               "before trying to add a component to an entity");
+    world->component_manager->GetComponentArray<T>()->InsertData(*this, component);
+
+    auto signature = world->entity_manager->GetSignature(*this);
+    signature.set(Vultr::Engine::GetComponentRegistry().GetComponentType<T>(), true);
+    world->system_manager->EntitySignatureChanged(*this, signature);
+    Vultr::Engine::GetGlobalSystemManager().EntitySignatureChanged(*this, signature);
+    world->entity_manager->SetSignature(*this, signature);
 }
 
 template <typename T> void Entity::RemoveComponent()
 {
-    World::Get()->RemoveComponent<T>(*this);
+    std::shared_ptr<World> world = World::Get();
+    assert(world != nullptr && "World does not exist! Make sure you create a world "
+                               "before trying to remove a component to an entity");
+    auto signature = world->entity_manager->GetSignature(*this);
+    signature.set(Vultr::Engine::GetComponentRegistry().GetComponentType<T>(),
+                  false);
+    world->system_manager->EntitySignatureChanged(*this, signature);
+    Vultr::Engine::GetGlobalSystemManager().EntitySignatureChanged(*this, signature);
+    world->entity_manager->SetSignature(*this, signature);
+
+    world->component_manager->GetComponentArray<T>()->RemoveData(*this);
 }
 
 template <typename T> T &Entity::GetComponent()
 {
-    return World::Get()->GetComponent<T>(*this);
+    std::shared_ptr<World> world = World::Get();
+    assert(world != nullptr && "Cannot get component because world does not exist!");
+    return world->component_manager->GetComponentArray<T>()->GetData(*this);
+}
+
+template <typename T> bool Entity::HasComponent()
+{
+    std::shared_ptr<World> world = World::Get();
+    assert(world != nullptr && "Cannot get component because world does not exist!");
+    return world->component_manager->GetComponentArray<T>()->HasComponent(*this);
 }
 
 template <typename T> T *Entity::GetComponentUnsafe()
 {
-    return World::Get()->GetComponentUnsafe<T>(*this);
+    std::shared_ptr<World> world = World::Get();
+    assert(world != nullptr && "Cannot get component because world does not exist!");
+    return world->component_manager->GetComponentArray<T>()->GetDataUnsafe(*this);
 }

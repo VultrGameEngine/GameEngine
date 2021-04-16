@@ -2,12 +2,8 @@
 #include "component.hpp"
 #include "component_array.hpp"
 #include <unordered_map>
-#include <cereal/details/traits.hpp>
 #include "../../core/component_renderer.h"
 #include "../../core/component_constructor.h"
-
-#define CallConstructor(entity, T) entity.AddComponent(T::Create())
-#define CallRenderer(entity, T) RenderComponent<T>(entity)
 
 namespace Vultr
 {
@@ -17,10 +13,6 @@ class ComponentRegistry
     template <typename T> void RegisterComponent(bool inspector_available = true)
     {
         const char *type_name = typeid(T).name();
-        static_assert(
-            cereal::traits::detail::count_input_serializers<
-                T, cereal::InputArchive<cereal::BinaryInputArchive>>::value != 0,
-            "Please make sure to call VultrRegisterComponent");
 
         assert(component_types.find(type_name) == component_types.end() &&
                "Registered component type more than once");
@@ -28,35 +20,19 @@ class ComponentRegistry
         // Add the component type to the map
         component_types.insert({type_name, next_component_type});
 
-        ComponentRender renderer = [](Entity entity) { CallRenderer(entity, T); };
+        ComponentRender renderer = [](Entity entity) { RenderComponent<T>(entity); };
 
         // Add the component to the map
         component_renderers.insert({type_name, renderer});
 
         ComponentConstructor constructor = [](Entity entity) {
-            CallConstructor(entity, T);
+            entity.AddComponent(T::Create());
         };
 
         component_constructors.insert({type_name, constructor});
 
         // Increment the next component type
         ++next_component_type;
-    }
-
-    template <typename T> void RegisterMaterial()
-    {
-        const char *type_name = typeid(T).name();
-
-        ComponentRender renderer = [](Entity entity) { CallRenderer(entity, T); };
-
-        // Add the component to the map
-        component_renderers.insert({type_name, renderer});
-
-        ComponentConstructor constructor = [](Entity entity) {
-            CallConstructor(entity, T);
-        };
-
-        component_constructors.insert({type_name, constructor});
     }
 
     template <typename T> ComponentType GetComponentType()
