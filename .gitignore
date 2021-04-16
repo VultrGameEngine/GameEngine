@@ -1,0 +1,12 @@
+build/
+release/
+.vs/
+.cache/
+Testing/
+out/
+cmake-build-debug/
+.idea/
+obj/
+Makefile
+*.make
+generated/

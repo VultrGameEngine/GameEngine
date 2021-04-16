@@ -1,3 +1,3 @@
-NOTE ON HOW TO BUILD: "g++ src/main.cpp -lGL -lGLU -lglfw3 -lX11 -lXxf86vm -lXrandr -lpthread -lXi -ldl"
+NOTE ON HOW TO BUILD: ./build.sh in the root directory to compile all
 
-Required packages: GLFW v3.16.3
+Required packages: Glad, GLFW3, glm 

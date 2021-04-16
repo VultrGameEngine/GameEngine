@@ -1,0 +1,61 @@
+cmake_minimum_required(VERSION 3.0.0)
+project(Game VERSION 0.1.0)
+
+include(CTest)
+enable_testing()
+
+file(GLOB_RECURSE Game_SRC
+    "src/*.cpp"
+    "include/*.h"
+    "include/*.hpp"
+    "include/*.cpp"
+    "vendor/*.h"
+    "vendor/*.cpp"
+)
+
+include_directories(include vendor ../Vultr/include ../Vultr/vendor)
+
+if(WIN32)
+    if (MSVC_VERSION GREATER_EQUAL "1900")
+        include(CheckCXXCompilerFlag)
+        CHECK_CXX_COMPILER_FLAG("/std:c++latest" _cpp_latest_flag_supported)
+        if (_cpp_latest_flag_supported)
+            add_compile_options("/std:c++latest")
+        endif()
+    endif()
+endif(WIN32)
+
+if(UNIX)
+    set(CMAKE_CXX_STANDARD 17)
+    add_library(Game SHARED ${Game_SRC})
+    # add_executable(Game ${Game_SRC})
+    target_link_libraries(Game GL glfw3 X11 Xxf86vm Xrandr pthread Xi dl assimp)
+    target_link_libraries(Game debug /home/brandon/Dev/GameEngine/Vultr/build/libVultrShared.so)
+    target_link_libraries(Game optimized /home/brandon/Dev/GameEngine/Vultr/release/libVultrShared.so)
+endif(UNIX)
+
+if(WIN32)
+    find_library(VULTR Vultr HINTS C:/Users/Brand/Dev/GameEngine/Vultr/out/build/x64-Debug)
+    find_library(GLFW3 glfw3 HINTS C:/Users/Brand/Dev/GameEngine/Vultr/vendor/libs/WIN32)
+    find_library(FREETYPE freetyped HINTS C:/Users/Brand/Dev/GameEngine/Vultr/vendor/libs/WIN32)
+    find_library(ASSIMP assimp HINTS C:/Users/Brand/Dev/GameEngine/Vultr/vendor/libs/WIN32)
+    add_executable(Game ${Game_SRC})
+    target_link_libraries(Game ${VULTR} ${GLFW3} ${FREETYPE} ${ASSIMP} opengl32)
+    add_custom_command(TARGET Game POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different  
+        "C:/Users/Brand/Dev/GameEngine/Vultr/vendor/libs/WIN32/assimp-vc142-mtd.dll"
+        $<TARGET_FILE_DIR:Game>)
+    add_custom_command(TARGET Game POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        "${PROJECT_SOURCE_DIR}/res"
+        $<TARGET_FILE_DIR:Game>/res)
+endif(WIN32)
+
+install(TARGETS ${PROJECT_NAME} DESTINATION bin)
+install(DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/res/" DESTINATION "bin/res")
+
+include(InstallRequiredSystemLibraries)
+# set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/License.txt")
+# set(CPACK_PROJECT_NAME ${PROJECT_NAME})
+# set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
+# include(CPack)

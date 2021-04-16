@@ -1,0 +1,45 @@
+#pragma once
+#include <cereal/types/base_class.hpp>
+#include <core/components/camera_component.h>
+#include <core/components/controller_component.h>
+#include <core/components/transform_component.h>
+#include <ecs/entity/entity.hpp>
+#include <ecs/system/system_provider.hpp>
+#include <ecs/world/world.hpp>
+#include <engine.hpp>
+
+namespace Vultr
+{
+class CameraSystemProvider : public SystemProvider
+{
+  public:
+    // Singleton pattern for all providers
+    static std::shared_ptr<CameraSystemProvider> Get()
+    {
+        return Engine::GetSystemProvider<CameraSystemProvider>();
+    }
+
+    // Member variables for state
+    Entity m_camera = Entity(-1);
+    struct Camera
+    {
+        TransformComponent transform_component;
+        CameraComponent camera_component;
+        ControllerComponent controller_component;
+    } m_scene_camera;
+
+    template <class Archive> void serialize(Archive &ar)
+    {
+        // We pass this cast to the base type for each base type we
+        // need to serialize.  Do this instead of calling serialize functions
+        // directly
+        ar(cereal::base_class<SystemProvider>(this));
+    }
+
+  protected:
+    void OnDestroyEntity(Entity entity) override;
+    void OnCreateEntity(Entity entity) override;
+};
+
+} // namespace Vultr
+VultrRegisterSystemProvider(Vultr::CameraSystemProvider)
