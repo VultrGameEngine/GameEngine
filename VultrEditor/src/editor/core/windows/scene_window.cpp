@@ -39,7 +39,7 @@ void SceneWindow::Render()
                  ImVec2{viewport_panel_size.x, viewport_panel_size.y}, ImVec2{0, 1},
                  ImVec2{1, 0});
 #pragma clang diagnostic pop
-    if (Vultr::Editor::Editor::Get()->selected_entity.id != -1)
+    if (Vultr::Editor::Editor::Get()->selected_entity)
     {
         ImGuizmo::SetOrthographic(false);
         ImGuizmo::SetDrawlist();
@@ -89,7 +89,7 @@ void SceneWindow::Render()
             tc.rotation = glm::quat(rotation);
             tc.scale = scale;
         }
-        ImGui::End();
     }
+    ImGui::End();
 }
 } // namespace Vultr::Editor

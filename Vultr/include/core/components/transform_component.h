@@ -2,7 +2,6 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtx/transform.hpp>
-#include <ecs/entity/entity.hpp>
 
 struct TransformComponent
 {

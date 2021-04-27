@@ -8,7 +8,7 @@ MaterialComponent Create()
 {
     MaterialComponent component = MaterialComponent();
     component.shader_path = "res/shaders/unlit.glsl";
-    component.vec3s.insert({"lightColor", glm::vec3(1, 1, 1)});
+    component.colors.insert({"lightColor", Color(glm::vec4(1))});
     return component;
 }
 

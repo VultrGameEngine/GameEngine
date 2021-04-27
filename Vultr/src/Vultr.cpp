@@ -10,6 +10,7 @@
 #include <core/component_renderer.h>
 #include <gui/framework/basic.h>
 #include <gui/layouts/test_layout.h>
+#include <helpers/path.h>
 
 void *LoadDLL(const std::string &path)
 {
@@ -93,6 +94,7 @@ void Engine::Init(bool debug)
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_DEBUG_OUTPUT);
     glDebugMessageCallback(ErrorHandler::ErrorCallback, 0);
+    glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
     if (debug)
     {
         IMGUI_CHECKVERSION();
@@ -105,6 +107,8 @@ void Engine::Init(bool debug)
         ImGui::StyleColorsDark();
         ImGui_ImplGlfw_InitForOpenGL(window, true);
         ImGui_ImplOpenGL3_Init("#version 410");
+        io.Fonts->AddFontFromFileTTF(
+            Path::GetFullPath("res/fonts/Roboto-Regular.ttf").c_str(), 30);
         ImGui::StyleColorsDark();
     }
 }

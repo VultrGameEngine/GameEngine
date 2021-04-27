@@ -6,7 +6,6 @@
 #pragma once
 #include <core/components/sky_box_component.h>
 #include <core/system_providers/texture_loader_system_provider.h>
-#include <ecs/world/world.hpp>
 #include <glm/glm.hpp>
 #include <memory>
 #include <rendering/models/texture.h>

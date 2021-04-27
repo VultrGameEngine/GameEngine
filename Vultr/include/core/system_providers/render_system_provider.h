@@ -5,7 +5,6 @@
 #include <rendering/models/render_buffer.h>
 #include <rendering/render_group.h>
 #include <unordered_map>
-#include <ecs/world/world.hpp>
 #include <helpers/shader_importer.h>
 #include <helpers/mesh_importer.h>
 #include <GLFW/glfw3.h>
@@ -58,14 +57,6 @@ class RenderSystemProvider : public SystemProvider
 
     Shader *post_processing_shader;
     Mesh *render_quad;
-
-    template <class Archive> void serialize(Archive &ar)
-    {
-        // We pass this cast to the base type for each base type we
-        // need to serialize.  Do this instead of calling serialize functions
-        // directly
-        ar(cereal::base_class<SystemProvider>(this));
-    }
 
   protected:
     void OnCreateEntity(Entity entity) override;

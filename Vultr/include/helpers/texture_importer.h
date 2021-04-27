@@ -8,8 +8,8 @@ namespace Vultr
 class TextureImporter
 {
   public:
-    static void Import(const std::string &path, Texture &texture);
-    static void ImportSkybox(const std::vector<std::string> &paths,
+    static bool Import(const std::string &path, Texture &texture);
+    static bool ImportSkybox(const std::vector<std::string> &paths,
                              Texture &texture);
 };
 } // namespace Vultr

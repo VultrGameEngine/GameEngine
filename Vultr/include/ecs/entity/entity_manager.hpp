@@ -12,9 +12,6 @@
 #include <array>
 #include <assert.h>
 #include <queue>
-#include <set>
-
-using EntityID = uint32_t;
 
 class World;
 class EntityManager
@@ -23,7 +20,7 @@ class EntityManager
     EntityManager()
     {
 
-        for (EntityID entity = 0; entity < MAX_ENTITIES; ++entity)
+        for (EntityID entity = 1; entity < MAX_ENTITIES; ++entity)
         {
             available_entities.push(entity);
         }

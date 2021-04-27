@@ -4,7 +4,6 @@
 #pragma once
 #include <core/components/transform_component.h>
 #include <core/system_providers/camera_system_provider.h>
-#include <ecs/world/world.hpp>
 #include <memory>
 
 namespace Vultr

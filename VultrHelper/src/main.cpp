@@ -61,8 +61,10 @@ void GenerateInDir(Directory dir)
     }
 }
 
-int main(void)
+int main(int argc, char *argv[])
 {
+    Directory current(std::filesystem::current_path());
+    current.CreateSubDirectory("build");
     Directory systems(std::filesystem::current_path() / "include/system_providers/");
     GenerateInDir(systems);
     Directory components(std::filesystem::current_path() / "include/components/");
@@ -76,4 +78,21 @@ int main(void)
     system(
         "/usr/bin/cmake --build /home/brandon/Dev/GameEngine/SandboxTesting/build "
         "--config Debug --target all -- -j 10");
+    if (argc >= 3 && std::string(argv[1]) == "--g")
+    {
+        std::string game = argv[2];
+        for (int i = 3; i < argc; i++)
+        {
+            std::string param = std::string(argv[i]);
+            if (param == "-d")
+            {
+                std::string main_call =
+                    "ClangBuildAnalyzer --all build/CMakeFiles/" + game +
+                    ".dir build/capture_file";
+                std::cout << main_call << std::endl;
+                system(main_call.c_str());
+                system("ClangBuildAnalyzer --analyze build/capture_file");
+            }
+        }
+    }
 }

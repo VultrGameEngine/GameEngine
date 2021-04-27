@@ -4,14 +4,30 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
-#include <cereal/types/vector.hpp>
 #include <glad/glad.h>
+#include <types/types.hpp>
+
+struct Color
+{
+    Color(glm::vec4 p_value) : value(p_value)
+    {
+    }
+    glm::vec4 value;
+};
 
 struct MaterialComponent
 {
+    typedef struct
+    {
+        std::string path;
+        uint16 slot;
+    } TexturePair;
+
     std::string shader_path;
-    std::unordered_map<std::string, GLenum> textures;
+    std::vector<TexturePair> textures;
     std::unordered_map<std::string, glm::vec3> vec3s;
+    std::unordered_map<std::string, glm::vec4> vec4s;
+    std::unordered_map<std::string, Color> colors;
     std::unordered_map<std::string, int> ints;
     std::unordered_map<std::string, float> floats;
 
@@ -21,9 +37,4 @@ struct MaterialComponent
     }
 
     char *identifier = nullptr;
-
-    template <class Archive> void serialize(Archive &ar)
-    {
-        ar(shader_path, textures);
-    }
 };

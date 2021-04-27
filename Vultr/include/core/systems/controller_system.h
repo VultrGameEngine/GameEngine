@@ -5,7 +5,6 @@
 #include <core/components/controller_component.h>
 #include <core/components/transform_component.h>
 #include <core/system_providers/controller_system_provider.h>
-#include <ecs/world/world.hpp>
 #include <glm/glm.hpp>
 #include <memory>
 

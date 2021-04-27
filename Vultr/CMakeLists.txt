@@ -1,17 +1,11 @@
 cmake_minimum_required(VERSION 3.19.4)
 project(Vultr VERSION 0.1.0)
 
-include(CTest)
 enable_testing()
 
 file(GLOB_RECURSE Vultr_SRC
-  # src/main.cpp
     "src/*.cpp"
-    "src/*.c"
-    "include/*.h"
-    "include/*.hpp"
     "include/*.cpp"
-    "vendor/*.h"
     "vendor/*.cpp"
 )
 
@@ -39,8 +33,11 @@ include_directories(include vendor)
 if (UNIX)
     add_library(VultrShared SHARED ${Vultr_SRC})
     target_link_libraries(VultrShared PUBLIC GL glfw3 X11 Xxf86vm Xrandr pthread Xi dl freetype ${ASSIMP_LIBRARIES} /home/brandon/Dev/GameEngine/Vultr/vendor/libs/linux/libyaml-cpp.so)
+    target_precompile_headers(VultrShared PUBLIC pch.h)
+    target_include_directories(VultrShared PUBLIC include vendor)
     add_subdirectory(tests)
 endif(UNIX)
+
 if(WIN32)
     find_library(GLFW3 glfw3 HINTS C:/Users/Brand/Dev/GameEngine/Vultr/vendor/libs/WIN32)
     find_library(FREETYPE freetyped HINTS C:/Users/Brand/Dev/GameEngine/Vultr/vendor/libs/WIN32)
@@ -55,6 +52,4 @@ if(WIN32)
 
 endif (WIN32)
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DENABLE_DEBUG_MACRO")
-# set(CPACK_PROJECT_NAME ${PROJECT_NAME})
-# set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
-# include(CPack)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ftime-trace")

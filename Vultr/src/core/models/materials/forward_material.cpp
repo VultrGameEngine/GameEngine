@@ -9,9 +9,9 @@ MaterialComponent Create(
 {
     MaterialComponent component = MaterialComponent();
     component.shader_path = "res/shaders/forward_material.glsl";
-    component.textures.insert({p_texture, GL_TEXTURE0});
-    component.vec3s.insert({"objectColor", glm::vec3(1, 1, 1)});
-    component.vec3s.insert({"lightColor", glm::vec3(1, 1, 1)});
+    component.textures.push_back({p_texture, 0});
+    component.colors.insert({"objectColor", Color(glm::vec4(1))});
+    component.colors.insert({"lightColor", Color(glm::vec4(1))});
     component.ints.insert({"textureSampler", 0});
     return component;
 }

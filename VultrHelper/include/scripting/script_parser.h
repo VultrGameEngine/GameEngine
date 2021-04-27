@@ -1,6 +1,7 @@
 #pragma once
 
 #include "script_scanner.h"
+#include <helpers/directory.h>
 #include <list>
 
 namespace Vultr
@@ -14,7 +15,7 @@ struct VVariable
 struct VClass
 {
     std::string m_ClassName;
-    std::string m_FullFilepath;
+    File m_file;
     std::list<VVariable> m_Variables;
 };
 
@@ -27,13 +28,9 @@ class ScriptParser
     }
 
     std::string GenerateHeaderFile();
+    std::string InitFile();
     void DebugPrint();
     void Parse();
-
-    // std::vector<VClass> &GetClasses()
-    // {
-    //     return m_Classes;
-    // }
 
     static std::string GetFilenameAsClassName(std::string filename);
 

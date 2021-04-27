@@ -9,7 +9,7 @@ MaterialComponent Create(std::string p_identifier = "default")
     MaterialComponent component = MaterialComponent();
     component.shader_path = "res/shaders/skybox.glsl";
     component.identifier = &p_identifier[0];
-    component.textures.insert({p_identifier, GL_TEXTURE0});
+    component.textures.push_back({p_identifier, 0});
     component.ints.insert({"skybox", 0});
     return component;
 }

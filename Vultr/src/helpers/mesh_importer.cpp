@@ -25,7 +25,7 @@ Mesh *MeshImporter::ImportMesh(const std::string &path)
                                      aiProcess_SortByPType);
     if (!scene)
     {
-        std::cout << "FAILED TO IMPORT MESH" << std::endl;
+        std::cout << "FAILED TO IMPORT MESH " << path << std::endl;
         return nullptr;
     }
 

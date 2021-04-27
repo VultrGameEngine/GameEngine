@@ -1,6 +1,8 @@
 #pragma once
 #include <ecs/system/system_provider.hpp>
 #include <rendering/models/mesh.h>
+#include <memory>
+#include <unordered_map>
 
 namespace Vultr
 {
@@ -23,13 +25,6 @@ class MeshLoaderSystemProvider : public SystemProvider
     static void AddMesh(std::string path, Mesh *mesh)
     {
         Get()->meshes[path] = mesh;
-    }
-    template <class Archive> void serialize(Archive &ar)
-    {
-        // We pass this cast to the base type for each base type we
-        // need to serialize.  Do this instead of calling serialize functions
-        // directly
-        ar(cereal::base_class<SystemProvider>(this));
     }
 
   protected:

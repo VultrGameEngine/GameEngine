@@ -5,6 +5,7 @@
 #include <memory>
 #include <ecs/component/component.hpp>
 #include <yaml-cpp/yaml.h>
+#include <types/types.hpp>
 
 // An entity is just an ID
 // It has a bunch of operator overloads so that it can be treated as such, so
@@ -50,12 +51,12 @@ class Entity
         return this->id <= other.id;
     }
 
-    Signature GetSignature();
-
-    template <class Archive> void serialize(Archive &archive)
+    explicit operator bool() const
     {
-        archive(id); // serialize things by passing them to the archive
+        return this->id > 0;
     }
+
+    Signature GetSignature();
 
     static Entity New();
     template <typename T> void AddComponent(T component);
@@ -69,8 +70,10 @@ class Entity
     int id;
 };
 
+typedef uint32 EntityID;
+
 // Used to define the size of the arrays to hold all of these entities
-const size_t MAX_ENTITIES = 100000;
+const EntityID MAX_ENTITIES = 100000;
 
 namespace std
 {

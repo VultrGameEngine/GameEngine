@@ -49,6 +49,8 @@ void MeshLoaderSystem::Import(std::string path)
 {
     MeshLoaderSystemProvider &provider = *MeshLoaderSystemProvider::Get();
     Mesh *mesh = MeshImporter::ImportMesh(path);
+    if (mesh == nullptr)
+        return;
     provider.AddMesh(path, mesh);
 }
 

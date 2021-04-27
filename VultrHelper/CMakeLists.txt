@@ -4,11 +4,7 @@ project(VultrHelper VERSION 0.1.0)
 
 file(GLOB_RECURSE VultrEditor_SRC
     "src/*.cpp"
-    "include/*.h"
-    "include/*.hpp"
     "include/*.cpp"
-    "vendor/*.h"
-    "vendor/*.cpp"
 )
 
 include_directories(include vendor ../Vultr/include ../Vultr/vendor)

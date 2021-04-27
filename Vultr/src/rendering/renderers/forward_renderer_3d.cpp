@@ -32,7 +32,7 @@ void ForwardRenderer::BindMaterial(const MaterialComponent &material,
     {
         Texture *texture = TextureLoaderSystemProvider::Get()->GetTexture(path);
         if (texture != nullptr)
-            texture->Bind(slot);
+            texture->Bind(GL_TEXTURE0 + slot);
     }
     if (material.identifier != nullptr)
     {
@@ -49,6 +49,16 @@ void ForwardRenderer::BindMaterial(const MaterialComponent &material,
     for (auto [uniform, value] : material.vec3s)
     {
         shader->SetUniform3f(uniform, value);
+    }
+
+    for (auto [uniform, value] : material.vec4s)
+    {
+        shader->SetUniform4f(uniform, value);
+    }
+
+    for (auto [uniform, value] : material.colors)
+    {
+        shader->SetUniform4f(uniform, value.value);
     }
 
     for (auto [uniform, value] : material.ints)

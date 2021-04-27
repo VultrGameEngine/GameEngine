@@ -9,8 +9,8 @@ MaterialComponent Create(const std::string &p_diffuse_path,
 {
     MaterialComponent component = MaterialComponent();
     component.shader_path = "res/shaders/material.glsl";
-    component.textures.insert({p_diffuse_path, GL_TEXTURE0});
-    component.textures.insert({p_specular_path, GL_TEXTURE1});
+    component.textures.push_back({p_diffuse_path, 0});
+    component.textures.push_back({p_specular_path, 1});
     return component;
 }
 

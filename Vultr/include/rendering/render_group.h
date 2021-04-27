@@ -1,16 +1,8 @@
 #pragma once
-#include <glad/glad.h>
-#include <ecs/entity/entity.hpp>
-#include <ecs/world/world.hpp>
-#include <memory>
 #include <rendering/models/mesh.h>
 #include <rendering/models/texture.h>
 #include <rendering/render_context.h>
 #include <rendering/render_type.h>
-#include <set>
-#include <stdio.h>
-#include <stdlib.h>
-#include <vector>
 
 namespace Vultr
 {

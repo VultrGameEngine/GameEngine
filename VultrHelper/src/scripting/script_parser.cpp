@@ -149,6 +149,15 @@ std::string ScriptParser::GenerateHeaderFile()
     return file.str();
 }
 
+std::string ScriptParser::InitFile()
+{
+    if (m_components.size() == 0 && m_systems.size() == 0)
+        return "";
+    std::ostringstream file;
+
+    return file.str();
+}
+
 void ScriptParser::DebugPrint()
 {
     // for (auto structIter = m_Structs.begin(); structIter != m_Structs.end();
@@ -229,7 +238,7 @@ VClass ScriptParser::ParseClass()
     }
 
     VClass clazz =
-        VClass{classType.m_Lexeme, m_FullFilepath.GetPath(), std::list<VVariable>()};
+        VClass{classType.m_Lexeme, m_FullFilepath, std::list<VVariable>()};
 
     int level = 1;
     while (m_CurrentIter->m_Type != TokenType::END_OF_FILE)

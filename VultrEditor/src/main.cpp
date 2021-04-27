@@ -10,8 +10,7 @@ int main(void)
 
     float lastTime = 0;
     vultr.Init(true);
-    vultr.LoadGame("/home/brandon/Dev/GameEngine/SandboxTesting/build/Debug/"
-                   "libSandboxTesting.so");
+    vultr.LoadGame("/home/brandon/Dev/GameEngine/SandboxTesting/build/libGame.so");
 
     while (!vultr.should_close)
     {

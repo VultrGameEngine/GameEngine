@@ -14,6 +14,7 @@
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtx/transform.hpp>
 #include <rendering/renderers/forward_renderer_3d.h>
+#include <ecs/world/world.hpp>
 
 namespace Vultr
 {
@@ -24,11 +25,11 @@ void RenderSystem::Update(UpdateTick meta_data)
     RenderSystemProvider &provider = *(RenderSystemProvider::Get());
     Entity camera = CameraSystemProvider::Get()->m_camera;
     Entity light = LightSystemProvider::Get()->light;
-    if (light == -1)
+    if (!light)
         return;
 
     // If no camera is in the scene, then something is wrong and we can't render
-    if (camera != -1)
+    if (camera)
     {
         // This renders to the game scene, important for the editor
         provider.game.fbo->Bind();
@@ -132,6 +133,7 @@ void RenderSystem::Update(UpdateTick meta_data)
 void RenderSystem::RenderElements(unsigned int type)
 {
     RenderSystemProvider &provider = *(RenderSystemProvider::Get());
+    glEnable(GL_BLEND);
 
     for (Entity entity : provider.entities)
     {
@@ -140,16 +142,19 @@ void RenderSystem::RenderElements(unsigned int type)
             continue;
         TransformComponent &transform = entity.GetComponent<TransformComponent>();
         StaticMeshComponent &mesh = entity.GetComponent<StaticMeshComponent>();
-
-        Renderer3D::ForwardRenderer::Submit(material, transform.Matrix(),
-                                            *mesh.GetMesh());
+        Mesh *mesh_obj = mesh.GetMesh();
+        if (mesh_obj != nullptr)
+        {
+            Renderer3D::ForwardRenderer::Submit(material, transform.Matrix(),
+                                                *mesh_obj);
+        }
     }
 }
 
 void RenderSystem::RenderSkybox(unsigned int type)
 {
     Entity camera = CameraSystemProvider::Get()->m_camera;
-    if (camera == -1)
+    if (!camera)
         return;
     Signature signature;
     signature.set(Engine::GetComponentRegistry().GetComponentType<SkyBoxComponent>(),

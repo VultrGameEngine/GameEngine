@@ -14,6 +14,8 @@ class Shader
     ~Shader();
     void SetUniformMatrix4fv(const std::string &uniform, const float *value);
 
+    void SetUniform4f(const std::string &uniform, const glm::vec4 &value);
+
     void SetUniform3f(const std::string &uniform, const glm::vec3 &value);
 
     void SetUniform2f(const std::string &uniform, const glm::vec2 &value);

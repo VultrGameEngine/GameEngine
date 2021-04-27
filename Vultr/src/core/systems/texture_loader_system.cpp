@@ -74,8 +74,16 @@ void TextureLoaderSystem::CheckAndLoadTexture(Entity entity)
         {
             if (!provider.isLoaded(path))
             {
-                provider.textures[path] = new Texture(GL_TEXTURE_2D);
-                TextureImporter::Import(path, *provider.textures[path]);
+                Texture *new_tex = new Texture(GL_TEXTURE_2D);
+                bool successful = TextureImporter::Import(path, *new_tex);
+                if (successful)
+                {
+                    provider.textures[path] = new_tex;
+                }
+                else
+                {
+                    delete new_tex;
+                }
             }
         }
     }

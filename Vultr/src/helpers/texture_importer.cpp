@@ -7,7 +7,7 @@
 
 namespace Vultr
 {
-void TextureImporter::Import(const std::string &path, Texture &texture)
+bool TextureImporter::Import(const std::string &path, Texture &texture)
 {
     stbi_set_flip_vertically_on_load(1);
     int width;
@@ -15,6 +15,10 @@ void TextureImporter::Import(const std::string &path, Texture &texture)
     int bpp;
     unsigned char *buffer =
         stbi_load(Path::GetFullPath(path).c_str(), &width, &height, &bpp, 4);
+    if (buffer == nullptr)
+    {
+        return false;
+    }
     texture.Bind(GL_TEXTURE0);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -25,8 +29,9 @@ void TextureImporter::Import(const std::string &path, Texture &texture)
                  GL_UNSIGNED_BYTE, buffer);
     if (buffer)
         stbi_image_free(buffer);
+    return true;
 }
-void TextureImporter::ImportSkybox(const std::vector<std::string> &paths,
+bool TextureImporter::ImportSkybox(const std::vector<std::string> &paths,
                                    Texture &texture)
 {
     stbi_set_flip_vertically_on_load(0);
@@ -48,6 +53,7 @@ void TextureImporter::ImportSkybox(const std::vector<std::string> &paths,
             std::cout << "Cubemap texture failed to load at path: " << paths[i]
                       << std::endl;
             stbi_image_free(data);
+            return false;
         }
     }
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -55,5 +61,6 @@ void TextureImporter::ImportSkybox(const std::vector<std::string> &paths,
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+    return true;
 }
 } // namespace Vultr

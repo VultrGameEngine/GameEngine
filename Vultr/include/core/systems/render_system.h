@@ -7,7 +7,6 @@
 #include <core/components/transform_component.h>
 #include <core/models/update_tick.h>
 #include <core/system_providers/render_system_provider.h>
-#include <ecs/world/world.hpp>
 #include <glm/glm.hpp>
 
 namespace Vultr
