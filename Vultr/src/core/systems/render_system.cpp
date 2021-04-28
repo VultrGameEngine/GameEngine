@@ -10,6 +10,7 @@
 #include <core/systems/texture_loader_system.h>
 #include <core/systems/gui_system.h>
 #include <core/systems/render_system.h>
+#include <core/system_providers/input_system_provider.h>
 #include <glm/gtc/type_ptr.hpp>
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtx/transform.hpp>
@@ -109,28 +110,26 @@ void RenderSystem::Update(UpdateTick meta_data)
         // Render both the skybox and the static meshes in the scene
         RenderSkybox(SCENE);
         RenderElements(SCENE);
-
-        // if (CameraSystemProvider::Get()->m_camera.id != -1)
-        // {
-        //     auto camera_transform =
-        //         CameraSystemProvider::Get()
-        //             ->m_camera.GetComponent<TransformComponent>();
-        //     camera_transform.scale = glm::vec3(0.01);
-        //     ShaderLoaderSystem::LoadShader(provider.camera_mat);
-        //     TextureLoaderSystem::LoadTexture(provider.camera_mat);
-        //     auto &mesh = provider.m_camera_mesh;
-
-        //     Renderer3D::ForwardRenderer::Submit(provider.camera_mat,
-        //                                         camera_transform.Matrix(), *mesh);
-        // }
-
         // Unbind the frame buffer
         provider.scene.fbo->Unbind();
+
+        provider.input_data.fb->Bind();
+
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        // Set the viewport to match that in the editor
+        glViewport(0, 0, provider.GetDimensions(SCENE).x,
+                   provider.GetDimensions(SCENE).y);
+
+        RenderElementInput();
+
+        // Render both the skybox and the static meshes in the scene
+        provider.input_data.fb->Unbind();
     }
 }
 
 // Render all of the static meshes in the scene
-void RenderSystem::RenderElements(unsigned int type)
+void RenderSystem::RenderElements(uint8 type)
 {
     RenderSystemProvider &provider = *(RenderSystemProvider::Get());
     glEnable(GL_BLEND);
@@ -151,7 +150,42 @@ void RenderSystem::RenderElements(unsigned int type)
     }
 }
 
-void RenderSystem::RenderSkybox(unsigned int type)
+void RenderSystem::RenderElementInput()
+{
+    RenderSystemProvider &provider = *(RenderSystemProvider::Get());
+
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    for (Entity entity : provider.entities)
+    {
+        TransformComponent &transform = entity.GetComponent<TransformComponent>();
+        StaticMeshComponent &mesh = entity.GetComponent<StaticMeshComponent>();
+        Mesh *mesh_obj = mesh.GetMesh();
+        if (mesh_obj != nullptr)
+        {
+            Shader *shader = provider.input_shader;
+            shader->Bind();
+
+            shader->SetUniformMatrix4fv("model", glm::value_ptr(transform.Matrix()));
+
+            const RenderContext &context = RenderContext::GetContext();
+
+            shader->SetUniformMatrix4fv(
+                "projection",
+                glm::value_ptr(context.camera_component.GetProjectionMatrix(
+                    context.dimensions.x, context.dimensions.y)));
+            shader->SetUniformMatrix4fv(
+                "view", glm::value_ptr(context.camera_transform.GetViewMatrix()));
+            int r = (entity.id & 0x000000FF) >> 0;
+            int g = (entity.id & 0x0000FF00) >> 8;
+            int b = (entity.id & 0x00FF0000) >> 16;
+            shader->SetUniform4f(
+                "color", glm::vec4(r / 255.0f, g / 255.0f, b / 255.0f, 1.0f));
+            mesh_obj->Draw();
+        }
+    }
+}
+
+void RenderSystem::RenderSkybox(uint8 type)
 {
     Entity camera = CameraSystemProvider::Get()->m_camera;
     if (!camera)

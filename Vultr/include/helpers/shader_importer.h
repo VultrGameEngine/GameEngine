@@ -13,6 +13,7 @@ class ShaderImporter
 {
   public:
     const static ShaderProgramSource OUTLINE;
+    const static ShaderProgramSource EDITOR_INPUT;
     static Shader *ImportShader(const std::string &path);
     static Shader *ImportEngineShader(ShaderProgramSource source);
     static ShaderProgramSource ParseShader(const std::string &filepath);

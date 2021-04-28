@@ -19,8 +19,10 @@ class RenderSystem
 
     // Private helper methods
   private:
-    static void RenderElements(unsigned int type);
-    static void RenderSkybox(unsigned int type);
+    static void RenderElements(uint8 type);
+    static void RenderSkybox(uint8 type);
+    static void RenderElementInput();
+
     static SystemProvider &GetProvider()
     {
         std::shared_ptr<RenderSystemProvider> provider = RenderSystemProvider::Get();

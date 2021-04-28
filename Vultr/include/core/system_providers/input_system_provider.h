@@ -52,6 +52,11 @@ class InputSystemProvider : public SystemProvider
         return mouse_pos;
     }
 
+    glm::vec2 SceneMousePosition() const
+    {
+        return scene_mouse_pos;
+    }
+
     bool MouseDown() const
     {
         return mouse_down;
@@ -74,8 +79,9 @@ class InputSystemProvider : public SystemProvider
     }
     GLFWwindow *window;
     glm::vec2 mouse_pos = glm::vec2(0, 0);
-    bool mouse_down = false;
+    glm::vec2 scene_mouse_pos = glm::vec2(0, 0);
     glm::vec2 scroll_amount = glm::vec2(0, 0);
+    bool mouse_down = false;
     friend InputSystem;
 };
 

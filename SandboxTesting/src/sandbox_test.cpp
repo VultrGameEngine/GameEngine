@@ -33,12 +33,15 @@ void SandboxTest::Init()
         glm::vec3(0, 0, 30), glm::quat(1, 0, 0, 0), glm::vec3(4, 4, 4)));
     light.AddComponent(Vultr::UnlitMaterial::Create());
 
-    Entity cube = Entity::New();
-    cube.AddComponent(TransformComponent::Create(
-        glm::vec3(0, 0, 60), glm::quat(1, 0, 0, 0), glm::vec3(1, 1, 1)));
-    cube.AddComponent(StaticMeshComponent::Create());
-    cube.AddComponent(
-        Vultr::ForwardMaterial::Create("res/textures/cube/diffuse.png"));
+    for (int i = 0; i < 100; i++)
+    {
+        Entity cube = Entity::New();
+        cube.AddComponent(TransformComponent::Create(
+            glm::vec3(0, 0, 2 * i), glm::quat(1, 0, 0, 0), glm::vec3(1, 1, 1)));
+        cube.AddComponent(StaticMeshComponent::Create());
+        cube.AddComponent(
+            Vultr::ForwardMaterial::Create("res/textures/cube/diffuse.png"));
+    }
 }
 
 void SandboxTest::Update(Vultr::UpdateTick tick)

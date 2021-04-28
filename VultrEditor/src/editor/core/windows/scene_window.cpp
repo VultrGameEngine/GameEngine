@@ -39,6 +39,11 @@ void SceneWindow::Render()
                  ImVec2{viewport_panel_size.x, viewport_panel_size.y}, ImVec2{0, 1},
                  ImVec2{1, 0});
 #pragma clang diagnostic pop
+
+    // pos *= RenderSystemProvider::Get()->GetDimensions(SCENE);
+    // int pickedID = RenderSystemProvider::Get()->GetEntityAtPixel(pos.x, pos.y);
+    // std::cout << "Pixel data at " << pos.x << ", " << pos.y << ": " << pickedID
+    //           << std::endl;
     if (Vultr::Editor::Editor::Get()->selected_entity)
     {
         ImGuizmo::SetOrthographic(false);

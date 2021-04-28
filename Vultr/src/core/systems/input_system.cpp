@@ -74,6 +74,7 @@ void InputSystem::Update(const UpdateTick &tick)
             if (n_mouse_pos.x <= 1 && n_mouse_pos.y <= 1 && n_mouse_pos.x >= 0 &&
                 n_mouse_pos.y >= 0)
             {
+                provider.scene_mouse_pos = n_mouse_pos;
             }
             return;
         }
