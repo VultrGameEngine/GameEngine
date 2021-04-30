@@ -199,13 +199,4 @@ double Engine::GetElapsedTime()
 void Engine::Destroy()
 {
 }
-
-ComponentRegistry &Engine::GetComponentRegistry()
-{
-    return *Get().registry;
-}
-SystemManager &Engine::GetGlobalSystemManager()
-{
-    return *Get().system_manager;
-}
 } // namespace Vultr

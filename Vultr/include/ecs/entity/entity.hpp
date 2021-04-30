@@ -4,7 +4,7 @@
 namespace Vultr
 {
 // An entity is just an ID
-typedef uint32 Entity;
+typedef u32 Entity;
 
 // Used to define the size of the arrays to hold all of these entities
 const Entity MAX_ENTITIES = 100000;

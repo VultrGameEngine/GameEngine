@@ -21,8 +21,6 @@ class Engine
     double GetElapsedTime();
     GLFWwindow *window;
     bool should_close = false;
-    static ComponentRegistry &GetComponentRegistry();
-    static SystemManager &GetGlobalSystemManager();
     // Component methods
     template <typename T>
     static void RegisterComponent(bool inspector_available = true)
@@ -33,35 +31,31 @@ class Engine
     template <typename T>
     static std::shared_ptr<T> RegisterGlobalSystem(Signature signature)
     {
-        return Get().system_manager->RegisterSystem<T>(signature);
-    }
-    template <typename T> static void SetSignature(Signature signature)
-    {
-        return Get().system_manager->SetSignature<T>(signature);
+        return SystemManager::RegisterSystem<T>(Get().system_manager, signature);
     }
 
     template <typename T> static void DeregisterSystem()
     {
-        return Get().system_manager->DeregisterSystem<T>();
+        return SystemManager::DeregisterSystem<T>(Get().system_manager);
     }
 
     template <typename T> static std::shared_ptr<T> GetSystemProvider()
     {
-        return Get().system_manager->GetSystemProvider<T>();
+        return SystemManager::GetSystemProvider<T>();
     }
 
   private:
     Engine()
     {
-        registry = std::make_shared<ComponentRegistry>();
-        system_manager = std::make_shared<SystemManager>();
+        // registry = std::make_shared<ComponentRegistry>();
+        // system_manager = std::make_shared<SystemManager::SystemManager>();
     }
     ~Engine()
     {
     }
     bool debug;
     Game *game;
-    std::shared_ptr<ComponentRegistry> registry;
-    std::shared_ptr<SystemManager> system_manager;
+    ComponentRegistry registry;
+    SystemManager::SystemManager system_manager;
 };
 } // namespace Vultr

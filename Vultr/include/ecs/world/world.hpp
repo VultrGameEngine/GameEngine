@@ -11,10 +11,11 @@
 #include <fstream>
 #include <engine.hpp>
 
-class World
+namespace Vultr
 {
-  public:
-    World() = default;
+
+struct World
+{
 
     static std::shared_ptr<World> Get();
 
@@ -65,27 +66,24 @@ class World
     }
 
     std::unique_ptr<ComponentManager> component_manager;
-    std::unique_ptr<EntityManager> entity_manager;
-    std::unique_ptr<SystemManager> system_manager;
+    EntityManager::EntityManager entity_manager;
+    SystemManager::SystemManager system_manager;
 
-  private:
     static std::shared_ptr<World> current_world;
-    friend Vultr::Engine;
-    friend Entity;
 };
 
-template <typename T> void Entity::AddComponent(T component)
+template <typename T> void AddComponent(Entity entity, T component)
 {
     std::shared_ptr<World> world = World::Get();
     assert(world != nullptr && "World does not exist! Make sure you create a world "
                                "before trying to add a component to an entity");
-    world->component_manager->GetComponentArray<T>()->InsertData(*this, component);
+    world->component_manager->GetComponentArray<T>()->InsertData(entity, component);
 
-    auto signature = world->entity_manager->GetSignature(*this);
+    auto signature = world->entity_manager->GetSignature(entity);
     signature.set(Vultr::Engine::GetComponentRegistry().GetComponentType<T>(), true);
-    world->system_manager->EntitySignatureChanged(*this, signature);
+    SystemManager::EntitySignatureChanged(world->system_manager, entity, signature);
     Vultr::Engine::GetGlobalSystemManager().EntitySignatureChanged(*this, signature);
-    world->entity_manager->SetSignature(*this, signature);
+    entity_manager->SetSignature(world->system_manager, entity, signature);
 }
 
 template <typename T> void Entity::RemoveComponent()
@@ -123,3 +121,4 @@ template <typename T> T *Entity::GetComponentUnsafe()
     assert(world != nullptr && "Cannot get component because world does not exist!");
     return world->component_manager->GetComponentArray<T>()->GetDataUnsafe(*this);
 }
+} // namespace Vultr

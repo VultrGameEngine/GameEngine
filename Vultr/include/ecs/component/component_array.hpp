@@ -7,6 +7,9 @@
 #include <memory>
 #include <unordered_map>
 
+namespace Vultr
+{
+
 class IComponentArray
 {
   public:
@@ -91,10 +94,6 @@ template <typename T> class ComponentArray : public IComponentArray
         }
     }
 
-    void SerializeEntity(Entity entity)
-    {
-    }
-
   private:
     // Packed array of components
     // Set to be of maximum length of the maximum number of entities
@@ -110,3 +109,4 @@ template <typename T> class ComponentArray : public IComponentArray
     // Total size of valid entries in the array
     size_t size{};
 };
+} // namespace Vultr

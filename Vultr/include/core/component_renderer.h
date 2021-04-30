@@ -5,6 +5,7 @@
 #include <ecs/component/component_array.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+using namespace Vultr;
 typedef void (*ComponentRender)(Entity);
 
 #define _RENDER_MEMBER(T, x)                                                        \

@@ -20,7 +20,7 @@ struct MaterialComponent
     typedef struct
     {
         std::string path;
-        uint16 slot;
+        u16 slot;
     } TexturePair;
 
     std::string shader_path;

@@ -1,3 +1,3 @@
 #pragma once
-class Entity;
-typedef void (*ComponentConstructor)(Entity);
+#include <ecs/entity/entity.hpp>
+typedef void (*ComponentConstructor)(Vultr::Entity);
