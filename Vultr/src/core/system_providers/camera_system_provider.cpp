@@ -3,6 +3,7 @@
 
 namespace Vultr
 {
+
 void CameraSystemProvider::OnCreateEntity(Entity entity)
 {
     CameraSystem::OnCreateEntity(entity);

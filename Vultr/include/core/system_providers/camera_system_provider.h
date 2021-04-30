@@ -5,30 +5,25 @@
 #include <ecs/system/system_provider.hpp>
 #include <engine.hpp>
 
-namespace Vultr
+namespace Vultr::CameraSystemProvider
 {
-class CameraSystemProvider : public SystemProvider
+struct CameraSystemComponent
 {
-  public:
-    // Singleton pattern for all providers
-    static std::shared_ptr<CameraSystemProvider> Get()
-    {
-        return Engine::GetSystemProvider<CameraSystemProvider>();
-    }
-
     // Member variables for state
     Entity m_camera = Entity(-1);
     struct Camera
     {
-        TransformComponent transform_component;
-        CameraComponent camera_component;
-        ControllerComponent controller_component;
+        TransformComponent m_transform_component;
+        CameraComponent m_camera_component;
+        ControllerComponent m_controller_component;
     } m_scene_camera;
-
-  protected:
-    void OnDestroyEntity(Entity entity) override;
-    void OnCreateEntity(Entity entity) override;
 };
 
-} // namespace Vultr
-VultrRegisterSystemProvider(Vultr::CameraSystemProvider)
+std::shared_ptr<CameraSystemComponent> Get()
+{
+    return Engine::GetSystemProvider<CameraSystemComponent>();
+}
+
+} // namespace Vultr::CameraSystemProvider
+
+VultrRegisterSystemProvider(Vultr::CameraSystemProvider::CameraSystemComponent)

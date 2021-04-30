@@ -3,10 +3,15 @@
 #include <ecs/world/world.hpp>
 #include <engine.hpp>
 
-namespace Vultr
+namespace Vultr::CameraSystem
 {
+static SystemProvider &GetProvider()
+{
+    std::shared_ptr<CameraSystemProvider> provider = CameraSystemProvider::Get();
+    return *provider;
+}
 
-void CameraSystem::OnCreateEntity(Entity entity)
+void OnCreateEntity(Entity entity)
 {
     auto &camera_component = entity.GetComponent<CameraComponent>();
     if (camera_component.enabled)
@@ -15,7 +20,7 @@ void CameraSystem::OnCreateEntity(Entity entity)
     }
 }
 
-void CameraSystem::OnDestroyEntity(Entity entity)
+void OnDestroyEntity(Entity entity)
 {
     CameraSystemProvider &provider = *CameraSystemProvider::Get();
     if (provider.m_camera == entity)
@@ -33,7 +38,7 @@ void CameraSystem::OnDestroyEntity(Entity entity)
     }
 }
 
-void CameraSystem::RegisterSystem()
+void RegisterSystem()
 {
     Signature signature;
     signature.set(Engine::GetComponentRegistry().GetComponentType<CameraComponent>(),
@@ -42,4 +47,4 @@ void CameraSystem::RegisterSystem()
         Engine::GetComponentRegistry().GetComponentType<TransformComponent>(), true);
     Engine::RegisterGlobalSystem<CameraSystemProvider>(signature);
 }
-} // namespace Vultr
+} // namespace Vultr::CameraSystem

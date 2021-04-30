@@ -10,7 +10,7 @@
 // Alias to describe the ID of the components
 // Every component has an ID which is just a number so we define [ComponentType] as
 // just a uint8_t
-using ComponentType = uint8_t;
+typedef uint8_t ComponentType;
 
 // Defines the number of components we create
 const ComponentType MAX_COMPONENTS = 32;
@@ -21,4 +21,4 @@ const ComponentType MAX_COMPONENTS = 32;
 // components required, then we use this signature to determine that The bitwise
 // operation will make it so that the entity can have more components, but it
 // definitely HAS to have these specific components of this [ComponentType]
-using Signature = std::bitset<MAX_COMPONENTS>;
+typedef std::bitset<MAX_COMPONENTS> Signature;
