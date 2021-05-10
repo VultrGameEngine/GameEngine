@@ -8,14 +8,13 @@
 #include <memory>
 #include <unordered_map>
 
-namespace Vultr::ComponentManager
+namespace Vultr
 {
 struct ComponentManager
 {
 
     // Map from type string poiner to a component array
-    std::unordered_map<std::string, std::shared_ptr<IComponentArray>>
-        component_arrays{};
+    std::unordered_map<const char *, IComponentArray *> component_arrays{};
 };
 void EntityDestroyed(ComponentManager &manager, Entity entity);
 
@@ -27,11 +26,10 @@ std::shared_ptr<ComponentArray<T>> GetComponentArray(ComponentManager &manager)
 
     if (manager.component_arrays.find(type_name) == manager.component_arrays.end())
     {
-        manager.component_arrays.insert(
-            {type_name, std::make_shared<ComponentArray<T>>()});
+        manager.component_arrays.insert({type_name, new ComponentArray<T>()});
     }
 
     return std::static_pointer_cast<ComponentArray<T>>(
         manager.component_arrays[type_name]);
 }
-} // namespace Vultr::ComponentManager
+} // namespace Vultr

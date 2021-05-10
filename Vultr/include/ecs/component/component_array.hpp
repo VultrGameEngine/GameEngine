@@ -10,14 +10,14 @@
 namespace Vultr
 {
 
-class IComponentArray
+struct IComponentArray
 {
   public:
     virtual ~IComponentArray() = default;
     virtual void EntityDestroyed(Entity entity){};
 };
 
-template <typename T> class ComponentArray : public IComponentArray
+template <typename T> struct ComponentArray : public IComponentArray
 {
   public:
     void InsertData(Entity entity, T component)

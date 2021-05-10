@@ -1,8 +1,8 @@
 #pragma once
 namespace Vultr
 {
-struct UpdateTick;
-class Engine;
+    struct UpdateTick;
+    class Engine;
 } // namespace Vultr
 
 class Game

@@ -1,4 +1,8 @@
 #pragma once
+#include <stdint.h>
+#include <cstddef>
+#include <stdlib.h>
+#include <assert.h>
 
 typedef unsigned int uint;
 typedef uint64_t u64;

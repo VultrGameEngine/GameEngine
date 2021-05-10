@@ -1,6 +1,6 @@
 #pragma once
 
-namespace VTL
+namespace vtl
 {
 
 }

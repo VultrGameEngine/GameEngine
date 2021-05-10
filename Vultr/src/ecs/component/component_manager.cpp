@@ -1,6 +1,6 @@
 #include <ecs/component/component_manager.hpp>
 
-namespace Vultr::ComponentManager
+namespace Vultr
 {
 
 void EntityDestroyed(ComponentManager &manager, Entity entity)
@@ -12,4 +12,4 @@ void EntityDestroyed(ComponentManager &manager, Entity entity)
         component->EntityDestroyed(entity);
     }
 }
-} // namespace Vultr::ComponentManager
+} // namespace Vultr
