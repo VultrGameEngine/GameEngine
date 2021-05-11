@@ -27,7 +27,7 @@ if (WIN32)
     endif()
 endif (WIN32)
 
-include_directories(include vendor)
+include_directories(include vendor ../VTL/include)
 
 
 if (UNIX)

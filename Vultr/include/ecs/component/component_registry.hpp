@@ -7,74 +7,45 @@
 
 namespace Vultr
 {
-class ComponentRegistry
-{
-  public:
-    template <typename T> void RegisterComponent(bool inspector_available = true)
+    struct ComponentRegistry
     {
-        const char *type_name = typeid(T).name();
-
-        assert(component_types.find(type_name) == component_types.end() &&
-               "Registered component type more than once");
-
-        // Add the component type to the map
-        component_types.insert({type_name, next_component_type});
-
-        ComponentRender renderer = [](Entity entity) { RenderComponent<T>(entity); };
-
-        // Add the component to the map
-        component_renderers.insert({type_name, renderer});
-
-        ComponentConstructor constructor = [](Entity entity) {
-            entity.AddComponent(T::Create());
+        struct ComponentData
+        {
+            ComponentRender component_renderer;
+            ComponentConstructor component_constructor;
         };
 
-        component_constructors.insert({type_name, constructor});
+        // Map from component type to a component data
+        std::unordered_map<ComponentType, ComponentData> components{};
+    };
 
-        // Increment the next component type
-        ++next_component_type;
-    }
+#define register_component(registry, T)                                             \
+    internal_register_component<T>(                                                 \
+        registry, typeid_helper<Hash32_CT(#T, sizeof(#T) - 1)>(),                   \
+        [](Entity entity) { entity_add_component(entity, T::Create()); })
 
-    template <typename T> ComponentType GetComponentType()
+    template <typename T>
+    void internal_component_registry_register_component(
+        ComponentRegistry &r, ComponentType type, ComponentConstructor constructor)
     {
-        const char *type_name = typeid(T).name();
 
-        assert(component_types.find(type_name) != component_types.end() &&
-               "Component not registered before use");
+        assert(r.components.find(type) == r.components.end() &&
+               "Registered component type more than once");
 
-        // Return this component's type used for creating signatures
-        return component_types[type_name];
+        // Create the renderer
+        ComponentRender renderer = [](Entity entity) { RenderComponent<T>(entity); };
+
+        // Create the tuple with the renderer and constructor
+        ComponentRegistry::ComponentData data = {
+            .component_renderer = renderer, .component_constructor = constructor};
+
+        // Add the component type to the map
+        r.components.insert({type, data});
     }
 
-    bool ComponentRegistered(const char *type_name)
-    {
-        return component_types.find(type_name) != component_types.end();
-    }
+    bool component_registry_is_component_registered(const ComponentRegistry &r,
+                                                    ComponentType type);
 
-    void RenderEntityComponents(Entity entity)
-    {
-        for (auto const [type, render] : component_renderers)
-        {
-            render(entity);
-        }
-    }
-    std::unordered_map<const char *, ComponentConstructor> GetComponentConstructors()
-    {
-        return component_constructors;
-    }
-
-  private:
-    // Map from type string pointer to a component type
-    std::unordered_map<const char *, ComponentType> component_types{};
-
-    // Map from type string pointer to a render function
-    std::unordered_map<const char *, ComponentRender> component_renderers{};
-
-    // Map from name to the creator, for use in the editor
-    std::unordered_map<const char *, ComponentConstructor> component_constructors{};
-
-    // The component type to be assigned to the next registered component starting at
-    // 0
-    ComponentType next_component_type{};
-};
+    void component_regsitry_render_entity_components(const ComponentRegistry &r,
+                                                     Entity entity);
 } // namespace Vultr

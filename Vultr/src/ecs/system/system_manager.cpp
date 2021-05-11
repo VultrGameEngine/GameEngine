@@ -1,41 +1,54 @@
 #include <ecs/entity/entity.hpp>
 #include <ecs/system/system_manager.hpp>
 
-namespace Vultr::SystemManager
+namespace Vultr
 {
-void EntityDestroyed(SystemManager &manager, Entity entity)
-{
-    // Erase a destroyed entity from all system lists
-    for (auto const &pair : manager.system_providers)
+    void system_manager_entity_destroyed(SystemManager &m, Entity entity)
     {
-        auto const &system = pair.second;
-
-        system->DestroyEntity(entity);
-    }
-}
-
-void EntitySignatureChanged(SystemManager &manager, Entity entity,
-                            Signature entity_signature)
-{
-    // Notify each system that an entity's signature has changed
-    for (auto const &pair : manager.system_providers)
-    {
-        auto const &type = pair.first;
-        auto const &system = pair.second;
-        auto const &system_signature = manager.signatures[type];
-
-        // If entity signature matches system signature
-        if (system->Match(entity_signature))
+        // Erase a destroyed entity from all system lists
+        for (auto const &pair : m.system_providers)
         {
-            // Insert into set
-            system->CreateEntity(entity);
-        }
-        // Entity signature does not match system signature
-        else
-        {
-            // Erase from set
-            system->DestroyEntity(entity);
+            auto const &system = pair.second;
+            if (system.on_destroy_entity != nullptr)
+            {
+                system.on_destroy_entity(entity);
+            }
         }
     }
-}
-} // namespace Vultr::SystemManager
+
+    void system_manager_entity_signature_changed(SystemManager &m, Entity entity,
+                                                 Signature entity_signature)
+    {
+        // Notify each system that an entity's signature has changed
+        for (auto &pair : m.system_providers)
+        {
+            auto &type = pair.first;
+            auto &system = pair.second;
+            auto &system_signature = pair.second.signature;
+
+            bool match_signature;
+            if (system.match_signature != nullptr)
+            {
+                match_signature = system.match_signature(entity_signature);
+            }
+            else
+            {
+                match_signature =
+                    signature_contains(system.signature, entity_signature);
+            }
+
+            // If entity signature matches system signature
+            if (match_signature)
+            {
+                // Insert into set
+                system_provider_on_create_entity(system, entity);
+            }
+            // Entity signature does not match system signature
+            else
+            {
+                // Erase from set
+                system_provider_on_destroy_entity(system, entity);
+            }
+        }
+    }
+} // namespace Vultr

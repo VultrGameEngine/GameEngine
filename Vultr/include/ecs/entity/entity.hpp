@@ -3,9 +3,10 @@
 
 namespace Vultr
 {
-// An entity is just an ID
-typedef u32 Entity;
+    // An entity is just an ID
+    typedef u32 Entity;
 
-// Used to define the size of the arrays to hold all of these entities
-const Entity MAX_ENTITIES = 100000;
+    // Used to define the size of the arrays to hold all of these entities
+    const Entity MAX_ENTITIES = 100000;
+
 } // namespace Vultr
