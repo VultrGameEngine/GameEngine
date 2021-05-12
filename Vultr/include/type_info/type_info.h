@@ -28,7 +28,9 @@ namespace Vultr
     }
 
     template <typename T>
-    const u32 hash_struct();
+    const u32 hash_struct()
+    {
+    }
 
 // Register the type info (stringified name of the struct and the hash) for a struct
 #define register_struct_ti(T)                                                       \

@@ -1,4 +1,4 @@
-#include <Vultr.hpp>
+#include <vultr.hpp>
 #ifdef WIN32
 #include <windows.h>
 #else
@@ -39,6 +39,11 @@ namespace Vultr
     {
         static Engine engine;
         return engine;
+    }
+
+    World *get_current_world()
+    {
+        return engine_global().current_world;
     }
 
     void engine_init(Engine &e, bool debug)
@@ -181,9 +186,9 @@ namespace Vultr
 
         if (e.game != nullptr)
             e.game->Update(tick);
-        // Only continuously update the meshes if we are planning on changing these
-        // components at random (really will only happen in the editor)
-        // If you need to change these components at runtime, destroy and then readd
+        // Only continuously update the meshes if we are planning on changing
+        // these components at random (really will only happen in the editor) If
+        // you need to change these components at runtime, destroy and then readd
         // the components
         if (e.debug)
         {

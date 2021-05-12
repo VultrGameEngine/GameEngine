@@ -102,6 +102,7 @@ namespace vtl
         T &operator[](int index)
         {
             assert(index >= 0 && "Index out of bounds!");
+            assert(head != nullptr && "List is empty!");
             auto *iterator = head;
             for (int i = 0; i < index; i++)
             {
@@ -204,6 +205,10 @@ namespace vtl
         if (prev != nullptr)
         {
             prev->next = next;
+        }
+        else
+        {
+            l.head = next;
         }
         T temp = deleted->value;
         free(deleted);

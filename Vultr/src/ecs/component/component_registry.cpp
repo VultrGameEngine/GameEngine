@@ -8,8 +8,7 @@ namespace Vultr
     {
         return r.components.find(type) != r.components.end();
     }
-
-    void component_regsitry_render_entity_components(const ComponentRegistry &r,
+    void component_registry_render_entity_components(const ComponentRegistry &r,
                                                      Entity entity)
     {
         for (auto const [type, data] : r.components)

@@ -96,12 +96,9 @@ TEST(DoublyLinkedList, Delete)
     EXPECT_STREQ(string_list[0], "Big");
     EXPECT_STREQ(string_list[1], "Chungus");
     EXPECT_NO_THROW(string_list[0]);
-    printf("%s\n", string_list[0]);
-    printf("%s\n", string_list[1]);
     EXPECT_NO_THROW(string_list[1]);
     EXPECT_ANY_THROW(string_list[2]);
     doubly_linked_list_delete(string_list, 0);
-    printf("%s\n", string_list[0]);
     EXPECT_ANY_THROW(string_list[1]);
 }
 
