@@ -15,7 +15,7 @@ namespace Vultr
     // as just a uint32_t
     //
     // This will be set at compile time
-    typedef uint32_t SystemType;
+    typedef u32 SystemType;
 
     struct SystemProvider
     {
@@ -44,13 +44,4 @@ namespace Vultr
     void system_provider_on_create_entity(SystemProvider &provider, Entity entity);
     void system_provider_on_destroy_entity(SystemProvider &provider, Entity entity);
 
-    template <typename T>
-    const char *system_provider_get_name();
-
-#define register_system_provider(T)                                                 \
-    template <>                                                                     \
-    inline const char *system_provider_get_name<T>()                                \
-    {                                                                               \
-        return #T;                                                                  \
-    }
 } // namespace Vultr

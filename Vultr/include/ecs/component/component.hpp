@@ -1,6 +1,7 @@
 #pragma once
 #include <stdint.h>
 #include <bitset>
+#include <types/types.hpp>
 #define VCOMPONENT(...)
 #define VSYSTEM(...)
 #define VSTRUCT(...)
@@ -17,7 +18,7 @@ namespace Vultr
     typedef uint32_t ComponentType;
 
     // Defines the number of components we create
-    const ComponentType MAX_COMPONENTS = 32;
+    const ComponentType MAX_COMPONENTS = UINT32_MAX;
 
     // Type alias for the components that an entity has
     // If an entity uses components of type 0, 1, and 2 then the signature will be
@@ -33,20 +34,4 @@ namespace Vultr
         return (match & main) == main;
     }
 
-    // Compile time hash
-    constexpr uint32_t Hash32_CT(const char *str, size_t n,
-                                 uint32_t basis = UINT32_C(2166136261))
-    {
-        return n == 0 ? basis
-                      : Hash32_CT(str + 1, n - 1,
-                                  (basis ^ str[0]) * UINT32_C(16777619));
-    }
-
-    template <uint32_t id>
-    ComponentType typeid_helper()
-    {
-        return id;
-    }
-#define hash_type(T) typeid_helper<Hash32_CT(#T, sizeof(#T) - 1)>()
-#define get_component_type(T) hash_type(T)
 } // namespace Vultr

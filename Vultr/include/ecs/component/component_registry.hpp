@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include "../../core/component_renderer.h"
 #include "../../core/component_constructor.h"
+#include <type_info/type_info.h>
 
 namespace Vultr
 {
@@ -19,21 +20,20 @@ namespace Vultr
         std::unordered_map<ComponentType, ComponentData> components{};
     };
 
-#define register_component(registry, T)                                             \
-    internal_register_component<T>(                                                 \
-        registry, typeid_helper<Hash32_CT(#T, sizeof(#T) - 1)>(),                   \
-        [](Entity entity) { entity_add_component(entity, T::Create()); })
-
     template <typename T>
-    void internal_component_registry_register_component(
-        ComponentRegistry &r, ComponentType type, ComponentConstructor constructor)
+    void component_registry_register_component(ComponentRegistry &r)
     {
+        ComponentType type = hash_struct<T>();
 
         assert(r.components.find(type) == r.components.end() &&
                "Registered component type more than once");
 
         // Create the renderer
         ComponentRender renderer = [](Entity entity) { RenderComponent<T>(entity); };
+
+        ComponentConstructor constructor = [](Entity entity) {
+            entity_add_component(entity, T::Create());
+        };
 
         // Create the tuple with the renderer and constructor
         ComponentRegistry::ComponentData data = {

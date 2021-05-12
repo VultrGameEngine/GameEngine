@@ -2,10 +2,10 @@
 #include "Game.hpp"
 #include <ecs/component/component_registry.hpp>
 #include <ecs/system/system_manager.hpp>
-#include <GLFW/glfw3.h>
 
 namespace Vultr
 {
+    struct World;
     struct Engine
     {
         GLFWwindow *window;
@@ -13,43 +13,37 @@ namespace Vultr
 
         bool debug;
         Game *game;
+        World *current_world;
         ComponentRegistry component_registry;
         SystemManager system_manager;
     };
 
-    Engine &get_engine();
-    void Init(bool debug);
-    void LoadGame(const std::string &path);
-    void LoadGame(Game *game);
-    void RegisterComponents();
-    void InitSystems();
-    void InitGame();
-    void UpdateGame(float &t);
-    void Destroy();
-    double GetElapsedTime();
+    Engine &engine_global();
 
-    // Component methods
+    void engine_init(Engine &e, bool debug);
+    void engine_load_game(Engine &e, const std::string &path);
+    void engine_load_game(Engine &e, Game *game);
+    void engine_register_default_components(Engine &e);
+    void engine_init_default_systems(Engine &e);
+    void engine_init_game(Engine &e);
+    void engine_update_game(Engine &e, float &last_time);
+    double engine_get_time_elapsed(Engine &e);
+
     template <typename T>
-    void RegisterComponent(bool inspector_available = true)
+    T *engine_register_global_system(Engine &e, Signature signature)
     {
-        Get().component_registry.RegisterComponent<T>(inspector_available);
+        return system_manager_register_system<T>(e.system_manager, signature);
     }
 
     template <typename T>
-    std::shared_ptr<T> RegisterGlobalSystem(Signature signature)
+    void engine_deregister_global_system(Engine &e)
     {
-        return system_manager_register_system<T>(Get().system_manager, signature);
+        return system_manager_deregister_system<T>(e.system_manager);
     }
 
     template <typename T>
-    void DeregisterSystem()
+    std::shared_ptr<T> engine_get_global_system_provider(Engine &e)
     {
-        return system_manager_deregister_system<T>(Get().system_manager);
-    }
-
-    template <typename T>
-    std::shared_ptr<T> GetSystemProvider()
-    {
-        return system_manager_get_systemprovider<T>(Get().system_manager);
+        return system_manager_get_system_provider<T>(e.system_manager);
     }
 } // namespace Vultr

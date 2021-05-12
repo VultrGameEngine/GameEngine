@@ -6,6 +6,7 @@
 #include "../component/component.hpp"
 #include "system_provider.hpp"
 #include <unordered_map>
+#include <type_info/type_info.h>
 
 namespace Vultr
 {
@@ -14,23 +15,22 @@ namespace Vultr
     struct SystemManager
     {
         // Map from system type string pointer to a system provider
-        std::unordered_map<const char *, SystemProvider> system_providers{};
+        std::unordered_map<SystemType, SystemProvider *> system_providers{};
     };
 
     template <typename T>
-    std::shared_ptr<T> system_manager_register_system(SystemManager &manager,
-                                                      Signature signature)
+    T *system_manager_register_system(SystemManager &manager, Signature signature)
     {
-        const char *type_name = system_provider_get_name<T>();
+        SystemType type = hash_struct<T>();
 
-        assert(manager.system_providers.find(type_name) ==
+        assert(manager.system_providers.find(type) ==
                    manager.system_providers.end() &&
                "Registering system provider more than once");
 
         // Create a pointer to the system and return it so it can be used externally
-        std::shared_ptr<T> system_provider = std::make_shared<T>();
-        ((std::shared_ptr<SystemProvider>)system_provider)->signature = signature;
-        manager.system_providers.insert({type_name, system_provider});
+        T *system_provider = new T();
+        ((SystemProvider *)system_provider)->signature = signature;
+        manager.system_providers.insert({type, system_provider});
 
         return system_provider;
     }
@@ -38,26 +38,24 @@ namespace Vultr
     template <typename T>
     void system_manager_deregister_system(SystemManager &manager)
     {
-        const char *type_name = system_provider_get_name<T>();
-
-        assert(manager.system_providers.find(type_name) !=
+        SystemType type = hash_struct<T>();
+        assert(manager.system_providers.find(type) !=
                    manager.system_providers.end() &&
                "Attempting to deregister system that does not exist");
 
         // Remove the system from the map
-        manager.system_providers.erase(type_name);
+        manager.system_providers.erase(type);
     }
 
     template <typename T>
-    std::shared_ptr<T> system_manager_get_systemprovider(SystemManager &manager)
+    std::shared_ptr<T> system_manager_get_system_provider(SystemManager &manager)
     {
-        const char *type_name = system_provider_get_name<T>();
-
-        assert(manager.system_providers.find(type_name) !=
+        SystemType type = hash_struct<T>();
+        assert(manager.system_providers.find(type) !=
                    manager.system_providers.end() &&
                "System used before registered");
 
-        return std::dynamic_pointer_cast<T>(manager.system_providers.at(type_name));
+        return std::dynamic_pointer_cast<T>(manager.system_providers.at(type));
     }
 
     // Called by world or engine to update the systems when new entities are created
