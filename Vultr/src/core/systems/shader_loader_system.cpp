@@ -2,70 +2,67 @@
 #include <core/system_providers/shader_loader_system_provider.h>
 #include <core/systems/shader_loader_system.h>
 #include <ecs/component/component.hpp>
-#include <ecs/world/world.hpp>
 #include <helpers/shader_importer.h>
 #include <engine.hpp>
 
-namespace Vultr
+namespace Vultr::ShaderLoaderSystem
 {
-
-void ShaderLoaderSystem::Update()
-{
-    ShaderLoaderSystemProvider &provider = *ShaderLoaderSystemProvider::Get();
-    for (Entity entity : provider.entities)
+    static void check_and_load_shader(Entity entity);
+    void register_system()
     {
-        CheckAndLoadShader(entity);
+        Signature signature;
+        signature.set(get_component_type<MaterialComponent>(), true);
+        register_global_system<Component>(signature, on_create_entity, on_destroy_entity);
     }
-}
 
-void ShaderLoaderSystem::OnCreateEntity(Entity entity)
-{
-    CheckAndLoadShader(entity);
-}
+    void update()
+    {
+        auto &provider = get_provider();
+        for (Entity entity : provider.entities)
+        {
+            check_and_load_shader(entity);
+        }
+    }
 
-void ShaderLoaderSystem::OnDestroyEntity(Entity entity)
-{
-    // auto &shader_component = World::GetComponent<MaterialComponent>(entity);
-    // Shader *shader = shader_component.GetShader();
-    // if (shader != nullptr)
-    // {
-    //     delete shader;
-    // }
-}
+    void on_create_entity(Entity entity)
+    {
+        check_and_load_shader(entity);
+    }
 
-void ShaderLoaderSystem::LoadShader(const MaterialComponent &mat)
-{
-    ShaderLoaderSystemProvider &provider = *ShaderLoaderSystemProvider::Get();
-    // If we have already loaded the shader and cached it, then reuse the id and
-    // don't reload
-    Shader *material_shader = ShaderLoaderSystemProvider::GetShader(mat.shader_path);
-    if (material_shader != nullptr)
-        return;
+    void on_destroy_entity(Entity entity)
+    {
+        // auto &shader_component = World::GetComponent<MaterialComponent>(entity);
+        // Shader *shader = shader_component.GetShader();
+        // if (shader != nullptr)
+        // {
+        //     delete shader;
+        // }
+    }
 
-    // If we haven't cached this shader, load it and save it in the loaded shaders
-    // Create the shader on the gpu
-    // unsigned int shader_id =
-    //     ShaderImporter::CreateShader(material_component.shader_path);
-    Shader *shader = ShaderImporter::ImportShader(mat.shader_path);
+    void load_shader(const MaterialComponent &mat)
+    {
+        auto &provider = get_provider();
+        // If we have already loaded the shader and cached it, then reuse the id and
+        // don't reload
+        auto *material_shader = get_shader(mat.shader_path);
+        if (material_shader != nullptr)
+            return;
 
-    // Create the shader wrapper with the given shader id
-    // Shader *shader = new Shader(shader_id, Forward);
+        // If we haven't cached this shader, load it and save it in the loaded shaders
+        // Create the shader on the gpu
+        Shader *shader = ShaderImporter::ImportShader(mat.shader_path);
 
-    // Add it to the loaded shaders
-    provider.loaded_shaders[mat.shader_path] = shader;
-}
+        // Create the shader wrapper with the given shader id
+        // Shader *shader = new Shader(shader_id, Forward);
 
-void ShaderLoaderSystem::CheckAndLoadShader(Entity entity)
-{
-    auto &material_component = entity.GetComponent<MaterialComponent>();
-    LoadShader(material_component);
-}
+        // Add it to the loaded shaders
+        provider.loaded_shaders[mat.shader_path] = shader;
+    }
 
-void ShaderLoaderSystem::RegisterSystem()
-{
-    Signature signature;
-    signature.set(
-        Engine::GetComponentRegistry().GetComponentType<MaterialComponent>(), true);
-    Engine::RegisterGlobalSystem<ShaderLoaderSystemProvider>(signature);
-}
-} // namespace Vultr
+    static void check_and_load_shader(Entity entity)
+    {
+        auto &material_component = entity_get_component<MaterialComponent>(entity);
+        load_shader(material_component);
+    }
+
+} // namespace Vultr::ShaderLoaderSystem

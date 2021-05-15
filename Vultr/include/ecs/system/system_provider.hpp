@@ -19,6 +19,9 @@ namespace Vultr
 
     struct SystemProvider
     {
+        virtual ~SystemProvider()
+        {
+        }
         // A list of entities related to a specific System
         // automatically managed by this class and the world
         std::set<Entity> entities;

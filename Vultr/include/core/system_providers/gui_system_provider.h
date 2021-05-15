@@ -12,21 +12,22 @@
 
 namespace Vultr
 {
-class GUISystemProvider : public SystemProvider
-{
-  public:
-    static std::shared_ptr<GUISystemProvider> Get()
+    namespace GUISystem
     {
-        return Engine::GetSystemProvider<GUISystemProvider>();
-    }
-    GUI::Window *window = nullptr;
-    GUI::BuildContext *context = nullptr;
-    GUI::WindowElement *root_element = nullptr;
-    Shader *gui_shader = nullptr;
+        struct Component : public SystemProvider
+        {
+            GUI::Window *window = nullptr;
+            GUI::BuildContext *context = nullptr;
+            GUI::WindowElement *root_element = nullptr;
+            Shader *gui_shader = nullptr;
+        };
 
-  protected:
-    void OnCreateEntity(Entity entity) override;
-    void OnDestroyEntity(Entity entity) override;
-};
+        Component &get_provider();
+    } // namespace GUISystem
+
+    template <>
+    inline const char *get_struct_name<GUISystem::Component>()
+    {
+        return "GUISystem";
+    }
 } // namespace Vultr
-VultrRegisterSystemProvider(Vultr::GUISystemProvider)

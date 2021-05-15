@@ -1,23 +1,21 @@
 #include <core/system_providers/shader_loader_system_provider.h>
 #include <core/systems/shader_loader_system.h>
-#include <ecs/world/world.hpp>
+#include <rendering/models/shader.h>
 #include <engine.hpp>
 
-namespace Vultr
+namespace Vultr::ShaderLoaderSystem
 {
+    Component &get_provider()
+    {
+        return *get_global_system_provider<Component>();
+    }
 
-void ShaderLoaderSystemProvider::OnCreateEntity(Entity entity)
-{
-    ShaderLoaderSystem::OnCreateEntity(entity);
-}
+    Shader *get_shader(const char *path)
+    {
+        auto &p = get_provider();
+        if (p.loaded_shaders.find(path) == p.loaded_shaders.end())
+            return nullptr;
 
-void ShaderLoaderSystemProvider::OnDestroyEntity(Entity entity)
-{
-    ShaderLoaderSystem::OnDestroyEntity(entity);
-}
-
-std::shared_ptr<ShaderLoaderSystemProvider> ShaderLoaderSystemProvider::Get()
-{
-    return Engine::GetSystemProvider<ShaderLoaderSystemProvider>();
-}
-} // namespace Vultr
+        return p.loaded_shaders[path];
+    }
+} // namespace Vultr::ShaderLoaderSystem

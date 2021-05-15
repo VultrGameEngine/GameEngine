@@ -1,28 +1,27 @@
 #pragma once
 #include <ecs/system/system_provider.hpp>
-#include <rendering/models/shader.h>
 #include <unordered_map>
-#include <memory>
+#include <type_info/type_info.h>
+#include <rendering/models/shader.h>
 
 namespace Vultr
 {
-class ShaderLoaderSystemProvider : public SystemProvider
-{
-  public:
-    static std::shared_ptr<ShaderLoaderSystemProvider> Get();
-    static Shader *GetShader(const std::string &path)
+
+    namespace ShaderLoaderSystem
     {
-        if (Get()->loaded_shaders.find(path) == Get()->loaded_shaders.end())
-            return nullptr;
+        struct Component : public SystemProvider
+        {
+            std::unordered_map<std::string, Shader *> loaded_shaders;
+        };
 
-        return Get()->loaded_shaders[path];
+        Component &get_provider();
+
+        Shader *get_shader(const char *path);
+    } // namespace ShaderLoaderSystem
+
+    template <>
+    inline const char *get_struct_name<ShaderLoaderSystem::Component>()
+    {
+        return "ShaderLoaderSystem";
     }
-
-    std::unordered_map<std::string, Shader *> loaded_shaders;
-
-  protected:
-    void OnCreateEntity(Entity entity) override;
-    void OnDestroyEntity(Entity entity) override;
-};
 } // namespace Vultr
-VultrRegisterSystemProvider(Vultr::ShaderLoaderSystemProvider)

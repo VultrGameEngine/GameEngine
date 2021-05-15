@@ -3,9 +3,9 @@
 
 namespace Vultr::Editor
 {
-class GameWindow : public Window
-{
-  public:
-    void Render() override;
-};
+    class GameWindow : public Window
+    {
+      public:
+        void Render() override;
+    };
 }; // namespace Vultr::Editor

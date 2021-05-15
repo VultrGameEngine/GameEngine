@@ -7,14 +7,9 @@
 struct SkyBoxComponent
 {
 
-    static SkyBoxComponent Create(
-        const std::string &identifier = "default",
-        const std::string &front = "res/textures/skybox/front.jpg",
-        const std::string &back = "res/textures/skybox/back.jpg",
-        const std::string &top = "res/textures/skybox/top.jpg",
-        const std::string &bottom = "res/textures/skybox/bottom.jpg",
-        const std::string &left = "res/textures/skybox/left.jpg",
-        const std::string &right = "res/textures/skybox/right.jpg")
+    static SkyBoxComponent Create(const char *identifier = "default", const char *front = "res/textures/skybox/front.jpg", const char *back = "res/textures/skybox/back.jpg",
+                                  const char *top = "res/textures/skybox/top.jpg", const char *bottom = "res/textures/skybox/bottom.jpg", const char *left = "res/textures/skybox/left.jpg",
+                                  const char *right = "res/textures/skybox/right.jpg")
     {
         SkyBoxComponent component = SkyBoxComponent();
         component.identifier = identifier;
@@ -29,19 +24,15 @@ struct SkyBoxComponent
     unsigned int vao = 0;
     unsigned int vbo = 0;
     std::vector<glm::vec3> vertices;
-    std::string identifier;
-    std::string front;
-    std::string back;
-    std::string top;
-    std::string bottom;
-    std::string left;
-    std::string right;
-    template <class Archive> void serialize(Archive &ar)
-    {
-        ar(identifier, front, back, top, bottom, left, right);
-    }
+    const char *identifier;
+    const char *front;
+    const char *back;
+    const char *top;
+    const char *bottom;
+    const char *left;
+    const char *right;
 
-    std::vector<std::string> GetPaths()
+    std::vector<std::string> get_paths()
     {
         std::vector<std::string> paths = {right, left, top, bottom, front, back};
         return paths;

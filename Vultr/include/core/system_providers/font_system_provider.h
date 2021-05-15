@@ -6,21 +6,21 @@
 
 namespace Vultr
 {
-class FontSystemProvider : public SystemProvider
-{
-  public:
-    static std::shared_ptr<FontSystemProvider> Get()
+    namespace FontSystem
     {
-        return Engine::GetGlobalSystemManager()
-            .GetSystemProvider<FontSystemProvider>();
+        struct Component : public SystemProvider
+        {
+            FT_Library library;
+            std::unordered_map<const char *, Font *> fonts;
+        };
+
+        Component &get_provider();
+
+    } // namespace FontSystem
+
+    template <>
+    inline const char *get_struct_name<FontSystem::Component>()
+    {
+        return "FontSystem";
     }
-    FT_Library library;
-
-    std::unordered_map<std::string, Font *> fonts;
-
-  protected:
-    void OnCreateEntity(Entity entity) override;
-    void OnDestroyEntity(Entity entity) override;
-};
 } // namespace Vultr
-VultrRegisterSystemProvider(Vultr::FontSystemProvider)

@@ -9,7 +9,7 @@ file(GLOB_RECURSE VultrEditor_SRC
     "include/*.cpp"
 )
 
-include_directories(include vendor ../Vultr/include ../Vultr/vendor)
+include_directories(include vendor ../Vultr/include ../Vultr/vendor ../VTL/include)
 
 set(CMAKE_CXX_STANDARD 17)
 add_executable(VultrEditor ${VultrEditor_SRC})

@@ -3,30 +3,19 @@
 // The render system will bind these ids and render them via opengl
 
 #pragma once
-#include <core/components/camera_component.h>
-#include <core/components/transform_component.h>
-#include <core/models/update_tick.h>
-#include <core/system_providers/render_system_provider.h>
-#include <glm/glm.hpp>
+#include <types/types.hpp>
 
-namespace Vultr
+struct UpdateTick;
+struct ViewportData;
+
+namespace Vultr::RenderSystem
 {
-class RenderSystem
-{
-  public:
-    static void Update(UpdateTick meta_data);
-    static void RegisterSystem();
+    void register_system();
+    void init();
+    void update(const UpdateTick &meta_data);
 
-    // Private helper methods
-  private:
-    static void RenderElements(uint8 type);
-    static void RenderSkybox(uint8 type);
-    static void RenderElementInput();
-
-    static SystemProvider &GetProvider()
-    {
-        std::shared_ptr<RenderSystemProvider> provider = RenderSystemProvider::Get();
-        return *provider;
-    }
-};
-} // namespace Vultr
+    void init_g_buffer(int width, int height);
+    void generate_render_texture(ViewportData &data, int width, int height);
+    void resize(int width, int height, u8 type);
+    void update_viewport_pos(int x, int y, u8 type);
+} // namespace Vultr::RenderSystem

@@ -4,7 +4,7 @@
 #define private public
 #define protected public
 #include <gui/rendering/gui_renderer.h>
-#include <Vultr.hpp>
+#include <vultr.hpp>
 
 class GUIRendererTest : public ::testing::Test
 {
@@ -12,7 +12,7 @@ class GUIRendererTest : public ::testing::Test
     void SetUp() override
     {
         Vultr::Engine *engine = new Vultr::Engine();
-        engine->Init(false);
+        engine_init(*engine, false);
         renderer = new Vultr::GUI::GUIRenderer();
         vertex = Vultr::GUI::GUIVertex();
     }

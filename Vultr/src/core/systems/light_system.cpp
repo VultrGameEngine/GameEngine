@@ -1,25 +1,24 @@
 #include <core/components/light_component.h>
 #include <core/components/transform_component.h>
 #include <core/systems/light_system.h>
+#include <core/system_providers/light_system_provider.h>
 #include <ecs/world/world.hpp>
 #include <engine.hpp>
 
-namespace Vultr
+namespace Vultr::LightSystem
 {
+    void register_system()
+    {
+        Signature signature;
+        signature.set(get_component_type<LightComponent>(), true);
+        signature.set(get_component_type<TransformComponent>(), true);
+        register_global_system<Component>(signature, on_create_entity, nullptr);
+    }
 
-void LightSystem::OnCreateEntity(Entity entity)
-{
-    LightSystemProvider &provider = *LightSystemProvider::Get();
-    provider.light = entity;
-}
+    void on_create_entity(Entity entity)
+    {
+        auto &provider = get_provider();
+        provider.light = entity;
+    }
 
-void LightSystem::RegisterSystem()
-{
-    Signature signature;
-    signature.set(Engine::GetComponentRegistry().GetComponentType<LightComponent>(),
-                  true);
-    signature.set(
-        Engine::GetComponentRegistry().GetComponentType<TransformComponent>(), true);
-    Engine::RegisterGlobalSystem<LightSystemProvider>(signature);
-}
-} // namespace Vultr
+} // namespace Vultr::LightSystem

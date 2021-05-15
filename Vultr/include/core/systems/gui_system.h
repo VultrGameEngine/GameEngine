@@ -4,23 +4,13 @@
 #include <core/system_providers/input_system_provider.h>
 #include <core/models/update_tick.h>
 
-namespace Vultr
+namespace Vultr::GUISystem
 {
-class GUISystem
-{
-  public:
-    static void RegisterSystem();
-    static void Init(GUI::Window *window);
-    static void Update(UpdateTick tick);
-    static bool ReceiveMouseEvent(Input::MouseInputEvent event);
-    static bool ReceiveMouseButtonEvent(Input::MouseButtonInputEvent event);
-    static bool ReceiveScrollEvent(Input::ScrollInputEvent event);
+    void register_system();
+    void init(GUI::Window *window);
+    void update(UpdateTick tick);
+    bool receive_mouse_event(Input::MouseInputEvent event);
+    bool receive_mouse_button_event(Input::MouseButtonInputEvent event);
+    bool receive_scroll_event(Input::ScrollInputEvent event);
 
-  private:
-    static GUISystemProvider &GetProvider()
-    {
-        std::shared_ptr<GUISystemProvider> provider = GUISystemProvider::Get();
-        return *provider;
-    }
-};
-} // namespace Vultr
+} // namespace Vultr::GUISystem

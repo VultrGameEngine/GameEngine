@@ -10,12 +10,12 @@ struct StaticMeshComponent
     {
     }
 
-    static StaticMeshComponent Create(std::string p_path = "res/models/cube.obj")
+    static StaticMeshComponent Create(const char *p_path = "res/models/cube.obj")
     {
         StaticMeshComponent component = StaticMeshComponent();
-        component.m_path = p_path;
+        component.path = p_path;
         return component;
     }
 
-    std::string m_path;
+    const char *path;
 };

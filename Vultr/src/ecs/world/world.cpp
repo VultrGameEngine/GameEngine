@@ -26,6 +26,19 @@ namespace Vultr
         return entity_manager_get_signature(world->entity_manager, entity);
     }
 
+    // Getters for World
+    EntityManager &world_get_entity_manager(World *world)
+    {
+        return world->entity_manager;
+    }
+    ComponentManager &world_get_component_manager(World *world)
+    {
+        return world->component_manager;
+    }
+    SystemManager &world_get_system_manager(World *world)
+    {
+        return world->system_manager;
+    }
 } // namespace Vultr
 
 // std::shared_ptr<World> World::current_world = nullptr;

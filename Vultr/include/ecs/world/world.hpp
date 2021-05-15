@@ -23,10 +23,10 @@ namespace Vultr
     // World ImportWorld(const std::string &path);
 
     // Entity methods, just wrappers around existing methods
-    inline Entity create_entity(World *world);
-    inline void destroy_entity(World *world, Entity entity);
-    inline std::set<Entity> get_entities(World *world, Signature signature);
-    inline Signature get_entity_signature(World *world, Entity entity);
+    Entity create_entity(World *world);
+    void destroy_entity(World *world, Entity entity);
+    std::set<Entity> get_entities(World *world, Signature signature);
+    Signature get_entity_signature(World *world, Entity entity);
 
     // Getters for World
     EntityManager &world_get_entity_manager(World *world);

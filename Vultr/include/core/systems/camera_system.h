@@ -8,8 +8,8 @@
 
 namespace Vultr::CameraSystem
 {
-void RegisterSystem();
-void OnCreateEntity(Entity entity);
-void OnDestroyEntity(Entity entity);
+    void register_system();
+    void on_create_entity(Entity entity);
+    void on_destroy_entity(Entity entity);
 
 } // namespace Vultr::CameraSystem

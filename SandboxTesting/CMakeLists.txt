@@ -9,7 +9,7 @@ file(GLOB_RECURSE Game_SRC
     "include/*.cpp"
 )
 
-include_directories(include vendor ../Vultr/include ../Vultr/vendor)
+include_directories(include vendor ../Vultr/include ../Vultr/vendor "../VTL/include")
 
 if(WIN32)
     if (MSVC_VERSION GREATER_EQUAL "1900")

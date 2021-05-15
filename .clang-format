@@ -1,5 +1,5 @@
 BasedOnStyle: Microsoft
-ColumnLimit: 85
+ColumnLimit: 215
 SortIncludes: false
 AlwaysBreakTemplateDeclarations: Yes
 NamespaceIndentation: All

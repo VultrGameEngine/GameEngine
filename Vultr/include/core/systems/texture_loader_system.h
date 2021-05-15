@@ -10,23 +10,10 @@
 #include <memory>
 #include <rendering/models/texture.h>
 
-namespace Vultr
+namespace Vultr::TextureLoaderSystem
 {
-class TextureLoaderSystem
-{
-  public:
-    static void LoadTexture(const MaterialComponent &mat);
-    static void RegisterSystem();
-    static void Update();
-    static void OnCreateEntity(Entity entity);
-    static SystemProvider &GetProvider()
-    {
-        std::shared_ptr<TextureLoaderSystemProvider> provider =
-            TextureLoaderSystemProvider::Get();
-        return *provider;
-    }
-
-  protected:
-    static void CheckAndLoadTexture(Entity entity);
-};
-} // namespace Vultr
+    void register_system();
+    void update();
+    void on_create_entity(Entity entity);
+    void load_texture(const MaterialComponent &mat);
+} // namespace Vultr::TextureLoaderSystem

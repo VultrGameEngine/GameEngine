@@ -2,28 +2,31 @@
 #include <core/components/camera_component.h>
 #include <core/components/controller_component.h>
 #include <core/components/transform_component.h>
-#include <ecs/system/system_provider.hpp>
 #include <engine.hpp>
 
-namespace Vultr::CameraSystemProvider
+namespace Vultr
 {
-struct CameraSystemComponent
-{
-    // Member variables for state
-    Entity m_camera = Entity(-1);
-    struct Camera
+    namespace CameraSystem
     {
-        TransformComponent m_transform_component;
-        CameraComponent m_camera_component;
-        ControllerComponent m_controller_component;
-    } m_scene_camera;
-};
+        struct Component : public SystemProvider
+        {
+            // Member variables for state
+            Entity camera = INVALID_ENTITY;
+            struct Camera
+            {
+                TransformComponent transform_component;
+                CameraComponent camera_component;
+                ControllerComponent controller_component;
+            } scene_camera;
+        };
 
-std::shared_ptr<CameraSystemComponent> Get()
-{
-    return Engine::GetSystemProvider<CameraSystemComponent>();
-}
+        Component &get_provider();
 
-} // namespace Vultr::CameraSystemProvider
+    } // namespace CameraSystem
 
-VultrRegisterSystemProvider(Vultr::CameraSystemProvider::CameraSystemComponent)
+    template <>
+    inline const char *get_struct_name<CameraSystem::Component>()
+    {
+        return "CameraSystem";
+    }
+} // namespace Vultr

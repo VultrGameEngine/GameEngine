@@ -4,47 +4,41 @@
 
 void SandboxTest::Init()
 {
-    World::ChangeWorld(World::Init());
+    change_world(new_world());
 
-    engine.RegisterComponents();
-    Vultr::Engine::RegisterComponent<TestComponent>();
+    engine_register_default_components(engine_global());
+    register_component<TestComponent>();
 
-    engine.InitSystems();
-    TestSystem::RegisterSystem();
+    engine_init_default_systems(engine_global());
+    TestSystem::register_system();
 
-    Entity camera = Entity::New();
+    Entity camera = create_entity(get_current_world());
     CameraComponent camera_component = CameraComponent::Create();
-    camera.AddComponent(camera_component);
-    camera.AddComponent(ControllerComponent::Create());
+    entity_add_component(camera, camera_component);
+    entity_add_component(camera, ControllerComponent::Create());
 
-    camera.AddComponent(TransformComponent::Create(
-        glm::vec3(0, 0, 0), glm::quat(1, 0, 0, 0), glm::vec3(5, 5, 5)));
-    camera.AddComponent(SkyBoxComponent::Create(
-        "default", "res/textures/skybox/front.jpg", "res/textures/skybox/back.jpg",
-        "res/textures/skybox/top.jpg", "res/textures/skybox/bottom.jpg",
-        "res/textures/skybox/left.jpg", "res/textures/skybox/right.jpg"));
-    camera.AddComponent(Vultr::SkyboxMaterial::Create("default"));
+    entity_add_component(camera, TransformComponent::Create(glm::vec3(0, 0, 0), glm::quat(1, 0, 0, 0), glm::vec3(5, 5, 5)));
+    entity_add_component(camera, SkyBoxComponent::Create("default", "res/textures/skybox/front.jpg", "res/textures/skybox/back.jpg", "res/textures/skybox/top.jpg", "res/textures/skybox/bottom.jpg",
+                                                         "res/textures/skybox/left.jpg", "res/textures/skybox/right.jpg"));
+    entity_add_component(camera, Vultr::SkyboxMaterial::Create("default"));
 
-    Entity light = Entity::New();
+    Entity light = create_entity(get_current_world());
 
-    light.AddComponent(LightComponent::Create());
+    entity_add_component(light, LightComponent::Create());
 
-    light.AddComponent(TransformComponent::Create(
-        glm::vec3(0, 0, 30), glm::quat(1, 0, 0, 0), glm::vec3(4, 4, 4)));
-    light.AddComponent(Vultr::UnlitMaterial::Create());
+    entity_add_component(light, TransformComponent::Create(glm::vec3(0, 0, 30), glm::quat(1, 0, 0, 0), glm::vec3(4, 4, 4)));
+    entity_add_component(light, Vultr::UnlitMaterial::Create());
 
     for (int i = 0; i < 100; i++)
     {
-        Entity cube = Entity::New();
-        cube.AddComponent(TransformComponent::Create(
-            glm::vec3(0, 0, 2 * i), glm::quat(1, 0, 0, 0), glm::vec3(1, 1, 1)));
-        cube.AddComponent(StaticMeshComponent::Create());
-        cube.AddComponent(
-            Vultr::ForwardMaterial::Create("res/textures/cube/diffuse.png"));
+        Entity cube = create_entity(get_current_world());
+        entity_add_component(cube, TransformComponent::Create(glm::vec3(0, 0, 2 * i), glm::quat(1, 0, 0, 0), glm::vec3(1, 1, 1)));
+        entity_add_component(cube, StaticMeshComponent::Create());
+        entity_add_component(cube, Vultr::ForwardMaterial::Create("res/textures/cube/diffuse.png"));
     }
 }
 
-void SandboxTest::Update(Vultr::UpdateTick tick)
+void SandboxTest::Update(const Vultr::UpdateTick &tick)
 {
     printf("%f ms\n", tick.m_delta_time);
 }
@@ -53,7 +47,7 @@ void SandboxTest::Flush()
 {
 }
 
-Game *init(Vultr::Engine &engine)
+Game *init(Vultr::Engine *engine)
 {
     return new SandboxTest(engine);
 }

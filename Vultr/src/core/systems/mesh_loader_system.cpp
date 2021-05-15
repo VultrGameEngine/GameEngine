@@ -1,4 +1,5 @@
 #include <core/systems/mesh_loader_system.h>
+#include <core/system_providers/mesh_loader_system_provider.h>
 #include <fstream>
 #include <helpers/mesh_importer.h>
 #include <iostream>
@@ -11,47 +12,44 @@
 #include <ecs/world/world.hpp>
 #include <engine.hpp>
 
-namespace Vultr
+namespace Vultr::MeshLoaderSystem
 {
-void MeshLoaderSystem::RegisterSystem()
-{
-    Signature signature;
-    signature.set(
-        Engine::GetComponentRegistry().GetComponentType<StaticMeshComponent>());
-    Engine::RegisterGlobalSystem<MeshLoaderSystemProvider>(signature);
-}
-
-void MeshLoaderSystem::Update()
-{
-    MeshLoaderSystemProvider &provider = *MeshLoaderSystemProvider::Get();
-    for (Entity entity : provider.entities)
+    static void import(const char *path)
     {
-        CheckAndLoadMesh(entity);
+        auto &provider = get_provider();
+        Mesh *mesh = MeshImporter::ImportMesh(path);
+        if (mesh == nullptr)
+            return;
+        add_mesh(path, mesh);
     }
-}
-
-void MeshLoaderSystem::OnCreateEntity(Entity entity)
-{
-    CheckAndLoadMesh(entity);
-}
-
-void MeshLoaderSystem::CheckAndLoadMesh(Entity entity)
-{
-    auto &component = entity.GetComponent<StaticMeshComponent>();
-
-    if (component.GetMesh() == nullptr)
+    static void check_and_load_mesh(Entity entity)
     {
-        Import(component.m_path);
+        auto &component = entity_get_component<StaticMeshComponent>(entity);
+
+        if (get_mesh(component.path) == nullptr)
+        {
+            import(component.path);
+        }
     }
-}
+    void register_system()
+    {
+        Signature signature;
+        signature.set(get_component_type<StaticMeshComponent>());
+        register_global_system<Component>(signature, on_create_entity, nullptr);
+    }
 
-void MeshLoaderSystem::Import(std::string path)
-{
-    MeshLoaderSystemProvider &provider = *MeshLoaderSystemProvider::Get();
-    Mesh *mesh = MeshImporter::ImportMesh(path);
-    if (mesh == nullptr)
-        return;
-    provider.AddMesh(path, mesh);
-}
+    void update()
+    {
+        auto &provider = get_provider();
+        for (Entity entity : provider.entities)
+        {
+            check_and_load_mesh(entity);
+        }
+    }
 
-} // namespace Vultr
+    void on_create_entity(Entity entity)
+    {
+        check_and_load_mesh(entity);
+    }
+
+} // namespace Vultr::MeshLoaderSystem

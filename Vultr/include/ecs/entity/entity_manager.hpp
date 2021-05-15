@@ -12,6 +12,7 @@
 #include <array>
 #include <assert.h>
 #include <queue>
+#include <set>
 
 namespace Vultr
 {
@@ -38,12 +39,10 @@ namespace Vultr
     // signatures
     Entity entity_manager_create_entity(EntityManager &manager);
     void entity_manager_destroy_entity(EntityManager &manager, Entity entity);
-    void entity_manager_set_signature(EntityManager &manager, Entity entity,
-                                      Signature signature);
+    void entity_manager_set_signature(EntityManager &manager, Entity entity, Signature signature);
 
     // Getters
     Signature entity_manager_get_signature(EntityManager &manager, Entity entity);
-    std::set<Entity> entity_manager_get_entities(EntityManager &manager,
-                                                 Signature signature);
+    std::set<Entity> entity_manager_get_entities(EntityManager &manager, Signature signature);
 
 } // namespace Vultr

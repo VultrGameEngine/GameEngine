@@ -6,6 +6,7 @@
 #include "../component/component.hpp"
 #include "system_provider.hpp"
 #include <unordered_map>
+#include <iostream>
 #include <type_info/type_info.h>
 
 namespace Vultr
@@ -15,21 +16,25 @@ namespace Vultr
     struct SystemManager
     {
         // Map from system type string pointer to a system provider
-        std::unordered_map<SystemType, SystemProvider *> system_providers{};
+        std::unordered_map<const char *, std::shared_ptr<SystemProvider>> system_providers{};
     };
 
     template <typename T>
-    T *system_manager_register_system(SystemManager &manager, Signature signature)
+    std::shared_ptr<T> system_manager_register_system(SystemManager &manager, Signature signature, OnCreateEntity on_create_entity, OnDestroyEntity on_destroy_entity, MatchSignature match_signature = nullptr)
     {
-        SystemType type = hash_struct<T>();
+        static_assert(std::is_base_of<SystemProvider, T>::value &&
+                      "System component is not a derived class of SystemProvider! Failed to register. Please make sure that the type provided is a subclass of SystemProvider");
 
-        assert(manager.system_providers.find(type) ==
-                   manager.system_providers.end() &&
-               "Registering system provider more than once");
+        const char *type = get_struct_name<T>();
+
+        assert(manager.system_providers.find(type) == manager.system_providers.end() && "Registering system provider more than once");
 
         // Create a pointer to the system and return it so it can be used externally
-        T *system_provider = new T();
-        ((SystemProvider *)system_provider)->signature = signature;
+        std::shared_ptr<T> system_provider = std::make_shared<T>();
+        ((std::shared_ptr<SystemProvider>)system_provider)->signature = signature;
+        system_provider->on_create_entity = on_create_entity;
+        system_provider->on_destroy_entity = on_destroy_entity;
+        system_provider->match_signature = match_signature;
         manager.system_providers.insert({type, system_provider});
 
         return system_provider;
@@ -38,10 +43,11 @@ namespace Vultr
     template <typename T>
     void system_manager_deregister_system(SystemManager &manager)
     {
-        SystemType type = hash_struct<T>();
-        assert(manager.system_providers.find(type) !=
-                   manager.system_providers.end() &&
-               "Attempting to deregister system that does not exist");
+        static_assert(std::is_base_of<SystemProvider, T>::value &&
+                      "System component is not a derived class of SystemProvider! Failed to deregister. Please make sure that the type provided is a subclass of SystemProvider");
+
+        const char *type = get_struct_name<T>();
+        assert(manager.system_providers.find(type) != manager.system_providers.end() && "Attempting to deregister system that does not exist");
 
         // Remove the system from the map
         manager.system_providers.erase(type);
@@ -50,10 +56,11 @@ namespace Vultr
     template <typename T>
     std::shared_ptr<T> system_manager_get_system_provider(SystemManager &manager)
     {
-        SystemType type = hash_struct<T>();
-        assert(manager.system_providers.find(type) !=
-                   manager.system_providers.end() &&
-               "System used before registered");
+        static_assert(std::is_base_of<SystemProvider, T>::value &&
+                      "System component is not a derived class of SystemProvider! Failed to get. Please make sure that the type provided is a subclass of SystemProvider");
+
+        const char *type = get_struct_name<T>();
+        assert(manager.system_providers.find(type) != manager.system_providers.end() && "System used before registered");
 
         return std::dynamic_pointer_cast<T>(manager.system_providers.at(type));
     }
@@ -61,7 +68,5 @@ namespace Vultr
     // Called by world or engine to update the systems when new entities are created
     void system_manager_entity_destroyed(SystemManager &manager, Entity entity);
 
-    void system_manager_entity_signature_changed(SystemManager &manager,
-                                                 Entity entity,
-                                                 Signature entity_signature);
+    void system_manager_entity_signature_changed(SystemManager &manager, Entity entity, Signature entity_signature);
 } // namespace Vultr

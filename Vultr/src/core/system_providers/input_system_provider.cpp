@@ -1,20 +1,22 @@
 #include <core/system_providers/input_system_provider.h>
 #include <core/systems/input_system.h>
 
-namespace Vultr
+namespace Vultr::InputSystem
 {
-void InputSystemProvider::OnCreateEntity(Entity entity)
-{
-}
+    Component &get_provider()
+    {
+        return *get_global_system_provider<Component>();
+    }
 
-void InputSystemProvider::OnDestroyEntity(Entity entity)
-{
-}
+    bool key_down(const char key)
+    {
+        int state = glfwGetKey(get_provider().window, std::toupper(key));
+        return state == GLFW_PRESS;
+    }
 
-bool InputSystemProvider::KeyDown(const char key) const
-{
-    int state = glfwGetKey(window, std::toupper(key));
-    return state == GLFW_PRESS;
-}
+    void add_scroll_input(glm::vec2 input)
+    {
+        get_provider().scroll_queue.push(input);
+    }
 
-} // namespace Vultr
+} // namespace Vultr::InputSystem

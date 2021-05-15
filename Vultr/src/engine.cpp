@@ -1,23 +1,26 @@
+#include <game.hpp>
 #include <vultr.hpp>
 #ifdef WIN32
 #include <windows.h>
 #else
 #include <dlfcn.h>
 #endif
+#include <game.hpp>
 #include <engine.hpp>
 #include <GLFW/glfw3.h>
 #include <imgui/imgui.h>
 #include <imgui/imgui_impl_glfw.h>
 #include <imgui/imgui_impl_opengl3.h>
 #include <core/component_renderer.h>
-#include <gui/framework/basic.h>
-#include <gui/layouts/test_layout.h>
+#include <errors/error_handler.h>
+// #include <gui/framework/basic.h>
+// #include <gui/layouts/test_layout.h>
 #include <helpers/path.h>
 #include <core/models/update_tick.h>
 
 namespace Vultr
 {
-    static void *LoadDLL(const std::string &path)
+    static void *load_dll(const std::string &path)
     {
 #ifdef _WIN32
         return LoadLibrary(path.c_str());
@@ -26,7 +29,7 @@ namespace Vultr
 #endif
     }
 
-    static void *GetFunctionPointer(void *dll, const std::string &name)
+    static void *get_function_pointer(void *dll, const std::string &name)
     {
 #ifdef _WIN32
         return GetProcAddress((HMODULE)dll, name.c_str());
@@ -44,6 +47,11 @@ namespace Vultr
     World *get_current_world()
     {
         return engine_global().current_world;
+    }
+
+    void change_world(World *new_world)
+    {
+        engine_global().current_world = new_world;
     }
 
     void engine_init(Engine &e, bool debug)
@@ -73,11 +81,9 @@ namespace Vultr
         }
 #ifdef _WIN32
         glfwWindowHint(GLFW_DECORATED, GL_FALSE);
-        e.window = glfwCreateWindow(mode->width, mode->height, "VultrEditor",
-                                    nullptr, nullptr);
+        e.window = glfwCreateWindow(mode->width, mode->height, "VultrEditor", nullptr, nullptr);
 #else
-        e.window = glfwCreateWindow(mode->width, mode->height, "VultrEditor",
-                                    glfwGetPrimaryMonitor(), nullptr);
+        e.window = glfwCreateWindow(mode->width, mode->height, "VultrEditor", glfwGetPrimaryMonitor(), nullptr);
 #endif
 
         if (e.window == nullptr)
@@ -111,20 +117,19 @@ namespace Vultr
             ImGui::StyleColorsDark();
             ImGui_ImplGlfw_InitForOpenGL(e.window, true);
             ImGui_ImplOpenGL3_Init("#version 410");
-            io.Fonts->AddFontFromFileTTF(
-                Path::GetFullPath("res/fonts/Roboto-Regular.ttf").c_str(), 30);
+            io.Fonts->AddFontFromFileTTF(Path::GetFullPath("res/fonts/Roboto-Regular.ttf").c_str(), 30);
             ImGui::StyleColorsDark();
         }
     }
 
-    void engine_load_game(Engine &e, const std::string &path)
+    void engine_load_game(Engine &e, const char *path)
     {
-        void *DLL = LoadDLL(path);
+        void *DLL = load_dll(path);
 
         typedef Game *(*GameInit_f)(Engine *);
         typedef void (*GameDestroy_f)(Game *);
-        GameInit_f init = (GameInit_f)GetFunctionPointer(DLL, "init");
-        GameDestroy_f destroy = (GameDestroy_f)GetFunctionPointer(DLL, "flush");
+        GameInit_f init = (GameInit_f)get_function_pointer(DLL, "init");
+        GameDestroy_f destroy = (GameDestroy_f)get_function_pointer(DLL, "flush");
 
         e.game = init(&e);
     }
@@ -136,38 +141,36 @@ namespace Vultr
 
     void engine_register_default_components(Engine &e)
     {
-        component_registry_register_component<StaticMeshComponent>(
-            e.component_registry);
-        component_registry_register_component<MaterialComponent>(
-            e.component_registry);
-        component_registry_register_component<TransformComponent>(
-            e.component_registry);
-        component_registry_register_component<LightComponent>(e.component_registry);
-        component_registry_register_component<CameraComponent>(e.component_registry);
-        component_registry_register_component<ControllerComponent>(
-            e.component_registry);
-        component_registry_register_component<SkyBoxComponent>(e.component_registry);
+        register_component<StaticMeshComponent>();
+        register_component<MaterialComponent>();
+        register_component<TransformComponent>();
+        register_component<LightComponent>();
+        register_component<CameraComponent>();
+        register_component<ControllerComponent>();
+        register_component<SkyBoxComponent>();
     }
+
     void engine_init_default_systems(Engine &e)
     {
-        MeshLoaderSystem::RegisterSystem();
-        ShaderLoaderSystem::RegisterSystem();
-        TextureLoaderSystem::RegisterSystem();
-        ControllerSystem::RegisterSystem();
-        CameraSystem::RegisterSystem();
-        LightSystem::RegisterSystem();
-        RenderSystem::RegisterSystem();
-        GUISystem::RegisterSystem();
-        InputSystem::RegisterSystem();
-        FontSystem::RegisterSystem();
-        FontSystem::Init();
-        InputSystem::Init(window);
+        // MeshLoaderSystem::RegisterSystem();
+        // ShaderLoaderSystem::RegisterSystem();
+        // TextureLoaderSystem::RegisterSystem();
+        // ControllerSystem::RegisterSystem();
+        // CameraSystem::RegisterSystem();
+        // LightSystem::RegisterSystem();
+        // RenderSystem::RegisterSystem();
+        // GUISystem::RegisterSystem();
+        // InputSystem::RegisterSystem();
+        // FontSystem::RegisterSystem();
+        // FontSystem::Init();
+        // InputSystem::Init(window);
 
-        ControllerSystem::Init(window);
-        glfwSetWindowFocusCallback(window, ControllerSystem::WindowFocusCallback);
+        // ControllerSystem::Init(window);
+        // glfwSetWindowFocusCallback(e.window,
+        // ControllerSystem::WindowFocusCallback);
 
-        glm::vec2 dimensions = RenderSystemProvider::GetDimensions(GAME);
-        GUISystem::Init(TestLayout());
+        // glm::vec2 dimensions = RenderSystemProvider::GetDimensions(GAME);
+        // GUISystem::Init(TestLayout());
     }
 
     void engine_init_game(Engine &e)
@@ -192,16 +195,23 @@ namespace Vultr
         // the components
         if (e.debug)
         {
-            ShaderLoaderSystem::Update();
-            TextureLoaderSystem::Update();
-            MeshLoaderSystem::Update();
-            ControllerSystem::Update(tick.m_delta_time);
+            // ShaderLoaderSystem::Update();
+            // TextureLoaderSystem::Update();
+            // MeshLoaderSystem::Update();
+            // ControllerSystem::Update(tick.m_delta_time);
         }
-        InputSystem::Update(tick);
-        RenderSystem::Update(tick);
+        // InputSystem::Update(tick);
+        // RenderSystem::Update(tick);
     }
     double engine_get_time_elapsed(Engine &e)
     {
         return glfwGetTime();
+    }
+
+    Signature entity_get_signature(Entity entity)
+    {
+        World *world = get_current_world();
+        assert(world != nullptr && WORLD_DOESNT_EXIST_ERROR(entity_get_signature));
+        return entity_manager_get_signature(world_get_entity_manager(world), entity);
     }
 } // namespace Vultr

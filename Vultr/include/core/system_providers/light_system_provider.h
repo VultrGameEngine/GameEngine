@@ -4,19 +4,19 @@
 
 namespace Vultr
 {
-class LightSystemProvider : public SystemProvider
-{
-  public:
-    // Singleton pattern for all providers
-    static std::shared_ptr<LightSystemProvider> Get()
+    namespace LightSystem
     {
-        return Engine::GetSystemProvider<LightSystemProvider>();
-    }
-    Entity light = Entity(-1);
+        struct Component : public SystemProvider
+        {
+            Entity light = INVALID_ENTITY;
+        };
 
-  protected:
-    void OnDestroyEntity(Entity entity) override;
-    void OnCreateEntity(Entity entity) override;
-};
+        Component &get_provider();
+    } // namespace LightSystem
+
+    template <>
+    inline const char *get_struct_name<LightSystem::Component>()
+    {
+        return "LightSystem";
+    }
 } // namespace Vultr
-VultrRegisterSystemProvider(Vultr::LightSystemProvider)
