@@ -12,7 +12,7 @@ namespace Vultr
 {
     struct ComponentManager
     {
-
+        ComponentManager() = default;
         // Map from type string poiner to a component array
         std::unordered_map<ComponentType, std::shared_ptr<IComponentArray>> component_arrays{};
     };

@@ -15,6 +15,7 @@ namespace Vultr
     // Holds a list of system components and signatures for those systems
     struct SystemManager
     {
+        SystemManager() = default;
         // Map from system type string pointer to a system provider
         std::unordered_map<const char *, std::shared_ptr<SystemProvider>> system_providers{};
     };
@@ -30,14 +31,15 @@ namespace Vultr
         assert(manager.system_providers.find(type) == manager.system_providers.end() && "Registering system provider more than once");
 
         // Create a pointer to the system and return it so it can be used externally
-        std::shared_ptr<T> system_provider = std::make_shared<T>();
+        auto instance = std::make_shared<T>();
+        auto system_provider = std::static_pointer_cast<SystemProvider>(instance);
         ((std::shared_ptr<SystemProvider>)system_provider)->signature = signature;
         system_provider->on_create_entity = on_create_entity;
         system_provider->on_destroy_entity = on_destroy_entity;
         system_provider->match_signature = match_signature;
         manager.system_providers.insert({type, system_provider});
 
-        return system_provider;
+        return instance;
     }
 
     template <typename T>

@@ -3,9 +3,9 @@
 
 namespace Vultr
 {
-namespace SkyboxMaterial
-{
-MaterialComponent Create(std::string p_identifier);
+    namespace SkyboxMaterial
+    {
+        MaterialComponent Create(const char *p_identifier);
 
-} // namespace SkyboxMaterial
+    } // namespace SkyboxMaterial
 } // namespace Vultr

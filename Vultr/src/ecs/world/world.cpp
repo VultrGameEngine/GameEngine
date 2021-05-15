@@ -1,10 +1,15 @@
-#include <ecs/world/internal_world.hpp>
 #include <ecs/world/world.hpp>
+#include <ecs/world/internal_world.hpp>
 #include <yaml-cpp/yaml.h>
 #include <helpers/file.h>
 
 namespace Vultr
 {
+    World *new_world()
+    {
+        World *world = new InternalWorld();
+        return world;
+    }
 
     Entity create_entity(World *world)
     {

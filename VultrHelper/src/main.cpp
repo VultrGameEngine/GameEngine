@@ -29,7 +29,7 @@ void GenerateInDir(Directory dir)
     }
     for (File f : dir.GetFiles())
     {
-        File expected_file = File(generated.GetPath() / f.GetName());
+        File expected_file = File(generated.GetPath() / (f.GetName() + ".cpp"));
         // If we already have a generated file
         if (files.find(expected_file) != files.end())
         {
@@ -41,7 +41,7 @@ void GenerateInDir(Directory dir)
         }
         else
         {
-            File generated_file = generated.CreateFile(f.GetName());
+            File generated_file = generated.CreateFile(f.GetName() + ".cpp");
             ParseFile(f, generated_file);
         }
         remaining_files.erase(expected_file);

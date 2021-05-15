@@ -8,6 +8,7 @@ int main(void)
     float lastTime = 0;
     engine_init(engine, false);
     engine_load_game(engine, init(&engine));
+    engine_init_game(engine);
 
     while (!engine.should_close)
     {

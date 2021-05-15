@@ -50,6 +50,7 @@ namespace Vultr
 
         // Add the component type to the map
         r.components.insert({type, data});
+        r.next_component_type++;
     }
 
     template <typename T>

@@ -152,25 +152,25 @@ namespace Vultr
 
     void engine_init_default_systems(Engine &e)
     {
-        // MeshLoaderSystem::RegisterSystem();
-        // ShaderLoaderSystem::RegisterSystem();
-        // TextureLoaderSystem::RegisterSystem();
-        // ControllerSystem::RegisterSystem();
-        // CameraSystem::RegisterSystem();
-        // LightSystem::RegisterSystem();
-        // RenderSystem::RegisterSystem();
-        // GUISystem::RegisterSystem();
-        // InputSystem::RegisterSystem();
-        // FontSystem::RegisterSystem();
-        // FontSystem::Init();
-        // InputSystem::Init(window);
+        MeshLoaderSystem::register_system();
+        ShaderLoaderSystem::register_system();
+        TextureLoaderSystem::register_system();
+        ControllerSystem::register_system();
+        CameraSystem::register_system();
+        LightSystem::register_system();
+        RenderSystem::register_system();
+        RenderSystem::init();
+        GUISystem::register_system();
+        InputSystem::register_system();
+        FontSystem::register_system();
+        FontSystem::init();
+        InputSystem::init(e.window);
 
-        // ControllerSystem::Init(window);
-        // glfwSetWindowFocusCallback(e.window,
-        // ControllerSystem::WindowFocusCallback);
+        ControllerSystem::init(e.window);
+        glfwSetWindowFocusCallback(e.window, ControllerSystem::window_focus_callback);
 
-        // glm::vec2 dimensions = RenderSystemProvider::GetDimensions(GAME);
-        // GUISystem::Init(TestLayout());
+        glm::vec2 dimensions = RenderSystem::get_dimensions(GAME);
+        // GUISystem::init(TestLayout());
     }
 
     void engine_init_game(Engine &e)
@@ -195,14 +195,15 @@ namespace Vultr
         // the components
         if (e.debug)
         {
-            // ShaderLoaderSystem::Update();
-            // TextureLoaderSystem::Update();
-            // MeshLoaderSystem::Update();
-            // ControllerSystem::Update(tick.m_delta_time);
+            ShaderLoaderSystem::update();
+            TextureLoaderSystem::update();
+            MeshLoaderSystem::update();
+            ControllerSystem::update(tick.m_delta_time);
         }
-        // InputSystem::Update(tick);
-        // RenderSystem::Update(tick);
+        // InputSystem::update(tick);
+        RenderSystem::update(tick);
     }
+
     double engine_get_time_elapsed(Engine &e)
     {
         return glfwGetTime();

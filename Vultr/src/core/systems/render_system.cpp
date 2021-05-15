@@ -38,6 +38,12 @@ namespace Vultr::RenderSystem
 
     void init()
     {
+        auto &p = get_provider();
+        const GLFWvidmode *mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
+        generate_render_texture(p.scene, mode->width, mode->height);
+        generate_render_texture(p.game, mode->width, mode->height);
+        p.post_processing_shader = ShaderImporter::ImportShader("res/shaders/post_processing.glsl");
+        p.render_quad = MeshImporter::InitQuad();
     }
 
     void init_g_buffer(int width, int height)
@@ -47,6 +53,25 @@ namespace Vultr::RenderSystem
 
     void generate_render_texture(ViewportData &data, int width, int height)
     {
+        if (data.fbo != nullptr)
+            delete data.fbo;
+        if (data.render_texture != nullptr)
+            delete data.render_texture;
+        if (data.rbo != nullptr)
+            delete data.rbo;
+
+        data.fbo = new FrameBuffer();
+        data.fbo->Bind();
+        data.render_texture = new Texture(GL_TEXTURE_2D);
+        data.render_texture->Bind(GL_TEXTURE0);
+        data.render_texture->Generate(width, height);
+        data.render_texture->FrameBufferTexture2D();
+
+        data.rbo = new RenderBuffer(width, height);
+
+        data.fbo->Unbind();
+        data.dimensions.x = width;
+        data.dimensions.y = height;
     }
 
     void resize(int width, int height, u8 type)
@@ -55,13 +80,20 @@ namespace Vultr::RenderSystem
         const GLFWvidmode *mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
         generate_render_texture(provider.scene, mode->width, mode->height);
         generate_render_texture(provider.game, mode->width, mode->height);
-        // GenInputFB(mode->width, mode->height);
         provider.post_processing_shader = ShaderImporter::ImportShader("res/shaders/post_processing.glsl");
         provider.render_quad = MeshImporter::InitQuad();
     }
 
     void update_viewport_pos(int x, int y, u8 type)
     {
+        if (type == GAME)
+        {
+            get_provider().game.position = glm::vec2(x, y);
+        }
+        else if (type == SCENE)
+        {
+            get_provider().scene.position = glm::vec2(x, y);
+        }
     }
 
     // Used in the actual update loop in main
@@ -76,11 +108,11 @@ namespace Vultr::RenderSystem
         Entity light = light_system_provider.light;
 
         // If there is no light then we cannot render
-        if (!light)
+        if (light == INVALID_ENTITY)
             return;
 
         // If no camera is in the scene, then something is wrong and we can't render
-        if (camera)
+        if (camera != INVALID_ENTITY)
         {
             // This renders to the game scene, important for the editor
             provider.game.fbo->Bind();

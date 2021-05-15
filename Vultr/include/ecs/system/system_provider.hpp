@@ -24,8 +24,8 @@ namespace Vultr
         }
         // A list of entities related to a specific System
         // automatically managed by this class and the world
-        std::set<Entity> entities;
-        Signature signature;
+        std::set<Entity> entities{};
+        Signature signature{};
 
         // Optional callbacks that can be set by systems to customize functionality
         // on creation and destruction of entities

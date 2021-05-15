@@ -3,8 +3,8 @@
 
 namespace Vultr
 {
-namespace ForwardMaterial
-{
-MaterialComponent Create(const std::string &p_texture);
-} // namespace ForwardMaterial
+    namespace ForwardMaterial
+    {
+        MaterialComponent Create(const char *p_texture);
+    } // namespace ForwardMaterial
 } // namespace Vultr

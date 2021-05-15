@@ -42,9 +42,6 @@ namespace Vultr
             return "";
         std::ostringstream file;
 
-        // Header guards
-        file << "#pragma once\n\n";
-
         // Includes
         file << "#include <vultr.hpp>\n\n";
 
@@ -81,7 +78,7 @@ namespace Vultr
             }
             file << ");\n";
             file << "}\n";
-            file << "template <> inline void RenderComponent<" << uclass.m_ClassName << ">(Entity entity)\n";
+            file << "template <> void RenderComponent<" << uclass.m_ClassName << ">(Entity entity)\n";
             file << "{\n";
             file << "\t" << uclass.m_ClassName << " *component = entity_get_component_unsafe<" << uclass.m_ClassName << ">(entity);\n";
             file << "\tif(component == nullptr)\n";
@@ -103,6 +100,11 @@ namespace Vultr
             file << "}\n";
 
             j = 0;
+            file << "template<> const char* Vultr::get_struct_name<";
+            file << uclass.m_ClassName << ">()\n";
+            file << "{\n";
+            file << "\treturn \"" << uclass.m_ClassName << "\";\n";
+            file << "}\n";
 
             i++;
         }
@@ -110,7 +112,7 @@ namespace Vultr
         i = 0;
         for (auto system : m_systems)
         {
-            file << "template<> inline const char* Vultr::get_struct_name<";
+            file << "template<> const char* Vultr::get_struct_name<";
             for (auto name_space : system.m_Namespaces)
             {
                 file << name_space << "::";

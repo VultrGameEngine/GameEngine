@@ -16,8 +16,7 @@ namespace Vultr
         }
     }
 
-    void system_manager_entity_signature_changed(SystemManager &m, Entity entity,
-                                                 Signature entity_signature)
+    void system_manager_entity_signature_changed(SystemManager &m, Entity entity, Signature entity_signature)
     {
         // Notify each system that an entity's signature has changed
         for (auto &pair : m.system_providers)
@@ -33,8 +32,7 @@ namespace Vultr
             }
             else
             {
-                match_signature =
-                    signature_contains(system->signature, entity_signature);
+                match_signature = signature_contains(system->signature, entity_signature);
             }
 
             // If entity signature matches system signature

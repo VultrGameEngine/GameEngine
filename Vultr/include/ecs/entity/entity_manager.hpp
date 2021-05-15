@@ -19,21 +19,20 @@ namespace Vultr
 
     struct EntityManager
     {
+        EntityManager();
+
         // Queue of unused entity IDs
-        std::queue<Entity> available_entities;
+        std::queue<Entity> available_entities{};
 
         // Array of signatures where the index corresponds to the entity ID
-        std::array<Signature, MAX_ENTITIES> signatures;
+        std::array<Signature, MAX_ENTITIES> signatures{};
 
         // Entity IDs that are actually being used
-        std::set<Entity> living_entites;
+        std::set<Entity> living_entites{};
 
         // Total living entities
-        u32 living_entity_count;
+        u32 living_entity_count = 0;
     };
-
-    // Constructor
-    EntityManager new_entity_manager();
 
     // Manages the movement of entity IDs in the queue and their corresponding
     // signatures

@@ -2,21 +2,19 @@
 
 namespace Vultr
 {
-    EntityManager init_entity_manager()
+    EntityManager::EntityManager()
     {
-        EntityManager manager = {};
         for (Entity entity = 1; entity < MAX_ENTITIES; ++entity)
         {
-            manager.available_entities.push(entity);
+            available_entities.push(entity);
         }
-        return manager;
+        living_entity_count = 0;
     }
 
     Entity entity_manager_create_entity(EntityManager &manager)
     {
 
-        assert(manager.living_entity_count < MAX_ENTITIES &&
-               "Too many entities in existence");
+        assert(manager.living_entity_count < MAX_ENTITIES && "Too many entities in existence");
 
         // Get the first ID from the queue and use that
         Entity id = manager.available_entities.front();
@@ -52,8 +50,7 @@ namespace Vultr
     }
 
     // Set the components of an entity
-    void entity_manager_set_signature(EntityManager &manager, Entity entity,
-                                      Signature signature)
+    void entity_manager_set_signature(EntityManager &manager, Entity entity, Signature signature)
     {
 
         assert(entity < MAX_ENTITIES && "Entity out of range");
@@ -71,8 +68,7 @@ namespace Vultr
         return manager.signatures[entity];
     }
 
-    std::set<Entity> entity_manager_get_entities(EntityManager &manager,
-                                                 Signature signature)
+    std::set<Entity> entity_manager_get_entities(EntityManager &manager, Signature signature)
     {
         std::set<Entity> entities{};
 

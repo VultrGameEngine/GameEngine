@@ -58,25 +58,6 @@ namespace Vultr::RenderSystem
     // }
     // void RenderSystemProvider::GenerateRenderTexture(ViewportData &data, int width, int height)
     // {
-    //     if (data.fbo != nullptr)
-    //         delete data.fbo;
-    //     if (data.render_texture != nullptr)
-    //         delete data.render_texture;
-    //     if (data.rbo != nullptr)
-    //         delete data.rbo;
-
-    //     data.fbo = new FrameBuffer();
-    //     data.fbo->Bind();
-    //     data.render_texture = new Texture(GL_TEXTURE_2D);
-    //     data.render_texture->Bind(GL_TEXTURE0);
-    //     data.render_texture->Generate(width, height);
-    //     data.render_texture->FrameBufferTexture2D();
-
-    //     data.rbo = new RenderBuffer(width, height);
-
-    //     data.fbo->Unbind();
-    //     data.dimensions.x = width;
-    //     data.dimensions.y = height;
     // }
     // void RenderSystemProvider::Resize(int width, int height, unsigned int type)
     // {
@@ -104,14 +85,6 @@ namespace Vultr::RenderSystem
 
     // void RenderSystemProvider::UpdateViewportPos(int x, int y, unsigned int type)
     // {
-    //     if (type == GAME)
-    //     {
-    //         Get()->game.position = glm::vec2(x, y);
-    //     }
-    //     else if (type == SCENE)
-    //     {
-    //         Get()->scene.position = glm::vec2(x, y);
-    //     }
     // }
 
     // void RenderSystemProvider::GenInputFB(uint width, uint height)

@@ -34,7 +34,7 @@ namespace Vultr::MeshLoaderSystem
     void register_system()
     {
         Signature signature;
-        signature.set(get_component_type<StaticMeshComponent>());
+        signature.set(get_component_type<StaticMeshComponent>(), true);
         register_global_system<Component>(signature, on_create_entity, nullptr);
     }
 

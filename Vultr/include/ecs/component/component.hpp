@@ -18,7 +18,7 @@ namespace Vultr
     typedef uint32_t ComponentType;
 
     // Defines the number of components we create
-    const ComponentType MAX_COMPONENTS = UINT32_MAX;
+    const ComponentType MAX_COMPONENTS = 32;
 
     // Type alias for the components that an entity has
     // If an entity uses components of type 0, 1, and 2 then the signature will be

@@ -11,7 +11,6 @@ namespace Vultr
     {
         struct Component : public SystemProvider
         {
-
             std::unordered_map<std::string, Mesh *> meshes;
         };
 

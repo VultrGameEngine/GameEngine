@@ -7,7 +7,7 @@ namespace Vultr
     typedef u32 Entity;
 
     // Used to define the size of the arrays to hold all of these entities
-    const Entity MAX_ENTITIES = 100000;
+    const Entity MAX_ENTITIES = 10000;
 
 #define INVALID_ENTITY 0
 

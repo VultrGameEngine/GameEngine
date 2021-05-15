@@ -50,15 +50,6 @@ namespace Vultr
     //   public:
     //     RenderSystemProvider()
     //     {
-    //         const GLFWvidmode *mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-    //         GenerateRenderTexture(scene, mode->width, mode->height);
-    //         GenerateRenderTexture(game, mode->width, mode->height);
-    //         GenInputFB(mode->width, mode->height);
-    //         post_processing_shader = ShaderImporter::ImportShader("res/shaders/post_processing.glsl");
-    //         render_quad = MeshImporter::InitQuad();
-    //         m_camera_mesh = MeshImporter::ImportMesh("res/models/editor/Camera.blend");
-    //         camera_mat = Vultr::ForwardMaterial::Create("res/textures/cube/blank.jpg");
-    //         input_shader = ShaderImporter::ImportEngineShader(ShaderImporter::EDITOR_INPUT);
     //     }
     //     // Singleton pattern
     //     static std::shared_ptr<RenderSystemProvider> Get()
