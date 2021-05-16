@@ -31,16 +31,16 @@ void SandboxTest::Init()
 
     // for (int i = 0; i < 100; i++)
     // {
-    //     Entity cube = create_entity(get_current_world());
-    //     entity_add_component(cube, TransformComponent::Create(glm::vec3(0, 0, 2 * i), glm::quat(1, 0, 0, 0), glm::vec3(1, 1, 1)));
-    //     entity_add_component(cube, StaticMeshComponent::Create());
-    //     entity_add_component(cube, Vultr::ForwardMaterial::Create("res/textures/cube/diffuse.png"));
+    Entity cube = create_entity(get_current_world());
+    entity_add_component(cube, TransformComponent::Create(glm::vec3(0, 0, 20), glm::quat(1, 0, 0, 0), glm::vec3(1, 1, 1)));
+    entity_add_component(cube, StaticMeshComponent::Create());
+    entity_add_component(cube, Vultr::ForwardMaterial::Create("res/textures/cube/diffuse.png"));
     // }
 }
 
 void SandboxTest::Update(const Vultr::UpdateTick &tick)
 {
-    printf("%f ms\n", tick.m_delta_time);
+    // printf("%f ms\n", tick.m_delta_time);
 }
 
 void SandboxTest::Flush()

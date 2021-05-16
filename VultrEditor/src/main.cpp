@@ -11,6 +11,7 @@ int main(void)
     float lastTime = 0;
     engine_init(vultr, true);
     engine_load_game(vultr, "/home/brandon/Dev/GameEngine/SandboxTesting/build/libGame.so");
+    engine_init_game(vultr);
 
     while (!vultr.should_close)
     {

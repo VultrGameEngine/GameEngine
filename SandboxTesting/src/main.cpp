@@ -10,10 +10,12 @@ int main(void)
     engine_load_game(engine, init(&engine));
     engine_init_game(engine);
 
-    while (!engine.should_close)
+    while (!glfwWindowShouldClose(engine.window))
     {
         engine_update_game(engine, lastTime);
         glfwSwapBuffers(engine.window);
         glfwPollEvents();
     }
+
+    return 0;
 }
