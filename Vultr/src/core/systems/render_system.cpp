@@ -23,11 +23,11 @@
 
 namespace Vultr::RenderSystem
 {
+    // Internal private helper methods
     static void render_skybox(u8 type);
     static void render_elements(u8 type);
     static void render_element_input();
 
-    // Internal private helper methods
     void register_system()
     {
         Signature signature;
@@ -77,11 +77,26 @@ namespace Vultr::RenderSystem
     void resize(int width, int height, u8 type)
     {
         auto &provider = get_provider();
-        const GLFWvidmode *mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-        generate_render_texture(provider.scene, mode->width, mode->height);
-        generate_render_texture(provider.game, mode->width, mode->height);
-        provider.post_processing_shader = ShaderImporter::ImportShader("res/shaders/post_processing.glsl");
-        provider.render_quad = MeshImporter::InitQuad();
+        // init_g_buffer(width, height);
+        if (type == GAME)
+        {
+            if (provider.game.dimensions == glm::vec2(width, height))
+            {
+                return;
+            }
+            provider.game.dimensions = glm::vec2(width, height);
+            generate_render_texture(provider.game, width, height);
+        }
+        else if (type == SCENE)
+        {
+            if (provider.scene.dimensions == glm::vec2(width, height))
+            {
+                return;
+            }
+            provider.scene.dimensions = glm::vec2(width, height);
+            generate_render_texture(provider.scene, width, height);
+            // GenInputFB(width, height);
+        }
     }
 
     void update_viewport_pos(int x, int y, u8 type)
@@ -154,6 +169,8 @@ namespace Vultr::RenderSystem
         {
             const GLFWvidmode *mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
             glViewport(0, 0, mode->width, mode->height);
+            glClearColor(0.0, 0.0, 0.0, 0.0);
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             provider.post_processing_shader->Bind();
             provider.post_processing_shader->SetUniform1i("renderedTexture", 0);
             provider.game.render_texture->Bind(GL_TEXTURE0);
@@ -260,8 +277,10 @@ namespace Vultr::RenderSystem
         signature.set(get_component_type<SkyBoxComponent>(), true);
         signature.set(get_component_type<MaterialComponent>(), true);
 
+        Signature camera_signature = entity_get_signature(camera);
+
         // If the camera doesn't have both a skybox and material component, then we can't render a skybox
-        if (!signature_contains(entity_get_signature(camera), signature))
+        if (!((camera_signature & signature) == signature))
             return;
 
         glDepthFunc(GL_LEQUAL); // Ensure depth test passes when values are equal to

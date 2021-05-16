@@ -64,12 +64,14 @@ namespace Vultr
         }
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 #ifndef _WIN32
         glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
         glfwWindowHint(GLFW_DOUBLEBUFFER, GL_FALSE);
 #endif
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
+
         const GLFWvidmode *mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 
         if (debug)
@@ -79,6 +81,7 @@ namespace Vultr
             glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
             glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
         }
+
 #ifdef _WIN32
         glfwWindowHint(GLFW_DECORATED, GL_FALSE);
         e.window = glfwCreateWindow(mode->width, mode->height, "VultrEditor", nullptr, nullptr);
@@ -88,7 +91,7 @@ namespace Vultr
 
         if (e.window == nullptr)
         {
-            printf("Failed to initialize glfw window\n");
+            std::cout << "Failed to create GLFW window" << std::endl;
             glfwTerminate();
             return;
         }
@@ -104,7 +107,6 @@ namespace Vultr
         e.debug = debug;
 
         glEnable(GL_CULL_FACE);
-        glEnable(GL_DEPTH_TEST);
         glEnable(GL_DEBUG_OUTPUT);
         glDebugMessageCallback(ErrorHandler::ErrorCallback, 0);
         glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
@@ -189,6 +191,7 @@ namespace Vultr
 
         if (e.game != nullptr)
             e.game->Update(tick);
+
         // Only continuously update the meshes if we are planning on changing
         // these components at random (really will only happen in the editor) If
         // you need to change these components at runtime, destroy and then readd
@@ -200,7 +203,8 @@ namespace Vultr
             MeshLoaderSystem::update();
             ControllerSystem::update(tick.m_delta_time);
         }
-        // InputSystem::update(tick);
+
+        InputSystem::update(tick);
         RenderSystem::update(tick);
     }
 
