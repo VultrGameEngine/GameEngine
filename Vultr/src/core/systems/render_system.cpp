@@ -177,44 +177,44 @@ namespace Vultr::RenderSystem
             provider.render_quad->Draw();
         }
 
-        // if (meta_data.debug)
-        // {
-        //     // Get the transform of the scene camera
-        //     auto &camera_transform = camera_system_provider.scene_camera.transform_component;
-        //     auto &camera_component = camera_system_provider.scene_camera.camera_component;
+        if (meta_data.debug)
+        {
+            // Get the transform of the scene camera
+            auto &camera_transform = camera_system_provider.scene_camera.transform_component;
+            auto &camera_component = camera_system_provider.scene_camera.camera_component;
 
-        //     // Always will have a scene camera, render to the editor scene view
-        //     provider.scene.fbo->Bind();
+            // Always will have a scene camera, render to the editor scene view
+            provider.scene.fbo->Bind();
 
-        //     // Clear the screen
-        //     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            // Clear the screen
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        //     // Set the viewport to match that in the editor
-        //     glViewport(0, 0, get_dimensions(SCENE).x, get_dimensions(SCENE).y);
-        //     // Get the transform of the light
-        //     auto &light_transform = entity_get_component<TransformComponent>(light);
+            // Set the viewport to match that in the editor
+            glViewport(0, 0, get_dimensions(SCENE).x, get_dimensions(SCENE).y);
+            // Get the transform of the light
+            auto &light_transform = entity_get_component<TransformComponent>(light);
 
-        //     RenderContext::SetContext(get_dimensions(SCENE), light_transform.position, camera_transform, camera_component);
+            RenderContext::SetContext(get_dimensions(SCENE), light_transform.position, camera_transform, camera_component);
 
-        //     // Render both the skybox and the static meshes in the scene
-        //     render_skybox(SCENE);
-        //     render_elements(SCENE);
+            // Render both the skybox and the static meshes in the scene
+            render_skybox(SCENE);
+            render_elements(SCENE);
 
-        //     // Unbind the frame buffer
-        //     provider.scene.fbo->Unbind();
+            // Unbind the frame buffer
+            provider.scene.fbo->Unbind();
 
-        //     // provider.input_data.fb->Bind();
+            // provider.input_data.fb->Bind();
 
-        //     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        //     // Set the viewport to match that in the editor
-        //     glViewport(0, 0, get_dimensions(SCENE).x, get_dimensions(SCENE).y);
+            // Set the viewport to match that in the editor
+            glViewport(0, 0, get_dimensions(SCENE).x, get_dimensions(SCENE).y);
 
-        //     // render_element_input();
+            // render_element_input();
 
-        //     // Render both the skybox and the static meshes in the scene
-        //     provider.input_data.fb->Unbind();
-        // }
+            // Render both the skybox and the static meshes in the scene
+            // provider.input_data.fb->Unbind();
+        }
     }
 
     // Render all of the static meshes in the scene
