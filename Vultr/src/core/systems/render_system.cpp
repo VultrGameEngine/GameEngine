@@ -153,9 +153,9 @@ namespace Vultr::RenderSystem
             render_elements(GAME);
 
             // Update the gui system for the game
-            // GUISystem::Update(meta_data);
+            GUISystem::update(meta_data);
 
-            // glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
             // Unbind the frame buffer
             provider.game.fbo->Unbind();

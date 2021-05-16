@@ -17,9 +17,9 @@ namespace Vultr::InputSystem
         auto &provider = get_provider();
         provider.mouse_down = action == GLFW_PRESS;
         Input::MouseButtonInputEvent event = Input::MouseButtonInputEvent(provider.mouse_pos, provider.mouse_down);
-        // if (!GUISystem::receive_mouse_button_event(event))
-        // {
-        // }
+        if (!GUISystem::receive_mouse_button_event(event))
+        {
+        }
     }
 
     void on_scroll(GLFWwindow *window, double xamount, double yamount)
@@ -27,10 +27,10 @@ namespace Vultr::InputSystem
         auto &provider = get_provider();
         Input::ScrollInputEvent event = Input::ScrollInputEvent(provider.mouse_pos, glm::vec2(xamount, yamount));
         add_scroll_input(glm::vec2(xamount, yamount));
-        // if (!GUISystem::receive_scroll_event(event))
-        // {
-        //     std::cout << "GUI did not receive scroll event" << std::endl;
-        // }
+        if (!GUISystem::receive_scroll_event(event))
+        {
+            std::cout << "GUI did not receive scroll event" << std::endl;
+        }
     }
 
     void init(GLFWwindow *window)
@@ -87,9 +87,9 @@ namespace Vultr::InputSystem
             provider.mouse_pos = n_mouse_pos;
             provider.mouse_down = glfwGetMouseButton(provider.window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS;
             Input::MouseInputEvent event = Input::MouseInputEvent(provider.mouse_pos, provider.mouse_down);
-            // if (!GUISystem::receive_mouse_event(event))
-            // {
-            // }
+            if (!GUISystem::receive_mouse_event(event))
+            {
+            }
         }
     }
 
