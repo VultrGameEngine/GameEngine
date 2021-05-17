@@ -45,7 +45,7 @@ void RenderComponent(Entity entity)
 template <typename T>
 void RenderMember(const std::string &name, T &m)
 {
-    ImGui::Text("Unable to render type for member %s", name.c_str());
+    ImGui::Text("Unable to render type for member %s", name);
 }
 
 template <template <typename...> class Map, typename V>
