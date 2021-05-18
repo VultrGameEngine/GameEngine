@@ -36,7 +36,7 @@ namespace Vultr::TextureLoaderSystem
         auto &provider = get_provider();
         for (auto [path, slot] : mat.textures)
         {
-            if (!is_loaded(path))
+            if (!is_loaded(path.c_str()))
             {
                 provider.textures[path] = new Texture(GL_TEXTURE_2D);
                 TextureImporter::Import(path, *provider.textures[path]);
@@ -51,7 +51,7 @@ namespace Vultr::TextureLoaderSystem
         if (component.identifier != nullptr)
         {
             auto &skybox_component = entity_get_component<SkyBoxComponent>(entity);
-            if (!is_loaded(skybox_component.identifier))
+            if (!is_loaded(skybox_component.identifier.c_str()))
             {
                 Texture *texture = new Texture(GL_TEXTURE_CUBE_MAP);
                 provider.textures[skybox_component.identifier] = texture;
@@ -62,7 +62,7 @@ namespace Vultr::TextureLoaderSystem
         {
             for (auto [path, slot] : component.textures)
             {
-                if (!is_loaded(path))
+                if (!is_loaded(path.c_str()))
                 {
                     Texture *new_tex = new Texture(GL_TEXTURE_2D);
                     bool successful = TextureImporter::Import(path, *new_tex);

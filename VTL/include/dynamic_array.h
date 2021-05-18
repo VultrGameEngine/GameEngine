@@ -88,17 +88,16 @@ namespace vtl
             Pointer ptr;
         };
 
-        Iterator begin()
+        Iterator begin() const
         {
             return Iterator(internal_array);
         }
 
-        Iterator end()
+        Iterator end() const
         {
             return Iterator(internal_array + size);
         }
 
-      private:
         // The internal array
         T *internal_array;
 
@@ -130,8 +129,7 @@ namespace vtl
                 }
                 else
                 {
-                    a.internal_array =
-                        (T *)realloc(a.internal_array, new_size * sizeof(T));
+                    a.internal_array = (T *)realloc(a.internal_array, new_size * sizeof(T));
                 }
             }
         }
@@ -236,8 +234,7 @@ namespace vtl
     // nothing is reserved and a reallocation will occur unless reallocate is
     // explicitly false
     template <typename T>
-    T dynamic_array_delete_element(DynamicArray<T> &a, uint index,
-                                   bool reallocate = true)
+    T dynamic_array_delete_element(DynamicArray<T> &a, uint index, bool reallocate = true)
     {
         // Fail if the index is greater than the dynamic_array.size or negative
         assert(index <= a.size && index >= 0 && "Index out of bounds!");

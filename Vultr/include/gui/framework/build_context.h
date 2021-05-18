@@ -1,6 +1,5 @@
 #pragma once
 #include <gui/rendering/gui_render_group.h>
-#include <vector>
 #include <stack>
 #include <fonts/font.h>
 #include <helpers/font_importer.h>

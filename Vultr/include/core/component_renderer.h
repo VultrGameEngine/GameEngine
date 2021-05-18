@@ -5,6 +5,7 @@
 #include <ecs/component/component_array.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <type_info/type_info.h>
+#include <vector>
 
 using namespace Vultr;
 typedef void (*ComponentRender)(Entity);

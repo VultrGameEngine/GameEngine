@@ -13,7 +13,7 @@ namespace Vultr::Renderer3D
     }
     void ForwardRenderer::BindMaterial(const MaterialComponent &material, const glm::mat4 &transform)
     {
-        Shader *shader = ShaderLoaderSystem::get_shader(material.shader_path);
+        Shader *shader = ShaderLoaderSystem::get_shader(material.shader_path.c_str());
         if (shader == nullptr)
             return;
         shader->Bind();
@@ -26,7 +26,7 @@ namespace Vultr::Renderer3D
         shader->SetUniform3f("viewPos", context.camera_transform.position);
         for (auto [path, slot] : material.textures)
         {
-            Texture *texture = TextureLoaderSystem::get_texture(path);
+            Texture *texture = TextureLoaderSystem::get_texture(path.c_str());
             if (texture != nullptr)
                 texture->Bind(GL_TEXTURE0 + slot);
         }

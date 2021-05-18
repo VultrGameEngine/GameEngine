@@ -44,7 +44,7 @@ namespace Vultr::ShaderLoaderSystem
         auto &provider = get_provider();
         // If we have already loaded the shader and cached it, then reuse the id and
         // don't reload
-        auto *material_shader = get_shader(mat.shader_path);
+        auto *material_shader = get_shader(mat.shader_path.c_str());
         if (material_shader != nullptr)
             return;
 

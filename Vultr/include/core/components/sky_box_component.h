@@ -24,13 +24,13 @@ struct SkyBoxComponent
     unsigned int vao = 0;
     unsigned int vbo = 0;
     std::vector<glm::vec3> vertices;
-    const char *identifier;
-    const char *front;
-    const char *back;
-    const char *top;
-    const char *bottom;
-    const char *left;
-    const char *right;
+    std::string identifier;
+    std::string front;
+    std::string back;
+    std::string top;
+    std::string bottom;
+    std::string left;
+    std::string right;
 
     std::vector<std::string> get_paths()
     {

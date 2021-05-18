@@ -2,7 +2,6 @@
 #include <glm/glm.hpp>
 #include <rendering/models/mesh.h>
 #include <string>
-#include <vector>
 
 struct StaticMeshComponent
 {
@@ -10,12 +9,12 @@ struct StaticMeshComponent
     {
     }
 
-    static StaticMeshComponent Create(const char *p_path = "res/models/cube.obj")
+    static StaticMeshComponent Create(const std::string &p_path = "res/models/cube.obj")
     {
         StaticMeshComponent component = StaticMeshComponent();
         component.path = p_path;
         return component;
     }
 
-    const char *path;
+    std::string path;
 };

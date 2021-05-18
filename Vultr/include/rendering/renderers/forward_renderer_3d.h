@@ -1,7 +1,6 @@
 #pragma once
 #include <core/components/material_component.h>
 #include <rendering/models/mesh.h>
-#include <vector>
 
 namespace Vultr::Renderer3D
 {

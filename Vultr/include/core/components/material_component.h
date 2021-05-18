@@ -2,10 +2,10 @@
 #include <glm/glm.hpp>
 #include <iostream>
 #include <string>
-#include <vector>
 #include <unordered_map>
 #include <glad/glad.h>
 #include <types/types.hpp>
+#include <vector>
 
 struct Color
 {
@@ -19,17 +19,17 @@ struct MaterialComponent
 {
     typedef struct
     {
-        const char *path;
+        std::string path;
         u16 slot;
     } TexturePair;
 
-    const char *shader_path;
+    std::string shader_path;
     std::vector<TexturePair> textures;
-    std::unordered_map<const char *, glm::vec3> vec3s;
-    std::unordered_map<const char *, glm::vec4> vec4s;
-    std::unordered_map<const char *, Color> colors;
-    std::unordered_map<const char *, int> ints;
-    std::unordered_map<const char *, float> floats;
+    std::unordered_map<std::string, glm::vec3> vec3s;
+    std::unordered_map<std::string, glm::vec4> vec4s;
+    std::unordered_map<std::string, Color> colors;
+    std::unordered_map<std::string, int> ints;
+    std::unordered_map<std::string, float> floats;
 
     static MaterialComponent Create()
     {

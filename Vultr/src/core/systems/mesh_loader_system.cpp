@@ -8,7 +8,6 @@
 #include <string.h>
 #include <string>
 #include <thread>
-#include <vector>
 #include <ecs/world/world.hpp>
 #include <engine.hpp>
 
@@ -26,9 +25,9 @@ namespace Vultr::MeshLoaderSystem
     {
         auto &component = entity_get_component<StaticMeshComponent>(entity);
 
-        if (get_mesh(component.path) == nullptr)
+        if (get_mesh(component.path.c_str()) == nullptr)
         {
-            import(component.path);
+            import(component.path.c_str());
         }
     }
     void register_system()

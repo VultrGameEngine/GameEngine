@@ -3,7 +3,6 @@
 #include <assert.h>
 #include <glm/glm.hpp>
 #include <rendering/models/vertex.h>
-#include <vector>
 
 namespace Vultr
 {

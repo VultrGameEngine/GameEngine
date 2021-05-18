@@ -1,7 +1,6 @@
 #pragma once
 #include "render_object_widget.h"
 #include "element.h"
-#include <vector>
 
 namespace Vultr
 {

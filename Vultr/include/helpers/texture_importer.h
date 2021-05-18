@@ -1,7 +1,6 @@
 #pragma once
 #include <rendering/models/texture.h>
 #include <string>
-#include <vector>
 
 namespace Vultr
 {
