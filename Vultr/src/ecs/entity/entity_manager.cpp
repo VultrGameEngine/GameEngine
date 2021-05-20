@@ -13,7 +13,6 @@ namespace Vultr
 
     Entity entity_manager_create_entity(EntityManager &manager)
     {
-
         assert(manager.living_entity_count < MAX_ENTITIES && "Too many entities in existence");
 
         // Get the first ID from the queue and use that
@@ -93,26 +92,26 @@ namespace Vultr
         }
     }
 
-    void from_json(const json &j, EntityManager &m)
-    {
-        m.living_entites = j["living_entites"].get<std::set<Entity>>();
-        m.living_entity_count = j["living_entity_count"].get<u32>();
-        for (Entity e : m.living_entites)
-        {
-            m.signatures[e] = j["signatures"][std::to_string(e)];
-        }
+    // void from_json(const json &j, EntityManager &m)
+    // {
+    //     m.living_entites = j["living_entites"].get<std::set<Entity>>();
+    //     m.living_entity_count = j["living_entity_count"].get<u32>();
+    //     for (Entity e : m.living_entites)
+    //     {
+    //         m.signatures[e] = j["signatures"][std::to_string(e)];
+    //     }
 
-        // Clear the queue because it was likely constructed incorrectly
-        std::queue<Entity> empty;
-        std::swap(m.available_entities, empty);
+    //     // Clear the queue because it was likely constructed incorrectly
+    //     std::queue<Entity> empty;
+    //     std::swap(m.available_entities, empty);
 
-        // Fill available entities with those not found in the living entities set
-        for (Entity entity = 1; entity < MAX_ENTITIES; ++entity)
-        {
-            if (m.living_entites.find(entity) == m.living_entites.end())
-            {
-                m.available_entities.push(entity);
-            }
-        }
-    }
+    //     // Fill available entities with those not found in the living entities set
+    //     for (Entity entity = 1; entity < MAX_ENTITIES; ++entity)
+    //     {
+    //         if (m.living_entites.find(entity) == m.living_entites.end())
+    //         {
+    //             m.available_entities.push(entity);
+    //         }
+    //     }
+    // }
 } // namespace Vultr

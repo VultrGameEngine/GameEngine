@@ -47,5 +47,4 @@ namespace Vultr
 
     // Serialization
     void to_json(json &j, const EntityManager &m);
-    void from_json(const json &j, EntityManager &m);
 } // namespace Vultr

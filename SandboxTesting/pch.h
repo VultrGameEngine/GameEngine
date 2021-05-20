@@ -16,6 +16,8 @@
 #include <glm/glm.hpp>
 #include <yaml-cpp/yaml.h>
 #include <ft2build.h>
+#include <json/json.hpp>
+#include <json/glm_serializer.hpp>
 
 // Vultr
 #include <vultr.hpp>

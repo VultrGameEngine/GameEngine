@@ -15,9 +15,11 @@ namespace Vultr
     typedef struct InternalWorld World;
 
     // Create a new World
-    World *new_world();
+    World *new_world(const ComponentRegistry &r);
 
     void save_world(World *world, const File &out);
+
+    void destroy_world(World *world);
 
     // void ExportWorld(const std::string &path, std::shared_ptr<World> world);
 
@@ -25,7 +27,7 @@ namespace Vultr
 
     // World ImportWorld(const std::string &path);
 
-    World *load_world(const File &file);
+    World *load_world(const File &file, const ComponentRegistry &r);
 
     // Entity methods, just wrappers around existing methods
     Entity create_entity(World *world);

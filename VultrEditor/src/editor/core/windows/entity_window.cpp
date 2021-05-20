@@ -32,17 +32,17 @@ void EntityWindow::Render()
         }
     }
 
-    // if (ImGui::Button("Save Scene"))
-    // {
-    //     World::ExportWorld("test_world.world", World::Get());
-    // }
-    // if (ImGui::Button("Load Scene"))
-    // {
-    //     std::shared_ptr<World> world = World::ImportWorld("test_world.world");
-    //     World::ChangeWorld(world);
-    //     // Engine::RegisterComponents();
-    //     // Engine::InitSystems();
-    //     // World::FixSystems();
-    // }
+    if (ImGui::Button("Save Scene"))
+    {
+        save_world(get_current_world(), File("test_world.json"));
+    }
+    if (ImGui::Button("Load Scene"))
+    {
+        World *world = load_world(File("test_world.json"), engine_global().component_registry);
+        change_world(world);
+        // Engine::RegisterComponents();
+        // Engine::InitSystems();
+        // World::FixSystems();
+    }
     ImGui::End();
 }

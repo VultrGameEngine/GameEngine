@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include <bitset>
 #include <types/types.hpp>
+#include <json/json.hpp>
 #define VCOMPONENT(...)
 #define VSYSTEM(...)
 #define VSTRUCT(...)

@@ -5,7 +5,7 @@
 												"adapter": "vscode-cpptools",
 												"configuration": {
 																"request": "launch",
-																"program": "/home/brandon/Dev/GameEngine/Vultr/build/tests/VultrTests",
+																"program": "/home/brandon/Dev/GameEngine/VultrEditor/build/VultrEditor",
 																"args": [],
 																"cwd":"/home/brandon/Dev/GameEngine",
 																"environment": [],

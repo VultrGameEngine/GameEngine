@@ -1,0 +1,432 @@
+{
+    "ComponentManager": {
+        "Components": {
+            "CameraComponent": {
+                "component_array": [
+                    {
+                        "enabled": true,
+                        "fov": 45.0,
+                        "zfar": 100.0,
+                        "znear": 0.10000000149011612
+                    }
+                ],
+                "entity_to_index_map": [
+                    [
+                        1,
+                        0
+                    ]
+                ],
+                "index_to_entity_map": [
+                    [
+                        0,
+                        1
+                    ]
+                ],
+                "size": 1
+            },
+            "ControllerComponent": {
+                "component_array": [
+                    {
+                        "sens": 0.029999999329447746
+                    }
+                ],
+                "entity_to_index_map": [
+                    [
+                        1,
+                        0
+                    ]
+                ],
+                "index_to_entity_map": [
+                    [
+                        0,
+                        1
+                    ]
+                ],
+                "size": 1
+            },
+            "LightComponent": {
+                "component_array": [
+                    {
+                        "some_param": 0
+                    }
+                ],
+                "entity_to_index_map": [
+                    [
+                        2,
+                        0
+                    ]
+                ],
+                "index_to_entity_map": [
+                    [
+                        0,
+                        2
+                    ]
+                ],
+                "size": 1
+            },
+            "MaterialComponent": {
+                "component_array": [
+                    {
+                        "colors": {},
+                        "floats": {},
+                        "ints": {
+                            "skybox": 0
+                        },
+                        "shader_path": "res/shaders/skybox.glsl",
+                        "textures": [
+                            {
+                                "path": "default",
+                                "slot": 0
+                            }
+                        ],
+                        "vec3s": {},
+                        "vec4s": {}
+                    },
+                    {
+                        "colors": {
+                            "lightColor": {
+                                "value": {
+                                    "w": 1.0,
+                                    "x": 1.0,
+                                    "y": 1.0,
+                                    "z": 1.0
+                                }
+                            }
+                        },
+                        "floats": {},
+                        "ints": {},
+                        "shader_path": "res/shaders/unlit.glsl",
+                        "textures": [],
+                        "vec3s": {},
+                        "vec4s": {}
+                    },
+                    {
+                        "colors": {
+                            "lightColor": {
+                                "value": {
+                                    "w": 1.0,
+                                    "x": 1.0,
+                                    "y": 1.0,
+                                    "z": 1.0
+                                }
+                            },
+                            "objectColor": {
+                                "value": {
+                                    "w": 1.0,
+                                    "x": 1.0,
+                                    "y": 1.0,
+                                    "z": 1.0
+                                }
+                            }
+                        },
+                        "floats": {},
+                        "ints": {
+                            "textureSampler": 0
+                        },
+                        "shader_path": "res/shaders/forward_material.glsl",
+                        "textures": [
+                            {
+                                "path": "res/textures/cube/diffuse.png",
+                                "slot": 0
+                            }
+                        ],
+                        "vec3s": {},
+                        "vec4s": {}
+                    }
+                ],
+                "entity_to_index_map": [
+                    [
+                        3,
+                        2
+                    ],
+                    [
+                        2,
+                        1
+                    ],
+                    [
+                        1,
+                        0
+                    ]
+                ],
+                "index_to_entity_map": [
+                    [
+                        2,
+                        3
+                    ],
+                    [
+                        1,
+                        2
+                    ],
+                    [
+                        0,
+                        1
+                    ]
+                ],
+                "size": 3
+            },
+            "SkyBoxComponent": {
+                "component_array": [
+                    {
+                        "back": "res/textures/skybox/back.jpg",
+                        "bottom": "res/textures/skybox/bottom.jpg",
+                        "front": "res/textures/skybox/front.jpg",
+                        "identifier": "default",
+                        "left": "res/textures/skybox/left.jpg",
+                        "right": "res/textures/skybox/right.jpg",
+                        "top": "res/textures/skybox/top.jpg"
+                    }
+                ],
+                "entity_to_index_map": [
+                    [
+                        1,
+                        0
+                    ]
+                ],
+                "index_to_entity_map": [
+                    [
+                        0,
+                        1
+                    ]
+                ],
+                "size": 1
+            },
+            "StaticMeshComponent": {
+                "component_array": [
+                    {
+                        "path": "res/models/cube.obj"
+                    }
+                ],
+                "entity_to_index_map": [
+                    [
+                        3,
+                        0
+                    ]
+                ],
+                "index_to_entity_map": [
+                    [
+                        0,
+                        3
+                    ]
+                ],
+                "size": 1
+            },
+            "TestComponent": {
+                "entity_to_index_map": [],
+                "index_to_entity_map": [],
+                "size": 0
+            },
+            "TransformComponent": {
+                "component_array": [
+                    {
+                        "position": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "rotation": {
+                            "w": 1.0,
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "scale": {
+                            "x": 5.0,
+                            "y": 5.0,
+                            "z": 5.0
+                        }
+                    },
+                    {
+                        "position": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 30.0
+                        },
+                        "rotation": {
+                            "w": 1.0,
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "scale": {
+                            "x": 4.0,
+                            "y": 4.0,
+                            "z": 4.0
+                        }
+                    },
+                    {
+                        "position": {
+                            "x": 2.367352247238159,
+                            "y": -3.251311779022217,
+                            "z": 18.23624038696289
+                        },
+                        "rotation": {
+                            "w": 0.7665108442306519,
+                            "x": -0.2198629230260849,
+                            "y": -0.5009406805038452,
+                            "z": 0.33642205595970154
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 0.9999999403953552,
+                            "z": 1.0
+                        }
+                    }
+                ],
+                "entity_to_index_map": [
+                    [
+                        3,
+                        2
+                    ],
+                    [
+                        2,
+                        1
+                    ],
+                    [
+                        1,
+                        0
+                    ]
+                ],
+                "index_to_entity_map": [
+                    [
+                        2,
+                        3
+                    ],
+                    [
+                        1,
+                        2
+                    ],
+                    [
+                        0,
+                        1
+                    ]
+                ],
+                "size": 3
+            }
+        }
+    },
+    "ComponentRegistry": {
+        "component_name_to_type": {
+            "CameraComponent": 4,
+            "ControllerComponent": 5,
+            "LightComponent": 3,
+            "MaterialComponent": 1,
+            "SkyBoxComponent": 6,
+            "StaticMeshComponent": 0,
+            "TestComponent": 7,
+            "TransformComponent": 2
+        },
+        "next_component_type": 8
+    },
+    "EntityManager": {
+        "living_entites": [
+            1,
+            2,
+            3
+        ],
+        "living_entity_count": 3,
+        "signatures": {
+            "1": [
+                0,
+                1,
+                1,
+                0,
+                1,
+                1,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "2": [
+                0,
+                1,
+                1,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "3": [
+                1,
+                1,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ]
+        }
+    }
+}

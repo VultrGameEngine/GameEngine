@@ -51,7 +51,24 @@ namespace Vultr
 
     void change_world(World *new_world)
     {
-        engine_global().current_world = new_world;
+        auto &e = engine_global();
+        World *old_world = e.current_world;
+        e.current_world = new_world;
+        if (old_world == nullptr)
+            return;
+        for (Entity entity : world_get_entity_manager(old_world).living_entites)
+        {
+            system_manager_entity_destroyed(e.system_manager, entity);
+        }
+        auto &entity_manager = world_get_entity_manager(new_world);
+        auto &system_manager_world = world_get_system_manager(new_world);
+        for (Entity entity : entity_manager.living_entites)
+        {
+            // Add the new entities to both the global systems and the new systems in the new world
+            system_manager_entity_signature_changed(e.system_manager, entity, entity_manager.signatures[entity]);
+            system_manager_entity_signature_changed(system_manager_world, entity, entity_manager.signatures[entity]);
+        }
+        destroy_world(old_world);
     }
 
     void engine_init(Engine &e, bool debug)

@@ -9,12 +9,14 @@
 
 namespace Vultr
 {
+    typedef IComponentArray *(*ComponentArrayConstructor)(void);
     struct ComponentRegistry
     {
         struct ComponentData
         {
             ComponentRender component_renderer;
             ComponentConstructor component_constructor;
+            ComponentArrayConstructor component_array_constructor;
         };
 
         // Map from component type to a component data
@@ -46,8 +48,11 @@ namespace Vultr
         // Create the renderer
         ComponentRender renderer = [](Entity entity) { RenderComponent<T>(entity); };
 
+        // Create the component array constructor
+        ComponentArrayConstructor array_constructor = []() { return static_cast<IComponentArray *>(new ComponentArray<T>()); };
+
         // Create the tuple with the renderer and constructor
-        ComponentRegistry::ComponentData data = {.component_renderer = renderer, .component_constructor = constructor};
+        ComponentRegistry::ComponentData data = {.component_renderer = renderer, .component_constructor = constructor, .component_array_constructor = array_constructor};
 
         // Add the component type to the map
         r.components.insert({type, data});

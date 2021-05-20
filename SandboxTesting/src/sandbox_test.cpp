@@ -5,7 +5,7 @@
 using namespace Vultr;
 void SandboxTest::Init()
 {
-    change_world(new_world());
+    change_world(new_world(engine_global().component_registry));
 
     engine_register_default_components(engine_global());
     register_component<TestComponent>();

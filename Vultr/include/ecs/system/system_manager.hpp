@@ -17,11 +17,11 @@ namespace Vultr
     {
         SystemManager() = default;
         // Map from system type string pointer to a system provider
-        std::unordered_map<std::string, std::shared_ptr<SystemProvider>> system_providers{};
+        std::unordered_map<std::string, SystemProvider *> system_providers{};
     };
 
     template <typename T>
-    std::shared_ptr<T> system_manager_register_system(SystemManager &manager, Signature signature, OnCreateEntity on_create_entity, OnDestroyEntity on_destroy_entity, MatchSignature match_signature = nullptr)
+    T *system_manager_register_system(SystemManager &manager, Signature signature, OnCreateEntity on_create_entity, OnDestroyEntity on_destroy_entity, MatchSignature match_signature = nullptr)
     {
         static_assert(std::is_base_of<SystemProvider, T>::value &&
                       "System component is not a derived class of SystemProvider! Failed to register. Please make sure that the type provided is a subclass of SystemProvider");
@@ -31,9 +31,9 @@ namespace Vultr
         assert(manager.system_providers.find(type) == manager.system_providers.end() && "Registering system provider more than once");
 
         // Create a pointer to the system and return it so it can be used externally
-        auto instance = std::make_shared<T>();
-        auto system_provider = std::static_pointer_cast<SystemProvider>(instance);
-        ((std::shared_ptr<SystemProvider>)system_provider)->signature = signature;
+        auto *instance = new T();
+        auto *system_provider = static_cast<SystemProvider *>(instance);
+        system_provider->signature = signature;
         system_provider->on_create_entity = on_create_entity;
         system_provider->on_destroy_entity = on_destroy_entity;
         system_provider->match_signature = match_signature;
@@ -51,12 +51,14 @@ namespace Vultr
         const char *type = get_struct_name<T>();
         assert(manager.system_providers.find(type) != manager.system_providers.end() && "Attempting to deregister system that does not exist");
 
+        delete manager.system_providers[type];
+
         // Remove the system from the map
         manager.system_providers.erase(type);
     }
 
     template <typename T>
-    std::shared_ptr<T> system_manager_get_system_provider(SystemManager &manager)
+    T *system_manager_get_system_provider(SystemManager &manager)
     {
         static_assert(std::is_base_of<SystemProvider, T>::value &&
                       "System component is not a derived class of SystemProvider! Failed to get. Please make sure that the type provided is a subclass of SystemProvider");
@@ -64,7 +66,7 @@ namespace Vultr
         const char *type = get_struct_name<T>();
         assert(manager.system_providers.find(type) != manager.system_providers.end() && "System used before registered");
 
-        return std::dynamic_pointer_cast<T>(manager.system_providers.at(type));
+        return dynamic_cast<T *>(manager.system_providers.at(type));
     }
 
     // Called by world or engine to update the systems when new entities are created

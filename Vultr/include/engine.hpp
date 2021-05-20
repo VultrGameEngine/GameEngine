@@ -111,13 +111,13 @@ namespace Vultr
     }
 
     template <typename T>
-    std::shared_ptr<T> world_register_system(Signature signature, OnCreateEntity on_create_entity = nullptr, OnDestroyEntity on_destroy_entity = nullptr, MatchSignature match_signature = nullptr)
+    T *world_register_system(Signature signature, OnCreateEntity on_create_entity = nullptr, OnDestroyEntity on_destroy_entity = nullptr, MatchSignature match_signature = nullptr)
     {
         return system_manager_register_system<T>(world_get_system_manager(get_current_world()), signature, on_create_entity, on_destroy_entity, match_signature);
     }
 
     template <typename T>
-    std::shared_ptr<T> register_global_system(Signature signature, OnCreateEntity on_create_entity = nullptr, OnDestroyEntity on_destroy_entity = nullptr, MatchSignature match_signature = nullptr)
+    T *register_global_system(Signature signature, OnCreateEntity on_create_entity = nullptr, OnDestroyEntity on_destroy_entity = nullptr, MatchSignature match_signature = nullptr)
     {
         return system_manager_register_system<T>(engine_global().system_manager, signature, on_create_entity, on_destroy_entity, match_signature);
     }
@@ -129,7 +129,7 @@ namespace Vultr
     }
 
     template <typename T>
-    std::shared_ptr<T> get_global_system_provider()
+    T *get_global_system_provider()
     {
         return system_manager_get_system_provider<T>(engine_global().system_manager);
     }

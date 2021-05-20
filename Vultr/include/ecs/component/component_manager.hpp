@@ -14,27 +14,29 @@ namespace Vultr
     {
         ComponentManager() = default;
         // Map from type string poiner to a component array
-        std::unordered_map<ComponentType, std::shared_ptr<IComponentArray>> component_arrays{};
+        std::unordered_map<ComponentType, IComponentArray *> component_arrays{};
     };
 
     void component_manager_entity_destroyed(ComponentManager &manager, Entity entity);
 
     // Get the statically casted pointer to the ComponentArray of type T
     template <typename T>
-    std::shared_ptr<ComponentArray<T>> component_manager_get_component_array(ComponentManager &manager, ComponentType type)
+    ComponentArray<T> *component_manager_get_component_array(ComponentManager &manager, ComponentType type)
     {
         // If the component manager does not have that component type then insert a
         // new component array
         if (manager.component_arrays.find(type) == manager.component_arrays.end())
         {
-            manager.component_arrays.insert({type, std::make_shared<ComponentArray<T>>()});
+            manager.component_arrays.insert({type, new ComponentArray<T>()});
         }
 
-        return std::static_pointer_cast<ComponentArray<T>>(manager.component_arrays[type]);
+        return static_cast<ComponentArray<T> *>(manager.component_arrays[type]);
     }
 
     void component_manager_to_json(json &j, const ComponentManager &m, const ComponentRegistry &r);
 
     void component_manager_from_json(const json &j, ComponentManager &m, const ComponentRegistry &r);
+
+    void destroy_component_manager(ComponentManager &manager);
 
 } // namespace Vultr

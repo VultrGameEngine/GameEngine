@@ -49,4 +49,12 @@ namespace Vultr
         }
     }
 
+    void destroy_component_manager(ComponentManager &m)
+    {
+        for (auto [type, array] : m.component_arrays)
+        {
+            delete array;
+        }
+    }
+
 } // namespace Vultr

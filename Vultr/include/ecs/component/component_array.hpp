@@ -15,7 +15,7 @@ namespace Vultr
       public:
         virtual ~IComponentArray() = default;
         virtual void EntityDestroyed(Entity entity){};
-        virtual void to_json(json &j){};
+        virtual void to_json(json &j) const {};
         virtual void from_json(const json &j){};
     };
 
@@ -95,7 +95,7 @@ namespace Vultr
             }
         }
 
-        void to_json(json &j) override
+        void to_json(json &j) const override
         {
             j["entity_to_index_map"] = entity_to_index_map;
             j["index_to_entity_map"] = index_to_entity_map;
@@ -108,12 +108,21 @@ namespace Vultr
 
         void from_json(const json &j) override
         {
-            for (auto &component : j["component_array"].items())
+            if (j.find("component_array") != j.end())
             {
-                component_array[atoi(component.key().c_str())] = component.value();
+                for (auto &component : j["component_array"].items())
+                {
+                    component_array[atoi(component.key().c_str())] = component.value();
+                }
             }
-            index_to_entity_map = j["index_to_entity_map"].get<std::unordered_map<size_t, Entity>>();
-            entity_to_index_map = j["entity_to_index_map"].get<std::unordered_map<Entity, size_t>>();
+            if (j.find("index_to_entity_map") != j.end())
+            {
+                index_to_entity_map = j["index_to_entity_map"].get<std::unordered_map<size_t, Entity>>();
+            }
+            if (j.find("entity_to_index_map") != j.end())
+            {
+                entity_to_index_map = j["entity_to_index_map"].get<std::unordered_map<Entity, size_t>>();
+            }
             size = j["size"].get<size_t>();
         }
 
@@ -133,7 +142,7 @@ namespace Vultr
         size_t size{};
     };
 
-    inline void to_json(json &j, const std::shared_ptr<IComponentArray> &a)
+    inline void to_json(json &j, const IComponentArray *a)
     {
         a->to_json(j);
     }

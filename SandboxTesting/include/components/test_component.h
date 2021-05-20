@@ -23,3 +23,4 @@ struct TestComponent
     VPROPERTY()
     std::string some_string = "test";
 };
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(TestComponent, some_bool, some_double, some_int, some_string);

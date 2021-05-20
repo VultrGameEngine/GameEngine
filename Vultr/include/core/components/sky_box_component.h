@@ -24,7 +24,8 @@ struct SkyBoxComponent
         return component;
     }
     // TODO WTF????
-    uint vao, vbo;
+    uint vao = 0;
+    uint vbo = 0;
 
     std::vector<glm::vec3> vertices;
     std::string identifier;
