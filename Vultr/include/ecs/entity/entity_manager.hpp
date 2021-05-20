@@ -43,5 +43,4 @@ namespace Vultr
     // Getters
     Signature entity_manager_get_signature(EntityManager &manager, Entity entity);
     std::set<Entity> entity_manager_get_entities(EntityManager &manager, Signature signature);
-
 } // namespace Vultr

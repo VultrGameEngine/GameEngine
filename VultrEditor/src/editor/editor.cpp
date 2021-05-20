@@ -11,8 +11,7 @@
 #include <imgui/imgui_impl_opengl3.h>
 #include <ImGuizmo/ImGuizmo.h>
 
-namespace Vultr::Editor
-{
+using namespace Vultr;
 Editor::Editor() : selected_entity(Entity(0))
 {
     windows.push_back(new GameWindow());
@@ -45,10 +44,8 @@ void Editor::Editor::Render()
     ImGui::SetNextWindowViewport(viewport->ID);
     ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
     ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
-    window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse |
-                    ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
-    window_flags |=
-        ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
+    window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
+    window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
 
     static bool dockspaceOpen = true;
     static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_None;
@@ -56,13 +53,9 @@ void Editor::Editor::Render()
     ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
     ImGui::Begin("DockSpace Demo", &dockspaceOpen, window_flags);
     ImGui::PopStyleVar(3);
-    ImGui::Text("Application average %.3f ms/frame (%.1f FPS)",
-                1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+    ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
     Get()->dockspace = ImGui::GetID("HUB_DockSpace");
-    ImGui::DockSpace(Get()->dockspace, ImVec2(0.0f, 0.0f),
-                     ImGuiDockNodeFlags_None |
-                         ImGuiDockNodeFlags_PassthruCentralNode |
-                         ImGuiDockNodeFlags_NoResize);
+    ImGui::DockSpace(Get()->dockspace, ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_None | ImGuiDockNodeFlags_PassthruCentralNode | ImGuiDockNodeFlags_NoResize);
 
     for (Window *window : Get()->windows)
     {
@@ -78,4 +71,3 @@ void Editor::Editor::Render()
     glfwMakeContextCurrent(backup_current_context);
     glEnable(GL_DEPTH_TEST);
 }
-} // namespace Vultr::Editor

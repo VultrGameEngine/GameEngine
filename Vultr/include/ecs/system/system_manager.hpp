@@ -17,7 +17,7 @@ namespace Vultr
     {
         SystemManager() = default;
         // Map from system type string pointer to a system provider
-        std::unordered_map<const char *, std::shared_ptr<SystemProvider>> system_providers{};
+        std::unordered_map<std::string, std::shared_ptr<SystemProvider>> system_providers{};
     };
 
     template <typename T>

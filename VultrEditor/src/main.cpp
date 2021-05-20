@@ -16,7 +16,7 @@ int main(void)
     while (!vultr.should_close)
     {
         engine_update_game(vultr, lastTime);
-        Vultr::Editor::Editor::Get()->Render();
+        Editor::Get()->Render();
         glfwSwapBuffers(vultr.window);
         glfwPollEvents();
     }

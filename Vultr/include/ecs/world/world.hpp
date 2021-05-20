@@ -7,6 +7,7 @@
 #include <ecs/component/component_manager.hpp>
 #include <ecs/system/system_manager.hpp>
 #include <set>
+#include <helpers/file.h>
 
 namespace Vultr
 {
@@ -21,6 +22,8 @@ namespace Vultr
     // void ExportWorldEditor(const std::string &path, std::shared_ptr<World> world);
 
     // World ImportWorld(const std::string &path);
+
+    World *load_world(const File &file);
 
     // Entity methods, just wrappers around existing methods
     Entity create_entity(World *world);

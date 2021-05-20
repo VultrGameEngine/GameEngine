@@ -16,6 +16,7 @@ namespace Vultr
         // Map from type string poiner to a component array
         std::unordered_map<ComponentType, std::shared_ptr<IComponentArray>> component_arrays{};
     };
+
     void component_manager_entity_destroyed(ComponentManager &manager, Entity entity);
 
     // Get the statically casted pointer to the ComponentArray of type T
@@ -31,4 +32,5 @@ namespace Vultr
 
         return std::static_pointer_cast<ComponentArray<T>>(manager.component_arrays[type]);
     }
+
 } // namespace Vultr

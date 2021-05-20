@@ -7,8 +7,7 @@
 #include <type_info/type_info.h>
 #include <vector>
 
-using namespace Vultr;
-typedef void (*ComponentRender)(Entity);
+typedef void (*ComponentRender)(Vultr::Entity);
 
 #define _RENDER_MEMBER(T, x)                                                                                                                                                                                          \
     ImGui::PushID(typeid(T).name());                                                                                                                                                                                  \
@@ -38,7 +37,7 @@ typedef void (*ComponentRender)(Entity);
     }
 
 template <typename T>
-void RenderComponent(Entity entity)
+void RenderComponent(Vultr::Entity entity)
 {
     ImGui::Text("Default Component Renderer");
 }

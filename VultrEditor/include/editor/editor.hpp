@@ -5,8 +5,6 @@
 #include <ecs/entity/entity.hpp>
 #include <vector>
 
-namespace Vultr::Editor
-{
 class Editor
 {
   public:
@@ -23,11 +21,10 @@ class Editor
     }
     static unsigned int GetDockSpace();
     static void Render();
-    Entity selected_entity;
+    Vultr::Entity selected_entity;
     ImGuizmo::OPERATION current_operation = ImGuizmo::OPERATION::TRANSLATE;
 
   private:
     std::vector<Window *> windows;
     unsigned int dockspace = 1;
 };
-} // namespace Vultr::Editor
