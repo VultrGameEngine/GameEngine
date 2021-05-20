@@ -35,3 +35,31 @@ namespace Vultr
     }
 
 } // namespace Vultr
+
+namespace nlohmann
+{
+    template <>
+    struct adl_serializer<Vultr::Signature>
+    {
+        static void to_json(json &j, const Vultr::Signature &v)
+        {
+            for (s16 i = 0; i < v.size(); i++)
+            {
+                j[i] = (int)v[i];
+            }
+        }
+
+        static void from_json(const json &j, Vultr::Signature &v)
+        {
+            for (s16 i = 0; i < j.size(); i++)
+            {
+                if (i >= Vultr::MAX_COMPONENTS)
+                {
+                    printf("WARNING LOST DATA IN SIGNATURE DUE TO REDUCED MAX COMPONENTS");
+                    break;
+                }
+                v.set(i, j[i].get<int>() == 1);
+            }
+        }
+    };
+} // namespace nlohmann

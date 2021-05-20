@@ -6,9 +6,14 @@
 #include <glad/glad.h>
 #include <types/types.hpp>
 #include <vector>
+#include <json/json.hpp>
+#include <json/glm_serializer.hpp>
 
 struct Color
 {
+    Color() : value(glm::vec4(0, 0, 0, 1))
+    {
+    }
     Color(glm::vec4 p_value) : value(p_value)
     {
     }
@@ -38,3 +43,6 @@ struct MaterialComponent
 
     const char *identifier = nullptr;
 };
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(MaterialComponent::TexturePair, path, slot);
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Color, value);
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(MaterialComponent, shader_path, textures, vec3s, vec4s, colors, ints, floats);

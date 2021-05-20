@@ -6,6 +6,7 @@
 #include <assert.h>
 #include <memory>
 #include <unordered_map>
+#include <json/json.hpp>
 
 namespace Vultr
 {
@@ -14,6 +15,8 @@ namespace Vultr
       public:
         virtual ~IComponentArray() = default;
         virtual void EntityDestroyed(Entity entity){};
+        virtual void to_json(json &j){};
+        virtual void from_json(const json &j){};
     };
 
     template <typename T>
@@ -61,6 +64,8 @@ namespace Vultr
             // Remove the entity requested from the maps
             entity_to_index_map.erase(entity);
             index_to_entity_map.erase(index_of_last_element);
+
+            --size;
         }
 
         T &GetData(Entity entity)
@@ -90,6 +95,28 @@ namespace Vultr
             }
         }
 
+        void to_json(json &j) override
+        {
+            j["entity_to_index_map"] = entity_to_index_map;
+            j["index_to_entity_map"] = index_to_entity_map;
+            j["size"] = size;
+            for (int i = 0; i < size; i++)
+            {
+                j["component_array"].push_back(component_array[i]);
+            }
+        }
+
+        void from_json(const json &j) override
+        {
+            for (auto &component : j["component_array"].items())
+            {
+                component_array[atoi(component.key().c_str())] = component.value();
+            }
+            index_to_entity_map = j["index_to_entity_map"].get<std::unordered_map<size_t, Entity>>();
+            entity_to_index_map = j["entity_to_index_map"].get<std::unordered_map<Entity, size_t>>();
+            size = j["size"].get<size_t>();
+        }
+
       private:
         // Packed array of components
         // Set to be of maximum length of the maximum number of entities
@@ -105,4 +132,10 @@ namespace Vultr
         // Total size of valid entries in the array
         size_t size{};
     };
+
+    inline void to_json(json &j, const std::shared_ptr<IComponentArray> &a)
+    {
+        a->to_json(j);
+    }
+
 } // namespace Vultr

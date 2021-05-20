@@ -2,16 +2,14 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtx/transform.hpp>
+#include <json/json.hpp>
+#include <json/glm_serializer.hpp>
 
 struct TransformComponent
 {
     TransformComponent() = default;
 
-    static TransformComponent Create(const glm::vec3 &p_position = glm::vec3(0, 0,
-                                                                             0),
-                                     const glm::quat &p_rotation = glm::quat(1, 0, 0,
-                                                                             0),
-                                     const glm::vec3 &p_scale = glm::vec3(1, 1, 1))
+    static TransformComponent Create(const glm::vec3 &p_position = glm::vec3(0, 0, 0), const glm::quat &p_rotation = glm::quat(1, 0, 0, 0), const glm::vec3 &p_scale = glm::vec3(1, 1, 1))
     {
         TransformComponent component = TransformComponent();
         component.position = p_position;
@@ -51,3 +49,5 @@ struct TransformComponent
         return glm::lookAt(position, position + Forward(), glm::vec3(0, 1, 0));
     }
 };
+
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(TransformComponent, position, rotation, scale);

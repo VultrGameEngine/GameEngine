@@ -2,6 +2,7 @@
 #include <glm/glm.hpp>
 #include <rendering/models/mesh.h>
 #include <string>
+#include <json/json.hpp>
 
 struct StaticMeshComponent
 {
@@ -18,3 +19,4 @@ struct StaticMeshComponent
 
     std::string path;
 };
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(StaticMeshComponent, path);

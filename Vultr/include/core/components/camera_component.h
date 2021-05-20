@@ -2,6 +2,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtx/transform.hpp>
+#include <json/json.hpp>
 
 struct CameraComponent
 {
@@ -22,8 +23,10 @@ struct CameraComponent
         return glm::perspective(fov, width / height, znear, zfar);
     }
 
-    template <class Archive> void serialize(Archive &ar)
+    template <class Archive>
+    void serialize(Archive &ar)
     {
         ar(enabled, fov, znear, zfar);
     }
 };
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(CameraComponent, enabled, fov, znear, zfar);

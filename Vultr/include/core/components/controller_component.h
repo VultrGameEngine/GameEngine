@@ -1,4 +1,5 @@
 #pragma once
+#include <json/json.hpp>
 
 struct ControllerComponent
 {
@@ -9,8 +10,10 @@ struct ControllerComponent
     }
     float sens = 0.03;
 
-    template <class Archive> void serialize(Archive &ar)
+    template <class Archive>
+    void serialize(Archive &ar)
     {
         ar(sens);
     }
 };
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(ControllerComponent, sens);

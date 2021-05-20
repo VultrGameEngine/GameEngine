@@ -33,4 +33,8 @@ namespace Vultr
         return std::static_pointer_cast<ComponentArray<T>>(manager.component_arrays[type]);
     }
 
+    void component_manager_to_json(json &j, const ComponentManager &m, const ComponentRegistry &r);
+
+    void component_manager_from_json(const json &j, ComponentManager &m, const ComponentRegistry &r);
+
 } // namespace Vultr

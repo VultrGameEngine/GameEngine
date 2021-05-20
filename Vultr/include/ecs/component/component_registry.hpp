@@ -5,6 +5,7 @@
 #include "../../core/component_renderer.h"
 #include "../../core/component_constructor.h"
 #include <type_info/type_info.h>
+#include <json/json.hpp>
 
 namespace Vultr
 {
@@ -20,10 +21,10 @@ namespace Vultr
         std::unordered_map<ComponentType, ComponentData> components{};
 
         // Map from component stringified name to a component type
-        std::unordered_map<const char *, ComponentType> component_name_to_type{};
+        std::unordered_map<std::string, ComponentType> component_name_to_type{};
 
         // Map from component type to component stringified name
-        std::unordered_map<ComponentType, const char *> component_type_to_name{};
+        std::unordered_map<ComponentType, std::string> component_type_to_name{};
 
         // The component type to be assigned to the next registered component
         // starting at
@@ -34,7 +35,7 @@ namespace Vultr
     template <typename T>
     void component_registry_register_component(ComponentRegistry &r, ComponentConstructor constructor)
     {
-        const char *type_name = get_struct_name<T>();
+        std::string type_name = get_struct_name<T>();
 
         assert(r.component_name_to_type.find(type_name) == r.component_name_to_type.end() && "Registered component type more than once");
 
@@ -56,7 +57,7 @@ namespace Vultr
     template <typename T>
     ComponentType component_registry_get_component_type(ComponentRegistry &r)
     {
-        const char *type_name = get_struct_name<T>();
+        std::string type_name = get_struct_name<T>();
         assert(r.component_name_to_type.find(type_name) != r.component_name_to_type.end() && "Component not registered before use");
 
         // Return this component's type used for creating signatures
@@ -68,4 +69,9 @@ namespace Vultr
     bool component_registry_is_component_registered(const ComponentRegistry &r, ComponentType type);
 
     void component_registry_render_entity_components(const ComponentRegistry &r, Entity entity);
+
+    void to_json(json &j, const ComponentRegistry &r);
+
+    void from_json(const json &j, ComponentRegistry &r);
+
 } // namespace Vultr

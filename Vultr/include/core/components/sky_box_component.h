@@ -3,6 +3,8 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <json/json.hpp>
+#include <json/glm_serializer.hpp>
 
 struct SkyBoxComponent
 {
@@ -21,8 +23,9 @@ struct SkyBoxComponent
         component.right = right;
         return component;
     }
-    unsigned int vao = 0;
-    unsigned int vbo = 0;
+    // TODO WTF????
+    uint vao, vbo;
+
     std::vector<glm::vec3> vertices;
     std::string identifier;
     std::string front;
@@ -94,3 +97,4 @@ struct SkyBoxComponent
         return vertices;
     }
 };
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(SkyBoxComponent, identifier, front, back, top, bottom, left, right);

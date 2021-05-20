@@ -17,6 +17,8 @@ namespace Vultr
     // Create a new World
     World *new_world();
 
+    void save_world(World *world, const File &out);
+
     // void ExportWorld(const std::string &path, std::shared_ptr<World> world);
 
     // void ExportWorldEditor(const std::string &path, std::shared_ptr<World> world);

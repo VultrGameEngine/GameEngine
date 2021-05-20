@@ -100,6 +100,7 @@ namespace Vultr
     void register_component()
     {
         component_registry_register_component<T>(engine_global().component_registry, [](Entity entity) { entity_add_component(entity, T::Create()); });
+        component_manager_get_component_array<T>(world_get_component_manager(get_current_world()), get_component_type<T>());
     }
 
     template <typename T>

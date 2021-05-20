@@ -13,6 +13,7 @@
 #include <assert.h>
 #include <queue>
 #include <set>
+#include <json/json.hpp>
 
 namespace Vultr
 {
@@ -43,4 +44,8 @@ namespace Vultr
     // Getters
     Signature entity_manager_get_signature(EntityManager &manager, Entity entity);
     std::set<Entity> entity_manager_get_entities(EntityManager &manager, Signature signature);
+
+    // Serialization
+    void to_json(json &j, const EntityManager &m);
+    void from_json(const json &j, EntityManager &m);
 } // namespace Vultr

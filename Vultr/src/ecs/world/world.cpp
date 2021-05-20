@@ -1,6 +1,8 @@
 #include <ecs/world/world.hpp>
 #include <ecs/world/internal_world.hpp>
 #include <helpers/file.h>
+#include <json/json.hpp>
+#include <engine.hpp>
 
 namespace Vultr
 {
@@ -12,6 +14,13 @@ namespace Vultr
 
     World *load_world(const File &file)
     {
+    }
+
+    void save_world(World *_world, const File &out)
+    {
+        InternalWorld *world = static_cast<InternalWorld *>(_world);
+        json component_manager_json;
+        component_manager_to_json(component_manager_json, world_get_component_manager(world), engine_global().component_registry);
     }
 
     Entity create_entity(World *world)
