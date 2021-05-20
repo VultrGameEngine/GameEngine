@@ -48,7 +48,7 @@ namespace Vultr::TextureLoaderSystem
     {
         auto &provider = get_provider();
         auto &component = entity_get_component<MaterialComponent>(entity);
-        if (component.identifier != nullptr)
+        if (!component.identifier.empty())
         {
             auto &skybox_component = entity_get_component<SkyBoxComponent>(entity);
             if (!is_loaded(skybox_component.identifier.c_str()))

@@ -67,4 +67,34 @@ namespace Vultr
         return mesh;
     }
 
+    Mesh *MeshImporter::InitSkybox()
+    {
+        std::vector<Vertex> vertices = {
+            Vertex(glm::vec3(-1, -1, -1)), // 0
+            Vertex(glm::vec3(1, -1, -1)),  // 1
+            Vertex(glm::vec3(1, 1, -1)),   // 2
+            Vertex(glm::vec3(1, 1, 1)),    // 3
+            Vertex(glm::vec3(-1, 1, -1)),  // 4
+            Vertex(glm::vec3(-1, 1, 1)),   // 5
+            Vertex(glm::vec3(-1, -1, 1)),  // 6
+            Vertex(glm::vec3(1, -1, 1)),   // 7
+            Vertex(glm::vec3(1, 1, -1)),   // 8
+        };
+        std::vector<unsigned short> indices = {// Front
+                                               1, 8, 4, 4, 0, 1,
+                                               // Left
+                                               6, 0, 4, 4, 5, 6,
+                                               // Right
+                                               1, 7, 3, 3, 8, 1,
+                                               // Back
+                                               6, 5, 3, 3, 7, 6,
+                                               // Top
+                                               4, 8, 3, 3, 5, 4,
+                                               // Bottom
+                                               0, 6, 1, 1, 6, 7};
+        Mesh *mesh = new Mesh();
+        mesh->Init(vertices, indices);
+        return mesh;
+    }
+
 } // namespace Vultr

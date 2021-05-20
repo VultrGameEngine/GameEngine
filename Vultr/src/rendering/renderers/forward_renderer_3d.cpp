@@ -30,7 +30,7 @@ namespace Vultr::Renderer3D
             if (texture != nullptr)
                 texture->Bind(GL_TEXTURE0 + slot);
         }
-        if (material.identifier != nullptr)
+        if (!material.identifier.empty())
         {
             shader->SetUniformMatrix4fv("view", glm::value_ptr(glm::mat4(glm::mat3(context.camera_transform.GetViewMatrix()))));
         }

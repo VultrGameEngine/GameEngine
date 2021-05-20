@@ -5,11 +5,12 @@
 
 namespace Vultr
 {
-class MeshImporter
-{
-  public:
-    static Mesh *ImportMesh(const std::string &path);
-    static Mesh *InitQuad();
-};
+    class MeshImporter
+    {
+      public:
+        static Mesh *ImportMesh(const std::string &path);
+        static Mesh *InitQuad();
+        static Mesh *InitSkybox();
+    };
 
 } // namespace Vultr

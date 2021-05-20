@@ -44,6 +44,7 @@ namespace Vultr::RenderSystem
         generate_render_texture(p.game, mode->width, mode->height);
         p.post_processing_shader = ShaderImporter::ImportShader("res/shaders/post_processing.glsl");
         p.render_quad = MeshImporter::InitQuad();
+        p.skybox = MeshImporter::InitSkybox();
     }
 
     void init_g_buffer(int width, int height)
@@ -226,7 +227,7 @@ namespace Vultr::RenderSystem
         for (Entity entity : provider.entities)
         {
             MaterialComponent &material = entity_get_component<MaterialComponent>(entity);
-            if (material.identifier != nullptr)
+            if (!material.identifier.empty())
                 continue;
             TransformComponent &transform = entity_get_component<TransformComponent>(entity);
             StaticMeshComponent &mesh = entity_get_component<StaticMeshComponent>(entity);
@@ -285,26 +286,15 @@ namespace Vultr::RenderSystem
 
         glDepthFunc(GL_LEQUAL); // Ensure depth test passes when values are equal to
                                 // the depth buffer's content
+        glDepthMask(GL_FALSE);  // Disable depth mask
 
+        // Get the components needed to render
         auto &material_component = entity_get_component<MaterialComponent>(camera);
         auto &skybox_component = entity_get_component<SkyBoxComponent>(camera);
-        glDepthMask(GL_FALSE);
+
         Renderer3D::ForwardRenderer::BindMaterial(material_component, RenderContext::GetContext().camera_transform.Matrix());
 
-        if (skybox_component.vbo == 0 || skybox_component.vao == 0)
-        {
-            glGenVertexArrays(1, &skybox_component.vao);
-            glGenBuffers(1, &skybox_component.vbo);
-            glBindVertexArray(skybox_component.vao);
-            glBindBuffer(GL_ARRAY_BUFFER, skybox_component.vbo);
-            glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * skybox_component.GetVertices().size(), &(skybox_component.GetVertices()[0]), GL_STATIC_DRAW);
-            glEnableVertexAttribArray(0);
-            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
-        }
-
-        glBindVertexArray(skybox_component.vao);
-        glBindBuffer(GL_ARRAY_BUFFER, skybox_component.vbo);
-        glDrawArrays(GL_TRIANGLES, 0, skybox_component.GetVertices().size());
+        get_provider().skybox->Draw();
         glDepthMask(GL_TRUE);
         glDepthFunc(GL_LESS); // Reset depth test
     }

@@ -41,8 +41,8 @@ struct MaterialComponent
         return MaterialComponent();
     }
 
-    const char *identifier = nullptr;
+    std::string identifier = "";
 };
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(MaterialComponent::TexturePair, path, slot);
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Color, value);
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(MaterialComponent, shader_path, textures, vec3s, vec4s, colors, ints, floats);
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(MaterialComponent, identifier, shader_path, textures, vec3s, vec4s, colors, ints, floats);
