@@ -4,7 +4,7 @@
 namespace TestSystem
 {
     VSYSTEM()
-    struct Component : public SystemProvider
+    struct Component : public Vultr::SystemProvider
     {
         VPROPERTY()
         double test_prop = 0.0;

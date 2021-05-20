@@ -47,6 +47,8 @@ namespace Vultr
 
         file << "#include \"../" << this->m_FullFilepath.GetName() << "\"\n\n";
 
+        file << "using namespace Vultr;\n";
+
         int i = 0;
         for (auto uclass : m_components)
         {

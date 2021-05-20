@@ -1,9 +1,11 @@
 #include <systems/test_system.h>
+#include <system_providers/test_system_provider.h>
 #include <components/test_component.h>
 
 namespace TestSystem
 {
 
+    using namespace Vultr;
     void register_system()
     {
         Signature signature;

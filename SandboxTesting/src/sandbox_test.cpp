@@ -2,6 +2,7 @@
 #include <components/test_component.h>
 #include <systems/test_system.h>
 
+using namespace Vultr;
 void SandboxTest::Init()
 {
     change_world(new_world());
