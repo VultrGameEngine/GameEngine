@@ -25,9 +25,9 @@ namespace Vultr::MeshLoaderSystem
     {
         auto &component = entity_get_component<StaticMeshComponent>(entity);
 
-        if (get_mesh(component.path.c_str()) == nullptr)
+        if (get_mesh(component.source.GetPath().c_str()) == nullptr)
         {
-            import(component.path.c_str());
+            import(component.source.GetPath().c_str());
         }
     }
     void register_system()

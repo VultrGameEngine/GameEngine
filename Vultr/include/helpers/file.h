@@ -6,6 +6,7 @@
 namespace Vultr
 {
 #define TEXTURE_FILE_EXTENSIONS "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}"
+#define MODEL_3D_FILE_EXTENSIONS "Image (*.obj *.fbx...){.obj,.fbx,.blend,}"
 #define HEADER_SOURCE_FILE_EXTENSIONS "Header/Source (*.h,*.cpp...){.h,.hpp,.c,.cpp,.cc}"
 #define HEADER_FILE_EXTENSIONS "Header (*.h *.hpp){.h,.hpp}"
 #define SOURCE_FILE_EXTENSIONS "Source (*.c *.cpp *.cc) {.c,.cpp,.cc}"

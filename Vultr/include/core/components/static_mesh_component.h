@@ -2,6 +2,7 @@
 #include <glm/glm.hpp>
 #include <rendering/models/mesh.h>
 #include <string>
+#include <helpers/file.h>
 #include <json/json.hpp>
 
 struct StaticMeshComponent
@@ -13,10 +14,10 @@ struct StaticMeshComponent
     static StaticMeshComponent Create(const std::string &p_path = "models/cube.obj")
     {
         StaticMeshComponent component = StaticMeshComponent();
-        component.path = p_path;
+        component.source = Vultr::File(p_path, MODEL_3D_FILE_EXTENSIONS);
         return component;
     }
 
-    std::string path;
+    Vultr::File source;
 };
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(StaticMeshComponent, path);
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(StaticMeshComponent, source);

@@ -299,23 +299,11 @@ void RenderMember(const std::string &name, glm::quat &m)
     ImGui::DragFloat((name + ".w").c_str(), &m.w, 0.02f);
 }
 
-#ifndef WIN32
-VULTR_REGISTER_COMPONENT(TransformComponent, position, rotation, scale);
-VULTR_REGISTER_COMPONENT(StaticMeshComponent, path);
-VULTR_REGISTER_COMPONENT(SkyBoxComponent, identifier, front, back, top, bottom, left, right);
-VULTR_REGISTER_COMPONENT(LightComponent, some_param);
-VULTR_REGISTER_COMPONENT(ControllerComponent, sens);
-VULTR_REGISTER_COMPONENT(CameraComponent, enabled, fov, znear, zfar);
-template <>
-const char *Vultr::get_struct_name<MaterialComponent>()
-{
-    return ("MaterialComponent");
-}
-#endif
-
 template <>
 void RenderMember(const std::string &name, File &file)
 {
+    ImGui::Text("%s", name.c_str());
+    ImGui::SameLine(100);
     if (ImGui::Button(Path::get_shortened_resource_path(file.GetPath()).c_str()))
     {
         ImGuiFileDialog::Instance()->OpenDialog("FileChooser" + name, "Choose File", file.GetExtension(), Path::get_resource_path());
@@ -341,9 +329,7 @@ template <>
 void RenderMember(const std::string &name, MaterialComponent::TexturePair &m)
 {
     ImGui::PushID("texture");
-    ImGui::Text(m.name);
-    ImGui::SameLine(100);
-    RenderMember(name, m.path);
+    RenderMember(m.name, m.path);
     ImGui::PopID();
 }
 
@@ -416,3 +402,17 @@ void RenderComponent<MaterialComponent>(Vultr::Entity entity)
         }
     }
 }
+
+#ifndef WIN32
+VULTR_REGISTER_COMPONENT(TransformComponent, position, rotation, scale);
+VULTR_REGISTER_COMPONENT(StaticMeshComponent, source);
+VULTR_REGISTER_COMPONENT(SkyBoxComponent, identifier, front, back, top, bottom, left, right);
+VULTR_REGISTER_COMPONENT(LightComponent, some_param);
+VULTR_REGISTER_COMPONENT(ControllerComponent, sens);
+VULTR_REGISTER_COMPONENT(CameraComponent, enabled, fov, znear, zfar);
+template <>
+const char *Vultr::get_struct_name<MaterialComponent>()
+{
+    return ("MaterialComponent");
+}
+#endif
