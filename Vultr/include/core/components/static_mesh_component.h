@@ -10,7 +10,7 @@ struct StaticMeshComponent
     {
     }
 
-    static StaticMeshComponent Create(const std::string &p_path = "res/models/cube.obj")
+    static StaticMeshComponent Create(const std::string &p_path = "models/cube.obj")
     {
         StaticMeshComponent component = StaticMeshComponent();
         component.path = p_path;

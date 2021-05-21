@@ -7,6 +7,7 @@ enable_testing()
 file(GLOB_RECURSE VultrEditor_SRC
     "src/*.cpp"
     "include/*.cpp"
+    "vendor/*.cpp"
 )
 
 include_directories(include vendor ../Vultr/include ../Vultr/vendor ../VTL/include)
@@ -14,3 +15,4 @@ include_directories(include vendor ../Vultr/include ../Vultr/vendor ../VTL/inclu
 set(CMAKE_CXX_STANDARD 17)
 add_executable(VultrEditor ${VultrEditor_SRC})
 target_link_libraries(VultrEditor GL glfw3 X11 Xxf86vm Xrandr pthread Xi dl assimp /home/brandon/Dev/GameEngine/Vultr/build/libVultrShared.so)
+target_precompile_headers(VultrEditor PUBLIC pch.h)

@@ -42,7 +42,7 @@ Widget *RootWidget::Build(BuildContext *context)
     //     .child = new Container({
     //         .child = new RichText({
     //             .text = "abcdygp,a!.;:",
-    //             .font = "res/fonts/RobotoMono-Regular.ttf",
+    //             .font = "fonts/RobotoMono-Regular.ttf",
     //             .color = glm::vec4(0, 0, 0, 255),
     //         }),
     //         //         .child = new Row({

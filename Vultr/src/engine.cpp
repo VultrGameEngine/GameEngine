@@ -17,6 +17,7 @@
 #include <gui/layouts/test_layout.h>
 #include <helpers/path.h>
 #include <core/models/update_tick.h>
+#include <ImGuiFileDialog/ImGuiFileDialog.h>
 
 namespace Vultr
 {
@@ -103,7 +104,7 @@ namespace Vultr
         glfwWindowHint(GLFW_DECORATED, GL_FALSE);
         e.window = glfwCreateWindow(mode->width, mode->height, "VultrEditor", nullptr, nullptr);
 #else
-        e.window = glfwCreateWindow(mode->width, mode->height, "VultrEditor", glfwGetPrimaryMonitor(), nullptr);
+        e.window = glfwCreateWindow(mode->width, mode->height, "VultrEditor", debug ? nullptr : glfwGetPrimaryMonitor(), nullptr);
 #endif
 
         if (e.window == nullptr)
@@ -136,7 +137,7 @@ namespace Vultr
             ImGui::StyleColorsDark();
             ImGui_ImplGlfw_InitForOpenGL(e.window, true);
             ImGui_ImplOpenGL3_Init("#version 410");
-            io.Fonts->AddFontFromFileTTF(Path::GetFullPath("res/fonts/Roboto-Regular.ttf").c_str(), 30);
+            io.Fonts->AddFontFromFileTTF(Path::GetFullPath("fonts/Roboto-Regular.ttf").c_str(), 30);
             ImGui::StyleColorsDark();
         }
     }
@@ -240,7 +241,7 @@ namespace Vultr
 
 using namespace Vultr;
 template <>
-inline void RenderMember(const std::string &name, std::string &m)
+void RenderMember(const std::string &name, std::string &m)
 {
     char *buf = new char[4096];
     strcpy(buf, m.c_str());
@@ -249,31 +250,31 @@ inline void RenderMember(const std::string &name, std::string &m)
 }
 
 template <>
-inline void RenderMember(const std::string &name, float &m)
+void RenderMember(const std::string &name, float &m)
 {
     ImGui::DragFloat(name.c_str(), &m, 0.02f);
 }
 
 template <>
-inline void RenderMember(const std::string &name, int &m)
+void RenderMember(const std::string &name, int &m)
 {
     ImGui::DragInt(name.c_str(), &m);
 }
 
 template <>
-inline void RenderMember(const std::string &name, double &m)
+void RenderMember(const std::string &name, double &m)
 {
     ImGui::DragFloat(name.c_str(), (float *)&m, 0.02f);
 }
 
 template <>
-inline void RenderMember(const std::string &name, bool &m)
+void RenderMember(const std::string &name, bool &m)
 {
     ImGui::Checkbox(name.c_str(), &m);
 }
 
 template <>
-inline void RenderMember(const std::string &name, glm::vec3 &m)
+void RenderMember(const std::string &name, glm::vec3 &m)
 {
     ImGui::DragFloat((name + ".x").c_str(), &m.x, 0.02f);
     ImGui::DragFloat((name + ".y").c_str(), &m.y, 0.02f);
@@ -281,7 +282,7 @@ inline void RenderMember(const std::string &name, glm::vec3 &m)
 }
 
 template <>
-inline void RenderMember(const std::string &name, glm::vec4 &m)
+void RenderMember(const std::string &name, glm::vec4 &m)
 {
     ImGui::DragFloat((name + ".x").c_str(), &m.x, 0.02f);
     ImGui::DragFloat((name + ".y").c_str(), &m.y, 0.02f);
@@ -290,7 +291,7 @@ inline void RenderMember(const std::string &name, glm::vec4 &m)
 }
 
 template <>
-inline void RenderMember(const std::string &name, glm::quat &m)
+void RenderMember(const std::string &name, glm::quat &m)
 {
     ImGui::DragFloat((name + ".x").c_str(), &m.x, 0.02f);
     ImGui::DragFloat((name + ".y").c_str(), &m.y, 0.02f);
@@ -306,22 +307,48 @@ VULTR_REGISTER_COMPONENT(LightComponent, some_param);
 VULTR_REGISTER_COMPONENT(ControllerComponent, sens);
 VULTR_REGISTER_COMPONENT(CameraComponent, enabled, fov, znear, zfar);
 template <>
-inline const char *Vultr::get_struct_name<MaterialComponent>()
+const char *Vultr::get_struct_name<MaterialComponent>()
 {
     return ("MaterialComponent");
 }
 #endif
 
 template <>
-inline void RenderMember(const std::string &name, MaterialComponent::TexturePair &m)
+void RenderMember(const std::string &name, File &file)
+{
+    if (ImGui::Button(Path::get_shortened_resource_path(file.GetPath()).c_str()))
+    {
+        ImGuiFileDialog::Instance()->OpenDialog("FileChooser" + name, "Choose File", file.GetExtension(), ".");
+    }
+
+    if (ImGuiFileDialog::Instance()->Display("FileChooser" + name))
+    {
+        // action if OK
+        if (ImGuiFileDialog::Instance()->IsOk())
+        {
+            std::string filePathName = ImGuiFileDialog::Instance()->GetFilePathName();
+            std::string filePath = ImGuiFileDialog::Instance()->GetCurrentPath();
+            std::cout << "Path " << filePath << std::endl;
+            file = File(filePath, file.GetExtension());
+        }
+
+        // close
+        ImGuiFileDialog::Instance()->Close();
+    }
+}
+
+template <>
+void RenderMember(const std::string &name, MaterialComponent::TexturePair &m)
 {
     ImGui::PushID("texture");
+    ImGui::Text(m.name);
+    ImGui::SameLine(100);
     RenderMember(name, m.path);
     ImGui::PopID();
 }
 
 template <>
-inline void RenderMember(const std::string &name, Color &m)
+void RenderMember(const std::string &name, Color &m)
 {
     ImGui::PushID(name.c_str());
     float *val = glm::value_ptr(m.value);
@@ -330,7 +357,7 @@ inline void RenderMember(const std::string &name, Color &m)
 }
 
 template <>
-inline void RenderComponent<MaterialComponent>(Vultr::Entity entity)
+void RenderComponent<MaterialComponent>(Vultr::Entity entity)
 {
     MaterialComponent *component = entity_get_component_unsafe<MaterialComponent>(entity);
     if (component == nullptr)

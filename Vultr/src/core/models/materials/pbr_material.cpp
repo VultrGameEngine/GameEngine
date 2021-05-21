@@ -7,9 +7,9 @@ namespace Vultr
         MaterialComponent Create(const char *p_diffuse_path, const char *p_specular_path)
         {
             MaterialComponent component = MaterialComponent();
-            component.shader_path = "res/shaders/material.glsl";
-            component.textures.push_back({p_diffuse_path, 0});
-            component.textures.push_back({p_specular_path, 1});
+            component.shader_path = "shaders/material.glsl";
+            component.textures.push_back({File(p_diffuse_path, TEXTURE_FILE_EXTENSIONS), 0, "Diffuse"});
+            component.textures.push_back({File(p_specular_path, TEXTURE_FILE_EXTENSIONS), 1, "Specular"});
             return component;
         }
 

@@ -13,6 +13,7 @@
 #include <stb_image/stb_image.h>
 #include <imgui/imgui.h>
 #include <ImGuizmo/ImGuizmo.h>
+#include <ImGuiFileDialog/ImGuiFileDialog.h>
 #include <glm/glm.hpp>
 #include <yaml-cpp/yaml.h>
 #include <ft2build.h>

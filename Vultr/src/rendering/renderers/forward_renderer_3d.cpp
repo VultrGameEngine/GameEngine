@@ -24,9 +24,9 @@ namespace Vultr::Renderer3D
         shader->SetUniformMatrix4fv("projection", glm::value_ptr(context.camera_component.GetProjectionMatrix(context.dimensions.x, context.dimensions.y)));
         shader->SetUniform3f("lightPos", context.light_position);
         shader->SetUniform3f("viewPos", context.camera_transform.position);
-        for (auto [path, slot] : material.textures)
+        for (auto [file, slot, name] : material.textures)
         {
-            Texture *texture = TextureLoaderSystem::get_texture(path.c_str());
+            Texture *texture = TextureLoaderSystem::get_texture(file.GetPath().c_str());
             if (texture != nullptr)
                 texture->Bind(GL_TEXTURE0 + slot);
         }

@@ -22,7 +22,7 @@ namespace Vultr
         const aiScene *scene = importer.ReadFile(Path::GetFullPath(path), aiProcess_CalcTangentSpace | aiProcess_Triangulate | aiProcess_JoinIdenticalVertices | aiProcess_SortByPType);
         if (!scene)
         {
-            std::cout << "FAILED TO IMPORT MESH " << path << std::endl;
+            std::cout << "FAILED TO IMPORT MESH " << Path::GetFullPath(path) << std::endl;
             return nullptr;
         }
 

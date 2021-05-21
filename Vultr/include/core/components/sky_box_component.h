@@ -9,9 +9,9 @@
 struct SkyBoxComponent
 {
 
-    static SkyBoxComponent Create(const char *identifier = "default", const char *front = "res/textures/skybox/front.jpg", const char *back = "res/textures/skybox/back.jpg",
-                                  const char *top = "res/textures/skybox/top.jpg", const char *bottom = "res/textures/skybox/bottom.jpg", const char *left = "res/textures/skybox/left.jpg",
-                                  const char *right = "res/textures/skybox/right.jpg")
+    static SkyBoxComponent Create(const char *identifier = "default", const char *front = "textures/skybox/front.jpg", const char *back = "textures/skybox/back.jpg",
+                                  const char *top = "textures/skybox/top.jpg", const char *bottom = "textures/skybox/bottom.jpg", const char *left = "textures/skybox/left.jpg",
+                                  const char *right = "textures/skybox/right.jpg")
     {
         SkyBoxComponent component = SkyBoxComponent();
         component.identifier = identifier;

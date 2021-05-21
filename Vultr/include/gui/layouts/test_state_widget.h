@@ -13,7 +13,7 @@ class TestStateWidget : public StatefulWidget<TestStateWidgetState>
         glm::vec2 size = glm::vec2(400, 200);
         double font_size = 12;
         std::string text = "Submit";
-        std::string font = "res/fonts/Roboto-Regular.ttf";
+        std::string font = "fonts/Roboto-Regular.ttf";
     };
 
   public:

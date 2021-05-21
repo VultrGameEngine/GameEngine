@@ -1,5 +1,6 @@
 #pragma once
 #include <glm/glm.hpp>
+#include <helpers/file.h>
 #include <iostream>
 #include <string>
 #include <unordered_map>
@@ -24,8 +25,9 @@ struct MaterialComponent
 {
     typedef struct
     {
-        std::string path;
+        Vultr::File path;
         u16 slot;
+        const char *name;
     } TexturePair;
 
     std::string shader_path;
@@ -43,6 +45,7 @@ struct MaterialComponent
 
     std::string identifier = "";
 };
+
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(MaterialComponent::TexturePair, path, slot);
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Color, value);
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(MaterialComponent, identifier, shader_path, textures, vec3s, vec4s, colors, ints, floats);

@@ -7,9 +7,10 @@ namespace Vultr
         MaterialComponent Create(const char *p_identifier = "default")
         {
             MaterialComponent component = MaterialComponent();
-            component.shader_path = "res/shaders/skybox.glsl";
+            component.shader_path = "shaders/skybox.glsl";
             component.identifier = p_identifier;
-            component.textures.push_back({p_identifier, 0});
+            // TODO fix this
+            component.textures.push_back({File(p_identifier, TEXTURE_FILE_EXTENSIONS), 0, "Identifier"});
             component.ints.insert({"skybox", 0});
             return component;
         }

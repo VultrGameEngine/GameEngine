@@ -9,6 +9,7 @@ int main(void)
     Engine &vultr = engine_global();
 
     float lastTime = 0;
+    Path::set_resource_path("/home/brandon/Dev/GameEngine/SandboxTesting/res/");
     engine_init(vultr, true);
     engine_load_game(vultr, "/home/brandon/Dev/GameEngine/SandboxTesting/build/libGame.so");
     engine_init_game(vultr);

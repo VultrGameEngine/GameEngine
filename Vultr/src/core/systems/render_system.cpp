@@ -43,7 +43,7 @@ namespace Vultr::RenderSystem
         generate_render_texture(p.scene, mode->width, mode->height);
         generate_render_texture(p.game, mode->width, mode->height);
         generate_input_render_texture(mode->width, mode->height);
-        p.post_processing_shader = ShaderImporter::ImportShader("res/shaders/post_processing.glsl");
+        p.post_processing_shader = ShaderImporter::ImportShader("shaders/post_processing.glsl");
         p.input_shader = ShaderImporter::ImportEngineShader(ShaderImporter::EDITOR_INPUT);
         p.render_quad = MeshImporter::InitQuad();
         p.skybox = MeshImporter::InitSkybox();

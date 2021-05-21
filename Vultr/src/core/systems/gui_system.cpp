@@ -28,7 +28,7 @@ namespace Vultr::GUISystem
         provider.window = window;
         provider.root_element = window->CreateElement(provider.context);
         provider.root_element->Rebuild(provider.context);
-        provider.gui_shader = ShaderImporter::ImportShader("res/shaders/gui.glsl");
+        provider.gui_shader = ShaderImporter::ImportShader("shaders/gui.glsl");
     }
 
     bool receive_mouse_event(Input::MouseInputEvent event)

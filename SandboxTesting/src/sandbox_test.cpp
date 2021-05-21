@@ -15,8 +15,8 @@ void SandboxTest::Init()
     entity_add_component(camera, ControllerComponent::Create());
 
     entity_add_component(camera, TransformComponent::Create(glm::vec3(0, 0, 0), glm::quat(1, 0, 0, 0), glm::vec3(5, 5, 5)));
-    entity_add_component(camera, SkyBoxComponent::Create("default", "res/textures/skybox/front.jpg", "res/textures/skybox/back.jpg", "res/textures/skybox/top.jpg", "res/textures/skybox/bottom.jpg",
-                                                         "res/textures/skybox/left.jpg", "res/textures/skybox/right.jpg"));
+    entity_add_component(camera, SkyBoxComponent::Create("default", "textures/skybox/front.jpg", "textures/skybox/back.jpg", "textures/skybox/top.jpg", "textures/skybox/bottom.jpg",
+                                                         "textures/skybox/left.jpg", "textures/skybox/right.jpg"));
     entity_add_component(camera, SkyboxMaterial::Create("default"));
 
     Entity light = create_entity(get_current_world());
@@ -31,7 +31,7 @@ void SandboxTest::Init()
         Entity cube = create_entity(get_current_world());
         entity_add_component(cube, TransformComponent::Create(glm::vec3(0, 0, i * 2), glm::quat(1, 0, 0, 0), glm::vec3(1, 1, 1)));
         entity_add_component(cube, StaticMeshComponent::Create());
-        entity_add_component(cube, Vultr::ForwardMaterial::Create("res/textures/cube/diffuse.png"));
+        entity_add_component(cube, Vultr::ForwardMaterial::Create("textures/cube/diffuse.png"));
     }
 }
 

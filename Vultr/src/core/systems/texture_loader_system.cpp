@@ -34,8 +34,9 @@ namespace Vultr::TextureLoaderSystem
     void load_texture(const MaterialComponent &mat)
     {
         auto &provider = get_provider();
-        for (auto [path, slot] : mat.textures)
+        for (auto [file, slot, name] : mat.textures)
         {
+            std::string path = file.GetPath();
             if (!is_loaded(path.c_str()))
             {
                 provider.textures[path] = new Texture(GL_TEXTURE_2D);
@@ -60,8 +61,9 @@ namespace Vultr::TextureLoaderSystem
         }
         else
         {
-            for (auto [path, slot] : component.textures)
+            for (auto [file, slot, name] : component.textures)
             {
+                std::string path = file.GetPath();
                 if (!is_loaded(path.c_str()))
                 {
                     Texture *new_tex = new Texture(GL_TEXTURE_2D);
