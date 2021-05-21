@@ -1,4 +1,3 @@
-// #include <vultr.hpp>
 #include <iostream>
 #include <scripting/script_parser.h>
 #include <scripting/script_scanner.h>
@@ -6,16 +5,27 @@
 #include <helpers/file_outputter.h>
 
 using namespace Vultr;
-void ParseFile(File &source, File &output)
+void ParseFile(File &source, File &output_source, File &output_header)
 {
     std::cout << "Parsing " << source.GetName() << std::endl;
-    FileOutputter outputter(output);
-    ScriptScanner fileScanner = ScriptScanner(source);
-    auto fileTokens = fileScanner.ScanTokens();
-    ScriptParser fileParser = ScriptParser(fileTokens, source);
-    fileParser.Parse();
+    {
+        FileOutputter outputter(output_source);
+        ScriptScanner fileScanner = ScriptScanner(source);
+        auto fileTokens = fileScanner.ScanTokens();
+        ScriptParser fileParser = ScriptParser(fileTokens, source);
+        fileParser.Parse();
 
-    outputter << fileParser.GenerateHeaderFile().c_str();
+        outputter << fileParser.GenerateSourceFile().c_str();
+    }
+    {
+        FileOutputter outputter(output_header);
+        ScriptScanner fileScanner = ScriptScanner(source);
+        auto fileTokens = fileScanner.ScanTokens();
+        ScriptParser fileParser = ScriptParser(fileTokens, source);
+        fileParser.Parse();
+
+        outputter << fileParser.GenerateHeaderFile().c_str();
+    }
 }
 
 void GenerateInDir(Directory dir)
@@ -29,22 +39,28 @@ void GenerateInDir(Directory dir)
     }
     for (File f : dir.GetFiles())
     {
-        File expected_file = File(generated.GetPath() / (f.GetName() + ".cpp"));
+        std::string name_no_extensions = f.GetName();
+        name_no_extensions = name_no_extensions.substr(0, name_no_extensions.size() - 2);
+        File expected_source_file = File(generated.GetPath() / (name_no_extensions + ".generated.cpp"));
+        File expected_header_file = File(generated.GetPath() / (name_no_extensions + ".generated.h"));
         // If we already have a generated file
-        if (files.find(expected_file) != files.end())
+        if (files.find(expected_source_file) != files.end())
         {
-            File generated_file = *files.find(expected_file);
-            if (f.GetDateModified() > generated_file.GetDateModified())
+            File generated_source_file = *files.find(expected_source_file);
+            File generated_header_file = *files.find(expected_header_file);
+            if (f.GetDateModified() > generated_source_file.GetDateModified() || f.GetDateModified() > generated_header_file.GetDateModified())
             {
-                ParseFile(f, generated_file);
+                ParseFile(f, generated_source_file, generated_header_file);
             }
         }
         else
         {
-            File generated_file = generated.CreateFile(f.GetName() + ".cpp");
-            ParseFile(f, generated_file);
+            File generated_source_file = generated.CreateFile(name_no_extensions + ".generated.cpp");
+            File generated_header_file = generated.CreateFile(name_no_extensions + ".generated.h");
+            ParseFile(f, generated_source_file, generated_header_file);
         }
-        remaining_files.erase(expected_file);
+        remaining_files.erase(expected_source_file);
+        remaining_files.erase(expected_header_file);
     }
 
     for (File f : remaining_files)

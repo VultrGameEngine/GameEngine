@@ -1,17 +1,13 @@
 #include <sandbox_test.h>
 #include <components/test_component.h>
 #include <systems/test_system.h>
+#include <component_registrar.h>
 
 using namespace Vultr;
 void SandboxTest::Init()
 {
     change_world(new_world(engine_global().component_registry));
-
-    engine_register_default_components(engine_global());
-    register_component<TestComponent>();
-
-    engine_init_default_systems(engine_global());
-    TestSystem::register_system();
+    register_components();
 
     Entity camera = create_entity(get_current_world());
     CameraComponent camera_component = CameraComponent::Create();

@@ -41,74 +41,144 @@ namespace Vultr
         if (m_components.size() == 0 && m_systems.size() == 0)
             return "";
         std::ostringstream file;
+        file << "#pragma once\n";
+
+        // Includes
+        file << "#include \"../" << this->m_FullFilepath.GetName() << "\"\n\n";
+
+        for (auto component : m_components)
+        {
+            for (auto name_space : component.m_Namespaces)
+            {
+                file << "namespace " << name_space << " {\n";
+            }
+
+            file << "void to_json(json &j, const " << component.m_ClassName << " &m);\n";
+            file << "void from_json(const json &j, " << component.m_ClassName << " &m);\n";
+
+            // Trailing namespace brackets
+            for (int i = 0; i < component.m_Namespaces.size(); i++)
+            {
+                file << "}\n";
+            }
+        }
+
+        for (auto system : m_systems)
+        {
+            for (auto name_space : system.m_Namespaces)
+            {
+                file << "namespace " << name_space << " {\n";
+            }
+
+            // Trailing namespace brackets
+            for (int i = 0; i < system.m_Namespaces.size(); i++)
+            {
+                file << "}\n";
+            }
+        }
+
+        return file.str();
+    }
+
+    std::string ScriptParser::GenerateSourceFile()
+    {
+        if (m_components.size() == 0 && m_systems.size() == 0)
+            return "";
+        std::ostringstream file;
 
         // Includes
         file << "#include <vultr.hpp>\n\n";
 
         file << "#include \"../" << this->m_FullFilepath.GetName() << "\"\n\n";
 
+        std::string generated_header = m_FullFilepath.GetName().substr(0, m_FullFilepath.GetName().size() - 2) + ".generated.h";
+
+        file << "#include \"" << generated_header << "\";\n";
+
         file << "using namespace Vultr;\n";
 
         int i = 0;
-        for (auto uclass : m_components)
+        for (auto component : m_components)
         {
-            if (uclass.m_Namespaces.size() > 0)
+            if (component.m_Namespaces.size() > 0)
             {
                 file << "using namespace ";
                 uint name_space_level = 0;
-                for (auto name_space : uclass.m_Namespaces)
+                for (auto name_space : component.m_Namespaces)
                 {
                     file << name_space;
                     name_space_level++;
-                    if (name_space_level < uclass.m_Namespaces.size())
+                    if (name_space_level < component.m_Namespaces.size())
                     {
                         file << "::";
                     }
                 }
                 file << ";\n";
             }
-            file << "template <class Archive> void serialize(Archive &ar, " << uclass.m_ClassName << " &c)\n";
+            file << "template <class Archive> void serialize(Archive &ar, " << component.m_ClassName << " &c)\n";
             file << "{\n";
             file << "\tar(";
             int j = 0;
-            for (auto uvar : uclass.m_Variables)
+            for (auto uvar : component.m_Variables)
             {
                 file << "c." << uvar.m_Identifier;
-                if (j < uclass.m_Variables.size() - 1)
+                if (j < component.m_Variables.size() - 1)
                     file << ", ";
                 j++;
             }
             file << ");\n";
             file << "}\n";
-            file << "template <> void RenderComponent<" << uclass.m_ClassName << ">(Entity entity)\n";
+            file << "template <> void RenderComponent<" << component.m_ClassName << ">(Entity entity)\n";
             file << "{\n";
-            file << "\t" << uclass.m_ClassName << " *component = entity_get_component_unsafe<" << uclass.m_ClassName << ">(entity);\n";
+            file << "\t" << component.m_ClassName << " *component = entity_get_component_unsafe<" << component.m_ClassName << ">(entity);\n";
             file << "\tif(component == nullptr)\n";
             file << "\t\treturn;\n";
-            file << "\tif(ImGui::CollapsingHeader(\"" << uclass.m_ClassName << "\"))\n";
+            file << "\tif(ImGui::CollapsingHeader(\"" << component.m_ClassName << "\"))\n";
             file << "\t{\n";
-            for (auto uvar : uclass.m_Variables)
+            for (auto uvar : component.m_Variables)
             {
-                file << "\t\tImGui::PushID(\"" << uclass.m_ClassName << uvar.m_Identifier << "\");\n";
+                file << "\t\tImGui::PushID(\"" << component.m_ClassName << uvar.m_Identifier << "\");\n";
                 file << "\t\tRenderMember(\"" << uvar.m_Identifier << "\", "
                      << "component->" << uvar.m_Identifier << ");\n";
                 file << "\t\tImGui::PopID();\n";
             }
             file << "\t\tif (ImGui::Button(\"Remove\"))\n";
             file << "\t\t{\n";
-            file << "\t\t\tentity_remove_component<" << uclass.m_ClassName << ">(entity);\n";
+            file << "\t\t\tentity_remove_component<" << component.m_ClassName << ">(entity);\n";
             file << "\t\t}\n";
             file << "\t}\n";
             file << "}\n";
 
             j = 0;
             file << "template<> const char* Vultr::get_struct_name<";
-            file << uclass.m_ClassName << ">()\n";
+            file << component.m_ClassName << ">()\n";
             file << "{\n";
-            file << "\treturn \"" << uclass.m_ClassName << "\";\n";
+            file << "\treturn \"" << component.m_ClassName << "\";\n";
             file << "}\n";
 
             i++;
+
+            file << "void to_json(json &j, const " << component.m_ClassName << " &m)\n{\n";
+            for (auto member : component.m_Variables)
+            {
+
+                file << "\tj[\"" << member.m_Identifier << "\"] = m." << member.m_Identifier << ";\n";
+            }
+            file << "}\n";
+
+            file << "void from_json(const json &j, " << component.m_ClassName << " &m)\n{\n";
+            for (auto member : component.m_Variables)
+            {
+                file << "\tif (j.contains(\"" << member.m_Identifier << "\"))\n";
+                file << "\t{\n";
+                file << "\t\tm." << member.m_Identifier << " = j[\"" << member.m_Identifier << "\"];\n";
+                file << "\t}\n";
+                file << "\telse\n\t{\n";
+                // This code makes me want to die but it works
+                file << "\t\tstd::cout << \" Value not found in saved file for member " << member.m_Identifier << " in component " << component.m_ClassName << "\" << __FILE__ << \", \" << __LINE__ << std::endl;\n";
+                file << "\t}\n";
+            }
+            file << "}\n";
         }
 
         i = 0;

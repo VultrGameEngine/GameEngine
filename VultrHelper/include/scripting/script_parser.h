@@ -20,6 +20,12 @@ namespace Vultr
         std::list<VVariable> m_Variables;
     };
 
+    struct Component
+    {
+        std::string name;
+        File m_file;
+    };
+
     class ScriptParser
     {
       public:
@@ -28,6 +34,7 @@ namespace Vultr
         }
 
         std::string GenerateHeaderFile();
+        std::string GenerateSourceFile();
         std::string InitFile();
         void DebugPrint();
         void Parse();
