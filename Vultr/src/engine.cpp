@@ -276,34 +276,89 @@ void RenderMember(const std::string &name, bool &m)
 template <>
 void RenderMember(const std::string &name, glm::vec3 &m)
 {
-    ImGui::DragFloat((name + ".x").c_str(), &m.x, 0.02f);
-    ImGui::DragFloat((name + ".y").c_str(), &m.y, 0.02f);
-    ImGui::DragFloat((name + ".z").c_str(), &m.z, 0.02f);
+    ImGui::PushID((name + ".x").c_str());
+    ImGui::Text("%s", name.c_str());
+    ImGui::SameLine();
+    ImGui::SetNextItemWidth(150);
+    ImGui::DragFloat("", &m.x, 0.02f);
+    ImGui::SameLine();
+    ImGui::PopID();
+
+    ImGui::PushID((name + ".y").c_str());
+    ImGui::SetNextItemWidth(150);
+    ImGui::DragFloat("", &m.y, 0.02f);
+    ImGui::SameLine();
+    ImGui::PopID();
+
+    ImGui::PushID((name + ".z").c_str());
+    ImGui::SetNextItemWidth(150);
+    ImGui::DragFloat("", &m.z, 0.02f);
+    ImGui::PopID();
 }
 
 template <>
 void RenderMember(const std::string &name, glm::vec4 &m)
 {
-    ImGui::DragFloat((name + ".x").c_str(), &m.x, 0.02f);
-    ImGui::DragFloat((name + ".y").c_str(), &m.y, 0.02f);
-    ImGui::DragFloat((name + ".z").c_str(), &m.z, 0.02f);
-    ImGui::DragFloat((name + ".w").c_str(), &m.z, 0.02f);
+    ImGui::PushID((name + ".x").c_str());
+    ImGui::Text("%s", name.c_str());
+    ImGui::SameLine();
+    ImGui::SetNextItemWidth(150);
+    ImGui::DragFloat("", &m.x, 0.02f);
+    ImGui::SameLine();
+    ImGui::PopID();
+
+    ImGui::PushID((name + ".y").c_str());
+    ImGui::SetNextItemWidth(150);
+    ImGui::DragFloat("", &m.y, 0.02f);
+    ImGui::SameLine();
+    ImGui::PopID();
+
+    ImGui::PushID((name + ".z").c_str());
+    ImGui::SetNextItemWidth(150);
+    ImGui::DragFloat("", &m.z, 0.02f);
+    ImGui::SameLine();
+    ImGui::PopID();
+
+    ImGui::PushID((name + ".w").c_str());
+    ImGui::SetNextItemWidth(150);
+    ImGui::DragFloat("", &m.w, 0.02f);
+    ImGui::PopID();
 }
 
 template <>
 void RenderMember(const std::string &name, glm::quat &m)
 {
-    ImGui::DragFloat((name + ".x").c_str(), &m.x, 0.02f);
-    ImGui::DragFloat((name + ".y").c_str(), &m.y, 0.02f);
-    ImGui::DragFloat((name + ".z").c_str(), &m.z, 0.02f);
-    ImGui::DragFloat((name + ".w").c_str(), &m.w, 0.02f);
+    ImGui::PushID((name + ".x").c_str());
+    ImGui::Text("%s", name.c_str());
+    ImGui::SameLine();
+    ImGui::SetNextItemWidth(150);
+    ImGui::DragFloat("", &m.x, 0.02f);
+    ImGui::SameLine();
+    ImGui::PopID();
+
+    ImGui::PushID((name + ".y").c_str());
+    ImGui::SetNextItemWidth(150);
+    ImGui::DragFloat("", &m.y, 0.02f);
+    ImGui::SameLine();
+    ImGui::PopID();
+
+    ImGui::PushID((name + ".z").c_str());
+    ImGui::SetNextItemWidth(150);
+    ImGui::DragFloat("", &m.z, 0.02f);
+    ImGui::SameLine();
+    ImGui::PopID();
+
+    ImGui::PushID((name + ".w").c_str());
+    ImGui::SetNextItemWidth(150);
+    ImGui::DragFloat("", &m.w, 0.02f);
+    ImGui::PopID();
 }
 
 template <>
 void RenderMember(const std::string &name, File &file)
 {
     ImGui::Text("%s", name.c_str());
-    ImGui::SameLine(100);
+    ImGui::SameLine();
     if (ImGui::Button(Path::get_shortened_resource_path(file.GetPath()).c_str()))
     {
         ImGuiFileDialog::Instance()->OpenDialog("FileChooser" + name, "Choose File", file.GetExtension(), Path::get_resource_path());
@@ -350,8 +405,8 @@ void RenderComponent<MaterialComponent>(Vultr::Entity entity)
         return;
     if (ImGui::CollapsingHeader("MaterialComponent"))
     {
-        ImGui::PushID("shader_path");
-        RenderMember("shader_path", component->shader_path);
+        ImGui::PushID("shader_source");
+        RenderMember("shader_source", component->shader_source);
         ImGui::PopID();
 
         ImGui::PushID("textures");

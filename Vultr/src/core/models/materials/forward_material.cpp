@@ -7,7 +7,7 @@ namespace Vultr
         MaterialComponent Create(const char *p_texture = "textures/clone/albedo.jpeg")
         {
             MaterialComponent component = MaterialComponent();
-            component.shader_path = "shaders/forward_material.glsl";
+            component.shader_source = File("shaders/forward_material.glsl", SHADER_FILE_EXTENSIONS);
             component.textures.push_back({File(p_texture, TEXTURE_FILE_EXTENSIONS), 0, "Albedo"});
             component.colors.insert({"objectColor", Color(glm::vec4(1))});
             component.colors.insert({"lightColor", Color(glm::vec4(1))});

@@ -13,7 +13,7 @@ namespace Vultr::Renderer3D
     }
     void ForwardRenderer::BindMaterial(const MaterialComponent &material, const glm::mat4 &transform)
     {
-        Shader *shader = ShaderLoaderSystem::get_shader(material.shader_path.c_str());
+        Shader *shader = ShaderLoaderSystem::get_shader(material.shader_source.GetPath().c_str());
         if (shader == nullptr)
             return;
         shader->Bind();

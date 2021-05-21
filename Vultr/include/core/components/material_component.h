@@ -30,7 +30,7 @@ struct MaterialComponent
         const char *name;
     } TexturePair;
 
-    std::string shader_path;
+    Vultr::File shader_source;
     std::vector<TexturePair> textures;
     std::unordered_map<std::string, glm::vec3> vec3s;
     std::unordered_map<std::string, glm::vec4> vec4s;
@@ -48,4 +48,4 @@ struct MaterialComponent
 
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(MaterialComponent::TexturePair, path, slot);
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Color, value);
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(MaterialComponent, identifier, shader_path, textures, vec3s, vec4s, colors, ints, floats);
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(MaterialComponent, identifier, shader_source, textures, vec3s, vec4s, colors, ints, floats);

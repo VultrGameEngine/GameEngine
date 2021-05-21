@@ -23,7 +23,7 @@ namespace Vultr
 
         std::string GetName() const
         {
-            return path.filename();
+            return std::filesystem::path(path).filename();
         }
 
         const char *GetExtension() const
@@ -34,7 +34,7 @@ namespace Vultr
         void Delete();
 
       private:
-        std::filesystem::path path;
+        std::string path;
         const char *extension;
         friend bool operator<(const File &a, const File &b);
         friend bool operator==(const File &a, const File &b);
@@ -45,11 +45,11 @@ namespace Vultr
 
     inline bool operator<(const File &a, const File &b)
     {
-        return a.path.string() < b.path.string();
+        return a.path < b.path;
     }
     inline bool operator==(const File &a, const File &b)
     {
-        return a.path.string() == b.path.string();
+        return a.path == b.path;
     }
 
     void to_json(json &j, const File &f);

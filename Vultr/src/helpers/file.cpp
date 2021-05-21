@@ -10,7 +10,7 @@ namespace Vultr
 
     std::filesystem::path File::GetPath() const
     {
-        return path;
+        return std::filesystem::path(path);
     }
 
     std::filesystem::file_time_type File::GetDateModified() const
@@ -25,7 +25,7 @@ namespace Vultr
 
     void to_json(json &j, const File &f)
     {
-        j["path"] = std::string(f.path);
+        j["path"] = f.path;
         j["extension"] = std::string(f.extension);
     }
     void from_json(const json &j, File &f)
