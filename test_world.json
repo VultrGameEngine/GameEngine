@@ -73,10 +73,13 @@
                         "ints": {
                             "skybox": 0
                         },
-                        "shader_path": "res/shaders/skybox.glsl",
+                        "shader_path": "shaders/skybox.glsl",
                         "textures": [
                             {
-                                "path": "default",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "default"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -97,7 +100,7 @@
                         "floats": {},
                         "identifier": "",
                         "ints": {},
-                        "shader_path": "res/shaders/unlit.glsl",
+                        "shader_path": "shaders/unlit.glsl",
                         "textures": [],
                         "vec3s": {},
                         "vec4s": {}
@@ -126,10 +129,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/skybox/top.jpg"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -160,10 +166,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -194,10 +203,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -228,10 +240,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -262,10 +277,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -296,10 +314,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -330,10 +351,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -364,10 +388,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -398,10 +425,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -432,10 +462,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -466,10 +499,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -500,10 +536,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -534,10 +573,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -568,10 +610,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -602,10 +647,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -636,10 +684,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -670,10 +721,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -704,10 +758,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -738,10 +795,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -772,10 +832,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -806,10 +869,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -840,10 +906,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -874,10 +943,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -908,10 +980,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -942,10 +1017,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -976,10 +1054,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -1010,10 +1091,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -1044,10 +1128,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -1078,10 +1165,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -1112,10 +1202,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -1146,10 +1239,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -1180,10 +1276,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -1214,10 +1313,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -1248,10 +1350,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -1282,10 +1387,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -1316,10 +1424,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -1350,10 +1461,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -1384,10 +1498,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -1418,10 +1535,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -1452,10 +1572,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -1486,10 +1609,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -1520,10 +1646,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -1554,10 +1683,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -1588,10 +1720,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -1622,10 +1757,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -1656,10 +1794,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -1690,10 +1831,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -1724,10 +1868,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -1758,10 +1905,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -1792,10 +1942,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -1826,10 +1979,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -1860,10 +2016,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -1894,10 +2053,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -1928,10 +2090,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -1962,10 +2127,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -1996,10 +2164,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -2030,10 +2201,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -2064,10 +2238,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -2098,10 +2275,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -2132,10 +2312,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -2166,10 +2349,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -2200,10 +2386,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -2234,10 +2423,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -2268,10 +2460,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -2302,10 +2497,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -2336,10 +2534,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -2370,10 +2571,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -2404,10 +2608,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -2438,10 +2645,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -2472,10 +2682,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -2506,10 +2719,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -2540,10 +2756,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -2574,10 +2793,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -2608,10 +2830,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -2642,10 +2867,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -2676,10 +2904,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -2710,10 +2941,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -2744,10 +2978,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -2778,10 +3015,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -2812,10 +3052,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -2846,10 +3089,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -2880,10 +3126,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -2914,10 +3163,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -2948,10 +3200,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -2982,10 +3237,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -3016,10 +3274,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -3050,10 +3311,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -3084,10 +3348,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -3118,10 +3385,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -3152,10 +3422,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -3186,10 +3459,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -3220,10 +3496,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -3254,10 +3533,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -3288,10 +3570,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -3322,10 +3607,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -3356,10 +3644,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -3390,10 +3681,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -3424,10 +3718,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -3458,10 +3755,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -3492,10 +3792,13 @@
                         "ints": {
                             "textureSampler": 0
                         },
-                        "shader_path": "res/shaders/forward_material.glsl",
+                        "shader_path": "shaders/forward_material.glsl",
                         "textures": [
                             {
-                                "path": "res/textures/cube/diffuse.png",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
                                 "slot": 0
                             }
                         ],
@@ -3504,302 +3807,6 @@
                     }
                 ],
                 "entity_to_index_map": [
-                    [
-                        59,
-                        58
-                    ],
-                    [
-                        58,
-                        57
-                    ],
-                    [
-                        57,
-                        56
-                    ],
-                    [
-                        56,
-                        55
-                    ],
-                    [
-                        55,
-                        54
-                    ],
-                    [
-                        54,
-                        53
-                    ],
-                    [
-                        53,
-                        52
-                    ],
-                    [
-                        52,
-                        51
-                    ],
-                    [
-                        51,
-                        50
-                    ],
-                    [
-                        50,
-                        49
-                    ],
-                    [
-                        49,
-                        48
-                    ],
-                    [
-                        48,
-                        47
-                    ],
-                    [
-                        47,
-                        46
-                    ],
-                    [
-                        46,
-                        45
-                    ],
-                    [
-                        45,
-                        44
-                    ],
-                    [
-                        44,
-                        43
-                    ],
-                    [
-                        43,
-                        42
-                    ],
-                    [
-                        42,
-                        41
-                    ],
-                    [
-                        41,
-                        40
-                    ],
-                    [
-                        40,
-                        39
-                    ],
-                    [
-                        39,
-                        38
-                    ],
-                    [
-                        38,
-                        37
-                    ],
-                    [
-                        37,
-                        36
-                    ],
-                    [
-                        36,
-                        35
-                    ],
-                    [
-                        35,
-                        34
-                    ],
-                    [
-                        34,
-                        33
-                    ],
-                    [
-                        33,
-                        32
-                    ],
-                    [
-                        32,
-                        31
-                    ],
-                    [
-                        31,
-                        30
-                    ],
-                    [
-                        30,
-                        29
-                    ],
-                    [
-                        13,
-                        12
-                    ],
-                    [
-                        12,
-                        11
-                    ],
-                    [
-                        11,
-                        10
-                    ],
-                    [
-                        10,
-                        9
-                    ],
-                    [
-                        9,
-                        8
-                    ],
-                    [
-                        8,
-                        7
-                    ],
-                    [
-                        7,
-                        6
-                    ],
-                    [
-                        6,
-                        5
-                    ],
-                    [
-                        5,
-                        4
-                    ],
-                    [
-                        4,
-                        3
-                    ],
-                    [
-                        3,
-                        2
-                    ],
-                    [
-                        2,
-                        1
-                    ],
-                    [
-                        1,
-                        0
-                    ],
-                    [
-                        74,
-                        73
-                    ],
-                    [
-                        15,
-                        14
-                    ],
-                    [
-                        75,
-                        74
-                    ],
-                    [
-                        16,
-                        15
-                    ],
-                    [
-                        76,
-                        75
-                    ],
-                    [
-                        17,
-                        16
-                    ],
-                    [
-                        77,
-                        76
-                    ],
-                    [
-                        18,
-                        17
-                    ],
-                    [
-                        78,
-                        77
-                    ],
-                    [
-                        19,
-                        18
-                    ],
-                    [
-                        79,
-                        78
-                    ],
-                    [
-                        20,
-                        19
-                    ],
-                    [
-                        80,
-                        79
-                    ],
-                    [
-                        21,
-                        20
-                    ],
-                    [
-                        81,
-                        80
-                    ],
-                    [
-                        22,
-                        21
-                    ],
-                    [
-                        82,
-                        81
-                    ],
-                    [
-                        23,
-                        22
-                    ],
-                    [
-                        83,
-                        82
-                    ],
-                    [
-                        24,
-                        23
-                    ],
-                    [
-                        84,
-                        83
-                    ],
-                    [
-                        25,
-                        24
-                    ],
-                    [
-                        85,
-                        84
-                    ],
-                    [
-                        26,
-                        25
-                    ],
-                    [
-                        86,
-                        85
-                    ],
-                    [
-                        27,
-                        26
-                    ],
-                    [
-                        87,
-                        86
-                    ],
-                    [
-                        28,
-                        27
-                    ],
-                    [
-                        88,
-                        87
-                    ],
-                    [
-                        29,
-                        28
-                    ],
-                    [
-                        89,
-                        88
-                    ],
                     [
                         102,
                         101
@@ -3853,12 +3860,72 @@
                         89
                     ],
                     [
-                        73,
-                        72
+                        89,
+                        88
                     ],
                     [
-                        14,
-                        13
+                        88,
+                        87
+                    ],
+                    [
+                        87,
+                        86
+                    ],
+                    [
+                        86,
+                        85
+                    ],
+                    [
+                        85,
+                        84
+                    ],
+                    [
+                        84,
+                        83
+                    ],
+                    [
+                        83,
+                        82
+                    ],
+                    [
+                        82,
+                        81
+                    ],
+                    [
+                        81,
+                        80
+                    ],
+                    [
+                        80,
+                        79
+                    ],
+                    [
+                        79,
+                        78
+                    ],
+                    [
+                        78,
+                        77
+                    ],
+                    [
+                        77,
+                        76
+                    ],
+                    [
+                        76,
+                        75
+                    ],
+                    [
+                        75,
+                        74
+                    ],
+                    [
+                        74,
+                        73
+                    ],
+                    [
+                        73,
+                        72
                     ],
                     [
                         72,
@@ -3911,305 +3978,245 @@
                     [
                         60,
                         59
-                    ]
-                ],
-                "index_to_entity_map": [
-                    [
-                        58,
-                        59
-                    ],
-                    [
-                        57,
-                        58
-                    ],
-                    [
-                        56,
-                        57
-                    ],
-                    [
-                        55,
-                        56
-                    ],
-                    [
-                        54,
-                        55
-                    ],
-                    [
-                        53,
-                        54
-                    ],
-                    [
-                        52,
-                        53
-                    ],
-                    [
-                        51,
-                        52
-                    ],
-                    [
-                        50,
-                        51
-                    ],
-                    [
-                        49,
-                        50
-                    ],
-                    [
-                        48,
-                        49
-                    ],
-                    [
-                        47,
-                        48
-                    ],
-                    [
-                        46,
-                        47
-                    ],
-                    [
-                        45,
-                        46
-                    ],
-                    [
-                        44,
-                        45
-                    ],
-                    [
-                        43,
-                        44
-                    ],
-                    [
-                        42,
-                        43
-                    ],
-                    [
-                        41,
-                        42
-                    ],
-                    [
-                        40,
-                        41
-                    ],
-                    [
-                        39,
-                        40
-                    ],
-                    [
-                        38,
-                        39
-                    ],
-                    [
-                        37,
-                        38
-                    ],
-                    [
-                        36,
-                        37
-                    ],
-                    [
-                        35,
-                        36
-                    ],
-                    [
-                        34,
-                        35
-                    ],
-                    [
-                        33,
-                        34
-                    ],
-                    [
-                        32,
-                        33
-                    ],
-                    [
-                        31,
-                        32
-                    ],
-                    [
-                        30,
-                        31
                     ],
                     [
                         29,
-                        30
-                    ],
-                    [
-                        12,
-                        13
-                    ],
-                    [
-                        11,
-                        12
-                    ],
-                    [
-                        10,
-                        11
-                    ],
-                    [
-                        9,
-                        10
-                    ],
-                    [
-                        8,
-                        9
-                    ],
-                    [
-                        7,
-                        8
-                    ],
-                    [
-                        6,
-                        7
-                    ],
-                    [
-                        5,
-                        6
-                    ],
-                    [
-                        4,
-                        5
-                    ],
-                    [
-                        3,
-                        4
-                    ],
-                    [
-                        2,
-                        3
-                    ],
-                    [
-                        1,
-                        2
-                    ],
-                    [
-                        0,
-                        1
-                    ],
-                    [
-                        73,
-                        74
-                    ],
-                    [
-                        14,
-                        15
-                    ],
-                    [
-                        74,
-                        75
-                    ],
-                    [
-                        15,
-                        16
-                    ],
-                    [
-                        75,
-                        76
-                    ],
-                    [
-                        16,
-                        17
-                    ],
-                    [
-                        76,
-                        77
-                    ],
-                    [
-                        17,
-                        18
-                    ],
-                    [
-                        77,
-                        78
-                    ],
-                    [
-                        18,
-                        19
-                    ],
-                    [
-                        78,
-                        79
-                    ],
-                    [
-                        19,
-                        20
-                    ],
-                    [
-                        79,
-                        80
-                    ],
-                    [
-                        20,
-                        21
-                    ],
-                    [
-                        80,
-                        81
-                    ],
-                    [
-                        21,
-                        22
-                    ],
-                    [
-                        81,
-                        82
-                    ],
-                    [
-                        22,
-                        23
-                    ],
-                    [
-                        82,
-                        83
-                    ],
-                    [
-                        23,
-                        24
-                    ],
-                    [
-                        83,
-                        84
-                    ],
-                    [
-                        24,
-                        25
-                    ],
-                    [
-                        84,
-                        85
-                    ],
-                    [
-                        25,
-                        26
-                    ],
-                    [
-                        85,
-                        86
-                    ],
-                    [
-                        26,
-                        27
-                    ],
-                    [
-                        86,
-                        87
-                    ],
-                    [
-                        27,
                         28
                     ],
                     [
-                        87,
-                        88
+                        28,
+                        27
                     ],
                     [
-                        28,
+                        27,
+                        26
+                    ],
+                    [
+                        26,
+                        25
+                    ],
+                    [
+                        25,
+                        24
+                    ],
+                    [
+                        24,
+                        23
+                    ],
+                    [
+                        23,
+                        22
+                    ],
+                    [
+                        22,
+                        21
+                    ],
+                    [
+                        21,
+                        20
+                    ],
+                    [
+                        20,
+                        19
+                    ],
+                    [
+                        19,
+                        18
+                    ],
+                    [
+                        18,
+                        17
+                    ],
+                    [
+                        17,
+                        16
+                    ],
+                    [
+                        16,
+                        15
+                    ],
+                    [
+                        15,
+                        14
+                    ],
+                    [
+                        14,
+                        13
+                    ],
+                    [
+                        1,
+                        0
+                    ],
+                    [
+                        2,
+                        1
+                    ],
+                    [
+                        3,
+                        2
+                    ],
+                    [
+                        4,
+                        3
+                    ],
+                    [
+                        5,
+                        4
+                    ],
+                    [
+                        6,
+                        5
+                    ],
+                    [
+                        7,
+                        6
+                    ],
+                    [
+                        8,
+                        7
+                    ],
+                    [
+                        9,
+                        8
+                    ],
+                    [
+                        10,
+                        9
+                    ],
+                    [
+                        11,
+                        10
+                    ],
+                    [
+                        12,
+                        11
+                    ],
+                    [
+                        13,
+                        12
+                    ],
+                    [
+                        30,
                         29
                     ],
                     [
-                        88,
-                        89
+                        31,
+                        30
                     ],
+                    [
+                        32,
+                        31
+                    ],
+                    [
+                        33,
+                        32
+                    ],
+                    [
+                        34,
+                        33
+                    ],
+                    [
+                        35,
+                        34
+                    ],
+                    [
+                        36,
+                        35
+                    ],
+                    [
+                        37,
+                        36
+                    ],
+                    [
+                        38,
+                        37
+                    ],
+                    [
+                        39,
+                        38
+                    ],
+                    [
+                        40,
+                        39
+                    ],
+                    [
+                        41,
+                        40
+                    ],
+                    [
+                        42,
+                        41
+                    ],
+                    [
+                        43,
+                        42
+                    ],
+                    [
+                        44,
+                        43
+                    ],
+                    [
+                        45,
+                        44
+                    ],
+                    [
+                        46,
+                        45
+                    ],
+                    [
+                        47,
+                        46
+                    ],
+                    [
+                        48,
+                        47
+                    ],
+                    [
+                        49,
+                        48
+                    ],
+                    [
+                        50,
+                        49
+                    ],
+                    [
+                        51,
+                        50
+                    ],
+                    [
+                        52,
+                        51
+                    ],
+                    [
+                        53,
+                        52
+                    ],
+                    [
+                        54,
+                        53
+                    ],
+                    [
+                        55,
+                        54
+                    ],
+                    [
+                        56,
+                        55
+                    ],
+                    [
+                        57,
+                        56
+                    ],
+                    [
+                        58,
+                        57
+                    ],
+                    [
+                        59,
+                        58
+                    ]
+                ],
+                "index_to_entity_map": [
                     [
                         101,
                         102
@@ -4263,12 +4270,72 @@
                         90
                     ],
                     [
-                        72,
-                        73
+                        88,
+                        89
                     ],
                     [
-                        13,
-                        14
+                        87,
+                        88
+                    ],
+                    [
+                        86,
+                        87
+                    ],
+                    [
+                        85,
+                        86
+                    ],
+                    [
+                        84,
+                        85
+                    ],
+                    [
+                        83,
+                        84
+                    ],
+                    [
+                        82,
+                        83
+                    ],
+                    [
+                        81,
+                        82
+                    ],
+                    [
+                        80,
+                        81
+                    ],
+                    [
+                        79,
+                        80
+                    ],
+                    [
+                        78,
+                        79
+                    ],
+                    [
+                        77,
+                        78
+                    ],
+                    [
+                        76,
+                        77
+                    ],
+                    [
+                        75,
+                        76
+                    ],
+                    [
+                        74,
+                        75
+                    ],
+                    [
+                        73,
+                        74
+                    ],
+                    [
+                        72,
+                        73
                     ],
                     [
                         71,
@@ -4321,6 +4388,242 @@
                     [
                         59,
                         60
+                    ],
+                    [
+                        28,
+                        29
+                    ],
+                    [
+                        27,
+                        28
+                    ],
+                    [
+                        26,
+                        27
+                    ],
+                    [
+                        25,
+                        26
+                    ],
+                    [
+                        24,
+                        25
+                    ],
+                    [
+                        23,
+                        24
+                    ],
+                    [
+                        22,
+                        23
+                    ],
+                    [
+                        21,
+                        22
+                    ],
+                    [
+                        20,
+                        21
+                    ],
+                    [
+                        19,
+                        20
+                    ],
+                    [
+                        18,
+                        19
+                    ],
+                    [
+                        17,
+                        18
+                    ],
+                    [
+                        16,
+                        17
+                    ],
+                    [
+                        15,
+                        16
+                    ],
+                    [
+                        14,
+                        15
+                    ],
+                    [
+                        13,
+                        14
+                    ],
+                    [
+                        0,
+                        1
+                    ],
+                    [
+                        1,
+                        2
+                    ],
+                    [
+                        2,
+                        3
+                    ],
+                    [
+                        3,
+                        4
+                    ],
+                    [
+                        4,
+                        5
+                    ],
+                    [
+                        5,
+                        6
+                    ],
+                    [
+                        6,
+                        7
+                    ],
+                    [
+                        7,
+                        8
+                    ],
+                    [
+                        8,
+                        9
+                    ],
+                    [
+                        9,
+                        10
+                    ],
+                    [
+                        10,
+                        11
+                    ],
+                    [
+                        11,
+                        12
+                    ],
+                    [
+                        12,
+                        13
+                    ],
+                    [
+                        29,
+                        30
+                    ],
+                    [
+                        30,
+                        31
+                    ],
+                    [
+                        31,
+                        32
+                    ],
+                    [
+                        32,
+                        33
+                    ],
+                    [
+                        33,
+                        34
+                    ],
+                    [
+                        34,
+                        35
+                    ],
+                    [
+                        35,
+                        36
+                    ],
+                    [
+                        36,
+                        37
+                    ],
+                    [
+                        37,
+                        38
+                    ],
+                    [
+                        38,
+                        39
+                    ],
+                    [
+                        39,
+                        40
+                    ],
+                    [
+                        40,
+                        41
+                    ],
+                    [
+                        41,
+                        42
+                    ],
+                    [
+                        42,
+                        43
+                    ],
+                    [
+                        43,
+                        44
+                    ],
+                    [
+                        44,
+                        45
+                    ],
+                    [
+                        45,
+                        46
+                    ],
+                    [
+                        46,
+                        47
+                    ],
+                    [
+                        47,
+                        48
+                    ],
+                    [
+                        48,
+                        49
+                    ],
+                    [
+                        49,
+                        50
+                    ],
+                    [
+                        50,
+                        51
+                    ],
+                    [
+                        51,
+                        52
+                    ],
+                    [
+                        52,
+                        53
+                    ],
+                    [
+                        53,
+                        54
+                    ],
+                    [
+                        54,
+                        55
+                    ],
+                    [
+                        55,
+                        56
+                    ],
+                    [
+                        56,
+                        57
+                    ],
+                    [
+                        57,
+                        58
+                    ],
+                    [
+                        58,
+                        59
                     ]
                 ],
                 "size": 102
@@ -4328,13 +4631,13 @@
             "SkyBoxComponent": {
                 "component_array": [
                     {
-                        "back": "res/textures/skybox/back.jpg",
-                        "bottom": "res/textures/skybox/bottom.jpg",
-                        "front": "res/textures/skybox/front.jpg",
+                        "back": "textures/skybox/back.jpg",
+                        "bottom": "textures/skybox/bottom.jpg",
+                        "front": "textures/skybox/front.jpg",
                         "identifier": "default",
-                        "left": "res/textures/skybox/left.jpg",
-                        "right": "res/textures/skybox/right.jpg",
-                        "top": "res/textures/skybox/top.jpg"
+                        "left": "textures/skybox/left.jpg",
+                        "right": "textures/skybox/right.jpg",
+                        "top": "textures/skybox/top.jpg"
                     }
                 ],
                 "entity_to_index_map": [
@@ -4354,595 +4657,307 @@
             "StaticMeshComponent": {
                 "component_array": [
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     },
                     {
-                        "path": "res/models/cube.obj"
+                        "path": "models/cube.obj"
                     }
                 ],
                 "entity_to_index_map": [
-                    [
-                        61,
-                        58
-                    ],
-                    [
-                        60,
-                        57
-                    ],
-                    [
-                        59,
-                        56
-                    ],
-                    [
-                        58,
-                        55
-                    ],
-                    [
-                        57,
-                        54
-                    ],
-                    [
-                        56,
-                        53
-                    ],
-                    [
-                        55,
-                        52
-                    ],
-                    [
-                        54,
-                        51
-                    ],
-                    [
-                        53,
-                        50
-                    ],
-                    [
-                        52,
-                        49
-                    ],
-                    [
-                        51,
-                        48
-                    ],
-                    [
-                        50,
-                        47
-                    ],
-                    [
-                        49,
-                        46
-                    ],
-                    [
-                        48,
-                        45
-                    ],
-                    [
-                        47,
-                        44
-                    ],
-                    [
-                        46,
-                        43
-                    ],
-                    [
-                        45,
-                        42
-                    ],
-                    [
-                        44,
-                        41
-                    ],
-                    [
-                        43,
-                        40
-                    ],
-                    [
-                        42,
-                        39
-                    ],
-                    [
-                        41,
-                        38
-                    ],
-                    [
-                        40,
-                        37
-                    ],
-                    [
-                        39,
-                        36
-                    ],
-                    [
-                        38,
-                        35
-                    ],
-                    [
-                        37,
-                        34
-                    ],
-                    [
-                        36,
-                        33
-                    ],
-                    [
-                        35,
-                        32
-                    ],
-                    [
-                        34,
-                        31
-                    ],
-                    [
-                        33,
-                        30
-                    ],
-                    [
-                        32,
-                        29
-                    ],
-                    [
-                        15,
-                        12
-                    ],
-                    [
-                        14,
-                        11
-                    ],
-                    [
-                        13,
-                        10
-                    ],
-                    [
-                        12,
-                        9
-                    ],
-                    [
-                        11,
-                        8
-                    ],
-                    [
-                        10,
-                        7
-                    ],
-                    [
-                        9,
-                        6
-                    ],
-                    [
-                        8,
-                        5
-                    ],
-                    [
-                        7,
-                        4
-                    ],
-                    [
-                        6,
-                        3
-                    ],
-                    [
-                        5,
-                        2
-                    ],
-                    [
-                        74,
-                        71
-                    ],
-                    [
-                        75,
-                        72
-                    ],
-                    [
-                        16,
-                        13
-                    ],
-                    [
-                        76,
-                        73
-                    ],
-                    [
-                        17,
-                        14
-                    ],
-                    [
-                        77,
-                        74
-                    ],
-                    [
-                        18,
-                        15
-                    ],
-                    [
-                        78,
-                        75
-                    ],
-                    [
-                        19,
-                        16
-                    ],
-                    [
-                        79,
-                        76
-                    ],
-                    [
-                        20,
-                        17
-                    ],
-                    [
-                        80,
-                        77
-                    ],
-                    [
-                        21,
-                        18
-                    ],
-                    [
-                        81,
-                        78
-                    ],
-                    [
-                        22,
-                        19
-                    ],
-                    [
-                        82,
-                        79
-                    ],
-                    [
-                        23,
-                        20
-                    ],
-                    [
-                        83,
-                        80
-                    ],
-                    [
-                        24,
-                        21
-                    ],
-                    [
-                        84,
-                        81
-                    ],
-                    [
-                        25,
-                        22
-                    ],
-                    [
-                        85,
-                        82
-                    ],
-                    [
-                        26,
-                        23
-                    ],
-                    [
-                        86,
-                        83
-                    ],
-                    [
-                        27,
-                        24
-                    ],
-                    [
-                        87,
-                        84
-                    ],
-                    [
-                        28,
-                        25
-                    ],
-                    [
-                        88,
-                        85
-                    ],
-                    [
-                        29,
-                        26
-                    ],
-                    [
-                        89,
-                        86
-                    ],
-                    [
-                        30,
-                        27
-                    ],
                     [
                         102,
                         99
@@ -4996,8 +5011,68 @@
                         87
                     ],
                     [
-                        31,
-                        28
+                        89,
+                        86
+                    ],
+                    [
+                        88,
+                        85
+                    ],
+                    [
+                        87,
+                        84
+                    ],
+                    [
+                        86,
+                        83
+                    ],
+                    [
+                        85,
+                        82
+                    ],
+                    [
+                        84,
+                        81
+                    ],
+                    [
+                        83,
+                        80
+                    ],
+                    [
+                        82,
+                        79
+                    ],
+                    [
+                        81,
+                        78
+                    ],
+                    [
+                        80,
+                        77
+                    ],
+                    [
+                        79,
+                        76
+                    ],
+                    [
+                        78,
+                        75
+                    ],
+                    [
+                        77,
+                        74
+                    ],
+                    [
+                        76,
+                        73
+                    ],
+                    [
+                        75,
+                        72
+                    ],
+                    [
+                        74,
+                        71
                     ],
                     [
                         73,
@@ -5044,307 +5119,247 @@
                         60
                     ],
                     [
-                        4,
-                        1
-                    ],
-                    [
                         62,
                         59
                     ],
                     [
-                        3,
-                        0
-                    ]
-                ],
-                "index_to_entity_map": [
-                    [
-                        58,
-                        61
-                    ],
-                    [
-                        57,
-                        60
-                    ],
-                    [
-                        56,
-                        59
-                    ],
-                    [
-                        55,
-                        58
-                    ],
-                    [
-                        54,
-                        57
-                    ],
-                    [
-                        53,
-                        56
-                    ],
-                    [
-                        52,
-                        55
-                    ],
-                    [
-                        51,
-                        54
-                    ],
-                    [
-                        50,
-                        53
-                    ],
-                    [
-                        49,
-                        52
-                    ],
-                    [
-                        48,
-                        51
-                    ],
-                    [
-                        47,
-                        50
-                    ],
-                    [
-                        46,
-                        49
-                    ],
-                    [
-                        45,
-                        48
-                    ],
-                    [
-                        44,
-                        47
-                    ],
-                    [
-                        43,
-                        46
-                    ],
-                    [
-                        42,
-                        45
-                    ],
-                    [
-                        41,
-                        44
-                    ],
-                    [
-                        40,
-                        43
-                    ],
-                    [
-                        39,
-                        42
-                    ],
-                    [
-                        38,
-                        41
-                    ],
-                    [
-                        37,
-                        40
-                    ],
-                    [
-                        36,
-                        39
-                    ],
-                    [
-                        35,
-                        38
-                    ],
-                    [
-                        34,
-                        37
-                    ],
-                    [
-                        33,
-                        36
-                    ],
-                    [
-                        32,
-                        35
-                    ],
-                    [
                         31,
-                        34
-                    ],
-                    [
-                        30,
-                        33
-                    ],
-                    [
-                        29,
-                        32
-                    ],
-                    [
-                        12,
-                        15
-                    ],
-                    [
-                        11,
-                        14
-                    ],
-                    [
-                        10,
-                        13
-                    ],
-                    [
-                        9,
-                        12
-                    ],
-                    [
-                        8,
-                        11
-                    ],
-                    [
-                        7,
-                        10
-                    ],
-                    [
-                        6,
-                        9
-                    ],
-                    [
-                        5,
-                        8
-                    ],
-                    [
-                        4,
-                        7
-                    ],
-                    [
-                        3,
-                        6
-                    ],
-                    [
-                        2,
-                        5
-                    ],
-                    [
-                        71,
-                        74
-                    ],
-                    [
-                        72,
-                        75
-                    ],
-                    [
-                        13,
-                        16
-                    ],
-                    [
-                        73,
-                        76
-                    ],
-                    [
-                        14,
-                        17
-                    ],
-                    [
-                        74,
-                        77
-                    ],
-                    [
-                        15,
-                        18
-                    ],
-                    [
-                        75,
-                        78
-                    ],
-                    [
-                        16,
-                        19
-                    ],
-                    [
-                        76,
-                        79
-                    ],
-                    [
-                        17,
-                        20
-                    ],
-                    [
-                        77,
-                        80
-                    ],
-                    [
-                        18,
-                        21
-                    ],
-                    [
-                        78,
-                        81
-                    ],
-                    [
-                        19,
-                        22
-                    ],
-                    [
-                        79,
-                        82
-                    ],
-                    [
-                        20,
-                        23
-                    ],
-                    [
-                        80,
-                        83
-                    ],
-                    [
-                        21,
-                        24
-                    ],
-                    [
-                        81,
-                        84
-                    ],
-                    [
-                        22,
-                        25
-                    ],
-                    [
-                        82,
-                        85
-                    ],
-                    [
-                        23,
-                        26
-                    ],
-                    [
-                        83,
-                        86
-                    ],
-                    [
-                        24,
-                        27
-                    ],
-                    [
-                        84,
-                        87
-                    ],
-                    [
-                        25,
                         28
                     ],
                     [
-                        85,
-                        88
+                        30,
+                        27
                     ],
                     [
-                        26,
-                        29
+                        29,
+                        26
                     ],
                     [
-                        86,
-                        89
+                        28,
+                        25
                     ],
                     [
                         27,
+                        24
+                    ],
+                    [
+                        26,
+                        23
+                    ],
+                    [
+                        25,
+                        22
+                    ],
+                    [
+                        24,
+                        21
+                    ],
+                    [
+                        23,
+                        20
+                    ],
+                    [
+                        22,
+                        19
+                    ],
+                    [
+                        21,
+                        18
+                    ],
+                    [
+                        20,
+                        17
+                    ],
+                    [
+                        19,
+                        16
+                    ],
+                    [
+                        18,
+                        15
+                    ],
+                    [
+                        17,
+                        14
+                    ],
+                    [
+                        16,
+                        13
+                    ],
+                    [
+                        3,
+                        0
+                    ],
+                    [
+                        4,
+                        1
+                    ],
+                    [
+                        5,
+                        2
+                    ],
+                    [
+                        6,
+                        3
+                    ],
+                    [
+                        7,
+                        4
+                    ],
+                    [
+                        8,
+                        5
+                    ],
+                    [
+                        9,
+                        6
+                    ],
+                    [
+                        10,
+                        7
+                    ],
+                    [
+                        11,
+                        8
+                    ],
+                    [
+                        12,
+                        9
+                    ],
+                    [
+                        13,
+                        10
+                    ],
+                    [
+                        14,
+                        11
+                    ],
+                    [
+                        15,
+                        12
+                    ],
+                    [
+                        32,
+                        29
+                    ],
+                    [
+                        33,
                         30
                     ],
+                    [
+                        34,
+                        31
+                    ],
+                    [
+                        35,
+                        32
+                    ],
+                    [
+                        36,
+                        33
+                    ],
+                    [
+                        37,
+                        34
+                    ],
+                    [
+                        38,
+                        35
+                    ],
+                    [
+                        39,
+                        36
+                    ],
+                    [
+                        40,
+                        37
+                    ],
+                    [
+                        41,
+                        38
+                    ],
+                    [
+                        42,
+                        39
+                    ],
+                    [
+                        43,
+                        40
+                    ],
+                    [
+                        44,
+                        41
+                    ],
+                    [
+                        45,
+                        42
+                    ],
+                    [
+                        46,
+                        43
+                    ],
+                    [
+                        47,
+                        44
+                    ],
+                    [
+                        48,
+                        45
+                    ],
+                    [
+                        49,
+                        46
+                    ],
+                    [
+                        50,
+                        47
+                    ],
+                    [
+                        51,
+                        48
+                    ],
+                    [
+                        52,
+                        49
+                    ],
+                    [
+                        53,
+                        50
+                    ],
+                    [
+                        54,
+                        51
+                    ],
+                    [
+                        55,
+                        52
+                    ],
+                    [
+                        56,
+                        53
+                    ],
+                    [
+                        57,
+                        54
+                    ],
+                    [
+                        58,
+                        55
+                    ],
+                    [
+                        59,
+                        56
+                    ],
+                    [
+                        60,
+                        57
+                    ],
+                    [
+                        61,
+                        58
+                    ]
+                ],
+                "index_to_entity_map": [
                     [
                         99,
                         102
@@ -5398,8 +5413,68 @@
                         90
                     ],
                     [
-                        28,
-                        31
+                        86,
+                        89
+                    ],
+                    [
+                        85,
+                        88
+                    ],
+                    [
+                        84,
+                        87
+                    ],
+                    [
+                        83,
+                        86
+                    ],
+                    [
+                        82,
+                        85
+                    ],
+                    [
+                        81,
+                        84
+                    ],
+                    [
+                        80,
+                        83
+                    ],
+                    [
+                        79,
+                        82
+                    ],
+                    [
+                        78,
+                        81
+                    ],
+                    [
+                        77,
+                        80
+                    ],
+                    [
+                        76,
+                        79
+                    ],
+                    [
+                        75,
+                        78
+                    ],
+                    [
+                        74,
+                        77
+                    ],
+                    [
+                        73,
+                        76
+                    ],
+                    [
+                        72,
+                        75
+                    ],
+                    [
+                        71,
+                        74
                     ],
                     [
                         70,
@@ -5446,16 +5521,244 @@
                         63
                     ],
                     [
-                        1,
-                        4
-                    ],
-                    [
                         59,
                         62
                     ],
                     [
+                        28,
+                        31
+                    ],
+                    [
+                        27,
+                        30
+                    ],
+                    [
+                        26,
+                        29
+                    ],
+                    [
+                        25,
+                        28
+                    ],
+                    [
+                        24,
+                        27
+                    ],
+                    [
+                        23,
+                        26
+                    ],
+                    [
+                        22,
+                        25
+                    ],
+                    [
+                        21,
+                        24
+                    ],
+                    [
+                        20,
+                        23
+                    ],
+                    [
+                        19,
+                        22
+                    ],
+                    [
+                        18,
+                        21
+                    ],
+                    [
+                        17,
+                        20
+                    ],
+                    [
+                        16,
+                        19
+                    ],
+                    [
+                        15,
+                        18
+                    ],
+                    [
+                        14,
+                        17
+                    ],
+                    [
+                        13,
+                        16
+                    ],
+                    [
                         0,
                         3
+                    ],
+                    [
+                        1,
+                        4
+                    ],
+                    [
+                        2,
+                        5
+                    ],
+                    [
+                        3,
+                        6
+                    ],
+                    [
+                        4,
+                        7
+                    ],
+                    [
+                        5,
+                        8
+                    ],
+                    [
+                        6,
+                        9
+                    ],
+                    [
+                        7,
+                        10
+                    ],
+                    [
+                        8,
+                        11
+                    ],
+                    [
+                        9,
+                        12
+                    ],
+                    [
+                        10,
+                        13
+                    ],
+                    [
+                        11,
+                        14
+                    ],
+                    [
+                        12,
+                        15
+                    ],
+                    [
+                        29,
+                        32
+                    ],
+                    [
+                        30,
+                        33
+                    ],
+                    [
+                        31,
+                        34
+                    ],
+                    [
+                        32,
+                        35
+                    ],
+                    [
+                        33,
+                        36
+                    ],
+                    [
+                        34,
+                        37
+                    ],
+                    [
+                        35,
+                        38
+                    ],
+                    [
+                        36,
+                        39
+                    ],
+                    [
+                        37,
+                        40
+                    ],
+                    [
+                        38,
+                        41
+                    ],
+                    [
+                        39,
+                        42
+                    ],
+                    [
+                        40,
+                        43
+                    ],
+                    [
+                        41,
+                        44
+                    ],
+                    [
+                        42,
+                        45
+                    ],
+                    [
+                        43,
+                        46
+                    ],
+                    [
+                        44,
+                        47
+                    ],
+                    [
+                        45,
+                        48
+                    ],
+                    [
+                        46,
+                        49
+                    ],
+                    [
+                        47,
+                        50
+                    ],
+                    [
+                        48,
+                        51
+                    ],
+                    [
+                        49,
+                        52
+                    ],
+                    [
+                        50,
+                        53
+                    ],
+                    [
+                        51,
+                        54
+                    ],
+                    [
+                        52,
+                        55
+                    ],
+                    [
+                        53,
+                        56
+                    ],
+                    [
+                        54,
+                        57
+                    ],
+                    [
+                        55,
+                        58
+                    ],
+                    [
+                        56,
+                        59
+                    ],
+                    [
+                        57,
+                        60
+                    ],
+                    [
+                        58,
+                        61
                     ]
                 ],
                 "size": 100
@@ -5487,9 +5790,9 @@
                     },
                     {
                         "position": {
-                            "x": 0.0,
-                            "y": 0.0,
-                            "z": 30.0
+                            "x": 11.438915252685547,
+                            "y": 3.295908212661743,
+                            "z": 3.2356133460998535
                         },
                         "rotation": {
                             "w": 1.0,
@@ -5505,9 +5808,9 @@
                     },
                     {
                         "position": {
-                            "x": 0.0,
+                            "x": 4.911510467529297,
                             "y": 0.0,
-                            "z": 0.0
+                            "z": 3.0901565551757813
                         },
                         "rotation": {
                             "w": 1.0,
@@ -5516,9 +5819,9 @@
                             "z": 0.0
                         },
                         "scale": {
-                            "x": 4.059999942779541,
-                            "y": 4.059999942779541,
-                            "z": 4.059999942779541
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
                         }
                     },
                     {
@@ -7306,302 +7609,6 @@
                 ],
                 "entity_to_index_map": [
                     [
-                        59,
-                        58
-                    ],
-                    [
-                        58,
-                        57
-                    ],
-                    [
-                        57,
-                        56
-                    ],
-                    [
-                        56,
-                        55
-                    ],
-                    [
-                        55,
-                        54
-                    ],
-                    [
-                        54,
-                        53
-                    ],
-                    [
-                        53,
-                        52
-                    ],
-                    [
-                        52,
-                        51
-                    ],
-                    [
-                        51,
-                        50
-                    ],
-                    [
-                        50,
-                        49
-                    ],
-                    [
-                        49,
-                        48
-                    ],
-                    [
-                        48,
-                        47
-                    ],
-                    [
-                        47,
-                        46
-                    ],
-                    [
-                        46,
-                        45
-                    ],
-                    [
-                        45,
-                        44
-                    ],
-                    [
-                        44,
-                        43
-                    ],
-                    [
-                        43,
-                        42
-                    ],
-                    [
-                        42,
-                        41
-                    ],
-                    [
-                        41,
-                        40
-                    ],
-                    [
-                        40,
-                        39
-                    ],
-                    [
-                        39,
-                        38
-                    ],
-                    [
-                        38,
-                        37
-                    ],
-                    [
-                        37,
-                        36
-                    ],
-                    [
-                        36,
-                        35
-                    ],
-                    [
-                        35,
-                        34
-                    ],
-                    [
-                        34,
-                        33
-                    ],
-                    [
-                        33,
-                        32
-                    ],
-                    [
-                        32,
-                        31
-                    ],
-                    [
-                        31,
-                        30
-                    ],
-                    [
-                        30,
-                        29
-                    ],
-                    [
-                        13,
-                        12
-                    ],
-                    [
-                        12,
-                        11
-                    ],
-                    [
-                        11,
-                        10
-                    ],
-                    [
-                        10,
-                        9
-                    ],
-                    [
-                        9,
-                        8
-                    ],
-                    [
-                        8,
-                        7
-                    ],
-                    [
-                        7,
-                        6
-                    ],
-                    [
-                        6,
-                        5
-                    ],
-                    [
-                        5,
-                        4
-                    ],
-                    [
-                        4,
-                        3
-                    ],
-                    [
-                        3,
-                        2
-                    ],
-                    [
-                        2,
-                        1
-                    ],
-                    [
-                        1,
-                        0
-                    ],
-                    [
-                        74,
-                        73
-                    ],
-                    [
-                        15,
-                        14
-                    ],
-                    [
-                        75,
-                        74
-                    ],
-                    [
-                        16,
-                        15
-                    ],
-                    [
-                        76,
-                        75
-                    ],
-                    [
-                        17,
-                        16
-                    ],
-                    [
-                        77,
-                        76
-                    ],
-                    [
-                        18,
-                        17
-                    ],
-                    [
-                        78,
-                        77
-                    ],
-                    [
-                        19,
-                        18
-                    ],
-                    [
-                        79,
-                        78
-                    ],
-                    [
-                        20,
-                        19
-                    ],
-                    [
-                        80,
-                        79
-                    ],
-                    [
-                        21,
-                        20
-                    ],
-                    [
-                        81,
-                        80
-                    ],
-                    [
-                        22,
-                        21
-                    ],
-                    [
-                        82,
-                        81
-                    ],
-                    [
-                        23,
-                        22
-                    ],
-                    [
-                        83,
-                        82
-                    ],
-                    [
-                        24,
-                        23
-                    ],
-                    [
-                        84,
-                        83
-                    ],
-                    [
-                        25,
-                        24
-                    ],
-                    [
-                        85,
-                        84
-                    ],
-                    [
-                        26,
-                        25
-                    ],
-                    [
-                        86,
-                        85
-                    ],
-                    [
-                        27,
-                        26
-                    ],
-                    [
-                        87,
-                        86
-                    ],
-                    [
-                        28,
-                        27
-                    ],
-                    [
-                        88,
-                        87
-                    ],
-                    [
-                        29,
-                        28
-                    ],
-                    [
-                        89,
-                        88
-                    ],
-                    [
                         102,
                         101
                     ],
@@ -7654,12 +7661,72 @@
                         89
                     ],
                     [
-                        73,
-                        72
+                        89,
+                        88
                     ],
                     [
-                        14,
-                        13
+                        88,
+                        87
+                    ],
+                    [
+                        87,
+                        86
+                    ],
+                    [
+                        86,
+                        85
+                    ],
+                    [
+                        85,
+                        84
+                    ],
+                    [
+                        84,
+                        83
+                    ],
+                    [
+                        83,
+                        82
+                    ],
+                    [
+                        82,
+                        81
+                    ],
+                    [
+                        81,
+                        80
+                    ],
+                    [
+                        80,
+                        79
+                    ],
+                    [
+                        79,
+                        78
+                    ],
+                    [
+                        78,
+                        77
+                    ],
+                    [
+                        77,
+                        76
+                    ],
+                    [
+                        76,
+                        75
+                    ],
+                    [
+                        75,
+                        74
+                    ],
+                    [
+                        74,
+                        73
+                    ],
+                    [
+                        73,
+                        72
                     ],
                     [
                         72,
@@ -7712,305 +7779,245 @@
                     [
                         60,
                         59
-                    ]
-                ],
-                "index_to_entity_map": [
-                    [
-                        58,
-                        59
-                    ],
-                    [
-                        57,
-                        58
-                    ],
-                    [
-                        56,
-                        57
-                    ],
-                    [
-                        55,
-                        56
-                    ],
-                    [
-                        54,
-                        55
-                    ],
-                    [
-                        53,
-                        54
-                    ],
-                    [
-                        52,
-                        53
-                    ],
-                    [
-                        51,
-                        52
-                    ],
-                    [
-                        50,
-                        51
-                    ],
-                    [
-                        49,
-                        50
-                    ],
-                    [
-                        48,
-                        49
-                    ],
-                    [
-                        47,
-                        48
-                    ],
-                    [
-                        46,
-                        47
-                    ],
-                    [
-                        45,
-                        46
-                    ],
-                    [
-                        44,
-                        45
-                    ],
-                    [
-                        43,
-                        44
-                    ],
-                    [
-                        42,
-                        43
-                    ],
-                    [
-                        41,
-                        42
-                    ],
-                    [
-                        40,
-                        41
-                    ],
-                    [
-                        39,
-                        40
-                    ],
-                    [
-                        38,
-                        39
-                    ],
-                    [
-                        37,
-                        38
-                    ],
-                    [
-                        36,
-                        37
-                    ],
-                    [
-                        35,
-                        36
-                    ],
-                    [
-                        34,
-                        35
-                    ],
-                    [
-                        33,
-                        34
-                    ],
-                    [
-                        32,
-                        33
-                    ],
-                    [
-                        31,
-                        32
-                    ],
-                    [
-                        30,
-                        31
                     ],
                     [
                         29,
-                        30
-                    ],
-                    [
-                        12,
-                        13
-                    ],
-                    [
-                        11,
-                        12
-                    ],
-                    [
-                        10,
-                        11
-                    ],
-                    [
-                        9,
-                        10
-                    ],
-                    [
-                        8,
-                        9
-                    ],
-                    [
-                        7,
-                        8
-                    ],
-                    [
-                        6,
-                        7
-                    ],
-                    [
-                        5,
-                        6
-                    ],
-                    [
-                        4,
-                        5
-                    ],
-                    [
-                        3,
-                        4
-                    ],
-                    [
-                        2,
-                        3
-                    ],
-                    [
-                        1,
-                        2
-                    ],
-                    [
-                        0,
-                        1
-                    ],
-                    [
-                        73,
-                        74
-                    ],
-                    [
-                        14,
-                        15
-                    ],
-                    [
-                        74,
-                        75
-                    ],
-                    [
-                        15,
-                        16
-                    ],
-                    [
-                        75,
-                        76
-                    ],
-                    [
-                        16,
-                        17
-                    ],
-                    [
-                        76,
-                        77
-                    ],
-                    [
-                        17,
-                        18
-                    ],
-                    [
-                        77,
-                        78
-                    ],
-                    [
-                        18,
-                        19
-                    ],
-                    [
-                        78,
-                        79
-                    ],
-                    [
-                        19,
-                        20
-                    ],
-                    [
-                        79,
-                        80
-                    ],
-                    [
-                        20,
-                        21
-                    ],
-                    [
-                        80,
-                        81
-                    ],
-                    [
-                        21,
-                        22
-                    ],
-                    [
-                        81,
-                        82
-                    ],
-                    [
-                        22,
-                        23
-                    ],
-                    [
-                        82,
-                        83
-                    ],
-                    [
-                        23,
-                        24
-                    ],
-                    [
-                        83,
-                        84
-                    ],
-                    [
-                        24,
-                        25
-                    ],
-                    [
-                        84,
-                        85
-                    ],
-                    [
-                        25,
-                        26
-                    ],
-                    [
-                        85,
-                        86
-                    ],
-                    [
-                        26,
-                        27
-                    ],
-                    [
-                        86,
-                        87
-                    ],
-                    [
-                        27,
                         28
                     ],
                     [
-                        87,
-                        88
+                        28,
+                        27
                     ],
                     [
-                        28,
+                        27,
+                        26
+                    ],
+                    [
+                        26,
+                        25
+                    ],
+                    [
+                        25,
+                        24
+                    ],
+                    [
+                        24,
+                        23
+                    ],
+                    [
+                        23,
+                        22
+                    ],
+                    [
+                        22,
+                        21
+                    ],
+                    [
+                        21,
+                        20
+                    ],
+                    [
+                        20,
+                        19
+                    ],
+                    [
+                        19,
+                        18
+                    ],
+                    [
+                        18,
+                        17
+                    ],
+                    [
+                        17,
+                        16
+                    ],
+                    [
+                        16,
+                        15
+                    ],
+                    [
+                        15,
+                        14
+                    ],
+                    [
+                        14,
+                        13
+                    ],
+                    [
+                        1,
+                        0
+                    ],
+                    [
+                        2,
+                        1
+                    ],
+                    [
+                        3,
+                        2
+                    ],
+                    [
+                        4,
+                        3
+                    ],
+                    [
+                        5,
+                        4
+                    ],
+                    [
+                        6,
+                        5
+                    ],
+                    [
+                        7,
+                        6
+                    ],
+                    [
+                        8,
+                        7
+                    ],
+                    [
+                        9,
+                        8
+                    ],
+                    [
+                        10,
+                        9
+                    ],
+                    [
+                        11,
+                        10
+                    ],
+                    [
+                        12,
+                        11
+                    ],
+                    [
+                        13,
+                        12
+                    ],
+                    [
+                        30,
                         29
                     ],
                     [
-                        88,
-                        89
+                        31,
+                        30
                     ],
+                    [
+                        32,
+                        31
+                    ],
+                    [
+                        33,
+                        32
+                    ],
+                    [
+                        34,
+                        33
+                    ],
+                    [
+                        35,
+                        34
+                    ],
+                    [
+                        36,
+                        35
+                    ],
+                    [
+                        37,
+                        36
+                    ],
+                    [
+                        38,
+                        37
+                    ],
+                    [
+                        39,
+                        38
+                    ],
+                    [
+                        40,
+                        39
+                    ],
+                    [
+                        41,
+                        40
+                    ],
+                    [
+                        42,
+                        41
+                    ],
+                    [
+                        43,
+                        42
+                    ],
+                    [
+                        44,
+                        43
+                    ],
+                    [
+                        45,
+                        44
+                    ],
+                    [
+                        46,
+                        45
+                    ],
+                    [
+                        47,
+                        46
+                    ],
+                    [
+                        48,
+                        47
+                    ],
+                    [
+                        49,
+                        48
+                    ],
+                    [
+                        50,
+                        49
+                    ],
+                    [
+                        51,
+                        50
+                    ],
+                    [
+                        52,
+                        51
+                    ],
+                    [
+                        53,
+                        52
+                    ],
+                    [
+                        54,
+                        53
+                    ],
+                    [
+                        55,
+                        54
+                    ],
+                    [
+                        56,
+                        55
+                    ],
+                    [
+                        57,
+                        56
+                    ],
+                    [
+                        58,
+                        57
+                    ],
+                    [
+                        59,
+                        58
+                    ]
+                ],
+                "index_to_entity_map": [
                     [
                         101,
                         102
@@ -8064,12 +8071,72 @@
                         90
                     ],
                     [
-                        72,
-                        73
+                        88,
+                        89
                     ],
                     [
-                        13,
-                        14
+                        87,
+                        88
+                    ],
+                    [
+                        86,
+                        87
+                    ],
+                    [
+                        85,
+                        86
+                    ],
+                    [
+                        84,
+                        85
+                    ],
+                    [
+                        83,
+                        84
+                    ],
+                    [
+                        82,
+                        83
+                    ],
+                    [
+                        81,
+                        82
+                    ],
+                    [
+                        80,
+                        81
+                    ],
+                    [
+                        79,
+                        80
+                    ],
+                    [
+                        78,
+                        79
+                    ],
+                    [
+                        77,
+                        78
+                    ],
+                    [
+                        76,
+                        77
+                    ],
+                    [
+                        75,
+                        76
+                    ],
+                    [
+                        74,
+                        75
+                    ],
+                    [
+                        73,
+                        74
+                    ],
+                    [
+                        72,
+                        73
                     ],
                     [
                         71,
@@ -8122,6 +8189,242 @@
                     [
                         59,
                         60
+                    ],
+                    [
+                        28,
+                        29
+                    ],
+                    [
+                        27,
+                        28
+                    ],
+                    [
+                        26,
+                        27
+                    ],
+                    [
+                        25,
+                        26
+                    ],
+                    [
+                        24,
+                        25
+                    ],
+                    [
+                        23,
+                        24
+                    ],
+                    [
+                        22,
+                        23
+                    ],
+                    [
+                        21,
+                        22
+                    ],
+                    [
+                        20,
+                        21
+                    ],
+                    [
+                        19,
+                        20
+                    ],
+                    [
+                        18,
+                        19
+                    ],
+                    [
+                        17,
+                        18
+                    ],
+                    [
+                        16,
+                        17
+                    ],
+                    [
+                        15,
+                        16
+                    ],
+                    [
+                        14,
+                        15
+                    ],
+                    [
+                        13,
+                        14
+                    ],
+                    [
+                        0,
+                        1
+                    ],
+                    [
+                        1,
+                        2
+                    ],
+                    [
+                        2,
+                        3
+                    ],
+                    [
+                        3,
+                        4
+                    ],
+                    [
+                        4,
+                        5
+                    ],
+                    [
+                        5,
+                        6
+                    ],
+                    [
+                        6,
+                        7
+                    ],
+                    [
+                        7,
+                        8
+                    ],
+                    [
+                        8,
+                        9
+                    ],
+                    [
+                        9,
+                        10
+                    ],
+                    [
+                        10,
+                        11
+                    ],
+                    [
+                        11,
+                        12
+                    ],
+                    [
+                        12,
+                        13
+                    ],
+                    [
+                        29,
+                        30
+                    ],
+                    [
+                        30,
+                        31
+                    ],
+                    [
+                        31,
+                        32
+                    ],
+                    [
+                        32,
+                        33
+                    ],
+                    [
+                        33,
+                        34
+                    ],
+                    [
+                        34,
+                        35
+                    ],
+                    [
+                        35,
+                        36
+                    ],
+                    [
+                        36,
+                        37
+                    ],
+                    [
+                        37,
+                        38
+                    ],
+                    [
+                        38,
+                        39
+                    ],
+                    [
+                        39,
+                        40
+                    ],
+                    [
+                        40,
+                        41
+                    ],
+                    [
+                        41,
+                        42
+                    ],
+                    [
+                        42,
+                        43
+                    ],
+                    [
+                        43,
+                        44
+                    ],
+                    [
+                        44,
+                        45
+                    ],
+                    [
+                        45,
+                        46
+                    ],
+                    [
+                        46,
+                        47
+                    ],
+                    [
+                        47,
+                        48
+                    ],
+                    [
+                        48,
+                        49
+                    ],
+                    [
+                        49,
+                        50
+                    ],
+                    [
+                        50,
+                        51
+                    ],
+                    [
+                        51,
+                        52
+                    ],
+                    [
+                        52,
+                        53
+                    ],
+                    [
+                        53,
+                        54
+                    ],
+                    [
+                        54,
+                        55
+                    ],
+                    [
+                        55,
+                        56
+                    ],
+                    [
+                        56,
+                        57
+                    ],
+                    [
+                        57,
+                        58
+                    ],
+                    [
+                        58,
+                        59
                     ]
                 ],
                 "size": 102

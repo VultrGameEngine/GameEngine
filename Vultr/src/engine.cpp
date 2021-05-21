@@ -318,7 +318,7 @@ void RenderMember(const std::string &name, File &file)
 {
     if (ImGui::Button(Path::get_shortened_resource_path(file.GetPath()).c_str()))
     {
-        ImGuiFileDialog::Instance()->OpenDialog("FileChooser" + name, "Choose File", file.GetExtension(), ".");
+        ImGuiFileDialog::Instance()->OpenDialog("FileChooser" + name, "Choose File", file.GetExtension(), Path::get_resource_path());
     }
 
     if (ImGuiFileDialog::Instance()->Display("FileChooser" + name))
@@ -329,7 +329,7 @@ void RenderMember(const std::string &name, File &file)
             std::string filePathName = ImGuiFileDialog::Instance()->GetFilePathName();
             std::string filePath = ImGuiFileDialog::Instance()->GetCurrentPath();
             std::cout << "Path " << filePath << std::endl;
-            file = File(filePath, file.GetExtension());
+            file = File(Path::get_shortened_resource_path(filePathName), file.GetExtension());
         }
 
         // close
