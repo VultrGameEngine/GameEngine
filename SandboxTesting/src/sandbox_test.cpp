@@ -30,13 +30,13 @@ void SandboxTest::Init()
     entity_add_component(light, TransformComponent::Create(glm::vec3(0, 0, 30), glm::quat(1, 0, 0, 0), glm::vec3(4, 4, 4)));
     entity_add_component(light, Vultr::UnlitMaterial::Create());
 
-    // for (int i = 0; i < 100; i++)
-    // {
-    Entity cube = create_entity(get_current_world());
-    entity_add_component(cube, TransformComponent::Create(glm::vec3(0, 0, 20), glm::quat(1, 0, 0, 0), glm::vec3(1, 1, 1)));
-    entity_add_component(cube, StaticMeshComponent::Create());
-    entity_add_component(cube, Vultr::ForwardMaterial::Create("res/textures/cube/diffuse.png"));
-    // }
+    for (int i = 0; i < 100; i++)
+    {
+        Entity cube = create_entity(get_current_world());
+        entity_add_component(cube, TransformComponent::Create(glm::vec3(0, 0, i * 2), glm::quat(1, 0, 0, 0), glm::vec3(1, 1, 1)));
+        entity_add_component(cube, StaticMeshComponent::Create());
+        entity_add_component(cube, Vultr::ForwardMaterial::Create("res/textures/cube/diffuse.png"));
+    }
 }
 
 void SandboxTest::Update(const Vultr::UpdateTick &tick)

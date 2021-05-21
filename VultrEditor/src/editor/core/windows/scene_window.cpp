@@ -15,9 +15,8 @@
 #include <glad/glad.h>
 
 using namespace Vultr;
-void SceneWindow::Render()
+static void change_editing_mode()
 {
-    auto &render_system_provider = RenderSystem::get_provider();
     if (InputSystem::key_down('q'))
     {
         Editor::Editor::Get()->current_operation = ImGuizmo::OPERATION::TRANSLATE;
@@ -30,36 +29,72 @@ void SceneWindow::Render()
     {
         Editor::Editor::Get()->current_operation = ImGuizmo::OPERATION::SCALE;
     }
+}
+
+static void OnMouseClick(int button)
+{
+    if (button != GLFW_MOUSE_BUTTON_LEFT)
+        return;
+    glm::vec2 pos = InputSystem::get_provider().scene_mouse_pos * RenderSystem::get_dimensions(SCENE);
+    Entity entity = RenderSystem::get_entity_at_pixel(pos.x, pos.y);
+    if (entity != INVALID_ENTITY)
+        Editor::Get()->selected_entity = entity;
+}
+
+SceneWindow::SceneWindow()
+{
+    InputSystem::on_mouse_click("SceneWindow", OnMouseClick);
+}
+
+void SceneWindow::Render()
+{
+    // Save the system providers here for easy access
+    auto &render_system_provider = RenderSystem::get_provider();
+    auto &camera_system_provider = CameraSystem::get_provider();
+
+    // For the scene window we will need the scene texture
     render_system_provider.scene.render_texture->Bind(GL_TEXTURE0);
+
+    // Draw all imgui windows
     ImGui::Begin("Scene");
     ImVec2 viewport_panel_size = ImGui::GetContentRegionAvail();
     RenderSystem::resize(viewport_panel_size.x, viewport_panel_size.y, SCENE);
+    ImVec2 position = ImGui::GetCursorScreenPos();
+    RenderSystem::update_viewport_pos(position.x, position.y, SCENE);
+
+    // Get rid of incorrect warnings
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wint-to-void-pointer-cast"
+
+    // Draw the scene window texture
     ImGui::Image((void *)render_system_provider.scene.render_texture->GetID(), ImVec2{viewport_panel_size.x, viewport_panel_size.y}, ImVec2{0, 1}, ImVec2{1, 0});
+
 #pragma clang diagnostic pop
 
-    // pos *= RenderSystemProvider::Get()->GetDimensions(SCENE);
-    // int pickedID = RenderSystemProvider::Get()->GetEntityAtPixel(pos.x, pos.y);
-    // std::cout << "Pixel data at " << pos.x << ", " << pos.y << ": " << pickedID
-    //           << std::endl;
+    // Update the editing mode based on the user input in the editor
+    change_editing_mode();
+
+    // Get the currently selected entity in the EntityWindow
     Entity selected_entity = Editor::Get()->selected_entity;
+
+    // If an entity is selected
     if (selected_entity != INVALID_ENTITY)
     {
+
+        // ImGuizmo rendering
         ImGuizmo::SetOrthographic(false);
         ImGuizmo::SetDrawlist();
 
+        // Window dimensions and mouse positions
         float windowWidth = (float)ImGui::GetWindowWidth();
         float windowHeight = (float)ImGui::GetWindowHeight();
         ImGuizmo::SetRect(ImGui::GetWindowPos().x, ImGui::GetWindowPos().y, windowWidth, windowHeight);
 
-        auto &camera_system_provider = CameraSystem::get_provider();
-
         // Editor camera
         const auto &editor_camera_component = camera_system_provider.scene_camera.camera_component;
         const auto &editor_camera_transform = camera_system_provider.scene_camera.transform_component;
-        const glm::mat4 &cameraProjection = editor_camera_component.GetProjectionMatrix(RenderSystem::get_dimensions(SCENE).x, RenderSystem::get_dimensions(SCENE).y);
-        glm::mat4 cameraView = editor_camera_transform.GetViewMatrix();
+        const auto &cameraProjection = editor_camera_component.GetProjectionMatrix(RenderSystem::get_dimensions(SCENE).x, RenderSystem::get_dimensions(SCENE).y);
+        auto cameraView = editor_camera_transform.GetViewMatrix();
 
         // Entity transform
         auto &tc = entity_get_component<TransformComponent>(selected_entity);

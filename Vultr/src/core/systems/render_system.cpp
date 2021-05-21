@@ -42,17 +42,19 @@ namespace Vultr::RenderSystem
         const GLFWvidmode *mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
         generate_render_texture(p.scene, mode->width, mode->height);
         generate_render_texture(p.game, mode->width, mode->height);
+        generate_input_render_texture(mode->width, mode->height);
         p.post_processing_shader = ShaderImporter::ImportShader("res/shaders/post_processing.glsl");
+        p.input_shader = ShaderImporter::ImportEngineShader(ShaderImporter::EDITOR_INPUT);
         p.render_quad = MeshImporter::InitQuad();
         p.skybox = MeshImporter::InitSkybox();
     }
 
-    void init_g_buffer(int width, int height)
+    void init_g_buffer(s32 width, s32 height)
     {
         assert("Unfinished");
     }
 
-    void generate_render_texture(ViewportData &data, int width, int height)
+    void generate_render_texture(ViewportData &data, s32 width, s32 height)
     {
         if (data.fbo != nullptr)
             delete data.fbo;
@@ -75,33 +77,64 @@ namespace Vultr::RenderSystem
         data.dimensions.y = height;
     }
 
-    void resize(int width, int height, u8 type)
+    void generate_input_render_texture(s32 width, s32 height)
+    {
+        auto &data = get_provider().input_data;
+        if (data.fbo != nullptr)
+            delete data.fbo;
+        if (data.render_texture != nullptr)
+            delete data.render_texture;
+        if (data.rbo != nullptr)
+            delete data.rbo;
+
+        data.fbo = new FrameBuffer();
+        data.fbo->Bind();
+        data.render_texture = new Texture(GL_TEXTURE_2D);
+        data.render_texture->Bind(GL_TEXTURE0);
+        data.render_texture->Generate(width, height);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, width, height, 0, GL_RGBA, GL_FLOAT, nullptr);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        data.render_texture->FrameBufferTexture2D();
+
+        data.rbo = new RenderBuffer(width, height);
+
+        data.fbo->Unbind();
+        data.dimensions.x = width;
+        data.dimensions.y = height;
+    }
+
+    void resize(s32 width, s32 height, u8 type)
     {
         auto &provider = get_provider();
+        auto p_dimensions = glm::vec2(width, height);
         // init_g_buffer(width, height);
         if (type == GAME)
         {
-            if (provider.game.dimensions == glm::vec2(width, height))
-            {
+            if (provider.game.dimensions == p_dimensions)
                 return;
-            }
-            provider.game.dimensions = glm::vec2(width, height);
+            provider.game.dimensions = p_dimensions;
             generate_render_texture(provider.game, width, height);
         }
         else if (type == SCENE)
         {
-            if (provider.scene.dimensions == glm::vec2(width, height))
-            {
+            // Actual scene fbo
+            if (provider.scene.dimensions == p_dimensions)
                 return;
-            }
-            provider.scene.dimensions = glm::vec2(width, height);
+            provider.scene.dimensions = p_dimensions;
             generate_render_texture(provider.scene, width, height);
-            // GenInputFB(width, height);
+
+            // Mouse picking fbo
+            if (provider.input_data.dimensions == glm::vec2(width, height))
+                return;
+            provider.input_data.dimensions = p_dimensions;
+            generate_input_render_texture(width, height);
         }
     }
 
-    void update_viewport_pos(int x, int y, u8 type)
+    void update_viewport_pos(s32 x, s32 y, u8 type)
     {
+        // Change different positions in the provider
         if (type == GAME)
         {
             get_provider().game.position = glm::vec2(x, y);
@@ -109,6 +142,7 @@ namespace Vultr::RenderSystem
         else if (type == SCENE)
         {
             get_provider().scene.position = glm::vec2(x, y);
+            get_provider().input_data.position = glm::vec2(x, y);
         }
     }
 
@@ -204,17 +238,18 @@ namespace Vultr::RenderSystem
             // Unbind the frame buffer
             provider.scene.fbo->Unbind();
 
-            // provider.input_data.fb->Bind();
+            // Render the elements again for mouse picking
+            provider.input_data.fbo->Bind();
 
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
             // Set the viewport to match that in the editor
             glViewport(0, 0, get_dimensions(SCENE).x, get_dimensions(SCENE).y);
 
-            // render_element_input();
+            render_element_input();
 
             // Render both the skybox and the static meshes in the scene
-            // provider.input_data.fb->Unbind();
+            provider.input_data.fbo->Unbind();
         }
     }
 
@@ -243,30 +278,45 @@ namespace Vultr::RenderSystem
     {
         auto &provider = get_provider();
 
-        // glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        // for (Entity entity : provider.entities)
-        // {
-        //     TransformComponent &transform = entity_get_component<TransformComponent>(entity);
-        //     StaticMeshComponent &mesh = entity_get_component<StaticMeshComponent>(entity);
-        //     Mesh *mesh_obj = mesh.GetMesh();
-        //     if (mesh_obj != nullptr)
-        //     {
-        //         Shader *shader = provider.input_shader;
-        //         shader->Bind();
+        // Both have to be cleared before rendering to the input buffer
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        //         shader->SetUniformMatrix4fv("model", glm::value_ptr(transform.Matrix()));
+        // Render all elements, except use the input shader
+        for (Entity entity : provider.entities)
+        {
 
-        //         const RenderContext &context = RenderContext::GetContext();
+            // All the components we need
+            auto &transform = entity_get_component<TransformComponent>(entity);
+            auto &mesh = entity_get_component<StaticMeshComponent>(entity);
+            auto *mesh_obj = MeshLoaderSystem::get_mesh(mesh.path.c_str());
 
-        //         shader->SetUniformMatrix4fv("projection", glm::value_ptr(context.camera_component.GetProjectionMatrix(context.dimensions.x, context.dimensions.y)));
-        //         shader->SetUniformMatrix4fv("view", glm::value_ptr(context.camera_transform.GetViewMatrix()));
-        //         int r = (entity.id & 0x000000FF) >> 0;
-        //         int g = (entity.id & 0x0000FF00) >> 8;
-        //         int b = (entity.id & 0x00FF0000) >> 16;
-        //         shader->SetUniform4f("color", glm::vec4(r / 255.0f, g / 255.0f, b / 255.0f, 1.0f));
-        //         mesh_obj->Draw();
-        //     }
-        // }
+            // If the mesh has loaded
+            if (mesh_obj != nullptr)
+            {
+                // Get the render context data
+                const auto &context = RenderContext::GetContext();
+
+                // Use the input shader
+                Shader *shader = provider.input_shader;
+                shader->Bind();
+
+                // Set MVP uniforms
+                shader->SetUniformMatrix4fv("model", glm::value_ptr(transform.Matrix()));
+                shader->SetUniformMatrix4fv("projection", glm::value_ptr(context.camera_component.GetProjectionMatrix(context.dimensions.x, context.dimensions.y)));
+                shader->SetUniformMatrix4fv("view", glm::value_ptr(context.camera_transform.GetViewMatrix()));
+
+                // Get an RGB value that will be used to represent our object using an entity id
+                int r = (entity & 0x000000FF) >> 0;
+                int g = (entity & 0x0000FF00) >> 8;
+                int b = (entity & 0x00FF0000) >> 16;
+
+                // And use that as the color for our object which will single color shaded
+                shader->SetUniform4f("color", glm::vec4(r / 255.0f, g / 255.0f, b / 255.0f, 1.0f));
+
+                // Draw the mesh
+                mesh_obj->Draw();
+            }
+        }
     }
 
     void render_skybox(u8 type)

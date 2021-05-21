@@ -26,7 +26,7 @@ Editor::~Editor()
     windows.shrink_to_fit();
 }
 
-void Editor::Editor::Render()
+void Editor::Render()
 {
     glDisable(GL_DEPTH_TEST);
 
@@ -70,4 +70,17 @@ void Editor::Editor::Render()
     ImGui::RenderPlatformWindowsDefault();
     glfwMakeContextCurrent(backup_current_context);
     glEnable(GL_DEPTH_TEST);
+}
+
+void Editor::ClearSelections()
+{
+    selected_entity = selected_entity_queue.back();
+    while (!selected_entity_queue.empty())
+    {
+        selected_entity_queue.pop();
+    }
+}
+void Editor::QueueEntitySelection(Vultr::Entity entity)
+{
+    selected_entity_queue.push(entity);
 }

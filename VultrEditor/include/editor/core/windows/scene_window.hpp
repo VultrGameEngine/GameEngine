@@ -4,5 +4,6 @@
 class SceneWindow : public Window
 {
   public:
+    SceneWindow();
     void Render() override;
 };

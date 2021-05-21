@@ -33,6 +33,7 @@ namespace Vultr
             ViewportData input_data;
 
             Shader *post_processing_shader;
+            Shader *input_shader;
             Mesh *render_quad;
             Mesh *skybox;
         };
@@ -40,6 +41,9 @@ namespace Vultr
         Component &get_provider();
 
         glm::vec2 get_dimensions(u8 type);
+
+        Entity get_entity_at_pixel(s32 x, s32 y);
+
     } // namespace RenderSystem
     template <>
     inline const char *get_struct_name<RenderSystem::Component>()

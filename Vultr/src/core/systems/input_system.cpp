@@ -12,10 +12,19 @@ namespace Vultr::InputSystem
         Signature signature;
         register_global_system<Component>(signature);
     }
+
     void on_mouse_input(GLFWwindow *window, int button, int action, int mods)
     {
         auto &provider = get_provider();
+        bool prev_mouse_down = provider.mouse_down;
         provider.mouse_down = action == GLFW_PRESS;
+        if (prev_mouse_down && !provider.mouse_down)
+        {
+            for (auto [name, event] : provider.mouse_click_events)
+            {
+                event(button);
+            }
+        }
         Input::MouseButtonInputEvent event = Input::MouseButtonInputEvent(provider.mouse_pos, provider.mouse_down);
         if (!GUISystem::receive_mouse_button_event(event))
         {
@@ -91,6 +100,10 @@ namespace Vultr::InputSystem
             {
             }
         }
+    }
+    void on_mouse_click(const char *name, MouseClickEvent event)
+    {
+        get_provider().mouse_click_events[name] = event;
     }
 
 } // namespace Vultr::InputSystem

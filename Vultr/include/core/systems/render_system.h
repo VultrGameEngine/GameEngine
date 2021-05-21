@@ -14,8 +14,9 @@ namespace Vultr::RenderSystem
     void init();
     void update(const UpdateTick &meta_data);
 
-    void init_g_buffer(int width, int height);
-    void generate_render_texture(ViewportData &data, int width, int height);
-    void resize(int width, int height, u8 type);
-    void update_viewport_pos(int x, int y, u8 type);
+    void init_g_buffer(s32 width, s32 height);
+    void generate_render_texture(ViewportData &data, s32 width, s32 height);
+    void generate_input_render_texture(s32 width, s32 height);
+    void resize(s32 width, s32 height, u8 type);
+    void update_viewport_pos(s32 x, s32 y, u8 type);
 } // namespace Vultr::RenderSystem

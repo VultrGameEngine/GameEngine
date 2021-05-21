@@ -4,6 +4,7 @@
 #include <ImGuizmo/ImGuizmo.h>
 #include <ecs/entity/entity.hpp>
 #include <vector>
+#include <queue>
 
 class Editor
 {
@@ -24,7 +25,11 @@ class Editor
     Vultr::Entity selected_entity;
     ImGuizmo::OPERATION current_operation = ImGuizmo::OPERATION::TRANSLATE;
 
+    void QueueEntitySelection(Vultr::Entity entity);
+    void ClearSelections();
+
   private:
     std::vector<Window *> windows;
+    std::queue<Vultr::Entity> selected_entity_queue;
     unsigned int dockspace = 1;
 };
