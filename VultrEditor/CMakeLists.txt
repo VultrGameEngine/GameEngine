@@ -14,5 +14,7 @@ include_directories(include vendor ../Vultr/include ../Vultr/vendor ../VTL/inclu
 
 set(CMAKE_CXX_STANDARD 17)
 add_executable(VultrEditor ${VultrEditor_SRC})
-target_link_libraries(VultrEditor GL glfw3 X11 Xxf86vm Xrandr pthread Xi dl assimp /home/brandon/Dev/GameEngine/Vultr/build/libVultrShared.so)
+target_link_libraries(VultrEditor GL glfw3 X11 Xxf86vm Xrandr pthread Xi dl assimp)
+target_link_libraries(VultrEditor debug /home/brandon/Dev/GameEngine/Vultr/release/libVultrShared.so)
+# target_link_libraries(VultrEditor optimized /home/brandon/Dev/GameEngine/Vultr/release/libVultrShared.so)
 target_precompile_headers(VultrEditor PUBLIC pch.h)
