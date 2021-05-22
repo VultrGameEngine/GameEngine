@@ -5,7 +5,7 @@ namespace Vultr
 {
     namespace SkyboxMaterial
     {
-        MaterialComponent Create(const char *p_identifier);
+        MaterialComponent Create(const char *front, const char *back, const char *top, const char *bottom, const char *left, const char *right);
 
     } // namespace SkyboxMaterial
 } // namespace Vultr

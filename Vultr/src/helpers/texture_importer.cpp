@@ -29,6 +29,7 @@ namespace Vultr
             stbi_image_free(buffer);
         return true;
     }
+
     bool TextureImporter::ImportSkybox(const std::vector<std::string> &paths, Texture &texture)
     {
         stbi_set_flip_vertically_on_load(0);

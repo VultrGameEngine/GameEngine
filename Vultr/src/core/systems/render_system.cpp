@@ -262,7 +262,7 @@ namespace Vultr::RenderSystem
         for (Entity entity : provider.entities)
         {
             MaterialComponent &material = entity_get_component<MaterialComponent>(entity);
-            if (!material.identifier.empty())
+            if (signature_contains(entity_get_signature(entity), get_component_type<SkyBoxComponent>()))
                 continue;
             TransformComponent &transform = entity_get_component<TransformComponent>(entity);
             StaticMeshComponent &mesh = entity_get_component<StaticMeshComponent>(entity);
@@ -331,22 +331,22 @@ namespace Vultr::RenderSystem
         Signature camera_signature = entity_get_signature(camera);
 
         // If the camera doesn't have both a skybox and material component, then we can't render a skybox
-        if (!((camera_signature & signature) == signature))
-            return;
+        if (entity_has_component<SkyBoxComponent>(camera) && entity_has_component<MaterialComponent>(camera))
+        {
+            glDepthFunc(GL_LEQUAL); // Ensure depth test passes when values are equal to
+                                    // the depth buffer's content
+            glDepthMask(GL_FALSE);  // Disable depth mask
 
-        glDepthFunc(GL_LEQUAL); // Ensure depth test passes when values are equal to
-                                // the depth buffer's content
-        glDepthMask(GL_FALSE);  // Disable depth mask
+            // Get the components needed to render
+            auto &material_component = entity_get_component<MaterialComponent>(camera);
+            auto &skybox_component = entity_get_component<SkyBoxComponent>(camera);
 
-        // Get the components needed to render
-        auto &material_component = entity_get_component<MaterialComponent>(camera);
-        auto &skybox_component = entity_get_component<SkyBoxComponent>(camera);
+            Renderer3D::ForwardRenderer::BindMaterial(material_component, RenderContext::GetContext().camera_transform.Matrix(), skybox_component.identifier.c_str());
 
-        Renderer3D::ForwardRenderer::BindMaterial(material_component, RenderContext::GetContext().camera_transform.Matrix());
-
-        get_provider().skybox->Draw();
-        glDepthMask(GL_TRUE);
-        glDepthFunc(GL_LESS); // Reset depth test
+            get_provider().skybox->Draw();
+            glDepthMask(GL_TRUE);
+            glDepthFunc(GL_LESS); // Reset depth test
+        }
     }
 
 } // namespace Vultr::RenderSystem

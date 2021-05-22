@@ -43,9 +43,18 @@ struct MaterialComponent
         return MaterialComponent();
     }
 
-    std::string identifier = "";
+    std::vector<std::string> get_paths()
+    {
+        auto vec = std::vector<std::string>();
+        vec.reserve(textures.size());
+        for (auto pair : textures)
+        {
+            vec.push_back(pair.path.GetPath());
+        }
+        return vec;
+    }
 };
 
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(MaterialComponent::TexturePair, path, slot);
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Color, value);
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(MaterialComponent, identifier, shader_source, textures, vec3s, vec4s, colors, ints, floats);
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(MaterialComponent, shader_source, textures, vec3s, vec4s, colors, ints, floats);

@@ -6,12 +6,12 @@
 
 namespace Vultr::Renderer3D
 {
-    void ForwardRenderer::Submit(const MaterialComponent &material, const glm::mat4 &transform, const Mesh &mesh)
+    void ForwardRenderer::Submit(const MaterialComponent &material, const glm::mat4 &transform, const Mesh &mesh, const char *skybox_identifier)
     {
-        BindMaterial(material, transform);
+        BindMaterial(material, transform, skybox_identifier);
         mesh.Draw();
     }
-    void ForwardRenderer::BindMaterial(const MaterialComponent &material, const glm::mat4 &transform)
+    void ForwardRenderer::BindMaterial(const MaterialComponent &material, const glm::mat4 &transform, const char *skybox_identifier)
     {
         Shader *shader = ShaderLoaderSystem::get_shader(material.shader_source.GetPath().c_str());
         if (shader == nullptr)
@@ -24,18 +24,21 @@ namespace Vultr::Renderer3D
         shader->SetUniformMatrix4fv("projection", glm::value_ptr(context.camera_component.GetProjectionMatrix(context.dimensions.x, context.dimensions.y)));
         shader->SetUniform3f("lightPos", context.light_position);
         shader->SetUniform3f("viewPos", context.camera_transform.position);
-        for (auto [file, slot, name] : material.textures)
+        if (skybox_identifier != nullptr)
         {
-            Texture *texture = TextureLoaderSystem::get_texture(file.GetPath().c_str());
+            Texture *texture = TextureLoaderSystem::get_texture(skybox_identifier);
             if (texture != nullptr)
-                texture->Bind(GL_TEXTURE0 + slot);
-        }
-        if (!material.identifier.empty())
-        {
+                texture->Bind(GL_TEXTURE0);
             shader->SetUniformMatrix4fv("view", glm::value_ptr(glm::mat4(glm::mat3(context.camera_transform.GetViewMatrix()))));
         }
         else
         {
+            for (auto [file, slot, name] : material.textures)
+            {
+                Texture *texture = TextureLoaderSystem::get_texture(file.GetPath().c_str());
+                if (texture != nullptr)
+                    texture->Bind(GL_TEXTURE0 + slot);
+            }
             shader->SetUniformMatrix4fv("view", glm::value_ptr(context.camera_transform.GetViewMatrix()));
         }
 

@@ -49,14 +49,16 @@ namespace Vultr::TextureLoaderSystem
     {
         auto &provider = get_provider();
         auto &component = entity_get_component<MaterialComponent>(entity);
-        if (!component.identifier.empty())
+        Signature signature;
+        signature.set(get_component_type<SkyBoxComponent>());
+        if (entity_has_component<SkyBoxComponent>(entity))
         {
             auto &skybox_component = entity_get_component<SkyBoxComponent>(entity);
-            if (!is_loaded(skybox_component.identifier.GetPath().c_str()))
+            if (!is_loaded(skybox_component.identifier.c_str()))
             {
                 Texture *texture = new Texture(GL_TEXTURE_CUBE_MAP);
-                provider.textures[skybox_component.identifier.GetPath()] = texture;
-                TextureImporter::ImportSkybox(skybox_component.get_paths(), *texture);
+                provider.textures[skybox_component.identifier] = texture;
+                TextureImporter::ImportSkybox(component.get_paths(), *texture);
             }
         }
         else

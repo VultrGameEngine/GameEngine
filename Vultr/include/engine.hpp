@@ -83,7 +83,7 @@ namespace Vultr
     {
         World *world = get_current_world();
         assert(world != nullptr && WORLD_DOESNT_EXIST_ERROR(entity_has_component));
-        return component_manager_get_component_array<T>(world_get_component_manager(world), get_component_type<T>())->HasComponent(entity);
+        return component_manager_get_component_array<T>(world_get_component_manager(world), get_component_type<T>())->HasData(entity);
     }
 
     template <typename T>

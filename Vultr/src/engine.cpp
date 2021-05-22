@@ -461,7 +461,7 @@ void RenderComponent<MaterialComponent>(Vultr::Entity entity)
 #ifndef WIN32
 VULTR_REGISTER_COMPONENT(TransformComponent, position, rotation, scale);
 VULTR_REGISTER_COMPONENT(StaticMeshComponent, source);
-VULTR_REGISTER_COMPONENT(SkyBoxComponent, identifier, front, back, top, bottom, left, right);
+VULTR_REGISTER_COMPONENT(SkyBoxComponent, identifier);
 VULTR_REGISTER_COMPONENT(LightComponent, some_param);
 VULTR_REGISTER_COMPONENT(ControllerComponent, sens);
 VULTR_REGISTER_COMPONENT(CameraComponent, enabled, fov, znear, zfar);

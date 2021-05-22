@@ -15,9 +15,9 @@ void SandboxTest::Init()
     entity_add_component(camera, ControllerComponent::Create());
 
     entity_add_component(camera, TransformComponent::Create(glm::vec3(0, 0, 0), glm::quat(1, 0, 0, 0), glm::vec3(5, 5, 5)));
-    entity_add_component(camera, SkyBoxComponent::Create("default", "textures/skybox/front.jpg", "textures/skybox/back.jpg", "textures/skybox/top.jpg", "textures/skybox/bottom.jpg",
-                                                         "textures/skybox/left.jpg", "textures/skybox/right.jpg"));
-    entity_add_component(camera, SkyboxMaterial::Create("default"));
+    entity_add_component(camera, SkyBoxComponent::Create());
+    entity_add_component(
+        camera, SkyboxMaterial::Create("textures/skybox/front.jpg", "textures/skybox/back.jpg", "textures/skybox/top.jpg", "textures/skybox/bottom.jpg", "textures/skybox/left.jpg", "textures/skybox/right.jpg"));
 
     Entity light = create_entity(get_current_world());
 
