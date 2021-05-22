@@ -40,7 +40,9 @@ struct MaterialComponent
 
     static MaterialComponent Create()
     {
-        return MaterialComponent();
+        auto component = MaterialComponent();
+        component.shader_source.extension = SHADER_FILE_EXTENSIONS;
+        return component;
     }
 
     std::vector<std::string> get_paths()

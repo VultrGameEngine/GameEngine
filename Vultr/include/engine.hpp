@@ -30,7 +30,7 @@ namespace Vultr
     void engine_register_default_components(Engine &e);
     void engine_init_default_systems(Engine &e);
     void engine_init_game(Engine &e);
-    void engine_update_game(Engine &e, float &last_time);
+    void engine_update_game(Engine &e, float &last_time, bool play);
     double engine_get_time_elapsed(Engine &e);
 
 #define WORLD_DOESNT_EXIST_ERROR(function_name) "Cannot call " #function_name " because world does not exist! Make sure you create a world before calling this method."
@@ -100,7 +100,6 @@ namespace Vultr
     void register_component()
     {
         component_registry_register_component<T>(engine_global().component_registry, [](Entity entity) { entity_add_component(entity, T::Create()); });
-        component_manager_get_component_array<T>(world_get_component_manager(get_current_world()), get_component_type<T>());
     }
 
     template <typename T>
@@ -126,6 +125,14 @@ namespace Vultr
     void deregister_global_system()
     {
         return system_manager_deregister_system<T>(engine_global().system_manager);
+    }
+
+    template <typename T>
+    T *world_get_system_provider()
+    {
+        World *world = get_current_world();
+        assert(world != nullptr && WORLD_DOESNT_EXIST_ERROR(world_get_system_provider));
+        return system_manager_get_system_provider<T>(world_get_system_manager(world));
     }
 
     template <typename T>

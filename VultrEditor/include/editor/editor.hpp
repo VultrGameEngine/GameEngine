@@ -28,6 +28,8 @@ class Editor
     void QueueEntitySelection(Vultr::Entity entity);
     void ClearSelections();
 
+    bool playing = false;
+
   private:
     std::vector<Window *> windows;
     std::queue<Vultr::Entity> selected_entity_queue;

@@ -41,6 +41,10 @@ namespace Vultr
         for (auto &element : j["Components"].items())
         {
             std::string component_name = std::string(element.key().c_str());
+            if (r.component_name_to_type.find(component_name.c_str()) == r.component_name_to_type.end())
+            {
+                continue;
+            }
             ComponentType type = r.component_name_to_type.at(component_name.c_str());
             if (m.component_arrays.find(type) != m.component_arrays.end())
             {

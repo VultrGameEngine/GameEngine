@@ -77,7 +77,6 @@ void SceneWindow::Render()
     // Get the currently selected entity in the EntityWindow
     Entity selected_entity = Editor::Get()->selected_entity;
 
-    // If an entity is selected
     if (selected_entity != INVALID_ENTITY)
     {
 
@@ -97,29 +96,43 @@ void SceneWindow::Render()
         auto cameraView = editor_camera_transform.GetViewMatrix();
 
         // Entity transform
-        auto &tc = entity_get_component<TransformComponent>(selected_entity);
-        glm::mat4 transform = tc.Matrix();
+        auto *tc = entity_get_component_unsafe<TransformComponent>(selected_entity);
 
-        // Snapping
-        // bool snap = Input::IsKeyPressed(Key::LeftControl);
-        // float snapValue = 0.5f; // Snap to 0.5m for translation/scale
-        // // Snap to 45 degrees for rotation
-        // if (m_GizmoType == ImGuizmo::OPERATION::ROTATE)
-        //     snapValue = 45.0f;
-
-        // float snapValues[3] = {snapValue, snapValue, snapValue};
-
-        ImGuizmo::Manipulate(glm::value_ptr(cameraView), glm::value_ptr(cameraProjection), (ImGuizmo::OPERATION)Editor::Get()->current_operation, ImGuizmo::LOCAL, glm::value_ptr(transform), nullptr, nullptr);
-
-        if (ImGuizmo::IsUsing())
+        // TODO Fix this, there is an issue where entity_get_component will cause an assert and crash the editor, I'm not entirely sure what the issue is because it doesn't seem like anything is dependent on the
+        // selected_entity of the editor thus no threading issues it seems?
+        //
+        // In the mean time, use entity_get_component_unsafe just to make sure that the editor doesn't crash and simply quietly handles it, will fix it if it does actually cause problems
+        //
+        // If an entity is selected
+        if (tc != nullptr)
         {
-            glm::vec3 translation, rotation, scale;
-            Math::DecomposeTransform(transform, translation, rotation, scale);
+            glm::mat4 transform = tc->Matrix();
 
-            glm::vec3 deltaRotation = rotation - glm::eulerAngles(tc.rotation);
-            tc.position = translation;
-            tc.rotation = glm::quat(rotation);
-            tc.scale = scale;
+            // Snapping
+            // bool snap = Input::IsKeyPressed(Key::LeftControl);
+            // float snapValue = 0.5f; // Snap to 0.5m for translation/scale
+            // // Snap to 45 degrees for rotation
+            // if (m_GizmoType == ImGuizmo::OPERATION::ROTATE)
+            //     snapValue = 45.0f;
+
+            // float snapValues[3] = {snapValue, snapValue, snapValue};
+
+            ImGuizmo::Manipulate(glm::value_ptr(cameraView), glm::value_ptr(cameraProjection), (ImGuizmo::OPERATION)Editor::Get()->current_operation, ImGuizmo::LOCAL, glm::value_ptr(transform), nullptr, nullptr);
+
+            if (ImGuizmo::IsUsing())
+            {
+                glm::vec3 translation, rotation, scale;
+                Math::DecomposeTransform(transform, translation, rotation, scale);
+
+                glm::vec3 deltaRotation = rotation - glm::eulerAngles(tc->rotation);
+                tc->position = translation;
+                tc->rotation = glm::quat(rotation);
+                tc->scale = scale;
+            }
+        }
+        else
+        {
+            std::cout << "Error getting transform component from entity" << std::endl;
         }
     }
     ImGui::End();

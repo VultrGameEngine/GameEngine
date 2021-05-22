@@ -15,7 +15,7 @@ namespace Vultr
     {
       public:
         File() = default;
-        File(const std::string &p_path, const char *p_extension = nullptr);
+        File(const std::string &p_path, const std::string &p_extension = ".*");
         ~File() = default;
         std::filesystem::path GetPath() const;
 
@@ -28,14 +28,13 @@ namespace Vultr
 
         const char *GetExtension() const
         {
-            return extension;
+            return extension.c_str();
         }
 
         void Delete();
 
-      private:
         std::string path;
-        const char *extension;
+        std::string extension = ".*";
         friend bool operator<(const File &a, const File &b);
         friend bool operator==(const File &a, const File &b);
 

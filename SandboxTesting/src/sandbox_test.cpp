@@ -4,40 +4,20 @@
 #include <component_registrar.h>
 
 using namespace Vultr;
+void SandboxTest::RegisterComponents()
+{
+    register_components();
+}
+
 void SandboxTest::Init()
 {
-    change_world(new_world(engine_global().component_registry));
-    register_components();
-
-    Entity camera = create_entity(get_current_world());
-    CameraComponent camera_component = CameraComponent::Create();
-    entity_add_component(camera, camera_component);
-    entity_add_component(camera, ControllerComponent::Create());
-
-    entity_add_component(camera, TransformComponent::Create(glm::vec3(0, 0, 0), glm::quat(1, 0, 0, 0), glm::vec3(5, 5, 5)));
-    entity_add_component(camera, SkyBoxComponent::Create());
-    entity_add_component(
-        camera, SkyboxMaterial::Create("textures/skybox/front.jpg", "textures/skybox/back.jpg", "textures/skybox/top.jpg", "textures/skybox/bottom.jpg", "textures/skybox/left.jpg", "textures/skybox/right.jpg"));
-
-    Entity light = create_entity(get_current_world());
-
-    entity_add_component(light, LightComponent::Create());
-
-    entity_add_component(light, TransformComponent::Create(glm::vec3(0, 0, 30), glm::quat(1, 0, 0, 0), glm::vec3(4, 4, 4)));
-    entity_add_component(light, Vultr::UnlitMaterial::Create());
-
-    for (int i = 0; i < 100; i++)
-    {
-        Entity cube = create_entity(get_current_world());
-        entity_add_component(cube, TransformComponent::Create(glm::vec3(0, 0, i * 2), glm::quat(1, 0, 0, 0), glm::vec3(1, 1, 1)));
-        entity_add_component(cube, StaticMeshComponent::Create());
-        entity_add_component(cube, Vultr::ForwardMaterial::Create("textures/cube/diffuse.png"));
-    }
+    TestSystem::register_system();
 }
 
 void SandboxTest::Update(const Vultr::UpdateTick &tick)
 {
-    // printf("%f ms\n", tick.m_delta_time);
+    TestSystem::update(tick);
+    printf("%f ms\n", tick.m_delta_time);
 }
 
 void SandboxTest::Flush()

@@ -140,6 +140,10 @@ namespace Vultr
             io.Fonts->AddFontFromFileTTF(Path::GetFullPath("fonts/Roboto-Regular.ttf").c_str(), 30);
             ImGui::StyleColorsDark();
         }
+
+        change_world(new_world(e.component_registry));
+        engine_register_default_components(e);
+        engine_init_default_systems(e);
     }
 
     void engine_load_game(Engine &e, const char *path)
@@ -198,7 +202,7 @@ namespace Vultr
         assert(e.game != nullptr && "Game has not been loaded!");
         e.game->Init();
     }
-    void engine_update_game(Engine &e, float &last_time)
+    void engine_update_game(Engine &e, float &last_time, bool play)
     {
         e.should_close = glfwWindowShouldClose(e.window);
 
@@ -207,7 +211,7 @@ namespace Vultr
         last_time = t;
         UpdateTick tick = UpdateTick(deltaTime, e.debug);
 
-        if (e.game != nullptr)
+        if (e.game != nullptr && play)
             e.game->Update(tick);
 
         // Only continuously update the meshes if we are planning on changing

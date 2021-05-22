@@ -4,7 +4,7 @@
 
 namespace Vultr
 {
-    File::File(const std::string &p_path, const char *p_extensions) : path(p_path), extension(p_extensions)
+    File::File(const std::string &p_path, const std::string &p_extensions) : path(p_path), extension(p_extensions)
     {
     }
 
@@ -26,7 +26,7 @@ namespace Vultr
     void to_json(json &j, const File &f)
     {
         j["path"] = f.path;
-        j["extension"] = std::string(f.extension);
+        j["extension"] = f.extension;
     }
     void from_json(const json &j, File &f)
     {

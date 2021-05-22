@@ -25,7 +25,7 @@ namespace Vultr
         // will return false if component names are changed
         for (auto [type, name] : r_old.component_type_to_name)
         {
-            if (r.component_type_to_name.at(type) != name)
+            if (r.component_type_to_name.find(type) == r.component_type_to_name.end() || r.component_type_to_name.at(type) != name)
                 return false;
         }
         return true;

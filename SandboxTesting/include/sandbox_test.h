@@ -7,6 +7,7 @@ class SandboxTest : public Game
     SandboxTest(Vultr::Engine *p_engine) : engine(p_engine)
     {
     }
+    void RegisterComponents() override;
     void Init() override;
     void Update(const Vultr::UpdateTick &tick) override;
     void Flush() override;
