@@ -375,7 +375,7 @@ void RenderMember(const std::string &name, File &file)
             std::string filePathName = ImGuiFileDialog::Instance()->GetFilePathName();
             std::string filePath = ImGuiFileDialog::Instance()->GetCurrentPath();
             std::cout << "Path " << filePath << std::endl;
-            file = File(Path::get_shortened_resource_path(filePathName), file.GetExtension());
+            file.path = Path::get_shortened_resource_path(filePathName);
         }
         ImGuiFileDialog::Instance()->Close();
     }
@@ -515,7 +515,7 @@ void RenderComponent<MaterialComponent>(Vultr::Entity entity)
 
         // Skybox
         case 3: {
-            for (auto pair : component.textures)
+            for (auto &pair : component.textures)
             {
                 ImGui::PushID(pair.name.c_str());
                 RenderMember(pair.name, pair.path);

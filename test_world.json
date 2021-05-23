@@ -66,7 +66,7 @@
                                 "name": "Right",
                                 "path": {
                                     "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
-                                    "path": ""
+                                    "path": "textures/skybox/right.jpg"
                                 },
                                 "slot": 0
                             },
@@ -74,7 +74,7 @@
                                 "name": "Left",
                                 "path": {
                                     "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
-                                    "path": ""
+                                    "path": "textures/skybox/left.jpg"
                                 },
                                 "slot": 0
                             },
@@ -82,7 +82,7 @@
                                 "name": "Top",
                                 "path": {
                                     "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
-                                    "path": ""
+                                    "path": "textures/skybox/top.jpg"
                                 },
                                 "slot": 0
                             },
@@ -90,7 +90,7 @@
                                 "name": "Bottom",
                                 "path": {
                                     "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
-                                    "path": ""
+                                    "path": "textures/skybox/bottom.jpg"
                                 },
                                 "slot": 0
                             },
@@ -98,7 +98,7 @@
                                 "name": "Front",
                                 "path": {
                                     "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
-                                    "path": ""
+                                    "path": "textures/skybox/front.jpg"
                                 },
                                 "slot": 0
                             },
@@ -106,7 +106,7 @@
                                 "name": "Back",
                                 "path": {
                                     "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
-                                    "path": ""
+                                    "path": "textures/skybox/back.jpg"
                                 },
                                 "slot": 0
                             }
@@ -153,29 +153,58 @@
                         ],
                         "vec3s": {},
                         "vec4s": {}
+                    },
+                    {
+                        "colors": {
+                            "lightColor": {
+                                "value": {
+                                    "w": 1.0,
+                                    "x": 1.0,
+                                    "y": 0.9999899864196777,
+                                    "z": 0.9999899864196777
+                                }
+                            }
+                        },
+                        "floats": {},
+                        "ints": {},
+                        "shader_source": {
+                            "extension": "Shader (*.glsl) {.glsl}",
+                            "path": "shaders/unlit.glsl"
+                        },
+                        "textures": [],
+                        "vec3s": {},
+                        "vec4s": {}
                     }
                 ],
                 "entity_to_index_map": [
+                    [
+                        2,
+                        0
+                    ],
+                    [
+                        1,
+                        1
+                    ],
+                    [
+                        4,
+                        2
+                    ]
+                ],
+                "index_to_entity_map": [
+                    [
+                        0,
+                        2
+                    ],
                     [
                         1,
                         1
                     ],
                     [
                         2,
-                        0
+                        4
                     ]
                 ],
-                "index_to_entity_map": [
-                    [
-                        1,
-                        1
-                    ],
-                    [
-                        0,
-                        2
-                    ]
-                ],
-                "size": 2
+                "size": 3
             },
             "SkyBoxComponent": {
                 "component_array": [
@@ -204,21 +233,35 @@
                             "extension": "Image (*.obj *.fbx...){.obj,.fbx,.blend,}",
                             "path": "models/cube.obj"
                         }
+                    },
+                    {
+                        "source": {
+                            "extension": "Image (*.obj *.fbx...){.obj,.fbx,.blend,}",
+                            "path": "models/cube.obj"
+                        }
                     }
                 ],
                 "entity_to_index_map": [
                     [
                         1,
                         0
+                    ],
+                    [
+                        4,
+                        1
                     ]
                 ],
                 "index_to_entity_map": [
                     [
                         0,
                         1
+                    ],
+                    [
+                        1,
+                        4
                     ]
                 ],
-                "size": 1
+                "size": 2
             },
             "TestComponent": {
                 "entity_to_index_map": [],
@@ -229,20 +272,20 @@
                 "component_array": [
                     {
                         "position": {
-                            "x": 0.0,
-                            "y": 0.0,
-                            "z": 0.0
+                            "x": 0.058887332677841187,
+                            "y": -3.814697265625e-06,
+                            "z": 0.07356548309326172
                         },
                         "rotation": {
-                            "w": -0.040322210639715195,
+                            "w": -0.04032221436500549,
                             "x": 7.84807454579095e-08,
                             "y": 0.9991867542266846,
                             "z": 7.84807454579095e-08
                         },
                         "scale": {
-                            "x": 0.9999942779541016,
+                            "x": 1.0,
                             "y": 1.0,
-                            "z": 0.9999942779541016
+                            "z": 1.0
                         }
                     },
                     {
@@ -283,9 +326,9 @@
                     },
                     {
                         "position": {
-                            "x": -2.875340223312378,
-                            "y": 1.3481868505477905,
-                            "z": 2.019987106323242
+                            "x": -4.380875587463379,
+                            "y": 1.3481872081756592,
+                            "z": -4.84926176071167
                         },
                         "rotation": {
                             "w": 1.0,
@@ -302,38 +345,38 @@
                 ],
                 "entity_to_index_map": [
                     [
-                        1,
-                        0
-                    ],
-                    [
-                        2,
-                        1
+                        4,
+                        3
                     ],
                     [
                         3,
                         2
                     ],
                     [
-                        4,
-                        3
+                        2,
+                        1
+                    ],
+                    [
+                        1,
+                        0
                     ]
                 ],
                 "index_to_entity_map": [
                     [
-                        0,
-                        1
-                    ],
-                    [
-                        1,
-                        2
+                        3,
+                        4
                     ],
                     [
                         2,
                         3
                     ],
                     [
-                        3,
-                        4
+                        1,
+                        2
+                    ],
+                    [
+                        0,
+                        1
                     ]
                 ],
                 "size": 4
@@ -465,8 +508,8 @@
                 0
             ],
             "4": [
-                0,
-                0,
+                1,
+                1,
                 1,
                 1,
                 0,
