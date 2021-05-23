@@ -93,7 +93,7 @@ namespace Vultr
 
         std::string generated_header = m_FullFilepath.GetName().substr(0, m_FullFilepath.GetName().size() - 2) + ".generated.h";
 
-        file << "#include \"" << generated_header << "\";\n";
+        file << "#include \"" << generated_header << "\"\n";
 
         file << "using namespace Vultr;\n";
 
@@ -178,6 +178,36 @@ namespace Vultr
                 file << "\t\tstd::cout << \" Value not found in saved file for member " << member.m_Identifier << " in component " << component.m_ClassName << "\" << __FILE__ << \", \" << __LINE__ << std::endl;\n";
                 file << "\t}\n";
             }
+            file << "}\n";
+            file << "template<> void Vultr::ComponentArray<" << component.m_ClassName << ">::to_json(json &j) const \n";
+            file << "{\n";
+            file << "\tj[\"entity_to_index_map\"] = entity_to_index_map;\n";
+            file << "\tj[\"index_to_entity_map\"] = index_to_entity_map;\n";
+            file << "\tj[\"size\"] = size;\n";
+            file << "\tfor (int i = 0; i < size; i++)\n";
+            file << "\t{\n";
+            file << "\t\tj[\"component_array\"].push_back(component_array[i]);\n";
+            file << "\t}\n";
+            file << "}\n";
+
+            file << "template<> void Vultr::ComponentArray<" << component.m_ClassName << ">::from_json(const json &j) \n";
+            file << "{\n";
+            file << "\tif (j.find(\"component_array\") != j.end())\n";
+            file << "\t{\n";
+            file << "\t\tfor (auto &component : j[\"component_array\"].items())\n";
+            file << "\t\t{\n";
+            file << "\t\t\tcomponent_array[atoi(component.key().c_str())] = component.value();\n";
+            file << "\t\t}\n";
+            file << "\t}\n";
+            file << "\tif (j.find(\"index_to_entity_map\") != j.end())\n";
+            file << "\t{\n";
+            file << "\t\tindex_to_entity_map = j[\"index_to_entity_map\"].get<std::unordered_map<size_t, Entity>>();\n";
+            file << "\t}\n";
+            file << "\tif (j.find(\"entity_to_index_map\") != j.end())\n";
+            file << "\t{\n";
+            file << "\t\tentity_to_index_map = j[\"entity_to_index_map\"].get<std::unordered_map<Entity, size_t>>();\n";
+            file << "\t}\n";
+            file << "\tsize = j[\"size\"].get<size_t>();\n";
             file << "}\n";
         }
 
