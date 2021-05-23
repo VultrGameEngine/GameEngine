@@ -1,4 +1,4 @@
-#include <game.hpp>
+﻿#include <game.hpp>
 #include <vultr.hpp>
 #ifdef WIN32
 #include <windows.h>

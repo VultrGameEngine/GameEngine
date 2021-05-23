@@ -1,4 +1,4 @@
-#include <helpers/path.h>
+﻿#include <helpers/path.h>
 #ifdef WIN32
 #include <Windows.h>
 #else
@@ -6,6 +6,7 @@
 #endif
 #include <limits.h>
 #include <assert.h>
+#include <types/types.hpp>
 
 namespace Vultr::Path
 {
@@ -26,6 +27,11 @@ namespace Vultr::Path
         return windows_path;
     }
 
+    static void convert_windows_path(std::string &path)
+    {
+        std::replace(path.begin(), path.end(), '\\', '/');
+    }
+
     void set_resource_path(const std::string &path)
     {
         get_resource_path() = path;
@@ -37,8 +43,12 @@ namespace Vultr::Path
         return resource_path;
     }
 
-    std::string get_shortened_resource_path(const std::string &path)
+    std::string get_shortened_resource_path(const std::string &p_path)
     {
+        std::string path = p_path;
+#ifdef _WIN32
+        convert_windows_path(path);
+#endif
         if (path.size() < get_resource_path().size())
             return path;
         if (path.substr(0, get_resource_path().size()) == get_resource_path())
