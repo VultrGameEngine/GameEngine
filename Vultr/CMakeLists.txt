@@ -44,6 +44,7 @@ if(WIN32)
     find_library(ASSIMP assimp HINTS C:/Users/Brand/Dev/GameEngine/Vultr/vendor/libs/WIN32)
     # add_executable(Vultr ${Vultr_SRC})
     add_library(Vultr STATIC ${Vultr_SRC})
+    target_precompile_headers(Vultr PUBLIC pch.h)
     target_link_libraries(Vultr ${GLFW3} ${FREETYPE} ${ASSIMP} opengl32)
     add_custom_command(TARGET Vultr POST_BUILD
 	COMMAND ${CMAKE_COMMAND} -E copy_if_different  

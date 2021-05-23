@@ -363,7 +363,7 @@ void RenderMember(const std::string &name, File &file)
 {
     ImGui::Text("%s", name.c_str());
     ImGui::SameLine();
-    if (ImGui::Button(Path::get_shortened_resource_path(file.GetPath()).c_str()))
+    if (ImGui::Button(Path::get_shortened_resource_path(file.GetPath().string()).c_str()))
     {
         ImGuiFileDialog::Instance()->OpenDialog("FileChooser" + name, "Choose File", file.GetExtension(), Path::get_resource_path());
     }
@@ -579,16 +579,148 @@ void RenderComponent<MaterialComponent>(Vultr::Entity entity)
         }
     }
 }
-#ifndef WIN32
-VULTR_REGISTER_COMPONENT(TransformComponent, position, rotation, scale);
-VULTR_REGISTER_COMPONENT(StaticMeshComponent, source);
-VULTR_REGISTER_COMPONENT(SkyBoxComponent, identifier);
-VULTR_REGISTER_COMPONENT(LightComponent, some_param);
-VULTR_REGISTER_COMPONENT(ControllerComponent, sens);
-VULTR_REGISTER_COMPONENT(CameraComponent, enabled, fov, znear, zfar);
+// VULTR_REGISTER_COMPONENT(TransformComponent, position, rotation, scale);
+template <>
+void RenderComponent<TransformComponent>(Entity entity)
+{
+    auto *component = entity_get_component_unsafe<TransformComponent>(entity);
+    if (component == nullptr)
+        return;
+    if (ImGui::CollapsingHeader("TransformComponent"))
+    {
+        ImGui::PushID("TransformComponent");
+        RenderMember("position", component->position);
+        RenderMember("rotation", component->rotation);
+        RenderMember("scale", component->scale);
+        if (ImGui::Button("Remove"))
+        {
+            entity_remove_component<TransformComponent>(entity);
+        }
+        ImGui::PopID();
+    }
+}
+template <>
+const char *Vultr::get_struct_name<TransformComponent>()
+{
+    return "TransformComponent";
+}
+
+template <>
+void RenderComponent<StaticMeshComponent>(Entity entity)
+{
+    auto *component = entity_get_component_unsafe<StaticMeshComponent>(entity);
+    if (component == nullptr)
+        return;
+    if (ImGui::CollapsingHeader("StaticMeshComponent"))
+    {
+        ImGui::PushID("StaticMeshComponent");
+        RenderMember("source", component->source);
+        if (ImGui::Button("Remove"))
+        {
+            entity_remove_component<StaticMeshComponent>(entity);
+        }
+        ImGui::PopID();
+    }
+}
+template <>
+const char *Vultr::get_struct_name<StaticMeshComponent>()
+{
+    return "StaticMeshComponent";
+}
+template <>
+void RenderComponent<SkyBoxComponent>(Entity entity)
+{
+    auto *component = entity_get_component_unsafe<SkyBoxComponent>(entity);
+    if (component == nullptr)
+        return;
+    if (ImGui::CollapsingHeader("SkyBoxComponent"))
+    {
+        ImGui::PushID("SkyBoxComponent");
+        RenderMember("identifier", component->identifier);
+        if (ImGui::Button("Remove"))
+        {
+            entity_remove_component<StaticMeshComponent>(entity);
+        }
+        ImGui::PopID();
+    }
+}
+template <>
+const char *Vultr::get_struct_name<SkyBoxComponent>()
+{
+    return "SkyBoxComponent";
+}
+template <>
+void RenderComponent<LightComponent>(Entity entity)
+{
+    auto *component = entity_get_component_unsafe<LightComponent>(entity);
+    if (component == nullptr)
+        return;
+    if (ImGui::CollapsingHeader("LightComponent"))
+    {
+        ImGui::PushID("LightComponent");
+        RenderMember("some_param", component->some_param);
+        if (ImGui::Button("Remove"))
+        {
+            entity_remove_component<LightComponent>(entity);
+        }
+        ImGui::PopID();
+    }
+}
+template <>
+const char *Vultr::get_struct_name<LightComponent>()
+{
+    return "LightComponent";
+}
+
+template <>
+void RenderComponent<ControllerComponent>(Entity entity)
+{
+    auto *component = entity_get_component_unsafe<ControllerComponent>(entity);
+    if (component == nullptr)
+        return;
+    if (ImGui::CollapsingHeader("ControllerComponent"))
+    {
+        ImGui::PushID("ControllerComponent");
+        RenderMember("sens", component->sens);
+        if (ImGui::Button("Remove"))
+        {
+            entity_remove_component<ControllerComponent>(entity);
+        }
+        ImGui::PopID();
+    }
+}
+template <>
+const char *Vultr::get_struct_name<ControllerComponent>()
+{
+    return "ControllerComponent";
+}
+template <>
+void RenderComponent<CameraComponent>(Entity entity)
+{
+    auto *component = entity_get_component_unsafe<CameraComponent>(entity);
+    if (component == nullptr)
+        return;
+    if (ImGui::CollapsingHeader("CameraComponent"))
+    {
+        ImGui::PushID("CameraComponent");
+        RenderMember("enabled", component->enabled);
+        RenderMember("fov", component->fov);
+        RenderMember("znear", component->znear);
+        RenderMember("zfar", component->zfar);
+        if (ImGui::Button("Remove"))
+        {
+            entity_remove_component<CameraComponent>(entity);
+        }
+        ImGui::PopID();
+    }
+}
+template <>
+const char *Vultr::get_struct_name<CameraComponent>()
+{
+    return "CameraComponent";
+}
 template <>
 const char *Vultr::get_struct_name<MaterialComponent>()
 {
     return ("MaterialComponent");
 }
-#endif

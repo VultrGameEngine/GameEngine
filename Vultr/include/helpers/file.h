@@ -24,7 +24,7 @@ namespace Vultr
 
         std::string GetName() const
         {
-            return std::filesystem::path(path).filename();
+            return std::filesystem::path(path).filename().string();
         }
 
         const char *GetExtension() const

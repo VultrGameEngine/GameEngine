@@ -27,7 +27,7 @@ class Directory
 
     std::string GetName() const
     {
-        return path.filename();
+        return path.filename().string();
     }
 
     void Delete();

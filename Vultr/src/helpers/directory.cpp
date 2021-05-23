@@ -11,11 +11,11 @@ Directory::Directory(const std::string &p_path) : path(p_path)
     {
         if (file.is_directory())
         {
-            sub_directories.insert(Directory(file.path()));
+            sub_directories.insert(Directory(file.path().string()));
         }
         else
         {
-            files.insert(File(file.path()));
+            files.insert(File(file.path().string()));
         }
     }
 }
@@ -35,7 +35,7 @@ Directory Directory::CreateSubDirectory(const std::string &name)
     }
     fs::path new_path = GetPath() / name;
     fs::create_directory(new_path);
-    return Directory(new_path);
+    return Directory(new_path.string());
 }
 File Directory::CreateFile(const std::string &name)
 {
@@ -46,7 +46,7 @@ File Directory::CreateFile(const std::string &name)
             return file;
         }
     }
-    std::string new_path = GetPath() / name;
+    std::string new_path = (GetPath() / name).string();
     return File(new_path);
 }
 

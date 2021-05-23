@@ -13,7 +13,7 @@ namespace Vultr::Renderer3D
     }
     void ForwardRenderer::BindMaterial(const MaterialComponent &material, const glm::mat4 &transform, const char *skybox_identifier)
     {
-        Shader *shader = ShaderLoaderSystem::get_shader(material.shader_source.GetPath().c_str());
+        Shader *shader = ShaderLoaderSystem::get_shader(material.shader_source.GetPath().string().c_str());
         if (shader == nullptr)
             return;
         shader->Bind();
@@ -35,7 +35,7 @@ namespace Vultr::Renderer3D
         {
             for (auto [file, slot, name] : material.textures)
             {
-                Texture *texture = TextureLoaderSystem::get_texture(file.GetPath().c_str());
+                Texture *texture = TextureLoaderSystem::get_texture(file.GetPath().string().c_str());
                 if (texture != nullptr)
                     texture->Bind(GL_TEXTURE0 + slot);
             }

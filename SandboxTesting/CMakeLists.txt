@@ -36,7 +36,8 @@ if(WIN32)
     find_library(GLFW3 glfw3 HINTS C:/Users/Brand/Dev/GameEngine/Vultr/vendor/libs/WIN32)
     find_library(FREETYPE freetyped HINTS C:/Users/Brand/Dev/GameEngine/Vultr/vendor/libs/WIN32)
     find_library(ASSIMP assimp HINTS C:/Users/Brand/Dev/GameEngine/Vultr/vendor/libs/WIN32)
-    add_executable(Game ${Game_SRC})
+    # add_executable(Game ${Game_SRC})
+    add_library(Game SHARED ${Game_SRC})
     target_link_libraries(Game ${VULTR} ${GLFW3} ${FREETYPE} ${ASSIMP} opengl32)
     add_custom_command(TARGET Game POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different  

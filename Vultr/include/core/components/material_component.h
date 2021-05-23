@@ -49,7 +49,7 @@ struct MaterialComponent
         vec.reserve(textures.size());
         for (auto pair : textures)
         {
-            vec.push_back(pair.path.GetPath());
+            vec.push_back(pair.path.GetPath().string());
         }
         return vec;
     }

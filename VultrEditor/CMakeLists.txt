@@ -12,9 +12,35 @@ file(GLOB_RECURSE VultrEditor_SRC
 
 include_directories(include vendor ../Vultr/include ../Vultr/vendor ../VTL/include)
 
-set(CMAKE_CXX_STANDARD 17)
+if(UNIX)
+    set(CMAKE_CXX_STANDARD 17)
+endif(UNIX)
+
+if(WIN32)
+    if (MSVC_VERSION GREATER_EQUAL "1900")
+	include(CheckCXXCompilerFlag)
+	CHECK_CXX_COMPILER_FLAG("/std:c++latest" _cpp_latest_flag_supported)
+	if (_cpp_latest_flag_supported)
+	    add_compile_options("/std:c++latest")
+	endif()
+    endif()
+endif(WIN32)
 add_executable(VultrEditor ${VultrEditor_SRC})
-target_link_libraries(VultrEditor GL glfw3 X11 Xxf86vm Xrandr pthread Xi dl assimp)
-target_link_libraries(VultrEditor debug /home/brandon/Dev/GameEngine/Vultr/build/libVultrShared.so)
+if(UNIX)
+    target_link_libraries(VultrEditor GL glfw3 X11 Xxf86vm Xrandr pthread Xi dl assimp)
+    target_link_libraries(VultrEditor debug /home/brandon/Dev/GameEngine/Vultr/build/libVultrShared.so)
+endif(UNIX)
+
+if(WIN32)
+    find_library(GLFW3 glfw3 HINTS C:/Users/Brand/Dev/GameEngine/Vultr/vendor/libs/WIN32)
+    find_library(FREETYPE freetyped HINTS C:/Users/Brand/Dev/GameEngine/Vultr/vendor/libs/WIN32)
+    find_library(ASSIMP assimp HINTS C:/Users/Brand/Dev/GameEngine/Vultr/vendor/libs/WIN32)
+    find_library(VULTR Vultr HINTS C:/Users/Brand/Dev/GameEngine/Vultr/out/build/x64-Debug/Vultr.lib)
+    target_link_libraries(VultrEditor ${GLFW3} ${FREETYPE} ${ASSIMP} opengl32 C:/Users/Brand/Dev/GameEngine/Vultr/out/build/x64-Debug/Vultr.lib)
+    add_custom_command(TARGET VultrEditor POST_BUILD
+    	COMMAND ${CMAKE_COMMAND} -E copy_if_different  
+	    "C:/Users/Brand/Dev/GameEngine/Vultr/vendor/libs/WIN32/assimp-vc142-mtd.dll"
+	    $<TARGET_FILE_DIR:VultrEditor>)
+
+endif(WIN32)
 # target_link_libraries(VultrEditor optimized /home/brandon/Dev/GameEngine/Vultr/release/libVultrShared.so)
-target_precompile_headers(VultrEditor PUBLIC pch.h)

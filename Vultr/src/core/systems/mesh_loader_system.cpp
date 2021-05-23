@@ -24,10 +24,11 @@ namespace Vultr::MeshLoaderSystem
     static void check_and_load_mesh(Entity entity)
     {
         auto &component = entity_get_component<StaticMeshComponent>(entity);
+        std::string path = component.source.GetPath().string();
 
-        if (get_mesh(component.source.GetPath().c_str()) == nullptr)
+        if (get_mesh(path.c_str()) == nullptr)
         {
-            import(component.source.GetPath().c_str());
+            MeshLoaderSystem::import(path.c_str());
         }
     }
     void register_system()
