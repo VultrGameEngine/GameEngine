@@ -3,7 +3,6 @@
 #include <rendering/models/mesh.h>
 #include <string>
 #include <helpers/file.h>
-#include <json/json.hpp>
 
 struct StaticMeshComponent
 {
@@ -20,4 +19,3 @@ struct StaticMeshComponent
 
     Vultr::File source;
 };
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(StaticMeshComponent, source);

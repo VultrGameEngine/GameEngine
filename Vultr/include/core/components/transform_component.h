@@ -2,8 +2,6 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtx/transform.hpp>
-#include <json/json.hpp>
-#include <json/glm_serializer.hpp>
 
 struct TransformComponent
 {
@@ -49,5 +47,3 @@ struct TransformComponent
         return glm::lookAt(position, position + Forward(), glm::vec3(0, 1, 0));
     }
 };
-
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(TransformComponent, position, rotation, scale);

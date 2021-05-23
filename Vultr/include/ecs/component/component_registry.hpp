@@ -5,7 +5,7 @@
 #include "../../core/component_renderer.h"
 #include "../../core/component_constructor.h"
 #include <type_info/type_info.h>
-#include <json/json.hpp>
+#include <json/json_fwd.hpp>
 
 namespace Vultr
 {

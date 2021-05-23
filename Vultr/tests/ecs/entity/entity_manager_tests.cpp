@@ -3,6 +3,7 @@
 #define protected public
 
 #include <ecs/entity/entity_manager.hpp>
+#include <json/json.hpp>
 
 using namespace Vultr;
 TEST(EntityManager, Serialization)

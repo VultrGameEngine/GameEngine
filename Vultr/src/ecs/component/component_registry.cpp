@@ -21,19 +21,4 @@ namespace Vultr
         }
     }
 
-    void to_json(json &j, const ComponentRegistry &r)
-    {
-        j["component_name_to_type"] = r.component_name_to_type;
-        j["next_component_type"] = r.next_component_type;
-    }
-
-    void from_json(const json &j, ComponentRegistry &r)
-    {
-        r.component_name_to_type = j["component_name_to_type"].get<std::unordered_map<std::string, ComponentType>>();
-        for (auto [name, type] : r.component_name_to_type)
-        {
-            r.component_type_to_name[type] = name;
-        }
-        r.next_component_type = j["next_component_type"].get<ComponentType>();
-    }
 } // namespace Vultr

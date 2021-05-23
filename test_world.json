@@ -2,9 +2,27 @@
     "ComponentManager": {
         "Components": {
             "CameraComponent": {
-                "entity_to_index_map": [],
-                "index_to_entity_map": [],
-                "size": 0
+                "component_array": [
+                    {
+                        "enabled": true,
+                        "fov": 45.0,
+                        "zfar": 100.0,
+                        "znear": 0.10000000149011612
+                    }
+                ],
+                "entity_to_index_map": [
+                    [
+                        2,
+                        0
+                    ]
+                ],
+                "index_to_entity_map": [
+                    [
+                        0,
+                        2
+                    ]
+                ],
+                "size": 1
             },
             "ControllerComponent": {
                 "entity_to_index_map": [],
@@ -23,12 +41,55 @@
                         "floats": {},
                         "ints": {},
                         "shader_source": {
-                            "extension": ".*",
+                            "extension": "Shader (*.glsl) {.glsl}",
                             "path": "shaders/skybox.glsl"
                         },
                         "textures": [],
                         "vec3s": {},
                         "vec4s": {}
+                    }
+                ],
+                "entity_to_index_map": [
+                    [
+                        2,
+                        0
+                    ]
+                ],
+                "index_to_entity_map": [
+                    [
+                        0,
+                        2
+                    ]
+                ],
+                "size": 1
+            },
+            "SkyBoxComponent": {
+                "component_array": [
+                    {
+                        "identifier": "1"
+                    }
+                ],
+                "entity_to_index_map": [
+                    [
+                        2,
+                        0
+                    ]
+                ],
+                "index_to_entity_map": [
+                    [
+                        0,
+                        2
+                    ]
+                ],
+                "size": 1
+            },
+            "StaticMeshComponent": {
+                "component_array": [
+                    {
+                        "source": {
+                            "extension": "Image (*.obj *.fbx...){.obj,.fbx,.blend,}",
+                            "path": "models/cube.obj"
+                        }
                     }
                 ],
                 "entity_to_index_map": [
@@ -45,23 +106,26 @@
                 ],
                 "size": 1
             },
-            "SkyBoxComponent": {
-                "entity_to_index_map": [],
-                "index_to_entity_map": [],
-                "size": 0
-            },
-            "StaticMeshComponent": {
-                "entity_to_index_map": [],
-                "index_to_entity_map": [],
-                "size": 0
-            },
-            "TestComponent": {
-                "entity_to_index_map": [],
-                "index_to_entity_map": [],
-                "size": 0
-            },
             "TransformComponent": {
                 "component_array": [
+                    {
+                        "position": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "rotation": {
+                            "w": 1.0,
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        }
+                    },
                     {
                         "position": {
                             "x": 0.0,
@@ -83,17 +147,25 @@
                 ],
                 "entity_to_index_map": [
                     [
+                        2,
+                        1
+                    ],
+                    [
                         1,
                         0
                     ]
                 ],
                 "index_to_entity_map": [
                     [
+                        1,
+                        2
+                    ],
+                    [
                         0,
                         1
                     ]
                 ],
-                "size": 1
+                "size": 2
             }
         }
     },
@@ -105,25 +177,59 @@
             "MaterialComponent": 1,
             "SkyBoxComponent": 6,
             "StaticMeshComponent": 0,
-            "TestComponent": 7,
             "TransformComponent": 2
         },
-        "next_component_type": 8
+        "next_component_type": 7
     },
     "EntityManager": {
         "living_entites": [
-            1
+            1,
+            2
         ],
-        "living_entity_count": 1,
+        "living_entity_count": 2,
         "signatures": {
             "1": [
+                1,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "2": [
                 0,
                 1,
                 1,
                 0,
+                1,
                 0,
-                0,
-                0,
+                1,
                 0,
                 0,
                 0,

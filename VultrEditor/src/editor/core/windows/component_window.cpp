@@ -8,7 +8,7 @@ void ComponentWindow::Render()
 {
     ImGui::Begin("Inspector");
     Entity entity = Editor::Get()->selected_entity;
-    if (entity >= 0)
+    if (entity != INVALID_ENTITY)
     {
         auto &registry = engine_global().component_registry;
         component_registry_render_entity_components(registry, Editor::Get()->selected_entity);
@@ -20,6 +20,8 @@ void ComponentWindow::Render()
         {
             for (auto [type, pair] : registry.components)
             {
+                if (world_get_component_manager(get_current_world()).component_arrays[type]->HasData(entity))
+                    continue;
                 if (ImGui::MenuItem(component_registry_get_component_name(registry, type)))
                 {
                     pair.component_constructor(entity);

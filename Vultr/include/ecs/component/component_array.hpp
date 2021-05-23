@@ -6,7 +6,7 @@
 #include <assert.h>
 #include <memory>
 #include <unordered_map>
-#include <json/json.hpp>
+#include <json/json_fwd.hpp>
 
 namespace Vultr
 {
@@ -14,6 +14,10 @@ namespace Vultr
     {
       public:
         virtual ~IComponentArray() = default;
+        virtual bool HasData(Entity entity)
+        {
+            return false;
+        };
         virtual void EntityDestroyed(Entity entity){};
         virtual void to_json(json &j) const {};
         virtual void from_json(const json &j){};
@@ -75,7 +79,7 @@ namespace Vultr
             return component_array[entity_to_index_map[entity]];
         }
 
-        bool HasData(Entity entity)
+        bool HasData(Entity entity) override
         {
             return entity_to_index_map.find(entity) != entity_to_index_map.end();
         }
@@ -95,36 +99,9 @@ namespace Vultr
             }
         }
 
-        void to_json(json &j) const override
-        {
-            j["entity_to_index_map"] = entity_to_index_map;
-            j["index_to_entity_map"] = index_to_entity_map;
-            j["size"] = size;
-            for (int i = 0; i < size; i++)
-            {
-                j["component_array"].push_back(component_array[i]);
-            }
-        }
+        void to_json(json &j) const override;
 
-        void from_json(const json &j) override
-        {
-            if (j.find("component_array") != j.end())
-            {
-                for (auto &component : j["component_array"].items())
-                {
-                    component_array[atoi(component.key().c_str())] = component.value();
-                }
-            }
-            if (j.find("index_to_entity_map") != j.end())
-            {
-                index_to_entity_map = j["index_to_entity_map"].get<std::unordered_map<size_t, Entity>>();
-            }
-            if (j.find("entity_to_index_map") != j.end())
-            {
-                entity_to_index_map = j["entity_to_index_map"].get<std::unordered_map<Entity, size_t>>();
-            }
-            size = j["size"].get<size_t>();
-        }
+        void from_json(const json &j) override;
 
       private:
         // Packed array of components
@@ -142,9 +119,6 @@ namespace Vultr
         size_t size{};
     };
 
-    inline void to_json(json &j, const IComponentArray *a)
-    {
-        a->to_json(j);
-    }
+    // void to_json(json &j, const IComponentArray *a);
 
 } // namespace Vultr

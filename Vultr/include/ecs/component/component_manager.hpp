@@ -7,6 +7,7 @@
 #include <iostream>
 #include <memory>
 #include <unordered_map>
+#include <json/json_fwd.hpp>
 
 namespace Vultr
 {

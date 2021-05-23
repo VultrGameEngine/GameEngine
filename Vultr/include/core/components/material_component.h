@@ -7,8 +7,6 @@
 #include <glad/glad.h>
 #include <types/types.hpp>
 #include <vector>
-#include <json/json.hpp>
-#include <json/glm_serializer.hpp>
 
 struct Color
 {
@@ -27,7 +25,7 @@ struct MaterialComponent
     {
         Vultr::File path;
         u16 slot;
-        const char *name;
+        std::string name;
     } TexturePair;
 
     Vultr::File shader_source;
@@ -35,8 +33,8 @@ struct MaterialComponent
     std::unordered_map<std::string, glm::vec3> vec3s;
     std::unordered_map<std::string, glm::vec4> vec4s;
     std::unordered_map<std::string, Color> colors;
-    std::unordered_map<std::string, int> ints;
-    std::unordered_map<std::string, float> floats;
+    std::unordered_map<std::string, s32> ints;
+    std::unordered_map<std::string, f32> floats;
 
     static MaterialComponent Create()
     {
@@ -56,7 +54,3 @@ struct MaterialComponent
         return vec;
     }
 };
-
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(MaterialComponent::TexturePair, path, slot);
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(Color, value);
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(MaterialComponent, shader_source, textures, vec3s, vec4s, colors, ints, floats);

@@ -23,14 +23,4 @@ namespace Vultr
         std::filesystem::remove(GetPath());
     }
 
-    void to_json(json &j, const File &f)
-    {
-        j["path"] = f.path;
-        j["extension"] = f.extension;
-    }
-    void from_json(const json &j, File &f)
-    {
-        f.path = j["path"].get<std::string>();
-        f.extension = j["extension"].get<std::string>().c_str();
-    }
 } // namespace Vultr

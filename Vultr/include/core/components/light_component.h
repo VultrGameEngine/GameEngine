@@ -1,5 +1,5 @@
 #pragma once
-#include <json/json.hpp>
+#include <types/types.hpp>
 
 struct LightComponent
 {
@@ -8,12 +8,5 @@ struct LightComponent
         LightComponent component = LightComponent();
         return component;
     }
-    int some_param = 0;
-
-    template <class Archive>
-    void serialize(Archive &ar)
-    {
-        ar(some_param);
-    }
+    s32 some_param = 0;
 };
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(LightComponent, some_param);

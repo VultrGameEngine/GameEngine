@@ -2,7 +2,7 @@
 #include <stdint.h>
 #include <bitset>
 #include <types/types.hpp>
-#include <json/json.hpp>
+#include <json/json_fwd.hpp>
 #define VCOMPONENT(...)
 #define VSYSTEM(...)
 #define VSTRUCT(...)
@@ -42,25 +42,8 @@ namespace nlohmann
     template <>
     struct adl_serializer<Vultr::Signature>
     {
-        static void to_json(json &j, const Vultr::Signature &v)
-        {
-            for (s16 i = 0; i < v.size(); i++)
-            {
-                j[i] = (int)v[i];
-            }
-        }
+        static void to_json(json &j, const Vultr::Signature &v);
 
-        static void from_json(const json &j, Vultr::Signature &v)
-        {
-            for (s16 i = 0; i < j.size(); i++)
-            {
-                if (i >= Vultr::MAX_COMPONENTS)
-                {
-                    printf("WARNING LOST DATA IN SIGNATURE DUE TO REDUCED MAX COMPONENTS");
-                    break;
-                }
-                v.set(i, j[i].get<int>() == 1);
-            }
-        }
+        static void from_json(const json &j, Vultr::Signature &v);
     };
 } // namespace nlohmann

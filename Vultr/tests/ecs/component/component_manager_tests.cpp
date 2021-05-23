@@ -5,6 +5,7 @@
 #include <ecs/component/component_manager.hpp>
 #include <ecs/component/component_registry.hpp>
 #include <core/components/transform_component.h>
+#include <json/json.hpp>
 
 using namespace Vultr;
 TEST(ComponentManager, Serialization)

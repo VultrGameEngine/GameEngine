@@ -1,4 +1,5 @@
 #pragma once
+#include <json/json.hpp>
 #include <glm/gtx/quaternion.hpp>
 
 namespace nlohmann

@@ -1,8 +1,8 @@
 #pragma once
+#include <types/types.hpp>
 #include <glm/glm.hpp>
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtx/transform.hpp>
-#include <json/json.hpp>
 
 struct CameraComponent
 {
@@ -14,19 +14,12 @@ struct CameraComponent
 
     bool enabled = true;
 
-    float fov = 45.0f;
-    float znear = 0.1f;
-    float zfar = 100.0f;
+    f32 fov = 45.0f;
+    f32 znear = 0.1f;
+    f32 zfar = 100.0f;
 
     glm::mat4 GetProjectionMatrix(float width, float height) const
     {
         return glm::perspective(fov, width / height, znear, zfar);
     }
-
-    template <class Archive>
-    void serialize(Archive &ar)
-    {
-        ar(enabled, fov, znear, zfar);
-    }
 };
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(CameraComponent, enabled, fov, znear, zfar);

@@ -82,15 +82,6 @@ namespace Vultr
     }
 
     // Serialization
-    void to_json(json &j, const EntityManager &m)
-    {
-        j["living_entites"] = m.living_entites;
-        j["living_entity_count"] = m.living_entity_count;
-        for (Entity e : m.living_entites)
-        {
-            j["signatures"][std::to_string(e)] = m.signatures[e];
-        }
-    }
 
     // void from_json(const json &j, EntityManager &m)
     // {

@@ -26,32 +26,6 @@ namespace Vultr
     // }
     //
     //
-    void component_manager_to_json(json &j, const ComponentManager &m, const ComponentRegistry &r)
-    {
-        json component_arrays;
-        for (auto [type, array] : m.component_arrays)
-        {
-            component_arrays[r.component_type_to_name.at(type)] = array;
-        }
-        j["Components"] = component_arrays;
-    }
-
-    void component_manager_from_json(const json &j, ComponentManager &m, const ComponentRegistry &r)
-    {
-        for (auto &element : j["Components"].items())
-        {
-            std::string component_name = std::string(element.key().c_str());
-            if (r.component_name_to_type.find(component_name.c_str()) == r.component_name_to_type.end())
-            {
-                continue;
-            }
-            ComponentType type = r.component_name_to_type.at(component_name.c_str());
-            if (m.component_arrays.find(type) != m.component_arrays.end())
-            {
-                m.component_arrays[type]->from_json(element.value());
-            }
-        }
-    }
 
     void destroy_component_manager(ComponentManager &m)
     {

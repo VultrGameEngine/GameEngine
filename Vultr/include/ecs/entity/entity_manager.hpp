@@ -13,7 +13,7 @@
 #include <assert.h>
 #include <queue>
 #include <set>
-#include <json/json.hpp>
+#include <json/json_fwd.hpp>
 
 namespace Vultr
 {

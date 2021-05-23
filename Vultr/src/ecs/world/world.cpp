@@ -1,12 +1,201 @@
 #include <ecs/world/world.hpp>
 #include <ecs/world/internal_world.hpp>
+#include <core/core_component_serialization.h>
 #include <helpers/file.h>
 #include <json/json.hpp>
+#include <json/glm_serializer.hpp>
 #include <engine.hpp>
 #include <fstream>
 
+void nlohmann::adl_serializer<Vultr::Signature>::to_json(json &j, const Vultr::Signature &v)
+{
+    for (s16 i = 0; i < v.size(); i++)
+    {
+        j[i] = (int)v[i];
+    }
+}
+
+void nlohmann::adl_serializer<Vultr::Signature>::from_json(const json &j, Vultr::Signature &v)
+{
+    for (s16 i = 0; i < j.size(); i++)
+    {
+        if (i >= Vultr::MAX_COMPONENTS)
+        {
+            printf("WARNING LOST DATA IN SIGNATURE DUE TO REDUCED MAX COMPONENTS");
+            break;
+        }
+        v.set(i, j[i].get<int>() == 1);
+    }
+}
+
+#define TOJSON(prop) j[#prop] = c.prop
+#define FROMJSON(prop, type)                                                                                                                                                                                          \
+    if (j.contains(#prop))                                                                                                                                                                                            \
+    {                                                                                                                                                                                                                 \
+        c.prop = j[#prop].get<type>();                                                                                                                                                                                \
+    }
+
+void to_json(json &j, const CameraComponent &c)
+{
+    TOJSON(enabled);
+    TOJSON(fov);
+    TOJSON(znear);
+    TOJSON(zfar);
+}
+void from_json(const json &j, CameraComponent &c)
+{
+    FROMJSON(enabled, bool)
+    FROMJSON(fov, f32)
+    FROMJSON(znear, f32)
+    FROMJSON(zfar, f32)
+}
+void to_json(json &j, const ControllerComponent &c)
+{
+    TOJSON(sens);
+}
+void from_json(const json &j, ControllerComponent &c)
+{
+    FROMJSON(sens, f32)
+}
+void to_json(json &j, const LightComponent &c)
+{
+    TOJSON(some_param);
+}
+void from_json(const json &j, LightComponent &c)
+{
+    FROMJSON(some_param, s32)
+}
+void to_json(json &j, const SkyBoxComponent &c)
+{
+    TOJSON(identifier);
+}
+void from_json(const json &j, SkyBoxComponent &c)
+{
+    FROMJSON(identifier, std::string);
+}
+void to_json(json &j, const StaticMeshComponent &c)
+{
+    TOJSON(source);
+}
+void from_json(const json &j, StaticMeshComponent &c)
+{
+    FROMJSON(source, Vultr::File)
+}
+void to_json(json &j, const TransformComponent &c)
+{
+    TOJSON(position);
+    TOJSON(rotation);
+    TOJSON(scale);
+}
+void from_json(const json &j, TransformComponent &c)
+{
+    FROMJSON(position, glm::vec3);
+    FROMJSON(rotation, glm::quat);
+    FROMJSON(scale, glm::vec3);
+}
+void to_json(json &j, const MaterialComponent &c)
+{
+    TOJSON(shader_source);
+    TOJSON(textures);
+    TOJSON(vec3s);
+    TOJSON(vec4s);
+    TOJSON(colors);
+    TOJSON(ints);
+    TOJSON(floats);
+}
+void from_json(const json &j, MaterialComponent &c)
+{
+    FROMJSON(shader_source, Vultr::File)
+    FROMJSON(textures, std::vector<MaterialComponent::TexturePair>)
+    if (j.contains("vec3s"))
+    {
+        c.vec3s = j["vec3s"].get<std::unordered_map<std::string, glm::vec3>>();
+    }
+    if (j.contains("vec4s"))
+    {
+        c.vec4s = j["vec4s"].get<std::unordered_map<std::string, glm::vec4>>();
+    }
+    if (j.contains("colors"))
+    {
+        c.colors = j["colors"].get<std::unordered_map<std::string, Color>>();
+    }
+    if (j.contains("ints"))
+    {
+        c.ints = j["ints"].get<std::unordered_map<std::string, s32>>();
+    }
+    if (j.contains("floats"))
+    {
+        c.floats = j["floats"].get<std::unordered_map<std::string, f32>>();
+    }
+}
+void to_json(json &j, const MaterialComponent::TexturePair &c)
+{
+    TOJSON(path);
+    TOJSON(slot);
+    TOJSON(name);
+}
+void from_json(const json &j, MaterialComponent::TexturePair &c)
+{
+    FROMJSON(path, Vultr::File)
+    FROMJSON(slot, u16)
+    FROMJSON(name, std::string)
+}
+void to_json(json &j, const Color &c)
+{
+    TOJSON(value);
+}
+void from_json(const json &j, Color &c)
+{
+    FROMJSON(value, glm::vec4)
+}
+
+#define JSONCOMPONENTARRAY(T)                                                                                                                                                                                         \
+    template <>                                                                                                                                                                                                       \
+    void Vultr::ComponentArray<T>::to_json(json &j) const                                                                                                                                                             \
+    {                                                                                                                                                                                                                 \
+        j["entity_to_index_map"] = entity_to_index_map;                                                                                                                                                               \
+        j["index_to_entity_map"] = index_to_entity_map;                                                                                                                                                               \
+        j["size"] = size;                                                                                                                                                                                             \
+        for (int i = 0; i < size; i++)                                                                                                                                                                                \
+        {                                                                                                                                                                                                             \
+            j["component_array"].push_back(component_array[i]);                                                                                                                                                       \
+        }                                                                                                                                                                                                             \
+    }                                                                                                                                                                                                                 \
+    template <>                                                                                                                                                                                                       \
+    void Vultr::ComponentArray<T>::from_json(const json &j)                                                                                                                                                           \
+    {                                                                                                                                                                                                                 \
+        if (j.find("component_array") != j.end())                                                                                                                                                                     \
+        {                                                                                                                                                                                                             \
+            for (auto &component : j["component_array"].items())                                                                                                                                                      \
+            {                                                                                                                                                                                                         \
+                component_array[atoi(component.key().c_str())] = component.value();                                                                                                                                   \
+            }                                                                                                                                                                                                         \
+        }                                                                                                                                                                                                             \
+        if (j.find("index_to_entity_map") != j.end())                                                                                                                                                                 \
+        {                                                                                                                                                                                                             \
+            index_to_entity_map = j["index_to_entity_map"].get<std::unordered_map<size_t, Entity>>();                                                                                                                 \
+        }                                                                                                                                                                                                             \
+        if (j.find("entity_to_index_map") != j.end())                                                                                                                                                                 \
+        {                                                                                                                                                                                                             \
+            entity_to_index_map = j["entity_to_index_map"].get<std::unordered_map<Entity, size_t>>();                                                                                                                 \
+        }                                                                                                                                                                                                             \
+        size = j["size"].get<size_t>();                                                                                                                                                                               \
+    }
+
+JSONCOMPONENTARRAY(CameraComponent)
+JSONCOMPONENTARRAY(ControllerComponent)
+JSONCOMPONENTARRAY(LightComponent)
+JSONCOMPONENTARRAY(SkyBoxComponent)
+JSONCOMPONENTARRAY(StaticMeshComponent)
+JSONCOMPONENTARRAY(TransformComponent)
+JSONCOMPONENTARRAY(MaterialComponent)
+
 namespace Vultr
 {
+    void to_json(json &j, const Vultr::IComponentArray *a)
+    {
+        a->to_json(j);
+    }
     World *new_world(const ComponentRegistry &r)
     {
         World *world = new InternalWorld();
@@ -80,6 +269,70 @@ namespace Vultr
             {
                 m.available_entities.push(entity);
             }
+        }
+    }
+
+    void to_json(json &j, const File &f)
+    {
+        j["path"] = f.path;
+        j["extension"] = f.extension;
+    }
+    void from_json(const json &j, File &f)
+    {
+        f.path = j["path"].get<std::string>();
+        f.extension = j["extension"].get<std::string>().c_str();
+    }
+
+    void component_manager_to_json(json &j, const ComponentManager &m, const ComponentRegistry &r)
+    {
+        json component_arrays;
+        for (auto [type, array] : m.component_arrays)
+        {
+            component_arrays[r.component_type_to_name.at(type)] = array;
+        }
+        j["Components"] = component_arrays;
+    }
+
+    void component_manager_from_json(const json &j, ComponentManager &m, const ComponentRegistry &r)
+    {
+        for (auto &element : j["Components"].items())
+        {
+            std::string component_name = std::string(element.key().c_str());
+            if (r.component_name_to_type.find(component_name.c_str()) == r.component_name_to_type.end())
+            {
+                continue;
+            }
+            ComponentType type = r.component_name_to_type.at(component_name.c_str());
+            if (m.component_arrays.find(type) != m.component_arrays.end())
+            {
+                m.component_arrays[type]->from_json(element.value());
+            }
+        }
+    }
+
+    void to_json(json &j, const ComponentRegistry &r)
+    {
+        j["component_name_to_type"] = r.component_name_to_type;
+        j["next_component_type"] = r.next_component_type;
+    }
+
+    void from_json(const json &j, ComponentRegistry &r)
+    {
+        r.component_name_to_type = j["component_name_to_type"].get<std::unordered_map<std::string, ComponentType>>();
+        for (auto [name, type] : r.component_name_to_type)
+        {
+            r.component_type_to_name[type] = name;
+        }
+        r.next_component_type = j["next_component_type"].get<ComponentType>();
+    }
+
+    void to_json(json &j, const EntityManager &m)
+    {
+        j["living_entites"] = m.living_entites;
+        j["living_entity_count"] = m.living_entity_count;
+        for (Entity e : m.living_entites)
+        {
+            j["signatures"][std::to_string(e)] = m.signatures[e];
         }
     }
 
