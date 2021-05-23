@@ -30,26 +30,136 @@
                 "size": 0
             },
             "LightComponent": {
-                "entity_to_index_map": [],
-                "index_to_entity_map": [],
-                "size": 0
+                "component_array": [
+                    {
+                        "some_param": 0
+                    }
+                ],
+                "entity_to_index_map": [
+                    [
+                        4,
+                        0
+                    ]
+                ],
+                "index_to_entity_map": [
+                    [
+                        0,
+                        4
+                    ]
+                ],
+                "size": 1
             },
             "MaterialComponent": {
                 "component_array": [
                     {
                         "colors": {},
                         "floats": {},
-                        "ints": {},
+                        "ints": {
+                            "skybox": 0
+                        },
                         "shader_source": {
                             "extension": "Shader (*.glsl) {.glsl}",
                             "path": "shaders/skybox.glsl"
                         },
-                        "textures": [],
+                        "textures": [
+                            {
+                                "name": "Right",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": ""
+                                },
+                                "slot": 0
+                            },
+                            {
+                                "name": "Left",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": ""
+                                },
+                                "slot": 0
+                            },
+                            {
+                                "name": "Top",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": ""
+                                },
+                                "slot": 0
+                            },
+                            {
+                                "name": "Bottom",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": ""
+                                },
+                                "slot": 0
+                            },
+                            {
+                                "name": "Front",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": ""
+                                },
+                                "slot": 0
+                            },
+                            {
+                                "name": "Back",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": ""
+                                },
+                                "slot": 0
+                            }
+                        ],
+                        "vec3s": {},
+                        "vec4s": {}
+                    },
+                    {
+                        "colors": {
+                            "lightColor": {
+                                "value": {
+                                    "w": 1.0,
+                                    "x": 1.0,
+                                    "y": 1.0,
+                                    "z": 1.0
+                                }
+                            },
+                            "objectColor": {
+                                "value": {
+                                    "w": 1.0,
+                                    "x": 1.0,
+                                    "y": 0.9999899864196777,
+                                    "z": 0.9999899864196777
+                                }
+                            }
+                        },
+                        "floats": {},
+                        "ints": {
+                            "textureSampler": 0
+                        },
+                        "shader_source": {
+                            "extension": "Shader (*.glsl) {.glsl}",
+                            "path": "shaders/forward_material.glsl"
+                        },
+                        "textures": [
+                            {
+                                "name": "Albedo",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
+                                "slot": 0
+                            }
+                        ],
                         "vec3s": {},
                         "vec4s": {}
                     }
                 ],
                 "entity_to_index_map": [
+                    [
+                        1,
+                        1
+                    ],
                     [
                         2,
                         0
@@ -57,11 +167,15 @@
                 ],
                 "index_to_entity_map": [
                     [
+                        1,
+                        1
+                    ],
+                    [
                         0,
                         2
                     ]
                 ],
-                "size": 1
+                "size": 2
             },
             "SkyBoxComponent": {
                 "component_array": [
@@ -106,8 +220,49 @@
                 ],
                 "size": 1
             },
+            "TestComponent": {
+                "entity_to_index_map": [],
+                "index_to_entity_map": [],
+                "size": 0
+            },
             "TransformComponent": {
                 "component_array": [
+                    {
+                        "position": {
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.0
+                        },
+                        "rotation": {
+                            "w": -0.040322210639715195,
+                            "x": 7.84807454579095e-08,
+                            "y": 0.9991867542266846,
+                            "z": 7.84807454579095e-08
+                        },
+                        "scale": {
+                            "x": 0.9999942779541016,
+                            "y": 1.0,
+                            "z": 0.9999942779541016
+                        }
+                    },
+                    {
+                        "position": {
+                            "x": -3.632876396179199,
+                            "y": 1.2731961011886597,
+                            "z": 1.7652463912963867
+                        },
+                        "rotation": {
+                            "w": 0.8531420826911926,
+                            "x": -0.10223312675952911,
+                            "y": -0.49085676670074463,
+                            "z": -0.14407162368297577
+                        },
+                        "scale": {
+                            "x": 0.999995768070221,
+                            "y": 1.0,
+                            "z": 0.9999945163726807
+                        }
+                    },
                     {
                         "position": {
                             "x": 0.0,
@@ -128,9 +283,9 @@
                     },
                     {
                         "position": {
-                            "x": 0.0,
-                            "y": 0.0,
-                            "z": 0.0
+                            "x": -2.875340223312378,
+                            "y": 1.3481868505477905,
+                            "z": 2.019987106323242
                         },
                         "rotation": {
                             "w": 1.0,
@@ -147,25 +302,41 @@
                 ],
                 "entity_to_index_map": [
                     [
+                        1,
+                        0
+                    ],
+                    [
                         2,
                         1
                     ],
                     [
-                        1,
-                        0
+                        3,
+                        2
+                    ],
+                    [
+                        4,
+                        3
                     ]
                 ],
                 "index_to_entity_map": [
+                    [
+                        0,
+                        1
+                    ],
                     [
                         1,
                         2
                     ],
                     [
-                        0,
-                        1
+                        2,
+                        3
+                    ],
+                    [
+                        3,
+                        4
                     ]
                 ],
-                "size": 2
+                "size": 4
             }
         }
     },
@@ -177,20 +348,23 @@
             "MaterialComponent": 1,
             "SkyBoxComponent": 6,
             "StaticMeshComponent": 0,
+            "TestComponent": 7,
             "TransformComponent": 2
         },
-        "next_component_type": 7
+        "next_component_type": 8
     },
     "EntityManager": {
         "living_entites": [
             1,
-            2
+            2,
+            3,
+            4
         ],
-        "living_entity_count": 2,
+        "living_entity_count": 4,
         "signatures": {
             "1": [
                 1,
-                0,
+                1,
                 1,
                 0,
                 0,
@@ -230,6 +404,74 @@
                 1,
                 0,
                 1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "3": [
+                0,
+                0,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "4": [
+                0,
+                0,
+                1,
+                1,
+                0,
+                0,
+                0,
                 0,
                 0,
                 0,

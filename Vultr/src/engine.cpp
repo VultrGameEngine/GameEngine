@@ -370,7 +370,6 @@ void RenderMember(const std::string &name, File &file)
 
     if (ImGuiFileDialog::Instance()->Display("FileChooser" + name))
     {
-        // action if OK
         if (ImGuiFileDialog::Instance()->IsOk())
         {
             std::string filePathName = ImGuiFileDialog::Instance()->GetFilePathName();
@@ -378,8 +377,6 @@ void RenderMember(const std::string &name, File &file)
             std::cout << "Path " << filePath << std::endl;
             file = File(Path::get_shortened_resource_path(filePathName), file.GetExtension());
         }
-
-        // close
         ImGuiFileDialog::Instance()->Close();
     }
 }
@@ -404,56 +401,177 @@ void RenderMember(const std::string &name, Color &m)
 template <>
 void RenderComponent<MaterialComponent>(Vultr::Entity entity)
 {
-    MaterialComponent *component = entity_get_component_unsafe<MaterialComponent>(entity);
-    if (component == nullptr)
+    auto *_component = entity_get_component_unsafe<MaterialComponent>(entity);
+    if (_component == nullptr)
         return;
+    auto &component = *_component;
     if (ImGui::CollapsingHeader("MaterialComponent"))
     {
-        ImGui::PushID("shader_source");
-        RenderMember("shader_source", component->shader_source);
-        ImGui::PopID();
+        const char *shader_options[] = {"Forward", "PBR", "Unlit", "Skybox", "Custom"};
+        static int selected_shader_option = 0;
 
-        ImGui::PushID("textures");
-        if (ImGui::CollapsingHeader("textures"))
+#define FORWARD_MATERIAL "shaders/forward_material.glsl"
+#define SKYBOX_MATERIAL "shaders/skybox.glsl"
+#define PBR_MATERIAL "shaders/forward_material.glsl"
+#define UNLIT_MATERIAL "shaders/unlit.glsl"
+
+        if (component.shader_source.GetPath() == FORWARD_MATERIAL)
         {
-            RenderMember("textures", component->textures);
+            selected_shader_option = 0;
+        }
+        else if (component.shader_source.GetPath() == PBR_MATERIAL)
+        {
+            selected_shader_option = 1;
+        }
+        else if (component.shader_source.GetPath() == UNLIT_MATERIAL)
+        {
+            selected_shader_option = 2;
+        }
+        else if (component.shader_source.GetPath() == SKYBOX_MATERIAL)
+        {
+            selected_shader_option = 3;
+        }
+        else
+        {
+            selected_shader_option = 4;
+        }
+
+        ImGui::PushID("Shader");
+        const char *shader_label = shader_options[selected_shader_option];
+        if (ImGui::BeginCombo("Shader", shader_label))
+        {
+            for (int n = 0; n < IM_ARRAYSIZE(shader_options); n++)
+            {
+                const bool is_selected = (selected_shader_option == n);
+                if (ImGui::Selectable(shader_options[n], is_selected))
+                {
+                    selected_shader_option = n;
+                    switch (selected_shader_option)
+                    {
+                    case 0: {
+                        component = ForwardMaterial::Create("");
+                        break;
+                    }
+                    case 1: {
+                        component = ForwardMaterial::Create("");
+                        break;
+                    }
+                    case 2: {
+                        component = UnlitMaterial::Create();
+                        break;
+                    }
+
+                    case 3: {
+                        component = SkyboxMaterial::Create("", "", "", "", "", "");
+                        break;
+                    }
+                    case 4: {
+                        auto path = component.shader_source.GetPath();
+                        if (path == FORWARD_MATERIAL || path == SKYBOX_MATERIAL || path == PBR_MATERIAL || path == UNLIT_MATERIAL)
+                        {
+                            component = MaterialComponent();
+                            component.shader_source = File("", SHADER_FILE_EXTENSIONS);
+                        }
+                        break;
+                    }
+                    default: {
+                        break;
+                    }
+                    }
+                }
+
+                // Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
+                if (is_selected)
+                    ImGui::SetItemDefaultFocus();
+            }
+            ImGui::EndCombo();
         }
         ImGui::PopID();
 
-        ImGui::PushID("vec3s");
-        if (ImGui::CollapsingHeader("vec3s"))
+        // Different rendering for different shaders
+        switch (selected_shader_option)
         {
-            RenderMember("vec3s", component->vec3s);
-        }
-        ImGui::PopID();
+            // Forward
+        case 0: {
+            ImGui::PushID("texture");
+            RenderMember("Albedo", component.textures[0]);
+            ImGui::PopID();
 
-        ImGui::PushID("vec4s");
-        if (ImGui::CollapsingHeader("vec4s"))
-        {
-            RenderMember("vec4s", component->vec4s);
+            ImGui::PushID("objectColor");
+            RenderMember("Tint", component.colors["objectColor"]);
+            ImGui::PopID();
         }
-        ImGui::PopID();
+        // PBR
+        case 1: {
+            break;
+        }
+        // Unlit
+        case 2: {
+            ImGui::PushID("lightColor");
+            RenderMember("Color", component.colors["lightColor"]);
+            ImGui::PopID();
+            break;
+        }
 
-        ImGui::PushID("colors");
-        if (ImGui::CollapsingHeader("colors"))
-        {
-            RenderMember("colors", component->colors);
+        // Skybox
+        case 3: {
+            for (auto pair : component.textures)
+            {
+                ImGui::PushID(pair.name.c_str());
+                RenderMember(pair.name, pair.path);
+                ImGui::PopID();
+            }
+            break;
         }
-        ImGui::PopID();
+        default: {
+            ImGui::PushID("shader_source");
+            RenderMember("shader_source", component.shader_source);
+            ImGui::PopID();
 
-        ImGui::PushID("ints");
-        if (ImGui::CollapsingHeader("ints"))
-        {
-            RenderMember("ints", component->ints);
-        }
-        ImGui::PopID();
+            ImGui::PushID("textures");
+            if (ImGui::CollapsingHeader("textures"))
+            {
+                RenderMember("textures", component.textures);
+            }
+            ImGui::PopID();
 
-        ImGui::PushID("floats");
-        if (ImGui::CollapsingHeader("floats"))
-        {
-            RenderMember("floats", component->floats);
+            ImGui::PushID("vec3s");
+            if (ImGui::CollapsingHeader("vec3s"))
+            {
+                RenderMember("vec3s", component.vec3s);
+            }
+            ImGui::PopID();
+
+            ImGui::PushID("vec4s");
+            if (ImGui::CollapsingHeader("vec4s"))
+            {
+                RenderMember("vec4s", component.vec4s);
+            }
+            ImGui::PopID();
+
+            ImGui::PushID("colors");
+            if (ImGui::CollapsingHeader("colors"))
+            {
+                RenderMember("colors", component.colors);
+            }
+            ImGui::PopID();
+
+            ImGui::PushID("ints");
+            if (ImGui::CollapsingHeader("ints"))
+            {
+                RenderMember("ints", component.ints);
+            }
+            ImGui::PopID();
+
+            ImGui::PushID("floats");
+            if (ImGui::CollapsingHeader("floats"))
+            {
+                RenderMember("floats", component.floats);
+            }
+            ImGui::PopID();
+            break;
         }
-        ImGui::PopID();
+        }
 
         if (ImGui::Button("Remove"))
         {
@@ -461,7 +579,6 @@ void RenderComponent<MaterialComponent>(Vultr::Entity entity)
         }
     }
 }
-
 #ifndef WIN32
 VULTR_REGISTER_COMPONENT(TransformComponent, position, rotation, scale);
 VULTR_REGISTER_COMPONENT(StaticMeshComponent, source);
