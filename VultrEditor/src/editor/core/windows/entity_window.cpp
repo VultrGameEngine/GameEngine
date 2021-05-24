@@ -32,10 +32,6 @@ void EntityWindow::Render()
         }
     }
 
-    if (ImGui::Button("Save Scene"))
-    {
-        save_world(get_current_world(), File("test_world.json"));
-    }
     if (ImGui::Button("Load Scene"))
     {
         World *world = load_world(File("test_world.json"), engine_global()->component_registry);

@@ -35,11 +35,11 @@ namespace Vultr::Input
 namespace Vultr::InputSystem
 {
     typedef void (*MouseClickEvent)(int button);
+    typedef void (*KeyPressEvent)(int key, int scancode, int action, int mods);
     void register_system();
     void init(GLFWwindow *window);
     void update(const UpdateTick &tick);
-    void on_mouse_input(GLFWwindow *window, int button, int action, int mods);
-    void on_scroll(GLFWwindow *window, double xoffset, double yoffset);
     void on_mouse_click(const char *name, MouseClickEvent event);
+    void on_key_press(const char *name, KeyPressEvent event);
 
 } // namespace Vultr::InputSystem

@@ -13,7 +13,7 @@ namespace Vultr::InputSystem
         register_global_system<Component>(signature);
     }
 
-    void on_mouse_input(GLFWwindow *window, int button, int action, int mods)
+    static void on_mouse_input(GLFWwindow *window, int button, int action, int mods)
     {
         auto &provider = get_provider();
         bool prev_mouse_down = provider.mouse_down;
@@ -31,7 +31,7 @@ namespace Vultr::InputSystem
         }
     }
 
-    void on_scroll(GLFWwindow *window, double xamount, double yamount)
+    static void on_scroll(GLFWwindow *window, double xamount, double yamount)
     {
         auto &provider = get_provider();
         Input::ScrollInputEvent event = Input::ScrollInputEvent(provider.mouse_pos, glm::vec2(xamount, yamount));
@@ -42,12 +42,22 @@ namespace Vultr::InputSystem
         }
     }
 
+    static void on_key_input(GLFWwindow *window, int key, int scancode, int action, int mods)
+    {
+        auto &provider = get_provider();
+        for (auto [name, event] : provider.key_press_events)
+        {
+            event(key, scancode, action, mods);
+        }
+    }
+
     void init(GLFWwindow *window)
     {
         auto &provider = get_provider();
         provider.window = window;
         glfwSetMouseButtonCallback(provider.window, on_mouse_input);
         glfwSetScrollCallback(provider.window, on_scroll);
+        glfwSetKeyCallback(provider.window, on_key_input);
     }
 
     void update(const UpdateTick &tick)
@@ -104,6 +114,11 @@ namespace Vultr::InputSystem
     void on_mouse_click(const char *name, MouseClickEvent event)
     {
         get_provider().mouse_click_events[name] = event;
+    }
+
+    void on_key_press(const char *name, KeyPressEvent event)
+    {
+        get_provider().key_press_events[name] = event;
     }
 
 } // namespace Vultr::InputSystem

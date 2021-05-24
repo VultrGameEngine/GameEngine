@@ -41,9 +41,46 @@ static void OnMouseClick(int button)
         Editor::Get()->selected_entity = entity;
 }
 
+static void on_key_press(int key, int scancode, int action, int mods)
+{
+    static bool ctrl_down = false;
+    static bool s_down = false;
+    static bool d_down = false;
+    static bool saved_last_frame = false;
+    static bool duplicate_last_frame = false;
+    if (key == GLFW_KEY_S)
+        s_down = action == GLFW_PRESS;
+    if (key == GLFW_KEY_D)
+        d_down = action == GLFW_PRESS;
+    if (key == GLFW_KEY_LEFT_CONTROL || key == GLFW_KEY_RIGHT_CONTROL)
+        ctrl_down = action == GLFW_PRESS;
+    if (ctrl_down && s_down && !saved_last_frame)
+    {
+        saved_last_frame = true;
+        Editor::Save();
+        std::cout << "Saved! \n";
+    }
+    else if (!ctrl_down || !s_down)
+    {
+        saved_last_frame = false;
+    }
+
+    if (ctrl_down && d_down && !duplicate_last_frame)
+    {
+        duplicate_last_frame = true;
+        Editor::DuplicateEntity();
+        std::cout << "Duplicated! \n";
+    }
+    else if (!ctrl_down || !d_down)
+    {
+        duplicate_last_frame = false;
+    }
+}
+
 SceneWindow::SceneWindow()
 {
     InputSystem::on_mouse_click("SceneWindow", OnMouseClick);
+    InputSystem::on_key_press("SceneWindow", on_key_press);
 }
 
 void SceneWindow::Render()

@@ -19,6 +19,7 @@ namespace Vultr
             return false;
         };
         virtual void EntityDestroyed(Entity entity){};
+        virtual void DuplicateData(Entity original, Entity new_entity){};
         virtual void to_json(json &j) const {};
         virtual void from_json(const json &j){};
     };
@@ -82,6 +83,14 @@ namespace Vultr
         bool HasData(Entity entity) override
         {
             return entity_to_index_map.find(entity) != entity_to_index_map.end();
+        }
+
+        void DuplicateData(Entity original, Entity duplicate) override
+        {
+            assert(HasData(original) && !HasData(duplicate) && "Cannot duplicate because original does not exist or duplicate entity already exists");
+
+            T component = GetData(original);
+            InsertData(duplicate, component);
         }
 
         T *GetDataUnsafe(Entity entity)

@@ -22,6 +22,8 @@ class Editor
     }
     static unsigned int GetDockSpace();
     static void Render();
+    static void Save();
+    static void DuplicateEntity();
     Vultr::Entity selected_entity;
     ImGuizmo::OPERATION current_operation = ImGuizmo::OPERATION::TRANSLATE;
 

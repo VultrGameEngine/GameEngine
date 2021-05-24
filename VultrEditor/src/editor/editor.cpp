@@ -99,6 +99,33 @@ void Editor::Render()
     glEnable(GL_DEPTH_TEST);
 }
 
+void Editor::Save()
+{
+    save_world(get_current_world(), File("test_world.json"));
+}
+
+void Editor::DuplicateEntity()
+{
+    Entity selected_entity = Get()->selected_entity;
+    if (selected_entity == INVALID_ENTITY)
+        return;
+    auto *world = get_current_world();
+    Entity duplicate = create_entity(world);
+    auto &component_manager = world_get_component_manager(world);
+    for (auto [type, data] : engine_global()->component_registry.components)
+    {
+        auto *component_array = component_manager.component_arrays[type];
+        if (component_array->HasData(selected_entity))
+        {
+            component_array->DuplicateData(selected_entity, duplicate);
+        }
+    }
+    auto signature = get_entity_signature(world, selected_entity);
+    system_manager_entity_signature_changed(world_get_system_manager(world), duplicate, signature);
+    system_manager_entity_signature_changed(engine_global()->system_manager, duplicate, signature);
+    entity_manager_set_signature(world_get_entity_manager(world), duplicate, signature);
+}
+
 void Editor::ClearSelections()
 {
     selected_entity = selected_entity_queue.back();

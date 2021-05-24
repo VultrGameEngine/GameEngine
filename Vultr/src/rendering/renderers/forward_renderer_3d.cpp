@@ -29,7 +29,7 @@ namespace Vultr::Renderer3D
         {
             auto &light_component = entity_get_component<LightComponent>(directional_light);
             auto &transform_component = entity_get_component<TransformComponent>(directional_light);
-            shader->SetUniform3f("directional_light.direction", transform_component.Forward());
+            shader->SetUniform3f("directional_light.direction", -transform_component.Up());
             shader->SetUniform3f("directional_light.ambient", light_component.ambient.value);
             shader->SetUniform3f("directional_light.diffuse", light_component.diffuse.value);
             shader->SetUniform3f("directional_light.specular", glm::vec3(light_component.specular));

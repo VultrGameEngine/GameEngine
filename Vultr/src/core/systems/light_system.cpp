@@ -12,7 +12,7 @@ namespace Vultr::LightSystem
         Signature signature;
         signature.set(get_component_type<LightComponent>(), true);
         signature.set(get_component_type<TransformComponent>(), true);
-        register_global_system<Component>(signature, nullptr, nullptr);
+        register_global_system<Component>(signature, nullptr, on_destroy_entity);
     }
 
     static void remove_extraneous_point_lights(Entity e)
@@ -55,6 +55,19 @@ namespace Vultr::LightSystem
                 break;
             }
             }
+        }
+    }
+
+    void on_destroy_entity(Entity entity)
+    {
+        auto &provider = get_provider();
+        if (provider.directional_light == entity)
+        {
+            provider.directional_light = INVALID_ENTITY;
+        }
+        if (provider.point_lights.find(entity) != provider.point_lights.end())
+        {
+            provider.point_lights.erase(entity);
         }
     }
 

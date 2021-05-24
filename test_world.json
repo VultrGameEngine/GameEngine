@@ -44,14 +44,14 @@
                         "diffuse": {
                             "value": {
                                 "w": 1.0,
-                                "x": 1.0,
-                                "y": 0.9999899864196777,
-                                "z": 0.9999899864196777
+                                "x": 0.22506392002105713,
+                                "y": 0.22506166994571686,
+                                "z": 0.22506166994571686
                             }
                         },
                         "linear": 0.0,
                         "quadratic": 0.0,
-                        "specular": 1.0199999809265137,
+                        "specular": 0.0,
                         "type": 0
                     }
                 ],
@@ -183,6 +183,92 @@
                                 "value": {
                                     "w": 1.0,
                                     "x": 1.0,
+                                    "y": 0.9999899864196777,
+                                    "z": 0.9999899864196777
+                                }
+                            }
+                        },
+                        "floats": {
+                            "material.shininess": 1.0
+                        },
+                        "ints": {
+                            "material.diffuse": 0,
+                            "material.specular": 1
+                        },
+                        "shader_source": {
+                            "extension": "Shader (*.glsl) {.glsl}",
+                            "path": "shaders/forward_material.glsl"
+                        },
+                        "textures": [
+                            {
+                                "name": "Diffuse",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
+                                "slot": 0
+                            },
+                            {
+                                "name": "Specular",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/specular.png"
+                                },
+                                "slot": 1
+                            }
+                        ],
+                        "vec3s": {},
+                        "vec4s": {}
+                    },
+                    {
+                        "colors": {
+                            "tint": {
+                                "value": {
+                                    "w": 1.0,
+                                    "x": 1.0,
+                                    "y": 0.9999899864196777,
+                                    "z": 0.9999899864196777
+                                }
+                            }
+                        },
+                        "floats": {
+                            "material.shininess": 1.0
+                        },
+                        "ints": {
+                            "material.diffuse": 0,
+                            "material.specular": 1
+                        },
+                        "shader_source": {
+                            "extension": "Shader (*.glsl) {.glsl}",
+                            "path": "shaders/forward_material.glsl"
+                        },
+                        "textures": [
+                            {
+                                "name": "Diffuse",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/diffuse.png"
+                                },
+                                "slot": 0
+                            },
+                            {
+                                "name": "Specular",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/specular.png"
+                                },
+                                "slot": 1
+                            }
+                        ],
+                        "vec3s": {},
+                        "vec4s": {}
+                    },
+                    {
+                        "colors": {
+                            "tint": {
+                                "value": {
+                                    "w": 1.0,
+                                    "x": 1.0,
                                     "y": 1.0,
                                     "z": 1.0
                                 }
@@ -204,7 +290,7 @@
                                 "name": "Diffuse",
                                 "path": {
                                     "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
-                                    "path": ""
+                                    "path": "textures/cube/diffuse.png"
                                 },
                                 "slot": 0
                             },
@@ -212,7 +298,7 @@
                                 "name": "Specular",
                                 "path": {
                                     "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
-                                    "path": ""
+                                    "path": "textures/cube/specular.png"
                                 },
                                 "slot": 1
                             }
@@ -223,33 +309,49 @@
                 ],
                 "entity_to_index_map": [
                     [
-                        3,
-                        2
+                        6,
+                        4
                     ],
                     [
-                        1,
-                        1
+                        5,
+                        3
                     ],
                     [
                         2,
                         0
-                    ]
-                ],
-                "index_to_entity_map": [
-                    [
-                        2,
-                        3
                     ],
                     [
                         1,
                         1
                     ],
                     [
-                        0,
+                        3,
                         2
                     ]
                 ],
-                "size": 3
+                "index_to_entity_map": [
+                    [
+                        4,
+                        6
+                    ],
+                    [
+                        3,
+                        5
+                    ],
+                    [
+                        0,
+                        2
+                    ],
+                    [
+                        1,
+                        1
+                    ],
+                    [
+                        2,
+                        3
+                    ]
+                ],
+                "size": 5
             },
             "SkyBoxComponent": {
                 "component_array": [
@@ -284,29 +386,57 @@
                             "extension": "Image (*.obj *.fbx...){.obj,.fbx,.blend,}",
                             "path": "models/cube.obj"
                         }
+                    },
+                    {
+                        "source": {
+                            "extension": "Image (*.obj *.fbx...){.obj,.fbx,.blend,}",
+                            "path": "models/cube.obj"
+                        }
+                    },
+                    {
+                        "source": {
+                            "extension": "Image (*.obj *.fbx...){.obj,.fbx,.blend,}",
+                            "path": "models/cube.obj"
+                        }
                     }
                 ],
                 "entity_to_index_map": [
                     [
-                        3,
-                        1
+                        6,
+                        3
+                    ],
+                    [
+                        5,
+                        2
                     ],
                     [
                         1,
                         0
+                    ],
+                    [
+                        3,
+                        1
                     ]
                 ],
                 "index_to_entity_map": [
                     [
-                        1,
-                        3
+                        3,
+                        6
+                    ],
+                    [
+                        2,
+                        5
                     ],
                     [
                         0,
                         1
+                    ],
+                    [
+                        1,
+                        3
                     ]
                 ],
-                "size": 2
+                "size": 4
             },
             "TestComponent": {
                 "entity_to_index_map": [],
@@ -317,20 +447,20 @@
                 "component_array": [
                     {
                         "position": {
-                            "x": 0.05888236314058304,
-                            "y": -0.003596114693209529,
-                            "z": 0.07356592267751694
+                            "x": 4.7370405197143555,
+                            "y": -0.7031707763671875,
+                            "z": 0.06142345070838928
                         },
                         "rotation": {
-                            "w": 0.034676939249038696,
-                            "x": -0.7072469592094421,
+                            "w": 0.0346769243478775,
+                            "x": -0.7072470188140869,
                             "y": -0.7057622075080872,
-                            "z": 0.022335253655910492
+                            "z": 0.022335268557071686
                         },
                         "scale": {
-                            "x": 0.15153749287128448,
-                            "y": 9.740750312805176,
-                            "z": 7.018641471862793
+                            "x": 0.7246025204658508,
+                            "y": 9.740748405456543,
+                            "z": 7.01863956451416
                         }
                     },
                     {
@@ -353,9 +483,9 @@
                     },
                     {
                         "position": {
-                            "x": 3.6261398792266846,
-                            "y": 1.235743761062622,
-                            "z": -2.081902027130127
+                            "x": 7.133238792419434,
+                            "y": 1.235730528831482,
+                            "z": 0.9225761294364929
                         },
                         "rotation": {
                             "w": 0.20524859428405762,
@@ -371,60 +501,112 @@
                     },
                     {
                         "position": {
+                            "x": -1.401998519897461,
+                            "y": 1.235740303993225,
+                            "z": -1.9965202808380127
+                        },
+                        "rotation": {
+                            "w": 0.598888099193573,
+                            "x": 1.5246396145585095e-08,
+                            "y": -0.8008327484130859,
+                            "z": -1.5246396145585095e-08
+                        },
+                        "scale": {
+                            "x": 0.9999998807907104,
+                            "y": 1.0,
+                            "z": 0.9999998807907104
+                        }
+                    },
+                    {
+                        "position": {
                             "x": 0.0,
                             "y": 0.0,
                             "z": 0.0
                         },
                         "rotation": {
-                            "w": 0.9996679425239563,
+                            "w": 0.9999780058860779,
                             "x": 0.0,
-                            "y": 0.0,
-                            "z": 0.025768226012587547
+                            "y": -0.0,
+                            "z": -0.0066300807520747185
+                        },
+                        "scale": {
+                            "x": 1.0,
+                            "y": 1.0,
+                            "z": 1.0
+                        }
+                    },
+                    {
+                        "position": {
+                            "x": 2.401257276535034,
+                            "y": 1.235734224319458,
+                            "z": -0.06383788585662842
+                        },
+                        "rotation": {
+                            "w": 0.20524859428405762,
+                            "x": 5.8394704183228896e-08,
+                            "y": -0.978709876537323,
+                            "z": -5.8394704183228896e-08
                         },
                         "scale": {
                             "x": 0.9999997615814209,
-                            "y": 0.9999997615814209,
-                            "z": 1.0000001192092896
+                            "y": 1.0,
+                            "z": 0.9999997615814209
                         }
                     }
                 ],
                 "entity_to_index_map": [
                     [
-                        1,
-                        0
+                        6,
+                        5
                     ],
                     [
-                        2,
-                        1
+                        5,
+                        3
                     ],
                     [
                         3,
                         2
                     ],
                     [
+                        2,
+                        1
+                    ],
+                    [
+                        1,
+                        0
+                    ],
+                    [
                         4,
-                        3
+                        4
                     ]
                 ],
                 "index_to_entity_map": [
+                    [
+                        5,
+                        6
+                    ],
+                    [
+                        3,
+                        5
+                    ],
+                    [
+                        2,
+                        3
+                    ],
+                    [
+                        1,
+                        2
+                    ],
                     [
                         0,
                         1
                     ],
                     [
-                        1,
-                        2
-                    ],
-                    [
-                        2,
-                        3
-                    ],
-                    [
-                        3,
+                        4,
                         4
                     ]
                 ],
-                "size": 4
+                "size": 6
             }
         }
     },
@@ -446,9 +628,11 @@
             1,
             2,
             3,
-            4
+            4,
+            5,
+            6
         ],
-        "living_entity_count": 4,
+        "living_entity_count": 6,
         "signatures": {
             "1": [
                 1,
@@ -557,6 +741,74 @@
                 0,
                 1,
                 1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "5": [
+                1,
+                1,
+                1,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+            ],
+            "6": [
+                1,
+                1,
+                1,
+                0,
                 0,
                 0,
                 0,
