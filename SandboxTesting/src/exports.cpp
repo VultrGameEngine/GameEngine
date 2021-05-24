@@ -7,9 +7,5 @@ void *init(void *engine)
 }
 void flush(void *game)
 {
-    delete game;
+    delete (Game *)game;
 }
-//void imgui_set_context(void *context)
-//{
-//    ImGui::SetCurrentContext((ImGuiContext *)context);
-//}

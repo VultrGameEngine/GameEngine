@@ -12,7 +12,7 @@ class GUIRendererTest : public ::testing::Test
     void SetUp() override
     {
         Vultr::Engine *engine = new Vultr::Engine();
-        engine_init(*engine, false);
+        engine_init(engine, false);
         renderer = new Vultr::GUI::GUIRenderer();
         vertex = Vultr::GUI::GUIVertex();
     }
