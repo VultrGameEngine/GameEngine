@@ -9,6 +9,8 @@ class SandboxTest : public Game
     void Init() override;
     void Update(const Vultr::UpdateTick &tick) override;
     void Flush() override;
+    void SetImGuiContext(ImGuiContext *context) override;
+
 
   private:
     Vultr::Engine *engine;

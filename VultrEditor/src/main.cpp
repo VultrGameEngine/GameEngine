@@ -6,7 +6,8 @@
 using namespace Vultr;
 int main(void)
 {
-    Engine &vultr = engine_global();
+    engine_global() = new Engine();
+    auto *vultr = engine_global();
 
     float lastTime = 0;
 #ifdef _WIN32
@@ -20,13 +21,14 @@ int main(void)
 #else
     engine_load_game(vultr, "/home/brandon/Dev/GameEngine/SandboxTesting/build/libGame.so");
 #endif
-    engine_global().game->RegisterComponents();
+    engine_global()->game->RegisterComponents();
+    vultr->game->SetImGuiContext(ImGui::GetCurrentContext());
 
-    while (!vultr.should_close)
+    while (!vultr->should_close)
     {
         engine_update_game(vultr, lastTime, Editor::Get()->playing);
         Editor::Get()->Render();
-        glfwSwapBuffers(vultr.window);
+        glfwSwapBuffers(vultr->window);
         glfwPollEvents();
     }
 }

@@ -39,40 +39,40 @@ namespace Vultr
 #endif
     }
 
-    Engine &engine_global()
+    Engine *&engine_global()
     {
-        static Engine engine;
+        static Engine *engine;
         return engine;
     }
 
     World *get_current_world()
     {
-        return engine_global().current_world;
+        return engine_global()->current_world;
     }
 
     void change_world(World *new_world)
     {
-        auto &e = engine_global();
-        World *old_world = e.current_world;
-        e.current_world = new_world;
+        auto *e = engine_global();
+        World *old_world = e->current_world;
+        e->current_world = new_world;
         if (old_world == nullptr)
             return;
         for (Entity entity : world_get_entity_manager(old_world).living_entites)
         {
-            system_manager_entity_destroyed(e.system_manager, entity);
+            system_manager_entity_destroyed(e->system_manager, entity);
         }
         auto &entity_manager = world_get_entity_manager(new_world);
         auto &system_manager_world = world_get_system_manager(new_world);
         for (Entity entity : entity_manager.living_entites)
         {
             // Add the new entities to both the global systems and the new systems in the new world
-            system_manager_entity_signature_changed(e.system_manager, entity, entity_manager.signatures[entity]);
+            system_manager_entity_signature_changed(e->system_manager, entity, entity_manager.signatures[entity]);
             system_manager_entity_signature_changed(system_manager_world, entity, entity_manager.signatures[entity]);
         }
         destroy_world(old_world);
     }
 
-    void engine_init(Engine &e, bool debug)
+    void engine_init(Engine *e, bool debug)
     {
         if (!glfwInit())
         {
@@ -102,19 +102,19 @@ namespace Vultr
 
 #ifdef _WIN32
         glfwWindowHint(GLFW_DECORATED, GL_FALSE);
-        e.window = glfwCreateWindow(mode->width, mode->height, "VultrEditor", nullptr, nullptr);
+        e->window = glfwCreateWindow(mode->width, mode->height, "VultrEditor", nullptr, nullptr);
 #else
         e.window = glfwCreateWindow(mode->width, mode->height, "VultrEditor", debug ? nullptr : glfwGetPrimaryMonitor(), nullptr);
 #endif
 
-        if (e.window == nullptr)
+        if (e->window == nullptr)
         {
             std::cout << "Failed to create GLFW window" << std::endl;
             glfwTerminate();
             return;
         }
 
-        glfwMakeContextCurrent(e.window);
+        glfwMakeContextCurrent(e->window);
 
         if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
         {
@@ -122,7 +122,7 @@ namespace Vultr
             return;
         }
 
-        e.debug = debug;
+        e->debug = debug;
 
         glEnable(GL_CULL_FACE);
         glEnable(GL_DEBUG_OUTPUT);
@@ -135,18 +135,18 @@ namespace Vultr
             ImGuiIO &io = ImGui::GetIO();
             io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
             ImGui::StyleColorsDark();
-            ImGui_ImplGlfw_InitForOpenGL(e.window, true);
+            ImGui_ImplGlfw_InitForOpenGL(e->window, true);
             ImGui_ImplOpenGL3_Init("#version 410");
             io.Fonts->AddFontFromFileTTF(Path::GetFullPath("fonts/Roboto-Regular.ttf").c_str(), 30);
             ImGui::StyleColorsDark();
         }
 
-        change_world(new_world(e.component_registry));
+        change_world(new_world(e->component_registry));
         engine_register_default_components(e);
         engine_init_default_systems(e);
     }
 
-    void engine_load_game(Engine &e, const char *path)
+    void engine_load_game(Engine *e, const char *path)
     {
         void *DLL = load_dll(path);
 
@@ -155,15 +155,15 @@ namespace Vultr
         GameInit_f init = (GameInit_f)get_function_pointer(DLL, "init");
         GameDestroy_f destroy = (GameDestroy_f)get_function_pointer(DLL, "flush");
 
-        e.game = (Game *)init(&e);
+        e->game = (Game *)init(e);
     }
 
-    void engine_load_game(Engine &e, Game *game)
+    void engine_load_game(Engine *e, Game *game)
     {
-        e.game = game;
+        e->game = game;
     }
 
-    void engine_register_default_components(Engine &e)
+    void engine_register_default_components(Engine *e)
     {
         register_component<StaticMeshComponent>();
         register_component<MaterialComponent>();
@@ -174,7 +174,7 @@ namespace Vultr
         register_component<SkyBoxComponent>();
     }
 
-    void engine_init_default_systems(Engine &e)
+    void engine_init_default_systems(Engine *e)
     {
         MeshLoaderSystem::register_system();
         ShaderLoaderSystem::register_system();
@@ -188,37 +188,37 @@ namespace Vultr
         InputSystem::register_system();
         FontSystem::register_system();
         FontSystem::init();
-        InputSystem::init(e.window);
+        InputSystem::init(e->window);
 
-        ControllerSystem::init(e.window);
-        glfwSetWindowFocusCallback(e.window, ControllerSystem::window_focus_callback);
+        ControllerSystem::init(e->window);
+        glfwSetWindowFocusCallback(e->window, ControllerSystem::window_focus_callback);
 
         glm::vec2 dimensions = RenderSystem::get_dimensions(GAME);
         GUISystem::init(TestLayout());
     }
 
-    void engine_init_game(Engine &e)
+    void engine_init_game(Engine *e)
     {
-        assert(e.game != nullptr && "Game has not been loaded!");
-        e.game->Init();
+        assert(e->game != nullptr && "Game has not been loaded!");
+        e->game->Init();
     }
-    void engine_update_game(Engine &e, float &last_time, bool play)
+    void engine_update_game(Engine *e, float &last_time, bool play)
     {
-        e.should_close = glfwWindowShouldClose(e.window);
+        e->should_close = glfwWindowShouldClose(e->window);
 
         float t = glfwGetTime();
         float deltaTime = t - last_time;
         last_time = t;
-        UpdateTick tick = UpdateTick(deltaTime, e.debug);
+        UpdateTick tick = UpdateTick(deltaTime, e->debug);
 
-        if (e.game != nullptr && play)
-            e.game->Update(tick);
+        if (e->game != nullptr && play)
+            e->game->Update(tick);
 
         // Only continuously update the meshes if we are planning on changing
         // these components at random (really will only happen in the editor) If
         // you need to change these components at runtime, destroy and then readd
         // the components
-        if (e.debug)
+        if (e->debug)
         {
             ShaderLoaderSystem::update();
             TextureLoaderSystem::update();
@@ -230,7 +230,7 @@ namespace Vultr
         RenderSystem::update(tick);
     }
 
-    double engine_get_time_elapsed(Engine &e)
+    double engine_get_time_elapsed(Engine *e)
     {
         return glfwGetTime();
     }

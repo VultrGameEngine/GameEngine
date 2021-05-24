@@ -1,4 +1,4 @@
-#include <editor/core/windows/entity_window.hpp>
+﻿#include <editor/core/windows/entity_window.hpp>
 #include <editor/editor.hpp>
 #include <imgui/imgui.h>
 #include <engine.hpp>
@@ -38,7 +38,7 @@ void EntityWindow::Render()
     }
     if (ImGui::Button("Load Scene"))
     {
-        World *world = load_world(File("test_world.json"), engine_global().component_registry);
+        World *world = load_world(File("test_world.json"), engine_global()->component_registry);
         change_world(world);
         // Engine::RegisterComponents();
         // Engine::InitSystems();

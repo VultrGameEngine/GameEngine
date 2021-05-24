@@ -7,6 +7,7 @@ using namespace Vultr;
 SandboxTest::SandboxTest(void *engine)
 {
     this->engine = (Vultr::Engine*) engine;
+    engine_global() = this->engine;
 }
 void SandboxTest::RegisterComponents()
 {
@@ -26,5 +27,9 @@ void SandboxTest::Update(const Vultr::UpdateTick &tick)
 
 void SandboxTest::Flush()
 {
+}
+void SandboxTest::SetImGuiContext(ImGuiContext *context)
+{
+    ImGui::SetCurrentContext(context);
 }
 

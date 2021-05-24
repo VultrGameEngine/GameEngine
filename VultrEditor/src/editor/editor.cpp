@@ -1,4 +1,4 @@
-#include <vultr.hpp>
+﻿#include <vultr.hpp>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <core/systems/render_system.h>

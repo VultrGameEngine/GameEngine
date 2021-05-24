@@ -1,4 +1,4 @@
-#include <editor/core/windows/component_window.hpp>
+﻿#include <editor/core/windows/component_window.hpp>
 #include <imgui/imgui.h>
 #include <editor/editor.hpp>
 #include <engine.hpp>
@@ -10,7 +10,7 @@ void ComponentWindow::Render()
     Entity entity = Editor::Get()->selected_entity;
     if (entity != INVALID_ENTITY)
     {
-        auto &registry = engine_global().component_registry;
+        auto &registry = engine_global()->component_registry;
         component_registry_render_entity_components(registry, Editor::Get()->selected_entity);
         if (ImGui::Button("Add Component"))
         {

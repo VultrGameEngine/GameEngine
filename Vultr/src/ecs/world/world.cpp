@@ -345,9 +345,9 @@ namespace Vultr
 
         json world_saved_json;
         i >> world_saved_json;
-        component_manager_from_json(world_saved_json["ComponentManager"], world->component_manager, engine_global().component_registry);
+        component_manager_from_json(world_saved_json["ComponentManager"], world->component_manager, engine_global()->component_registry);
         ComponentRegistry old_registry = world_saved_json["ComponentRegistry"];
-        entity_manager_from_json(world_saved_json["EntityManager"], world->entity_manager, old_registry, engine_global().component_registry);
+        entity_manager_from_json(world_saved_json["EntityManager"], world->entity_manager, old_registry, engine_global()->component_registry);
         return world;
     }
 
@@ -357,8 +357,8 @@ namespace Vultr
         o.open(out.GetPath());
         InternalWorld *world = static_cast<InternalWorld *>(_world);
         json component_manager_json;
-        component_manager_to_json(component_manager_json, world_get_component_manager(world), engine_global().component_registry);
-        json component_registry_json = engine_global().component_registry;
+        component_manager_to_json(component_manager_json, world_get_component_manager(world), engine_global()->component_registry);
+        json component_registry_json = engine_global()->component_registry;
         json entity_manager_json = world_get_entity_manager(world);
         json final_output = {
             {"ComponentRegistry", component_registry_json},
