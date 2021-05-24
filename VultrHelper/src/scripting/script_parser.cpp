@@ -96,6 +96,8 @@ namespace Vultr
 
         file << "#include \"" << generated_header << "\"\n";
 
+        file << "#include <json/json.hpp>\n";
+
         file << "using namespace Vultr;\n";
 
         int i = 0;

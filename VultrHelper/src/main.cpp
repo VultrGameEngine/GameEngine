@@ -86,7 +86,9 @@ int main(int argc, char *argv[])
     Directory components((std::filesystem::current_path() / "include/components/").string());
     GenerateInDir(components);
 #ifdef _WIN32
-    system("");
+    //system("mkdir build");
+    //system("cmake -Bbuild -S.");
+    system("cmake --build build --config Debug -j10");
 #else
     system("/usr/bin/cmake --no-warn-unused-cli "
            "-DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE -DCMAKE_BUILD_TYPE:STRING=Debug "
