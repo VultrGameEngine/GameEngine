@@ -1,3 +1,4 @@
+#include <vultr.hpp>
 #include <sandbox_test.h>
 #include <component_registrar.h>
 
@@ -8,7 +9,7 @@ int main(void)
 
     float lastTime = 0;
     engine_init(engine, false);
-    engine_load_game(engine, init(&engine));
+    //engine_load_game(engine, init(&engine));
 
     change_world(new_world(engine_global().component_registry));
     register_components();

@@ -1,4 +1,4 @@
-#include <vultr.hpp>
+﻿#include <vultr.hpp>
 #include <editor/editor.hpp>
 #include <iostream>
 #include <helpers/path.h>
@@ -9,18 +9,18 @@ int main(void)
     Engine &vultr = engine_global();
 
     float lastTime = 0;
-    #ifdef _WIN32
+#ifdef _WIN32
     Path::set_resource_path("C:/Users/Brand/Dev/GameEngine/SandboxTesting/res/");
-    #else
+#else
     Path::set_resource_path("/home/brandon/Dev/GameEngine/SandboxTesting/res/");
-    #endif
+#endif
     engine_init(vultr, true);
-    #ifdef _WIN32
-    //engine_load_game(vultr, "C:/Users/Brand/Dev/GameEngine/SandboxTesting/");
-    #else
+#ifdef _WIN32
+    engine_load_game(vultr, "C:/Users/Brand/Dev/GameEngine/VultrEditor/out/build/x64-Debug/Game.dll");
+#else
     engine_load_game(vultr, "/home/brandon/Dev/GameEngine/SandboxTesting/build/libGame.so");
-    #endif
-    //engine_global().game->RegisterComponents();
+#endif
+    engine_global().game->RegisterComponents();
 
     while (!vultr.should_close)
     {

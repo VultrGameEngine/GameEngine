@@ -1,6 +1,6 @@
 ﻿#include <game.hpp>
 #include <vultr.hpp>
-#ifdef WIN32
+#ifdef _WIN32
 #include <windows.h>
 #else
 #include <dlfcn.h>
@@ -150,12 +150,12 @@ namespace Vultr
     {
         void *DLL = load_dll(path);
 
-        typedef Game *(*GameInit_f)(Engine *);
-        typedef void (*GameDestroy_f)(Game *);
+        typedef void *(*GameInit_f)(void *);
+        typedef void (*GameDestroy_f)(void *);
         GameInit_f init = (GameInit_f)get_function_pointer(DLL, "init");
         GameDestroy_f destroy = (GameDestroy_f)get_function_pointer(DLL, "flush");
 
-        e.game = init(&e);
+        e.game = (Game *)init(&e);
     }
 
     void engine_load_game(Engine &e, Game *game)
@@ -244,159 +244,6 @@ namespace Vultr
 } // namespace Vultr
 
 using namespace Vultr;
-template <>
-void RenderMember(const std::string &name, std::string &m)
-{
-    char *buf = new char[4096];
-    strcpy(buf, m.c_str());
-    ImGui::InputText(name.c_str(), buf, sizeof(char) * 4096);
-    m = std::string(buf);
-}
-
-template <>
-void RenderMember(const std::string &name, float &m)
-{
-    ImGui::DragFloat(name.c_str(), &m, 0.02f);
-}
-
-template <>
-void RenderMember(const std::string &name, int &m)
-{
-    ImGui::DragInt(name.c_str(), &m);
-}
-
-template <>
-void RenderMember(const std::string &name, double &m)
-{
-    ImGui::DragFloat(name.c_str(), (float *)&m, 0.02f);
-}
-
-template <>
-void RenderMember(const std::string &name, bool &m)
-{
-    ImGui::Checkbox(name.c_str(), &m);
-}
-
-template <>
-void RenderMember(const std::string &name, glm::vec3 &m)
-{
-    ImGui::PushID((name + ".x").c_str());
-    ImGui::Text("%s", name.c_str());
-    ImGui::SameLine();
-    ImGui::SetNextItemWidth(150);
-    ImGui::DragFloat("", &m.x, 0.02f);
-    ImGui::SameLine();
-    ImGui::PopID();
-
-    ImGui::PushID((name + ".y").c_str());
-    ImGui::SetNextItemWidth(150);
-    ImGui::DragFloat("", &m.y, 0.02f);
-    ImGui::SameLine();
-    ImGui::PopID();
-
-    ImGui::PushID((name + ".z").c_str());
-    ImGui::SetNextItemWidth(150);
-    ImGui::DragFloat("", &m.z, 0.02f);
-    ImGui::PopID();
-}
-
-template <>
-void RenderMember(const std::string &name, glm::vec4 &m)
-{
-    ImGui::PushID((name + ".x").c_str());
-    ImGui::Text("%s", name.c_str());
-    ImGui::SameLine();
-    ImGui::SetNextItemWidth(150);
-    ImGui::DragFloat("", &m.x, 0.02f);
-    ImGui::SameLine();
-    ImGui::PopID();
-
-    ImGui::PushID((name + ".y").c_str());
-    ImGui::SetNextItemWidth(150);
-    ImGui::DragFloat("", &m.y, 0.02f);
-    ImGui::SameLine();
-    ImGui::PopID();
-
-    ImGui::PushID((name + ".z").c_str());
-    ImGui::SetNextItemWidth(150);
-    ImGui::DragFloat("", &m.z, 0.02f);
-    ImGui::SameLine();
-    ImGui::PopID();
-
-    ImGui::PushID((name + ".w").c_str());
-    ImGui::SetNextItemWidth(150);
-    ImGui::DragFloat("", &m.w, 0.02f);
-    ImGui::PopID();
-}
-
-template <>
-void RenderMember(const std::string &name, glm::quat &m)
-{
-    ImGui::PushID((name + ".x").c_str());
-    ImGui::Text("%s", name.c_str());
-    ImGui::SameLine();
-    ImGui::SetNextItemWidth(150);
-    ImGui::DragFloat("", &m.x, 0.02f);
-    ImGui::SameLine();
-    ImGui::PopID();
-
-    ImGui::PushID((name + ".y").c_str());
-    ImGui::SetNextItemWidth(150);
-    ImGui::DragFloat("", &m.y, 0.02f);
-    ImGui::SameLine();
-    ImGui::PopID();
-
-    ImGui::PushID((name + ".z").c_str());
-    ImGui::SetNextItemWidth(150);
-    ImGui::DragFloat("", &m.z, 0.02f);
-    ImGui::SameLine();
-    ImGui::PopID();
-
-    ImGui::PushID((name + ".w").c_str());
-    ImGui::SetNextItemWidth(150);
-    ImGui::DragFloat("", &m.w, 0.02f);
-    ImGui::PopID();
-}
-
-template <>
-void RenderMember(const std::string &name, File &file)
-{
-    ImGui::Text("%s", name.c_str());
-    ImGui::SameLine();
-    if (ImGui::Button(Path::get_shortened_resource_path(file.GetPath().string()).c_str()))
-    {
-        ImGuiFileDialog::Instance()->OpenDialog("FileChooser" + name, "Choose File", file.GetExtension(), Path::get_resource_path());
-    }
-
-    if (ImGuiFileDialog::Instance()->Display("FileChooser" + name))
-    {
-        if (ImGuiFileDialog::Instance()->IsOk())
-        {
-            std::string filePathName = ImGuiFileDialog::Instance()->GetFilePathName();
-            std::string filePath = ImGuiFileDialog::Instance()->GetCurrentPath();
-            std::cout << "Path " << filePath << std::endl;
-            file.path = Path::get_shortened_resource_path(filePathName);
-        }
-        ImGuiFileDialog::Instance()->Close();
-    }
-}
-
-template <>
-void RenderMember(const std::string &name, MaterialComponent::TexturePair &m)
-{
-    ImGui::PushID("texture");
-    RenderMember(m.name, m.path);
-    ImGui::PopID();
-}
-
-template <>
-void RenderMember(const std::string &name, Color &m)
-{
-    ImGui::PushID(name.c_str());
-    float *val = glm::value_ptr(m.value);
-    ImGui::ColorEdit4(name.c_str(), val);
-    ImGui::PopID();
-}
 
 template <>
 void RenderComponent<MaterialComponent>(Vultr::Entity entity)

@@ -41,8 +41,8 @@ void GenerateInDir(Directory dir)
     {
         std::string name_no_extensions = f.GetName();
         name_no_extensions = name_no_extensions.substr(0, name_no_extensions.size() - 2);
-        File expected_source_file = File(generated.GetPath() / (name_no_extensions + ".generated.cpp"));
-        File expected_header_file = File(generated.GetPath() / (name_no_extensions + ".generated.h"));
+        File expected_source_file = File((generated.GetPath() / (name_no_extensions + ".generated.cpp")).string());
+        File expected_header_file = File((generated.GetPath() / (name_no_extensions + ".generated.h")).string());
         // If we already have a generated file
         if (files.find(expected_source_file) != files.end())
         {
@@ -79,12 +79,15 @@ void GenerateInDir(Directory dir)
 
 int main(int argc, char *argv[])
 {
-    Directory current(std::filesystem::current_path());
+    Directory current((std::filesystem::current_path()).string());
     current.CreateSubDirectory("build");
-    Directory systems(std::filesystem::current_path() / "include/system_providers/");
+    Directory systems((std::filesystem::current_path() / "include/system_providers/").string());
     GenerateInDir(systems);
-    Directory components(std::filesystem::current_path() / "include/components/");
+    Directory components((std::filesystem::current_path() / "include/components/").string());
     GenerateInDir(components);
+#ifdef _WIN32
+    system("");
+#else
     system("/usr/bin/cmake --no-warn-unused-cli "
            "-DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE -DCMAKE_BUILD_TYPE:STRING=Debug "
            "-DCMAKE_C_COMPILER:FILEPATH=/bin/clang-11 "
@@ -107,4 +110,5 @@ int main(int argc, char *argv[])
             }
         }
     }
+#endif
 }

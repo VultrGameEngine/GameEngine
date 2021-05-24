@@ -4,9 +4,7 @@
 class SandboxTest : public Game
 {
   public:
-    SandboxTest(Vultr::Engine *p_engine) : engine(p_engine)
-    {
-    }
+    SandboxTest(void *p_engine);
     void RegisterComponents() override;
     void Init() override;
     void Update(const Vultr::UpdateTick &tick) override;
@@ -14,10 +12,4 @@ class SandboxTest : public Game
 
   private:
     Vultr::Engine *engine;
-};
-
-extern "C"
-{
-    Game *init(Vultr::Engine *engine);
-    void flush(Game *game);
 };

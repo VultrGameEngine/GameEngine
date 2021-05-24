@@ -2,6 +2,7 @@
 #include <iostream>
 #include <sstream>
 #include <stack>
+#include <types/types.hpp>
 
 namespace Vultr
 {

@@ -4,6 +4,10 @@
 #include <component_registrar.h>
 
 using namespace Vultr;
+SandboxTest::SandboxTest(void *engine)
+{
+    this->engine = (Vultr::Engine*) engine;
+}
 void SandboxTest::RegisterComponents()
 {
     register_components();
@@ -24,11 +28,3 @@ void SandboxTest::Flush()
 {
 }
 
-Game *init(Vultr::Engine *engine)
-{
-    return new SandboxTest(engine);
-}
-void flush(Game *game)
-{
-    delete game;
-}
