@@ -32,21 +32,13 @@ if(UNIX)
 endif(UNIX)
 
 if(WIN32)
-    find_library(VULTR Vultr HINTS C:/Users/Brand/Dev/GameEngine/Vultr/out/build/x64-Debug)
-    find_library(GLFW3 glfw3 HINTS C:/Users/Brand/Dev/GameEngine/Vultr/vendor/libs/WIN32)
-    find_library(FREETYPE freetyped HINTS C:/Users/Brand/Dev/GameEngine/Vultr/vendor/libs/WIN32)
-    find_library(ASSIMP assimp HINTS C:/Users/Brand/Dev/GameEngine/Vultr/vendor/libs/WIN32)
+    find_library(VULTR Vultr HINTS ${CMAKE_CURRENT_SOURCE_DIR}/../Vultr/out/build/x64-Debug)
+    find_library(GLFW3 glfw3 HINTS ${CMAKE_CURRENT_SOURCE_DIR}/../Vultr/vendor/libs/WIN32)
+    find_library(FREETYPE freetyped HINTS ${CMAKE_CURRENT_SOURCE_DIR}/../Vultr/vendor/libs/WIN32)
+    find_library(ASSIMP assimp HINTS ${CMAKE_CURRENT_SOURCE_DIR}/../Vultr/vendor/libs/WIN32)
     # add_executable(Game ${Game_SRC})
     add_library(Game SHARED ${Game_SRC})
     target_link_libraries(Game ${VULTR} ${GLFW3} ${FREETYPE} ${ASSIMP} opengl32)
-    add_custom_command(TARGET Game POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different  
-        "C:/Users/Brand/Dev/GameEngine/Vultr/vendor/libs/WIN32/assimp-vc142-mtd.dll"
-        $<TARGET_FILE_DIR:Game>)
-    add_custom_command(TARGET Game POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-        "${PROJECT_SOURCE_DIR}/res"
-        $<TARGET_FILE_DIR:Game>/res)
 endif(WIN32)
 
 install(TARGETS ${PROJECT_NAME} DESTINATION bin)

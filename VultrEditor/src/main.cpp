@@ -17,7 +17,7 @@ int main(void)
 #endif
     engine_init(vultr, true);
 #ifdef _WIN32
-    engine_load_game(vultr, "C:/Users/Brand/Dev/GameEngine/VultrEditor/out/build/x64-Debug/Game.dll");
+    engine_load_game(vultr, "C:/Users/Brand/Dev/GameEngine/SandboxTesting/build/Debug/Game.dll");
 #else
     engine_load_game(vultr, "/home/brandon/Dev/GameEngine/SandboxTesting/build/libGame.so");
 #endif
