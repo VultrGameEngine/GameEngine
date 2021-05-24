@@ -8,10 +8,12 @@ namespace Vultr
         {
             MaterialComponent component = MaterialComponent();
             component.shader_source = File("shaders/forward_material.glsl", SHADER_FILE_EXTENSIONS);
-            component.textures.push_back({File(p_texture, TEXTURE_FILE_EXTENSIONS), 0, "Albedo"});
-            component.colors.insert({"objectColor", Color(glm::vec4(1))});
-            component.colors.insert({"lightColor", Color(glm::vec4(1))});
-            component.ints.insert({"textureSampler", 0});
+            component.textures.push_back({File(p_texture, TEXTURE_FILE_EXTENSIONS), 0, "Diffuse"});
+            component.textures.push_back({File(p_texture, TEXTURE_FILE_EXTENSIONS), 1, "Specular"});
+            component.colors.insert({"tint", Color(glm::vec4(1))});
+            component.ints.insert({"material.diffuse", 0});
+            component.ints.insert({"material.specular", 1});
+            component.floats.insert({"material.shininess", 1.0});
             return component;
         }
     } // namespace ForwardMaterial

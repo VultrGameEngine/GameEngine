@@ -59,11 +59,23 @@ void from_json(const json &j, ControllerComponent &c)
 }
 void to_json(json &j, const LightComponent &c)
 {
-    TOJSON(some_param);
+    TOJSON(type);
+    TOJSON(ambient);
+    TOJSON(diffuse);
+    TOJSON(specular);
+    TOJSON(constant);
+    TOJSON(linear);
+    TOJSON(quadratic);
 }
 void from_json(const json &j, LightComponent &c)
 {
-    FROMJSON(some_param, s32)
+    FROMJSON(type, u8)
+    FROMJSON(ambient, Color)
+    FROMJSON(diffuse, Color)
+    FROMJSON(specular, f32)
+    FROMJSON(constant, f32)
+    FROMJSON(linear, f32)
+    FROMJSON(quadratic, f32)
 }
 void to_json(json &j, const SkyBoxComponent &c)
 {

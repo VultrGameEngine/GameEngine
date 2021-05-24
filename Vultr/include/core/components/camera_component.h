@@ -18,6 +18,8 @@ struct CameraComponent
     f32 znear = 0.1f;
     f32 zfar = 100.0f;
 
+    bool gamma_correction = true;
+
     glm::mat4 GetProjectionMatrix(float width, float height) const
     {
         return glm::perspective(fov, width / height, znear, zfar);

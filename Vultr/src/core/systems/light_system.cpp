@@ -12,13 +12,50 @@ namespace Vultr::LightSystem
         Signature signature;
         signature.set(get_component_type<LightComponent>(), true);
         signature.set(get_component_type<TransformComponent>(), true);
-        register_global_system<Component>(signature, on_create_entity, nullptr);
+        register_global_system<Component>(signature, nullptr, nullptr);
     }
 
-    void on_create_entity(Entity entity)
+    static void remove_extraneous_point_lights(Entity e)
     {
         auto &provider = get_provider();
-        provider.light = entity;
+        if (provider.point_lights.find(e) != provider.point_lights.end())
+        {
+            provider.point_lights.erase(e);
+        }
+    }
+
+    void update()
+    {
+        auto &provider = get_provider();
+        for (auto e : provider.entities)
+        {
+            auto &light_component = entity_get_component<LightComponent>(e);
+            switch (light_component.type)
+            {
+            case LightComponent::DirectionalLight: {
+                if (provider.directional_light != INVALID_ENTITY && provider.directional_light != e)
+                {
+                    std::cout << "Vultr only supports 1 directional light per scene!";
+                }
+                else
+                {
+                    provider.directional_light = e;
+                }
+                remove_extraneous_point_lights(e);
+                break;
+            }
+            case LightComponent::PointLight: {
+                provider.point_lights.insert(e);
+                break;
+            }
+            case LightComponent::SpotLight: {
+                break;
+            }
+            default: {
+                break;
+            }
+            }
+        }
     }
 
 } // namespace Vultr::LightSystem

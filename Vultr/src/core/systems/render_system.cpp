@@ -155,11 +155,6 @@ namespace Vultr::RenderSystem
 
         // Get the entities saved by other systems
         Entity camera = camera_system_provider.camera;
-        Entity light = light_system_provider.light;
-
-        // If there is no light then we cannot render
-        if (light == INVALID_ENTITY)
-            return;
 
         // If no camera is in the scene, then something is wrong and we can't render
         if (camera != INVALID_ENTITY)
@@ -176,9 +171,7 @@ namespace Vultr::RenderSystem
             auto &camera_transform = entity_get_component<TransformComponent>(camera);
             auto &camera_component = entity_get_component<CameraComponent>(camera);
 
-            // Get the transform of the light
-            auto &light_transform = entity_get_component<TransformComponent>(light);
-            RenderContext::SetContext(get_dimensions(GAME), light_transform.position, camera_transform, camera_component);
+            RenderContext::SetContext(get_dimensions(GAME), camera_transform, camera_component);
 
             // Set the vieport dimensions to match that in the editor
             glViewport(0, 0, get_dimensions(GAME).x, get_dimensions(GAME).y);
@@ -202,6 +195,14 @@ namespace Vultr::RenderSystem
 
         if (!meta_data.debug)
         {
+            if (camera != INVALID_ENTITY)
+            {
+                auto &camera_component = entity_get_component<CameraComponent>(camera);
+                if (camera_component.gamma_correction)
+                {
+                    glEnable(GL_FRAMEBUFFER_SRGB);
+                }
+            }
             const GLFWvidmode *mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
             glViewport(0, 0, mode->width, mode->height);
             glClearColor(0.0, 0.0, 0.0, 0.0);
@@ -210,6 +211,7 @@ namespace Vultr::RenderSystem
             provider.post_processing_shader->SetUniform1i("renderedTexture", 0);
             provider.game.render_texture->Bind(GL_TEXTURE0);
             provider.render_quad->Draw();
+            glDisable(GL_FRAMEBUFFER_SRGB);
         }
 
         if (meta_data.debug)
@@ -227,9 +229,9 @@ namespace Vultr::RenderSystem
             // Set the viewport to match that in the editor
             glViewport(0, 0, get_dimensions(SCENE).x, get_dimensions(SCENE).y);
             // Get the transform of the light
-            auto &light_transform = entity_get_component<TransformComponent>(light);
+            // auto &light_transform = entity_get_component<TransformComponent>(light);
 
-            RenderContext::SetContext(get_dimensions(SCENE), light_transform.position, camera_transform, camera_component);
+            RenderContext::SetContext(get_dimensions(SCENE), camera_transform, camera_component);
 
             // Render both the skybox and the static meshes in the scene
             render_skybox(SCENE);

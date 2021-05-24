@@ -6,7 +6,7 @@
                     {
                         "enabled": true,
                         "fov": 45.0,
-                        "zfar": 100.0,
+                        "zfar": 1000.0,
                         "znear": 0.10000000149011612
                     }
                 ],
@@ -32,7 +32,27 @@
             "LightComponent": {
                 "component_array": [
                     {
-                        "some_param": 0
+                        "ambient": {
+                            "value": {
+                                "w": 1.0,
+                                "x": 1.0,
+                                "y": 0.9999899864196777,
+                                "z": 0.9999899864196777
+                            }
+                        },
+                        "constant": 0.0,
+                        "diffuse": {
+                            "value": {
+                                "w": 1.0,
+                                "x": 1.0,
+                                "y": 0.9999899864196777,
+                                "z": 0.9999899864196777
+                            }
+                        },
+                        "linear": 0.0,
+                        "quadratic": 0.0,
+                        "specular": 1.0199999809265137,
+                        "type": 0
                     }
                 ],
                 "entity_to_index_map": [
@@ -116,26 +136,21 @@
                     },
                     {
                         "colors": {
-                            "lightColor": {
+                            "tint": {
                                 "value": {
                                     "w": 1.0,
                                     "x": 1.0,
                                     "y": 1.0,
                                     "z": 1.0
                                 }
-                            },
-                            "objectColor": {
-                                "value": {
-                                    "w": 1.0,
-                                    "x": 1.0,
-                                    "y": 0.9999899864196777,
-                                    "z": 0.9999899864196777
-                                }
                             }
                         },
-                        "floats": {},
+                        "floats": {
+                            "material.shininess": 1.0
+                        },
                         "ints": {
-                            "textureSampler": 0
+                            "material.diffuse": 0,
+                            "material.specular": 1
                         },
                         "shader_source": {
                             "extension": "Shader (*.glsl) {.glsl}",
@@ -143,12 +158,20 @@
                         },
                         "textures": [
                             {
-                                "name": "Albedo",
+                                "name": "Diffuse",
                                 "path": {
                                     "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
                                     "path": "textures/cube/diffuse.png"
                                 },
                                 "slot": 0
+                            },
+                            {
+                                "name": "Specular",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": "textures/cube/specular.png"
+                                },
+                                "slot": 1
                             }
                         ],
                         "vec3s": {},
@@ -156,52 +179,74 @@
                     },
                     {
                         "colors": {
-                            "lightColor": {
+                            "tint": {
                                 "value": {
                                     "w": 1.0,
                                     "x": 1.0,
-                                    "y": 0.9999899864196777,
-                                    "z": 0.9999899864196777
+                                    "y": 1.0,
+                                    "z": 1.0
                                 }
                             }
                         },
-                        "floats": {},
-                        "ints": {},
+                        "floats": {
+                            "material.shininess": 1.0
+                        },
+                        "ints": {
+                            "material.diffuse": 0,
+                            "material.specular": 1
+                        },
                         "shader_source": {
                             "extension": "Shader (*.glsl) {.glsl}",
-                            "path": "shaders/unlit.glsl"
+                            "path": "shaders/forward_material.glsl"
                         },
-                        "textures": [],
+                        "textures": [
+                            {
+                                "name": "Diffuse",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": ""
+                                },
+                                "slot": 0
+                            },
+                            {
+                                "name": "Specular",
+                                "path": {
+                                    "extension": "Image (*.jpg *.png...){.jpeg,.jpg,.png,.bmp,.dds,.JPEG,.JPG,.PNG,.BMP,.DDS}",
+                                    "path": ""
+                                },
+                                "slot": 1
+                            }
+                        ],
                         "vec3s": {},
                         "vec4s": {}
                     }
                 ],
                 "entity_to_index_map": [
                     [
-                        2,
-                        0
+                        3,
+                        2
                     ],
                     [
                         1,
                         1
                     ],
                     [
-                        4,
-                        2
+                        2,
+                        0
                     ]
                 ],
                 "index_to_entity_map": [
                     [
-                        0,
-                        2
+                        2,
+                        3
                     ],
                     [
                         1,
                         1
                     ],
                     [
-                        2,
-                        4
+                        0,
+                        2
                     ]
                 ],
                 "size": 3
@@ -243,22 +288,22 @@
                 ],
                 "entity_to_index_map": [
                     [
-                        1,
-                        0
+                        3,
+                        1
                     ],
                     [
-                        4,
-                        1
+                        1,
+                        0
                     ]
                 ],
                 "index_to_entity_map": [
                     [
-                        0,
-                        1
+                        1,
+                        3
                     ],
                     [
-                        1,
-                        4
+                        0,
+                        1
                     ]
                 ],
                 "size": 2
@@ -272,20 +317,20 @@
                 "component_array": [
                     {
                         "position": {
-                            "x": 0.058887332677841187,
-                            "y": -3.814697265625e-06,
-                            "z": 0.07356548309326172
+                            "x": 0.05888236314058304,
+                            "y": -0.003596114693209529,
+                            "z": 0.07356592267751694
                         },
                         "rotation": {
-                            "w": -0.04032221436500549,
-                            "x": 7.84807454579095e-08,
-                            "y": 0.9991867542266846,
-                            "z": 7.84807454579095e-08
+                            "w": 0.034676939249038696,
+                            "x": -0.7072469592094421,
+                            "y": -0.7057622075080872,
+                            "z": 0.022335253655910492
                         },
                         "scale": {
-                            "x": 1.0,
-                            "y": 1.0,
-                            "z": 1.0
+                            "x": 0.15153749287128448,
+                            "y": 9.740750312805176,
+                            "z": 7.018641471862793
                         }
                     },
                     {
@@ -308,75 +353,75 @@
                     },
                     {
                         "position": {
-                            "x": 0.0,
-                            "y": 0.0,
-                            "z": 0.0
+                            "x": 3.6261398792266846,
+                            "y": 1.235743761062622,
+                            "z": -2.081902027130127
                         },
                         "rotation": {
-                            "w": 1.0,
-                            "x": 0.0,
-                            "y": 0.0,
-                            "z": 0.0
+                            "w": 0.20524859428405762,
+                            "x": 5.8394704183228896e-08,
+                            "y": -0.978709876537323,
+                            "z": -5.8394704183228896e-08
                         },
                         "scale": {
-                            "x": 1.0,
+                            "x": 0.9999997615814209,
                             "y": 1.0,
-                            "z": 1.0
+                            "z": 0.9999997615814209
                         }
                     },
                     {
                         "position": {
-                            "x": -4.380875587463379,
-                            "y": 1.3481872081756592,
-                            "z": -4.84926176071167
-                        },
-                        "rotation": {
-                            "w": 1.0,
                             "x": 0.0,
                             "y": 0.0,
                             "z": 0.0
                         },
+                        "rotation": {
+                            "w": 0.9996679425239563,
+                            "x": 0.0,
+                            "y": 0.0,
+                            "z": 0.025768226012587547
+                        },
                         "scale": {
-                            "x": 1.0,
-                            "y": 1.0,
-                            "z": 1.0
+                            "x": 0.9999997615814209,
+                            "y": 0.9999997615814209,
+                            "z": 1.0000001192092896
                         }
                     }
                 ],
                 "entity_to_index_map": [
                     [
-                        4,
-                        3
-                    ],
-                    [
-                        3,
-                        2
+                        1,
+                        0
                     ],
                     [
                         2,
                         1
                     ],
                     [
-                        1,
-                        0
+                        3,
+                        2
+                    ],
+                    [
+                        4,
+                        3
                     ]
                 ],
                 "index_to_entity_map": [
                     [
-                        3,
-                        4
-                    ],
-                    [
-                        2,
-                        3
+                        0,
+                        1
                     ],
                     [
                         1,
                         2
                     ],
                     [
-                        0,
-                        1
+                        2,
+                        3
+                    ],
+                    [
+                        3,
+                        4
                     ]
                 ],
                 "size": 4
@@ -474,8 +519,8 @@
                 0
             ],
             "3": [
-                0,
-                0,
+                1,
+                1,
                 1,
                 0,
                 0,
@@ -508,8 +553,8 @@
                 0
             ],
             "4": [
-                1,
-                1,
+                0,
+                0,
                 1,
                 1,
                 0,

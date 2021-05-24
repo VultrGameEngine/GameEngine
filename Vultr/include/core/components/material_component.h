@@ -7,16 +7,14 @@
 #include <glad/glad.h>
 #include <types/types.hpp>
 #include <vector>
+#include <core/models/color.h>
 
-struct Color
+struct DirectionalLight
 {
-    Color() : value(glm::vec4(0, 0, 0, 1))
-    {
-    }
-    Color(glm::vec4 p_value) : value(p_value)
-    {
-    }
-    glm::vec4 value;
+    glm::vec3 direction;
+    glm::vec3 ambient;
+    glm::vec3 diffuse;
+    glm::vec3 specular;
 };
 
 struct MaterialComponent

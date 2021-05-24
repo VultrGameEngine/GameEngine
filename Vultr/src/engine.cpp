@@ -226,6 +226,7 @@ namespace Vultr
             ControllerSystem::update(tick.m_delta_time);
         }
 
+        LightSystem::update();
         InputSystem::update(tick);
         RenderSystem::update(tick);
     }
@@ -340,13 +341,32 @@ void RenderComponent<MaterialComponent>(Vultr::Entity entity)
         {
             // Forward
         case 0: {
-            ImGui::PushID("texture");
-            RenderMember("Albedo", component.textures[0]);
-            ImGui::PopID();
+            if (component.textures.size() > 0)
+            {
+                ImGui::PushID("diffuse");
+                RenderMember("Diffuse", component.textures[0]);
+                ImGui::PopID();
+            }
+            if (component.textures.size() > 1)
+            {
+                ImGui::PushID("specular");
+                RenderMember("Specular", component.textures[1]);
+                ImGui::PopID();
+            }
 
-            ImGui::PushID("objectColor");
-            RenderMember("Tint", component.colors["objectColor"]);
-            ImGui::PopID();
+            if (component.colors.find("tint") != component.colors.end())
+            {
+                ImGui::PushID("tint");
+                RenderMember("Tint", component.colors["tint"]);
+                ImGui::PopID();
+            }
+
+            if (component.floats.find("material.shininess") != component.floats.end())
+            {
+                ImGui::PushID("shininess");
+                RenderMember("Shininess", component.floats["material.shininess"]);
+                ImGui::PopID();
+            }
         }
         // PBR
         case 1: {
@@ -426,7 +446,6 @@ void RenderComponent<MaterialComponent>(Vultr::Entity entity)
         }
     }
 }
-// VULTR_REGISTER_COMPONENT(TransformComponent, position, rotation, scale);
 template <>
 void RenderComponent<TransformComponent>(Entity entity)
 {
@@ -505,7 +524,96 @@ void RenderComponent<LightComponent>(Entity entity)
     if (ImGui::CollapsingHeader("LightComponent"))
     {
         ImGui::PushID("LightComponent");
-        RenderMember("some_param", component->some_param);
+
+        const char *light_options[] = {"Directional", "Point", "Spot"};
+        static s8 selected_light_option = 0;
+
+        if (component->type == LightComponent::DirectionalLight)
+        {
+            selected_light_option = 0;
+        }
+        else if (component->type == LightComponent::PointLight)
+        {
+            selected_light_option = 1;
+        }
+        else if (component->type == LightComponent::SpotLight)
+        {
+            selected_light_option = 2;
+        }
+
+        const char *light_type_label = light_options[selected_light_option];
+        if (ImGui::BeginCombo("Type", light_type_label))
+        {
+            for (int n = 0; n < IM_ARRAYSIZE(light_options); n++)
+            {
+                const bool is_selected = (selected_light_option == n);
+                if (ImGui::Selectable(light_options[n], is_selected))
+                {
+                    selected_light_option = n;
+                    switch (selected_light_option)
+                    {
+                    case 0: {
+                        component->type = LightComponent::DirectionalLight;
+                        break;
+                    }
+                    case 1: {
+                        component->type = LightComponent::PointLight;
+                        break;
+                    }
+                    case 2: {
+                        component->type = LightComponent::SpotLight;
+                        break;
+                    }
+                    default: {
+                        break;
+                    }
+                    }
+                }
+
+                // Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
+                if (is_selected)
+                    ImGui::SetItemDefaultFocus();
+            }
+            ImGui::EndCombo();
+        }
+
+        ImGui::PushID("ambient");
+        RenderMember("Ambient", component->ambient);
+        ImGui::PopID();
+
+        ImGui::PushID("diffuse");
+        RenderMember("Diffuse", component->diffuse);
+        ImGui::PopID();
+
+        ImGui::PushID("specular");
+        RenderMember("Specular", component->specular);
+        ImGui::PopID();
+
+        switch (selected_light_option)
+        {
+        case 0: {
+            break;
+        }
+        case 1: {
+            ImGui::PushID("constant");
+            RenderMember("Constant", component->constant);
+            ImGui::PopID();
+            ImGui::PushID("linear");
+            RenderMember("Linear", component->linear);
+            ImGui::PopID();
+            ImGui::PushID("quadratic");
+            RenderMember("Quadratic", component->quadratic);
+            ImGui::PopID();
+            break;
+        }
+        case 2: {
+            break;
+        }
+        default: {
+            break;
+        }
+        }
+
         if (ImGui::Button("Remove"))
         {
             entity_remove_component<LightComponent>(entity);
@@ -554,6 +662,7 @@ void RenderComponent<CameraComponent>(Entity entity)
         RenderMember("fov", component->fov);
         RenderMember("znear", component->znear);
         RenderMember("zfar", component->zfar);
+        RenderMember("gamma_correction", component->gamma_correction);
         if (ImGui::Button("Remove"))
         {
             entity_remove_component<CameraComponent>(entity);

@@ -8,7 +8,10 @@ namespace Vultr
     {
         struct Component : public SystemProvider
         {
-            Entity light = INVALID_ENTITY;
+            // In this engine, we will assume there is only one directional light in the scene for simplicity's sake. If a second directional light gets added, then we will throw an error
+            Entity directional_light = INVALID_ENTITY;
+
+            std::set<Entity> point_lights;
         };
 
         Component &get_provider();

@@ -4,5 +4,5 @@
 namespace Vultr::LightSystem
 {
     void register_system();
-    void on_create_entity(Entity entity);
+    void update();
 } // namespace Vultr::LightSystem
