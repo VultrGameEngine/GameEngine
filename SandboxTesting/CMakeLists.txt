@@ -9,7 +9,7 @@ file(GLOB_RECURSE Game_SRC
     "include/*.cpp"
 )
 
-include_directories(include vendor ../Vultr/include ../Vultr/vendor "../VTL/include")
+include_directories(include vendor ../Vultr/include ../Vultr/vendor ../VTL/include)
 
 if(WIN32)
     if (MSVC_VERSION GREATER_EQUAL "1900")
@@ -27,8 +27,8 @@ if(UNIX)
     # add_executable(Game ${Game_SRC})
     target_precompile_headers(Game PRIVATE pch.h)
     target_link_libraries(Game GL glfw3 X11 Xxf86vm Xrandr pthread Xi dl assimp)
-    target_link_libraries(Game debug /home/brandon/Dev/GameEngine/Vultr/build/libVultrShared.so)
-    target_link_libraries(Game optimized /home/brandon/Dev/GameEngine/Vultr/release/libVultrShared.so)
+    target_link_libraries(Game debug ${CMAKE_CURRENT_SOURCE_DIR}/../Vultr/build/libVultrShared.so)
+    target_link_libraries(Game optimized ${CMAKE_CURRENT_SOURCE_DIR}/../Vultr/release/libVultrShared.so)
 endif(UNIX)
 
 if(WIN32)

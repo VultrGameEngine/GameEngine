@@ -86,8 +86,8 @@ int main(int argc, char *argv[])
     Directory components((std::filesystem::current_path() / "include/components/").string());
     GenerateInDir(components);
 #ifdef _WIN32
-    //system("mkdir build");
-    //system("cmake -Bbuild -S.");
+    // system("mkdir build");
+    // system("cmake -Bbuild -S.");
     system("cmake --build build --config Debug -j10");
 #else
     system("/usr/bin/cmake --no-warn-unused-cli "
@@ -95,7 +95,7 @@ int main(int argc, char *argv[])
            "-DCMAKE_C_COMPILER:FILEPATH=/bin/clang-11 "
            "-DCMAKE_CXX_COMPILER:FILEPATH=/bin/clang++ "
            "build -G \"Unix Makefiles\"");
-    system("/usr/bin/cmake --build /home/brandon/Dev/GameEngine/SandboxTesting/build "
+    system("/usr/bin/cmake --build build "
            "--config Debug --target all -- -j 10");
     if (argc >= 3 && std::string(argv[1]) == "--g")
     {

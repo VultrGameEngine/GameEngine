@@ -15,6 +15,6 @@ if(WIN32)
 target_link_libraries(VultrHelper ${CMAKE_CURRENT_SOURCE_DIR}/../Vultr/out/build/x64-Debug/Vultr.lib)
 endif(WIN32)
 if(UNIX)
-target_link_libraries(VultrHelper GL glfw3 X11 Xxf86vm Xrandr pthread Xi dl assimp /home/brandon/Dev/GameEngine/Vultr/build/libVultrShared.so)
+target_link_libraries(VultrHelper GL glfw3 X11 Xxf86vm Xrandr pthread Xi dl assimp ${CMAKE_CURRENT_SOURCE_DIR}/../Vultr/build/libVultrShared.so)
 endif(UNIX)
 
