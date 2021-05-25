@@ -348,19 +348,36 @@ namespace Vultr
         }
     }
 
-    World *load_world(const File &file, const ComponentRegistry &r)
+    World *load_world(const json &j, const ComponentRegistry &r)
     {
         World *world = new_world(r);
+        component_manager_from_json(j["ComponentManager"], world->component_manager, engine_global()->component_registry);
+        ComponentRegistry old_registry = j["ComponentRegistry"];
+        entity_manager_from_json(j["EntityManager"], world->entity_manager, old_registry, engine_global()->component_registry);
+        return world;
+    }
 
+    World *load_world(const File &file, const ComponentRegistry &r)
+    {
         std::ifstream i;
         i.open(file.GetPath());
 
         json world_saved_json;
         i >> world_saved_json;
-        component_manager_from_json(world_saved_json["ComponentManager"], world->component_manager, engine_global()->component_registry);
-        ComponentRegistry old_registry = world_saved_json["ComponentRegistry"];
-        entity_manager_from_json(world_saved_json["EntityManager"], world->entity_manager, old_registry, engine_global()->component_registry);
-        return world;
+        return load_world(world_saved_json, r);
+    }
+
+    void save_world(World *world, json &j)
+    {
+        json component_manager_json;
+        component_manager_to_json(component_manager_json, world_get_component_manager(world), engine_global()->component_registry);
+        json component_registry_json = engine_global()->component_registry;
+        json entity_manager_json = world_get_entity_manager(world);
+        j = {
+            {"ComponentRegistry", component_registry_json},
+            {"ComponentManager", component_manager_json},
+            {"EntityManager", entity_manager_json},
+        };
     }
 
     void save_world(World *_world, const File &out)
@@ -368,15 +385,8 @@ namespace Vultr
         std::ofstream o;
         o.open(out.GetPath());
         InternalWorld *world = static_cast<InternalWorld *>(_world);
-        json component_manager_json;
-        component_manager_to_json(component_manager_json, world_get_component_manager(world), engine_global()->component_registry);
-        json component_registry_json = engine_global()->component_registry;
-        json entity_manager_json = world_get_entity_manager(world);
-        json final_output = {
-            {"ComponentRegistry", component_registry_json},
-            {"ComponentManager", component_manager_json},
-            {"EntityManager", entity_manager_json},
-        };
+        json final_output;
+        save_world(world, final_output);
         o << std::setw(4) << final_output;
         o.close();
     }

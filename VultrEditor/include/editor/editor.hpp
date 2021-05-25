@@ -5,6 +5,8 @@
 #include <ecs/entity/entity.hpp>
 #include <vector>
 #include <queue>
+#include <rendering/models/texture.h>
+#include <ecs/world/world.hpp>
 
 class Editor
 {
@@ -31,6 +33,8 @@ class Editor
     void ClearSelections();
 
     bool playing = false;
+    bool game_running = false;
+    Vultr::World *cached_world = nullptr;
 
   private:
     std::vector<Window *> windows;

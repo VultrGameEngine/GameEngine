@@ -11,6 +11,7 @@
 #include <imgui/imgui_impl_glfw.h>
 #include <imgui/imgui_impl_opengl3.h>
 #include <ImGuizmo/ImGuizmo.h>
+#include <ecs/world/internal_world.hpp>
 
 using namespace Vultr;
 Editor::Editor() : selected_entity(Entity(0))
@@ -79,12 +80,44 @@ void Editor::Render()
         ImGui::Begin("TOOLBAR", NULL, window_flags);
         ImGui::PopStyleVar();
 
-        ImGui::Button("Toolbar goes here", ImVec2(0, 37));
-
-        if (ImGui::Button("Play"))
+        if (Editor::Get()->playing)
         {
-            engine_init_game(engine_global());
-            Editor::Get()->playing = true;
+            if (ImGui::Button("Pause"))
+            {
+                Editor::Get()->playing = false;
+            }
+        }
+        else
+        {
+            if (ImGui::Button("Play"))
+            {
+                if (!Editor::Get()->game_running)
+                {
+                    World *cached_world = new InternalWorld();
+                    cached_world->component_manager = ComponentManager(get_current_world()->component_manager);
+                    cached_world->entity_manager = get_current_world()->entity_manager;
+                    cached_world->system_manager = get_current_world()->system_manager;
+                    if (Editor::Get()->cached_world != nullptr)
+                        delete Editor::Get()->cached_world;
+                    Editor::Get()->cached_world = cached_world;
+
+                    engine_init_game(engine_global());
+                    Editor::Get()->game_running = true;
+                }
+
+                Editor::Get()->playing = true;
+            }
+        }
+
+        if (Editor::Get()->game_running)
+        {
+            ImGui::SameLine();
+            if (ImGui::Button("Stop"))
+            {
+                Editor::Get()->playing = false;
+                Editor::Get()->game_running = false;
+                change_world(Editor::Get()->cached_world);
+            }
         }
 
         ImGui::End();

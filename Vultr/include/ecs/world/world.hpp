@@ -17,6 +17,8 @@ namespace Vultr
     // Create a new World
     World *new_world(const ComponentRegistry &r);
 
+    void save_world(World *world, json &j);
+
     void save_world(World *world, const File &out);
 
     void destroy_world(World *world);
@@ -26,6 +28,8 @@ namespace Vultr
     // void ExportWorldEditor(const std::string &path, std::shared_ptr<World> world);
 
     // World ImportWorld(const std::string &path);
+
+    World *load_world(const json &j, const ComponentRegistry &r);
 
     World *load_world(const File &file, const ComponentRegistry &r);
 

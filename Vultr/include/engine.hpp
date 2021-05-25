@@ -112,7 +112,13 @@ namespace Vultr
     template <typename T>
     T *world_register_system(Signature signature, OnCreateEntity on_create_entity = nullptr, OnDestroyEntity on_destroy_entity = nullptr, MatchSignature match_signature = nullptr)
     {
-        return system_manager_register_system<T>(world_get_system_manager(get_current_world()), signature, on_create_entity, on_destroy_entity, match_signature);
+        T *res = system_manager_register_system<T>(world_get_system_manager(get_current_world()), signature, on_create_entity, on_destroy_entity, match_signature);
+        EntityManager &entity_manager = world_get_entity_manager(get_current_world());
+        for (Entity e : entity_manager.living_entites)
+        {
+            system_manager_entity_signature_changed_in_system(res, e, entity_manager_get_signature(entity_manager, e));
+        }
+        return res;
     }
 
     template <typename T>

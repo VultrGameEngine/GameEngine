@@ -55,11 +55,12 @@ namespace Vultr
         auto *e = engine_global();
         World *old_world = e->current_world;
         e->current_world = new_world;
-        if (old_world == nullptr)
-            return;
-        for (Entity entity : world_get_entity_manager(old_world).living_entites)
+        if (old_world != nullptr)
         {
-            system_manager_entity_destroyed(e->system_manager, entity);
+            for (Entity entity : world_get_entity_manager(old_world).living_entites)
+            {
+                system_manager_entity_destroyed(e->system_manager, entity);
+            }
         }
         auto &entity_manager = world_get_entity_manager(new_world);
         auto &system_manager_world = world_get_system_manager(new_world);

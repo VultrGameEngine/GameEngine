@@ -17,9 +17,13 @@ namespace Vultr
         virtual bool HasData(Entity entity)
         {
             return false;
-        };
+        }
         virtual void EntityDestroyed(Entity entity){};
         virtual void DuplicateData(Entity original, Entity new_entity){};
+        virtual IComponentArray *Copy()
+        {
+            return nullptr;
+        }
         virtual void to_json(json &j) const {};
         virtual void from_json(const json &j){};
     };
@@ -91,6 +95,16 @@ namespace Vultr
 
             T component = GetData(original);
             InsertData(duplicate, component);
+        }
+
+        IComponentArray *Copy() override
+        {
+            ComponentArray<T> *copy = new ComponentArray<T>();
+            copy->component_array = this->component_array;
+            copy->entity_to_index_map = this->entity_to_index_map;
+            copy->index_to_entity_map = this->index_to_entity_map;
+            copy->size = this->size;
+            return copy;
         }
 
         T *GetDataUnsafe(Entity entity)
