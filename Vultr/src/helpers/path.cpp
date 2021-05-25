@@ -32,8 +32,13 @@ namespace Vultr::Path
         std::replace(path.begin(), path.end(), '\\', '/');
     }
 
-    void set_resource_path(const std::string &path)
+    void set_resource_path(const std::string &p_path)
     {
+        std::string path = p_path;
+        if (*path.end() != '/')
+        {
+            path += "/";
+        }
         get_resource_path() = path;
     }
 
