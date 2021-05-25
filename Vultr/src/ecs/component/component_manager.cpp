@@ -1,21 +1,14 @@
-#include <ecs/component/component_manager.hpp>
+﻿#include <ecs/component/component_manager.hpp>
 #include <string.h>
 
 namespace Vultr
 {
-    ComponentManager::~ComponentManager()
-    {
-        for (auto [type, arr] : component_arrays)
-        {
-            delete arr;
-        }
-    }
 
-    ComponentManager::ComponentManager(const ComponentManager &other)
+    void component_manager_copy(ComponentManager &copy, const ComponentManager &other)
     {
         for (auto &[type, arr] : other.component_arrays)
         {
-            component_arrays[type] = arr->Copy();
+            copy.component_arrays[type] = arr->Copy();
         }
     }
 

@@ -35,10 +35,12 @@ namespace Vultr::Path
     void set_resource_path(const std::string &p_path)
     {
         std::string path = p_path;
+        #ifndef _WIN32
         if (*path.end() != '/')
         {
             path += "/";
         }
+        #endif
         get_resource_path() = path;
     }
 

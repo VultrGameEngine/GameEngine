@@ -10,6 +10,7 @@ int main(void)
     engine_global() = new Engine();
     auto *vultr = engine_global();
 
+#ifndef _WIN32
     Directory cwd = Directory(std::filesystem::current_path().string());
     auto files = cwd.GetFiles();
 
@@ -47,11 +48,11 @@ int main(void)
         std::cout << "No DLL found in build directory" << std::endl;
         return 1;
     }
-
+#endif
     float lastTime = 0;
 
 #ifdef _WIN32
-    Path::set_resource_path("C:/Users/Brand/Dev/GameEngine/SandboxTesting/res/");
+    Path::set_resource_path("C:/Users/Brand/Dev/Monopoly/res/");
 #else
     Path::set_resource_path(resource_directory.GetPath().string());
 #endif
@@ -59,7 +60,7 @@ int main(void)
     engine_init(vultr, true);
 
 #ifdef _WIN32
-    engine_load_game(vultr, "C:/Users/Brand/Dev/GameEngine/SandboxTesting/build/Debug/Game.dll");
+    engine_load_game(vultr, "C:/Users/Brand/Dev/Monopoly/build/Debug/Game.dll");
 #else
     engine_load_game(vultr, dll.GetPath().string().c_str());
 #endif

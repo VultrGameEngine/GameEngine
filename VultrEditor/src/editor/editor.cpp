@@ -94,9 +94,10 @@ void Editor::Render()
                 if (!Editor::Get()->game_running)
                 {
                     World *cached_world = new InternalWorld();
-                    cached_world->component_manager = ComponentManager(get_current_world()->component_manager);
-                    cached_world->entity_manager = get_current_world()->entity_manager;
-                    cached_world->system_manager = get_current_world()->system_manager;
+                    auto *world = get_current_world();
+                    component_manager_copy(cached_world->component_manager, world->component_manager);
+                    cached_world->entity_manager = world->entity_manager;
+                    cached_world->system_manager = world->system_manager;
                     if (Editor::Get()->cached_world != nullptr)
                         delete Editor::Get()->cached_world;
                     Editor::Get()->cached_world = cached_world;

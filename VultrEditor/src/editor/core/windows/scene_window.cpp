@@ -1,4 +1,4 @@
-#include <core/system_providers/render_system_provider.h>
+﻿#include <core/system_providers/render_system_provider.h>
 #include <core/systems/render_system.h>
 #include <core/system_providers/camera_system_provider.h>
 #include <core/system_providers/input_system_provider.h>
