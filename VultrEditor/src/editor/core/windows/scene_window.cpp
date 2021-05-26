@@ -43,38 +43,65 @@ static void OnMouseClick(int button)
 
 static void on_key_press(int key, int scancode, int action, int mods)
 {
-    static bool ctrl_down = false;
-    static bool s_down = false;
-    static bool d_down = false;
-    static bool saved_last_frame = false;
-    static bool duplicate_last_frame = false;
-    if (key == GLFW_KEY_S)
-        s_down = action == GLFW_PRESS;
-    if (key == GLFW_KEY_D)
-        d_down = action == GLFW_PRESS;
-    if (key == GLFW_KEY_LEFT_CONTROL || key == GLFW_KEY_RIGHT_CONTROL)
-        ctrl_down = action == GLFW_PRESS;
-    if (ctrl_down && s_down && !saved_last_frame)
+    bool ctrl_down = glfwGetKey(engine_global()->window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS || glfwGetKey(engine_global()->window, GLFW_KEY_RIGHT_CONTROL) == GLFW_PRESS;
+    bool shift_down = glfwGetKey(engine_global()->window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS || glfwGetKey(engine_global()->window, GLFW_KEY_RIGHT_SHIFT) == GLFW_PRESS;
+    static bool actioned_last_frame = false;
+    if (key == GLFW_KEY_S && action == GLFW_PRESS && ctrl_down && !actioned_last_frame)
     {
-        saved_last_frame = true;
+        actioned_last_frame = true;
         Editor::Save();
         std::cout << "Saved! \n";
     }
-    else if (!ctrl_down || !s_down)
+    else if (key == GLFW_KEY_D && action == GLFW_PRESS && ctrl_down && !actioned_last_frame)
     {
-        saved_last_frame = false;
-    }
-
-    if (ctrl_down && d_down && !duplicate_last_frame)
-    {
-        duplicate_last_frame = true;
+        actioned_last_frame = true;
         Editor::DuplicateEntity();
         std::cout << "Duplicated! \n";
     }
-    else if (!ctrl_down || !d_down)
+    else if (key == GLFW_KEY_Z && action == GLFW_PRESS && ctrl_down && !actioned_last_frame)
     {
-        duplicate_last_frame = false;
+        if (shift_down)
+        {
+            actioned_last_frame = true;
+            Editor::Redo();
+            std::cout << "Redo! \n";
+        }
+        else
+        {
+            actioned_last_frame = true;
+            Editor::Undo();
+            std::cout << "Undo! \n";
+        }
     }
+    else if (actioned_last_frame)
+    {
+        actioned_last_frame = false;
+    }
+    // if (key == GLFW_KEY_S)
+    //     s_down = action == GLFW_PRESS;
+    // if (key == GLFW_KEY_D)
+    //     d_down = action == GLFW_PRESS;
+    // if (key == GLFW_KEY_LEFT_CONTROL || key == GLFW_KEY_RIGHT_CONTROL)
+    //     ctrl_down = action == GLFW_PRESS;
+    // if (ctrl_down && s_down && !saved_last_frame)
+    // {
+    //     saved_last_frame = true;
+    //     Editor::Save();
+    // }
+    // else if (!ctrl_down || !s_down)
+    // {
+    //     saved_last_frame = false;
+    // }
+
+    // if (ctrl_down && d_down && !duplicate_last_frame)
+    // {
+    //     duplicate_last_frame = true;
+    //     Editor::DuplicateEntity();
+    // }
+    // else if (!ctrl_down || !d_down)
+    // {
+    //     duplicate_last_frame = false;
+    // }
 }
 
 SceneWindow::SceneWindow()

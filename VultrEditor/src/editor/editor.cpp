@@ -44,9 +44,24 @@ void Editor::Undo()
     auto *editor = Editor::Get();
     if (editor->event_stack.size() == 0)
         return;
+    if (editor->event_index <= -1)
+        return;
     auto *event = editor->event_stack[editor->event_index];
     event->Undo(engine_global());
     editor->event_index--;
+}
+
+void Editor::Redo()
+{
+    auto *editor = Editor::Get();
+    if (editor->event_stack.size() == 0)
+        return;
+    s32 stack_size = editor->event_stack.size();
+    if (editor->event_index >= stack_size)
+        return;
+    editor->event_index++;
+    auto *event = editor->event_stack[editor->event_index];
+    event->Redo(engine_global());
 }
 
 void Editor::Render()

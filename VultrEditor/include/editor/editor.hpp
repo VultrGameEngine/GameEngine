@@ -26,6 +26,7 @@ class Editor
 
     static void OnEdit(Vultr::EditEvent *e);
     static void Undo();
+    static void Redo();
     static unsigned int GetDockSpace();
     static void Render();
     static void Save();
