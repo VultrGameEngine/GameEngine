@@ -146,6 +146,8 @@ void SceneWindow::Render()
         if (tc != nullptr)
         {
             glm::mat4 transform = tc->Matrix();
+            static bool was_using_guizmo = false;
+            static TransformComponent copy;
 
             // Snapping
             // bool snap = Input::IsKeyPressed(Key::LeftControl);
@@ -160,6 +162,11 @@ void SceneWindow::Render()
 
             if (ImGuizmo::IsUsing())
             {
+                // If we weren't previously using this guizmo, then we want to save a copy of the transform component
+                if (!was_using_guizmo)
+                {
+                    copy = *tc;
+                }
                 glm::vec3 translation, rotation, scale;
                 Math::DecomposeTransform(transform, translation, rotation, scale);
 
@@ -168,6 +175,18 @@ void SceneWindow::Render()
                 tc->rotation = glm::quat(rotation);
                 tc->scale = scale;
             }
+            // If we just stopped using this guizmo, push this event to the edit stack
+            else if (was_using_guizmo)
+            {
+                auto *event = new ComponentEditEvent<TransformComponent>();
+                event->before = copy;
+                event->after = *tc;
+                event->entities = {selected_entity};
+                event->type = get_component_type<TransformComponent>();
+                engine_send_update_event(event);
+            }
+
+            was_using_guizmo = ImGuizmo::IsUsing();
         }
         else
         {
