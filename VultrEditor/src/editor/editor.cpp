@@ -28,6 +28,27 @@ Editor::~Editor()
     windows.shrink_to_fit();
 }
 
+void Editor::OnEdit(EditEvent *e)
+{
+    auto *editor = Editor::Get();
+    s32 stack_size = editor->event_stack.size();
+    if (editor->event_index < stack_size - 1)
+    {
+        editor->event_stack.erase(editor->event_stack.begin() + editor->event_index + 1, editor->event_stack.end());
+    }
+    editor->event_index++;
+    Editor::Get()->event_stack.push_back(e);
+}
+void Editor::Undo()
+{
+    auto *editor = Editor::Get();
+    if (editor->event_stack.size() == 0)
+        return;
+    auto *event = editor->event_stack[editor->event_index];
+    event->Undo(engine_global());
+    editor->event_index--;
+}
+
 void Editor::Render()
 {
     glDisable(GL_DEPTH_TEST);

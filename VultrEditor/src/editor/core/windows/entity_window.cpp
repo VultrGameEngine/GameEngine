@@ -7,6 +7,10 @@ using namespace Vultr;
 void EntityWindow::Render()
 {
     ImGui::Begin("Hierarchy");
+    if (ImGui::Button("Undo"))
+    {
+        Editor::Undo();
+    }
     if (ImGui::Button("Add Entity"))
     {
         Entity ent = create_entity(get_current_world());
@@ -34,7 +38,7 @@ void EntityWindow::Render()
 
     if (ImGui::Button("Load Scene"))
     {
-        World *world = load_world(File("C:/Users/Brand/Dev/Monopoly/test_world.json"), engine_global()->component_registry);
+        World *world = load_world(File("test_world.json"), engine_global()->component_registry);
         change_world(world);
         // Engine::RegisterComponents();
         // Engine::InitSystems();

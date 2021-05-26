@@ -7,6 +7,8 @@
 
 namespace Vultr
 {
+    struct EditEvent;
+    typedef void (*OnEdit)(EditEvent *);
     struct Engine
     {
         GLFWwindow *window;
@@ -17,6 +19,9 @@ namespace Vultr
         World *current_world;
         ComponentRegistry component_registry;
         SystemManager system_manager;
+
+        // EDITOR ONLY
+        OnEdit on_edit = nullptr;
     };
 
     Engine *&engine_global();
@@ -32,6 +37,8 @@ namespace Vultr
     void engine_init_game(Engine *e);
     void engine_update_game(Engine *e, float &last_time, bool play);
     double engine_get_time_elapsed(Engine *e);
+
+    void engine_send_update_event(EditEvent *event);
 
 #define WORLD_DOESNT_EXIST_ERROR(function_name) "Cannot call " #function_name " because world does not exist! Make sure you create a world before calling this method."
 

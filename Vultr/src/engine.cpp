@@ -18,6 +18,7 @@
 #include <helpers/path.h>
 #include <core/models/update_tick.h>
 #include <ImGuiFileDialog/ImGuiFileDialog.h>
+#include <core/models/event.h>
 
 namespace Vultr
 {
@@ -242,6 +243,15 @@ namespace Vultr
         assert(world != nullptr && WORLD_DOESNT_EXIST_ERROR(entity_get_signature));
         return entity_manager_get_signature(world_get_entity_manager(world), entity);
     }
+
+    void engine_send_update_event(EditEvent *event)
+    {
+        OnEdit e = engine_global()->on_edit;
+        if (e != nullptr)
+        {
+            e(event);
+        }
+    }
 } // namespace Vultr
 
 using namespace Vultr;
@@ -253,8 +263,11 @@ void RenderComponent<MaterialComponent>(Vultr::Entity entity)
     if (_component == nullptr)
         return;
     auto &component = *_component;
+    static MaterialComponent copy;
     if (ImGui::CollapsingHeader("MaterialComponent"))
     {
+        auto temp = component;
+        RenderMemberResult res;
         const char *shader_options[] = {"Forward", "PBR", "Unlit", "Skybox", "Custom"};
         static int selected_shader_option = 0;
 
@@ -332,6 +345,7 @@ void RenderComponent<MaterialComponent>(Vultr::Entity entity)
                 if (is_selected)
                     ImGui::SetItemDefaultFocus();
             }
+            res = was_edited();
             ImGui::EndCombo();
         }
         ImGui::PopID();
@@ -344,27 +358,27 @@ void RenderComponent<MaterialComponent>(Vultr::Entity entity)
             if (component.textures.size() > 0)
             {
                 ImGui::PushID("diffuse");
-                RenderMember("Diffuse", component.textures[0]);
+                res = RenderMember("Diffuse", component.textures[0]);
                 ImGui::PopID();
             }
             if (component.textures.size() > 1)
             {
                 ImGui::PushID("specular");
-                RenderMember("Specular", component.textures[1]);
+                res = RenderMember("Specular", component.textures[1]);
                 ImGui::PopID();
             }
 
             if (component.colors.find("tint") != component.colors.end())
             {
                 ImGui::PushID("tint");
-                RenderMember("Tint", component.colors["tint"]);
+                res = RenderMember("Tint", component.colors["tint"]);
                 ImGui::PopID();
             }
 
             if (component.floats.find("material.shininess") != component.floats.end())
             {
                 ImGui::PushID("shininess");
-                RenderMember("Shininess", component.floats["material.shininess"]);
+                res = RenderMember("Shininess", component.floats["material.shininess"]);
                 ImGui::PopID();
             }
         }
@@ -375,7 +389,7 @@ void RenderComponent<MaterialComponent>(Vultr::Entity entity)
         // Unlit
         case 2: {
             ImGui::PushID("lightColor");
-            RenderMember("Color", component.colors["lightColor"]);
+            res = RenderMember("Color", component.colors["lightColor"]);
             ImGui::PopID();
             break;
         }
@@ -385,59 +399,74 @@ void RenderComponent<MaterialComponent>(Vultr::Entity entity)
             for (auto &pair : component.textures)
             {
                 ImGui::PushID(pair.name.c_str());
-                RenderMember(pair.name, pair.path);
+                res = RenderMember(pair.name, pair.path);
                 ImGui::PopID();
             }
             break;
         }
         default: {
             ImGui::PushID("shader_source");
-            RenderMember("shader_source", component.shader_source);
+            res = RenderMember("shader_source", component.shader_source);
             ImGui::PopID();
 
             ImGui::PushID("textures");
             if (ImGui::CollapsingHeader("textures"))
             {
-                RenderMember("textures", component.textures);
+                res = RenderMember("textures", component.textures);
             }
             ImGui::PopID();
 
             ImGui::PushID("vec3s");
             if (ImGui::CollapsingHeader("vec3s"))
             {
-                RenderMember("vec3s", component.vec3s);
+                res = RenderMember("vec3s", component.vec3s);
             }
             ImGui::PopID();
 
             ImGui::PushID("vec4s");
             if (ImGui::CollapsingHeader("vec4s"))
             {
-                RenderMember("vec4s", component.vec4s);
+                res = RenderMember("vec4s", component.vec4s);
             }
             ImGui::PopID();
 
             ImGui::PushID("colors");
             if (ImGui::CollapsingHeader("colors"))
             {
-                RenderMember("colors", component.colors);
+                res = RenderMember("colors", component.colors);
             }
             ImGui::PopID();
 
             ImGui::PushID("ints");
             if (ImGui::CollapsingHeader("ints"))
             {
-                RenderMember("ints", component.ints);
+                res = RenderMember("ints", component.ints);
             }
             ImGui::PopID();
 
             ImGui::PushID("floats");
             if (ImGui::CollapsingHeader("floats"))
             {
-                RenderMember("floats", component.floats);
+                res = RenderMember("floats", component.floats);
             }
             ImGui::PopID();
             break;
         }
+        }
+        if (res.started_editing)
+        {
+            copy = temp;
+            std::cout << "Started editing material component\n";
+        }
+        if (res.finished_editing)
+        {
+            auto *event = new ComponentEditEvent<MaterialComponent>();
+            event->before = copy;
+            event->after = component;
+            event->entities = {entity};
+            event->type = get_component_type<MaterialComponent>();
+            engine_send_update_event(event);
+            std::cout << "Finished editing material component\n";
         }
 
         if (ImGui::Button("Remove"))
@@ -452,12 +481,29 @@ void RenderComponent<TransformComponent>(Entity entity)
     auto *component = entity_get_component_unsafe<TransformComponent>(entity);
     if (component == nullptr)
         return;
+    static TransformComponent copy;
+    auto temp = TransformComponent(*component);
+    RenderMemberResult res;
     if (ImGui::CollapsingHeader("TransformComponent"))
     {
         ImGui::PushID("TransformComponent");
-        RenderMember("position", component->position);
-        RenderMember("rotation", component->rotation);
-        RenderMember("scale", component->scale);
+        res = RenderMember("position", component->position);
+        res = RenderMember("rotation", component->rotation);
+        res = RenderMember("scale", component->scale);
+        if (res.started_editing)
+        {
+            copy = temp;
+        }
+        if (res.finished_editing)
+        {
+            auto *event = new ComponentEditEvent<TransformComponent>();
+            event->before = copy;
+            event->after = *component;
+            event->entities = {entity};
+            event->type = get_component_type<TransformComponent>();
+            engine_send_update_event(event);
+        }
+
         if (ImGui::Button("Remove"))
         {
             entity_remove_component<TransformComponent>(entity);
@@ -477,10 +523,27 @@ void RenderComponent<StaticMeshComponent>(Entity entity)
     auto *component = entity_get_component_unsafe<StaticMeshComponent>(entity);
     if (component == nullptr)
         return;
+
+    static StaticMeshComponent copy;
     if (ImGui::CollapsingHeader("StaticMeshComponent"))
     {
+        auto temp = *component;
+        RenderMemberResult res;
         ImGui::PushID("StaticMeshComponent");
-        RenderMember("source", component->source);
+        res = RenderMember("source", component->source);
+        if (res.started_editing)
+        {
+            copy = temp;
+        }
+        if (res.finished_editing)
+        {
+            auto *event = new ComponentEditEvent<StaticMeshComponent>();
+            event->before = copy;
+            event->after = *component;
+            event->entities = {entity};
+            event->type = get_component_type<StaticMeshComponent>();
+            engine_send_update_event(event);
+        }
         if (ImGui::Button("Remove"))
         {
             entity_remove_component<StaticMeshComponent>(entity);
@@ -499,10 +562,26 @@ void RenderComponent<SkyBoxComponent>(Entity entity)
     auto *component = entity_get_component_unsafe<SkyBoxComponent>(entity);
     if (component == nullptr)
         return;
+    static SkyBoxComponent copy;
     if (ImGui::CollapsingHeader("SkyBoxComponent"))
     {
+        RenderMemberResult res;
+        auto temp = *component;
         ImGui::PushID("SkyBoxComponent");
-        RenderMember("identifier", component->identifier);
+        res = RenderMember("identifier", component->identifier);
+        if (res.started_editing)
+        {
+            copy = temp;
+        }
+        if (res.finished_editing)
+        {
+            auto *event = new ComponentEditEvent<SkyBoxComponent>();
+            event->before = copy;
+            event->after = *component;
+            event->entities = {entity};
+            event->type = get_component_type<SkyBoxComponent>();
+            engine_send_update_event(event);
+        }
         if (ImGui::Button("Remove"))
         {
             entity_remove_component<StaticMeshComponent>(entity);
@@ -521,8 +600,11 @@ void RenderComponent<LightComponent>(Entity entity)
     auto *component = entity_get_component_unsafe<LightComponent>(entity);
     if (component == nullptr)
         return;
+    static LightComponent copy;
     if (ImGui::CollapsingHeader("LightComponent"))
     {
+        RenderMemberResult res;
+        auto temp = *component;
         ImGui::PushID("LightComponent");
 
         const char *light_options[] = {"Directional", "Point", "Spot"};
@@ -578,15 +660,15 @@ void RenderComponent<LightComponent>(Entity entity)
         }
 
         ImGui::PushID("ambient");
-        RenderMember("Ambient", component->ambient);
+        res = RenderMember("Ambient", component->ambient);
         ImGui::PopID();
 
         ImGui::PushID("diffuse");
-        RenderMember("Diffuse", component->diffuse);
+        res = RenderMember("Diffuse", component->diffuse);
         ImGui::PopID();
 
         ImGui::PushID("specular");
-        RenderMember("Specular", component->specular);
+        res = RenderMember("Specular", component->specular);
         ImGui::PopID();
 
         switch (selected_light_option)
@@ -596,13 +678,13 @@ void RenderComponent<LightComponent>(Entity entity)
         }
         case 1: {
             ImGui::PushID("constant");
-            RenderMember("Constant", component->constant);
+            res = RenderMember("Constant", component->constant);
             ImGui::PopID();
             ImGui::PushID("linear");
-            RenderMember("Linear", component->linear);
+            res = RenderMember("Linear", component->linear);
             ImGui::PopID();
             ImGui::PushID("quadratic");
-            RenderMember("Quadratic", component->quadratic);
+            res = RenderMember("Quadratic", component->quadratic);
             ImGui::PopID();
             break;
         }
@@ -612,6 +694,19 @@ void RenderComponent<LightComponent>(Entity entity)
         default: {
             break;
         }
+        }
+        if (res.started_editing)
+        {
+            copy = temp;
+        }
+        if (res.finished_editing)
+        {
+            auto *event = new ComponentEditEvent<LightComponent>();
+            event->before = copy;
+            event->after = *component;
+            event->entities = {entity};
+            event->type = get_component_type<LightComponent>();
+            engine_send_update_event(event);
         }
 
         if (ImGui::Button("Remove"))
@@ -633,10 +728,26 @@ void RenderComponent<ControllerComponent>(Entity entity)
     auto *component = entity_get_component_unsafe<ControllerComponent>(entity);
     if (component == nullptr)
         return;
+    static ControllerComponent copy;
     if (ImGui::CollapsingHeader("ControllerComponent"))
     {
+        RenderMemberResult res;
+        auto temp = *component;
         ImGui::PushID("ControllerComponent");
-        RenderMember("sens", component->sens);
+        res = RenderMember("sens", component->sens);
+        if (res.started_editing)
+        {
+            copy = temp;
+        }
+        if (res.finished_editing)
+        {
+            auto *event = new ComponentEditEvent<ControllerComponent>();
+            event->before = copy;
+            event->after = *component;
+            event->entities = {entity};
+            event->type = get_component_type<ControllerComponent>();
+            engine_send_update_event(event);
+        }
         if (ImGui::Button("Remove"))
         {
             entity_remove_component<ControllerComponent>(entity);
@@ -655,14 +766,30 @@ void RenderComponent<CameraComponent>(Entity entity)
     auto *component = entity_get_component_unsafe<CameraComponent>(entity);
     if (component == nullptr)
         return;
+    static CameraComponent copy;
     if (ImGui::CollapsingHeader("CameraComponent"))
     {
+        RenderMemberResult res;
+        auto temp = *component;
         ImGui::PushID("CameraComponent");
-        RenderMember("enabled", component->enabled);
-        RenderMember("fov", component->fov);
-        RenderMember("znear", component->znear);
-        RenderMember("zfar", component->zfar);
-        RenderMember("gamma_correction", component->gamma_correction);
+        res = RenderMember("enabled", component->enabled);
+        res = RenderMember("fov", component->fov);
+        res = RenderMember("znear", component->znear);
+        res = RenderMember("zfar", component->zfar);
+        res = RenderMember("gamma_correction", component->gamma_correction);
+        if (res.started_editing)
+        {
+            copy = temp;
+        }
+        if (res.finished_editing)
+        {
+            auto *event = new ComponentEditEvent<CameraComponent>();
+            event->before = copy;
+            event->after = *component;
+            event->entities = {entity};
+            event->type = get_component_type<CameraComponent>();
+            engine_send_update_event(event);
+        }
         if (ImGui::Button("Remove"))
         {
             entity_remove_component<CameraComponent>(entity);

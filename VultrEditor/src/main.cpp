@@ -67,6 +67,7 @@ int main(void)
 
     engine_global()->game->RegisterComponents();
     vultr->game->SetImGuiContext(ImGui::GetCurrentContext());
+    engine_global()->on_edit = Editor::OnEdit;
 
     while (!vultr->should_close)
     {

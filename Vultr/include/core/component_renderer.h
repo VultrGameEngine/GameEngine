@@ -12,6 +12,20 @@
 
 typedef void (*ComponentRender)(Vultr::Entity);
 
+struct RenderMemberResult
+{
+    bool finished_editing = false;
+    bool started_editing = false;
+    void operator=(const RenderMemberResult &other)
+    {
+        if (other.finished_editing)
+            finished_editing = true;
+        if (other.started_editing)
+            started_editing = true;
+    }
+};
+RenderMemberResult was_edited();
+
 #define _RENDER_MEMBER(T, x)                                                                                                                                                                                          \
     ImGui::PushID(typeid(T).name());                                                                                                                                                                                  \
     RenderMember(#x, T->x);                                                                                                                                                                                           \
@@ -43,81 +57,78 @@ template <typename T>
 void RenderComponent(Vultr::Entity entity);
 
 template <typename T>
-void RenderMember(const std::string &name, T &m)
+RenderMemberResult RenderMember(const std::string &name, T &m)
 {
-    ImGui::Text("Unable to render type for member %s", name);
+    ImGui::Text("Unable to render type for member %s", name.c_str());
+    return {false, false};
 }
 
 template <template <typename...> class Map, typename V>
-void RenderMember(const std::string &name, Map<std::string, V> &m)
+RenderMemberResult RenderMember(const std::string &name, Map<std::string, V> &m)
 {
+    RenderMemberResult res;
     for (auto [k, v] : m)
     {
-        RenderMember(k, m.at(k));
-        if (ImGui::IsItemDeactivatedAfterEdit())
-            std::cout << "Edit!\n";
+        res = RenderMember(k, m.at(k));
     }
+    return res;
 }
 
 template <typename V>
-void RenderMember(const std::string &name, std::vector<V> &m)
+RenderMemberResult RenderMember(const std::string &name, std::vector<V> &m)
 {
+    RenderMemberResult res;
     for (uint i = 0; i < m.size(); i++)
     {
         ImGui::PushID(i);
-        RenderMember(name, m.at(i));
+        res = RenderMember(name, m.at(i));
         ImGui::PopID();
-        if (ImGui::IsItemDeactivatedAfterEdit())
-            std::cout << "Edit!\n";
     }
+    return res;
 }
 
 template <>
-inline void RenderMember(const std::string &name, std::string &m)
+inline RenderMemberResult RenderMember(const std::string &name, std::string &m)
 {
     char *buf = new char[4096];
     strcpy(buf, m.c_str());
     ImGui::InputText(name.c_str(), buf, sizeof(char) * 4096);
     m = std::string(buf);
-    if (ImGui::IsItemDeactivatedAfterEdit())
-        std::cout << "Edit!\n";
+    return was_edited();
 }
 
 template <>
-inline void RenderMember(const std::string &name, float &m)
+inline RenderMemberResult RenderMember(const std::string &name, float &m)
 {
     ImGui::DragFloat(name.c_str(), &m, 0.02f);
-    if (ImGui::IsItemDeactivatedAfterEdit())
-        std::cout << "Edit!\n";
+    return was_edited();
 }
 
 template <>
-inline void RenderMember(const std::string &name, int &m)
+inline RenderMemberResult RenderMember(const std::string &name, int &m)
 {
     ImGui::DragInt(name.c_str(), &m);
-    if (ImGui::IsItemDeactivatedAfterEdit())
-        std::cout << "Edit!\n";
+    return was_edited();
 }
 
 template <>
-inline void RenderMember(const std::string &name, double &m)
+inline RenderMemberResult RenderMember(const std::string &name, double &m)
 {
     ImGui::DragFloat(name.c_str(), (float *)&m, 0.02f);
-    if (ImGui::IsItemDeactivatedAfterEdit())
-        std::cout << "Edit!\n";
+    return was_edited();
 }
 
 template <>
-inline void RenderMember(const std::string &name, bool &m)
+inline RenderMemberResult RenderMember(const std::string &name, bool &m)
 {
     ImGui::Checkbox(name.c_str(), &m);
-    if (ImGui::IsItemDeactivatedAfterEdit())
-        std::cout << "Edit!\n";
+    return was_edited();
 }
 
 template <>
-inline void RenderMember(const std::string &name, glm::vec3 &m)
+inline RenderMemberResult RenderMember(const std::string &name, glm::vec3 &m)
 {
+    RenderMemberResult res;
     ImGui::PushID((name + ".x").c_str());
     ImGui::Text("%s", name.c_str());
     ImGui::SameLine();
@@ -125,28 +136,27 @@ inline void RenderMember(const std::string &name, glm::vec3 &m)
     ImGui::DragFloat("", &m.x, 0.02f);
     ImGui::SameLine();
     ImGui::PopID();
-    if (ImGui::IsItemDeactivatedAfterEdit())
-        std::cout << "Edit!\n";
+    res = was_edited();
 
     ImGui::PushID((name + ".y").c_str());
     ImGui::SetNextItemWidth(150);
     ImGui::DragFloat("", &m.y, 0.02f);
     ImGui::SameLine();
     ImGui::PopID();
-    if (ImGui::IsItemDeactivatedAfterEdit())
-        std::cout << "Edit!\n";
+    res = was_edited();
 
     ImGui::PushID((name + ".z").c_str());
     ImGui::SetNextItemWidth(150);
     ImGui::DragFloat("", &m.z, 0.02f);
     ImGui::PopID();
-    if (ImGui::IsItemDeactivatedAfterEdit())
-        std::cout << "Edit!\n";
+    res = was_edited();
+    return res;
 }
 
 template <>
-inline void RenderMember(const std::string &name, glm::vec4 &m)
+inline RenderMemberResult RenderMember(const std::string &name, glm::vec4 &m)
 {
+    RenderMemberResult res;
     ImGui::PushID((name + ".x").c_str());
     ImGui::Text("%s", name.c_str());
     ImGui::SameLine();
@@ -154,36 +164,34 @@ inline void RenderMember(const std::string &name, glm::vec4 &m)
     ImGui::DragFloat("", &m.x, 0.02f);
     ImGui::SameLine();
     ImGui::PopID();
-    if (ImGui::IsItemDeactivatedAfterEdit())
-        std::cout << "Edit!\n";
+    res = was_edited();
 
     ImGui::PushID((name + ".y").c_str());
     ImGui::SetNextItemWidth(150);
     ImGui::DragFloat("", &m.y, 0.02f);
     ImGui::SameLine();
     ImGui::PopID();
-    if (ImGui::IsItemDeactivatedAfterEdit())
-        std::cout << "Edit!\n";
+    res = was_edited();
 
     ImGui::PushID((name + ".z").c_str());
     ImGui::SetNextItemWidth(150);
     ImGui::DragFloat("", &m.z, 0.02f);
     ImGui::SameLine();
     ImGui::PopID();
-    if (ImGui::IsItemDeactivatedAfterEdit())
-        std::cout << "Edit!\n";
+    res = was_edited();
 
     ImGui::PushID((name + ".w").c_str());
     ImGui::SetNextItemWidth(150);
     ImGui::DragFloat("", &m.w, 0.02f);
     ImGui::PopID();
-    if (ImGui::IsItemDeactivatedAfterEdit())
-        std::cout << "Edit!\n";
+    res = was_edited();
+    return res;
 }
 
 template <>
-inline void RenderMember(const std::string &name, glm::quat &m)
+inline RenderMemberResult RenderMember(const std::string &name, glm::quat &m)
 {
+    RenderMemberResult res;
     ImGui::PushID((name + ".x").c_str());
     ImGui::Text("%s", name.c_str());
     ImGui::SameLine();
@@ -191,41 +199,40 @@ inline void RenderMember(const std::string &name, glm::quat &m)
     ImGui::DragFloat("", &m.x, 0.02f);
     ImGui::SameLine();
     ImGui::PopID();
-    if (ImGui::IsItemDeactivatedAfterEdit())
-        std::cout << "Edit!\n";
+    res = was_edited();
 
     ImGui::PushID((name + ".y").c_str());
     ImGui::SetNextItemWidth(150);
     ImGui::DragFloat("", &m.y, 0.02f);
     ImGui::SameLine();
     ImGui::PopID();
-    if (ImGui::IsItemDeactivatedAfterEdit())
-        std::cout << "Edit!\n";
+    res = was_edited();
 
     ImGui::PushID((name + ".z").c_str());
     ImGui::SetNextItemWidth(150);
     ImGui::DragFloat("", &m.z, 0.02f);
     ImGui::SameLine();
     ImGui::PopID();
-    if (ImGui::IsItemDeactivatedAfterEdit())
-        std::cout << "Edit!\n";
+    res = was_edited();
 
     ImGui::PushID((name + ".w").c_str());
     ImGui::SetNextItemWidth(150);
     ImGui::DragFloat("", &m.w, 0.02f);
     ImGui::PopID();
-    if (ImGui::IsItemDeactivatedAfterEdit())
-        std::cout << "Edit!\n";
+    res = was_edited();
+    return res;
 }
 
 template <>
-inline void RenderMember(const std::string &name, Vultr::File &file)
+inline RenderMemberResult RenderMember(const std::string &name, Vultr::File &file)
 {
     ImGui::Text("%s", name.c_str());
     ImGui::SameLine();
+    RenderMemberResult res;
     if (ImGui::Button(Vultr::Path::get_shortened_resource_path(file.GetPath().string()).c_str()))
     {
         ImGuiFileDialog::Instance()->OpenDialog("FileChooser" + name, "Choose File", file.GetExtension(), Vultr::Path::get_resource_path());
+        res.started_editing = true;
     }
 
     if (ImGuiFileDialog::Instance()->Display("FileChooser" + name))
@@ -238,24 +245,26 @@ inline void RenderMember(const std::string &name, Vultr::File &file)
             file.path = Vultr::Path::get_shortened_resource_path(filePathName);
         }
         ImGuiFileDialog::Instance()->Close();
+        res.finished_editing = true;
     }
+    return res;
 }
 
 template <>
-inline void RenderMember(const std::string &name, MaterialComponent::TexturePair &m)
+inline RenderMemberResult RenderMember(const std::string &name, MaterialComponent::TexturePair &m)
 {
     ImGui::PushID("texture");
-    RenderMember(m.name, m.path);
+    auto res = RenderMember(m.name, m.path);
     ImGui::PopID();
+    return res;
 }
 
 template <>
-inline void RenderMember(const std::string &name, Color &m)
+inline RenderMemberResult RenderMember(const std::string &name, Color &m)
 {
     ImGui::PushID(name.c_str());
     float *val = glm::value_ptr(m.value);
     ImGui::ColorEdit4(name.c_str(), val);
     ImGui::PopID();
-    if (ImGui::IsItemDeactivatedAfterEdit())
-        std::cout << "Edit!\n";
+    return was_edited();
 }
