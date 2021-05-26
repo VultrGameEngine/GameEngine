@@ -77,31 +77,6 @@ static void on_key_press(int key, int scancode, int action, int mods)
     {
         actioned_last_frame = false;
     }
-    // if (key == GLFW_KEY_S)
-    //     s_down = action == GLFW_PRESS;
-    // if (key == GLFW_KEY_D)
-    //     d_down = action == GLFW_PRESS;
-    // if (key == GLFW_KEY_LEFT_CONTROL || key == GLFW_KEY_RIGHT_CONTROL)
-    //     ctrl_down = action == GLFW_PRESS;
-    // if (ctrl_down && s_down && !saved_last_frame)
-    // {
-    //     saved_last_frame = true;
-    //     Editor::Save();
-    // }
-    // else if (!ctrl_down || !s_down)
-    // {
-    //     saved_last_frame = false;
-    // }
-
-    // if (ctrl_down && d_down && !duplicate_last_frame)
-    // {
-    //     duplicate_last_frame = true;
-    //     Editor::DuplicateEntity();
-    // }
-    // else if (!ctrl_down || !d_down)
-    // {
-    //     duplicate_last_frame = false;
-    // }
 }
 
 SceneWindow::SceneWindow()
