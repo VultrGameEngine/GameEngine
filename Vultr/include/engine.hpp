@@ -101,6 +101,8 @@ namespace Vultr
         return component_manager_get_component_array<T>(world_get_component_manager(world), get_component_type<T>())->GetDataUnsafe(entity);
     }
 
+    void destroy_entity(Entity entity);
+
     Signature entity_get_signature(Entity entity);
 
     template <typename T>

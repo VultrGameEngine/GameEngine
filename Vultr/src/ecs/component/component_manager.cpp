@@ -12,7 +12,7 @@ namespace Vultr
         }
     }
 
-    void entity_destroyed(ComponentManager &manager, Entity entity)
+    void component_manager_entity_destroyed(ComponentManager &manager, Entity entity)
     {
         // Notify all component arrays that an entity has been destroyed
         for (auto const &pair : manager.component_arrays)

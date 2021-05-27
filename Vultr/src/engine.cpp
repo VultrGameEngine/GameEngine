@@ -73,6 +73,14 @@ namespace Vultr
         destroy_world(old_world);
     }
 
+    void destroy_entity(Entity entity)
+    {
+        auto *world = get_current_world();
+        assert(world != nullptr && WORLD_DOESNT_EXIST_ERROR(destroy_entity));
+        destroy_entity(world, entity);
+        system_manager_entity_destroyed(engine_global()->system_manager, entity);
+    }
+
     void engine_init(Engine *e, bool debug)
     {
         if (!glfwInit())
@@ -252,6 +260,7 @@ namespace Vultr
             e(event);
         }
     }
+
 } // namespace Vultr
 
 using namespace Vultr;

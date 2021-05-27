@@ -34,6 +34,10 @@ void Editor::OnEdit(EditEvent *e)
     s32 stack_size = editor->event_stack.size();
     if (editor->event_index < stack_size - 1)
     {
+        for (int i = editor->event_index + 1; i < editor->event_stack.size(); i++)
+        {
+            delete editor->event_stack[i];
+        }
         editor->event_stack.erase(editor->event_stack.begin() + editor->event_index + 1, editor->event_stack.end());
     }
     editor->event_index++;
@@ -57,11 +61,34 @@ void Editor::Redo()
     if (editor->event_stack.size() == 0)
         return;
     s32 stack_size = editor->event_stack.size();
-    if (editor->event_index >= stack_size)
+    if (editor->event_index + 1 >= stack_size)
         return;
     editor->event_index++;
     auto *event = editor->event_stack[editor->event_index];
     event->Redo(engine_global());
+}
+
+void Editor::DeleteEntity()
+{
+    auto *editor = Editor::Get();
+    if (editor->selected_entity == INVALID_ENTITY)
+        return;
+    auto *world = get_current_world();
+
+    auto &component_manager = world_get_component_manager(world);
+    auto *event = new EntityDestroyEvent();
+    Entity selected_entity = editor->selected_entity;
+    for (auto [type, array] : component_manager.component_arrays)
+    {
+        void *component = array->InternalGetData(selected_entity);
+        if (component != nullptr)
+        {
+            event->components[type] = component;
+        }
+    }
+    event->entity = selected_entity;
+    destroy_entity(selected_entity);
+    OnEdit(event);
 }
 
 void Editor::Render()

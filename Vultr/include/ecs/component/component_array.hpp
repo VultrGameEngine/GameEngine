@@ -24,6 +24,11 @@ namespace Vultr
         {
             return nullptr;
         }
+        virtual void InsertData(Entity entity, void *component){};
+        virtual void *InternalGetData(Entity entity)
+        {
+            return nullptr;
+        }
         virtual void to_json(json &j) const {};
         virtual void from_json(const json &j){};
     };
@@ -49,6 +54,12 @@ namespace Vultr
             component_array[new_index] = component;
 
             ++size;
+        }
+
+        void InsertData(Entity entity, void *component) override
+        {
+            T dereferenced = *static_cast<T *>(component);
+            InsertData(entity, dereferenced);
         }
 
         void RemoveData(Entity entity)
@@ -82,6 +93,15 @@ namespace Vultr
             assert(entity_to_index_map.find(entity) != entity_to_index_map.end() && "Attempting to retreive data from nonexistent component");
 
             return component_array[entity_to_index_map[entity]];
+        }
+
+        void *InternalGetData(Entity entity) override
+        {
+            T *component = GetDataUnsafe(entity);
+            if (component == nullptr)
+                return nullptr;
+            T *data = new T(*component);
+            return static_cast<void *>(data);
         }
 
         bool HasData(Entity entity) override

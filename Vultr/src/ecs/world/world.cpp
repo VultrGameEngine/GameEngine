@@ -404,6 +404,8 @@ namespace Vultr
 
     void destroy_entity(World *world, Entity entity)
     {
+        component_manager_entity_destroyed(world->component_manager, entity);
+        system_manager_entity_destroyed(world->system_manager, entity);
         entity_manager_destroy_entity(world->entity_manager, entity);
     }
 

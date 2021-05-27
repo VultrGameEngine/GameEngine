@@ -73,6 +73,11 @@ static void on_key_press(int key, int scancode, int action, int mods)
             std::cout << "Undo! \n";
         }
     }
+    else if (key == GLFW_KEY_DELETE && action == GLFW_PRESS && Editor::Get()->selected_entity != INVALID_ENTITY && !actioned_last_frame)
+    {
+        actioned_last_frame = true;
+        Editor::DeleteEntity();
+    }
     else if (actioned_last_frame)
     {
         actioned_last_frame = false;
