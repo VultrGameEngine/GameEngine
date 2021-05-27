@@ -2,6 +2,7 @@
 #include <editor/editor.hpp>
 #include <imgui/imgui.h>
 #include <engine.hpp>
+#include <fonts/fork_awesome.h>
 
 using namespace Vultr;
 void EntityWindow::Render()
@@ -21,7 +22,7 @@ void EntityWindow::Render()
     {
         if (get_entity_signature(get_current_world(), entity) != empty)
         {
-            if (ImGui::Selectable(("Entity " + std::to_string(entity)).c_str(), Editor::Get()->selected_entity == entity))
+            if (ImGui::Selectable((ICON_FK_CODE "Entity " + std::to_string(entity)).c_str(), Editor::Get()->selected_entity == entity))
             {
                 Editor::Get()->selected_entity = Entity(entity);
                 if (ImGui::BeginPopupContextWindow())

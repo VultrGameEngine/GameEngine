@@ -6,20 +6,50 @@
 #include <editor/core/windows/game_window.hpp>
 #include <editor/core/windows/scene_window.hpp>
 #include <editor/core/windows/entity_window.hpp>
+#include <editor/core/windows/asset_browser.hpp>
 #include <editor/editor.hpp>
 #include <imgui/imgui.h>
 #include <imgui/imgui_impl_glfw.h>
 #include <imgui/imgui_impl_opengl3.h>
 #include <ImGuizmo/ImGuizmo.h>
 #include <ecs/world/internal_world.hpp>
+#include <stb_image/stb_image.h>
+#define INCBIN_STYLE INCBIN_STYLE_SNAKE
+#include <incbin/incbin.h>
+
+INCBIN(folder_icon, "/home/brandon/Dev/Monopoly/GameEngine/VultrEditor/res/folder.png");
+INCBIN(file_icon, "/home/brandon/Dev/Monopoly/GameEngine/VultrEditor/res/document.png");
+INCBIN(c_icon, "/home/brandon/Dev/Monopoly/GameEngine/VultrEditor/res/c.png");
+INCBIN(image_icon, "/home/brandon/Dev/Monopoly/GameEngine/VultrEditor/res/image.png");
+INCBIN(shader_icon, "/home/brandon/Dev/Monopoly/GameEngine/VultrEditor/res/s.png");
+INCBIN(model_icon, "/home/brandon/Dev/Monopoly/GameEngine/VultrEditor/res/3D.png");
 
 using namespace Vultr;
-Editor::Editor() : selected_entity(Entity(0))
+Editor::Editor() : selected_entity(Entity(0)), current_directory(Path::get_resource_path())
 {
     windows.push_back(new GameWindow());
     windows.push_back(new SceneWindow());
     windows.push_back(new ComponentWindow());
     windows.push_back(new EntityWindow());
+    windows.push_back(new AssetBrowser());
+
+    folder_icon = new Texture(GL_TEXTURE_2D);
+    TextureImporter::Import(gfolder_icon_data, gfolder_icon_size, *folder_icon);
+
+    file_icon = new Texture(GL_TEXTURE_2D);
+    TextureImporter::Import(gfile_icon_data, gfile_icon_size, *file_icon);
+
+    c_icon = new Texture(GL_TEXTURE_2D);
+    TextureImporter::Import(gc_icon_data, gc_icon_size, *c_icon);
+
+    image_icon = new Texture(GL_TEXTURE_2D);
+    TextureImporter::Import(gimage_icon_data, gimage_icon_size, *image_icon);
+
+    shader_icon = new Texture(GL_TEXTURE_2D);
+    TextureImporter::Import(gshader_icon_data, gshader_icon_size, *shader_icon);
+
+    model_icon = new Texture(GL_TEXTURE_2D);
+    TextureImporter::Import(gmodel_icon_data, gmodel_icon_size, *model_icon);
 }
 
 Editor::~Editor()

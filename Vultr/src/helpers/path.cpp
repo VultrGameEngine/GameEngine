@@ -35,12 +35,12 @@ namespace Vultr::Path
     void set_resource_path(const std::string &p_path)
     {
         std::string path = p_path;
-        #ifndef _WIN32
+#ifndef _WIN32
         if (*path.end() != '/')
         {
             path += "/";
         }
-        #endif
+#endif
         get_resource_path() = path;
     }
 
@@ -61,6 +61,41 @@ namespace Vultr::Path
         if (path.substr(0, get_resource_path().size()) == get_resource_path())
             return path.substr(get_resource_path().size());
         return path;
+    }
+
+    std::string get_resource_type(const std::string &name)
+    {
+        s32 index = name.rfind(".");
+        if (index == std::string::npos || index == name.size() - 1)
+        {
+            return UNKNOWN_FILE;
+        }
+        std::string e = name.substr(index + 1);
+        std::transform(e.begin(), e.end(), e.begin(), ::tolower);
+        if (e == "glsl")
+        {
+            return SHADER_FILE;
+        }
+        else if (e == "cpp" || e == "c" || e == "cc")
+        {
+            return SOURCE_FILE;
+        }
+        else if (e == "h" || e == "hpp")
+        {
+            return HEADER_FILE;
+        }
+        else if (e == "png" || e == "jpg" || e == "jpeg" || e == "bmp")
+        {
+            return IMAGE_FILE;
+        }
+        else if (e == "obj" || e == "fbx" || e == "blend")
+        {
+            return MODEL_FILE;
+        }
+        else
+        {
+            return UNKNOWN_FILE;
+        }
     }
 
     std::string GetFullPath(const std::string &path)

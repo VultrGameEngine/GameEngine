@@ -3,6 +3,12 @@
 #include <iostream>
 #include <helpers/path.h>
 #include <helpers/directory.h>
+#include <fonts/fork_awesome.h>
+#define INCBIN_STYLE INCBIN_STYLE_SNAKE
+#include <incbin/incbin.h>
+#include <helpers/texture_importer.h>
+
+INCBIN(fork_awesome, "/home/brandon/Dev/Monopoly/GameEngine/VultrEditor/res/forkawesome-webfont.ttf");
 
 using namespace Vultr;
 int main(void)
@@ -68,6 +74,16 @@ int main(void)
     engine_global()->game->RegisterComponents();
     vultr->game->SetImGuiContext(ImGui::GetCurrentContext());
     engine_global()->on_edit = Editor::OnEdit;
+
+    static const ImWchar icons_ranges[] = {ICON_MIN_FK, ICON_MAX_FK, 0};
+    ImFontConfig icons_config;
+    icons_config.MergeMode = true;
+    icons_config.PixelSnapH = true;
+    ImGuiIO &io = ImGui::GetIO();
+    // Editor::Get()->icon_large = io.Fonts->AddFontFromMemoryTTF((void *)gfork_awesome_data, gfork_awesome_size, 60.0f, &icons_config, icons_ranges);
+    Editor::Get()->icon_small = io.Fonts->AddFontFromMemoryTTF((void *)gfork_awesome_data, gfork_awesome_size, 24.0f, &icons_config, icons_ranges);
+
+    Editor::Get()->current_directory = resource_directory;
 
     while (!vultr->should_close)
     {

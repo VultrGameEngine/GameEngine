@@ -20,6 +20,17 @@ namespace Vultr
         {
             return files;
         }
+
+        std::vector<File> Files() const
+        {
+            return std::vector(files.begin(), files.end());
+        }
+
+        std::vector<Directory> Directories() const
+        {
+            return std::vector(sub_directories.begin(), sub_directories.end());
+        }
+
         std::set<Directory> GetDirectories() const
         {
             return sub_directories;

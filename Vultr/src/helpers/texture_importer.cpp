@@ -18,16 +18,28 @@ namespace Vultr
         {
             return false;
         }
+        Import(buffer, texture, width, height);
+        if (buffer)
+            stbi_image_free(buffer);
+        return true;
+    }
+    void TextureImporter::Import(const unsigned char *data, uint size, Texture &texture)
+    {
+        int width = 0;
+        int height = 0;
+        unsigned char *buffer = stbi_load_from_memory(data, size, &width, &height, nullptr, 4);
+
+        Import(buffer, texture, width, height);
+    }
+    void TextureImporter::Import(const unsigned char *data, Texture &texture, u32 width, u32 height)
+    {
         texture.Bind(GL_TEXTURE0);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
-        if (buffer)
-            stbi_image_free(buffer);
-        return true;
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
     }
 
     bool TextureImporter::ImportSkybox(const std::vector<std::string> &paths, Texture &texture)

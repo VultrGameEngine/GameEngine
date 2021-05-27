@@ -8,6 +8,7 @@
 #include <rendering/models/texture.h>
 #include <ecs/world/world.hpp>
 #include <core/models/event.h>
+#include <helpers/directory.h>
 
 class Editor
 {
@@ -43,6 +44,18 @@ class Editor
     bool playing = false;
     bool game_running = false;
     Vultr::World *cached_world = nullptr;
+
+    Vultr::Directory current_directory;
+
+    ImFont *icon_small;
+    ImFont *icon_large;
+
+    Vultr::Texture *folder_icon;
+    Vultr::Texture *file_icon;
+    Vultr::Texture *c_icon;
+    Vultr::Texture *image_icon;
+    Vultr::Texture *shader_icon;
+    Vultr::Texture *model_icon;
 
   private:
     std::vector<Window *> windows;
