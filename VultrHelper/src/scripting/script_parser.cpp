@@ -45,7 +45,7 @@ namespace Vultr
         file << "#pragma once\n";
 
         // Includes
-        file << "#include \"../" << this->m_FullFilepath.GetName() << "\"\n\n";
+        file << "#include \"../" << file_get_name(this->m_FullFilepath) << "\"\n\n";
 
         for (auto component : m_components)
         {
@@ -90,9 +90,9 @@ namespace Vultr
         // Includes
         file << "#include <vultr.hpp>\n\n";
 
-        file << "#include \"../" << this->m_FullFilepath.GetName() << "\"\n\n";
+        file << "#include \"../" << file_get_name(this->m_FullFilepath) << "\"\n\n";
 
-        std::string generated_header = m_FullFilepath.GetName().substr(0, m_FullFilepath.GetName().size() - 2) + ".generated.h";
+        std::string generated_header = file_get_name(m_FullFilepath).substr(0, file_get_name(m_FullFilepath).size() - 2) + ".generated.h";
 
         file << "#include \"" << generated_header << "\"\n";
 

@@ -268,7 +268,7 @@ namespace Vultr::RenderSystem
                 continue;
             TransformComponent &transform = entity_get_component<TransformComponent>(entity);
             StaticMeshComponent &mesh = entity_get_component<StaticMeshComponent>(entity);
-            Mesh *mesh_obj = MeshLoaderSystem::get_mesh(mesh.source.GetPath().string().c_str());
+            Mesh *mesh_obj = MeshLoaderSystem::get_mesh(mesh.source.path.string().c_str());
             if (mesh_obj != nullptr)
             {
                 Renderer3D::ForwardRenderer::Submit(material, transform.Matrix(), *mesh_obj);
@@ -290,7 +290,7 @@ namespace Vultr::RenderSystem
             // All the components we need
             auto &transform = entity_get_component<TransformComponent>(entity);
             auto &mesh = entity_get_component<StaticMeshComponent>(entity);
-            auto *mesh_obj = MeshLoaderSystem::get_mesh(mesh.source.GetPath().string().c_str());
+            auto *mesh_obj = MeshLoaderSystem::get_mesh(mesh.source.path.string().c_str());
 
             // If the mesh has loaded
             if (mesh_obj != nullptr)

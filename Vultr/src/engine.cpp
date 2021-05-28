@@ -280,24 +280,19 @@ void RenderComponent<MaterialComponent>(Vultr::Entity entity)
         const char *shader_options[] = {"Forward", "PBR", "Unlit", "Skybox", "Custom"};
         static int selected_shader_option = 0;
 
-#define FORWARD_MATERIAL "shaders/forward_material.glsl"
-#define SKYBOX_MATERIAL "shaders/skybox.glsl"
-#define PBR_MATERIAL "shaders/forward_material.glsl"
-#define UNLIT_MATERIAL "shaders/unlit.glsl"
-
-        if (component.shader_source.GetPath() == FORWARD_MATERIAL)
+        if (component.shader_source.path == FORWARD_MATERIAL_SOURCE)
         {
             selected_shader_option = 0;
         }
-        else if (component.shader_source.GetPath() == PBR_MATERIAL)
+        else if (component.shader_source.path == PBR_MATERIAL_SOURCE)
         {
             selected_shader_option = 1;
         }
-        else if (component.shader_source.GetPath() == UNLIT_MATERIAL)
+        else if (component.shader_source.path == UNLIT_MATERIAL_SOURCE)
         {
             selected_shader_option = 2;
         }
-        else if (component.shader_source.GetPath() == SKYBOX_MATERIAL)
+        else if (component.shader_source.path == SKYBOX_MATERIAL_SOURCE)
         {
             selected_shader_option = 3;
         }
@@ -336,11 +331,11 @@ void RenderComponent<MaterialComponent>(Vultr::Entity entity)
                         break;
                     }
                     case 4: {
-                        auto path = component.shader_source.GetPath();
-                        if (path == FORWARD_MATERIAL || path == SKYBOX_MATERIAL || path == PBR_MATERIAL || path == UNLIT_MATERIAL)
+                        auto path = component.shader_source.path;
+                        if (path == FORWARD_MATERIAL_SOURCE || path == SKYBOX_MATERIAL_SOURCE || path == PBR_MATERIAL_SOURCE || path == UNLIT_MATERIAL_SOURCE)
                         {
                             component = MaterialComponent();
-                            component.shader_source = File("", SHADER_FILE_EXTENSIONS);
+                            component.shader_source = ShaderSource("");
                         }
                         break;
                     }
@@ -408,7 +403,7 @@ void RenderComponent<MaterialComponent>(Vultr::Entity entity)
             for (auto &pair : component.textures)
             {
                 ImGui::PushID(pair.name.c_str());
-                res = RenderMember(pair.name, pair.path);
+                res = RenderMember(pair.name, pair.file);
                 ImGui::PopID();
             }
             break;

@@ -42,7 +42,7 @@ namespace Vultr
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
     }
 
-    bool TextureImporter::ImportSkybox(const std::vector<std::string> &paths, Texture &texture)
+    bool TextureImporter::ImportSkybox(const std::vector<TextureSource> &paths, Texture &texture)
     {
         stbi_set_flip_vertically_on_load(0);
         texture.Bind(GL_TEXTURE0);
@@ -50,7 +50,7 @@ namespace Vultr
         int width, height, nrChannels;
         for (unsigned int i = 0; i < paths.size(); i++)
         {
-            unsigned char *data = stbi_load(Path::GetFullPath(paths[i]).c_str(), &width, &height, &nrChannels, 0);
+            unsigned char *data = stbi_load(Path::GetFullPath(paths[i].path).c_str(), &width, &height, &nrChannels, 0);
             if (data)
             {
                 glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
@@ -58,7 +58,7 @@ namespace Vultr
             }
             else
             {
-                std::cout << "Cubemap texture failed to load at path: " << paths[i] << std::endl;
+                std::cout << "Cubemap texture failed to load at path: " << paths[i].path << std::endl;
                 stbi_image_free(data);
                 return false;
             }

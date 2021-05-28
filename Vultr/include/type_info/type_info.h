@@ -17,12 +17,4 @@ namespace Vultr
 
     template <typename T>
     const char *get_struct_name();
-
-    // Register the type info (stringified name of the struct and the hash) for a struct
-    // #define register_struct_ti(T)                                                                                                                                                           \
-//     template <>                                                                                                                                                                         \
-//     inline const char *get_struct_name<T>()                                                                                                                                             \
-//     {                                                                                                                                                                                   \
-//         return #T;                                                                                                                                                                      \
-//     }
 } // namespace Vultr

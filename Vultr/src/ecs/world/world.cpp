@@ -117,7 +117,7 @@ void to_json(json &j, const MaterialComponent &c)
 }
 void from_json(const json &j, MaterialComponent &c)
 {
-    FROMJSON(shader_source, Vultr::File)
+    FROMJSON(shader_source, Vultr::ShaderSource)
     FROMJSON(textures, std::vector<MaterialComponent::TexturePair>)
     if (j.contains("vec3s"))
     {
@@ -142,13 +142,13 @@ void from_json(const json &j, MaterialComponent &c)
 }
 void to_json(json &j, const MaterialComponent::TexturePair &c)
 {
-    TOJSON(path);
+    TOJSON(file);
     TOJSON(slot);
     TOJSON(name);
 }
 void from_json(const json &j, MaterialComponent::TexturePair &c)
 {
-    FROMJSON(path, Vultr::File)
+    FROMJSON(file, Vultr::TextureSource)
     FROMJSON(slot, u16)
     FROMJSON(name, std::string)
 }
@@ -287,12 +287,13 @@ namespace Vultr
     void to_json(json &j, const File &f)
     {
         j["path"] = f.path;
-        j["extension"] = f.extension;
+        j["expected_extensions"] = f.expected_extensions;
     }
     void from_json(const json &j, File &f)
     {
         f.path = j["path"].get<std::string>();
-        f.extension = j["extension"].get<std::string>().c_str();
+        if (j.contains("expected_extensions"))
+            f.expected_extensions = j["expected_extensions"].get<std::vector<std::string>>();
     }
 
     void component_manager_to_json(json &j, const ComponentManager &m, const ComponentRegistry &r)
@@ -360,7 +361,7 @@ namespace Vultr
     World *load_world(const File &file, const ComponentRegistry &r)
     {
         std::ifstream i;
-        i.open(file.GetPath());
+        i.open(file.path);
 
         json world_saved_json;
         i >> world_saved_json;
@@ -383,7 +384,7 @@ namespace Vultr
     void save_world(World *_world, const File &out)
     {
         std::ofstream o;
-        o.open(out.GetPath());
+        o.open(out.path);
         InternalWorld *world = static_cast<InternalWorld *>(_world);
         json final_output;
         save_world(world, final_output);

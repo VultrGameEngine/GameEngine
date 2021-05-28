@@ -43,7 +43,7 @@ namespace Vultr::ShaderLoaderSystem
     {
         auto &provider = get_provider();
         // Get the material path
-        auto path = mat.shader_source.GetPath().string();
+        auto path = mat.shader_source.path.string();
 
         // If we have already loaded the shader and cached it, then reuse the id and
         // don't reload

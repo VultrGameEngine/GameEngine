@@ -21,12 +21,12 @@ struct MaterialComponent
 {
     typedef struct
     {
-        Vultr::File path;
+        Vultr::TextureSource file;
         u16 slot;
         std::string name;
     } TexturePair;
 
-    Vultr::File shader_source;
+    Vultr::ShaderSource shader_source;
     std::vector<TexturePair> textures;
     std::unordered_map<std::string, glm::vec3> vec3s;
     std::unordered_map<std::string, glm::vec4> vec4s;
@@ -37,17 +37,16 @@ struct MaterialComponent
     static MaterialComponent Create()
     {
         auto component = MaterialComponent();
-        component.shader_source.extension = SHADER_FILE_EXTENSIONS;
         return component;
     }
 
-    std::vector<std::string> get_paths()
+    std::vector<Vultr::TextureSource> get_paths()
     {
-        auto vec = std::vector<std::string>();
+        auto vec = std::vector<Vultr::TextureSource>();
         vec.reserve(textures.size());
         for (auto pair : textures)
         {
-            vec.push_back(pair.path.GetPath().string());
+            vec.push_back(pair.file);
         }
         return vec;
     }

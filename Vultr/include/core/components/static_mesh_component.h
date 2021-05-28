@@ -13,7 +13,7 @@ struct StaticMeshComponent
     static StaticMeshComponent Create(const std::string &p_path = "models/cube.obj")
     {
         StaticMeshComponent component = StaticMeshComponent();
-        component.source = Vultr::File(p_path, MODEL_3D_FILE_EXTENSIONS);
+        component.source = Vultr::File(p_path, Vultr::File::MODEL);
         return component;
     }
 

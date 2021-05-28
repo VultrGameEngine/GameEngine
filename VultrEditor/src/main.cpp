@@ -7,6 +7,7 @@
 #define INCBIN_STYLE INCBIN_STYLE_SNAKE
 #include <incbin/incbin.h>
 #include <helpers/texture_importer.h>
+#include <set>
 
 INCBIN(fork_awesome, "/home/brandon/Dev/Monopoly/GameEngine/VultrEditor/res/forkawesome-webfont.ttf");
 
@@ -18,7 +19,8 @@ int main(void)
 
 #ifndef _WIN32
     Directory cwd = Directory(std::filesystem::current_path().string());
-    auto files = cwd.GetFiles();
+    auto _f = directory_get_files(cwd);
+    auto files = std::set(_f.begin(), _f.end());
 
     File vultr_helper = cwd / File("VultrHelper");
 
@@ -27,7 +29,8 @@ int main(void)
         std::cout << "No VultrHelper found in current working directory!" << std::endl;
         return 1;
     }
-    auto sub_directories = cwd.GetDirectories();
+    auto _sd = directory_get_sub_directories(cwd);
+    auto sub_directories = std::set(_sd.begin(), _sd.end());
 
     Directory resource_directory = cwd / Directory("res");
 
@@ -47,7 +50,8 @@ int main(void)
 
     File dll = build_directory / File("libGame.so");
 
-    auto build_files = build_directory.GetFiles();
+    auto _bf = directory_get_files(build_directory);
+    auto build_files = std::set(_bf.begin(), _bf.end());
 
     if (build_files.find(dll) == build_files.end())
     {
@@ -60,7 +64,7 @@ int main(void)
 #ifdef _WIN32
     Path::set_resource_path("C:/Users/Brand/Dev/Monopoly/res/");
 #else
-    Path::set_resource_path(resource_directory.GetPath().string());
+    Path::set_resource_path(resource_directory.path.string());
 #endif
 
     engine_init(vultr, true);
@@ -68,7 +72,7 @@ int main(void)
 #ifdef _WIN32
     engine_load_game(vultr, "C:/Users/Brand/Dev/Monopoly/build/Debug/Game.dll");
 #else
-    engine_load_game(vultr, dll.GetPath().string().c_str());
+    engine_load_game(vultr, dll.path.string().c_str());
 #endif
 
     engine_global()->game->RegisterComponents();

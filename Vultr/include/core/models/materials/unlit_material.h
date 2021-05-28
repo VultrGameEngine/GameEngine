@@ -3,9 +3,10 @@
 
 namespace Vultr
 {
-namespace UnlitMaterial
-{
-MaterialComponent Create();
+    namespace UnlitMaterial
+    {
+#define UNLIT_MATERIAL_SOURCE "shaders/unlit.glsl"
+        MaterialComponent Create();
 
-} // namespace UnlitMaterial
+    } // namespace UnlitMaterial
 } // namespace Vultr

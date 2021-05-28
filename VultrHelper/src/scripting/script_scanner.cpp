@@ -9,7 +9,7 @@ namespace Vultr
     ScriptScanner::ScriptScanner(const File &file) : m_Filepath(file)
     {
         std::string line;
-        std::string file_path = file.GetPath().string();
+        std::string file_path = file.path.string();
         std::ifstream stream(file_path);
         std::stringstream ss;
         while (getline(stream, line))

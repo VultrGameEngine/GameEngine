@@ -84,7 +84,7 @@ namespace Vultr
             {
                 render_object->Paint(context);
             }
-            scroll_pos = Math::Lerp(scroll_pos, GetRenderObject()->scroll_pos, 0.0000000001, context->GetTickInfo().m_delta_time);
+            scroll_pos = Math::lerp(scroll_pos, GetRenderObject()->scroll_pos, 0.0000000001, context->GetTickInfo().m_delta_time);
             if (!std::isinf(max_scroll))
             {
                 if (scroll_pos > max_scroll)

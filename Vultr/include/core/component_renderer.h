@@ -226,12 +226,13 @@ inline RenderMemberResult RenderMember(const std::string &name, glm::quat &m)
 template <>
 inline RenderMemberResult RenderMember(const std::string &name, Vultr::File &file)
 {
+    ImGui::PushID(name.c_str());
     ImGui::Text("%s", name.c_str());
     ImGui::SameLine();
     RenderMemberResult res;
     if (ImGui::Button("##", ImVec2(300, 150)))
     {
-        ImGuiFileDialog::Instance()->OpenDialog("FileChooser" + name, "Choose File", file.GetExtension(), Vultr::Path::get_resource_path());
+        ImGuiFileDialog::Instance()->OpenDialog("FileChooser" + name, "Choose File", file_get_expected_extension_string(file).c_str(), Vultr::Path::get_resource_path());
         res.started_editing = true;
     }
 
@@ -241,7 +242,7 @@ inline RenderMemberResult RenderMember(const std::string &name, Vultr::File &fil
         if (payload != nullptr && payload->IsDataType("File"))
         {
             auto *payload_file = static_cast<Vultr::File *>(payload->Data);
-            if (file.ExtensionMatches(*payload_file))
+            if (file_extension_matches(file, *payload_file))
             {
                 payload = ImGui::AcceptDragDropPayload("File");
                 if (payload != nullptr)
@@ -258,7 +259,7 @@ inline RenderMemberResult RenderMember(const std::string &name, Vultr::File &fil
     ImGui::SameLine();
     ImGui::SetCursorPosX(ImGui::GetCursorPosX() - 270);
     ImGui::PushTextWrapPos(ImGui::GetCursorPosX() + 270);
-    ImGui::Text("%s", file.GetName().c_str());
+    ImGui::Text("%s", file_get_name(file).c_str());
     ImGui::PopTextWrapPos();
 
     if (ImGuiFileDialog::Instance()->Display("FileChooser" + name))
@@ -273,14 +274,51 @@ inline RenderMemberResult RenderMember(const std::string &name, Vultr::File &fil
         ImGuiFileDialog::Instance()->Close();
         res.finished_editing = true;
     }
+    ImGui::PopID();
     return res;
+}
+
+template <>
+inline RenderMemberResult RenderMember(const std::string &name, Vultr::TextureSource &m)
+{
+    return RenderMember<Vultr::File>(name, m);
+}
+
+template <>
+inline RenderMemberResult RenderMember(const std::string &name, Vultr::ModelSource &m)
+{
+    return RenderMember<Vultr::File>(name, m);
+}
+
+template <>
+inline RenderMemberResult RenderMember(const std::string &name, Vultr::HeaderFile &m)
+{
+    return RenderMember<Vultr::File>(name, m);
+}
+
+template <>
+inline RenderMemberResult RenderMember(const std::string &name, Vultr::SourceFile &m)
+{
+    return RenderMember<Vultr::File>(name, m);
+}
+
+template <>
+inline RenderMemberResult RenderMember(const std::string &name, Vultr::HeaderAndSourceFile &m)
+{
+    return RenderMember<Vultr::File>(name, m);
+}
+
+template <>
+inline RenderMemberResult RenderMember(const std::string &name, Vultr::ShaderSource &m)
+{
+    return RenderMember<Vultr::File>(name, m);
 }
 
 template <>
 inline RenderMemberResult RenderMember(const std::string &name, MaterialComponent::TexturePair &m)
 {
     ImGui::PushID("texture");
-    auto res = RenderMember(m.name, m.path);
+    auto res = RenderMember(m.name, m.file);
     ImGui::PopID();
     return res;
 }

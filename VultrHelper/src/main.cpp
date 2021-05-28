@@ -3,11 +3,12 @@
 #include <scripting/script_scanner.h>
 #include <helpers/path.h>
 #include <helpers/file_outputter.h>
+#include <set>
 
 using namespace Vultr;
 void ParseFile(File &source, File &output_source, File &output_header)
 {
-    std::cout << "Parsing " << source.GetName() << std::endl;
+    std::cout << "Parsing " << source.path << std::endl;
     {
         FileOutputter outputter(output_source);
         ScriptScanner fileScanner = ScriptScanner(source);
@@ -30,33 +31,34 @@ void ParseFile(File &source, File &output_source, File &output_header)
 
 void GenerateInDir(Directory dir)
 {
-    Directory generated = dir.CreateSubDirectory("generated");
-    std::set<File> files = generated.GetFiles();
+    Directory generated = create_sub_directory(dir, "generated");
+    auto _f = directory_get_files(generated);
+    auto files = std::set(_f.begin(), _f.end());
     std::set<File> remaining_files;
     for (File f : files)
     {
         remaining_files.insert(f);
     }
-    for (File f : dir.GetFiles())
+    for (File f : directory_get_files(dir))
     {
-        std::string name_no_extensions = f.GetName();
+        std::string name_no_extensions = file_get_name(f);
         name_no_extensions = name_no_extensions.substr(0, name_no_extensions.size() - 2);
-        File expected_source_file = File((generated.GetPath() / (name_no_extensions + ".generated.cpp")).string());
-        File expected_header_file = File((generated.GetPath() / (name_no_extensions + ".generated.h")).string());
+        File expected_source_file = File((generated.path / (name_no_extensions + ".generated.cpp")).string());
+        File expected_header_file = File((generated.path / (name_no_extensions + ".generated.h")).string());
         // If we already have a generated file
         if (files.find(expected_source_file) != files.end())
         {
             File generated_source_file = *files.find(expected_source_file);
             File generated_header_file = *files.find(expected_header_file);
-            if (f.GetDateModified() > generated_source_file.GetDateModified() || f.GetDateModified() > generated_header_file.GetDateModified())
+            if (file_get_date_modified(f) > file_get_date_modified(generated_source_file) || file_get_date_modified(f) > file_get_date_modified(generated_header_file))
             {
                 ParseFile(f, generated_source_file, generated_header_file);
             }
         }
         else
         {
-            File generated_source_file = generated.CreateFile(name_no_extensions + ".generated.cpp");
-            File generated_header_file = generated.CreateFile(name_no_extensions + ".generated.h");
+            File generated_source_file = create_file(generated, (name_no_extensions + ".generated.cpp").c_str());
+            File generated_header_file = create_file(generated, (name_no_extensions + ".generated.h").c_str());
             ParseFile(f, generated_source_file, generated_header_file);
         }
         remaining_files.erase(expected_source_file);
@@ -65,10 +67,11 @@ void GenerateInDir(Directory dir)
 
     for (File f : remaining_files)
     {
-        std::cout << "Removing generated " << f.GetName() << std::endl;
-        f.Delete();
+        std::cout << "Removing generated " << file_get_name(f) << std::endl;
+        delete_file(f);
     }
-    for (Directory d : dir.GetDirectories())
+
+    for (Directory d : directory_get_sub_directories(dir))
     {
         if (d != generated)
         {
@@ -80,7 +83,7 @@ void GenerateInDir(Directory dir)
 int main(int argc, char *argv[])
 {
     Directory current((std::filesystem::current_path()).string());
-    current.CreateSubDirectory("build");
+    create_sub_directory(current, "build");
     Directory systems((std::filesystem::current_path() / "include/system_providers/").string());
     GenerateInDir(systems);
     Directory components((std::filesystem::current_path() / "include/components/").string());

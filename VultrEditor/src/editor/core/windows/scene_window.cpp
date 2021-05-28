@@ -123,7 +123,7 @@ void SceneWindow::Render()
     // Get the currently selected entity in the EntityWindow
     Entity selected_entity = Editor::Get()->selected_entity;
 
-    if (selected_entity != INVALID_ENTITY)
+    if (InputSystem::get_provider().scene_window_focused && selected_entity != INVALID_ENTITY)
     {
 
         // ImGuizmo rendering
@@ -175,7 +175,7 @@ void SceneWindow::Render()
                     copy = *tc;
                 }
                 glm::vec3 translation, rotation, scale;
-                Math::DecomposeTransform(transform, translation, rotation, scale);
+                Math::decompose_transform(transform, translation, rotation, scale);
 
                 glm::vec3 deltaRotation = rotation - glm::eulerAngles(tc->rotation);
                 tc->position = translation;

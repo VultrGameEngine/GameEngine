@@ -5,9 +5,9 @@
 #include <fonts/fork_awesome.h>
 
 using namespace Vultr;
-static Texture *get_texture_from_file(const std::string &name)
+static Texture *get_texture_from_file(const File &file)
 {
-    std::string t = Path::get_resource_type(name);
+    std::string t = Path::get_resource_type(file_get_name(file));
     auto *e = Editor::Get();
     if (t == SHADER_FILE)
     {
@@ -41,11 +41,8 @@ void AssetBrowser::Render()
     static std::vector<File> files;
     static std::vector<Directory> sub_directories;
     static s32 selected = -1;
-    if (files.empty() && sub_directories.empty())
-    {
-        files = current_directory.Files();
-        sub_directories = current_directory.Directories();
-    }
+    files = directory_get_files(current_directory);
+    sub_directories = directory_get_sub_directories(current_directory);
     ImGui::Begin("Asset Browser");
     s32 num_cols = ImGui::GetWindowWidth() / 200 - 2;
     if (num_cols < 1)
@@ -66,11 +63,11 @@ void AssetBrowser::Render()
                 bool is_directory = index < sub_directories.size();
                 if (!is_directory)
                 {
-                    label = files[index - sub_directories.size()].GetName();
+                    label = file_get_name(files[index - sub_directories.size()]);
                 }
                 else
                 {
-                    label = sub_directories[index].GetName();
+                    label = directory_get_name(sub_directories[index]);
                 }
                 ImGui::TableSetColumnIndex(column);
                 ImGui::PushID(index);
@@ -82,7 +79,7 @@ void AssetBrowser::Render()
                 {
                     void *payload = is_directory ? (void *)&sub_directories[index] : (void *)&files[index - sub_directories.size()];
                     ImGui::SetDragDropPayload(is_directory ? "Directory" : "File", payload, sizeof(Vultr::File));
-                    auto *texture = is_directory ? Editor::Get()->folder_icon : get_texture_from_file(files[index - sub_directories.size()].GetName());
+                    auto *texture = is_directory ? Editor::Get()->folder_icon : get_texture_from_file(files[index - sub_directories.size()]);
                     texture->Bind(GL_TEXTURE0);
                     ImGui::Image((void *)(intptr_t)texture->GetID(), ImVec2(125, 125));
                     ImGui::Text("%s", label.c_str());
@@ -94,11 +91,8 @@ void AssetBrowser::Render()
                     if (payload != nullptr)
                     {
                         auto *file = static_cast<Vultr::File *>(payload->Data);
-                        File new_file = sub_directories[index] / *file;
-                        std::filesystem::rename(file->GetPath(), new_file.GetPath());
-                        current_directory.CacheFiles();
-                        files = current_directory.Files();
-                        sub_directories = current_directory.Directories();
+                        move_file(*file, sub_directories[index]);
+                        current_directory.cached_files = false;
                         selected = -1;
                         ImGui::PopID();
                         ImGui::EndTable();
@@ -112,8 +106,7 @@ void AssetBrowser::Render()
                     if (index < sub_directories.size())
                     {
                         current_directory = sub_directories[index];
-                        files = current_directory.Files();
-                        sub_directories = current_directory.Directories();
+                        current_directory.cached_files = false;
                         selected = -1;
                         ImGui::PopID();
                         ImGui::EndTable();
@@ -121,7 +114,7 @@ void AssetBrowser::Render()
                         return;
                     }
                 }
-                auto *texture = is_directory ? Editor::Get()->folder_icon : get_texture_from_file(files[index - sub_directories.size()].GetName());
+                auto *texture = is_directory ? Editor::Get()->folder_icon : get_texture_from_file(files[index - sub_directories.size()]);
                 texture->Bind(GL_TEXTURE0);
                 ImGui::SameLine((200.0 - 125.0) / 2.0);
                 ImGui::Image((void *)(intptr_t)texture->GetID(), ImVec2(125, 125));
@@ -141,14 +134,13 @@ void AssetBrowser::Render()
     ImGui::SameLine(10);
     ImGui::SetCursorPosY(ImGui::GetCursorPosY() - 100);
     std::filesystem::path parent_path;
-    for (auto path : current_directory.GetPath())
+    for (auto path : current_directory.path)
     {
         parent_path = parent_path / path;
         if (ImGui::Button(path.string().c_str()))
         {
             current_directory = Directory(parent_path);
-            files = current_directory.Files();
-            sub_directories = current_directory.Directories();
+            current_directory.cached_files = false;
             selected = -1;
             ImGui::End();
             return;
@@ -160,10 +152,9 @@ void AssetBrowser::Render()
             {
                 auto *file = static_cast<Vultr::File *>(payload->Data);
                 File new_file = Directory(parent_path) / *file;
-                std::filesystem::rename(file->GetPath(), new_file.GetPath());
-                current_directory.CacheFiles();
-                files = current_directory.Files();
-                sub_directories = current_directory.Directories();
+                Directory dir = Directory(parent_path);
+                move_file(*file, dir);
+                current_directory.cached_files = false;
                 selected = -1;
                 ImGui::EndDragDropTarget();
                 ImGui::End();
@@ -186,12 +177,11 @@ void AssetBrowser::Render()
         backed_last_frame = true;
         if (current_directory != Path::get_resource_path())
         {
-            auto path = current_directory.GetPath();
+            auto path = current_directory.path;
             if (path.has_parent_path())
             {
                 current_directory = Directory(path.parent_path());
-                files = current_directory.Files();
-                sub_directories = current_directory.Directories();
+                current_directory.cached_files = false;
                 selected = -1;
             }
         }
@@ -205,10 +195,8 @@ void AssetBrowser::Render()
     {
         if (ImGui::Button("New Folder"))
         {
-            std::filesystem::create_directory(current_directory.GetPath() / "New Folder");
-            current_directory.CacheFiles();
-            files = current_directory.Files();
-            sub_directories = current_directory.Directories();
+            std::filesystem::create_directory(current_directory.path / "New Folder");
+            current_directory.cached_files = false;
         }
 
         if (ImGui::Button("Close"))
