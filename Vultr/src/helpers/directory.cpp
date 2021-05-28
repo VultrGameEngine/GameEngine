@@ -3,6 +3,8 @@
 
 static void directory_cache_files(Vultr::Directory &dir)
 {
+    dir.files.clear();
+    dir.sub_directories.clear();
     for (auto &file : std::filesystem::directory_iterator(dir.path))
     {
         if (file.is_directory())

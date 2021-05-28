@@ -77,8 +77,9 @@ void AssetBrowser::Render()
                 }
                 if (ImGui::BeginDragDropSource())
                 {
-                    void *payload = is_directory ? (void *)&sub_directories[index] : (void *)&files[index - sub_directories.size()];
+                    void *payload = is_directory ? (void *)new Directory(sub_directories[index]) : (void *)new File(files[index - sub_directories.size()]);
                     ImGui::SetDragDropPayload(is_directory ? "Directory" : "File", payload, sizeof(Vultr::File));
+                    free(payload);
                     auto *texture = is_directory ? Editor::Get()->folder_icon : get_texture_from_file(files[index - sub_directories.size()]);
                     texture->Bind(GL_TEXTURE0);
                     ImGui::Image((void *)(intptr_t)texture->GetID(), ImVec2(125, 125));
