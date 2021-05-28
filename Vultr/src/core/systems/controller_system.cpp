@@ -1,6 +1,7 @@
 #include <core/systems/controller_system.h>
 #include <core/system_providers/controller_system_provider.h>
 #include <core/system_providers/camera_system_provider.h>
+#include <core/system_providers/input_system_provider.h>
 #include <core/system_providers/render_system_provider.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
@@ -17,9 +18,12 @@ namespace Vultr::ControllerSystem
 
     void update(float delta_time)
     {
-        TransformComponent &transform_component = CameraSystem::get_provider().scene_camera.transform_component;
+        auto &transform_component = CameraSystem::get_provider().scene_camera.transform_component;
 
-        ControllerComponent &controller_component = CameraSystem::get_provider().scene_camera.controller_component;
+        auto &controller_component = CameraSystem::get_provider().scene_camera.controller_component;
+
+        if (!InputSystem::get_provider().scene_window_focused)
+            return;
 
         ControllerSystem::Component &provider = get_provider();
         if (!provider.focused)

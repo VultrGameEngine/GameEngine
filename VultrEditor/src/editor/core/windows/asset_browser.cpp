@@ -178,11 +178,12 @@ void AssetBrowser::Render()
     ImGui::SameLine(10);
     ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 50);
 
-    static bool actioned_last_frame = false;
+    static bool backed_last_frame = false;
     int back_button_state = glfwGetMouseButton(engine_global()->window, GLFW_MOUSE_BUTTON_4);
-    if (ImGui::Button(ICON_FK_BACKWARD) || (back_button_state == GLFW_PRESS && !actioned_last_frame))
+    static std::filesystem::path clipboard = "";
+    if (ImGui::Button(ICON_FK_BACKWARD) || (back_button_state == GLFW_PRESS && !backed_last_frame))
     {
-        actioned_last_frame = true;
+        backed_last_frame = true;
         if (current_directory != Path::get_resource_path())
         {
             auto path = current_directory.GetPath();
@@ -197,7 +198,23 @@ void AssetBrowser::Render()
     }
     else if (back_button_state == GLFW_RELEASE)
     {
-        actioned_last_frame = false;
+        backed_last_frame = false;
+    }
+
+    if (ImGui::BeginPopupContextWindow())
+    {
+        if (ImGui::Button("New Folder"))
+        {
+            std::filesystem::create_directory(current_directory.GetPath() / "New Folder");
+            current_directory.CacheFiles();
+            files = current_directory.Files();
+            sub_directories = current_directory.Directories();
+        }
+
+        if (ImGui::Button("Close"))
+            ImGui::CloseCurrentPopup();
+
+        ImGui::EndPopup();
     }
 
     ImGui::End();

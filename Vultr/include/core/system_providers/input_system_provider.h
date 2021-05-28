@@ -18,6 +18,8 @@ namespace Vultr
             glm::vec2 scene_mouse_pos = glm::vec2(0, 0);
             glm::vec2 scroll_amount = glm::vec2(0, 0);
             bool mouse_down = false;
+            bool scene_window_focused = false;
+            bool game_window_focused = false;
             std::unordered_map<const char *, MouseClickEvent> mouse_click_events;
             std::unordered_map<const char *, KeyPressEvent> key_press_events;
         };

@@ -106,6 +106,8 @@ void SceneWindow::Render()
     ImVec2 position = ImGui::GetCursorScreenPos();
     RenderSystem::update_viewport_pos(position.x, position.y, SCENE);
 
+    InputSystem::get_provider().scene_window_focused = ImGui::IsWindowFocused();
+
     // Get rid of incorrect warnings
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wint-to-void-pointer-cast"
