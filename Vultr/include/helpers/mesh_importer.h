@@ -2,15 +2,12 @@
 #include <map>
 #include <rendering/models/mesh.h>
 #include <string>
+#include <helpers/file.h>
 
-namespace Vultr
+namespace Vultr::MeshImporter
 {
-    class MeshImporter
-    {
-      public:
-        static Mesh *ImportMesh(const std::string &path);
-        static Mesh *InitQuad();
-        static Mesh *InitSkybox();
-    };
+    Mesh *import_mesh(const ModelSource &source);
+    Mesh *init_quad();
+    Mesh *init_skybox();
 
-} // namespace Vultr
+} // namespace Vultr::MeshImporter

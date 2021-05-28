@@ -7,78 +7,18 @@
 
 namespace Vultr
 {
-    const ShaderProgramSource ShaderImporter::OUTLINE = {
-        .VertexSource = "layout (location = 0) in vec3 position;\n"
-                        "layout (location = 1) in vec3 normal;\n"
-                        "layout (location = 2) in vec2 vertextUV; \n"
-                        "out vec3 FragPos; \n"
-                        "uniform mat4 model; \n"
-                        "uniform mat4 view; \n"
-                        "uniform mat4 projection; \n"
-                        ""
-                        "void main() \n"
-                        "{\n"
-                        "   gl_Position = projection * view * model * vec4(position, 1.0f); \n"
-                        "   FragPos = vec3(model * vec4(position, 1.0f)); \n"
-                        ""
-                        ""
-                        "}\n",
-
-        .FragmentSource = "layout (location = 0) in vec3 FragPos;\n"
-                          "out vec4 FragColor; \n"
-                          "uniform vec4 color; \n"
-                          ""
-                          "void main() \n"
-                          "{\n"
-                          "   FragColor = color; \n"
-                          ""
-                          ""
-                          "}\n",
-    };
-
-    const ShaderProgramSource ShaderImporter::EDITOR_INPUT = {
-        .VertexSource = "#version 330 core\n"
-                        "#extension GL_ARB_separate_shader_objects: enable\n"
-                        "layout (location = 0) in vec3 position;\n"
-                        "layout (location = 1) in vec3 normal;\n"
-                        "layout (location = 2) in vec2 vertextUV; \n"
-                        "out vec3 FragPos; \n"
-                        "uniform mat4 model; \n"
-                        "uniform mat4 view; \n"
-                        "uniform mat4 projection; \n"
-                        ""
-                        "void main() \n"
-                        "{\n"
-                        "   gl_Position = projection * view * model * vec4(position, 1.0f); \n"
-                        "   FragPos = vec3(model * vec4(position, 1.0f)); \n"
-                        ""
-                        ""
-                        "}\n",
-        .FragmentSource = "#version 330 core\n"
-                          "#extension GL_ARB_separate_shader_objects: enable\n"
-                          "layout (location = 0) in vec3 FragPos;\n"
-                          "out vec4 FragColor; \n"
-                          "uniform vec4 color; \n"
-                          ""
-                          "void main() \n"
-                          "{\n"
-                          "   FragColor = color; \n"
-                          ""
-                          ""
-                          "}\n",
-    };
-    Shader *ShaderImporter::ImportShader(const std::string &path)
+    Shader *ShaderImporter::import_shader(const ShaderSource &source)
     {
-        std::string correct_path = Path::GetFullPath(path);
-        Shader *shader = new Shader(CreateShader(correct_path), Deferred);
+        auto correct_path = Path::GetFullPath(source.path.string());
+        Shader *shader = new Shader(create_shader(ShaderSource(correct_path)), Deferred);
         return shader;
     }
 
-    Shader *ShaderImporter::ImportEngineShader(ShaderProgramSource source)
+    Shader *ShaderImporter::import_engine_shader(ShaderProgramSource source)
     {
         unsigned int program = glCreateProgram();
-        unsigned int vs = CompileShader(GL_VERTEX_SHADER, source.VertexSource);
-        unsigned int fs = CompileShader(GL_FRAGMENT_SHADER, source.FragmentSource);
+        unsigned int vs = compile_shader(GL_VERTEX_SHADER, source.VertexSource);
+        unsigned int fs = compile_shader(GL_FRAGMENT_SHADER, source.FragmentSource);
 
         glAttachShader(program, vs);
         glAttachShader(program, fs);
@@ -91,10 +31,10 @@ namespace Vultr
         return shader;
     }
 
-    ShaderProgramSource ShaderImporter::ParseShader(const std::string &filepath)
+    ShaderImporter::ShaderProgramSource ShaderImporter::parse_shader(const ShaderSource &source)
     {
         // Opens file
-        std::ifstream stream(filepath);
+        std::ifstream stream(source.path.string());
 
         enum class ShaderType
         {
@@ -131,13 +71,13 @@ namespace Vultr
         }
         return {ss[0].str(), ss[1].str()};
     }
-    unsigned int ShaderImporter::CreateShader(const std::string &path)
+    u32 ShaderImporter::create_shader(const ShaderSource &path)
     {
         // Parse the shader
-        ShaderProgramSource source = ParseShader(path);
+        ShaderProgramSource source = parse_shader(path);
         unsigned int program = glCreateProgram();
-        unsigned int vs = CompileShader(GL_VERTEX_SHADER, source.VertexSource);
-        unsigned int fs = CompileShader(GL_FRAGMENT_SHADER, source.FragmentSource);
+        unsigned int vs = compile_shader(GL_VERTEX_SHADER, source.VertexSource);
+        unsigned int fs = compile_shader(GL_FRAGMENT_SHADER, source.FragmentSource);
 
         glAttachShader(program, vs);
         glAttachShader(program, fs);
@@ -150,10 +90,11 @@ namespace Vultr
         return program;
     }
 
-    unsigned int ShaderImporter::CompileShader(unsigned int type, const std::string &source)
+    u32 ShaderImporter::compile_shader(u32 type, const ShaderSource &source)
     {
         unsigned int id = glCreateShader(type);
-        const char *src = source.c_str();
+        auto _src = source.path.string();
+        auto src = _src.c_str();
         glShaderSource(id, 1, &src, nullptr);
         glCompileShader(id);
 

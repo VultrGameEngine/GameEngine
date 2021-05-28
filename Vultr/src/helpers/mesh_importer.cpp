@@ -11,18 +11,18 @@
 namespace Vultr
 {
 
-    Mesh *MeshImporter::ImportMesh(const std::string &path)
+    Mesh *MeshImporter::import_mesh(const ModelSource &source)
     {
         Mesh *mesh = new Mesh();
         Assimp::Importer importer;
-        std::cout << "Loading component from path " << path << std::endl;
+        std::cout << "Loading component from path " << source.path.string() << std::endl;
         std::vector<Vertex> vertices;
         std::vector<unsigned short> indices;
 
-        const aiScene *scene = importer.ReadFile(Path::GetFullPath(path), aiProcess_CalcTangentSpace | aiProcess_Triangulate | aiProcess_JoinIdenticalVertices | aiProcess_SortByPType);
+        const aiScene *scene = importer.ReadFile(Path::GetFullPath(source.path.string()), aiProcess_CalcTangentSpace | aiProcess_Triangulate | aiProcess_JoinIdenticalVertices | aiProcess_SortByPType);
         if (!scene)
         {
-            std::cout << "FAILED TO IMPORT MESH " << Path::GetFullPath(path) << std::endl;
+            std::cout << "FAILED TO IMPORT MESH " << Path::GetFullPath(source.path.string()) << std::endl;
             return nullptr;
         }
 
@@ -51,7 +51,7 @@ namespace Vultr
         return mesh;
     }
 
-    Mesh *MeshImporter::InitQuad()
+    Mesh *MeshImporter::init_quad()
     {
         std::vector<Vertex> vertices = {
             Vertex(glm::vec3(-1, -1, 0)), // bottom left
@@ -67,7 +67,7 @@ namespace Vultr
         return mesh;
     }
 
-    Mesh *MeshImporter::InitSkybox()
+    Mesh *MeshImporter::init_skybox()
     {
         std::vector<Vertex> vertices = {
             Vertex(glm::vec3(-1, -1, -1)), // 0

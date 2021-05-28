@@ -2,11 +2,7 @@
 #include "file.h"
 #include "directory.h"
 
-namespace Vultr
+namespace Vultr::FileImporter
 {
-class FileImporter
-{
-  public:
-    static void ImportFile(File &file);
-};
-} // namespace Vultr
+    void import_file(File &file);
+} // namespace Vultr::FileImporter

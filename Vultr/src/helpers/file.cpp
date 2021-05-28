@@ -30,6 +30,10 @@ Vultr::File::File(const std::string &p_path, Extensions extension) : path(p_path
         expected_extensions = {".glsl"};
         break;
     }
+    case FONT: {
+        expected_extensions = {".ttf"};
+        break;
+    }
     case NONE:
         expected_extensions = {};
         break;

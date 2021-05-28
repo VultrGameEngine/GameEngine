@@ -10,20 +10,20 @@ namespace Vultr::MeshLoaderSystem
         return *get_global_system_provider<Component>();
     }
 
-    Mesh *get_mesh(const char *path)
+    Mesh *get_mesh(const ModelSource &source)
     {
         auto &p = get_provider();
         // If we do not have that mesh, return nullptr
-        if (p.meshes.find(path) == p.meshes.end())
+        if (p.meshes.find(source.path.string()) == p.meshes.end())
         {
             return nullptr;
         }
 
-        return p.meshes[path];
+        return p.meshes[source.path.string()];
     }
 
-    void add_mesh(const char *path, Mesh *mesh)
+    void add_mesh(const ModelSource &source, Mesh *mesh)
     {
-        get_provider().meshes[path] = mesh;
+        get_provider().meshes[source.path.string()] = mesh;
     }
 } // namespace Vultr::MeshLoaderSystem

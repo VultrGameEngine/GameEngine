@@ -16,6 +16,7 @@ namespace Vultr
             HEADER,
             SOURCE,
             SHADER,
+            FONT,
             NONE
         };
         File() = default;
@@ -63,6 +64,12 @@ namespace Vultr
     {
         ShaderSource() : File("", SHADER){};
         ShaderSource(const std::string &p_path) : File(p_path, SHADER){};
+    };
+
+    struct FontSource : File
+    {
+        FontSource() : File("", FONT){};
+        FontSource(const std::string &p_path) : File(p_path, FONT){};
     };
 
     // Gets the name of the file (can be specified whether this includes the extension or not)

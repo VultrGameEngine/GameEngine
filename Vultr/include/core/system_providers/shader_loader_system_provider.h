@@ -3,6 +3,7 @@
 #include <unordered_map>
 #include <type_info/type_info.h>
 #include <rendering/models/shader.h>
+#include <helpers/file.h>
 
 namespace Vultr
 {
@@ -16,7 +17,7 @@ namespace Vultr
 
         Component &get_provider();
 
-        Shader *get_shader(const char *path);
+        Shader *get_shader(const ShaderSource &source);
     } // namespace ShaderLoaderSystem
 
     template <>

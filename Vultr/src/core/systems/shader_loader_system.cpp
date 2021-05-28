@@ -43,23 +43,23 @@ namespace Vultr::ShaderLoaderSystem
     {
         auto &provider = get_provider();
         // Get the material path
-        auto path = mat.shader_source.path.string();
+        auto source = mat.shader_source;
 
         // If we have already loaded the shader and cached it, then reuse the id and
         // don't reload
-        auto *material_shader = get_shader(path.c_str());
+        auto *material_shader = get_shader(source);
         if (material_shader != nullptr)
             return;
 
         // If we haven't cached this shader, load it and save it in the loaded shaders
         // Create the shader on the gpu
-        Shader *shader = ShaderImporter::ImportShader(path);
+        Shader *shader = ShaderImporter::import_shader(source);
 
         // Create the shader wrapper with the given shader id
         // Shader *shader = new Shader(shader_id, Forward);
 
         // Add it to the loaded shaders
-        provider.loaded_shaders[path] = shader;
+        provider.loaded_shaders[source.path.string()] = shader;
     }
 
     static void check_and_load_shader(Entity entity)

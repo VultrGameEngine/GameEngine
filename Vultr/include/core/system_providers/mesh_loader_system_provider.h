@@ -4,6 +4,7 @@
 #include <memory>
 #include <unordered_map>
 #include <type_info/type_info.h>
+#include <helpers/file.h>
 
 namespace Vultr
 {
@@ -14,9 +15,9 @@ namespace Vultr
             std::unordered_map<std::string, Mesh *> meshes;
         };
 
-        Mesh *get_mesh(const char *path);
+        Mesh *get_mesh(const ModelSource &source);
 
-        void add_mesh(const char *path, Mesh *mesh);
+        void add_mesh(const ModelSource &source, Mesh *mesh);
 
         Component &get_provider();
     } // namespace MeshLoaderSystem

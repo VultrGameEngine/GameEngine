@@ -34,13 +34,12 @@ namespace Vultr::TextureLoaderSystem
     void load_texture(const MaterialComponent &mat)
     {
         auto &provider = get_provider();
-        for (auto [file, slot, name] : mat.textures)
+        for (auto [source, slot, name] : mat.textures)
         {
-            std::string path = file.path.string();
-            if (!is_loaded(path.c_str()))
+            if (!is_loaded(source))
             {
-                provider.textures[path] = new Texture(GL_TEXTURE_2D);
-                TextureImporter::Import(path, *provider.textures[path]);
+                provider.textures[source.path.string()] = new Texture(GL_TEXTURE_2D);
+                TextureImporter::import(source, *provider.textures[source.path.string()]);
             }
         }
     }
@@ -58,21 +57,20 @@ namespace Vultr::TextureLoaderSystem
             {
                 Texture *texture = new Texture(GL_TEXTURE_CUBE_MAP);
                 provider.textures[skybox_component.identifier] = texture;
-                TextureImporter::ImportSkybox(component.get_paths(), *texture);
+                TextureImporter::import_skybox(component.get_paths(), *texture);
             }
         }
         else
         {
             for (auto [file, slot, name] : component.textures)
             {
-                std::string path = file.path.string();
-                if (!is_loaded(path.c_str()))
+                if (!is_loaded(file))
                 {
                     Texture *new_tex = new Texture(GL_TEXTURE_2D);
-                    bool successful = TextureImporter::Import(path, *new_tex);
+                    bool successful = TextureImporter::import(file, *new_tex);
                     if (successful)
                     {
-                        provider.textures[path] = new_tex;
+                        provider.textures[file.path.string()] = new_tex;
                     }
                     else
                     {

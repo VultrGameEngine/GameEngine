@@ -14,7 +14,9 @@ namespace Vultr
             std::unordered_map<std::string, Texture *> textures;
         };
         Component &get_provider();
+        Texture *get_texture(const TextureSource &texture);
         Texture *get_texture(const char *texture);
+        bool is_loaded(const TextureSource &texture);
         bool is_loaded(const char *texture);
     } // namespace TextureLoaderSystem
 

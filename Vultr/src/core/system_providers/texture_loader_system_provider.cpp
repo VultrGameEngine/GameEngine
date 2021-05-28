@@ -6,6 +6,11 @@ namespace Vultr::TextureLoaderSystem
     {
         return *get_global_system_provider<Component>();
     }
+    Texture *get_texture(const TextureSource &texture)
+    {
+        return get_texture(texture.path.string().c_str());
+    }
+
     Texture *get_texture(const char *texture)
     {
         if (is_loaded(texture))
@@ -16,6 +21,11 @@ namespace Vultr::TextureLoaderSystem
         {
             return nullptr;
         }
+    }
+
+    bool is_loaded(const TextureSource &texture)
+    {
+        return is_loaded(texture.path.string().c_str());
     }
 
     bool is_loaded(const char *texture)

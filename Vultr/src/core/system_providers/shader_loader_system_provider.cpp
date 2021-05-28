@@ -10,12 +10,12 @@ namespace Vultr::ShaderLoaderSystem
         return *get_global_system_provider<Component>();
     }
 
-    Shader *get_shader(const char *path)
+    Shader *get_shader(const ShaderSource &source)
     {
         auto &p = get_provider();
-        if (p.loaded_shaders.find(path) == p.loaded_shaders.end())
+        if (p.loaded_shaders.find(source.path.string()) == p.loaded_shaders.end())
             return nullptr;
 
-        return p.loaded_shaders[path];
+        return p.loaded_shaders[source.path.string()];
     }
 } // namespace Vultr::ShaderLoaderSystem

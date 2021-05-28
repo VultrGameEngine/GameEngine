@@ -34,22 +34,22 @@ Editor::Editor() : selected_entity(Entity(0)), current_directory(Path::get_resou
     windows.push_back(new AssetBrowser());
 
     folder_icon = new Texture(GL_TEXTURE_2D);
-    TextureImporter::Import(gfolder_icon_data, gfolder_icon_size, *folder_icon);
+    TextureImporter::import(gfolder_icon_data, gfolder_icon_size, *folder_icon);
 
     file_icon = new Texture(GL_TEXTURE_2D);
-    TextureImporter::Import(gfile_icon_data, gfile_icon_size, *file_icon);
+    TextureImporter::import(gfile_icon_data, gfile_icon_size, *file_icon);
 
     c_icon = new Texture(GL_TEXTURE_2D);
-    TextureImporter::Import(gc_icon_data, gc_icon_size, *c_icon);
+    TextureImporter::import(gc_icon_data, gc_icon_size, *c_icon);
 
     image_icon = new Texture(GL_TEXTURE_2D);
-    TextureImporter::Import(gimage_icon_data, gimage_icon_size, *image_icon);
+    TextureImporter::import(gimage_icon_data, gimage_icon_size, *image_icon);
 
     shader_icon = new Texture(GL_TEXTURE_2D);
-    TextureImporter::Import(gshader_icon_data, gshader_icon_size, *shader_icon);
+    TextureImporter::import(gshader_icon_data, gshader_icon_size, *shader_icon);
 
     model_icon = new Texture(GL_TEXTURE_2D);
-    TextureImporter::Import(gmodel_icon_data, gmodel_icon_size, *model_icon);
+    TextureImporter::import(gmodel_icon_data, gmodel_icon_size, *model_icon);
 }
 
 Editor::~Editor()

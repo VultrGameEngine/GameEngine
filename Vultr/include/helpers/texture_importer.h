@@ -4,14 +4,10 @@
 #include <types/types.hpp>
 #include <helpers/file.h>
 
-namespace Vultr
+namespace Vultr::TextureImporter
 {
-    class TextureImporter
-    {
-      public:
-        static bool Import(const std::string &path, Texture &texture);
-        static void Import(const unsigned char *data, uint size, Texture &texture);
-        static void Import(const unsigned char *data, Texture &texture, u32 width, u32 height);
-        static bool ImportSkybox(const std::vector<TextureSource> &paths, Texture &texture);
-    };
-} // namespace Vultr
+    bool import(const TextureSource &source, Texture &texture);
+    void import(const unsigned char *data, u32 size, Texture &texture);
+    void import(const unsigned char *data, Texture &texture, u32 width, u32 height);
+    bool import_skybox(const std::vector<TextureSource> &paths, Texture &texture);
+} // namespace Vultr::TextureImporter

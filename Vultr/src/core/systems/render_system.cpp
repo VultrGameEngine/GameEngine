@@ -43,10 +43,10 @@ namespace Vultr::RenderSystem
         generate_render_texture(p.scene, mode->width, mode->height);
         generate_render_texture(p.game, mode->width, mode->height);
         generate_input_render_texture(mode->width, mode->height);
-        p.post_processing_shader = ShaderImporter::ImportShader("shaders/post_processing.glsl");
-        p.input_shader = ShaderImporter::ImportEngineShader(ShaderImporter::EDITOR_INPUT);
-        p.render_quad = MeshImporter::InitQuad();
-        p.skybox = MeshImporter::InitSkybox();
+        p.post_processing_shader = ShaderImporter::import_shader(ShaderSource("shaders/post_processing.glsl"));
+        p.input_shader = ShaderImporter::import_engine_shader(ShaderImporter::EDITOR_INPUT);
+        p.render_quad = MeshImporter::init_quad();
+        p.skybox = MeshImporter::init_skybox();
     }
 
     void init_g_buffer(s32 width, s32 height)
@@ -268,7 +268,7 @@ namespace Vultr::RenderSystem
                 continue;
             TransformComponent &transform = entity_get_component<TransformComponent>(entity);
             StaticMeshComponent &mesh = entity_get_component<StaticMeshComponent>(entity);
-            Mesh *mesh_obj = MeshLoaderSystem::get_mesh(mesh.source.path.string().c_str());
+            Mesh *mesh_obj = MeshLoaderSystem::get_mesh(mesh.source);
             if (mesh_obj != nullptr)
             {
                 Renderer3D::ForwardRenderer::Submit(material, transform.Matrix(), *mesh_obj);
@@ -290,7 +290,7 @@ namespace Vultr::RenderSystem
             // All the components we need
             auto &transform = entity_get_component<TransformComponent>(entity);
             auto &mesh = entity_get_component<StaticMeshComponent>(entity);
-            auto *mesh_obj = MeshLoaderSystem::get_mesh(mesh.source.path.string().c_str());
+            auto *mesh_obj = MeshLoaderSystem::get_mesh(mesh.source);
 
             // If the mesh has loaded
             if (mesh_obj != nullptr)

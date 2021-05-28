@@ -6,19 +6,17 @@
 
 namespace Vultr
 {
-class FileOutputter
-{
-  public:
-    FileOutputter(File &p_file);
-    ~FileOutputter();
-
-    void operator<<(std::string data)
+    struct FileOutputter
     {
-        os << data.c_str();
-    }
+        FileOutputter(File &p_file);
+        ~FileOutputter();
 
-  private:
-    File &m_file;
-    std::ofstream os;
-};
+        File &m_file;
+        std::ofstream os;
+
+        void operator<<(std::string data)
+        {
+            os << data.c_str();
+        }
+    };
 } // namespace Vultr

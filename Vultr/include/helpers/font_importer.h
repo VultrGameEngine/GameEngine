@@ -1,14 +1,11 @@
 #pragma once
 #include <fonts/font.h>
+#include <helpers/file.h>
 #include <string>
 #define TEXT_SCALE_FACTOR 24
 
-namespace Vultr
+namespace Vultr::FontImporter
 {
-class FontImporter
-{
-  public:
-    static Font *ImportFont(const std::string &path, const FT_Library &library);
-};
+    Font *import_font(const FontSource &source, const FT_Library &library);
 
-} // namespace Vultr
+} // namespace Vultr::FontImporter

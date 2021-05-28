@@ -91,7 +91,7 @@ void to_json(json &j, const StaticMeshComponent &c)
 }
 void from_json(const json &j, StaticMeshComponent &c)
 {
-    FROMJSON(source, Vultr::File)
+    FROMJSON(source, Vultr::ModelSource)
 }
 void to_json(json &j, const TransformComponent &c)
 {

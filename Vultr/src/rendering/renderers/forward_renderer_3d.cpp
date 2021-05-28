@@ -14,7 +14,7 @@ namespace Vultr::Renderer3D
     }
     void ForwardRenderer::BindMaterial(const MaterialComponent &material, const glm::mat4 &transform, const char *skybox_identifier)
     {
-        Shader *shader = ShaderLoaderSystem::get_shader(material.shader_source.path.string().c_str());
+        Shader *shader = ShaderLoaderSystem::get_shader(material.shader_source);
         if (shader == nullptr)
             return;
         shader->Bind();

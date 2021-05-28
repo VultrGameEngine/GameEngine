@@ -13,22 +13,22 @@
 
 namespace Vultr::MeshLoaderSystem
 {
-    static void import(const char *path)
+    static void import(const ModelSource &source)
     {
         auto &provider = get_provider();
-        Mesh *mesh = MeshImporter::ImportMesh(path);
+        Mesh *mesh = MeshImporter::import_mesh(source);
         if (mesh == nullptr)
             return;
-        add_mesh(path, mesh);
+        add_mesh(source, mesh);
     }
     static void check_and_load_mesh(Entity entity)
     {
         auto &component = entity_get_component<StaticMeshComponent>(entity);
-        std::string path = component.source.path.string();
+        auto source = component.source;
 
-        if (get_mesh(path.c_str()) == nullptr)
+        if (get_mesh(source) == nullptr)
         {
-            MeshLoaderSystem::import(path.c_str());
+            MeshLoaderSystem::import(source);
         }
     }
     void register_system()

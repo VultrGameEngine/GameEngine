@@ -56,14 +56,14 @@ namespace Vultr
                 return quad;
             }
 
-            Font *GetFont(const std::string &path)
+            Font *GetFont(const FontSource &source)
             {
-                if (fonts.find(path) != fonts.end())
+                if (fonts.find(source.path.string()) != fonts.end())
                 {
-                    return fonts[path];
+                    return fonts[source.path.string()];
                 }
-                fonts[path] = FontImporter::ImportFont(path, FontSystem::get_provider().library);
-                return fonts[path];
+                fonts[source.path.string()] = FontImporter::import_font(source, FontSystem::get_provider().library);
+                return fonts[source.path.string()];
             }
 
             QuadID SubmitQuad(Font *font)
