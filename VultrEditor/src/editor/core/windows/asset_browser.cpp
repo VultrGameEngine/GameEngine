@@ -91,6 +91,20 @@ void AssetBrowser::Render()
                 if (is_directory && ImGui::BeginDragDropTarget())
                 {
                     const auto *payload = ImGui::AcceptDragDropPayload("File");
+                    if (payload != nullptr)
+                    {
+                        auto *file = static_cast<Vultr::File *>(payload->Data);
+                        File new_file = sub_directories[index] / *file;
+                        std::filesystem::rename(file->GetPath(), new_file.GetPath());
+                        current_directory.CacheFiles();
+                        files = current_directory.Files();
+                        sub_directories = current_directory.Directories();
+                        selected = -1;
+                        ImGui::PopID();
+                        ImGui::EndTable();
+                        ImGui::End();
+                        return;
+                    }
                     ImGui::EndDragDropTarget();
                 }
                 if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(0))
@@ -126,7 +140,41 @@ void AssetBrowser::Render()
     }
     ImGui::SameLine(10);
     ImGui::SetCursorPosY(ImGui::GetCursorPosY() - 100);
-    ImGui::Text("%s", current_directory.GetPath().c_str());
+    std::filesystem::path parent_path;
+    for (auto path : current_directory.GetPath())
+    {
+        parent_path = parent_path / path;
+        if (ImGui::Button(path.string().c_str()))
+        {
+            current_directory = Directory(parent_path);
+            files = current_directory.Files();
+            sub_directories = current_directory.Directories();
+            selected = -1;
+            ImGui::End();
+            return;
+        }
+        if (ImGui::BeginDragDropTarget())
+        {
+            auto *payload = ImGui::AcceptDragDropPayload("File");
+            if (payload != nullptr)
+            {
+                auto *file = static_cast<Vultr::File *>(payload->Data);
+                File new_file = Directory(parent_path) / *file;
+                std::filesystem::rename(file->GetPath(), new_file.GetPath());
+                current_directory.CacheFiles();
+                files = current_directory.Files();
+                sub_directories = current_directory.Directories();
+                selected = -1;
+                ImGui::EndDragDropTarget();
+                ImGui::End();
+                return;
+            }
+            ImGui::EndDragDropTarget();
+        }
+        ImGui::SameLine();
+        ImGui::Text("/");
+        ImGui::SameLine();
+    }
     ImGui::SameLine(10);
     ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 50);
 

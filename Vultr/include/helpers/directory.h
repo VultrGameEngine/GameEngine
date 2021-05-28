@@ -62,7 +62,8 @@ namespace Vultr
 
         File operator/(const File &file)
         {
-            return File((path / file.path).string());
+            std::filesystem::path new_path = path / file.GetName();
+            return File(new_path.string());
         }
 
         void CacheFiles();

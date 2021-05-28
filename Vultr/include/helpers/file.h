@@ -58,10 +58,13 @@ namespace Vultr
                     extensions.push_back(current_string);
                     current_string = "";
                 }
-                else if (c != '.')
+                else
                 {
-                    current_string += c;
-                    if (i == current_string.size() - 1)
+                    if (c != '.' && c != '}' && c != '{')
+                    {
+                        current_string += c;
+                    }
+                    if (i == list.size() - 1)
                     {
                         extensions.push_back(current_string);
                         current_string = "";

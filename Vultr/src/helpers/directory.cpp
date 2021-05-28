@@ -46,6 +46,8 @@ namespace Vultr
 
     void Directory::CacheFiles()
     {
+        sub_directories.clear();
+        files.clear();
         for (auto &file : fs::directory_iterator(path))
         {
             if (file.is_directory())
