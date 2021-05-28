@@ -229,11 +229,37 @@ inline RenderMemberResult RenderMember(const std::string &name, Vultr::File &fil
     ImGui::Text("%s", name.c_str());
     ImGui::SameLine();
     RenderMemberResult res;
-    if (ImGui::Button(Vultr::Path::get_shortened_resource_path(file.GetPath().string()).c_str()))
+    if (ImGui::Button("##", ImVec2(300, 150)))
     {
         ImGuiFileDialog::Instance()->OpenDialog("FileChooser" + name, "Choose File", file.GetExtension(), Vultr::Path::get_resource_path());
         res.started_editing = true;
     }
+
+    if (ImGui::BeginDragDropTarget())
+    {
+        auto *payload = ImGui::GetDragDropPayload();
+        if (payload != nullptr && payload->IsDataType("File"))
+        {
+            auto *payload_file = static_cast<Vultr::File *>(payload->Data);
+            if (file.ExtensionMatches(*payload_file))
+            {
+                payload = ImGui::AcceptDragDropPayload("File");
+                if (payload != nullptr)
+                {
+                    payload_file = static_cast<Vultr::File *>(payload->Data);
+                    file.path = Vultr::Path::get_shortened_resource_path(payload_file->path);
+                    ImGui::EndDragDropTarget();
+                    res.started_editing = true;
+                    res.finished_editing = true;
+                }
+            }
+        }
+    }
+    ImGui::SameLine();
+    ImGui::SetCursorPosX(ImGui::GetCursorPosX() - 270);
+    ImGui::PushTextWrapPos(ImGui::GetCursorPosX() + 270);
+    ImGui::Text("%s", file.GetName().c_str());
+    ImGui::PopTextWrapPos();
 
     if (ImGuiFileDialog::Instance()->Display("FileChooser" + name))
     {
@@ -241,8 +267,8 @@ inline RenderMemberResult RenderMember(const std::string &name, Vultr::File &fil
         {
             std::string filePathName = ImGuiFileDialog::Instance()->GetFilePathName();
             std::string filePath = ImGuiFileDialog::Instance()->GetCurrentPath();
-            std::cout << "Path " << filePath << std::endl;
             file.path = Vultr::Path::get_shortened_resource_path(filePathName);
+            std::cout << "Path " << file.path << std::endl;
         }
         ImGuiFileDialog::Instance()->Close();
         res.finished_editing = true;

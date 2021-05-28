@@ -16,24 +16,32 @@ namespace Vultr
         Directory CreateSubDirectory(const std::string &name);
         File CreateFile(const std::string &name);
 
-        std::set<File> GetFiles() const
+        std::set<File> GetFiles()
         {
+            if (!cached_files)
+                CacheFiles();
+            return std::set(files.begin(), files.end());
+        }
+
+        std::vector<File> Files()
+        {
+            if (!cached_files)
+                CacheFiles();
             return files;
         }
 
-        std::vector<File> Files() const
+        std::vector<Directory> Directories()
         {
-            return std::vector(files.begin(), files.end());
-        }
-
-        std::vector<Directory> Directories() const
-        {
-            return std::vector(sub_directories.begin(), sub_directories.end());
-        }
-
-        std::set<Directory> GetDirectories() const
-        {
+            if (!cached_files)
+                CacheFiles();
             return sub_directories;
+        }
+
+        std::set<Directory> GetDirectories()
+        {
+            if (!cached_files)
+                CacheFiles();
+            return std::set(sub_directories.begin(), sub_directories.end());
         }
 
         std::string GetName() const
@@ -57,10 +65,13 @@ namespace Vultr
             return File((path / file.path).string());
         }
 
+        void CacheFiles();
+
       private:
         std::filesystem::path path;
-        std::set<File> files;
-        std::set<Directory> sub_directories;
+        std::vector<File> files;
+        std::vector<Directory> sub_directories;
+        bool cached_files = false;
         friend bool operator<(const Directory &a, const Directory &b);
         friend bool operator==(const Directory &a, const Directory &b);
     };

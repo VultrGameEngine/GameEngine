@@ -4,6 +4,7 @@
 #include <core/systems/gui_system.h>
 #include <core/system_providers/render_system_provider.h>
 #include <engine.hpp>
+#include <imgui/imgui_impl_glfw.h>
 
 namespace Vultr::InputSystem
 {
@@ -40,6 +41,7 @@ namespace Vultr::InputSystem
         {
             std::cout << "GUI did not receive scroll event" << std::endl;
         }
+        ImGui_ImplGlfw_ScrollCallback(window, xamount, yamount);
     }
 
     static void on_key_input(GLFWwindow *window, int key, int scancode, int action, int mods)

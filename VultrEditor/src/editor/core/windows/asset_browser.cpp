@@ -38,8 +38,14 @@ static Texture *get_texture_from_file(const std::string &name)
 void AssetBrowser::Render()
 {
     auto &current_directory = Editor::Get()->current_directory;
-    auto files = current_directory.Files();
-    auto sub_directories = current_directory.Directories();
+    static std::vector<File> files;
+    static std::vector<Directory> sub_directories;
+    static s32 selected = -1;
+    if (files.empty() && sub_directories.empty())
+    {
+        files = current_directory.Files();
+        sub_directories = current_directory.Directories();
+    }
     ImGui::Begin("Asset Browser");
     s32 num_cols = ImGui::GetWindowWidth() / 200 - 2;
     if (num_cols < 1)
@@ -68,12 +74,18 @@ void AssetBrowser::Render()
                 }
                 ImGui::TableSetColumnIndex(column);
                 ImGui::PushID(index);
-                ImGui::Selectable("##", false, ImGuiSelectableFlags_AllowDoubleClick, ImVec2(200, 200));
+                if (ImGui::Selectable("##", selected == index, ImGuiSelectableFlags_AllowDoubleClick, ImVec2(200, 200)))
+                {
+                    selected = index;
+                }
                 if (ImGui::BeginDragDropSource())
                 {
                     void *payload = is_directory ? (void *)&sub_directories[index] : (void *)&files[index - sub_directories.size()];
-                    ImGui::SetDragDropPayload(is_directory ? "Directory" : "File", payload, sizeof(payload));
-                    ImGui::Text(is_directory ? ICON_FK_FOLDER : ICON_FK_FILE);
+                    ImGui::SetDragDropPayload(is_directory ? "Directory" : "File", payload, sizeof(Vultr::File));
+                    auto *texture = is_directory ? Editor::Get()->folder_icon : get_texture_from_file(files[index - sub_directories.size()].GetName());
+                    texture->Bind(GL_TEXTURE0);
+                    ImGui::Image((void *)(intptr_t)texture->GetID(), ImVec2(125, 125));
+                    ImGui::Text("%s", label.c_str());
                     ImGui::EndDragDropSource();
                 }
                 if (is_directory && ImGui::BeginDragDropTarget())
@@ -86,6 +98,9 @@ void AssetBrowser::Render()
                     if (index < sub_directories.size())
                     {
                         current_directory = sub_directories[index];
+                        files = current_directory.Files();
+                        sub_directories = current_directory.Directories();
+                        selected = -1;
                         ImGui::PopID();
                         ImGui::EndTable();
                         ImGui::End();
@@ -111,11 +126,30 @@ void AssetBrowser::Render()
     }
     ImGui::SameLine(10);
     ImGui::SetCursorPosY(ImGui::GetCursorPosY() - 100);
-    ImGui::Text("%s", Path::GetFullPath(current_directory.GetPath()).c_str());
+    ImGui::Text("%s", current_directory.GetPath().c_str());
     ImGui::SameLine(10);
     ImGui::SetCursorPosY(ImGui::GetCursorPosY() + 50);
-    if (ImGui::Button(ICON_FK_BACKWARD))
+
+    static bool actioned_last_frame = false;
+    int back_button_state = glfwGetMouseButton(engine_global()->window, GLFW_MOUSE_BUTTON_4);
+    if (ImGui::Button(ICON_FK_BACKWARD) || (back_button_state == GLFW_PRESS && !actioned_last_frame))
     {
+        actioned_last_frame = true;
+        if (current_directory != Path::get_resource_path())
+        {
+            auto path = current_directory.GetPath();
+            if (path.has_parent_path())
+            {
+                current_directory = Directory(path.parent_path());
+                files = current_directory.Files();
+                sub_directories = current_directory.Directories();
+                selected = -1;
+            }
+        }
+    }
+    else if (back_button_state == GLFW_RELEASE)
+    {
+        actioned_last_frame = false;
     }
 
     ImGui::End();

@@ -28,7 +28,7 @@ endif(WIN32)
 add_executable(VultrEditor ${VultrEditor_SRC})
 if(UNIX)
     target_link_libraries(VultrEditor GL glfw3 X11 Xxf86vm Xrandr pthread Xi dl assimp)
-    target_link_libraries(VultrEditor debug ${CMAKE_CURRENT_SOURCE_DIR}/../Vultr/build/libVultrShared.so)
+    target_link_libraries(VultrEditor ${CMAKE_CURRENT_SOURCE_DIR}/../Vultr/build/libVultrShared.so)
 endif(UNIX)
 
 if(WIN32)
