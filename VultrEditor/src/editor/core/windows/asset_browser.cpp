@@ -142,7 +142,7 @@ void AssetBrowser::Render()
         parent_path = parent_path / path;
         if (ImGui::Button(path.string().c_str()))
         {
-            current_directory = Directory(parent_path);
+            current_directory = Directory(parent_path.string());
             current_directory.cached_files = false;
             selected = -1;
             ImGui::End();
@@ -154,8 +154,8 @@ void AssetBrowser::Render()
             if (payload != nullptr)
             {
                 auto *file = static_cast<Vultr::File *>(payload->Data);
-                File new_file = Directory(parent_path) / *file;
-                Directory dir = Directory(parent_path);
+                File new_file = Directory(parent_path.string()) / *file;
+                Directory dir = Directory(parent_path.string());
                 move_file(*file, dir);
                 current_directory.cached_files = false;
                 selected = -1;
@@ -183,7 +183,7 @@ void AssetBrowser::Render()
             auto path = current_directory.path;
             if (path.has_parent_path())
             {
-                current_directory = Directory(path.parent_path());
+                current_directory = Directory(path.parent_path().string());
                 current_directory.cached_files = false;
                 selected = -1;
             }

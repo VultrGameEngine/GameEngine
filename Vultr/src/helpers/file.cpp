@@ -62,11 +62,11 @@ std::string Vultr::file_get_name(const File &file, bool extension)
     {
         if (extension)
         {
-            return file.path.filename();
+            return file.path.filename().string();
         }
         else
         {
-            return file.path.stem();
+            return file.path.stem().string();
         }
     }
     else

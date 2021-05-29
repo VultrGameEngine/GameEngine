@@ -21,6 +21,7 @@
 #define SOURCE_PATH "INVALID SOURCE"
 #endif
 
+#ifndef _WIN32
 INCBIN(folder_icon, SOURCE_PATH "res/folder.png");
 INCBIN(file_icon, SOURCE_PATH "res/document.png");
 INCBIN(c_icon, SOURCE_PATH "res/c.png");
@@ -28,6 +29,15 @@ INCBIN(image_icon, SOURCE_PATH "res/image.png");
 INCBIN(shader_icon, SOURCE_PATH "res/s.png");
 INCBIN(model_icon, SOURCE_PATH "res/3D.png");
 INCBIN(vultr_icon, SOURCE_PATH "res/temp_vultr_icon.png");
+#else
+INCBIN(folder_icon, "../res/folder.png");
+INCBIN(file_icon, "../res/document.png");
+INCBIN(c_icon, "../res/c.png");
+INCBIN(image_icon, "../res/image.png");
+INCBIN(shader_icon, "../res/s.png");
+INCBIN(model_icon, "../res/3D.png");
+INCBIN(vultr_icon,"../res/temp_vultr_icon.png");
+#endif
 
 using namespace Vultr;
 Editor::Editor() : selected_entity(Entity(0)), current_directory(get_working_directory().string())

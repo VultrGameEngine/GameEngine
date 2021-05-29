@@ -9,7 +9,7 @@ namespace Vultr
     struct Directory
     {
         Directory() = default;
-        Directory(const std::string &path = "");
+        Directory(const std::string &path);
         Path path;
         std::vector<File> files;
         std::vector<Directory> sub_directories;

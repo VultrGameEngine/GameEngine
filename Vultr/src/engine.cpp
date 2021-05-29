@@ -110,7 +110,6 @@ namespace Vultr
         }
 
 #ifdef _WIN32
-        glfwWindowHint(GLFW_DECORATED, GL_FALSE);
         e->window = glfwCreateWindow(mode->width, mode->height, "VultrEditor", nullptr, nullptr);
 #else
         e->window = glfwCreateWindow(mode->width, mode->height, "VultrEditor", debug ? nullptr : glfwGetPrimaryMonitor(), nullptr);

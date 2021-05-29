@@ -18,7 +18,7 @@ namespace Vultr
         {
             return false;
         }
-        import(buffer, texture, width, height);
+        TextureImporter::import(buffer, texture, width, height);
         if (buffer)
             stbi_image_free(buffer);
         return true;
@@ -29,7 +29,7 @@ namespace Vultr
         int height = 0;
         unsigned char *buffer = stbi_load_from_memory(data, size, &width, &height, nullptr, 4);
 
-        import(buffer, texture, width, height);
+        TextureImporter::import(buffer, texture, width, height);
     }
     void TextureImporter::import(const unsigned char *data, Texture &texture, u32 width, u32 height)
     {
@@ -50,7 +50,7 @@ namespace Vultr
         int width, height, nrChannels;
         for (unsigned int i = 0; i < paths.size(); i++)
         {
-            unsigned char *data = stbi_load(paths[i].path.c_str(), &width, &height, &nrChannels, 0);
+            unsigned char *data = stbi_load(paths[i].path.string().c_str(), &width, &height, &nrChannels, 0);
             if (data)
             {
                 glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);

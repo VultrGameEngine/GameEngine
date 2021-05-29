@@ -33,11 +33,19 @@ if(UNIX)
 endif(UNIX)
 
 if(WIN32)
+    add_executable(Incbin incbin/incbin.c)
     find_library(GLFW3 glfw3 HINTS ${CMAKE_CURRENT_SOURCE_DIR}/../Vultr/vendor/libs/WIN32)
     find_library(FREETYPE freetyped HINTS  ${CMAKE_CURRENT_SOURCE_DIR}/../Vultr/vendor/libs/WIN32)
     find_library(ASSIMP assimp HINTS ${CMAKE_CURRENT_SOURCE_DIR}/../Vultr/vendor/libs/WIN32)
     find_library(VULTR Vultr HINTS ${CMAKE_CURRENT_SOURCE_DIR}/../Vultr/out/build/x64-Debug/Vultr.lib)
     target_link_libraries(VultrEditor ${GLFW3} ${FREETYPE} ${ASSIMP} opengl32 ${CMAKE_CURRENT_SOURCE_DIR}/../Vultr/out/build/x64-Debug/Vultr.lib)
+    add_custom_target(incbin_run
+        COMMAND Incbin editor/editor.cpp main.cpp -o data.cpp -Ssnakecase 
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/src
+        COMMENT "run incbin in ${CMAKE_CURRENT_SOURCE_DIR}/src"
+        SOURCES src/data.cpp
+    )
+    add_dependencies(VultrEditor incbin_run)
     add_custom_command(TARGET VultrEditor POST_BUILD
     	COMMAND ${CMAKE_COMMAND} -E copy_if_different  
 	    "${CMAKE_CURRENT_SOURCE_DIR}/../Vultr/vendor/libs/WIN32/assimp-vc142-mtd.dll"

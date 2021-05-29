@@ -31,7 +31,7 @@ Vultr::Directory::Directory(const std::string &p_path) : path(p_path)
 
 std::string Vultr::directory_get_name(const Directory &dir)
 {
-    return dir.path.filename();
+    return dir.path.filename().string();
 }
 
 u32 Vultr::directory_get_number_files(Directory &dir, bool use_cache)
@@ -69,7 +69,7 @@ bool Vultr::delete_directory(Directory &dir)
 
 void Vultr::rename_directory(Directory &dir, const char *name)
 {
-    Directory new_dir = Directory((dir.path / name).string());
+    Directory new_dir = Directory((dir.path / std::string(name)).string());
     std::filesystem::rename(dir.path, new_dir.path);
     directory_cache_files(dir);
 }
@@ -99,7 +99,7 @@ Vultr::Directory Vultr::directory_get_parent_directory(const Directory &director
 
 Vultr::Directory Vultr::directory_get_root_directory(const Directory &directory)
 {
-    return Directory(directory.path.root_directory());
+    return Directory(directory.path.root_directory().string());
 }
 
 Vultr::Directory Vultr::file_get_parent_directory(const File &file)
@@ -109,5 +109,5 @@ Vultr::Directory Vultr::file_get_parent_directory(const File &file)
 
 Vultr::Directory Vultr::file_get_root_directory(const File &file)
 {
-    return Directory(file.path.root_directory());
+    return Directory(file.path.root_directory().string());
 }

@@ -13,8 +13,13 @@
 #define SOURCE_PATH "INVALID SOURCE"
 #endif
 
+#ifndef _WIN32
 INCBIN(fork_awesome, SOURCE_PATH "res/forkawesome-webfont.ttf");
 INCBIN(roboto, SOURCE_PATH "res/roboto.ttf");
+#else
+INCBIN(fork_awesome, "../res/forkawesome-webfont.ttf");
+INCBIN(roboto, "../res/roboto.ttf");
+#endif
 
 using namespace Vultr;
 int main(void)
@@ -22,12 +27,15 @@ int main(void)
     engine_global() = new Engine();
     auto *vultr = engine_global();
 
-#ifndef _WIN32
     Directory cwd = Directory(std::filesystem::current_path().string());
     auto _f = directory_get_files(cwd);
     auto files = std::set(_f.begin(), _f.end());
 
+#ifndef _WIN32
     File vultr_helper = cwd / File("VultrHelper");
+#else
+    File vultr_helper = cwd / File("VultrHelper.exe");
+#endif
 
     if (files.find(vultr_helper) == files.end())
     {
@@ -45,15 +53,19 @@ int main(void)
         return 1;
     }
 
-    Directory build_directory = cwd / Directory("build");
+    Directory build_directory = cwd / Directory("out\\build\\x64-Debug");
 
-    if (sub_directories.find(build_directory) == sub_directories.end())
+    if (!std::filesystem::exists(build_directory.path))
     {
         std::cout << "No build directory found in current working directory!" << std::endl;
         return 1;
     }
 
+#ifndef _WIN32
     File dll = build_directory / File("libGame.so");
+#else
+    File dll = build_directory / File("Game.dll");
+#endif
 
     auto _bf = directory_get_files(build_directory);
     auto build_files = std::set(_bf.begin(), _bf.end());
@@ -63,11 +75,10 @@ int main(void)
         std::cout << "No DLL found in build directory" << std::endl;
         return 1;
     }
-#endif
     float lastTime = 0;
 
 #ifdef _WIN32
-    Path::set_resource_path(resource_directory.path);
+    change_working_directory(resource_directory.path);
 #else
     change_working_directory(resource_directory.path);
 #endif
