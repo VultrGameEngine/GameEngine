@@ -107,7 +107,7 @@ namespace Vultr::RenderSystem
     void resize(s32 width, s32 height, u8 type)
     {
         auto &provider = get_provider();
-        auto p_dimensions = glm::vec2(width, height);
+        auto p_dimensions = Vec2(width, height);
         // init_g_buffer(width, height);
         if (type == GAME)
         {
@@ -125,7 +125,7 @@ namespace Vultr::RenderSystem
             generate_render_texture(provider.scene, width, height);
 
             // Mouse picking fbo
-            if (provider.input_data.dimensions == glm::vec2(width, height))
+            if (provider.input_data.dimensions == Vec2(width, height))
                 return;
             provider.input_data.dimensions = p_dimensions;
             generate_input_render_texture(width, height);
@@ -137,12 +137,12 @@ namespace Vultr::RenderSystem
         // Change different positions in the provider
         if (type == GAME)
         {
-            get_provider().game.position = glm::vec2(x, y);
+            get_provider().game.position = Vec2(x, y);
         }
         else if (type == SCENE)
         {
-            get_provider().scene.position = glm::vec2(x, y);
-            get_provider().input_data.position = glm::vec2(x, y);
+            get_provider().scene.position = Vec2(x, y);
+            get_provider().input_data.position = Vec2(x, y);
         }
     }
 
@@ -313,7 +313,7 @@ namespace Vultr::RenderSystem
                 int b = (entity & 0x00FF0000) >> 16;
 
                 // And use that as the color for our object which will single color shaded
-                shader->SetUniform4f("color", glm::vec4(r / 255.0f, g / 255.0f, b / 255.0f, 1.0f));
+                shader->SetUniform4f("color", Vec4(r / 255.0f, g / 255.0f, b / 255.0f, 1.0f));
 
                 // Draw the mesh
                 mesh_obj->Draw();

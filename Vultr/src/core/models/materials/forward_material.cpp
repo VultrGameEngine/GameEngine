@@ -10,7 +10,7 @@ namespace Vultr
             component.shader_source = ShaderSource(FORWARD_MATERIAL_SOURCE);
             component.textures.push_back({TextureSource(p_texture), 0, "Diffuse"});
             component.textures.push_back({TextureSource(p_texture), 1, "Specular"});
-            component.colors.insert({"tint", Color(glm::vec4(1))});
+            component.colors.insert({"tint", Color(Vec4(1))});
             component.ints.insert({"material.diffuse", 0});
             component.ints.insert({"material.specular", 1});
             component.floats.insert({"material.shininess", 1.0});

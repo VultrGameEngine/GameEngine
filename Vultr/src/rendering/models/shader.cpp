@@ -31,17 +31,17 @@ void Shader::SetUniformMatrix4fv(const std::string &uniform, const float *value)
     glUniformMatrix4fv(GetUniformLocation(uniform), 1, GL_FALSE, value);
 }
 
-void Shader::SetUniform4f(const std::string &uniform, const glm::vec4 &value)
+void Shader::SetUniform4f(const std::string &uniform, const Vec4 &value)
 {
     glUniform4f(GetUniformLocation(uniform), value.x, value.y, value.z, value.w);
 }
 
-void Shader::SetUniform3f(const std::string &uniform, const glm::vec3 &value)
+void Shader::SetUniform3f(const std::string &uniform, const Vec3 &value)
 {
     glUniform3f(GetUniformLocation(uniform), value.x, value.y, value.z);
 }
 
-void Shader::SetUniform2f(const std::string &uniform, const glm::vec2 &value)
+void Shader::SetUniform2f(const std::string &uniform, const Vec2 &value)
 {
     glUniform2f(GetUniformLocation(uniform), value.x, value.y);
 }

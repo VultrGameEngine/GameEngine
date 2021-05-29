@@ -15,7 +15,7 @@ void EntityWindow::Render()
     if (ImGui::Button("Add Entity"))
     {
         Entity ent = create_entity(get_current_world());
-        entity_add_component(ent, TransformComponent::Create(glm::vec3(0, 0, 0), glm::quat(1, 0, 0, 0), glm::vec3(1, 1, 1)));
+        entity_add_component(ent, TransformComponent::Create(Vec3(0, 0, 0), Quat(1, 0, 0, 0), Vec3(1, 1, 1)));
     }
     Signature empty;
     for (Entity entity = 0; entity < MAX_ENTITIES; entity++)

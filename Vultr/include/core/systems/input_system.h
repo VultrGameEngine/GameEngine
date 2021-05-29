@@ -5,29 +5,29 @@ namespace Vultr::Input
 {
     struct MouseInputEvent
     {
-        MouseInputEvent(glm::vec2 p_pos, bool p_mouse_down) : pos(p_pos), mouse_down(p_mouse_down)
+        MouseInputEvent(Vec2 p_pos, bool p_mouse_down) : pos(p_pos), mouse_down(p_mouse_down)
         {
         }
-        glm::vec2 pos;
+        Vec2 pos;
         bool mouse_down;
     };
 
     struct MouseButtonInputEvent
     {
-        MouseButtonInputEvent(glm::vec2 p_pos, bool p_mouse_down) : pos(p_pos), mouse_down(p_mouse_down)
+        MouseButtonInputEvent(Vec2 p_pos, bool p_mouse_down) : pos(p_pos), mouse_down(p_mouse_down)
         {
         }
-        glm::vec2 pos;
+        Vec2 pos;
         bool mouse_down;
     };
 
     struct ScrollInputEvent
     {
-        ScrollInputEvent(glm::vec2 p_pos, glm::vec2 p_scroll_amout) : scroll_amount(p_scroll_amout), pos(p_pos)
+        ScrollInputEvent(Vec2 p_pos, Vec2 p_scroll_amout) : scroll_amount(p_scroll_amout), pos(p_pos)
         {
         }
-        glm::vec2 pos;
-        glm::vec2 scroll_amount;
+        Vec2 pos;
+        Vec2 scroll_amount;
     };
 
 } // namespace Vultr::Input

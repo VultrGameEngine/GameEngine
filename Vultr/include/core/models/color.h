@@ -1,12 +1,13 @@
 #pragma once
+#include <fundamental/types.h>
 
 struct Color
 {
-    Color() : value(glm::vec4(0, 0, 0, 1))
+    Color() : value(Vec4(0, 0, 0, 1))
     {
     }
-    Color(glm::vec4 p_value) : value(p_value)
+    Color(Vec4 p_value) : value(p_value)
     {
     }
-    glm::vec4 value;
+    Vec4 value;
 };

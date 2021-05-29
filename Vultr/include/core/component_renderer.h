@@ -126,7 +126,7 @@ inline RenderMemberResult RenderMember(const std::string &name, bool &m)
 }
 
 template <>
-inline RenderMemberResult RenderMember(const std::string &name, glm::vec3 &m)
+inline RenderMemberResult RenderMember(const std::string &name, Vec3 &m)
 {
     RenderMemberResult res;
     ImGui::PushID((name + ".x").c_str());
@@ -154,7 +154,7 @@ inline RenderMemberResult RenderMember(const std::string &name, glm::vec3 &m)
 }
 
 template <>
-inline RenderMemberResult RenderMember(const std::string &name, glm::vec4 &m)
+inline RenderMemberResult RenderMember(const std::string &name, Vec4 &m)
 {
     RenderMemberResult res;
     ImGui::PushID((name + ".x").c_str());
@@ -189,7 +189,7 @@ inline RenderMemberResult RenderMember(const std::string &name, glm::vec4 &m)
 }
 
 template <>
-inline RenderMemberResult RenderMember(const std::string &name, glm::quat &m)
+inline RenderMemberResult RenderMember(const std::string &name, Quat &m)
 {
     RenderMemberResult res;
     ImGui::PushID((name + ".x").c_str());

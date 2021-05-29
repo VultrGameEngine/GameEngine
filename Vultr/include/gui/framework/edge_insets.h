@@ -22,9 +22,9 @@ struct EdgeInsets
     double top = 0.0;
     double bottom = 0.0;
 
-    glm::vec4 GetBorders() const
+    Vec4 GetBorders() const
     {
-        return glm::vec4(left, right, top, bottom);
+        return Vec4(left, right, top, bottom);
     }
 };
 } // namespace GUI

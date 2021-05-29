@@ -8,7 +8,7 @@ namespace Vultr::RenderSystem
         return *get_global_system_provider<Component>();
     }
 
-    glm::vec2 get_dimensions(u8 type)
+    Vec2 get_dimensions(u8 type)
     {
         assert((type == GAME || type == SCENE) && "Please call this method with a valid type, either GAME or SCENE");
 

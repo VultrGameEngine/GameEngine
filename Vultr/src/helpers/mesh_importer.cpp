@@ -34,7 +34,7 @@ namespace Vultr
             const aiVector3D *pNormal = &(imported_mesh->mNormals[i]);
             const aiVector3D *pTexCoord = imported_mesh->HasTextureCoords(0) ? &(imported_mesh->mTextureCoords[0][i]) : &Zero3D;
 
-            Vertex v(glm::vec3(pPos->x, pPos->y, pPos->z), glm::vec3(pNormal->x, pNormal->y, pNormal->z), glm::vec2(pTexCoord->x, pTexCoord->y));
+            Vertex v(Vec3(pPos->x, pPos->y, pPos->z), Vec3(pNormal->x, pNormal->y, pNormal->z), Vec2(pTexCoord->x, pTexCoord->y));
 
             vertices.push_back(v);
         }
@@ -54,10 +54,10 @@ namespace Vultr
     Mesh *MeshImporter::init_quad()
     {
         std::vector<Vertex> vertices = {
-            Vertex(glm::vec3(-1, -1, 0)), // bottom left
-            Vertex(glm::vec3(-1, 1, 0)),  // top left
-            Vertex(glm::vec3(1, -1, 0)),  // bottom right
-            Vertex(glm::vec3(1, 1, 0)),   // top right
+            Vertex(Vec3(-1, -1, 0)), // bottom left
+            Vertex(Vec3(-1, 1, 0)),  // top left
+            Vertex(Vec3(1, -1, 0)),  // bottom right
+            Vertex(Vec3(1, 1, 0)),   // top right
         };
         std::vector<unsigned short> indices = {
             1, 2, 3, 1, 0, 2,
@@ -70,15 +70,15 @@ namespace Vultr
     Mesh *MeshImporter::init_skybox()
     {
         std::vector<Vertex> vertices = {
-            Vertex(glm::vec3(-1, -1, -1)), // 0
-            Vertex(glm::vec3(1, -1, -1)),  // 1
-            Vertex(glm::vec3(1, 1, -1)),   // 2
-            Vertex(glm::vec3(1, 1, 1)),    // 3
-            Vertex(glm::vec3(-1, 1, -1)),  // 4
-            Vertex(glm::vec3(-1, 1, 1)),   // 5
-            Vertex(glm::vec3(-1, -1, 1)),  // 6
-            Vertex(glm::vec3(1, -1, 1)),   // 7
-            Vertex(glm::vec3(1, 1, -1)),   // 8
+            Vertex(Vec3(-1, -1, -1)), // 0
+            Vertex(Vec3(1, -1, -1)),  // 1
+            Vertex(Vec3(1, 1, -1)),   // 2
+            Vertex(Vec3(1, 1, 1)),    // 3
+            Vertex(Vec3(-1, 1, -1)),  // 4
+            Vertex(Vec3(-1, 1, 1)),   // 5
+            Vertex(Vec3(-1, -1, 1)),  // 6
+            Vertex(Vec3(1, -1, 1)),   // 7
+            Vertex(Vec3(1, 1, -1)),   // 8
         };
         std::vector<unsigned short> indices = {// Front
                                                1, 8, 4, 4, 0, 1,

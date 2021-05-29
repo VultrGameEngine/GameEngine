@@ -12,7 +12,7 @@ struct HoverEvent
         : pos(event.pos), mouse_down(event.mouse_down)
     {
     }
-    glm::vec2 pos;
+    Vec2 pos;
     bool mouse_down;
 };
 typedef std::function<bool(HoverEvent)> OnHoverCallback;
@@ -30,7 +30,7 @@ struct UnhoverEvent
         : pos(event.pos), mouse_down(event.mouse_down)
     {
     }
-    glm::vec2 pos;
+    Vec2 pos;
     bool mouse_down;
 };
 typedef std::function<bool(UnhoverEvent)> OnUnhoverCallback;
@@ -50,7 +50,7 @@ struct MouseDownEvent
 
     {
     }
-    glm::vec2 pos;
+    Vec2 pos;
     bool mouse_down;
 };
 typedef std::function<bool(MouseDownEvent)> OnMouseDownCallback;
@@ -67,7 +67,7 @@ struct MouseUpEvent
         : pos(event.pos), mouse_down(event.mouse_down)
     {
     }
-    glm::vec2 pos;
+    Vec2 pos;
     bool mouse_down;
 };
 
@@ -86,8 +86,8 @@ struct ScrollEvent
         : scroll_amount(event.scroll_amount), pos(event.pos)
     {
     }
-    glm::vec2 scroll_amount;
-    glm::vec2 pos;
+    Vec2 scroll_amount;
+    Vec2 pos;
 };
 typedef std::function<bool(ScrollEvent)> OnScrollCallback;
 } // namespace Vultr

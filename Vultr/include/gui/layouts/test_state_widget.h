@@ -10,14 +10,14 @@ class TestStateWidget : public StatefulWidget<TestStateWidgetState>
     struct Params
     {
         Key key;
-        glm::vec2 size = glm::vec2(400, 200);
+        Vec2 size = Vec2(400, 200);
         double font_size = 12;
         std::string text = "Submit";
         std::string font = "fonts/Roboto-Regular.ttf";
     };
 
   public:
-    glm::vec2 size;
+    Vec2 size;
     double font_size;
     std::string text;
     std::string font;
@@ -40,19 +40,19 @@ class TestStateWidgetState : public State
     bool hovered = false;
     bool mouse_down = false;
 
-    glm::vec2 GetScale()
+    Vec2 GetScale()
     {
         if (mouse_down)
         {
-            return glm::vec2(0.95);
+            return Vec2(0.95);
         }
         else if (hovered)
         {
-            return glm::vec2(1.1);
+            return Vec2(1.1);
         }
         else
         {
-            return glm::vec2(1);
+            return Vec2(1);
         }
     }
 

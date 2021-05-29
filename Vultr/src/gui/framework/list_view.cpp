@@ -44,10 +44,10 @@ namespace Vultr
         void ListViewRenderObject::UpdateReceiver(BuildContext *context)
         {
             cached_z_index = context->zindex.top();
-            glm::vec2 offset = RenderSystem::get_dimensions(GAME) / glm::vec2(2);
-            glm::vec2 size = RenderSystem::get_dimensions(GAME);
-            receiver->top_left = (glm::vec2(context->GetPosition().x - GetSize().width / 2, context->GetPosition().y + GetSize().height / 2) + offset) / size;
-            receiver->bottom_right = (glm::vec2(context->GetPosition().x + GetSize().width / 2, context->GetPosition().y - GetSize().height / 2) + offset) / size;
+            Vec2 offset = RenderSystem::get_dimensions(GAME) / Vec2(2);
+            Vec2 size = RenderSystem::get_dimensions(GAME);
+            receiver->top_left = (Vec2(context->GetPosition().x - GetSize().width / 2, context->GetPosition().y + GetSize().height / 2) + offset) / size;
+            receiver->bottom_right = (Vec2(context->GetPosition().x + GetSize().width / 2, context->GetPosition().y - GetSize().height / 2) + offset) / size;
             context->SubmitInputReceiver(cached_z_index, receiver);
         }
 
@@ -105,7 +105,7 @@ namespace Vultr
             {
                 context->Branch();
                 context->AccumulatePosition(
-                    glm::vec2(context->GetPosition().x, context->GetPosition().y + GetRenderObject()->GetCachedSize().height / 2 + scroll_pos - child.dimensions.height / 2 + child.dimensions.offset));
+                    Vec2(context->GetPosition().x, context->GetPosition().y + GetRenderObject()->GetCachedSize().height / 2 + scroll_pos - child.dimensions.height / 2 + child.dimensions.offset));
                 child.element->Update(context);
                 context->ExitBranch();
             }

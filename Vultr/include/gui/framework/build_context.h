@@ -20,7 +20,7 @@ namespace Vultr
             BuildContext() : tick_info(UpdateTick(0, false))
             {
                 renderer = new GUIRenderer();
-                positions.push(glm::vec2(0, 0));
+                positions.push(Vec2(0, 0));
                 zindex.push(0);
                 for (QuadID quad = 0; quad < 10000; quad++)
                 {
@@ -38,7 +38,7 @@ namespace Vultr
                 tick_info = tick;
             }
 
-            std::stack<glm::vec2> positions;
+            std::stack<Vec2> positions;
             std::stack<int> zindex;
 
             void DeleteQuad(QuadID quad)
@@ -96,10 +96,10 @@ namespace Vultr
                     positions.pop();
                 }
                 zindex.push(0);
-                positions.push(glm::vec2(0, 0));
+                positions.push(Vec2(0, 0));
             }
 
-            glm::vec2 GetPosition() const
+            Vec2 GetPosition() const
             {
                 return positions.top();
             }
@@ -117,12 +117,12 @@ namespace Vultr
                 zindex.push(zindex.top());
             }
 
-            void AccumulatePosition(glm::vec2 position, bool branch = false)
+            void AccumulatePosition(Vec2 position, bool branch = false)
             {
                 positions.top() += position;
             }
 
-            void SetPosition(glm::vec2 position)
+            void SetPosition(Vec2 position)
             {
                 positions.top() = position;
             }

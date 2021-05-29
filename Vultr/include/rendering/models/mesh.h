@@ -7,6 +7,7 @@
 #include <rendering/models/vertex_array.h>
 #include <rendering/models/vertex_buffer.h>
 #include <vector>
+#include <fundamental/types.h>
 
 namespace Vultr
 {
@@ -23,7 +24,7 @@ namespace Vultr
             return LoadingState_Loaded;
         }
 
-        void Init(const std::vector<glm::vec3> &p_positions, const std::vector<glm::vec2> &p_uvs, const std::vector<glm::vec3> &p_normals, const std::vector<unsigned short> &p_indices);
+        void Init(const std::vector<Vec3> &p_positions, const std::vector<Vec2> &p_uvs, const std::vector<Vec3> &p_normals, const std::vector<unsigned short> &p_indices);
         void Init(const std::vector<Vertex> &p_vertices, const std::vector<unsigned short> &p_indices);
 
         void Draw() const;

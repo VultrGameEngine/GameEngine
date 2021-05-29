@@ -6,7 +6,7 @@
 
 namespace Vultr::Math
 {
-    bool decompose_transform(const glm::mat4 &transform, glm::vec3 &translation, glm::vec3 &rotation, glm::vec3 &scale)
+    bool decompose_transform(const Mat4 &transform, Vec3 &translation, Vec3 &rotation, Vec3 &scale)
     {
         // From glm::decompose in matrix_decompose.inl
 

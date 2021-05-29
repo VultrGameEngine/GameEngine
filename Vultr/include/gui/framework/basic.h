@@ -62,13 +62,13 @@ namespace Vultr
             {
                 Key key;
                 Widget *child = nullptr;
-                glm::vec4 color = glm::vec4(0);
-                glm::vec4 border_color = glm::vec4(0);
+                Vec4 color = Vec4(0);
+                Vec4 border_color = Vec4(0);
                 EdgeInsets insets;
             };
 
-            glm::vec4 color;
-            glm::vec4 border_color;
+            Vec4 color;
+            Vec4 border_color;
             EdgeInsets insets;
 
           public:
@@ -90,17 +90,17 @@ namespace Vultr
                 return new RenderedColoredBox(context, this);
             }
 
-            const glm::vec4 &GetColor() const
+            const Vec4 &GetColor() const
             {
                 return color;
             }
 
-            glm::vec4 GetBorders() const
+            Vec4 GetBorders() const
             {
                 return insets.GetBorders();
             }
 
-            const glm::vec4 &GetBorderColor() const
+            const Vec4 &GetBorderColor() const
             {
                 return border_color;
             }
@@ -528,7 +528,7 @@ namespace Vultr
                     double right = GetConfig()->GetRight();
                     double top = GetConfig()->GetTop();
                     double bottom = GetConfig()->GetBottom();
-                    position = glm::vec2(left - right, bottom - top);
+                    position = Vec2(left - right, bottom - top);
                     if (child == nullptr)
                     {
                         return UpdateSize(constraints.GetSize(Size(left + right, top + bottom)));
@@ -793,7 +793,7 @@ namespace Vultr
                         }
                     }
 
-                    glm::vec2 position = glm::vec2(0, 0);
+                    Vec2 position = Vec2(0, 0);
 
                     // Essentially do the same thing as align, but this time using the entire
                     // dimensions of the children combined
@@ -816,7 +816,7 @@ namespace Vultr
                     {
                         assert(i <= positions.size() && "Something went wrong while laying out");
                         Size child_size = child_sizes.at(i);
-                        glm::vec2 child_pos;
+                        Vec2 child_pos;
                         child_pos.x = current_offset + (child_size.width / 2);
                         current_offset += child_size.width;
                         double difference = (height - child_size.height) / 2;
@@ -940,7 +940,7 @@ namespace Vultr
                         }
                     }
 
-                    glm::vec2 position = glm::vec2(0, 0);
+                    Vec2 position = Vec2(0, 0);
 
                     // Essentially do the same thing as align, but this time using the entire
                     // dimensions of the children combined
@@ -964,7 +964,7 @@ namespace Vultr
                     {
                         assert(i <= positions.size() && "Something went wrong while laying out");
                         Size child_size = child_sizes.at(i);
-                        glm::vec2 child_pos;
+                        Vec2 child_pos;
                         child_pos.y = current_offset + (child_size.height / 2);
                         current_offset += child_size.height;
                         child_pos.x = position.x;
@@ -1012,17 +1012,17 @@ namespace Vultr
                 Widget *child = nullptr;
                 double width = 0;
                 double height = 0;
-                glm::vec4 color = glm::vec4(0, 0, 0, 0);
+                Vec4 color = Vec4(0, 0, 0, 0);
                 EdgeInsets borders;
-                glm::vec4 border_color = glm::vec4(0);
+                Vec4 border_color = Vec4(0);
             };
 
-            glm::vec4 color;
+            Vec4 color;
             Widget *child;
             double width;
             double height;
             EdgeInsets borders;
-            glm::vec4 border_color;
+            Vec4 border_color;
 
           public:
             Container(Params params)
@@ -1044,7 +1044,7 @@ namespace Vultr
             Widget *Build(BuildContext *context) override
             {
                 Widget *current = child;
-                if (color != glm::vec4(0, 0, 0, 0) || borders.GetBorders() != glm::vec4(0))
+                if (color != Vec4(0, 0, 0, 0) || borders.GetBorders() != Vec4(0))
                     current = new ColoredBox({
                         .child = child,
                         .color = color,

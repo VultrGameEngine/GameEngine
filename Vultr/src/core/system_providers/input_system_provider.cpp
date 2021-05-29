@@ -14,7 +14,7 @@ namespace Vultr::InputSystem
         return state == GLFW_PRESS;
     }
 
-    void add_scroll_input(glm::vec2 input)
+    void add_scroll_input(Vec2 input)
     {
         get_provider().scroll_queue.push(input);
     }

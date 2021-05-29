@@ -6,6 +6,7 @@
 #include <rendering/models/mesh.h>
 #include <rendering/models/shader.h>
 #include <type_info/type_info.h>
+#include <fundamental/types.h>
 
 const u8 GAME = 0;
 const u8 SCENE = 1;
@@ -19,8 +20,8 @@ namespace Vultr
         // Mostly for the editor atm...
         struct ViewportData
         {
-            glm::vec2 dimensions = glm::vec2(1920, 1080);
-            glm::vec2 position = glm::vec2(0);
+            Vec2 dimensions = Vec2(1920, 1080);
+            Vec2 position = Vec2(0);
             FrameBuffer *fbo = nullptr;
             Texture *render_texture = nullptr;
             RenderBuffer *rbo = nullptr;
@@ -40,7 +41,7 @@ namespace Vultr
 
         Component &get_provider();
 
-        glm::vec2 get_dimensions(u8 type);
+        Vec2 get_dimensions(u8 type);
 
         Entity get_entity_at_pixel(s32 x, s32 y);
 

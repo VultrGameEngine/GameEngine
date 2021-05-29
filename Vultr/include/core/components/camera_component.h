@@ -3,6 +3,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtx/transform.hpp>
+#include <fundamental/types.h>
 
 struct CameraComponent
 {
@@ -20,7 +21,7 @@ struct CameraComponent
 
     bool gamma_correction = true;
 
-    glm::mat4 GetProjectionMatrix(float width, float height) const
+    Mat4 GetProjectionMatrix(float width, float height) const
     {
         return glm::perspective(fov, width / height, znear, zfar);
     }

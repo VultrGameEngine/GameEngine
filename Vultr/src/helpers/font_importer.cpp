@@ -46,7 +46,7 @@ namespace Vultr
         }
 
         font->SetHeight((double)face->size->metrics.height / 64 / TEXT_SCALE_FACTOR);
-        font->texture_dimensions = glm::vec2(w, h);
+        font->texture_dimensions = Vec2(w, h);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, w, h, 0, GL_RED, GL_UNSIGNED_BYTE, 0);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
@@ -77,9 +77,9 @@ namespace Vultr
             character.bearing.x = g->bitmap_left;
             character.bearing.y = g->bitmap_top;
 
-            character.advance /= glm::vec2(TEXT_SCALE_FACTOR, TEXT_SCALE_FACTOR);
-            character.size /= glm::vec2(TEXT_SCALE_FACTOR, TEXT_SCALE_FACTOR);
-            character.bearing /= glm::vec2(TEXT_SCALE_FACTOR, TEXT_SCALE_FACTOR);
+            character.advance /= Vec2(TEXT_SCALE_FACTOR, TEXT_SCALE_FACTOR);
+            character.size /= Vec2(TEXT_SCALE_FACTOR, TEXT_SCALE_FACTOR);
+            character.bearing /= Vec2(TEXT_SCALE_FACTOR, TEXT_SCALE_FACTOR);
 
             character.uv = (float)x / w;
 

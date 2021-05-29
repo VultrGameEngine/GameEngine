@@ -35,8 +35,8 @@ namespace Vultr::InputSystem
     static void on_scroll(GLFWwindow *window, double xamount, double yamount)
     {
         auto &provider = get_provider();
-        Input::ScrollInputEvent event = Input::ScrollInputEvent(provider.mouse_pos, glm::vec2(xamount, yamount));
-        add_scroll_input(glm::vec2(xamount, yamount));
+        Input::ScrollInputEvent event = Input::ScrollInputEvent(provider.mouse_pos, Vec2(xamount, yamount));
+        add_scroll_input(Vec2(xamount, yamount));
         if (!GUISystem::receive_scroll_event(event))
         {
             std::cout << "GUI did not receive scroll event" << std::endl;
@@ -90,7 +90,7 @@ namespace Vultr::InputSystem
                 posx /= RenderSystem::get_dimensions(SCENE).x;
                 posy /= RenderSystem::get_dimensions(SCENE).y;
                 posy = 1 - posy;
-                glm::vec2 n_mouse_pos = glm::vec2(posx, posy);
+                Vec2 n_mouse_pos = Vec2(posx, posy);
 
                 if (n_mouse_pos.x <= 1 && n_mouse_pos.y <= 1 && n_mouse_pos.x >= 0 && n_mouse_pos.y >= 0)
                 {
@@ -99,7 +99,7 @@ namespace Vultr::InputSystem
                 return;
             }
         }
-        glm::vec2 n_mouse_pos = glm::vec2(posx, posy);
+        Vec2 n_mouse_pos = Vec2(posx, posy);
 
         if (provider.mouse_pos != n_mouse_pos)
         {

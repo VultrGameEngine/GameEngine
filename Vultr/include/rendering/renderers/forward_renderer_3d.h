@@ -9,8 +9,8 @@ namespace Vultr::Renderer3D
     {
       public:
         // Render a vao and ibo with a shader and transform
-        static void Submit(const MaterialComponent &material, const glm::mat4 &transform, const Mesh &mesh, const char *skybox_identifier = nullptr);
-        static void BindMaterial(const MaterialComponent &material, const glm::mat4 &transform, const char *skybox_identifier = nullptr);
+        static void Submit(const MaterialComponent &material, const Mat4 &transform, const Mesh &mesh, const char *skybox_identifier = nullptr);
+        static void BindMaterial(const MaterialComponent &material, const Mat4 &transform, const char *skybox_identifier = nullptr);
     };
 
 } // namespace Vultr::Renderer3D

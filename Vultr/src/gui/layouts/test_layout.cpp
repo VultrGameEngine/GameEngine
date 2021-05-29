@@ -28,10 +28,10 @@ Widget *RootWidget::Build(BuildContext *context)
     //             }),
     //             .width = 1920,
     //             .height = 1080,
-    //             .color = glm::vec4(0),
+    //             .color = Vec4(0),
     //         }),
     //     }),
-    //     .color = glm::vec4(255, 0, 0, 255),
+    //     .color = Vec4(255, 0, 0, 255),
     // });
     return new Center({
         .child = new TestStateWidget({
@@ -43,7 +43,7 @@ Widget *RootWidget::Build(BuildContext *context)
     //         .child = new RichText({
     //             .text = "abcdygp,a!.;:",
     //             .font = "fonts/RobotoMono-Regular.ttf",
-    //             .color = glm::vec4(0, 0, 0, 255),
+    //             .color = Vec4(0, 0, 0, 255),
     //         }),
     //         //         .child = new Row({
     //         //     .children =
@@ -52,20 +52,20 @@ Widget *RootWidget::Build(BuildContext *context)
     //         //                  .child = new Container({
     //         //                     .width = 250,
     //         //                     .height = 750,
-    //         //                     .color = glm::vec4(255, 0, 0, 255),
+    //         //                     .color = Vec4(255, 0, 0, 255),
     //         //                 }),
     //         //                 .flex = 1,
     //         //             }),
     //         //             new Container({
     //         //                 .width = 400,
     //         //                 .height = 400,
-    //         //                 .color = glm::vec4(0, 255, 0,  255),
+    //         //                 .color = Vec4(0, 255, 0,  255),
     //         //             }),
     //         //             new Flex({
     //         //             .child = new Container({
     //         //                 .width = 750,
     //         //                 .height = 250,
-    //         //                 .color = glm::vec4(0, 0, 255, 255),
+    //         //                 .color = Vec4(0, 0, 255, 255),
     //         //             }),
     //         //                 .flex = 5,
     //         //             }),
@@ -74,7 +74,7 @@ Widget *RootWidget::Build(BuildContext *context)
     //         // }),
     //         // .width = 700,
     //         // .height = 500,
-    //         .color = glm::vec4(255),
+    //         .color = Vec4(255),
     //     }),
     // });
     // return ;

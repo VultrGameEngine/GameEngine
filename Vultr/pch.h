@@ -17,6 +17,4 @@
 #include <glm/glm.hpp>
 #include <yaml-cpp/yaml.h>
 #include <ft2build.h>
-// #include <json/json_fwd.hpp>
-// #include <json/json.hpp>
-// #include <json/glm_serializer.hpp>
+#include <fundamental/types.h>

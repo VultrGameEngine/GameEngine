@@ -14,7 +14,7 @@ TEST(ComponentManager, Serialization)
     ComponentRegistry registry;
     component_registry_register_component<TransformComponent>(registry, [](Entity entity) {});
     component_manager_get_component_array<TransformComponent>(manager, component_registry_get_component_type<TransformComponent>(registry))
-        ->InsertData(200, TransformComponent::Create(glm::vec3(29234, 2349, 10909)));
+        ->InsertData(200, TransformComponent::Create(Vec3(29234, 2349, 10909)));
     component_manager_get_component_array<TransformComponent>(manager, component_registry_get_component_type<TransformComponent>(registry))->InsertData(39, TransformComponent::Create());
     component_manager_get_component_array<TransformComponent>(manager, component_registry_get_component_type<TransformComponent>(registry))->InsertData(87, TransformComponent::Create());
     component_manager_get_component_array<TransformComponent>(manager, component_registry_get_component_type<TransformComponent>(registry))->EntityDestroyed(200);

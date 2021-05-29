@@ -7,12 +7,12 @@
 
 namespace Vultr::Renderer3D
 {
-    void ForwardRenderer::Submit(const MaterialComponent &material, const glm::mat4 &transform, const Mesh &mesh, const char *skybox_identifier)
+    void ForwardRenderer::Submit(const MaterialComponent &material, const Mat4 &transform, const Mesh &mesh, const char *skybox_identifier)
     {
         BindMaterial(material, transform, skybox_identifier);
         mesh.Draw();
     }
-    void ForwardRenderer::BindMaterial(const MaterialComponent &material, const glm::mat4 &transform, const char *skybox_identifier)
+    void ForwardRenderer::BindMaterial(const MaterialComponent &material, const Mat4 &transform, const char *skybox_identifier)
     {
         Shader *shader = ShaderLoaderSystem::get_shader(material.shader_source);
         if (shader == nullptr)
@@ -32,7 +32,7 @@ namespace Vultr::Renderer3D
             shader->SetUniform3f("directional_light.direction", -transform_component.Up());
             shader->SetUniform3f("directional_light.ambient", light_component.ambient.value);
             shader->SetUniform3f("directional_light.diffuse", light_component.diffuse.value);
-            shader->SetUniform3f("directional_light.specular", glm::vec3(light_component.specular));
+            shader->SetUniform3f("directional_light.specular", Vec3(light_component.specular));
         }
         shader->SetUniform3f("viewPos", context.camera_transform.position);
         if (skybox_identifier != nullptr)
@@ -40,7 +40,7 @@ namespace Vultr::Renderer3D
             Texture *texture = TextureLoaderSystem::get_texture(skybox_identifier);
             if (texture != nullptr)
                 texture->Bind(GL_TEXTURE0);
-            shader->SetUniformMatrix4fv("view", glm::value_ptr(glm::mat4(glm::mat3(context.camera_transform.GetViewMatrix()))));
+            shader->SetUniformMatrix4fv("view", glm::value_ptr(Mat4(glm::mat3(context.camera_transform.GetViewMatrix()))));
         }
         else
         {

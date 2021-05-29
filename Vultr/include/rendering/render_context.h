@@ -7,10 +7,10 @@ namespace Vultr
 {
     struct RenderContext
     {
-        glm::vec2 dimensions;
+        Vec2 dimensions;
         TransformComponent camera_transform;
         CameraComponent camera_component;
-        static void SetContext(glm::vec2 p_dimensions, TransformComponent p_camera_transform, CameraComponent p_camera_component)
+        static void SetContext(Vec2 p_dimensions, TransformComponent p_camera_transform, CameraComponent p_camera_component)
         {
             InternalGetContext().dimensions = p_dimensions;
             InternalGetContext().camera_transform = p_camera_transform;
@@ -23,7 +23,7 @@ namespace Vultr
         }
 
       private:
-        RenderContext() : dimensions(glm::vec2(0))
+        RenderContext() : dimensions(Vec2(0))
         {
         }
         static RenderContext &InternalGetContext()

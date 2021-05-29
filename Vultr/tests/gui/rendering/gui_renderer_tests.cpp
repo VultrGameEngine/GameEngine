@@ -23,9 +23,9 @@ class GUIRendererTest : public ::testing::Test
 TEST_F(GUIRendererTest, ShiftRightWorks)
 {
     Vultr::GUI::GUIVertex vertex1 = Vultr::GUI::GUIVertex();
-    vertex1.color = glm::vec4(1, 1, 1, 1);
+    vertex1.color = Vec4(1, 1, 1, 1);
     Vultr::GUI::GUIVertex vertex2 = Vultr::GUI::GUIVertex();
-    vertex2.color = glm::vec4(2, 2, 2, 2);
+    vertex2.color = Vec4(2, 2, 2, 2);
     Vultr::GUI::GUIVertex vertices[] = {
         vertex1, vertex1, vertex1, vertex1, vertex2, vertex2, vertex2, vertex2,
     };
@@ -58,9 +58,9 @@ TEST_F(GUIRendererTest, ShiftRightWorks)
 TEST_F(GUIRendererTest, ShiftLeftWorks)
 {
     Vultr::GUI::GUIVertex vertex1 = Vultr::GUI::GUIVertex();
-    vertex1.color = glm::vec4(1, 1, 1, 1);
+    vertex1.color = Vec4(1, 1, 1, 1);
     Vultr::GUI::GUIVertex vertex2 = Vultr::GUI::GUIVertex();
-    vertex2.color = glm::vec4(2, 2, 2, 2);
+    vertex2.color = Vec4(2, 2, 2, 2);
     Vultr::GUI::GUIVertex vertices[] = {
         vertex1, vertex1, vertex1, vertex1, vertex2, vertex2, vertex2, vertex2,
     };

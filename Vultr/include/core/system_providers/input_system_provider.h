@@ -12,7 +12,7 @@ namespace Vultr
     {
         struct Component : public SystemProvider
         {
-            std::queue<glm::vec2> scroll_queue;
+            std::queue<Vec2> scroll_queue;
             GLFWwindow *window;
             glm::vec2 mouse_pos = glm::vec2(0, 0);
             glm::vec2 scene_mouse_pos = glm::vec2(0, 0);

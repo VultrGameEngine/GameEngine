@@ -8,7 +8,7 @@ namespace Vultr
         {
             MaterialComponent component = MaterialComponent();
             component.shader_source = ShaderSource(UNLIT_MATERIAL_SOURCE);
-            component.colors.insert({"lightColor", Color(glm::vec4(1))});
+            component.colors.insert({"lightColor", Color(Vec4(1))});
             return component;
         }
 

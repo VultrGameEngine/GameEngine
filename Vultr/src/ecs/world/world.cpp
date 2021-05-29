@@ -101,9 +101,9 @@ void to_json(json &j, const TransformComponent &c)
 }
 void from_json(const json &j, TransformComponent &c)
 {
-    FROMJSON(position, glm::vec3);
-    FROMJSON(rotation, glm::quat);
-    FROMJSON(scale, glm::vec3);
+    FROMJSON(position, Vec3);
+    FROMJSON(rotation, Quat);
+    FROMJSON(scale, Vec3);
 }
 void to_json(json &j, const MaterialComponent &c)
 {
@@ -121,11 +121,11 @@ void from_json(const json &j, MaterialComponent &c)
     FROMJSON(textures, std::vector<MaterialComponent::TexturePair>)
     if (j.contains("vec3s"))
     {
-        c.vec3s = j["vec3s"].get<std::unordered_map<std::string, glm::vec3>>();
+        c.vec3s = j["vec3s"].get<std::unordered_map<std::string, Vec3>>();
     }
     if (j.contains("vec4s"))
     {
-        c.vec4s = j["vec4s"].get<std::unordered_map<std::string, glm::vec4>>();
+        c.vec4s = j["vec4s"].get<std::unordered_map<std::string, Vec4>>();
     }
     if (j.contains("colors"))
     {
@@ -158,7 +158,7 @@ void to_json(json &j, const Color &c)
 }
 void from_json(const json &j, Color &c)
 {
-    FROMJSON(value, glm::vec4)
+    FROMJSON(value, Vec4)
 }
 
 #define JSONCOMPONENTARRAY(T)                                                                                                                                                                                         \

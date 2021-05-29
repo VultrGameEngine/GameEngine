@@ -30,7 +30,7 @@ class MultiChildRenderObject : public RenderObject
     virtual void ApplyPosition(BuildContext *context, int index) = 0;
 
   protected:
-    std::vector<glm::vec2> positions;
+    std::vector<Vec2> positions;
 
   private:
     Size Layout(BuildContext *context, BoxConstraints constraints) override

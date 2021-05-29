@@ -202,7 +202,7 @@ namespace Vultr
         ControllerSystem::init(e->window);
         glfwSetWindowFocusCallback(e->window, ControllerSystem::window_focus_callback);
 
-        glm::vec2 dimensions = RenderSystem::get_dimensions(GAME);
+        Vec2 dimensions = RenderSystem::get_dimensions(GAME);
         GUISystem::init(TestLayout());
     }
 

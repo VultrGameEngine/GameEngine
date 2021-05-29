@@ -35,7 +35,7 @@ static void OnMouseClick(int button)
 {
     if (button != GLFW_MOUSE_BUTTON_LEFT)
         return;
-    glm::vec2 pos = InputSystem::get_provider().scene_mouse_pos * RenderSystem::get_dimensions(SCENE);
+    Vec2 pos = InputSystem::get_provider().scene_mouse_pos * RenderSystem::get_dimensions(SCENE);
     Entity entity = RenderSystem::get_entity_at_pixel(pos.x, pos.y);
     if (entity != INVALID_ENTITY)
         Editor::Get()->selected_entity = entity;
@@ -152,7 +152,7 @@ void SceneWindow::Render()
         // If an entity is selected
         if (tc != nullptr)
         {
-            glm::mat4 transform = tc->Matrix();
+            Mat4 transform = tc->Matrix();
             static bool was_using_guizmo = false;
             static TransformComponent copy;
 
@@ -174,12 +174,12 @@ void SceneWindow::Render()
                 {
                     copy = *tc;
                 }
-                glm::vec3 translation, rotation, scale;
+                Vec3 translation, rotation, scale;
                 Math::decompose_transform(transform, translation, rotation, scale);
 
-                glm::vec3 deltaRotation = rotation - glm::eulerAngles(tc->rotation);
+                Vec3 deltaRotation = rotation - glm::eulerAngles(tc->rotation);
                 tc->position = translation;
-                tc->rotation = glm::quat(rotation);
+                tc->rotation = Quat(rotation);
                 tc->scale = scale;
             }
             // If we just stopped using this guizmo, push this event to the edit stack

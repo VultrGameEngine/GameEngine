@@ -16,8 +16,8 @@ namespace Vultr
             OnMouseDownCallback on_mouse_down;
             OnMouseUpCallback on_mouse_up;
             OnScrollCallback on_scroll;
-            glm::vec2 top_left;
-            glm::vec2 bottom_right;
+            Vec2 top_left;
+            Vec2 bottom_right;
 
           private:
             struct Params
@@ -39,12 +39,12 @@ namespace Vultr
             InputReceiver(Params params)
                 : on_hover(params.on_hover), on_unhover(params.on_unhover),
                   on_mouse_down(params.on_mouse_down),
-                  on_mouse_up(params.on_mouse_up), bottom_right(glm::vec2(1, -1)),
+                  on_mouse_up(params.on_mouse_up), bottom_right(Vec2(1, -1)),
                   top_left(-1, 1), on_scroll(params.on_scroll)
             {
             }
 
-            bool InBounds(glm::vec2 pos)
+            bool InBounds(Vec2 pos)
             {
                 return pos.x > top_left.x && pos.x < bottom_right.x &&
                        pos.y < top_left.y && pos.y > bottom_right.y;

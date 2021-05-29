@@ -27,9 +27,9 @@ Mesh::~Mesh()
     delete vbo;
 }
 
-void Mesh::Init(const std::vector<glm::vec3> &p_positions,
-                const std::vector<glm::vec2> &p_uvs,
-                const std::vector<glm::vec3> &p_normals,
+void Mesh::Init(const std::vector<Vec3> &p_positions,
+                const std::vector<Vec2> &p_uvs,
+                const std::vector<Vec3> &p_normals,
                 const std::vector<unsigned short> &p_indices)
 {
     this->m_vertices.clear();

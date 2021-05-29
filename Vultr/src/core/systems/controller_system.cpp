@@ -33,18 +33,18 @@ namespace Vultr::ControllerSystem
             glfwSetInputMode(provider.window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
             return;
         }
-        glm::vec2 dimensions = RenderSystem::get_dimensions(SCENE);
+        Vec2 dimensions = RenderSystem::get_dimensions(SCENE);
 
         double xpos, ypos;
         glfwGetCursorPos(provider.window, &xpos, &ypos);
 
         glfwSetCursorPos(provider.window, dimensions.x / 2, dimensions.y / 2);
 
-        glm::quat rotation_horiz = glm::angleAxis(controller_component.sens * delta_time * float(dimensions.x / 2 - xpos), glm::vec3(0, 1, 0));
-        glm::quat rotation_vert = glm::angleAxis(controller_component.sens * delta_time * float(dimensions.y / 2 - ypos), transform_component.Right());
+        Quat rotation_horiz = glm::angleAxis(controller_component.sens * delta_time * float(dimensions.x / 2 - xpos), Vec3(0, 1, 0));
+        Quat rotation_vert = glm::angleAxis(controller_component.sens * delta_time * float(dimensions.y / 2 - ypos), transform_component.Right());
         transform_component.rotation = rotation_horiz * rotation_vert * transform_component.rotation;
 
-        glm::vec3 speed = glm::vec3(3, 3, 3);
+        Vec3 speed = Vec3(3, 3, 3);
 
         // Move forward
         if (glfwGetKey(provider.window, GLFW_KEY_W) == GLFW_PRESS)
