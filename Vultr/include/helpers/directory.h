@@ -2,6 +2,7 @@
 #include <string>
 #include "file.h"
 #include <filesystem>
+#include "path.h"
 
 namespace Vultr
 {
@@ -9,7 +10,7 @@ namespace Vultr
     {
         Directory() = default;
         Directory(const std::string &path = "");
-        std::filesystem::path path;
+        Path path;
         std::vector<File> files;
         std::vector<Directory> sub_directories;
         bool cached_files = false;
@@ -19,6 +20,7 @@ namespace Vultr
     u32 directory_get_number_files(Directory &dir, bool use_cache = true);
     std::vector<File> directory_get_files(Directory &dir, bool use_cache = true);
     std::vector<Directory> directory_get_sub_directories(Directory &dir, bool use_cache = true);
+    Path file_get_relative_path(const Directory &dir);
 
     bool delete_directory(Directory &dir);
     void rename_directory(Directory &dir, const char *name);
@@ -28,6 +30,13 @@ namespace Vultr
 
     // Move a file to a directory
     void move_file(File &file, Directory &dir);
+
+    Directory directory_get_parent_directory(const Directory &directory);
+    Directory directory_get_root_directory(const Directory &directory);
+
+    // Other file functions
+    Directory file_get_parent_directory(const File &file);
+    Directory file_get_root_directory(const File &file);
 
     inline bool operator<(const Directory &a, const Directory &b)
     {
@@ -53,7 +62,7 @@ namespace Vultr
 
     inline File operator/(const Directory &dir, const File &file)
     {
-        std::filesystem::path new_path = dir.path / file_get_name(file);
+        auto new_path = dir.path / file_get_name(file);
         return File(new_path.string());
     }
 } // namespace Vultr

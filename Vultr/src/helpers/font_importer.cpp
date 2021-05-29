@@ -12,7 +12,7 @@ namespace Vultr
         int h = 0;
         Font *font = new Font();
         FT_Face face;
-        if (FT_New_Face(library, Path::GetFullPath(source.path).c_str(), 0, &face))
+        if (FT_New_Face(library, source.path.string().c_str(), 0, &face))
         {
             assert("Failed to load font");
             return font;

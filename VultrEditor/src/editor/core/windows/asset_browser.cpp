@@ -7,30 +7,21 @@
 using namespace Vultr;
 static Texture *get_texture_from_file(const File &file)
 {
-    std::string t = Path::get_resource_type(file_get_name(file));
+    auto extension = file_get_extension_type(file);
     auto *e = Editor::Get();
-    if (t == SHADER_FILE)
+    switch (extension)
     {
+    case File::SHADER: {
         return e->shader_icon;
     }
-    else if (t == HEADER_FILE)
-    {
+    case File::HEADER:
+    case File::SOURCE:
         return e->c_icon;
-    }
-    else if (t == SOURCE_FILE)
-    {
-        return e->c_icon;
-    }
-    else if (t == IMAGE_FILE)
-    {
+    case File::TEXTURE:
         return e->image_icon;
-    }
-    else if (t == MODEL_FILE)
-    {
+    case File::MODEL:
         return e->model_icon;
-    }
-    else
-    {
+    default:
         return e->file_icon;
     }
 }
@@ -134,7 +125,7 @@ void AssetBrowser::Render()
     }
     ImGui::SameLine(10);
     ImGui::SetCursorPosY(ImGui::GetCursorPosY() - 100);
-    std::filesystem::path parent_path;
+    Path parent_path;
     for (auto path : current_directory.path)
     {
         parent_path = parent_path / path;
@@ -172,11 +163,11 @@ void AssetBrowser::Render()
 
     static bool backed_last_frame = false;
     int back_button_state = glfwGetMouseButton(engine_global()->window, GLFW_MOUSE_BUTTON_4);
-    static std::filesystem::path clipboard = "";
+    static Path clipboard = "";
     if (ImGui::Button(ICON_FK_BACKWARD) || (back_button_state == GLFW_PRESS && !backed_last_frame))
     {
         backed_last_frame = true;
-        if (current_directory != Path::get_resource_path())
+        if (current_directory.path != get_working_directory())
         {
             auto path = current_directory.path;
             if (path.has_parent_path())

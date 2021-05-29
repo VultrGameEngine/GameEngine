@@ -232,7 +232,7 @@ inline RenderMemberResult RenderMember(const std::string &name, Vultr::File &fil
     RenderMemberResult res;
     if (ImGui::Button("##", ImVec2(300, 150)))
     {
-        ImGuiFileDialog::Instance()->OpenDialog("FileChooser" + name, "Choose File", file_get_expected_extension_string(file).c_str(), Vultr::Path::get_resource_path());
+        ImGuiFileDialog::Instance()->OpenDialog("FileChooser" + name, "Choose File", file_get_expected_extension_string(file).c_str(), Vultr::get_working_directory().string());
         res.started_editing = true;
     }
 
@@ -248,7 +248,7 @@ inline RenderMemberResult RenderMember(const std::string &name, Vultr::File &fil
                 if (payload != nullptr)
                 {
                     payload_file = static_cast<Vultr::File *>(payload->Data);
-                    file.path = Vultr::Path::get_shortened_resource_path(payload_file->path);
+                    file.path = Vultr::file_get_relative_path(*payload_file);
                     ImGui::EndDragDropTarget();
                     res.started_editing = true;
                     res.finished_editing = true;
@@ -268,7 +268,7 @@ inline RenderMemberResult RenderMember(const std::string &name, Vultr::File &fil
         {
             std::string filePathName = ImGuiFileDialog::Instance()->GetFilePathName();
             std::string filePath = ImGuiFileDialog::Instance()->GetCurrentPath();
-            file.path = Vultr::Path::get_shortened_resource_path(filePathName);
+            file.path = Vultr::file_get_relative_path(Vultr::File(filePathName));
             std::cout << "Path " << file.path << std::endl;
         }
         ImGuiFileDialog::Instance()->Close();

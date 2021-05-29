@@ -1,37 +1,47 @@
 #include <helpers/file.h>
 #include <chrono>
 #include <iomanip>
+#include <helpers/path.h>
 
 Vultr::File::File(const std::string &p_path, Extensions extension) : path(p_path)
 {
+    if (p_path != "")
+    {
+        if (path.is_relative())
+        {
+            auto abs = std::filesystem::absolute(path);
+            assert(abs != path && "Couldn't get an absolute path! Something went wrong");
+            path = abs;
+        }
+    }
     switch (extension)
     {
     case TEXTURE: {
-        expected_extensions = {".jpeg", ".jpg", ".png", ".bmp", ".dds"};
+        expected_extensions = TEXTURE_FILE_EXTENSIONS;
         break;
     }
     case MODEL: {
-        expected_extensions = {".obj", ".fbx", ".blend"};
+        expected_extensions = MODEL_FILE_EXTENSIONS;
         break;
     }
     case HEADER_SOURCE: {
-        expected_extensions = {".h", ".hpp", ".c", ".cpp", ".cc"};
+        expected_extensions = HEADER_SOURCE_FILE_EXTENSIONS;
         break;
     }
     case HEADER: {
-        expected_extensions = {".h", ".hpp"};
+        expected_extensions = HEADER_FILE_EXTENSIONS;
         break;
     }
     case SOURCE: {
-        expected_extensions = {".c", ".cpp", ".cc"};
+        expected_extensions = SOURCE_FILE_EXTENSIONS;
         break;
     }
     case SHADER: {
-        expected_extensions = {".glsl"};
+        expected_extensions = SHADER_FILE_EXTENSIONS;
         break;
     }
     case FONT: {
-        expected_extensions = {".ttf"};
+        expected_extensions = FONT_FILE_EXTENSIONS;
         break;
     }
     case NONE:
@@ -67,11 +77,57 @@ bool Vultr::file_has_extension(const File &file)
 std::string Vultr::file_get_extension(const File &file, bool dot)
 {
     auto extension = file.path.extension().string();
-    if (extension.size() > 1)
+    if (!dot && extension.size() > 1)
     {
         return extension.substr(1);
     }
     return extension;
+}
+
+Vultr::File::Extensions Vultr::file_get_extension_type(const File &file)
+{
+    auto extension = file_get_extension(file, true);
+    for (auto e : TEXTURE_FILE_EXTENSIONS)
+    {
+        if (e == extension)
+            return File::TEXTURE;
+    }
+    for (auto e : MODEL_FILE_EXTENSIONS)
+    {
+        if (e == extension)
+            return File::MODEL;
+    }
+    for (auto e : HEADER_SOURCE_FILE_EXTENSIONS)
+    {
+        if (e == extension)
+            return File::HEADER_SOURCE;
+    }
+    for (auto e : HEADER_FILE_EXTENSIONS)
+    {
+        if (e == extension)
+            return File::HEADER;
+    }
+    for (auto e : SOURCE_FILE_EXTENSIONS)
+    {
+        if (e == extension)
+            return File::SOURCE;
+    }
+    for (auto e : SHADER_FILE_EXTENSIONS)
+    {
+        if (e == extension)
+            return File::SHADER;
+    }
+    for (auto e : FONT_FILE_EXTENSIONS)
+    {
+        if (e == extension)
+            return File::FONT;
+    }
+    return File::NONE;
+}
+
+bool Vultr::file_exists(const File &file)
+{
+    return std::filesystem::exists(file.path);
 }
 
 bool Vultr::file_extension_matches(const File &file, const File &other)
@@ -106,7 +162,7 @@ std::string Vultr::file_get_expected_extension_string(const File &file)
 
 void Vultr::file_rename(const File &file, const char *name)
 {
-    std::filesystem::path base = file.path.parent_path();
+    Path base = file.path.parent_path();
     std::filesystem::rename(file.path, base / name);
 }
 
@@ -118,4 +174,9 @@ bool Vultr::delete_file(const File &file)
 std::filesystem::file_time_type Vultr::file_get_date_modified(const File &file)
 {
     return std::filesystem::last_write_time(file.path);
+}
+
+Vultr::Path Vultr::file_get_relative_path(const File &file)
+{
+    return std::filesystem::relative(file.path);
 }

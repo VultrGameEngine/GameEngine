@@ -76,6 +76,6 @@ namespace Vultr::ShaderImporter
 
     ShaderProgramSource parse_shader(const ShaderSource &source);
     u32 create_shader(const ShaderSource &source);
-    u32 compile_shader(u32 type, const ShaderSource &source);
+    u32 compile_shader(u32 type, const std::string &source);
 
 } // namespace Vultr::ShaderImporter

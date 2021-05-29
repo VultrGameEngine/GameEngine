@@ -64,7 +64,7 @@ int main(void)
 #ifdef _WIN32
     Path::set_resource_path("C:/Users/Brand/Dev/Monopoly/res/");
 #else
-    Path::set_resource_path(resource_directory.path.string());
+    change_working_directory(resource_directory.path);
 #endif
 
     engine_init(vultr, true);

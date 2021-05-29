@@ -9,7 +9,7 @@ namespace Vultr
 {
     Shader *ShaderImporter::import_shader(const ShaderSource &source)
     {
-        auto correct_path = Path::GetFullPath(source.path.string());
+        auto correct_path = source.path.string();
         Shader *shader = new Shader(create_shader(ShaderSource(correct_path)), Deferred);
         return shader;
     }
@@ -90,11 +90,10 @@ namespace Vultr
         return program;
     }
 
-    u32 ShaderImporter::compile_shader(u32 type, const ShaderSource &source)
+    u32 ShaderImporter::compile_shader(u32 type, const std::string &source)
     {
         unsigned int id = glCreateShader(type);
-        auto _src = source.path.string();
-        auto src = _src.c_str();
+        auto src = source.c_str();
         glShaderSource(id, 1, &src, nullptr);
         glCompileShader(id);
 

@@ -19,10 +19,10 @@ namespace Vultr
         std::vector<Vertex> vertices;
         std::vector<unsigned short> indices;
 
-        const aiScene *scene = importer.ReadFile(Path::GetFullPath(source.path.string()), aiProcess_CalcTangentSpace | aiProcess_Triangulate | aiProcess_JoinIdenticalVertices | aiProcess_SortByPType);
+        const aiScene *scene = importer.ReadFile(source.path.string(), aiProcess_CalcTangentSpace | aiProcess_Triangulate | aiProcess_JoinIdenticalVertices | aiProcess_SortByPType);
         if (!scene)
         {
-            std::cout << "FAILED TO IMPORT MESH " << Path::GetFullPath(source.path.string()) << std::endl;
+            std::cout << "FAILED TO IMPORT MESH " << source.path.string() << std::endl;
             return nullptr;
         }
 

@@ -360,6 +360,7 @@ namespace Vultr
 
     World *load_world(const File &file, const ComponentRegistry &r)
     {
+        assert(file_exists(file) && "Couldn't find save file!");
         std::ifstream i;
         i.open(file.path);
 

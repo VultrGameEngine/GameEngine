@@ -25,7 +25,7 @@ INCBIN(shader_icon, "/home/brandon/Dev/Monopoly/GameEngine/VultrEditor/res/s.png
 INCBIN(model_icon, "/home/brandon/Dev/Monopoly/GameEngine/VultrEditor/res/3D.png");
 
 using namespace Vultr;
-Editor::Editor() : selected_entity(Entity(0)), current_directory(Path::get_resource_path())
+Editor::Editor() : selected_entity(Entity(0)), current_directory(get_working_directory().string())
 {
     windows.push_back(new GameWindow());
     windows.push_back(new SceneWindow());

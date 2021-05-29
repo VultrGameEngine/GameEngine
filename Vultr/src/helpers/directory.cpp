@@ -21,6 +21,12 @@ static void directory_cache_files(Vultr::Directory &dir)
 
 Vultr::Directory::Directory(const std::string &p_path) : path(p_path)
 {
+    if (path.is_relative())
+    {
+        auto abs = std::filesystem::absolute(path);
+        assert(abs != path && "Couldn't get an absolute path! Something went wrong");
+        path = abs;
+    }
 }
 
 std::string Vultr::directory_get_name(const Directory &dir)
@@ -47,6 +53,10 @@ std::vector<Vultr::Directory> Vultr::directory_get_sub_directories(Directory &di
     if (!use_cache || !dir.cached_files)
         directory_cache_files(dir);
     return dir.sub_directories;
+}
+Vultr::Path Vultr::file_get_relative_path(const Directory &dir)
+{
+    return std::filesystem::relative(dir.path);
 }
 
 bool Vultr::delete_directory(Directory &dir)
@@ -80,4 +90,24 @@ Vultr::Directory Vultr::create_sub_directory(Directory &dir, const char *name)
 Vultr::File Vultr::create_file(Directory &dir, const char *name)
 {
     return File((dir.path / name).string());
+}
+
+Vultr::Directory Vultr::directory_get_parent_directory(const Directory &directory)
+{
+    return Directory(directory.path.parent_path().string());
+}
+
+Vultr::Directory Vultr::directory_get_root_directory(const Directory &directory)
+{
+    return Directory(directory.path.root_directory());
+}
+
+Vultr::Directory Vultr::file_get_parent_directory(const File &file)
+{
+    return Directory(file.path.parent_path().string());
+}
+
+Vultr::Directory Vultr::file_get_root_directory(const File &file)
+{
+    return Directory(file.path.root_directory());
 }
