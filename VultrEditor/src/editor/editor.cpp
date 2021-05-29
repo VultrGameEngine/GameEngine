@@ -23,6 +23,7 @@ INCBIN(c_icon, "/home/brandon/Dev/Monopoly/GameEngine/VultrEditor/res/c.png");
 INCBIN(image_icon, "/home/brandon/Dev/Monopoly/GameEngine/VultrEditor/res/image.png");
 INCBIN(shader_icon, "/home/brandon/Dev/Monopoly/GameEngine/VultrEditor/res/s.png");
 INCBIN(model_icon, "/home/brandon/Dev/Monopoly/GameEngine/VultrEditor/res/3D.png");
+INCBIN(vultr_icon, "/home/brandon/Dev/Monopoly/GameEngine/VultrEditor/res/temp_vultr_icon.png");
 
 using namespace Vultr;
 Editor::Editor() : selected_entity(Entity(0)), current_directory(get_working_directory().string())
@@ -50,6 +51,9 @@ Editor::Editor() : selected_entity(Entity(0)), current_directory(get_working_dir
 
     model_icon = new Texture(GL_TEXTURE_2D);
     TextureImporter::import(gmodel_icon_data, gmodel_icon_size, *model_icon);
+
+    vultr_icon = new Texture(GL_TEXTURE_2D);
+    TextureImporter::import(gvultr_icon_data, gvultr_icon_size, *vultr_icon);
 }
 
 Editor::~Editor()
@@ -228,7 +232,7 @@ void Editor::Render()
 
 void Editor::Save()
 {
-    save_world(get_current_world(), File("test_world.json"));
+    save_world(get_current_world(), VultrSource("test_world.vultr"));
 }
 
 void Editor::DuplicateEntity()

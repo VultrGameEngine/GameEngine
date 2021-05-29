@@ -44,6 +44,10 @@ Vultr::File::File(const std::string &p_path, Extensions extension) : path(p_path
         expected_extensions = FONT_FILE_EXTENSIONS;
         break;
     }
+    case VULTR: {
+        expected_extensions = VULTR_FILE_EXTENSIONS;
+        break;
+    }
     case NONE:
         expected_extensions = {};
         break;
@@ -121,6 +125,11 @@ Vultr::File::Extensions Vultr::file_get_extension_type(const File &file)
     {
         if (e == extension)
             return File::FONT;
+    }
+    for (auto e : VULTR_FILE_EXTENSIONS)
+    {
+        if (e == extension)
+            return File::VULTR;
     }
     return File::NONE;
 }

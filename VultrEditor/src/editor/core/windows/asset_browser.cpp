@@ -21,6 +21,8 @@ static Texture *get_texture_from_file(const File &file)
         return e->image_icon;
     case File::MODEL:
         return e->model_icon;
+    case File::VULTR:
+        return e->vultr_icon;
     default:
         return e->file_icon;
     }
@@ -95,7 +97,7 @@ void AssetBrowser::Render()
                 }
                 if (ImGui::IsItemHovered() && ImGui::IsMouseDoubleClicked(0))
                 {
-                    if (index < sub_directories.size())
+                    if (is_directory)
                     {
                         current_directory = sub_directories[index];
                         current_directory.cached_files = false;
@@ -104,6 +106,15 @@ void AssetBrowser::Render()
                         ImGui::EndTable();
                         ImGui::End();
                         return;
+                    }
+                    else
+                    {
+                        auto &file = files[index - sub_directories.size()];
+                        if (file_get_extension_type(file) == File::VULTR)
+                        {
+                            World *world = load_world(VultrSource(file.path.string()), engine_global()->component_registry);
+                            change_world(world);
+                        }
                     }
                 }
                 auto *texture = is_directory ? Editor::Get()->folder_icon : get_texture_from_file(files[index - sub_directories.size()]);

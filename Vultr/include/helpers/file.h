@@ -18,6 +18,7 @@ namespace Vultr
             SOURCE,
             SHADER,
             FONT,
+            VULTR,
             NONE
         };
 
@@ -52,6 +53,10 @@ namespace Vultr
 #define FONT_FILE_EXTENSIONS                                                                                                                                                                                          \
     {                                                                                                                                                                                                                 \
         ".ttf"                                                                                                                                                                                                        \
+    }
+#define VULTR_FILE_EXTENSIONS                                                                                                                                                                                         \
+    {                                                                                                                                                                                                                 \
+        ".vultr"                                                                                                                                                                                                      \
     }
 
         File() = default;
@@ -105,6 +110,12 @@ namespace Vultr
     {
         FontSource() : File("", FONT){};
         FontSource(const std::string &p_path) : File(p_path, FONT){};
+    };
+
+    struct VultrSource : File
+    {
+        VultrSource() : File("", VULTR){};
+        VultrSource(const std::string &p_path) : File(p_path, VULTR){};
     };
 
     // Gets the name of the file (can be specified whether this includes the extension or not)

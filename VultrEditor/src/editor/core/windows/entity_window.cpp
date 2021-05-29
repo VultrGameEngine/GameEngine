@@ -39,7 +39,7 @@ void EntityWindow::Render()
 
     if (ImGui::Button("Load Scene"))
     {
-        World *world = load_world(File("test_world.json"), engine_global()->component_registry);
+        World *world = load_world(VultrSource("test_world.vultr"), engine_global()->component_registry);
         change_world(world);
         // Engine::RegisterComponents();
         // Engine::InitSystems();

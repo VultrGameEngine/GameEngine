@@ -56,6 +56,7 @@ class Editor
     Vultr::Texture *image_icon;
     Vultr::Texture *shader_icon;
     Vultr::Texture *model_icon;
+    Vultr::Texture *vultr_icon;
 
   private:
     std::vector<Window *> windows;

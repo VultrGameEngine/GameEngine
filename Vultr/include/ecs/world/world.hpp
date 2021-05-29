@@ -19,7 +19,7 @@ namespace Vultr
 
     void save_world(World *world, json &j);
 
-    void save_world(World *world, const File &out);
+    void save_world(World *world, const VultrSource &out);
 
     void destroy_world(World *world);
 
@@ -31,7 +31,7 @@ namespace Vultr
 
     World *load_world(const json &j, const ComponentRegistry &r);
 
-    World *load_world(const File &file, const ComponentRegistry &r);
+    World *load_world(const VultrSource &file, const ComponentRegistry &r);
 
     // Entity methods, just wrappers around existing methods
     Entity create_entity(World *world);

@@ -359,7 +359,7 @@ namespace Vultr
         return world;
     }
 
-    World *load_world(const File &file, const ComponentRegistry &r)
+    World *load_world(const VultrSource &file, const ComponentRegistry &r)
     {
         assert(file_exists(file) && "Couldn't find save file!");
         std::ifstream i;
@@ -383,7 +383,7 @@ namespace Vultr
         };
     }
 
-    void save_world(World *_world, const File &out)
+    void save_world(World *_world, const VultrSource &out)
     {
         std::ofstream o;
         o.open(out.path);
