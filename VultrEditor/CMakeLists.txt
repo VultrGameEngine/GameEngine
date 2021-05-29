@@ -29,6 +29,7 @@ add_executable(VultrEditor ${VultrEditor_SRC})
 if(UNIX)
     target_link_libraries(VultrEditor GL glfw3 X11 Xxf86vm Xrandr pthread Xi dl assimp)
     target_link_libraries(VultrEditor ${CMAKE_CURRENT_SOURCE_DIR}/../Vultr/build/libVultrShared.so)
+    target_compile_definitions(VultrEditor PRIVATE SOURCE_PATH="${CMAKE_CURRENT_SOURCE_DIR}/")
 endif(UNIX)
 
 if(WIN32)
@@ -43,4 +44,3 @@ if(WIN32)
 	    $<TARGET_FILE_DIR:VultrEditor>)
 
 endif(WIN32)
-# target_link_libraries(VultrEditor optimized /home/brandon/Dev/GameEngine/Vultr/release/libVultrShared.so)

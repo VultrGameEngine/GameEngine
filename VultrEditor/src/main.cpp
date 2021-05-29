@@ -9,7 +9,11 @@
 #include <helpers/texture_importer.h>
 #include <set>
 
-INCBIN(fork_awesome, "/home/brandon/Dev/Monopoly/GameEngine/VultrEditor/res/forkawesome-webfont.ttf");
+#ifndef SOURCE_PATH
+#define SOURCE_PATH "INVALID SOURCE"
+#endif
+
+INCBIN(fork_awesome, SOURCE_PATH "res/forkawesome-webfont.ttf");
 
 using namespace Vultr;
 int main(void)
@@ -62,7 +66,7 @@ int main(void)
     float lastTime = 0;
 
 #ifdef _WIN32
-    Path::set_resource_path("C:/Users/Brand/Dev/Monopoly/res/");
+    Path::set_resource_path(resource_directory.path);
 #else
     change_working_directory(resource_directory.path);
 #endif
@@ -70,7 +74,7 @@ int main(void)
     engine_init(vultr, true);
 
 #ifdef _WIN32
-    engine_load_game(vultr, "C:/Users/Brand/Dev/Monopoly/build/Debug/Game.dll");
+    engine_load_game(vultr, dll.path.string().c_str());
 #else
     engine_load_game(vultr, dll.path.string().c_str());
 #endif

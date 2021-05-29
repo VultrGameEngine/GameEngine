@@ -17,13 +17,17 @@
 #define INCBIN_STYLE INCBIN_STYLE_SNAKE
 #include <incbin/incbin.h>
 
-INCBIN(folder_icon, "/home/brandon/Dev/Monopoly/GameEngine/VultrEditor/res/folder.png");
-INCBIN(file_icon, "/home/brandon/Dev/Monopoly/GameEngine/VultrEditor/res/document.png");
-INCBIN(c_icon, "/home/brandon/Dev/Monopoly/GameEngine/VultrEditor/res/c.png");
-INCBIN(image_icon, "/home/brandon/Dev/Monopoly/GameEngine/VultrEditor/res/image.png");
-INCBIN(shader_icon, "/home/brandon/Dev/Monopoly/GameEngine/VultrEditor/res/s.png");
-INCBIN(model_icon, "/home/brandon/Dev/Monopoly/GameEngine/VultrEditor/res/3D.png");
-INCBIN(vultr_icon, "/home/brandon/Dev/Monopoly/GameEngine/VultrEditor/res/temp_vultr_icon.png");
+#ifndef SOURCE_PATH
+#define SOURCE_PATH "INVALID SOURCE"
+#endif
+
+INCBIN(folder_icon, SOURCE_PATH "res/folder.png");
+INCBIN(file_icon, SOURCE_PATH "res/document.png");
+INCBIN(c_icon, SOURCE_PATH "res/c.png");
+INCBIN(image_icon, SOURCE_PATH "res/image.png");
+INCBIN(shader_icon, SOURCE_PATH "res/s.png");
+INCBIN(model_icon, SOURCE_PATH "res/3D.png");
+INCBIN(vultr_icon, SOURCE_PATH "res/temp_vultr_icon.png");
 
 using namespace Vultr;
 Editor::Editor() : selected_entity(Entity(0)), current_directory(get_working_directory().string())
