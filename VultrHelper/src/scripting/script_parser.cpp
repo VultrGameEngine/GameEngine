@@ -131,7 +131,7 @@ namespace Vultr
             }
             file << ");\n";
             file << "}\n";
-            file << "template <> void RenderComponent<" << component.m_ClassName << ">(Entity entity)\n";
+            file << "template <> void Vultr::RenderComponent<" << component.m_ClassName << ">(Entity entity)\n";
             file << "{\n";
             file << "\t" << component.m_ClassName << " *component = entity_get_component_unsafe<" << component.m_ClassName << ">(entity);\n";
             file << "\tif(component == nullptr)\n";

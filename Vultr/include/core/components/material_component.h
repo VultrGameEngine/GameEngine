@@ -9,45 +9,48 @@
 #include <vector>
 #include <core/models/color.h>
 
-struct DirectionalLight
+namespace Vultr
 {
-    Vec3 direction;
-    Vec3 ambient;
-    Vec3 diffuse;
-    Vec3 specular;
-};
-
-struct MaterialComponent
-{
-    typedef struct
+    struct DirectionalLight
     {
-        Vultr::TextureSource file;
-        u16 slot;
-        std::string name;
-    } TexturePair;
+        Vec3 direction;
+        Vec3 ambient;
+        Vec3 diffuse;
+        Vec3 specular;
+    };
 
-    Vultr::ShaderSource shader_source;
-    std::vector<TexturePair> textures;
-    std::unordered_map<std::string, Vec3> vec3s;
-    std::unordered_map<std::string, Vec4> vec4s;
-    std::unordered_map<std::string, Color> colors;
-    std::unordered_map<std::string, s32> ints;
-    std::unordered_map<std::string, f32> floats;
-
-    static MaterialComponent Create()
+    struct MaterialComponent
     {
-        auto component = MaterialComponent();
-        return component;
-    }
-
-    std::vector<Vultr::TextureSource> get_paths()
-    {
-        auto vec = std::vector<Vultr::TextureSource>();
-        vec.reserve(textures.size());
-        for (auto pair : textures)
+        typedef struct
         {
-            vec.push_back(pair.file);
+            Vultr::TextureSource file;
+            u16 slot;
+            std::string name;
+        } TexturePair;
+
+        Vultr::ShaderSource shader_source;
+        std::vector<TexturePair> textures;
+        std::unordered_map<std::string, Vec3> vec3s;
+        std::unordered_map<std::string, Vec4> vec4s;
+        std::unordered_map<std::string, Color> colors;
+        std::unordered_map<std::string, s32> ints;
+        std::unordered_map<std::string, f32> floats;
+
+        static MaterialComponent Create()
+        {
+            auto component = MaterialComponent();
+            return component;
         }
-        return vec;
-    }
-};
+
+        std::vector<Vultr::TextureSource> get_paths()
+        {
+            auto vec = std::vector<Vultr::TextureSource>();
+            vec.reserve(textures.size());
+            for (auto pair : textures)
+            {
+                vec.push_back(pair.file);
+            }
+            return vec;
+        }
+    };
+} // namespace Vultr

@@ -5,24 +5,28 @@
 #include <glm/gtx/transform.hpp>
 #include <fundamental/types.h>
 
-struct CameraComponent
+namespace Vultr
 {
-    static CameraComponent Create()
+
+    struct CameraComponent
     {
-        CameraComponent component = CameraComponent();
-        return component;
-    }
+        static CameraComponent Create()
+        {
+            CameraComponent component = CameraComponent();
+            return component;
+        }
 
-    bool enabled = true;
+        bool enabled = true;
 
-    f32 fov = 45.0f;
-    f32 znear = 0.1f;
-    f32 zfar = 100.0f;
+        f32 fov = 45.0f;
+        f32 znear = 0.1f;
+        f32 zfar = 100.0f;
 
-    bool gamma_correction = true;
+        bool gamma_correction = true;
 
-    Mat4 GetProjectionMatrix(float width, float height) const
-    {
-        return glm::perspective(fov, width / height, znear, zfar);
-    }
-};
+        Mat4 GetProjectionMatrix(float width, float height) const
+        {
+            return glm::perspective(fov, width / height, znear, zfar);
+        }
+    };
+} // namespace Vultr

@@ -4,18 +4,18 @@
 #include <string>
 #include <helpers/file.h>
 
-struct StaticMeshComponent
+namespace Vultr
 {
-    StaticMeshComponent()
-    {
-    }
 
-    static StaticMeshComponent Create(const std::string &p_path = "models/cube.obj")
+    struct StaticMeshComponent
     {
-        StaticMeshComponent component = StaticMeshComponent();
-        component.source = Vultr::ModelSource(p_path);
-        return component;
-    }
+        static StaticMeshComponent Create(const std::string &p_path = "models/cube.obj")
+        {
+            StaticMeshComponent component = StaticMeshComponent();
+            component.source = Vultr::ModelSource(p_path);
+            return component;
+        }
 
-    Vultr::ModelSource source;
-};
+        Vultr::ModelSource source;
+    };
+} // namespace Vultr

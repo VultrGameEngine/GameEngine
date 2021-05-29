@@ -260,554 +260,551 @@ namespace Vultr
             e(event);
         }
     }
+    template <>
+    void RenderComponent<MaterialComponent>(Vultr::Entity entity)
+    {
+        auto *_component = entity_get_component_unsafe<MaterialComponent>(entity);
+        if (_component == nullptr)
+            return;
+        auto &component = *_component;
+        static MaterialComponent copy;
+        if (ImGui::CollapsingHeader("MaterialComponent"))
+        {
+            auto temp = component;
+            RenderMemberResult res;
+            const char *shader_options[] = {"Forward", "PBR", "Unlit", "Skybox", "Custom"};
+            static int selected_shader_option = 0;
+
+            if (component.shader_source.path == FORWARD_MATERIAL_SOURCE)
+            {
+                selected_shader_option = 0;
+            }
+            else if (component.shader_source.path == PBR_MATERIAL_SOURCE)
+            {
+                selected_shader_option = 1;
+            }
+            else if (component.shader_source.path == UNLIT_MATERIAL_SOURCE)
+            {
+                selected_shader_option = 2;
+            }
+            else if (component.shader_source.path == SKYBOX_MATERIAL_SOURCE)
+            {
+                selected_shader_option = 3;
+            }
+            else
+            {
+                selected_shader_option = 4;
+            }
+
+            ImGui::PushID("Shader");
+            const char *shader_label = shader_options[selected_shader_option];
+            if (ImGui::BeginCombo("Shader", shader_label))
+            {
+                for (int n = 0; n < IM_ARRAYSIZE(shader_options); n++)
+                {
+                    const bool is_selected = (selected_shader_option == n);
+                    if (ImGui::Selectable(shader_options[n], is_selected))
+                    {
+                        selected_shader_option = n;
+                        switch (selected_shader_option)
+                        {
+                        case 0: {
+                            component = ForwardMaterial::Create("");
+                            break;
+                        }
+                        case 1: {
+                            component = ForwardMaterial::Create("");
+                            break;
+                        }
+                        case 2: {
+                            component = UnlitMaterial::Create();
+                            break;
+                        }
+
+                        case 3: {
+                            component = SkyboxMaterial::Create("", "", "", "", "", "");
+                            break;
+                        }
+                        case 4: {
+                            auto path = component.shader_source.path;
+                            if (path == FORWARD_MATERIAL_SOURCE || path == SKYBOX_MATERIAL_SOURCE || path == PBR_MATERIAL_SOURCE || path == UNLIT_MATERIAL_SOURCE)
+                            {
+                                component = MaterialComponent();
+                                component.shader_source = ShaderSource("");
+                            }
+                            break;
+                        }
+                        default: {
+                            break;
+                        }
+                        }
+                    }
+
+                    // Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
+                    if (is_selected)
+                        ImGui::SetItemDefaultFocus();
+                }
+                res = was_edited();
+                ImGui::EndCombo();
+            }
+            ImGui::PopID();
+
+            // Different rendering for different shaders
+            switch (selected_shader_option)
+            {
+                // Forward
+            case 0: {
+                if (component.textures.size() > 0)
+                {
+                    ImGui::PushID("diffuse");
+                    res = RenderMember("Diffuse", component.textures[0]);
+                    ImGui::PopID();
+                }
+                if (component.textures.size() > 1)
+                {
+                    ImGui::PushID("specular");
+                    res = RenderMember("Specular", component.textures[1]);
+                    ImGui::PopID();
+                }
+
+                if (component.colors.find("tint") != component.colors.end())
+                {
+                    ImGui::PushID("tint");
+                    res = RenderMember("Tint", component.colors["tint"]);
+                    ImGui::PopID();
+                }
+
+                if (component.floats.find("material.shininess") != component.floats.end())
+                {
+                    ImGui::PushID("shininess");
+                    res = RenderMember("Shininess", component.floats["material.shininess"]);
+                    ImGui::PopID();
+                }
+            }
+            // PBR
+            case 1: {
+                break;
+            }
+            // Unlit
+            case 2: {
+                ImGui::PushID("lightColor");
+                res = RenderMember("Color", component.colors["lightColor"]);
+                ImGui::PopID();
+                break;
+            }
+
+            // Skybox
+            case 3: {
+                for (auto &pair : component.textures)
+                {
+                    ImGui::PushID(pair.name.c_str());
+                    res = RenderMember(pair.name, pair.file);
+                    ImGui::PopID();
+                }
+                break;
+            }
+            default: {
+                ImGui::PushID("shader_source");
+                res = RenderMember("shader_source", component.shader_source);
+                ImGui::PopID();
+
+                ImGui::PushID("textures");
+                if (ImGui::CollapsingHeader("textures"))
+                {
+                    res = RenderMember("textures", component.textures);
+                }
+                ImGui::PopID();
+
+                ImGui::PushID("vec3s");
+                if (ImGui::CollapsingHeader("vec3s"))
+                {
+                    res = RenderMember("vec3s", component.vec3s);
+                }
+                ImGui::PopID();
+
+                ImGui::PushID("vec4s");
+                if (ImGui::CollapsingHeader("vec4s"))
+                {
+                    res = RenderMember("vec4s", component.vec4s);
+                }
+                ImGui::PopID();
+
+                ImGui::PushID("colors");
+                if (ImGui::CollapsingHeader("colors"))
+                {
+                    res = RenderMember("colors", component.colors);
+                }
+                ImGui::PopID();
+
+                ImGui::PushID("ints");
+                if (ImGui::CollapsingHeader("ints"))
+                {
+                    res = RenderMember("ints", component.ints);
+                }
+                ImGui::PopID();
+
+                ImGui::PushID("floats");
+                if (ImGui::CollapsingHeader("floats"))
+                {
+                    res = RenderMember("floats", component.floats);
+                }
+                ImGui::PopID();
+                break;
+            }
+            }
+            if (res.started_editing)
+            {
+                copy = temp;
+                std::cout << "Started editing material component\n";
+            }
+            if (res.finished_editing)
+            {
+                auto *event = new ComponentEditEvent<MaterialComponent>();
+                event->before = copy;
+                event->after = component;
+                event->entities = {entity};
+                event->type = get_component_type<MaterialComponent>();
+                engine_send_update_event(event);
+                std::cout << "Finished editing material component\n";
+            }
+
+            if (ImGui::Button("Remove"))
+            {
+                entity_remove_component<MaterialComponent>(entity);
+            }
+        }
+    }
+    template <>
+    void RenderComponent<TransformComponent>(Entity entity)
+    {
+        auto *component = entity_get_component_unsafe<TransformComponent>(entity);
+        if (component == nullptr)
+            return;
+        static TransformComponent copy;
+        auto temp = TransformComponent(*component);
+        RenderMemberResult res;
+        if (ImGui::CollapsingHeader("TransformComponent"))
+        {
+            ImGui::PushID("TransformComponent");
+            res = RenderMember("position", component->position);
+            res = RenderMember("rotation", component->rotation);
+            res = RenderMember("scale", component->scale);
+            if (res.started_editing)
+            {
+                copy = temp;
+            }
+            if (res.finished_editing)
+            {
+                auto *event = new ComponentEditEvent<TransformComponent>();
+                event->before = copy;
+                event->after = *component;
+                event->entities = {entity};
+                event->type = get_component_type<TransformComponent>();
+                engine_send_update_event(event);
+            }
+
+            if (ImGui::Button("Remove"))
+            {
+                entity_remove_component<TransformComponent>(entity);
+            }
+            ImGui::PopID();
+        }
+    }
+    template <>
+    const char *get_struct_name<TransformComponent>()
+    {
+        return "TransformComponent";
+    }
+
+    template <>
+    void RenderComponent<StaticMeshComponent>(Entity entity)
+    {
+        auto *component = entity_get_component_unsafe<StaticMeshComponent>(entity);
+        if (component == nullptr)
+            return;
+
+        static StaticMeshComponent copy;
+        if (ImGui::CollapsingHeader("StaticMeshComponent"))
+        {
+            auto temp = *component;
+            RenderMemberResult res;
+            ImGui::PushID("StaticMeshComponent");
+            res = RenderMember("source", component->source);
+            if (res.started_editing)
+            {
+                copy = temp;
+            }
+            if (res.finished_editing)
+            {
+                auto *event = new ComponentEditEvent<StaticMeshComponent>();
+                event->before = copy;
+                event->after = *component;
+                event->entities = {entity};
+                event->type = get_component_type<StaticMeshComponent>();
+                engine_send_update_event(event);
+            }
+            if (ImGui::Button("Remove"))
+            {
+                entity_remove_component<StaticMeshComponent>(entity);
+            }
+            ImGui::PopID();
+        }
+    }
+    template <>
+    const char *get_struct_name<StaticMeshComponent>()
+    {
+        return "StaticMeshComponent";
+    }
+    template <>
+    void RenderComponent<SkyBoxComponent>(Entity entity)
+    {
+        auto *component = entity_get_component_unsafe<SkyBoxComponent>(entity);
+        if (component == nullptr)
+            return;
+        static SkyBoxComponent copy;
+        if (ImGui::CollapsingHeader("SkyBoxComponent"))
+        {
+            RenderMemberResult res;
+            auto temp = *component;
+            ImGui::PushID("SkyBoxComponent");
+            res = RenderMember("identifier", component->identifier);
+            if (res.started_editing)
+            {
+                copy = temp;
+            }
+            if (res.finished_editing)
+            {
+                auto *event = new ComponentEditEvent<SkyBoxComponent>();
+                event->before = copy;
+                event->after = *component;
+                event->entities = {entity};
+                event->type = get_component_type<SkyBoxComponent>();
+                engine_send_update_event(event);
+            }
+            if (ImGui::Button("Remove"))
+            {
+                entity_remove_component<StaticMeshComponent>(entity);
+            }
+            ImGui::PopID();
+        }
+    }
+    template <>
+    const char *get_struct_name<SkyBoxComponent>()
+    {
+        return "SkyBoxComponent";
+    }
+    template <>
+    void RenderComponent<LightComponent>(Entity entity)
+    {
+        auto *component = entity_get_component_unsafe<LightComponent>(entity);
+        if (component == nullptr)
+            return;
+        static LightComponent copy;
+        if (ImGui::CollapsingHeader("LightComponent"))
+        {
+            RenderMemberResult res;
+            auto temp = *component;
+            ImGui::PushID("LightComponent");
+
+            const char *light_options[] = {"Directional", "Point", "Spot"};
+            static s8 selected_light_option = 0;
+
+            if (component->type == LightComponent::DirectionalLight)
+            {
+                selected_light_option = 0;
+            }
+            else if (component->type == LightComponent::PointLight)
+            {
+                selected_light_option = 1;
+            }
+            else if (component->type == LightComponent::SpotLight)
+            {
+                selected_light_option = 2;
+            }
+
+            const char *light_type_label = light_options[selected_light_option];
+            if (ImGui::BeginCombo("Type", light_type_label))
+            {
+                for (int n = 0; n < IM_ARRAYSIZE(light_options); n++)
+                {
+                    const bool is_selected = (selected_light_option == n);
+                    if (ImGui::Selectable(light_options[n], is_selected))
+                    {
+                        selected_light_option = n;
+                        switch (selected_light_option)
+                        {
+                        case 0: {
+                            component->type = LightComponent::DirectionalLight;
+                            break;
+                        }
+                        case 1: {
+                            component->type = LightComponent::PointLight;
+                            break;
+                        }
+                        case 2: {
+                            component->type = LightComponent::SpotLight;
+                            break;
+                        }
+                        default: {
+                            break;
+                        }
+                        }
+                    }
+
+                    // Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
+                    if (is_selected)
+                        ImGui::SetItemDefaultFocus();
+                }
+                ImGui::EndCombo();
+            }
+
+            ImGui::PushID("ambient");
+            res = RenderMember("Ambient", component->ambient);
+            ImGui::PopID();
+
+            ImGui::PushID("diffuse");
+            res = RenderMember("Diffuse", component->diffuse);
+            ImGui::PopID();
+
+            ImGui::PushID("specular");
+            res = RenderMember("Specular", component->specular);
+            ImGui::PopID();
+
+            switch (selected_light_option)
+            {
+            case 0: {
+                break;
+            }
+            case 1: {
+                ImGui::PushID("constant");
+                res = RenderMember("Constant", component->constant);
+                ImGui::PopID();
+                ImGui::PushID("linear");
+                res = RenderMember("Linear", component->linear);
+                ImGui::PopID();
+                ImGui::PushID("quadratic");
+                res = RenderMember("Quadratic", component->quadratic);
+                ImGui::PopID();
+                break;
+            }
+            case 2: {
+                break;
+            }
+            default: {
+                break;
+            }
+            }
+            if (res.started_editing)
+            {
+                copy = temp;
+            }
+            if (res.finished_editing)
+            {
+                auto *event = new ComponentEditEvent<LightComponent>();
+                event->before = copy;
+                event->after = *component;
+                event->entities = {entity};
+                event->type = get_component_type<LightComponent>();
+                engine_send_update_event(event);
+            }
+
+            if (ImGui::Button("Remove"))
+            {
+                entity_remove_component<LightComponent>(entity);
+            }
+            ImGui::PopID();
+        }
+    }
+    template <>
+    const char *get_struct_name<LightComponent>()
+    {
+        return "LightComponent";
+    }
+
+    template <>
+    void RenderComponent<ControllerComponent>(Entity entity)
+    {
+        auto *component = entity_get_component_unsafe<ControllerComponent>(entity);
+        if (component == nullptr)
+            return;
+        static ControllerComponent copy;
+        if (ImGui::CollapsingHeader("ControllerComponent"))
+        {
+            RenderMemberResult res;
+            auto temp = *component;
+            ImGui::PushID("ControllerComponent");
+            res = RenderMember("sens", component->sens);
+            if (res.started_editing)
+            {
+                copy = temp;
+            }
+            if (res.finished_editing)
+            {
+                auto *event = new ComponentEditEvent<ControllerComponent>();
+                event->before = copy;
+                event->after = *component;
+                event->entities = {entity};
+                event->type = get_component_type<ControllerComponent>();
+                engine_send_update_event(event);
+            }
+            if (ImGui::Button("Remove"))
+            {
+                entity_remove_component<ControllerComponent>(entity);
+            }
+            ImGui::PopID();
+        }
+    }
+    template <>
+    const char *get_struct_name<ControllerComponent>()
+    {
+        return "ControllerComponent";
+    }
+    template <>
+    void RenderComponent<CameraComponent>(Entity entity)
+    {
+        auto *component = entity_get_component_unsafe<CameraComponent>(entity);
+        if (component == nullptr)
+            return;
+        static CameraComponent copy;
+        if (ImGui::CollapsingHeader("CameraComponent"))
+        {
+            RenderMemberResult res;
+            auto temp = *component;
+            ImGui::PushID("CameraComponent");
+            res = RenderMember("enabled", component->enabled);
+            res = RenderMember("fov", component->fov);
+            res = RenderMember("znear", component->znear);
+            res = RenderMember("zfar", component->zfar);
+            res = RenderMember("gamma_correction", component->gamma_correction);
+            if (res.started_editing)
+            {
+                copy = temp;
+            }
+            if (res.finished_editing)
+            {
+                auto *event = new ComponentEditEvent<CameraComponent>();
+                event->before = copy;
+                event->after = *component;
+                event->entities = {entity};
+                event->type = get_component_type<CameraComponent>();
+                engine_send_update_event(event);
+            }
+            if (ImGui::Button("Remove"))
+            {
+                entity_remove_component<CameraComponent>(entity);
+            }
+            ImGui::PopID();
+        }
+    }
+    template <>
+    const char *get_struct_name<CameraComponent>()
+    {
+        return "CameraComponent";
+    }
+    template <>
+    const char *get_struct_name<MaterialComponent>()
+    {
+        return ("MaterialComponent");
+    }
 
 } // namespace Vultr
-
-using namespace Vultr;
-
-template <>
-void RenderComponent<MaterialComponent>(Vultr::Entity entity)
-{
-    auto *_component = entity_get_component_unsafe<MaterialComponent>(entity);
-    if (_component == nullptr)
-        return;
-    auto &component = *_component;
-    static MaterialComponent copy;
-    if (ImGui::CollapsingHeader("MaterialComponent"))
-    {
-        auto temp = component;
-        RenderMemberResult res;
-        const char *shader_options[] = {"Forward", "PBR", "Unlit", "Skybox", "Custom"};
-        static int selected_shader_option = 0;
-
-        if (component.shader_source.path == FORWARD_MATERIAL_SOURCE)
-        {
-            selected_shader_option = 0;
-        }
-        else if (component.shader_source.path == PBR_MATERIAL_SOURCE)
-        {
-            selected_shader_option = 1;
-        }
-        else if (component.shader_source.path == UNLIT_MATERIAL_SOURCE)
-        {
-            selected_shader_option = 2;
-        }
-        else if (component.shader_source.path == SKYBOX_MATERIAL_SOURCE)
-        {
-            selected_shader_option = 3;
-        }
-        else
-        {
-            selected_shader_option = 4;
-        }
-
-        ImGui::PushID("Shader");
-        const char *shader_label = shader_options[selected_shader_option];
-        if (ImGui::BeginCombo("Shader", shader_label))
-        {
-            for (int n = 0; n < IM_ARRAYSIZE(shader_options); n++)
-            {
-                const bool is_selected = (selected_shader_option == n);
-                if (ImGui::Selectable(shader_options[n], is_selected))
-                {
-                    selected_shader_option = n;
-                    switch (selected_shader_option)
-                    {
-                    case 0: {
-                        component = ForwardMaterial::Create("");
-                        break;
-                    }
-                    case 1: {
-                        component = ForwardMaterial::Create("");
-                        break;
-                    }
-                    case 2: {
-                        component = UnlitMaterial::Create();
-                        break;
-                    }
-
-                    case 3: {
-                        component = SkyboxMaterial::Create("", "", "", "", "", "");
-                        break;
-                    }
-                    case 4: {
-                        auto path = component.shader_source.path;
-                        if (path == FORWARD_MATERIAL_SOURCE || path == SKYBOX_MATERIAL_SOURCE || path == PBR_MATERIAL_SOURCE || path == UNLIT_MATERIAL_SOURCE)
-                        {
-                            component = MaterialComponent();
-                            component.shader_source = ShaderSource("");
-                        }
-                        break;
-                    }
-                    default: {
-                        break;
-                    }
-                    }
-                }
-
-                // Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
-                if (is_selected)
-                    ImGui::SetItemDefaultFocus();
-            }
-            res = was_edited();
-            ImGui::EndCombo();
-        }
-        ImGui::PopID();
-
-        // Different rendering for different shaders
-        switch (selected_shader_option)
-        {
-            // Forward
-        case 0: {
-            if (component.textures.size() > 0)
-            {
-                ImGui::PushID("diffuse");
-                res = RenderMember("Diffuse", component.textures[0]);
-                ImGui::PopID();
-            }
-            if (component.textures.size() > 1)
-            {
-                ImGui::PushID("specular");
-                res = RenderMember("Specular", component.textures[1]);
-                ImGui::PopID();
-            }
-
-            if (component.colors.find("tint") != component.colors.end())
-            {
-                ImGui::PushID("tint");
-                res = RenderMember("Tint", component.colors["tint"]);
-                ImGui::PopID();
-            }
-
-            if (component.floats.find("material.shininess") != component.floats.end())
-            {
-                ImGui::PushID("shininess");
-                res = RenderMember("Shininess", component.floats["material.shininess"]);
-                ImGui::PopID();
-            }
-        }
-        // PBR
-        case 1: {
-            break;
-        }
-        // Unlit
-        case 2: {
-            ImGui::PushID("lightColor");
-            res = RenderMember("Color", component.colors["lightColor"]);
-            ImGui::PopID();
-            break;
-        }
-
-        // Skybox
-        case 3: {
-            for (auto &pair : component.textures)
-            {
-                ImGui::PushID(pair.name.c_str());
-                res = RenderMember(pair.name, pair.file);
-                ImGui::PopID();
-            }
-            break;
-        }
-        default: {
-            ImGui::PushID("shader_source");
-            res = RenderMember("shader_source", component.shader_source);
-            ImGui::PopID();
-
-            ImGui::PushID("textures");
-            if (ImGui::CollapsingHeader("textures"))
-            {
-                res = RenderMember("textures", component.textures);
-            }
-            ImGui::PopID();
-
-            ImGui::PushID("vec3s");
-            if (ImGui::CollapsingHeader("vec3s"))
-            {
-                res = RenderMember("vec3s", component.vec3s);
-            }
-            ImGui::PopID();
-
-            ImGui::PushID("vec4s");
-            if (ImGui::CollapsingHeader("vec4s"))
-            {
-                res = RenderMember("vec4s", component.vec4s);
-            }
-            ImGui::PopID();
-
-            ImGui::PushID("colors");
-            if (ImGui::CollapsingHeader("colors"))
-            {
-                res = RenderMember("colors", component.colors);
-            }
-            ImGui::PopID();
-
-            ImGui::PushID("ints");
-            if (ImGui::CollapsingHeader("ints"))
-            {
-                res = RenderMember("ints", component.ints);
-            }
-            ImGui::PopID();
-
-            ImGui::PushID("floats");
-            if (ImGui::CollapsingHeader("floats"))
-            {
-                res = RenderMember("floats", component.floats);
-            }
-            ImGui::PopID();
-            break;
-        }
-        }
-        if (res.started_editing)
-        {
-            copy = temp;
-            std::cout << "Started editing material component\n";
-        }
-        if (res.finished_editing)
-        {
-            auto *event = new ComponentEditEvent<MaterialComponent>();
-            event->before = copy;
-            event->after = component;
-            event->entities = {entity};
-            event->type = get_component_type<MaterialComponent>();
-            engine_send_update_event(event);
-            std::cout << "Finished editing material component\n";
-        }
-
-        if (ImGui::Button("Remove"))
-        {
-            entity_remove_component<MaterialComponent>(entity);
-        }
-    }
-}
-template <>
-void RenderComponent<TransformComponent>(Entity entity)
-{
-    auto *component = entity_get_component_unsafe<TransformComponent>(entity);
-    if (component == nullptr)
-        return;
-    static TransformComponent copy;
-    auto temp = TransformComponent(*component);
-    RenderMemberResult res;
-    if (ImGui::CollapsingHeader("TransformComponent"))
-    {
-        ImGui::PushID("TransformComponent");
-        res = RenderMember("position", component->position);
-        res = RenderMember("rotation", component->rotation);
-        res = RenderMember("scale", component->scale);
-        if (res.started_editing)
-        {
-            copy = temp;
-        }
-        if (res.finished_editing)
-        {
-            auto *event = new ComponentEditEvent<TransformComponent>();
-            event->before = copy;
-            event->after = *component;
-            event->entities = {entity};
-            event->type = get_component_type<TransformComponent>();
-            engine_send_update_event(event);
-        }
-
-        if (ImGui::Button("Remove"))
-        {
-            entity_remove_component<TransformComponent>(entity);
-        }
-        ImGui::PopID();
-    }
-}
-template <>
-const char *Vultr::get_struct_name<TransformComponent>()
-{
-    return "TransformComponent";
-}
-
-template <>
-void RenderComponent<StaticMeshComponent>(Entity entity)
-{
-    auto *component = entity_get_component_unsafe<StaticMeshComponent>(entity);
-    if (component == nullptr)
-        return;
-
-    static StaticMeshComponent copy;
-    if (ImGui::CollapsingHeader("StaticMeshComponent"))
-    {
-        auto temp = *component;
-        RenderMemberResult res;
-        ImGui::PushID("StaticMeshComponent");
-        res = RenderMember("source", component->source);
-        if (res.started_editing)
-        {
-            copy = temp;
-        }
-        if (res.finished_editing)
-        {
-            auto *event = new ComponentEditEvent<StaticMeshComponent>();
-            event->before = copy;
-            event->after = *component;
-            event->entities = {entity};
-            event->type = get_component_type<StaticMeshComponent>();
-            engine_send_update_event(event);
-        }
-        if (ImGui::Button("Remove"))
-        {
-            entity_remove_component<StaticMeshComponent>(entity);
-        }
-        ImGui::PopID();
-    }
-}
-template <>
-const char *Vultr::get_struct_name<StaticMeshComponent>()
-{
-    return "StaticMeshComponent";
-}
-template <>
-void RenderComponent<SkyBoxComponent>(Entity entity)
-{
-    auto *component = entity_get_component_unsafe<SkyBoxComponent>(entity);
-    if (component == nullptr)
-        return;
-    static SkyBoxComponent copy;
-    if (ImGui::CollapsingHeader("SkyBoxComponent"))
-    {
-        RenderMemberResult res;
-        auto temp = *component;
-        ImGui::PushID("SkyBoxComponent");
-        res = RenderMember("identifier", component->identifier);
-        if (res.started_editing)
-        {
-            copy = temp;
-        }
-        if (res.finished_editing)
-        {
-            auto *event = new ComponentEditEvent<SkyBoxComponent>();
-            event->before = copy;
-            event->after = *component;
-            event->entities = {entity};
-            event->type = get_component_type<SkyBoxComponent>();
-            engine_send_update_event(event);
-        }
-        if (ImGui::Button("Remove"))
-        {
-            entity_remove_component<StaticMeshComponent>(entity);
-        }
-        ImGui::PopID();
-    }
-}
-template <>
-const char *Vultr::get_struct_name<SkyBoxComponent>()
-{
-    return "SkyBoxComponent";
-}
-template <>
-void RenderComponent<LightComponent>(Entity entity)
-{
-    auto *component = entity_get_component_unsafe<LightComponent>(entity);
-    if (component == nullptr)
-        return;
-    static LightComponent copy;
-    if (ImGui::CollapsingHeader("LightComponent"))
-    {
-        RenderMemberResult res;
-        auto temp = *component;
-        ImGui::PushID("LightComponent");
-
-        const char *light_options[] = {"Directional", "Point", "Spot"};
-        static s8 selected_light_option = 0;
-
-        if (component->type == LightComponent::DirectionalLight)
-        {
-            selected_light_option = 0;
-        }
-        else if (component->type == LightComponent::PointLight)
-        {
-            selected_light_option = 1;
-        }
-        else if (component->type == LightComponent::SpotLight)
-        {
-            selected_light_option = 2;
-        }
-
-        const char *light_type_label = light_options[selected_light_option];
-        if (ImGui::BeginCombo("Type", light_type_label))
-        {
-            for (int n = 0; n < IM_ARRAYSIZE(light_options); n++)
-            {
-                const bool is_selected = (selected_light_option == n);
-                if (ImGui::Selectable(light_options[n], is_selected))
-                {
-                    selected_light_option = n;
-                    switch (selected_light_option)
-                    {
-                    case 0: {
-                        component->type = LightComponent::DirectionalLight;
-                        break;
-                    }
-                    case 1: {
-                        component->type = LightComponent::PointLight;
-                        break;
-                    }
-                    case 2: {
-                        component->type = LightComponent::SpotLight;
-                        break;
-                    }
-                    default: {
-                        break;
-                    }
-                    }
-                }
-
-                // Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
-                if (is_selected)
-                    ImGui::SetItemDefaultFocus();
-            }
-            ImGui::EndCombo();
-        }
-
-        ImGui::PushID("ambient");
-        res = RenderMember("Ambient", component->ambient);
-        ImGui::PopID();
-
-        ImGui::PushID("diffuse");
-        res = RenderMember("Diffuse", component->diffuse);
-        ImGui::PopID();
-
-        ImGui::PushID("specular");
-        res = RenderMember("Specular", component->specular);
-        ImGui::PopID();
-
-        switch (selected_light_option)
-        {
-        case 0: {
-            break;
-        }
-        case 1: {
-            ImGui::PushID("constant");
-            res = RenderMember("Constant", component->constant);
-            ImGui::PopID();
-            ImGui::PushID("linear");
-            res = RenderMember("Linear", component->linear);
-            ImGui::PopID();
-            ImGui::PushID("quadratic");
-            res = RenderMember("Quadratic", component->quadratic);
-            ImGui::PopID();
-            break;
-        }
-        case 2: {
-            break;
-        }
-        default: {
-            break;
-        }
-        }
-        if (res.started_editing)
-        {
-            copy = temp;
-        }
-        if (res.finished_editing)
-        {
-            auto *event = new ComponentEditEvent<LightComponent>();
-            event->before = copy;
-            event->after = *component;
-            event->entities = {entity};
-            event->type = get_component_type<LightComponent>();
-            engine_send_update_event(event);
-        }
-
-        if (ImGui::Button("Remove"))
-        {
-            entity_remove_component<LightComponent>(entity);
-        }
-        ImGui::PopID();
-    }
-}
-template <>
-const char *Vultr::get_struct_name<LightComponent>()
-{
-    return "LightComponent";
-}
-
-template <>
-void RenderComponent<ControllerComponent>(Entity entity)
-{
-    auto *component = entity_get_component_unsafe<ControllerComponent>(entity);
-    if (component == nullptr)
-        return;
-    static ControllerComponent copy;
-    if (ImGui::CollapsingHeader("ControllerComponent"))
-    {
-        RenderMemberResult res;
-        auto temp = *component;
-        ImGui::PushID("ControllerComponent");
-        res = RenderMember("sens", component->sens);
-        if (res.started_editing)
-        {
-            copy = temp;
-        }
-        if (res.finished_editing)
-        {
-            auto *event = new ComponentEditEvent<ControllerComponent>();
-            event->before = copy;
-            event->after = *component;
-            event->entities = {entity};
-            event->type = get_component_type<ControllerComponent>();
-            engine_send_update_event(event);
-        }
-        if (ImGui::Button("Remove"))
-        {
-            entity_remove_component<ControllerComponent>(entity);
-        }
-        ImGui::PopID();
-    }
-}
-template <>
-const char *Vultr::get_struct_name<ControllerComponent>()
-{
-    return "ControllerComponent";
-}
-template <>
-void RenderComponent<CameraComponent>(Entity entity)
-{
-    auto *component = entity_get_component_unsafe<CameraComponent>(entity);
-    if (component == nullptr)
-        return;
-    static CameraComponent copy;
-    if (ImGui::CollapsingHeader("CameraComponent"))
-    {
-        RenderMemberResult res;
-        auto temp = *component;
-        ImGui::PushID("CameraComponent");
-        res = RenderMember("enabled", component->enabled);
-        res = RenderMember("fov", component->fov);
-        res = RenderMember("znear", component->znear);
-        res = RenderMember("zfar", component->zfar);
-        res = RenderMember("gamma_correction", component->gamma_correction);
-        if (res.started_editing)
-        {
-            copy = temp;
-        }
-        if (res.finished_editing)
-        {
-            auto *event = new ComponentEditEvent<CameraComponent>();
-            event->before = copy;
-            event->after = *component;
-            event->entities = {entity};
-            event->type = get_component_type<CameraComponent>();
-            engine_send_update_event(event);
-        }
-        if (ImGui::Button("Remove"))
-        {
-            entity_remove_component<CameraComponent>(entity);
-        }
-        ImGui::PopID();
-    }
-}
-template <>
-const char *Vultr::get_struct_name<CameraComponent>()
-{
-    return "CameraComponent";
-}
-template <>
-const char *Vultr::get_struct_name<MaterialComponent>()
-{
-    return ("MaterialComponent");
-}

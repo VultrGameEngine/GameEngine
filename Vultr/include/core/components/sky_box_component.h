@@ -6,16 +6,19 @@
 #include <helpers/file.h>
 #include <types/types.hpp>
 
-struct SkyBoxComponent
+namespace Vultr
 {
-    static SkyBoxComponent Create()
+    struct SkyBoxComponent
     {
-        // TODO Fix this because this will not work
-        static s16 identifier = 0;
-        SkyBoxComponent component = SkyBoxComponent();
-        component.identifier = std::to_string(++identifier);
-        return component;
-    }
+        static SkyBoxComponent Create()
+        {
+            // TODO Fix this because this will not work
+            static s16 identifier = 0;
+            SkyBoxComponent component = SkyBoxComponent();
+            component.identifier = std::to_string(++identifier);
+            return component;
+        }
 
-    std::string identifier;
-};
+        std::string identifier;
+    };
+} // namespace Vultr

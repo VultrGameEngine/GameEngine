@@ -2,6 +2,7 @@
 #include <gui/framework/input.h>
 
 using namespace Vultr;
+using namespace GUI;
 
 Widget *TestStateWidgetState::Build(BuildContext *context)
 {

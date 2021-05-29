@@ -35,131 +35,134 @@ void nlohmann::adl_serializer<Vultr::Signature>::from_json(const json &j, Vultr:
         c.prop = j[#prop].get<type>();                                                                                                                                                                                \
     }
 
-void to_json(json &j, const CameraComponent &c)
+namespace Vultr
 {
-    TOJSON(enabled);
-    TOJSON(fov);
-    TOJSON(znear);
-    TOJSON(zfar);
-}
-void from_json(const json &j, CameraComponent &c)
-{
-    FROMJSON(enabled, bool)
-    FROMJSON(fov, f32)
-    FROMJSON(znear, f32)
-    FROMJSON(zfar, f32)
-}
-void to_json(json &j, const ControllerComponent &c)
-{
-    TOJSON(sens);
-}
-void from_json(const json &j, ControllerComponent &c)
-{
-    FROMJSON(sens, f32)
-}
-void to_json(json &j, const LightComponent &c)
-{
-    TOJSON(type);
-    TOJSON(ambient);
-    TOJSON(diffuse);
-    TOJSON(specular);
-    TOJSON(constant);
-    TOJSON(linear);
-    TOJSON(quadratic);
-}
-void from_json(const json &j, LightComponent &c)
-{
-    FROMJSON(type, u8)
-    FROMJSON(ambient, Color)
-    FROMJSON(diffuse, Color)
-    FROMJSON(specular, f32)
-    FROMJSON(constant, f32)
-    FROMJSON(linear, f32)
-    FROMJSON(quadratic, f32)
-}
-void to_json(json &j, const SkyBoxComponent &c)
-{
-    TOJSON(identifier);
-}
-void from_json(const json &j, SkyBoxComponent &c)
-{
-    FROMJSON(identifier, std::string);
-}
-void to_json(json &j, const StaticMeshComponent &c)
-{
-    TOJSON(source);
-}
-void from_json(const json &j, StaticMeshComponent &c)
-{
-    FROMJSON(source, Vultr::ModelSource)
-}
-void to_json(json &j, const TransformComponent &c)
-{
-    TOJSON(position);
-    TOJSON(rotation);
-    TOJSON(scale);
-}
-void from_json(const json &j, TransformComponent &c)
-{
-    FROMJSON(position, Vec3);
-    FROMJSON(rotation, Quat);
-    FROMJSON(scale, Vec3);
-}
-void to_json(json &j, const MaterialComponent &c)
-{
-    TOJSON(shader_source);
-    TOJSON(textures);
-    TOJSON(vec3s);
-    TOJSON(vec4s);
-    TOJSON(colors);
-    TOJSON(ints);
-    TOJSON(floats);
-}
-void from_json(const json &j, MaterialComponent &c)
-{
-    FROMJSON(shader_source, Vultr::ShaderSource)
-    FROMJSON(textures, std::vector<MaterialComponent::TexturePair>)
-    if (j.contains("vec3s"))
+
+    void to_json(json &j, const CameraComponent &c)
     {
-        c.vec3s = j["vec3s"].get<std::unordered_map<std::string, Vec3>>();
+        TOJSON(enabled);
+        TOJSON(fov);
+        TOJSON(znear);
+        TOJSON(zfar);
     }
-    if (j.contains("vec4s"))
+    void from_json(const json &j, CameraComponent &c)
     {
-        c.vec4s = j["vec4s"].get<std::unordered_map<std::string, Vec4>>();
+        FROMJSON(enabled, bool)
+        FROMJSON(fov, f32)
+        FROMJSON(znear, f32)
+        FROMJSON(zfar, f32)
     }
-    if (j.contains("colors"))
+    void to_json(json &j, const ControllerComponent &c)
     {
-        c.colors = j["colors"].get<std::unordered_map<std::string, Color>>();
+        TOJSON(sens);
     }
-    if (j.contains("ints"))
+    void from_json(const json &j, ControllerComponent &c)
     {
-        c.ints = j["ints"].get<std::unordered_map<std::string, s32>>();
+        FROMJSON(sens, f32)
     }
-    if (j.contains("floats"))
+    void to_json(json &j, const LightComponent &c)
     {
-        c.floats = j["floats"].get<std::unordered_map<std::string, f32>>();
+        TOJSON(type);
+        TOJSON(ambient);
+        TOJSON(diffuse);
+        TOJSON(specular);
+        TOJSON(constant);
+        TOJSON(linear);
+        TOJSON(quadratic);
     }
-}
-void to_json(json &j, const MaterialComponent::TexturePair &c)
-{
-    TOJSON(file);
-    TOJSON(slot);
-    TOJSON(name);
-}
-void from_json(const json &j, MaterialComponent::TexturePair &c)
-{
-    FROMJSON(file, Vultr::TextureSource)
-    FROMJSON(slot, u16)
-    FROMJSON(name, std::string)
-}
-void to_json(json &j, const Color &c)
-{
-    TOJSON(value);
-}
-void from_json(const json &j, Color &c)
-{
-    FROMJSON(value, Vec4)
-}
+    void from_json(const json &j, LightComponent &c)
+    {
+        FROMJSON(type, u8)
+        FROMJSON(ambient, Color)
+        FROMJSON(diffuse, Color)
+        FROMJSON(specular, f32)
+        FROMJSON(constant, f32)
+        FROMJSON(linear, f32)
+        FROMJSON(quadratic, f32)
+    }
+    void to_json(json &j, const SkyBoxComponent &c)
+    {
+        TOJSON(identifier);
+    }
+    void from_json(const json &j, SkyBoxComponent &c)
+    {
+        FROMJSON(identifier, std::string);
+    }
+    void to_json(json &j, const StaticMeshComponent &c)
+    {
+        TOJSON(source);
+    }
+    void from_json(const json &j, StaticMeshComponent &c)
+    {
+        FROMJSON(source, Vultr::ModelSource)
+    }
+    void to_json(json &j, const TransformComponent &c)
+    {
+        TOJSON(position);
+        TOJSON(rotation);
+        TOJSON(scale);
+    }
+    void from_json(const json &j, TransformComponent &c)
+    {
+        FROMJSON(position, Vec3);
+        FROMJSON(rotation, Quat);
+        FROMJSON(scale, Vec3);
+    }
+    void to_json(json &j, const MaterialComponent &c)
+    {
+        TOJSON(shader_source);
+        TOJSON(textures);
+        TOJSON(vec3s);
+        TOJSON(vec4s);
+        TOJSON(colors);
+        TOJSON(ints);
+        TOJSON(floats);
+    }
+    void from_json(const json &j, MaterialComponent &c)
+    {
+        FROMJSON(shader_source, Vultr::ShaderSource)
+        FROMJSON(textures, std::vector<MaterialComponent::TexturePair>)
+        if (j.contains("vec3s"))
+        {
+            c.vec3s = j["vec3s"].get<std::unordered_map<std::string, Vec3>>();
+        }
+        if (j.contains("vec4s"))
+        {
+            c.vec4s = j["vec4s"].get<std::unordered_map<std::string, Vec4>>();
+        }
+        if (j.contains("colors"))
+        {
+            c.colors = j["colors"].get<std::unordered_map<std::string, Color>>();
+        }
+        if (j.contains("ints"))
+        {
+            c.ints = j["ints"].get<std::unordered_map<std::string, s32>>();
+        }
+        if (j.contains("floats"))
+        {
+            c.floats = j["floats"].get<std::unordered_map<std::string, f32>>();
+        }
+    }
+    void to_json(json &j, const MaterialComponent::TexturePair &c)
+    {
+        TOJSON(file);
+        TOJSON(slot);
+        TOJSON(name);
+    }
+    void from_json(const json &j, MaterialComponent::TexturePair &c)
+    {
+        FROMJSON(file, Vultr::TextureSource)
+        FROMJSON(slot, u16)
+        FROMJSON(name, std::string)
+    }
+    void to_json(json &j, const Color &c)
+    {
+        TOJSON(value);
+    }
+    void from_json(const json &j, Color &c)
+    {
+        FROMJSON(value, Vec4)
+    }
 
 #define JSONCOMPONENTARRAY(T)                                                                                                                                                                                         \
     template <>                                                                                                                                                                                                       \
@@ -194,16 +197,14 @@ void from_json(const json &j, Color &c)
         size = j["size"].get<size_t>();                                                                                                                                                                               \
     }
 
-JSONCOMPONENTARRAY(CameraComponent)
-JSONCOMPONENTARRAY(ControllerComponent)
-JSONCOMPONENTARRAY(LightComponent)
-JSONCOMPONENTARRAY(SkyBoxComponent)
-JSONCOMPONENTARRAY(StaticMeshComponent)
-JSONCOMPONENTARRAY(TransformComponent)
-JSONCOMPONENTARRAY(MaterialComponent)
+    JSONCOMPONENTARRAY(CameraComponent)
+    JSONCOMPONENTARRAY(ControllerComponent)
+    JSONCOMPONENTARRAY(LightComponent)
+    JSONCOMPONENTARRAY(SkyBoxComponent)
+    JSONCOMPONENTARRAY(StaticMeshComponent)
+    JSONCOMPONENTARRAY(TransformComponent)
+    JSONCOMPONENTARRAY(MaterialComponent)
 
-namespace Vultr
-{
     void to_json(json &j, const Vultr::IComponentArray *a)
     {
         a->to_json(j);

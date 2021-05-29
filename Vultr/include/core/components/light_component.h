@@ -2,29 +2,32 @@
 #include <types/types.hpp>
 #include <core/models/color.h>
 
-struct LightComponent
+namespace Vultr
 {
-    const static u8 DirectionalLight = 0;
-    const static u8 PointLight = 1;
-    const static u8 SpotLight = 2;
-    static LightComponent Create()
+    struct LightComponent
     {
-        LightComponent component = LightComponent();
-        return component;
-    }
+        const static u8 DirectionalLight = 0;
+        const static u8 PointLight = 1;
+        const static u8 SpotLight = 2;
+        static LightComponent Create()
+        {
+            LightComponent component = LightComponent();
+            return component;
+        }
 
-    u8 type = DirectionalLight;
+        u8 type = DirectionalLight;
 
-    // Universal
-    Color ambient = Color();
-    Color diffuse = Color();
-    f32 specular = 1;
+        // Universal
+        Color ambient = Color();
+        Color diffuse = Color();
+        f32 specular = 1;
 
-    // Point
-    f32 constant = 0;
-    f32 linear = 0;
-    f32 quadratic = 0;
+        // Point
+        f32 constant = 0;
+        f32 linear = 0;
+        f32 quadratic = 0;
 
-    // Spot
-    // TBD
-};
+        // Spot
+        // TBD
+    };
+} // namespace Vultr

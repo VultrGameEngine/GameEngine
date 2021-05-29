@@ -6,6 +6,8 @@
 #include <gui/rendering/gui_renderer.h>
 #include <vultr.hpp>
 
+using namespace Vultr;
+using namespace GUI;
 class GUIRendererTest : public ::testing::Test
 {
   protected:
