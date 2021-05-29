@@ -1,4 +1,4 @@
-#include <ecs/world/world.hpp>
+﻿#include <ecs/world/world.hpp>
 #include <ecs/world/internal_world.hpp>
 #include <core/core_component_serialization.h>
 #include <helpers/file.h>
@@ -287,12 +287,12 @@ namespace Vultr
 
     void to_json(json &j, const File &f)
     {
-        j["path"] = f.path;
+        j["path"] = f.path.string();
         j["expected_extensions"] = f.expected_extensions;
     }
     void from_json(const json &j, File &f)
     {
-        f.path = j["path"].get<std::string>();
+        f.path = Path(j["path"].get<std::string>());
         if (j.contains("expected_extensions"))
             f.expected_extensions = j["expected_extensions"].get<std::vector<std::string>>();
     }
