@@ -53,7 +53,11 @@ int main(void)
         return 1;
     }
 
+#ifndef _WIN32
+    Directory build_directory = cwd / Directory("build");
+#else
     Directory build_directory = cwd / Directory("out\\build\\x64-Debug");
+#endif
 
     if (!std::filesystem::exists(build_directory.path))
     {
