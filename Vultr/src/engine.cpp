@@ -146,7 +146,6 @@ namespace Vultr
             ImGui::StyleColorsDark();
             ImGui_ImplGlfw_InitForOpenGL(e->window, true);
             ImGui_ImplOpenGL3_Init("#version 410");
-            io.Fonts->AddFontFromFileTTF(File("fonts/Roboto-Regular.ttf").path.string().c_str(), 30);
             ImGui::StyleColorsDark();
         }
 

@@ -14,6 +14,7 @@
 #endif
 
 INCBIN(fork_awesome, SOURCE_PATH "res/forkawesome-webfont.ttf");
+INCBIN(roboto, SOURCE_PATH "res/roboto.ttf");
 
 using namespace Vultr;
 int main(void)
@@ -88,7 +89,7 @@ int main(void)
     icons_config.MergeMode = true;
     icons_config.PixelSnapH = true;
     ImGuiIO &io = ImGui::GetIO();
-    // Editor::Get()->icon_large = io.Fonts->AddFontFromMemoryTTF((void *)gfork_awesome_data, gfork_awesome_size, 60.0f, &icons_config, icons_ranges);
+    io.Fonts->AddFontFromMemoryTTF((void *)groboto_data, groboto_size, 30);
     Editor::Get()->icon_small = io.Fonts->AddFontFromMemoryTTF((void *)gfork_awesome_data, gfork_awesome_size, 24.0f, &icons_config, icons_ranges);
 
     Editor::Get()->current_directory = resource_directory;
