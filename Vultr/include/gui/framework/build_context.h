@@ -143,7 +143,7 @@ namespace Vultr
                 input_receivers.erase(-p_zindex);
             }
 
-            bool SubmitMouseInputEvent(Input::MouseInputEvent event)
+            bool SubmitMouseInputEvent(MousePositionEvent event)
             {
                 for (auto [z, receiver] : input_receivers)
                 {
@@ -152,7 +152,7 @@ namespace Vultr
                 }
                 return false;
             }
-            bool SubmitMouseButtonInputEvent(Input::MouseButtonInputEvent event)
+            bool SubmitMouseButtonInputEvent(MouseButtonEvent event)
             {
                 for (auto [z, receiver] : input_receivers)
                 {
@@ -161,7 +161,7 @@ namespace Vultr
                 }
                 return false;
             }
-            bool SubmitScrollInputEvent(Input::ScrollInputEvent event)
+            bool SubmitScrollInputEvent(ScrollEvent event)
             {
                 for (auto [z, receiver] : input_receivers)
                 {

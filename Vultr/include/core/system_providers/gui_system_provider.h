@@ -7,6 +7,7 @@
 #include <rendering/models/shader.h>
 #include <helpers/shader_importer.h>
 #include <engine.hpp>
+#include <input/input.h>
 
 #define MAX_GROUPS 10
 

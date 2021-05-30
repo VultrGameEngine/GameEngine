@@ -10,4 +10,4 @@ obj/
 Makefile
 *.make
 generated/
-data.cpp
+VultrEditor/src/data.cpp

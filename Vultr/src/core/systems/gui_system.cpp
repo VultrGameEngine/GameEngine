@@ -11,6 +11,29 @@ namespace Vultr::GUISystem
         register_global_system<Component>(signature);
     }
 
+    bool receive_mouse_position_event(MousePositionEvent event)
+    {
+        auto &provider = get_provider();
+        return provider.context->SubmitMouseInputEvent(event);
+    }
+
+    bool receive_mouse_button_event(MouseButtonEvent event)
+    {
+        auto &provider = get_provider();
+        return provider.context->SubmitMouseButtonInputEvent(event);
+    }
+
+    bool receive_key_event(KeyEvent event)
+    {
+        return false;
+    }
+
+    bool receive_scroll_event(ScrollEvent event)
+    {
+        auto &provider = get_provider();
+        return provider.context->SubmitScrollInputEvent(event);
+    }
+
     void init(GUI::Window *window)
     {
         auto &provider = get_provider();
@@ -29,22 +52,11 @@ namespace Vultr::GUISystem
         provider.root_element = window->CreateElement(provider.context);
         provider.root_element->Rebuild(provider.context);
         provider.gui_shader = ShaderImporter::import_shader(ShaderSource("shaders/gui.glsl"));
-    }
 
-    bool receive_mouse_event(Input::MouseInputEvent event)
-    {
-        auto &provider = get_provider();
-        return provider.context->SubmitMouseInputEvent(event);
-    }
-    bool receive_mouse_button_event(Input::MouseButtonInputEvent event)
-    {
-        auto &provider = get_provider();
-        return provider.context->SubmitMouseButtonInputEvent(event);
-    }
-    bool receive_scroll_event(Input::ScrollInputEvent event)
-    {
-        auto &provider = get_provider();
-        return provider.context->SubmitScrollInputEvent(event);
+        // InputSystem::set_mouse_pos_listener(receive_mouse_position_event);
+        // InputSystem::set_mouse_button_listener(receive_mouse_button_event);
+        // InputSystem::set_scroll_listener(receive_scroll_event);
+        // InputSystem::set_key_listener(receive_key_event);
     }
 
     void update(UpdateTick tick)

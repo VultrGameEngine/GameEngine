@@ -37,20 +37,17 @@ namespace Vultr
 
           public:
             InputReceiver(Params params)
-                : on_hover(params.on_hover), on_unhover(params.on_unhover),
-                  on_mouse_down(params.on_mouse_down),
-                  on_mouse_up(params.on_mouse_up), bottom_right(Vec2(1, -1)),
-                  top_left(-1, 1), on_scroll(params.on_scroll)
+                : on_hover(params.on_hover), on_unhover(params.on_unhover), on_mouse_down(params.on_mouse_down), on_mouse_up(params.on_mouse_up), bottom_right(Vec2(1, -1)), top_left(-1, 1),
+                  on_scroll(params.on_scroll)
             {
             }
 
             bool InBounds(Vec2 pos)
             {
-                return pos.x > top_left.x && pos.x < bottom_right.x &&
-                       pos.y < top_left.y && pos.y > bottom_right.y;
+                return pos.x > top_left.x && pos.x < bottom_right.x && pos.y < top_left.y && pos.y > bottom_right.y;
             }
 
-            bool ReceiveMouseEvent(Input::MouseInputEvent event)
+            bool ReceiveMouseEvent(MousePositionEvent event)
             {
                 if (InBounds(event.pos))
                 {
@@ -86,9 +83,9 @@ namespace Vultr
                 return false;
             }
 
-            bool ReceiveMouseButtonEvent(Input::MouseButtonInputEvent event)
+            bool ReceiveMouseButtonEvent(MouseButtonEvent event)
             {
-                if (event.mouse_down)
+                if (event.action)
                 {
                     if (InBounds(event.pos))
                     {
@@ -98,8 +95,7 @@ namespace Vultr
                         // On mouse down
                         if (!state.mouse_down)
                         {
-                            if (on_mouse_down &&
-                                on_mouse_down(MouseDownEvent(event)))
+                            if (on_mouse_down && on_mouse_down(MouseDownEvent(event)))
                             {
                                 state.mouse_down = true;
                                 return true;
@@ -146,7 +142,7 @@ namespace Vultr
                     }
                 }
             }
-            bool ReceiveScrollEvent(Input::ScrollInputEvent event)
+            bool ReceiveScrollEvent(ScrollEvent event)
             {
                 if (InBounds(event.pos))
                 {
