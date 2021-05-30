@@ -39,7 +39,7 @@ int main(void)
 
     if (files.find(vultr_helper) == files.end())
     {
-        std::cout << "No VultrHelper found in current working directory!" << std::endl;
+        std::cout << "No VultrHelper found in current working directory " << cwd.path.string() << std::endl;
         return 1;
     }
     auto _sd = directory_get_sub_directories(cwd);
@@ -49,7 +49,7 @@ int main(void)
 
     if (sub_directories.find(resource_directory) == sub_directories.end())
     {
-        std::cout << "No resource directory found in current working directory!" << std::endl;
+        std::cout << "No resource directory found in current working directory " << cwd.path.string() << std::endl;
         return 1;
     }
 
@@ -61,7 +61,7 @@ int main(void)
 
     if (!std::filesystem::exists(build_directory.path))
     {
-        std::cout << "No build directory found in current working directory!" << std::endl;
+        std::cout << "No build directory found in current working directory " << cwd.path.string() << std::endl;
         return 1;
     }
 
@@ -76,7 +76,7 @@ int main(void)
 
     if (build_files.find(dll) == build_files.end())
     {
-        std::cout << "No DLL found in build directory" << std::endl;
+        std::cout << "No DLL found in build directory " << cwd.path.string() << std::endl;
         return 1;
     }
     float lastTime = 0;
