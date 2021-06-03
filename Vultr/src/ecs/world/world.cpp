@@ -287,14 +287,14 @@ namespace Vultr
 
     void to_json(json &j, const File &f)
     {
-        j["path"] = f.path.string();
+        j["path"] = file_get_relative_path(f).string();
         j["expected_extensions"] = f.expected_extensions;
     }
+
     void from_json(const json &j, File &f)
     {
-        f.path = Path(j["path"].get<std::string>());
-        if (j.contains("expected_extensions"))
-            f.expected_extensions = j["expected_extensions"].get<std::vector<std::string>>();
+        f.path = file_get_relative_path(File(j["path"].get<std::string>())).string();
+        f.expected_extensions = j["expected_extensions"].get<std::vector<std::string>>();
     }
 
     void component_manager_to_json(json &j, const ComponentManager &m, const ComponentRegistry &r)

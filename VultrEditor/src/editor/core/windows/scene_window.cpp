@@ -17,23 +17,25 @@
 using namespace Vultr;
 static void change_editing_mode()
 {
-    if (InputSystem::key_down('q'))
+    if (InputSystem::get_key(Input::KEY_Q))
     {
         Editor::Editor::Get()->current_operation = ImGuizmo::OPERATION::TRANSLATE;
     }
-    else if (InputSystem::key_down('w'))
+    else if (InputSystem::get_key(Input::KEY_W))
     {
         Editor::Editor::Get()->current_operation = ImGuizmo::OPERATION::ROTATE;
     }
-    else if (InputSystem::key_down('e'))
+    else if (InputSystem::get_key(Input::KEY_E))
     {
         Editor::Editor::Get()->current_operation = ImGuizmo::OPERATION::SCALE;
     }
 }
 
-static void OnMouseClick(int button)
+static void on_mouse_click(MouseButtonEvent event)
 {
-    if (button != GLFW_MOUSE_BUTTON_LEFT)
+    if (event.button != Input::MOUSE_LEFT)
+        return;
+    if (!InputSystem::mouse_is_on_screen(InputSystem::get_provider().scene_mouse_pos))
         return;
     Vec2 pos = InputSystem::get_provider().scene_mouse_pos * RenderSystem::get_dimensions(SCENE);
     Entity entity = RenderSystem::get_entity_at_pixel(pos.x, pos.y);
@@ -41,53 +43,43 @@ static void OnMouseClick(int button)
         Editor::Get()->selected_entity = entity;
 }
 
-static void on_key_press(int key, int scancode, int action, int mods)
+static void on_key_press(KeyEvent event)
 {
-    bool ctrl_down = glfwGetKey(engine_global()->window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS || glfwGetKey(engine_global()->window, GLFW_KEY_RIGHT_CONTROL) == GLFW_PRESS;
-    bool shift_down = glfwGetKey(engine_global()->window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS || glfwGetKey(engine_global()->window, GLFW_KEY_RIGHT_SHIFT) == GLFW_PRESS;
-    static bool actioned_last_frame = false;
-    if (key == GLFW_KEY_S && action == GLFW_PRESS && ctrl_down && !actioned_last_frame)
+    bool ctrl_down = InputSystem::get_key(Input::KEY_LEFT_CONTROL) || InputSystem::get_key(Input::KEY_RIGHT_CONTROL);
+    bool shift_down = InputSystem::get_key(Input::KEY_LEFT_SHIFT) || InputSystem::get_key(Input::KEY_RIGHT_SHIFT);
+    if (event.key == Input::KEY_S && event.action == Input::PRESS && ctrl_down)
     {
-        actioned_last_frame = true;
         Editor::Save();
         std::cout << "Saved! \n";
     }
-    else if (key == GLFW_KEY_D && action == GLFW_PRESS && ctrl_down && !actioned_last_frame)
+    else if (event.key == Input::KEY_D && event.action == Input::PRESS && ctrl_down)
     {
-        actioned_last_frame = true;
         Editor::DuplicateEntity();
         std::cout << "Duplicated! \n";
     }
-    else if (key == GLFW_KEY_Z && action == GLFW_PRESS && ctrl_down && !actioned_last_frame)
+    else if (event.key == Input::KEY_Z && event.action == Input::PRESS && ctrl_down)
     {
         if (shift_down)
         {
-            actioned_last_frame = true;
             Editor::Redo();
             std::cout << "Redo! \n";
         }
         else
         {
-            actioned_last_frame = true;
             Editor::Undo();
             std::cout << "Undo! \n";
         }
     }
-    else if (key == GLFW_KEY_DELETE && action == GLFW_PRESS && Editor::Get()->selected_entity != INVALID_ENTITY && !actioned_last_frame)
+    else if (event.key == Input::KEY_DELETE && event.action == Input::PRESS && Editor::Get()->selected_entity != INVALID_ENTITY)
     {
-        actioned_last_frame = true;
         Editor::DeleteEntity();
-    }
-    else if (actioned_last_frame)
-    {
-        actioned_last_frame = false;
     }
 }
 
 SceneWindow::SceneWindow()
 {
-    InputSystem::on_mouse_click("SceneWindow", OnMouseClick);
-    InputSystem::on_key_press("SceneWindow", on_key_press);
+    InputSystem::set_mouse_button_listener(on_mouse_click);
+    InputSystem::set_key_listener(on_key_press);
 }
 
 void SceneWindow::Render()
@@ -106,8 +98,6 @@ void SceneWindow::Render()
     ImVec2 position = ImGui::GetCursorScreenPos();
     RenderSystem::update_viewport_pos(position.x, position.y, SCENE);
 
-    InputSystem::get_provider().scene_window_focused = ImGui::IsWindowFocused();
-
     // Get rid of incorrect warnings
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wint-to-void-pointer-cast"
@@ -123,7 +113,7 @@ void SceneWindow::Render()
     // Get the currently selected entity in the EntityWindow
     Entity selected_entity = Editor::Get()->selected_entity;
 
-    if (InputSystem::get_provider().scene_window_focused && selected_entity != INVALID_ENTITY)
+    if (selected_entity != INVALID_ENTITY)
     {
 
         // ImGuizmo rendering

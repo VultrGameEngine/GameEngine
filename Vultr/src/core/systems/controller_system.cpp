@@ -22,7 +22,7 @@ namespace Vultr::ControllerSystem
 
         auto &controller_component = CameraSystem::get_provider().scene_camera.controller_component;
 
-        if (!InputSystem::get_provider().scene_window_focused)
+        if (!InputSystem::mouse_is_on_screen(InputSystem::get_provider().scene_mouse_pos))
             return;
 
         ControllerSystem::Component &provider = get_provider();

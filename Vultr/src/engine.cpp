@@ -195,7 +195,7 @@ namespace Vultr
         InputSystem::register_system();
         FontSystem::register_system();
         FontSystem::init();
-        InputSystem::init(e->window);
+        InputSystem::init();
 
         ControllerSystem::init(e->window);
         glfwSetWindowFocusCallback(e->window, ControllerSystem::window_focus_callback);

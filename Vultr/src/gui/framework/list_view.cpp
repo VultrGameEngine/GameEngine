@@ -10,7 +10,7 @@ namespace Vultr
         {
             receiver = new InputReceiver({});
             receiver->on_scroll = [this](ScrollEvent event) {
-                AccumulateScroll(-event.scroll_amount.y * 20);
+                AccumulateScroll(-event.scroll_dir.y * 20);
                 MarkForRepaint();
                 return true;
             };

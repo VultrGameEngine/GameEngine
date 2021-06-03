@@ -11,11 +11,6 @@ namespace Vultr
     {
         struct Component : public SystemProvider
         {
-            // Array holding the current states of different input
-            // the index is the button and the value is the action, either released or pressed
-            s16 key_states[348];
-            s16 mouse_button_states[8];
-
             Input::MousePos mouse_pos = Input::MousePos(0, 0);
             Input::MousePos scene_mouse_pos = Input::MousePos(0, 0);
 
@@ -38,6 +33,9 @@ namespace Vultr
 
         Input::Action get_key(Input::Key key);
         Input::Action get_mouse_button(Input::MouseButton button);
+
+        bool mouse_is_on_screen();
+        bool mouse_is_on_screen(Vec2 pos);
 
         void set_mouse_pos_listener(OnMousePositionChange listener);
         void deregister_mouse_pos_listener(OnMousePositionChange listener);

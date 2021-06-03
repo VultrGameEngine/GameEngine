@@ -9,8 +9,9 @@ namespace Vultr
     // On Hover
     struct HoverEvent
     {
-        HoverEvent(MousePositionEvent event) : pos(event.pos), mouse_down(event.action)
+        HoverEvent(MousePositionEvent event) : pos(event.pos)
         {
+            mouse_down = InputSystem::get_mouse_button(Input::MOUSE_LEFT);
         }
         Vec2 pos;
         bool mouse_down;
@@ -26,8 +27,9 @@ namespace Vultr
     // On Unhover
     struct UnhoverEvent
     {
-        UnhoverEvent(MousePositionEvent event) : pos(event.pos), mouse_down(event.action)
+        UnhoverEvent(MousePositionEvent event) : pos(event.pos)
         {
+            mouse_down = InputSystem::get_mouse_button(Input::MOUSE_LEFT);
         }
         Vec2 pos;
         bool mouse_down;

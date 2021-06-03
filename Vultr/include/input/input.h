@@ -130,9 +130,9 @@ namespace Vultr
 
         enum MouseButton : s16
         {
-            LEFT = 0,
-            RIGHT = 1,
-            MIDDLE = 2,
+            MOUSE_LEFT = 0,
+            MOUSE_RIGHT = 1,
+            MOUSE_MIDDLE = 2,
             MOUSE_BUTTON_4 = 3,
             MOUSE_BUTTON_5 = 4,
             MOUSE_BUTTON_6 = 5,
@@ -143,14 +143,14 @@ namespace Vultr
         enum Action : s16
         {
             RELEASE = 0,
-            PRESS = 1
+            PRESS = 1,
+            REPEAT = 2,
         };
     } // namespace Input
 
     struct MousePositionEvent
     {
         Input::MousePos pos;
-        Input::Action action;
     };
     typedef void (*OnMousePositionChange)(MousePositionEvent);
 

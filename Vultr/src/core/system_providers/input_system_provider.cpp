@@ -10,12 +10,22 @@ namespace Vultr::InputSystem
 
     Input::Action get_key(Input::Key key)
     {
-        return static_cast<Input::Action>(get_provider().key_states[key]);
+        return static_cast<Input::Action>(glfwGetKey(engine_global()->window, key));
     }
 
     Input::Action get_mouse_button(Input::MouseButton button)
     {
-        return static_cast<Input::Action>(get_provider().mouse_button_states[button]);
+        return static_cast<Input::Action>(glfwGetMouseButton(engine_global()->window, button));
+    }
+
+    bool mouse_is_on_screen()
+    {
+        return mouse_is_on_screen(get_provider().mouse_pos);
+    }
+
+    bool mouse_is_on_screen(Vec2 pos)
+    {
+        return pos.x <= 1 && pos.x >= 0 && pos.y <= 1 && pos.y >= 0;
     }
 
 #define LISTENER_REGISTERED_TWICE_ERROR "Listener already registered! Deregister your mouse position listener by calling "
