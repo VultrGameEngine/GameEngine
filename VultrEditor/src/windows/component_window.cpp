@@ -1,17 +1,22 @@
-﻿#include <editor/core/windows/component_window.hpp>
-#include <imgui/imgui.h>
-#include <editor/editor.hpp>
-#include <engine.hpp>
+﻿#include <windows/component_window.h>
 
 using namespace Vultr;
-void ComponentWindow::Render()
+
+void register_component_window()
+{
+    void *state = static_cast<void *>(nullptr);
+    WindowRenderer renderer = component_window_render;
+    editor_register_window(component_window_render, state);
+}
+
+void component_window_render(const UpdateTick &tick, void *state)
 {
     ImGui::Begin("Inspector");
-    Entity entity = Editor::Get()->selected_entity;
+    Entity entity = get_editor().selected_entity;
     if (entity != INVALID_ENTITY)
     {
         auto &registry = engine_global()->component_registry;
-        component_registry_render_entity_components(registry, Editor::Get()->selected_entity);
+        component_registry_render_entity_components(registry, entity);
         if (ImGui::Button("Add Component"))
         {
             ImGui::OpenPopup("ComponentList");

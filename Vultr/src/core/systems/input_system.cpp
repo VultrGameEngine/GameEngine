@@ -22,25 +22,10 @@ namespace Vultr::InputSystem
             .button = static_cast<Input::MouseButton>(button),
             .action = static_cast<Input::Action>(action),
         };
-        p.internal_mouse_button_event_queue.push(event);
-    }
-
-    static void handle_mouse_button_events()
-    {
-        auto &p = get_provider();
-        auto &queue = p.internal_mouse_button_event_queue;
-        while (!queue.empty())
+        GUISystem::receive_mouse_button_event(event);
+        for (auto &listener : p.mouse_button_listeners)
         {
-            auto &event = queue.front();
-
-            if (!GUISystem::receive_mouse_button_event(event))
-            {
-                for (auto &listener : p.mouse_button_listeners)
-                {
-                    listener(event);
-                }
-            }
-            queue.pop();
+            listener(event);
         }
     }
 
@@ -52,37 +37,17 @@ namespace Vultr::InputSystem
             .pos = p.mouse_pos,
             .scroll_dir = dir,
         };
-        p.internal_scroll_event_queue.push(event);
-    }
 
-    static void handle_scroll_events()
-    {
-        auto &p = get_provider();
-        auto &queue = p.internal_scroll_event_queue;
-        while (!queue.empty())
+        GUISystem::receive_scroll_event(event);
+        for (auto &listener : p.scroll_listeners)
         {
-            auto &event = queue.front();
-
-            if (!GUISystem::receive_scroll_event(event))
-            {
-                for (auto &listener : p.scroll_listeners)
-                {
-                    listener(event);
-                }
-            }
-            queue.pop();
+            listener(event);
         }
     }
 
     static void on_scroll(GLFWwindow *window, double xamount, double yamount)
     {
-        auto &p = get_provider();
         add_scroll_input(Vec2(xamount, yamount));
-        ScrollEvent event = {
-            .pos = p.mouse_pos,
-            .scroll_dir = Input::ScrollDir(xamount, yamount),
-        };
-        p.internal_scroll_event_queue.push(event);
         ImGui_ImplGlfw_ScrollCallback(window, xamount, yamount);
     }
 
@@ -93,31 +58,11 @@ namespace Vultr::InputSystem
             .key = static_cast<Input::Key>(key),
             .action = static_cast<Input::Action>(action),
         };
-        p.internal_key_event_queue.push(event);
-        // for (auto [name, event] : provider.key_press_events)
-        // {
-        //     event(key, scancode, action, mods);
-        // }
-    } // namespace Vultr::InputSystem
-
-    static void handle_key_events()
-    {
-        auto &p = get_provider();
-        auto &queue = p.internal_key_event_queue;
-        while (!queue.empty())
+        for (auto &listener : p.key_listeners)
         {
-            auto &event = queue.front();
-
-            // if (!GUISystem::receive_scroll_event(event))
-            // {
-            for (auto &listener : p.key_listeners)
-            {
-                listener(event);
-            }
-            // }
-            queue.pop();
+            listener(event);
         }
-    }
+    } // namespace Vultr::InputSystem
 
     void init()
     {
@@ -132,9 +77,6 @@ namespace Vultr::InputSystem
     {
         auto &p = get_provider();
         auto *window = engine_global()->window;
-        handle_mouse_button_events();
-        handle_key_events();
-        handle_scroll_events();
 
         // These are x and y doubles that will be used to retreive the current mouse pos
         // they will later be put into a Vec2. They have to be separate vars because

@@ -5,8 +5,11 @@
 #pragma once
 #include <types/types.hpp>
 
-struct UpdateTick;
-struct ViewportData;
+namespace Vultr 
+{
+    struct UpdateTick;
+    struct ViewportData;
+}
 
 namespace Vultr::RenderSystem
 {

@@ -8,9 +8,49 @@ namespace Vultr::InputSystem
         return *get_global_system_provider<Component>();
     }
 
+    static Input::Action get_action_from_keys(Input::Key k1, Input::Key k2)
+    {
+        s32 k1A = glfwGetKey(engine_global()->window, k1);
+        s32 k2A = glfwGetKey(engine_global()->window, k2);
+        if (k1A || k2A)
+        {
+            if (k1A > k2A)
+            {
+                return static_cast<Input::Action>(k1A);
+            }
+            else
+            {
+                return static_cast<Input::Action>(k2A);
+            }
+        }
+        else
+        {
+            return Input::RELEASE;
+        }
+    }
+
     Input::Action get_key(Input::Key key)
     {
-        return static_cast<Input::Action>(glfwGetKey(engine_global()->window, key));
+        if (key == Input::KEY_SHIFT)
+        {
+            return get_action_from_keys(Input::KEY_LEFT_SHIFT, Input::KEY_RIGHT_SHIFT);
+        }
+        else if (key == Input::KEY_CONTROL)
+        {
+            return get_action_from_keys(Input::KEY_LEFT_CONTROL, Input::KEY_RIGHT_CONTROL);
+        }
+        else if (key == Input::KEY_ALT)
+        {
+            return get_action_from_keys(Input::KEY_LEFT_ALT, Input::KEY_RIGHT_ALT);
+        }
+        else if (key == Input::KEY_SUPER)
+        {
+            return get_action_from_keys(Input::KEY_LEFT_SUPER, Input::KEY_RIGHT_SUPER);
+        }
+        else
+        {
+            return static_cast<Input::Action>(glfwGetKey(engine_global()->window, key));
+        }
     }
 
     Input::Action get_mouse_button(Input::MouseButton button)

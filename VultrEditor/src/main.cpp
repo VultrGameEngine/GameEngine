@@ -1,5 +1,5 @@
 ﻿#include <vultr.hpp>
-#include <editor/editor.hpp>
+#include <editor.h>
 #include <iostream>
 #include <helpers/path.h>
 #include <helpers/directory.h>
@@ -8,6 +8,11 @@
 #include <incbin/incbin.h>
 #include <helpers/texture_importer.h>
 #include <set>
+#include <windows/asset_browser.h>
+#include <windows/component_window.h>
+#include <windows/entity_window.h>
+#include <windows/game_window.h>
+#include <windows/scene_window.h>
 
 #ifndef SOURCE_PATH
 #define SOURCE_PATH "INVALID SOURCE"
@@ -97,7 +102,7 @@ int main(void)
 
     engine_global()->game->RegisterComponents();
     vultr->game->SetImGuiContext(ImGui::GetCurrentContext());
-    engine_global()->on_edit = Editor::OnEdit;
+    engine_global()->on_edit = on_edit;
 
     static const ImWchar icons_ranges[] = {ICON_MIN_FK, ICON_MAX_FK, 0};
     ImFontConfig icons_config;
@@ -105,14 +110,18 @@ int main(void)
     icons_config.PixelSnapH = true;
     ImGuiIO &io = ImGui::GetIO();
     io.Fonts->AddFontFromMemoryTTF((void *)groboto_data, groboto_size, 30);
-    Editor::Get()->icon_small = io.Fonts->AddFontFromMemoryTTF((void *)gfork_awesome_data, gfork_awesome_size, 24.0f, &icons_config, icons_ranges);
+    io.Fonts->AddFontFromMemoryTTF((void *)gfork_awesome_data, gfork_awesome_size, 24.0f, &icons_config, icons_ranges);
 
-    Editor::Get()->current_directory = resource_directory;
+    register_asset_browser(resource_directory);
+    register_component_window();
+    register_entity_window();
+    register_game_window();
+    register_scene_window();
 
     while (!vultr->should_close)
     {
-        engine_update_game(vultr, lastTime, Editor::Get()->playing);
-        Editor::Get()->Render();
+        engine_update_game(vultr, lastTime, get_editor().game_manager.playing);
+        editor_render();
         glfwSwapBuffers(vultr->window);
         glfwPollEvents();
     }

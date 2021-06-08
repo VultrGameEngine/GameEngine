@@ -1,13 +1,14 @@
-#include <core/system_providers/render_system_provider.h>
-#include <core/systems/render_system.h>
-#include <editor/core/windows/game_window.hpp>
-
-#include <imgui/imgui.h>
-
-#include <glad/glad.h>
+#include <windows/game_window.h>
 
 using namespace Vultr;
-void GameWindow::Render()
+void register_game_window()
+{
+    void *state = static_cast<void *>(nullptr);
+    WindowRenderer renderer = game_window_render;
+    editor_register_window(renderer, state);
+}
+
+void game_window_render(const UpdateTick &tick, void *state)
 {
     RenderSystem::get_provider().game.render_texture->Bind(GL_TEXTURE0);
     ImGui::Begin("Game");

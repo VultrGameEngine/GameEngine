@@ -17,12 +17,6 @@ namespace Vultr
             // Internal
             std::queue<Vec2> internal_scroll_queue;
 
-            // Event queue, to make sure things are synchronous and we don't have thread issues with glfw calling our events randomly
-            std::queue<MousePositionEvent> internal_mouse_position_event_queue;
-            std::queue<MouseButtonEvent> internal_mouse_button_event_queue;
-            std::queue<ScrollEvent> internal_scroll_event_queue;
-            std::queue<KeyEvent> internal_key_event_queue;
-
             std::vector<OnMousePositionChange> mouse_position_listeners;
             std::vector<OnMouseButton> mouse_button_listeners;
             std::vector<OnScroll> scroll_listeners;

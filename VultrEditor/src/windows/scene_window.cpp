@@ -1,35 +1,16 @@
-﻿#include <core/system_providers/render_system_provider.h>
+﻿#include <windows/scene_window.h>
+#include <editor.h>
+#include <core/system_providers/render_system_provider.h>
 #include <core/systems/render_system.h>
 #include <core/system_providers/camera_system_provider.h>
 #include <core/system_providers/input_system_provider.h>
 #include <math/decompose_transform.h>
-#include <editor/core/windows/scene_window.hpp>
-#include <editor/editor.hpp>
 #include <ImGuizmo/ImGuizmo.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include <engine.hpp>
-
-#include <imgui/imgui.h>
-
-#include <glad/glad.h>
+#include <core/models/event.h>
 
 using namespace Vultr;
-static void change_editing_mode()
-{
-    if (InputSystem::get_key(Input::KEY_Q))
-    {
-        Editor::Editor::Get()->current_operation = ImGuizmo::OPERATION::TRANSLATE;
-    }
-    else if (InputSystem::get_key(Input::KEY_W))
-    {
-        Editor::Editor::Get()->current_operation = ImGuizmo::OPERATION::ROTATE;
-    }
-    else if (InputSystem::get_key(Input::KEY_E))
-    {
-        Editor::Editor::Get()->current_operation = ImGuizmo::OPERATION::SCALE;
-    }
-}
 
 static void on_mouse_click(MouseButtonEvent event)
 {
@@ -40,50 +21,107 @@ static void on_mouse_click(MouseButtonEvent event)
     Vec2 pos = InputSystem::get_provider().scene_mouse_pos * RenderSystem::get_dimensions(SCENE);
     Entity entity = RenderSystem::get_entity_at_pixel(pos.x, pos.y);
     if (entity != INVALID_ENTITY)
-        Editor::Get()->selected_entity = entity;
+        get_editor().selected_entity = entity;
+}
+
+static SceneWindow *&get_scene_window()
+{
+    static SceneWindow *window = nullptr;
+    return window;
 }
 
 static void on_key_press(KeyEvent event)
 {
-    bool ctrl_down = InputSystem::get_key(Input::KEY_LEFT_CONTROL) || InputSystem::get_key(Input::KEY_RIGHT_CONTROL);
-    bool shift_down = InputSystem::get_key(Input::KEY_LEFT_SHIFT) || InputSystem::get_key(Input::KEY_RIGHT_SHIFT);
-    if (event.key == Input::KEY_S && event.action == Input::PRESS && ctrl_down)
+    if (event.action != Input::PRESS)
+        return;
+    switch (event.key)
     {
-        Editor::Save();
-        std::cout << "Saved! \n";
-    }
-    else if (event.key == Input::KEY_D && event.action == Input::PRESS && ctrl_down)
-    {
-        Editor::DuplicateEntity();
-        std::cout << "Duplicated! \n";
-    }
-    else if (event.key == Input::KEY_Z && event.action == Input::PRESS && ctrl_down)
-    {
-        if (shift_down)
+        case Input::KEY_S:
         {
-            Editor::Redo();
-            std::cout << "Redo! \n";
+            if (InputSystem::get_key(Input::KEY_CONTROL))
+            {
+                save();
+                std::cout << "Saved! \n";
+            }
+            break;
         }
-        else
+        case Input::KEY_D:
         {
-            Editor::Undo();
-            std::cout << "Undo! \n";
+            if (InputSystem::get_key(Input::KEY_CONTROL))
+            {
+                duplicate_entity();
+                std::cout << "Duplicated! \n";
+            }
+            break;
         }
-    }
-    else if (event.key == Input::KEY_DELETE && event.action == Input::PRESS && Editor::Get()->selected_entity != INVALID_ENTITY)
-    {
-        Editor::DeleteEntity();
+        case Input::KEY_Z:
+        {
+            if (InputSystem::get_key(Input::KEY_CONTROL))
+            {
+                if (InputSystem::get_key(Input::KEY_SHIFT))
+                {
+                    redo();
+                    std::cout << "Redo! \n";
+                }
+                else
+                {
+                    undo();
+                    std::cout << "Undo! \n";
+                }
+            }
+            break;
+        }
+        case Input::KEY_DELETE:
+        {
+            if (get_editor().selected_entity != INVALID_ENTITY)
+            {
+                delete_entity();
+            }
+            break;
+        }
+        case Input::KEY_Q:
+        {
+            if (InputSystem::get_mouse_button(Input::MOUSE_RIGHT))
+            {
+                get_scene_window()->current_operation = ImGuizmo::OPERATION::TRANSLATE;
+            }
+            break;
+        }
+        case Input::KEY_W:
+        {
+            if (InputSystem::get_mouse_button(Input::MOUSE_RIGHT))
+            {
+                get_scene_window()->current_operation = ImGuizmo::OPERATION::ROTATE;
+            }
+            break;
+        }
+        case Input::KEY_E:
+        {
+            if (InputSystem::get_mouse_button(Input::MOUSE_RIGHT))
+            {
+                get_scene_window()->current_operation = ImGuizmo::OPERATION::SCALE;
+            }
+            break;
+        }
+        default:
+            break;
     }
 }
 
-SceneWindow::SceneWindow()
+void register_scene_window()
 {
+    void *state = static_cast<void *>(new SceneWindow());
+    get_scene_window() = static_cast<SceneWindow *>(state);
+    editor_register_window(scene_window_render, state);
     InputSystem::set_mouse_button_listener(on_mouse_click);
     InputSystem::set_key_listener(on_key_press);
 }
 
-void SceneWindow::Render()
+void scene_window_render(const UpdateTick &tick, void *_state)
 {
+    // General state things
+    auto *state = static_cast<SceneWindow *>(_state);
+
     // Save the system providers here for easy access
     auto &render_system_provider = RenderSystem::get_provider();
     auto &camera_system_provider = CameraSystem::get_provider();
@@ -107,11 +145,8 @@ void SceneWindow::Render()
 
 #pragma clang diagnostic pop
 
-    // Update the editing mode based on the user input in the editor
-    change_editing_mode();
-
     // Get the currently selected entity in the EntityWindow
-    Entity selected_entity = Editor::Get()->selected_entity;
+    Entity selected_entity = get_editor().selected_entity;
 
     if (selected_entity != INVALID_ENTITY)
     {
@@ -134,11 +169,6 @@ void SceneWindow::Render()
         // Entity transform
         auto *tc = entity_get_component_unsafe<TransformComponent>(selected_entity);
 
-        // TODO Fix this, there is an issue where entity_get_component will cause an assert and crash the editor, I'm not entirely sure what the issue is because it doesn't seem like anything is dependent on the
-        // selected_entity of the editor thus no threading issues it seems?
-        //
-        // In the mean time, use entity_get_component_unsafe just to make sure that the editor doesn't crash and simply quietly handles it, will fix it if it does actually cause problems
-        //
         // If an entity is selected
         if (tc != nullptr)
         {
@@ -146,16 +176,16 @@ void SceneWindow::Render()
             static bool was_using_guizmo = false;
             static TransformComponent copy;
 
-            // Snapping
-            // bool snap = Input::IsKeyPressed(Key::LeftControl);
-            // float snapValue = 0.5f; // Snap to 0.5m for translation/scale
-            // // Snap to 45 degrees for rotation
-            // if (m_GizmoType == ImGuizmo::OPERATION::ROTATE)
-            //     snapValue = 45.0f;
+            bool snap = InputSystem::get_key(Input::KEY_SHIFT) > 0;
+            float snap_value = 0.5f;
 
-            // float snapValues[3] = {snapValue, snapValue, snapValue};
+            if (state->current_operation == ImGuizmo::OPERATION::ROTATE)
+                snap_value = 45.0f;
 
-            ImGuizmo::Manipulate(glm::value_ptr(cameraView), glm::value_ptr(cameraProjection), (ImGuizmo::OPERATION)Editor::Get()->current_operation, ImGuizmo::LOCAL, glm::value_ptr(transform), nullptr, nullptr);
+            float snap_values[3] = {snap_value, snap_value, snap_value};
+
+            ImGuizmo::Manipulate(glm::value_ptr(cameraView), glm::value_ptr(cameraProjection), (ImGuizmo::OPERATION)state->current_operation, ImGuizmo::LOCAL, glm::value_ptr(transform), nullptr,
+                                 snap ? snap_values : nullptr);
 
             if (ImGuizmo::IsUsing())
             {

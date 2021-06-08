@@ -1,16 +1,19 @@
-﻿#include <editor/core/windows/entity_window.hpp>
-#include <editor/editor.hpp>
-#include <imgui/imgui.h>
-#include <engine.hpp>
-#include <fonts/fork_awesome.h>
+﻿#include <windows/entity_window.h>
 
 using namespace Vultr;
-void EntityWindow::Render()
+void register_entity_window()
+{
+    void *state = static_cast<void *>(nullptr);
+    WindowRenderer renderer = entity_window_render;
+    editor_register_window(renderer, state);
+}
+
+void entity_window_render(const Vultr::UpdateTick &tick, void *state)
 {
     ImGui::Begin("Hierarchy");
     if (ImGui::Button("Undo"))
     {
-        Editor::Undo();
+        undo();
     }
     if (ImGui::Button("Add Entity"))
     {
@@ -22,9 +25,9 @@ void EntityWindow::Render()
     {
         if (get_entity_signature(get_current_world(), entity) != empty)
         {
-            if (ImGui::Selectable((ICON_FK_CODE "Entity " + std::to_string(entity)).c_str(), Editor::Get()->selected_entity == entity))
+            if (ImGui::Selectable(("Entity " + std::to_string(entity)).c_str(), get_editor().selected_entity == entity))
             {
-                Editor::Get()->selected_entity = Entity(entity);
+                get_editor().selected_entity = Entity(entity);
                 if (ImGui::BeginPopupContextWindow())
                 {
                     if (ImGui::MenuItem("New camera"))

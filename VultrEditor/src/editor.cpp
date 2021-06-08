@@ -1,82 +1,24 @@
 ﻿#include <vultr.hpp>
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
 #include <core/systems/render_system.h>
-#include <editor/core/windows/component_window.hpp>
-#include <editor/core/windows/game_window.hpp>
-#include <editor/core/windows/scene_window.hpp>
-#include <editor/core/windows/entity_window.hpp>
-#include <editor/core/windows/asset_browser.hpp>
-#include <editor/editor.hpp>
+#include <windows/component_window.h>
+#include <windows/game_window.h>
+#include <windows/scene_window.h>
+#include <windows/entity_window.h>
+#include <windows/asset_browser.h>
+#include <editor.h>
 #include <imgui/imgui.h>
 #include <imgui/imgui_impl_glfw.h>
 #include <imgui/imgui_impl_opengl3.h>
 #include <ImGuizmo/ImGuizmo.h>
 #include <ecs/world/internal_world.hpp>
 #include <stb_image/stb_image.h>
-#define INCBIN_STYLE INCBIN_STYLE_SNAKE
-#include <incbin/incbin.h>
-
-#ifndef SOURCE_PATH
-#define SOURCE_PATH "INVALID SOURCE"
-#endif
-
-#ifndef _WIN32
-INCBIN(folder_icon, SOURCE_PATH "res/folder.png");
-INCBIN(file_icon, SOURCE_PATH "res/document.png");
-INCBIN(c_icon, SOURCE_PATH "res/c.png");
-INCBIN(image_icon, SOURCE_PATH "res/image.png");
-INCBIN(shader_icon, SOURCE_PATH "res/s.png");
-INCBIN(model_icon, SOURCE_PATH "res/3D.png");
-INCBIN(vultr_icon, SOURCE_PATH "res/temp_vultr_icon.png");
-#else
-INCBIN(folder_icon, "../res/folder.png");
-INCBIN(file_icon, "../res/document.png");
-INCBIN(c_icon, "../res/c.png");
-INCBIN(image_icon, "../res/image.png");
-INCBIN(shader_icon, "../res/s.png");
-INCBIN(model_icon, "../res/3D.png");
-INCBIN(vultr_icon,"../res/temp_vultr_icon.png");
-#endif
 
 using namespace Vultr;
-Editor::Editor() : selected_entity(Entity(0)), current_directory(get_working_directory().string())
+Editor::Editor() : selected_entity(Entity(0))
 {
-    windows.push_back(new GameWindow());
-    windows.push_back(new SceneWindow());
-    windows.push_back(new ComponentWindow());
-    windows.push_back(new EntityWindow());
-    windows.push_back(new AssetBrowser());
-
-    folder_icon = new Texture(GL_TEXTURE_2D);
-    TextureImporter::import(gfolder_icon_data, gfolder_icon_size, *folder_icon);
-
-    file_icon = new Texture(GL_TEXTURE_2D);
-    TextureImporter::import(gfile_icon_data, gfile_icon_size, *file_icon);
-
-    c_icon = new Texture(GL_TEXTURE_2D);
-    TextureImporter::import(gc_icon_data, gc_icon_size, *c_icon);
-
-    image_icon = new Texture(GL_TEXTURE_2D);
-    TextureImporter::import(gimage_icon_data, gimage_icon_size, *image_icon);
-
-    shader_icon = new Texture(GL_TEXTURE_2D);
-    TextureImporter::import(gshader_icon_data, gshader_icon_size, *shader_icon);
-
-    model_icon = new Texture(GL_TEXTURE_2D);
-    TextureImporter::import(gmodel_icon_data, gmodel_icon_size, *model_icon);
-
-    vultr_icon = new Texture(GL_TEXTURE_2D);
-    TextureImporter::import(gvultr_icon_data, gvultr_icon_size, *vultr_icon);
 }
 
-Editor::~Editor()
-{
-    windows.clear();
-    windows.shrink_to_fit();
-}
-
-void Editor::OnEdit(EditEvent *e)
+void on_edit(EditEvent *e)
 {
     auto *editor = Editor::Get();
     s32 stack_size = editor->event_stack.size();

@@ -125,7 +125,11 @@ namespace Vultr
             KEY_RIGHT_SHIFT = 344,
             KEY_RIGHT_CONTROL = 345,
             KEY_RIGHT_ALT = 346,
-            KEY_RIGHT_SUPER = 347
+            KEY_RIGHT_SUPER = 347,
+            KEY_SHIFT = 348,
+            KEY_CONTROL = 349,
+            KEY_ALT = 350,
+            KEY_SUPER = 351,
         };
 
         enum MouseButton : s16
@@ -142,8 +146,8 @@ namespace Vultr
 
         enum Action : s16
         {
-            RELEASE = 0,
-            PRESS = 1,
+            RELEASE = 0, // When an input is released
+            PRESS = 1,   // When an input is first pressed
             REPEAT = 2,
         };
     } // namespace Input
