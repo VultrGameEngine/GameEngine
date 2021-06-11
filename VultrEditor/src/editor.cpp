@@ -1,5 +1,4 @@
 ﻿#include <vultr.hpp>
-#include <core/systems/render_system.h>
 #include <windows/component_window.h>
 #include <windows/game_window.h>
 #include <windows/scene_window.h>
@@ -11,63 +10,37 @@
 #include <imgui/imgui_impl_opengl3.h>
 #include <ImGuizmo/ImGuizmo.h>
 #include <ecs/world/internal_world.hpp>
-#include <stb_image/stb_image.h>
+#include <core/models/event.h>
 
 using namespace Vultr;
 Editor::Editor() : selected_entity(Entity(0))
 {
 }
 
-void on_edit(EditEvent *e)
+Editor &get_editor()
 {
-    auto *editor = Editor::Get();
-    s32 stack_size = editor->event_stack.size();
-    if (editor->event_index < stack_size - 1)
-    {
-        for (int i = editor->event_index + 1; i < editor->event_stack.size(); i++)
-        {
-            delete editor->event_stack[i];
-        }
-        editor->event_stack.erase(editor->event_stack.begin() + editor->event_index + 1, editor->event_stack.end());
-    }
-    editor->event_index++;
-    Editor::Get()->event_stack.push_back(e);
-}
-void Editor::Undo()
-{
-    auto *editor = Editor::Get();
-    if (editor->event_stack.size() == 0)
-        return;
-    if (editor->event_index <= -1)
-        return;
-    auto *event = editor->event_stack[editor->event_index];
-    event->Undo(engine_global());
-    editor->event_index--;
+    static Editor instance;
+    return instance;
 }
 
-void Editor::Redo()
+void editor_register_window(WindowRenderer renderer, void *state)
 {
-    auto *editor = Editor::Get();
-    if (editor->event_stack.size() == 0)
-        return;
-    s32 stack_size = editor->event_stack.size();
-    if (editor->event_index + 1 >= stack_size)
-        return;
-    editor->event_index++;
-    auto *event = editor->event_stack[editor->event_index];
-    event->Redo(engine_global());
+    get_editor().windows.push_back({
+        .renderer = renderer,
+        .state = state,
+    });
 }
 
-void Editor::DeleteEntity()
+void delete_entity()
 {
-    auto *editor = Editor::Get();
-    if (editor->selected_entity == INVALID_ENTITY)
+    auto &m = get_editor();
+    if (m.selected_entity == INVALID_ENTITY)
         return;
     auto *world = get_current_world();
 
     auto &component_manager = world_get_component_manager(world);
     auto *event = new EntityDestroyEvent();
-    Entity selected_entity = editor->selected_entity;
+    Entity selected_entity = m.selected_entity;
     for (auto [type, array] : component_manager.component_arrays)
     {
         void *component = array->InternalGetData(selected_entity);
@@ -78,11 +51,18 @@ void Editor::DeleteEntity()
     }
     event->entity = selected_entity;
     destroy_entity(selected_entity);
-    OnEdit(event);
+    on_edit(event);
 }
 
-void Editor::Render()
+void select_entity(Entity entity)
 {
+    get_editor().selected_entity = entity;
+}
+
+void editor_render(const UpdateTick &tick)
+{
+    auto &m = get_editor();
+
     glDisable(GL_DEPTH_TEST);
 
     ImGui_ImplOpenGL3_NewFrame();
@@ -111,13 +91,13 @@ void Editor::Render()
         ImGui::Begin("DockSpace Demo", &dockspaceOpen, window_flags);
         ImGui::PopStyleVar(3);
         ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-        Get()->dockspace = ImGui::GetID("HUB_DockSpace");
-        ImGui::DockSpace(Get()->dockspace, ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_None | ImGuiDockNodeFlags_PassthruCentralNode | ImGuiDockNodeFlags_NoResize);
+        m.dockspace = ImGui::GetID("HUB_DockSpace");
+        ImGui::DockSpace(m.dockspace, ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_None | ImGuiDockNodeFlags_PassthruCentralNode | ImGuiDockNodeFlags_NoResize);
 
-        for (Window *window : Get()->windows)
+        for (auto &pair : m.windows)
         {
-            ImGui::SetNextWindowDockID(Get()->dockspace, ImGuiCond_FirstUseEver);
-            window->Render();
+            ImGui::SetNextWindowDockID(m.dockspace, ImGuiCond_FirstUseEver);
+            pair.renderer(tick, pair.state);
         }
         ImGui::End();
     }
@@ -133,44 +113,46 @@ void Editor::Render()
         ImGui::Begin("TOOLBAR", NULL, window_flags);
         ImGui::PopStyleVar();
 
-        if (Editor::Get()->playing)
+        auto &gm = m.game_manager;
+
+        if (gm.playing)
         {
             if (ImGui::Button("Pause"))
             {
-                Editor::Get()->playing = false;
+                gm.playing = false;
             }
         }
         else
         {
             if (ImGui::Button("Play"))
             {
-                if (!Editor::Get()->game_running)
+                if (!gm.game_running)
                 {
                     World *cached_world = new InternalWorld();
                     auto *world = get_current_world();
                     component_manager_copy(cached_world->component_manager, world->component_manager);
                     cached_world->entity_manager = world->entity_manager;
                     cached_world->system_manager = world->system_manager;
-                    if (Editor::Get()->cached_world != nullptr)
-                        delete Editor::Get()->cached_world;
-                    Editor::Get()->cached_world = cached_world;
+                    if (gm.cached_world != nullptr)
+                        delete gm.cached_world;
+                    gm.cached_world = cached_world;
 
                     engine_init_game(engine_global());
-                    Editor::Get()->game_running = true;
+                    gm.game_running = true;
                 }
 
-                Editor::Get()->playing = true;
+                gm.playing = true;
             }
         }
 
-        if (Editor::Get()->game_running)
+        if (gm.game_running)
         {
             ImGui::SameLine();
             if (ImGui::Button("Stop"))
             {
-                Editor::Get()->playing = false;
-                Editor::Get()->game_running = false;
-                change_world(Editor::Get()->cached_world);
+                gm.playing = false;
+                gm.game_running = false;
+                change_world(gm.cached_world);
             }
         }
 
@@ -186,14 +168,15 @@ void Editor::Render()
     glEnable(GL_DEPTH_TEST);
 }
 
-void Editor::Save()
+void save()
 {
     save_world(get_current_world(), VultrSource("test_world.vultr"));
 }
 
-void Editor::DuplicateEntity()
+void duplicate_entity()
 {
-    Entity selected_entity = Get()->selected_entity;
+    auto &m = get_editor();
+    Entity selected_entity = m.selected_entity;
     if (selected_entity == INVALID_ENTITY)
         return;
     auto *world = get_current_world();
@@ -211,17 +194,4 @@ void Editor::DuplicateEntity()
     system_manager_entity_signature_changed(world_get_system_manager(world), duplicate, signature);
     system_manager_entity_signature_changed(engine_global()->system_manager, duplicate, signature);
     entity_manager_set_signature(world_get_entity_manager(world), duplicate, signature);
-}
-
-void Editor::ClearSelections()
-{
-    selected_entity = selected_entity_queue.back();
-    while (!selected_entity_queue.empty())
-    {
-        selected_entity_queue.pop();
-    }
-}
-void Editor::QueueEntitySelection(Vultr::Entity entity)
-{
-    selected_entity_queue.push(entity);
 }

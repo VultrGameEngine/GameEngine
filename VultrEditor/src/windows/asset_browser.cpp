@@ -95,7 +95,7 @@ void asset_browser_render(const Vultr::UpdateTick &tick, void *_state)
 
     // Set the cursor position down a little bit for padding, we also need this so that we can render the current directory info at the top and whatnot
     // TODO WHAT?? is this a bug or what lmfao
-    // ImGui::SetCursorPosY(ImGui::GetCursorPosX() + 150);
+    ImGui::SetCursorPosY(ImGui::GetCursorPosX() + 150);
 
     // Create the asset list with the number of columns before
     if (ImGui::BeginTable("table1", num_cols))

@@ -209,7 +209,7 @@ namespace Vultr
         assert(e->game != nullptr && "Game has not been loaded!");
         e->game->Init();
     }
-    void engine_update_game(Engine *e, float &last_time, bool play)
+    UpdateTick engine_update_game(Engine *e, float &last_time, bool play)
     {
         e->should_close = glfwWindowShouldClose(e->window);
 
@@ -236,6 +236,7 @@ namespace Vultr
         LightSystem::update();
         InputSystem::update(tick);
         RenderSystem::update(tick);
+        return tick;
     }
 
     double engine_get_time_elapsed(Engine *e)
@@ -306,35 +307,41 @@ namespace Vultr
                         selected_shader_option = n;
                         switch (selected_shader_option)
                         {
-                        case 0: {
-                            component = ForwardMaterial::Create("");
-                            break;
-                        }
-                        case 1: {
-                            component = ForwardMaterial::Create("");
-                            break;
-                        }
-                        case 2: {
-                            component = UnlitMaterial::Create();
-                            break;
-                        }
-
-                        case 3: {
-                            component = SkyboxMaterial::Create("", "", "", "", "", "");
-                            break;
-                        }
-                        case 4: {
-                            auto path = component.shader_source.path;
-                            if (path == FORWARD_MATERIAL_SOURCE || path == SKYBOX_MATERIAL_SOURCE || path == PBR_MATERIAL_SOURCE || path == UNLIT_MATERIAL_SOURCE)
+                            case 0:
                             {
-                                component = MaterialComponent();
-                                component.shader_source = ShaderSource("");
+                                component = ForwardMaterial::Create("");
+                                break;
                             }
-                            break;
-                        }
-                        default: {
-                            break;
-                        }
+                            case 1:
+                            {
+                                component = ForwardMaterial::Create("");
+                                break;
+                            }
+                            case 2:
+                            {
+                                component = UnlitMaterial::Create();
+                                break;
+                            }
+
+                            case 3:
+                            {
+                                component = SkyboxMaterial::Create("", "", "", "", "", "");
+                                break;
+                            }
+                            case 4:
+                            {
+                                auto path = component.shader_source.path;
+                                if (path == FORWARD_MATERIAL_SOURCE || path == SKYBOX_MATERIAL_SOURCE || path == PBR_MATERIAL_SOURCE || path == UNLIT_MATERIAL_SOURCE)
+                                {
+                                    component = MaterialComponent();
+                                    component.shader_source = ShaderSource("");
+                                }
+                                break;
+                            }
+                            default:
+                            {
+                                break;
+                            }
                         }
                     }
 
@@ -350,105 +357,110 @@ namespace Vultr
             // Different rendering for different shaders
             switch (selected_shader_option)
             {
-                // Forward
-            case 0: {
-                if (component.textures.size() > 0)
+                    // Forward
+                case 0:
                 {
-                    ImGui::PushID("diffuse");
-                    res = RenderMember("Diffuse", component.textures[0]);
+                    if (component.textures.size() > 0)
+                    {
+                        ImGui::PushID("diffuse");
+                        res = RenderMember("Diffuse", component.textures[0]);
+                        ImGui::PopID();
+                    }
+                    if (component.textures.size() > 1)
+                    {
+                        ImGui::PushID("specular");
+                        res = RenderMember("Specular", component.textures[1]);
+                        ImGui::PopID();
+                    }
+
+                    if (component.colors.find("tint") != component.colors.end())
+                    {
+                        ImGui::PushID("tint");
+                        res = RenderMember("Tint", component.colors["tint"]);
+                        ImGui::PopID();
+                    }
+
+                    if (component.floats.find("material.shininess") != component.floats.end())
+                    {
+                        ImGui::PushID("shininess");
+                        res = RenderMember("Shininess", component.floats["material.shininess"]);
+                        ImGui::PopID();
+                    }
+                }
+                // PBR
+                case 1:
+                {
+                    break;
+                }
+                // Unlit
+                case 2:
+                {
+                    ImGui::PushID("lightColor");
+                    res = RenderMember("Color", component.colors["lightColor"]);
                     ImGui::PopID();
+                    break;
                 }
-                if (component.textures.size() > 1)
+
+                // Skybox
+                case 3:
                 {
-                    ImGui::PushID("specular");
-                    res = RenderMember("Specular", component.textures[1]);
+                    for (auto &pair : component.textures)
+                    {
+                        ImGui::PushID(pair.name.c_str());
+                        res = RenderMember(pair.name, pair.file);
+                        ImGui::PopID();
+                    }
+                    break;
+                }
+                default:
+                {
+                    ImGui::PushID("shader_source");
+                    res = RenderMember("shader_source", component.shader_source);
                     ImGui::PopID();
-                }
 
-                if (component.colors.find("tint") != component.colors.end())
-                {
-                    ImGui::PushID("tint");
-                    res = RenderMember("Tint", component.colors["tint"]);
+                    ImGui::PushID("textures");
+                    if (ImGui::CollapsingHeader("textures"))
+                    {
+                        res = RenderMember("textures", component.textures);
+                    }
                     ImGui::PopID();
-                }
 
-                if (component.floats.find("material.shininess") != component.floats.end())
-                {
-                    ImGui::PushID("shininess");
-                    res = RenderMember("Shininess", component.floats["material.shininess"]);
+                    ImGui::PushID("vec3s");
+                    if (ImGui::CollapsingHeader("vec3s"))
+                    {
+                        res = RenderMember("vec3s", component.vec3s);
+                    }
                     ImGui::PopID();
-                }
-            }
-            // PBR
-            case 1: {
-                break;
-            }
-            // Unlit
-            case 2: {
-                ImGui::PushID("lightColor");
-                res = RenderMember("Color", component.colors["lightColor"]);
-                ImGui::PopID();
-                break;
-            }
 
-            // Skybox
-            case 3: {
-                for (auto &pair : component.textures)
-                {
-                    ImGui::PushID(pair.name.c_str());
-                    res = RenderMember(pair.name, pair.file);
+                    ImGui::PushID("vec4s");
+                    if (ImGui::CollapsingHeader("vec4s"))
+                    {
+                        res = RenderMember("vec4s", component.vec4s);
+                    }
                     ImGui::PopID();
-                }
-                break;
-            }
-            default: {
-                ImGui::PushID("shader_source");
-                res = RenderMember("shader_source", component.shader_source);
-                ImGui::PopID();
 
-                ImGui::PushID("textures");
-                if (ImGui::CollapsingHeader("textures"))
-                {
-                    res = RenderMember("textures", component.textures);
-                }
-                ImGui::PopID();
+                    ImGui::PushID("colors");
+                    if (ImGui::CollapsingHeader("colors"))
+                    {
+                        res = RenderMember("colors", component.colors);
+                    }
+                    ImGui::PopID();
 
-                ImGui::PushID("vec3s");
-                if (ImGui::CollapsingHeader("vec3s"))
-                {
-                    res = RenderMember("vec3s", component.vec3s);
-                }
-                ImGui::PopID();
+                    ImGui::PushID("ints");
+                    if (ImGui::CollapsingHeader("ints"))
+                    {
+                        res = RenderMember("ints", component.ints);
+                    }
+                    ImGui::PopID();
 
-                ImGui::PushID("vec4s");
-                if (ImGui::CollapsingHeader("vec4s"))
-                {
-                    res = RenderMember("vec4s", component.vec4s);
+                    ImGui::PushID("floats");
+                    if (ImGui::CollapsingHeader("floats"))
+                    {
+                        res = RenderMember("floats", component.floats);
+                    }
+                    ImGui::PopID();
+                    break;
                 }
-                ImGui::PopID();
-
-                ImGui::PushID("colors");
-                if (ImGui::CollapsingHeader("colors"))
-                {
-                    res = RenderMember("colors", component.colors);
-                }
-                ImGui::PopID();
-
-                ImGui::PushID("ints");
-                if (ImGui::CollapsingHeader("ints"))
-                {
-                    res = RenderMember("ints", component.ints);
-                }
-                ImGui::PopID();
-
-                ImGui::PushID("floats");
-                if (ImGui::CollapsingHeader("floats"))
-                {
-                    res = RenderMember("floats", component.floats);
-                }
-                ImGui::PopID();
-                break;
-            }
             }
             if (res.started_editing)
             {
@@ -631,21 +643,25 @@ namespace Vultr
                         selected_light_option = n;
                         switch (selected_light_option)
                         {
-                        case 0: {
-                            component->type = LightComponent::DirectionalLight;
-                            break;
-                        }
-                        case 1: {
-                            component->type = LightComponent::PointLight;
-                            break;
-                        }
-                        case 2: {
-                            component->type = LightComponent::SpotLight;
-                            break;
-                        }
-                        default: {
-                            break;
-                        }
+                            case 0:
+                            {
+                                component->type = LightComponent::DirectionalLight;
+                                break;
+                            }
+                            case 1:
+                            {
+                                component->type = LightComponent::PointLight;
+                                break;
+                            }
+                            case 2:
+                            {
+                                component->type = LightComponent::SpotLight;
+                                break;
+                            }
+                            default:
+                            {
+                                break;
+                            }
                         }
                     }
 
@@ -670,27 +686,31 @@ namespace Vultr
 
             switch (selected_light_option)
             {
-            case 0: {
-                break;
-            }
-            case 1: {
-                ImGui::PushID("constant");
-                res = RenderMember("Constant", component->constant);
-                ImGui::PopID();
-                ImGui::PushID("linear");
-                res = RenderMember("Linear", component->linear);
-                ImGui::PopID();
-                ImGui::PushID("quadratic");
-                res = RenderMember("Quadratic", component->quadratic);
-                ImGui::PopID();
-                break;
-            }
-            case 2: {
-                break;
-            }
-            default: {
-                break;
-            }
+                case 0:
+                {
+                    break;
+                }
+                case 1:
+                {
+                    ImGui::PushID("constant");
+                    res = RenderMember("Constant", component->constant);
+                    ImGui::PopID();
+                    ImGui::PushID("linear");
+                    res = RenderMember("Linear", component->linear);
+                    ImGui::PopID();
+                    ImGui::PushID("quadratic");
+                    res = RenderMember("Quadratic", component->quadratic);
+                    ImGui::PopID();
+                    break;
+                }
+                case 2:
+                {
+                    break;
+                }
+                default:
+                {
+                    break;
+                }
             }
             if (res.started_editing)
             {

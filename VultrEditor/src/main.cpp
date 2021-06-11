@@ -120,8 +120,8 @@ int main(void)
 
     while (!vultr->should_close)
     {
-        engine_update_game(vultr, lastTime, get_editor().game_manager.playing);
-        editor_render();
+        auto tick = engine_update_game(vultr, lastTime, get_editor().game_manager.playing);
+        editor_render(tick);
         glfwSwapBuffers(vultr->window);
         glfwPollEvents();
     }

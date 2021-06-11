@@ -9,7 +9,7 @@ typedef void (*WindowRenderer)(const Vultr::UpdateTick &tick, void *state);
 
 struct Window
 {
-    WindowRenderer *renderer;
+    WindowRenderer renderer;
     void *state;
 };
 
@@ -20,7 +20,7 @@ struct Editor
     u32 dockspace = 1;
 
     // Holds a list of render callbacks that will be triggered each frame for all of the windows
-    std::vector<Window *> windows;
+    std::vector<Window> windows;
 
     // Holds the globally selected entity
     Vultr::Entity selected_entity;
@@ -39,7 +39,7 @@ struct Editor
 Editor &get_editor();
 
 void editor_register_window(WindowRenderer renderer, void *state);
-void editor_render();
+void editor_render(const Vultr::UpdateTick &tick);
 void select_entity(Vultr::Entity entity);
 
 void on_edit(Vultr::EditEvent *e);

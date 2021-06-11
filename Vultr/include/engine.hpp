@@ -35,7 +35,7 @@ namespace Vultr
     void engine_register_default_components(Engine *e);
     void engine_init_default_systems(Engine *e);
     void engine_init_game(Engine *e);
-    void engine_update_game(Engine *e, float &last_time, bool play);
+    UpdateTick engine_update_game(Engine *e, float &last_time, bool play);
     double engine_get_time_elapsed(Engine *e);
 
     void engine_send_update_event(EditEvent *event);
