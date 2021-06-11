@@ -1,19 +1,9 @@
 #pragma once
-#include <Vultr.hpp>
-#include <system_providers/test_system_provider.h>
+#include <vultr.hpp>
 
-class TestSystem
+namespace TestSystem
 {
-  public:
-    static void RegisterSystem();
-
-  protected:
-    TestSystemProvider &GetProvider()
-    {
-        return *(TestSystemProvider::Get());
-    }
-
-  private:
-    static void OnCreateEntity(Entity entity);
-    friend TestSystemProvider;
-};
+    void register_system();
+    void update(const Vultr::UpdateTick &tick);
+    void on_create_entity(Vultr::Entity entity);
+}; // namespace TestSystem

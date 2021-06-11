@@ -2,18 +2,17 @@
 
 namespace Vultr
 {
-namespace PBRMaterial
-{
-MaterialComponent Create(const std::string &p_diffuse_path,
-                         const std::string &p_specular_path)
-{
-    MaterialComponent component = MaterialComponent();
-    component.shader_path = "res/shaders/material.glsl";
-    component.textures.insert({p_diffuse_path, GL_TEXTURE0});
-    component.textures.insert({p_specular_path, GL_TEXTURE1});
-    return component;
-}
+    namespace PBRMaterial
+    {
+        MaterialComponent Create(const char *p_diffuse_path, const char *p_specular_path)
+        {
+            MaterialComponent component = MaterialComponent();
+            component.shader_source = ShaderSource(PBR_MATERIAL_SOURCE);
+            component.textures.push_back({TextureSource(p_diffuse_path), 0, "Diffuse"});
+            component.textures.push_back({TextureSource(p_specular_path), 1, "Specular"});
+            return component;
+        }
 
-}; // namespace PBRMaterial
+    }; // namespace PBRMaterial
 
 } // namespace Vultr

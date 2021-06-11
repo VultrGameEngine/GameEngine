@@ -1,15 +1,11 @@
 #include <core/system_providers/camera_system_provider.h>
 #include <core/systems/camera_system.h>
 
-namespace Vultr
+namespace Vultr::CameraSystem
 {
-void CameraSystemProvider::OnCreateEntity(Entity entity)
-{
-    CameraSystem::OnCreateEntity(entity);
-}
+    Component &get_provider()
+    {
+        return *get_global_system_provider<Component>();
+    }
 
-void CameraSystemProvider::OnDestroyEntity(Entity entity)
-{
-    CameraSystem::OnDestroyEntity(entity);
-}
-} // namespace Vultr
+} // namespace Vultr::CameraSystem

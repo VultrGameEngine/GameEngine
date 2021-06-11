@@ -1,20 +1,27 @@
-#include <Vultr.hpp>
+#include <vultr.hpp>
 #include <sandbox_test.h>
+#include <component_registrar.h>
 
 using namespace Vultr;
 int main(void)
 {
-    Engine &engine = Engine::Get();
+    auto *engine = engine_global();
 
     float lastTime = 0;
-    engine.Init(false);
-    engine.LoadGame(init(engine));
+    engine_init(engine, false);
+    //engine_load_game(engine, init(&engine));
 
-    while (!engine.should_close)
+    change_world(new_world(engine_global()->component_registry));
+    register_components();
+
+    engine_init_game(engine);
+
+    while (!glfwWindowShouldClose(engine->window))
     {
-        engine.UpdateGame(lastTime);
-        glfwSwapBuffers(engine.window);
+        engine_update_game(engine, lastTime, true);
+        glfwSwapBuffers(engine->window);
         glfwPollEvents();
     }
-    engine.Destroy();
+
+    return 0;
 }

@@ -2,15 +2,15 @@
 
 namespace Vultr
 {
-namespace UnlitMaterial
-{
-MaterialComponent Create()
-{
-    MaterialComponent component = MaterialComponent();
-    component.shader_path = "res/shaders/unlit.glsl";
-    component.vec3s.insert({"lightColor", glm::vec3(1, 1, 1)});
-    return component;
-}
+    namespace UnlitMaterial
+    {
+        MaterialComponent Create()
+        {
+            MaterialComponent component = MaterialComponent();
+            component.shader_source = ShaderSource(UNLIT_MATERIAL_SOURCE);
+            component.colors.insert({"lightColor", Color(Vec4(1))});
+            return component;
+        }
 
-} // namespace UnlitMaterial
+    } // namespace UnlitMaterial
 } // namespace Vultr

@@ -12,7 +12,7 @@ class Widget;
 class RenderObject
 {
   public:
-    RenderObject(Widget *widget) : configuration(widget), position(glm::vec2(0, 0))
+    RenderObject(Widget *widget) : configuration(widget), position(Vec2(0, 0))
     {
     }
 
@@ -82,7 +82,7 @@ class RenderObject
         return size;
     }
 
-    glm::vec2 GetPosition()
+    Vec2 GetPosition()
     {
         return position;
     }
@@ -97,7 +97,7 @@ class RenderObject
 
   private:
     Size size;
-    glm::vec2 position;
+    Vec2 position;
 };
 } // namespace GUI
 } // namespace Vultr

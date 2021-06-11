@@ -4,27 +4,11 @@
 // MeshLoaderSystem will do that with the specified path
 
 #pragma once
-#include <core/system_providers/mesh_loader_system_provider.h>
+#include <ecs/entity/entity.hpp>
 
-namespace Vultr
+namespace Vultr::MeshLoaderSystem
 {
-
-class MeshLoaderSystem
-{
-  public:
-    static void RegisterSystem();
-    static void Update();
-    static void OnCreateEntity(Entity entity);
-    static SystemProvider &GetProvider()
-    {
-        std::shared_ptr<MeshLoaderSystemProvider> provider = MeshLoaderSystemProvider::Get();
-        return *provider;
-    }
-
-  protected:
-    static void CheckAndLoadMesh(Entity entity);
-
-  private:
-    static void Import(std::string path);
-};
-} // namespace Vultr
+    void register_system();
+    void update();
+    void on_create_entity(Entity entity);
+} // namespace Vultr::MeshLoaderSystem

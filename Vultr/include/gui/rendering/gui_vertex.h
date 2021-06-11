@@ -7,11 +7,11 @@ namespace GUI
 {
 struct GUIVertex
 {
-    glm::vec3 position = glm::vec3(0);
-    glm::vec4 color = glm::vec4(0);
-    glm::vec2 uv = glm::vec2(0);
-    glm::vec4 borders = glm::vec4(0);
-    glm::vec4 border_color = glm::vec4(0);
+    Vec3 position = Vec3(0);
+    Vec4 color = Vec4(0);
+    Vec2 uv = Vec2(0);
+    Vec4 borders = Vec4(0);
+    Vec4 border_color = Vec4(0);
     float texture = -1;
 
     GUIVertex() = default;

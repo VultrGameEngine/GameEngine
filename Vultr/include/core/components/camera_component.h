@@ -1,29 +1,32 @@
 #pragma once
+#include <types/types.hpp>
 #include <glm/glm.hpp>
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtx/transform.hpp>
+#include <fundamental/types.h>
 
-struct CameraComponent
+namespace Vultr
 {
-    static CameraComponent Create()
+
+    struct CameraComponent
     {
-        CameraComponent component = CameraComponent();
-        return component;
-    }
+        static CameraComponent Create()
+        {
+            CameraComponent component = CameraComponent();
+            return component;
+        }
 
-    bool enabled = true;
+        bool enabled = true;
 
-    float fov = 45.0f;
-    float znear = 0.1f;
-    float zfar = 100.0f;
+        f32 fov = 45.0f;
+        f32 znear = 0.1f;
+        f32 zfar = 100.0f;
 
-    glm::mat4 GetProjectionMatrix(float width, float height) const
-    {
-        return glm::perspective(fov, width / height, znear, zfar);
-    }
+        bool gamma_correction = true;
 
-    template <class Archive> void serialize(Archive &ar)
-    {
-        ar(enabled, fov, znear, zfar);
-    }
-};
+        Mat4 GetProjectionMatrix(float width, float height) const
+        {
+            return glm::perspective(fov, width / height, znear, zfar);
+        }
+    };
+} // namespace Vultr

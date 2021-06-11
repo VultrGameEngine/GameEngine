@@ -1,31 +1,25 @@
 #pragma once
 #include <ecs/system/system_provider.hpp>
-#include <ecs/world/world.hpp>
 #include <engine.hpp>
 
 namespace Vultr
 {
-class LightSystemProvider : public SystemProvider
-{
-  public:
-    // Singleton pattern for all providers
-    static std::shared_ptr<LightSystemProvider> Get()
+    namespace LightSystem
     {
-        return Engine::GetSystemProvider<LightSystemProvider>();
-    }
-    Entity light = Entity(-1);
+        struct Component : public SystemProvider
+        {
+            // In this engine, we will assume there is only one directional light in the scene for simplicity's sake. If a second directional light gets added, then we will throw an error
+            Entity directional_light = INVALID_ENTITY;
 
-    template <class Archive> void serialize(Archive &ar)
+            std::set<Entity> point_lights;
+        };
+
+        Component &get_provider();
+    } // namespace LightSystem
+
+    template <>
+    inline const char *get_struct_name<LightSystem::Component>()
     {
-        // We pass this cast to the base type for each base type we
-        // need to serialize.  Do this instead of calling serialize functions
-        // directly
-        ar(cereal::base_class<SystemProvider>(this), light);
+        return "LightSystem";
     }
-
-  protected:
-    void OnDestroyEntity(Entity entity) override;
-    void OnCreateEntity(Entity entity) override;
-};
 } // namespace Vultr
-VultrRegisterSystemProvider(Vultr::LightSystemProvider)

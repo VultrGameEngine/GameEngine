@@ -1,31 +1,36 @@
 #include <core/system_providers/texture_loader_system_provider.h>
-#include <core/systems/texture_loader_system.h>
 
-namespace Vultr
+namespace Vultr::TextureLoaderSystem
 {
-void TextureLoaderSystemProvider::OnCreateEntity(Entity entity)
-{
-    TextureLoaderSystem::OnCreateEntity(entity);
-}
-
-void TextureLoaderSystemProvider::OnDestroyEntity(Entity entity)
-{
-}
-
-Texture *TextureLoaderSystemProvider::GetTexture(const std::string &texture)
-{
-    if (isLoaded(texture))
+    Component &get_provider()
     {
-        return Get()->textures[texture];
+        return *get_global_system_provider<Component>();
     }
-    else
+    Texture *get_texture(const TextureSource &texture)
     {
-        return nullptr;
+        return get_texture(texture.path.string().c_str());
     }
-}
 
-bool TextureLoaderSystemProvider::isLoaded(const std::string &texture)
-{
-    return Get()->textures.find(texture) != Get()->textures.end();
-}
-} // namespace Vultr
+    Texture *get_texture(const char *texture)
+    {
+        if (is_loaded(texture))
+        {
+            return get_provider().textures[texture];
+        }
+        else
+        {
+            return nullptr;
+        }
+    }
+
+    bool is_loaded(const TextureSource &texture)
+    {
+        return is_loaded(texture.path.string().c_str());
+    }
+
+    bool is_loaded(const char *texture)
+    {
+        auto &p = get_provider();
+        return p.textures.find(texture) != p.textures.end();
+    }
+} // namespace Vultr::TextureLoaderSystem

@@ -2,18 +2,19 @@
 
 namespace Vultr
 {
-namespace ForwardMaterial
-{
-MaterialComponent Create(
-    const std::string &p_texture = "res/textures/clone/albedo.jpeg")
-{
-    MaterialComponent component = MaterialComponent();
-    component.shader_path = "res/shaders/forward_material.glsl";
-    component.textures.insert({p_texture, GL_TEXTURE0});
-    component.vec3s.insert({"objectColor", glm::vec3(1, 1, 1)});
-    component.vec3s.insert({"lightColor", glm::vec3(1, 1, 1)});
-    component.ints.insert({"textureSampler", 0});
-    return component;
-}
-} // namespace ForwardMaterial
+    namespace ForwardMaterial
+    {
+        MaterialComponent Create(const char *p_texture = "textures/clone/albedo.jpeg")
+        {
+            MaterialComponent component = MaterialComponent();
+            component.shader_source = ShaderSource(FORWARD_MATERIAL_SOURCE);
+            component.textures.push_back({TextureSource(p_texture), 0, "Diffuse"});
+            component.textures.push_back({TextureSource(p_texture), 1, "Specular"});
+            component.colors.insert({"tint", Color(Vec4(1))});
+            component.ints.insert({"material.diffuse", 0});
+            component.ints.insert({"material.specular", 1});
+            component.floats.insert({"material.shininess", 1.0});
+            return component;
+        }
+    } // namespace ForwardMaterial
 } // namespace Vultr

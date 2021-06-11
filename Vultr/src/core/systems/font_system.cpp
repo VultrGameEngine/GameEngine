@@ -1,26 +1,28 @@
 #include <core/systems/font_system.h>
+#include <core/system_providers/font_system_provider.h>
 #include <helpers/font_importer.h>
 #include <engine.hpp>
 
-namespace Vultr
+namespace Vultr::FontSystem
 {
-void FontSystem::RegisterSystem()
-{
-    Signature signature;
-    Engine::RegisterGlobalSystem<FontSystemProvider>(signature);
-}
-
-void FontSystem::Init()
-{
-    FontSystemProvider &provider = GetProvider();
-    if (FT_Init_FreeType(&provider.library))
+    void register_system()
     {
-        assert("Could not init the freetype library");
+        Signature signature;
+        register_global_system<Component>(signature, nullptr, nullptr);
     }
-}
-void FontSystem::PreloadFont(const std::string &path)
-{
-    FontSystemProvider &provider = GetProvider();
-    provider.fonts[path] = FontImporter::ImportFont(path, provider.library);
-}
-} // namespace Vultr
+
+    void init()
+    {
+        auto &provider = get_provider();
+        if (FT_Init_FreeType(&provider.library))
+        {
+            assert("Could not init the freetype library");
+        }
+    }
+
+    void preload_font(const FontSource &source)
+    {
+        auto &provider = get_provider();
+        provider.fonts[source.path.string().c_str()] = FontImporter::import_font(source, provider.library);
+    }
+} // namespace Vultr::FontSystem

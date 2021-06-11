@@ -1,5 +1,5 @@
 #pragma once
-#include <Vultr.hpp>
+#include <vultr.hpp>
 
 VCOMPONENT()
 struct TestComponent

@@ -1,57 +1,113 @@
 #include <helpers/directory.h>
 #include <filesystem>
 
-namespace Vultr
+static void directory_cache_files(Vultr::Directory &dir)
 {
-
-namespace fs = std::filesystem;
-Directory::Directory(const std::string &p_path) : path(p_path)
-{
-    for (auto &file : fs::directory_iterator(path))
+    dir.files.clear();
+    dir.sub_directories.clear();
+    for (auto &file : std::filesystem::directory_iterator(dir.path))
     {
         if (file.is_directory())
         {
-            sub_directories.insert(Directory(file.path()));
+            dir.sub_directories.push_back(Vultr::Directory(file.path().string()));
         }
         else
         {
-            files.insert(File(file.path()));
+            dir.files.push_back(Vultr::File(file.path().string()));
         }
     }
-}
-fs::path Directory::GetPath() const
-{
-    return path;
+    dir.cached_files = true;
 }
 
-Directory Directory::CreateSubDirectory(const std::string &name)
+Vultr::Directory::Directory(const std::string &p_path) : path(p_path)
 {
-    for (auto &dir : GetDirectories())
+    if (path.is_relative())
     {
-        if (dir.GetName() == name)
-        {
-            return dir;
-        }
+        auto abs = std::filesystem::absolute(path);
+        assert(abs != path && "Couldn't get an absolute path! Something went wrong");
+        path = abs;
     }
-    fs::path new_path = GetPath() / name;
-    fs::create_directory(new_path);
-    return Directory(new_path);
-}
-File Directory::CreateFile(const std::string &name)
-{
-    for (auto &file : GetFiles())
-    {
-        if (file.GetName() == name)
-        {
-            return file;
-        }
-    }
-    std::string new_path = GetPath() / name;
-    return File(new_path);
 }
 
-void Directory::Delete()
+std::string Vultr::directory_get_name(const Directory &dir)
 {
-    fs::remove_all(GetPath());
+    return dir.path.filename().string();
 }
-} // namespace Vultr
+
+u32 Vultr::directory_get_number_files(Directory &dir, bool use_cache)
+{
+    if (!use_cache || !dir.cached_files)
+        directory_cache_files(dir);
+    return dir.files.size() + dir.sub_directories.size();
+}
+
+std::vector<Vultr::File> Vultr::directory_get_files(Directory &dir, bool use_cache)
+{
+    if (!use_cache || !dir.cached_files)
+        directory_cache_files(dir);
+    return dir.files;
+}
+
+std::vector<Vultr::Directory> Vultr::directory_get_sub_directories(Directory &dir, bool use_cache)
+{
+    if (!use_cache || !dir.cached_files)
+        directory_cache_files(dir);
+    return dir.sub_directories;
+}
+Vultr::Path Vultr::file_get_relative_path(const Directory &dir)
+{
+    return std::filesystem::relative(dir.path);
+}
+
+bool Vultr::delete_directory(Directory &dir)
+{
+    auto res = std::filesystem::remove_all(dir.path);
+    if (res)
+        directory_cache_files(dir);
+    return res;
+}
+
+void Vultr::rename_directory(Directory &dir, const char *name)
+{
+    Directory new_dir = Directory((dir.path / std::string(name)).string());
+    std::filesystem::rename(dir.path, new_dir.path);
+    directory_cache_files(dir);
+}
+
+void Vultr::move_file(File &file, Directory &dir)
+{
+    auto new_path = dir.path / file_get_name(file);
+    std::filesystem::rename(file.path, new_path);
+    file.path = new_path;
+}
+
+Vultr::Directory Vultr::create_sub_directory(Directory &dir, const char *name)
+{
+    Directory new_dir = Directory((dir.path / name).string());
+    std::filesystem::create_directory(new_dir.path);
+    return new_dir;
+}
+Vultr::File Vultr::create_file(Directory &dir, const char *name)
+{
+    return File((dir.path / name).string());
+}
+
+Vultr::Directory Vultr::directory_get_parent_directory(const Directory &directory)
+{
+    return Directory(directory.path.parent_path().string());
+}
+
+Vultr::Directory Vultr::directory_get_root_directory(const Directory &directory)
+{
+    return Directory(directory.path.root_directory().string());
+}
+
+Vultr::Directory Vultr::file_get_parent_directory(const File &file)
+{
+    return Directory(file.path.parent_path().string());
+}
+
+Vultr::Directory Vultr::file_get_root_directory(const File &file)
+{
+    return Directory(file.path.root_directory().string());
+}

@@ -4,23 +4,12 @@
 #pragma once
 #include <core/components/transform_component.h>
 #include <core/system_providers/camera_system_provider.h>
-#include <ecs/world/world.hpp>
 #include <memory>
 
-namespace Vultr
+namespace Vultr::CameraSystem
 {
-class CameraSystem
-{
-  public:
-    static void RegisterSystem();
-    static void OnCreateEntity(Entity entity);
-    static void OnDestroyEntity(Entity entity);
+    void register_system();
+    void on_create_entity(Entity entity);
+    void on_destroy_entity(Entity entity);
 
-  private:
-    static SystemProvider &GetProvider()
-    {
-        std::shared_ptr<CameraSystemProvider> provider = CameraSystemProvider::Get();
-        return *provider;
-    }
-};
-} // namespace Vultr
+} // namespace Vultr::CameraSystem

@@ -1,20 +1,15 @@
 #pragma once
-#include <Vultr.hpp>
+#include <vultr.hpp>
 
-VSYSTEM()
-class TestSystemProvider : public SystemProvider
+namespace TestSystem
 {
-  public:
-    static std::shared_ptr<TestSystemProvider> Get()
+    VSYSTEM()
+    struct Component : public Vultr::SystemProvider
     {
-        return Vultr::Engine::GetSystemProvider<TestSystemProvider>();
-    }
+        VPROPERTY()
+        double test_prop = 0.0;
+    };
 
-    VPROPERTY()
-    double test_prop = 0.0;
+    Component &get_provider();
 
-  protected:
-    void OnCreateEntity(Entity entity) override;
-    void OnDestroyEntity(Entity entity) override;
-};
-VultrRegisterSystemProvider(TestSystemProvider)
+} // namespace TestSystem

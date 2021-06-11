@@ -1,20 +1,9 @@
 #pragma once
-#include <core/system_providers/font_system_provider.h>
+#include <helpers/file.h>
 
-namespace Vultr
+namespace Vultr::FontSystem
 {
-class FontSystem
-{
-  public:
-    static void RegisterSystem();
-    static void Init();
-    static void PreloadFont(const std::string &path);
-
-  private:
-    static FontSystemProvider &GetProvider()
-    {
-        std::shared_ptr<FontSystemProvider> provider = FontSystemProvider::Get();
-        return *provider;
-    }
-};
-} // namespace Vultr
+    void register_system();
+    void init();
+    void preload_font(const FontSource &source);
+} // namespace Vultr::FontSystem

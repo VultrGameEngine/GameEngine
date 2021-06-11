@@ -6,157 +6,174 @@
 
 namespace Vultr
 {
-ScriptScanner::ScriptScanner(const File &file) : m_Filepath(file)
-{
-    std::string line;
-    std::string file_path = file.GetPath().string();
-    std::ifstream stream(file_path);
-    std::stringstream ss;
-    while (getline(stream, line))
+    ScriptScanner::ScriptScanner(const File &file) : m_Filepath(file)
     {
-        ss << line << '\n';
-    }
-    stream.close();
-    m_FileContents = ss.str();
-    ss.flush();
-}
-
-std::vector<Token> ScriptScanner::ScanTokens()
-{
-    // Log::Log("Scanning file '%s'", m_Filepath.Filepath());
-    auto tokens = std::vector<Token>();
-
-    m_Cursor = 0;
-    while (!AtEnd())
-    {
-        m_Start = m_Cursor;
-        Token token = ScanToken();
-        if (token.m_Type != TokenType::ERROR_TYPE)
-            tokens.push_back(token);
-    }
-
-    tokens.emplace_back(Token{m_Line, m_Column, TokenType::END_OF_FILE, "EOF"});
-    return tokens;
-}
-
-Token ScriptScanner::ScanToken()
-{
-    char c = Advance();
-    switch (c)
-    {
-        // Single character tokens
-    case '<':
-        return GenerateToken(TokenType::LEFT_ANGLE_BRACKET, "<");
-    case '>':
-        return GenerateToken(TokenType::RIGHT_ANGLE_BRACKET, "<");
-    case '*':
-        return GenerateToken(TokenType::STAR, "*");
-    case '&':
-        return GenerateToken(TokenType::REF, "&");
-    case '(':
-        return GenerateToken(TokenType::LEFT_PAREN, "(");
-    case ')':
-        return GenerateToken(TokenType::RIGHT_PAREN, ")");
-    case '#':
-        return GenerateToken(TokenType::HASHTAG, "#");
-    case '{':
-        return GenerateToken(TokenType::LEFT_BRACKET, "{");
-    case '}':
-        return GenerateToken(TokenType::RIGHT_BRACKET, "}");
-    case ';':
-        return GenerateToken(TokenType::SEMICOLON, ";");
-    case '=':
-        return GenerateToken(TokenType::EQUAL, "=");
-    case ':':
-        return GenerateToken(TokenType::COLON, ":");
-    case '"':
-        return String();
-        // Whitespace
-    case '/': {
-        if (Match('/'))
+        std::string line;
+        std::string file_path = file.path.string();
+        std::ifstream stream(file_path);
+        std::stringstream ss;
+        while (getline(stream, line))
         {
-            while (Peek() != '\n' && !AtEnd())
-                Advance();
-            return GenerateErrorToken();
+            ss << line << '\n';
         }
-        else if (Match('*'))
+        stream.close();
+        m_FileContents = ss.str();
+        ss.flush();
+    }
+
+    std::vector<Token> ScriptScanner::ScanTokens()
+    {
+        // Log::Log("Scanning file '%s'", m_Filepath.Filepath());
+        auto tokens = std::vector<Token>();
+
+        m_Cursor = 0;
+        while (!AtEnd())
         {
-            while (!AtEnd() && Peek() != '*' && PeekNext() != '/')
+            m_Start = m_Cursor;
+            Token token = ScanToken();
+            if (token.m_Type != TokenType::ERROR_TYPE)
+                tokens.push_back(token);
+        }
+
+        tokens.emplace_back(Token{m_Line, m_Column, TokenType::END_OF_FILE, "EOF"});
+        return tokens;
+    }
+
+    Token ScriptScanner::ScanToken()
+    {
+        char c = Advance();
+        switch (c)
+        {
+            // Single character tokens
+        case '<':
+            return GenerateToken(TokenType::LEFT_ANGLE_BRACKET, "<");
+        case '>':
+            return GenerateToken(TokenType::RIGHT_ANGLE_BRACKET, "<");
+        case '*':
+            return GenerateToken(TokenType::STAR, "*");
+        case '&':
+            return GenerateToken(TokenType::REF, "&");
+        case '(':
+            return GenerateToken(TokenType::LEFT_PAREN, "(");
+        case ')':
+            return GenerateToken(TokenType::RIGHT_PAREN, ")");
+        case '#':
+            return GenerateToken(TokenType::HASHTAG, "#");
+        case '{':
+            return GenerateToken(TokenType::LEFT_BRACKET, "{");
+        case '}':
+            return GenerateToken(TokenType::RIGHT_BRACKET, "}");
+        case ';':
+            return GenerateToken(TokenType::SEMICOLON, ";");
+        case '=':
+            return GenerateToken(TokenType::EQUAL, "=");
+        case ':':
+            return GenerateToken(TokenType::COLON, ":");
+        case '"':
+            return String();
+            // Whitespace
+        case '/': {
+            if (Match('/'))
             {
-                c = Advance();
-                if (c == '\n')
-                {
-                    m_Column = 0;
-                    m_Line++;
-                }
+                while (Peek() != '\n' && !AtEnd())
+                    Advance();
+                return GenerateErrorToken();
             }
+            else if (Match('*'))
+            {
+                while (!AtEnd() && Peek() != '*' && PeekNext() != '/')
+                {
+                    c = Advance();
+                    if (c == '\n')
+                    {
+                        m_Column = 0;
+                        m_Line++;
+                    }
+                }
 
-            // Consume */
-            if (!AtEnd())
-                Match('*');
-            if (!AtEnd())
-                Match('/');
+                // Consume */
+                if (!AtEnd())
+                    Match('*');
+                if (!AtEnd())
+                    Match('/');
+                return GenerateErrorToken();
+            }
+            break;
+        }
+        case ' ':
+        case '\r':
+        case '\t':
+            // Ignore whitespace
             return GenerateErrorToken();
+        case '\n':
+            m_Column = 0;
+            m_Line++;
+            return GenerateErrorToken();
+        default:
+            if (IsAlpha(c))
+            {
+                return PropertyIdentifier();
+            }
+            break;
         }
-        break;
+
+        return GenerateErrorToken();
     }
-    case ' ':
-    case '\r':
-    case '\t':
-        // Ignore whitespace
-        return GenerateErrorToken();
-    case '\n':
-        m_Column = 0;
-        m_Line++;
-        return GenerateErrorToken();
-    default:
-        if (IsAlpha(c))
+
+    Token ScriptScanner::PropertyIdentifier()
+    {
+        while (IsAlphaNumeric(Peek()) || Peek() == '_')
+            Advance();
+
+        std::string text = m_FileContents.substr(m_Start, m_Cursor - m_Start);
+        TokenType type = TokenType::IDENTIFIER;
+        auto iter = keywords.find(text);
+        if (iter != keywords.end())
         {
-            return PropertyIdentifier();
+            type = iter->second;
         }
-        break;
+
+        return Token{m_Line, m_Column, type, text};
     }
 
-    return GenerateErrorToken();
-}
-
-Token ScriptScanner::PropertyIdentifier()
-{
-    while (IsAlphaNumeric(Peek()) || Peek() == '_')
-        Advance();
-
-    std::string text = m_FileContents.substr(m_Start, m_Cursor - m_Start);
-    TokenType type = TokenType::IDENTIFIER;
-    auto iter = keywords.find(text);
-    if (iter != keywords.end())
+    Token ScriptScanner::Number()
     {
-        type = iter->second;
-    }
-
-    return Token{m_Line, m_Column, type, text};
-}
-
-Token ScriptScanner::Number()
-{
-    while (IsDigit(Peek()))
-        Advance();
-
-    bool hasE = false;
-    if (Peek() == '.' &&
-        (IsDigit(PeekNext()) || (PeekNext() == 'e' && IsDigit(PeekNextNext())) ||
-         (PeekNext() == 'E' && IsDigit(PeekNextNext()))))
-    {
-        Advance();
-
         while (IsDigit(Peek()))
+            Advance();
+
+        bool hasE = false;
+        if (Peek() == '.' && (IsDigit(PeekNext()) || (PeekNext() == 'e' && IsDigit(PeekNextNext())) || (PeekNext() == 'E' && IsDigit(PeekNextNext()))))
         {
             Advance();
+
+            while (IsDigit(Peek()))
+            {
+                Advance();
+            }
+
+            if ((Peek() == 'e' || Peek() == 'E') && (IsDigit(PeekNext()) || ((PeekNext() == '-' && IsDigit(PeekNextNext())) || (PeekNext() == '+' && IsDigit(PeekNextNext())))))
+            {
+                Advance();
+                while (IsDigit(Peek()))
+                    Advance();
+
+                if ((Peek() == '-' || Peek() == '+') && IsDigit(PeekNext()))
+                {
+                    Advance();
+                    while (IsDigit(Peek()))
+                        Advance();
+                }
+
+                if (Peek() == '.')
+                {
+                    // Log::Error("Unexpected number literal at
+                    //                     %d col:%d", m_Line, m_Column); return
+                    GenerateErrorToken();
+                }
+            }
         }
 
-        if ((Peek() == 'e' || Peek() == 'E') &&
-            (IsDigit(PeekNext()) ||
-             ((PeekNext() == '-' && IsDigit(PeekNextNext())) ||
-              (PeekNext() == '+' && IsDigit(PeekNextNext())))))
+        if ((Peek() == 'e' || Peek() == 'E') && (IsDigit(PeekNext()) || ((PeekNext() == '-' && IsDigit(PeekNextNext())) || (PeekNext() == '+' && IsDigit(PeekNextNext())))))
         {
             Advance();
             while (IsDigit(Peek()))
@@ -171,103 +188,77 @@ Token ScriptScanner::Number()
 
             if (Peek() == '.')
             {
-                // Log::Error("Unexpected number literal at
-                //                     %d col:%d", m_Line, m_Column); return
+                // Log::Error("Unexpected number literal at %d
+                //                 col:%d", m_Line, m_Column); return
                 GenerateErrorToken();
             }
         }
+
+        return Token{m_Line, m_Column, TokenType::NUMBER, m_FileContents.substr(m_Start, m_Cursor - m_Start)};
     }
 
-    if ((Peek() == 'e' || Peek() == 'E') &&
-        (IsDigit(PeekNext()) || ((PeekNext() == '-' && IsDigit(PeekNextNext())) ||
-                                 (PeekNext() == '+' && IsDigit(PeekNextNext())))))
+    Token ScriptScanner::String()
     {
-        Advance();
-        while (IsDigit(Peek()))
+        while (Peek() != '"' && !AtEnd())
+        {
+            if (Peek() == '\n')
+            {
+                m_Line++;
+                m_Column = -1;
+            }
             Advance();
-
-        if ((Peek() == '-' || Peek() == '+') && IsDigit(PeekNext()))
-        {
-            Advance();
-            while (IsDigit(Peek()))
-                Advance();
         }
 
-        if (Peek() == '.')
+        if (AtEnd())
         {
-            // Log::Error("Unexpected number literal at %d
-            //                 col:%d", m_Line, m_Column); return
-            GenerateErrorToken();
+            // Log::Error("Unexpected string literal at %d col:%d", m_Line, m_Column);
+            return GenerateErrorToken();
         }
-    }
 
-    return Token{m_Line, m_Column, TokenType::NUMBER,
-                 m_FileContents.substr(m_Start, m_Cursor - m_Start)};
-}
-
-Token ScriptScanner::String()
-{
-    while (Peek() != '"' && !AtEnd())
-    {
-        if (Peek() == '\n')
-        {
-            m_Line++;
-            m_Column = -1;
-        }
         Advance();
+
+        std::string value = m_FileContents.substr(m_Start, m_Cursor - m_Start);
+        return Token{m_Column, m_Line, TokenType::STRING_LITERAL, value};
     }
 
-    if (AtEnd())
+    char ScriptScanner::Advance()
     {
-        // Log::Error("Unexpected string literal at %d col:%d", m_Line, m_Column);
-        return GenerateErrorToken();
+        char c = m_FileContents[m_Cursor];
+        m_Cursor++;
+        m_Column++;
+        return c;
     }
 
-    Advance();
+    char ScriptScanner::Peek()
+    {
+        if (AtEnd())
+            return '\0';
+        return m_FileContents[m_Cursor];
+    }
 
-    std::string value = m_FileContents.substr(m_Start, m_Cursor - m_Start);
-    return Token{m_Column, m_Line, TokenType::STRING_LITERAL, value};
-}
+    char ScriptScanner::PeekNext()
+    {
+        if (AtEnd() || m_Cursor == m_FileContents.size() - 1)
+            return '\0';
+        return m_FileContents[m_Cursor + 1];
+    }
 
-char ScriptScanner::Advance()
-{
-    char c = m_FileContents[m_Cursor];
-    m_Cursor++;
-    m_Column++;
-    return c;
-}
+    char ScriptScanner::PeekNextNext()
+    {
+        if (AtEnd() || m_Cursor == m_FileContents.size() - 1 || m_Cursor == m_FileContents.size() - 2)
+            return '\0';
+        return m_FileContents[m_Cursor + 1];
+    }
 
-char ScriptScanner::Peek()
-{
-    if (AtEnd())
-        return '\0';
-    return m_FileContents[m_Cursor];
-}
+    bool ScriptScanner::Match(char expected)
+    {
+        if (AtEnd())
+            return false;
+        if (m_FileContents[m_Cursor] != expected)
+            return false;
 
-char ScriptScanner::PeekNext()
-{
-    if (AtEnd() || m_Cursor == m_FileContents.size() - 1)
-        return '\0';
-    return m_FileContents[m_Cursor + 1];
-}
-
-char ScriptScanner::PeekNextNext()
-{
-    if (AtEnd() || m_Cursor == m_FileContents.size() - 1 ||
-        m_Cursor == m_FileContents.size() - 2)
-        return '\0';
-    return m_FileContents[m_Cursor + 1];
-}
-
-bool ScriptScanner::Match(char expected)
-{
-    if (AtEnd())
-        return false;
-    if (m_FileContents[m_Cursor] != expected)
-        return false;
-
-    m_Cursor++;
-    m_Column++;
-    return true;
-}
+        m_Cursor++;
+        m_Column++;
+        return true;
+    }
 } // namespace Vultr

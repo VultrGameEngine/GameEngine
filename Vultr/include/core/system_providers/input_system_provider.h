@@ -1,90 +1,54 @@
 #pragma once
 #include <ecs/system/system_provider.hpp>
-#include <ecs/world/world.hpp>
-#include <GLFW/glfw3.h>
 #include <engine.hpp>
+#include <GLFW/glfw3.h>
+#include <queue>
+#include <input/input.h>
 
 namespace Vultr
 {
-namespace Input
-{
-struct MouseInputEvent
-{
-    MouseInputEvent(glm::vec2 p_pos, bool p_mouse_down)
-        : pos(p_pos), mouse_down(p_mouse_down)
+    namespace InputSystem
     {
-    }
-    glm::vec2 pos;
-    bool mouse_down;
-};
+        struct Component : public SystemProvider
+        {
+            Input::MousePos mouse_pos = Input::MousePos(0, 0);
+            Input::MousePos scene_mouse_pos = Input::MousePos(0, 0);
 
-struct MouseButtonInputEvent
-{
-    MouseButtonInputEvent(glm::vec2 p_pos, bool p_mouse_down)
-        : pos(p_pos), mouse_down(p_mouse_down)
-    {
-    }
-    glm::vec2 pos;
-    bool mouse_down;
-};
-struct ScrollInputEvent
-{
-    ScrollInputEvent(glm::vec2 p_pos, glm::vec2 p_scroll_amout)
-        : scroll_amount(p_scroll_amout), pos(p_pos)
-    {
-    }
-    glm::vec2 pos;
-    glm::vec2 scroll_amount;
-};
+            // Internal
+            std::queue<Vec2> internal_scroll_queue;
 
-} // namespace Input
-class InputSystem;
-class InputSystemProvider : public SystemProvider
-{
-  public:
-    static std::shared_ptr<InputSystemProvider> Get()
-    {
-        return Engine::GetSystemProvider<InputSystemProvider>();
-    }
+            std::vector<OnMousePositionChange> mouse_position_listeners;
+            std::vector<OnMouseButton> mouse_button_listeners;
+            std::vector<OnScroll> scroll_listeners;
+            std::vector<OnKey> key_listeners;
+        };
 
-    glm::vec2 MousePosition() const
-    {
-        return mouse_pos;
-    }
+        Component &get_provider();
 
-    bool MouseDown() const
-    {
-        return mouse_down;
-    }
+        Input::Action get_key(Input::Key key);
+        Input::Action get_mouse_button(Input::MouseButton button);
 
-    glm::vec2 ScrollDelta() const
-    {
-        return scroll_amount;
-    }
+        bool mouse_is_on_screen();
+        bool mouse_is_on_screen(Vec2 pos);
 
-    bool KeyDown(const char key) const;
-    template <class Archive> void serialize(Archive &ar)
-    {
-        // We pass this cast to the base type for each base type we
-        // need to serialize.  Do this instead of calling serialize functions
-        // directly
-        ar(cereal::base_class<SystemProvider>(this));
-    }
+        void set_mouse_pos_listener(OnMousePositionChange listener);
+        void deregister_mouse_pos_listener(OnMousePositionChange listener);
 
-  protected:
-    void OnCreateEntity(Entity entity) override;
-    void OnDestroyEntity(Entity entity) override;
-    std::queue<glm::vec2> scroll_queue;
-    void AddScrollInput(glm::vec2 input)
+        void set_mouse_button_listener(OnMouseButton listener);
+        void deregister_mouse_button_listener(OnMouseButton listener);
+
+        void set_scroll_listener(OnScroll listener);
+        void deregister_scroll_listener(OnScroll listener);
+
+        void set_key_listener(OnKey listener);
+        void deregister_key_listener(OnKey listener);
+
+    } // namespace InputSystem
+
+    template <>
+    inline const char *get_struct_name<InputSystem::Component>()
     {
-        scroll_queue.push(input);
+        return "InputSystem";
     }
-    GLFWwindow *window;
-    glm::vec2 mouse_pos = glm::vec2(0, 0);
-    bool mouse_down = false;
-    glm::vec2 scroll_amount = glm::vec2(0, 0);
-    friend InputSystem;
-};
 
 } // namespace Vultr
-VultrRegisterSystemProvider(Vultr::InputSystemProvider)

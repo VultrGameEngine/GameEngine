@@ -5,101 +5,74 @@
 #pragma once
 #include "../component/component.hpp"
 #include "system_provider.hpp"
-#include <memory>
 #include <unordered_map>
+#include <iostream>
+#include <type_info/type_info.h>
 
-class SystemManager
+namespace Vultr
 {
-  public:
-    template <typename T> std::shared_ptr<T> RegisterSystem(Signature signature)
-    {
-        std::string type_name = GetName<T>();
 
-        assert(system_providers.find(type_name) == system_providers.end() &&
-               "Registering system provider more than once");
+    // Holds a list of system components and signatures for those systems
+    struct SystemManager
+    {
+        SystemManager() = default;
+        // Map from system type string pointer to a system provider
+        std::unordered_map<std::string, SystemProvider *> system_providers{};
+    };
+
+    template <typename T>
+    T *system_manager_register_system(SystemManager &manager, Signature signature, OnCreateEntity on_create_entity, OnDestroyEntity on_destroy_entity, MatchSignature match_signature = nullptr)
+    {
+        static_assert(std::is_base_of<SystemProvider, T>::value &&
+                      "System component is not a derived class of SystemProvider! Failed to register. Please make sure that the type provided is a subclass of SystemProvider");
+
+        const char *type = get_struct_name<T>();
+
+        assert(manager.system_providers.find(type) == manager.system_providers.end() && "Registering system provider more than once");
 
         // Create a pointer to the system and return it so it can be used externally
-        std::shared_ptr<T> system_provider = std::make_shared<T>();
-        ((std::shared_ptr<SystemProvider>)system_provider)->signature = signature;
-        system_providers.insert({type_name, system_provider});
+        auto *instance = new T();
+        auto *system_provider = static_cast<SystemProvider *>(instance);
+        system_provider->signature = signature;
+        system_provider->on_create_entity = on_create_entity;
+        system_provider->on_destroy_entity = on_destroy_entity;
+        system_provider->match_signature = match_signature;
+        manager.system_providers.insert({type, system_provider});
 
-        SetSignature<T>(signature);
-
-        return system_provider;
+        return instance;
     }
 
-    template <typename T> void DeregisterSystem()
+    template <typename T>
+    void system_manager_deregister_system(SystemManager &manager)
     {
-        std::string type_name = GetName<T>();
+        static_assert(std::is_base_of<SystemProvider, T>::value &&
+                      "System component is not a derived class of SystemProvider! Failed to deregister. Please make sure that the type provided is a subclass of SystemProvider");
 
-        assert(system_providers.find(type_name) != system_providers.end() &&
-               "Attempting to deregister system that does not exist");
+        const char *type = get_struct_name<T>();
+        assert(manager.system_providers.find(type) != manager.system_providers.end() && "Attempting to deregister system that does not exist");
+
+        delete manager.system_providers[type];
 
         // Remove the system from the map
-        system_providers.erase(type_name);
+        manager.system_providers.erase(type);
     }
 
-    template <typename T> void SetSignature(Signature signature)
+    template <typename T>
+    T *system_manager_get_system_provider(SystemManager &manager)
     {
-        std::string type_name = GetName<T>();
+        static_assert(std::is_base_of<SystemProvider, T>::value &&
+                      "System component is not a derived class of SystemProvider! Failed to get. Please make sure that the type provided is a subclass of SystemProvider");
 
-        assert(system_providers.find(type_name) != system_providers.end() &&
-               "System used before registered");
+        const char *type = get_struct_name<T>();
+        assert(manager.system_providers.find(type) != manager.system_providers.end() && "System used before registered");
 
-        // Set the signature for the system
-        signatures.insert({type_name, signature});
+        return dynamic_cast<T *>(manager.system_providers.at(type));
     }
 
-    template <typename T> std::shared_ptr<T> GetSystemProvider()
-    {
-        std::string type_name = GetName<T>();
+    void system_manager_entity_signature_changed_in_system(SystemProvider *system, Entity entity, Signature entity_signature);
 
-        assert(system_providers.find(type_name) != system_providers.end() &&
-               "System used before registered");
+    // Called by world or engine to update the systems when new entities are created
+    void system_manager_entity_destroyed(SystemManager &manager, Entity entity);
 
-        return std::dynamic_pointer_cast<T>(system_providers.at(type_name));
-    }
-
-    void EntityDestroyed(Entity entity)
-    {
-        // Erase a destroyed entity from all system lists
-        for (auto const &pair : system_providers)
-        {
-            auto const &system = pair.second;
-
-            system->DestroyEntity(entity);
-        }
-    }
-
-    void EntitySignatureChanged(Entity entity, Signature entity_signature)
-    {
-        // Notify each system that an entity's signature has changed
-        for (auto const &pair : system_providers)
-        {
-            auto const &type = pair.first;
-            auto const &system = pair.second;
-            auto const &system_signature = signatures[type];
-
-            // If entity signature matches system signature
-            if (system->Match(entity_signature))
-            {
-                // Insert into set
-                system->CreateEntity(entity);
-            }
-            // Entity signature does not match system signature
-            else
-            {
-                // Erase from set
-                system->DestroyEntity(entity);
-            }
-        }
-    }
-
-  private:
-    // Map from system type string pointer to a signature
-    std::unordered_map<std::string, Signature> signatures{};
-
-    // Map from system type string pointer to a system provider
-    std::unordered_map<std::string, std::shared_ptr<SystemProvider>>
-        system_providers{};
-};
+    void system_manager_entity_signature_changed(SystemManager &manager, Entity entity, Signature entity_signature);
+} // namespace Vultr

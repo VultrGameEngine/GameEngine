@@ -12,7 +12,7 @@ struct Size
     {
     }
 
-    Size(glm::vec2 dimensions) : width(dimensions.x), height(dimensions.y), value(0)
+    Size(Vec2 dimensions) : width(dimensions.x), height(dimensions.y), value(0)
     {
     }
 

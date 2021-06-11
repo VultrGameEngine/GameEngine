@@ -7,40 +7,40 @@
 #include <iostream>
 #include <memory>
 #include <unordered_map>
+#include <json/json_fwd.hpp>
 
-class World;
-class ComponentManager
+namespace Vultr
 {
-  public:
-    void EntityDestroyed(Entity entity)
+    struct ComponentManager
     {
-        // Notify all component arrays that an entity has been destroyed
-        for (auto const &pair : component_arrays)
-        {
-            auto const &component = pair.second;
-            component->EntityDestroyed(entity);
-        }
-    }
+        ComponentManager() = default;
 
-  private:
-    // Map from type string poiner to a component array
-    std::unordered_map<std::string, std::shared_ptr<IComponentArray>>
-        component_arrays{};
+        // Map from type string poiner to a component array
+        std::unordered_map<ComponentType, IComponentArray *> component_arrays{};
+    };
+
+    void component_manager_entity_destroyed(ComponentManager &manager, Entity entity);
 
     // Get the statically casted pointer to the ComponentArray of type T
-    template <typename T> std::shared_ptr<ComponentArray<T>> GetComponentArray()
+    template <typename T>
+    ComponentArray<T> *component_manager_get_component_array(ComponentManager &manager, ComponentType type)
     {
-        const char *type_name = typeid(T).name();
-
-        if (component_arrays.find(type_name) == component_arrays.end())
+        // If the component manager does not have that component type then insert a
+        // new component array
+        if (manager.component_arrays.find(type) == manager.component_arrays.end())
         {
-            component_arrays.insert(
-                {type_name, std::make_shared<ComponentArray<T>>()});
+            manager.component_arrays.insert({type, new ComponentArray<T>()});
         }
 
-        return std::static_pointer_cast<ComponentArray<T>>(
-            component_arrays[type_name]);
+        return static_cast<ComponentArray<T> *>(manager.component_arrays[type]);
     }
-    friend World;
-    friend Entity;
-};
+
+    void component_manager_to_json(json &j, const ComponentManager &m, const ComponentRegistry &r);
+
+    void component_manager_from_json(const json &j, ComponentManager &m, const ComponentRegistry &r);
+
+    void destroy_component_manager(ComponentManager &manager);
+
+    void component_manager_copy(ComponentManager &copy, const ComponentManager &other);
+
+} // namespace Vultr

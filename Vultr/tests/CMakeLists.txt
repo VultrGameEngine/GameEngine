@@ -1,8 +1,9 @@
 cmake_minimum_required(VERSION 3.19.4)
 
 set(This VultrTests)
-file(GLOB_RECURSE Sources
-    "*.cpp"
+file(
+  GLOB_RECURSE Sources
+  "*.cpp"
 )
 
 add_executable(${This} ${Sources})

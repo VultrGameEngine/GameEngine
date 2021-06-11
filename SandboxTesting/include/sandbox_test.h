@@ -1,22 +1,17 @@
 #pragma once
-#include <Vultr.hpp>
+#include <vultr.hpp>
 
 class SandboxTest : public Game
 {
   public:
-    SandboxTest(Vultr::Engine &p_engine) : engine(p_engine)
-    {
-    }
+    SandboxTest(void *p_engine);
+    void RegisterComponents() override;
     void Init() override;
-    void Update(Vultr::UpdateTick tick) override;
+    void Update(const Vultr::UpdateTick &tick) override;
     void Flush() override;
+    void SetImGuiContext(ImGuiContext *context) override;
+
 
   private:
-    Vultr::Engine &engine;
-};
-
-extern "C"
-{
-    Game *init(Vultr::Engine &engine);
-    void flush(Game *game);
+    Vultr::Engine *engine;
 };

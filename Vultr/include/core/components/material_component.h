@@ -1,29 +1,56 @@
 #pragma once
 #include <glm/glm.hpp>
+#include <helpers/file.h>
 #include <iostream>
 #include <string>
-#include <vector>
 #include <unordered_map>
-#include <cereal/types/vector.hpp>
 #include <glad/glad.h>
+#include <types/types.hpp>
+#include <vector>
+#include <core/models/color.h>
 
-struct MaterialComponent
+namespace Vultr
 {
-    std::string shader_path;
-    std::unordered_map<std::string, GLenum> textures;
-    std::unordered_map<std::string, glm::vec3> vec3s;
-    std::unordered_map<std::string, int> ints;
-    std::unordered_map<std::string, float> floats;
-
-    static MaterialComponent Create()
+    struct DirectionalLight
     {
-        return MaterialComponent();
-    }
+        Vec3 direction;
+        Vec3 ambient;
+        Vec3 diffuse;
+        Vec3 specular;
+    };
 
-    char *identifier = nullptr;
-
-    template <class Archive> void serialize(Archive &ar)
+    struct MaterialComponent
     {
-        ar(shader_path, textures);
-    }
-};
+        typedef struct
+        {
+            Vultr::TextureSource file;
+            u16 slot;
+            std::string name;
+        } TexturePair;
+
+        Vultr::ShaderSource shader_source;
+        std::vector<TexturePair> textures;
+        std::unordered_map<std::string, Vec3> vec3s;
+        std::unordered_map<std::string, Vec4> vec4s;
+        std::unordered_map<std::string, Color> colors;
+        std::unordered_map<std::string, s32> ints;
+        std::unordered_map<std::string, f32> floats;
+
+        static MaterialComponent Create()
+        {
+            auto component = MaterialComponent();
+            return component;
+        }
+
+        std::vector<Vultr::TextureSource> get_paths()
+        {
+            auto vec = std::vector<Vultr::TextureSource>();
+            vec.reserve(textures.size());
+            for (auto pair : textures)
+            {
+                vec.push_back(pair.file);
+            }
+            return vec;
+        }
+    };
+} // namespace Vultr

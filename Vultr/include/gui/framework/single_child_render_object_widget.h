@@ -11,7 +11,7 @@ class SingleChildRenderObject : public RenderObject
 {
   public:
     SingleChildRenderObject(Widget *widget)
-        : RenderObject(widget), position(glm::vec2(0, 0))
+        : RenderObject(widget), position(Vec2(0, 0))
     {
     }
 
@@ -29,7 +29,7 @@ class SingleChildRenderObject : public RenderObject
     }
 
   protected:
-    glm::vec2 position;
+    Vec2 position;
 
   private:
     Size Layout(BuildContext *context, BoxConstraints constraints) override

@@ -1,35 +1,28 @@
 #pragma once
 #include <ecs/system/system_provider.hpp>
-#include <rendering/models/shader.h>
 #include <unordered_map>
+#include <type_info/type_info.h>
+#include <rendering/models/shader.h>
+#include <helpers/file.h>
 
 namespace Vultr
 {
-class ShaderLoaderSystemProvider : public SystemProvider
-{
-  public:
-    static std::shared_ptr<ShaderLoaderSystemProvider> Get();
-    static Shader *GetShader(const std::string &path)
+
+    namespace ShaderLoaderSystem
     {
-        if (Get()->loaded_shaders.find(path) == Get()->loaded_shaders.end())
-            return nullptr;
+        struct Component : public SystemProvider
+        {
+            std::unordered_map<std::string, Shader *> loaded_shaders;
+        };
 
-        return Get()->loaded_shaders[path];
-    }
+        Component &get_provider();
 
-    std::unordered_map<std::string, Shader *> loaded_shaders;
+        Shader *get_shader(const ShaderSource &source);
+    } // namespace ShaderLoaderSystem
 
-    template <class Archive> void serialize(Archive &ar)
+    template <>
+    inline const char *get_struct_name<ShaderLoaderSystem::Component>()
     {
-        // We pass this cast to the base type for each base type we
-        // need to serialize.  Do this instead of calling serialize functions
-        // directly
-        ar(cereal::base_class<SystemProvider>(this));
+        return "ShaderLoaderSystem";
     }
-
-  protected:
-    void OnCreateEntity(Entity entity) override;
-    void OnDestroyEntity(Entity entity) override;
-};
 } // namespace Vultr
-VultrRegisterSystemProvider(Vultr::ShaderLoaderSystemProvider)

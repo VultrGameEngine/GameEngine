@@ -40,7 +40,7 @@ void RenderGroup::Render(RenderContext context, RenderType type)
             // }
             // this->shader->SetUniform3f("lightPos", context.light_position);
             // this->shader->SetUniform3f("objectColor",
-            // glm::vec3(1.0f, 1.0f, 1.0f)); this->shader->SetUniform3f("viewPos",
+            // Vec3(1.0f, 1.0f, 1.0f)); this->shader->SetUniform3f("viewPos",
             // context.camera_transform.position);
         }
 
@@ -50,7 +50,7 @@ void RenderGroup::Render(RenderContext context, RenderType type)
         // this->shader->SetUniformMatrix4fv(
         //     "model", glm::value_ptr(transform_component.Matrix()));
 
-        // this->shader->SetUniform3f("lightColor", glm::vec3(1.0f, 1.0f, 1.0f));
+        // this->shader->SetUniform3f("lightColor", Vec3(1.0f, 1.0f, 1.0f));
 
         // // Bind the vao and ibo
         // glBindVertexArray(loaded_mesh->vao);

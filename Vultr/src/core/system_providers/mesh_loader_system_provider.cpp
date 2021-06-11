@@ -3,19 +3,27 @@
 #include <ecs/world/world.hpp>
 #include <engine.hpp>
 
-namespace Vultr
+namespace Vultr::MeshLoaderSystem
 {
-std::shared_ptr<MeshLoaderSystemProvider> MeshLoaderSystemProvider::Get()
-{
-    return Engine::GetSystemProvider<MeshLoaderSystemProvider>();
-}
+    Component &get_provider()
+    {
+        return *get_global_system_provider<Component>();
+    }
 
-void MeshLoaderSystemProvider::OnCreateEntity(Entity entity)
-{
-    MeshLoaderSystem::OnCreateEntity(entity);
-}
+    Mesh *get_mesh(const ModelSource &source)
+    {
+        auto &p = get_provider();
+        // If we do not have that mesh, return nullptr
+        if (p.meshes.find(source.path.string()) == p.meshes.end())
+        {
+            return nullptr;
+        }
 
-void MeshLoaderSystemProvider::OnDestroyEntity(Entity entity)
-{
-}
-} // namespace Vultr
+        return p.meshes[source.path.string()];
+    }
+
+    void add_mesh(const ModelSource &source, Mesh *mesh)
+    {
+        get_provider().meshes[source.path.string()] = mesh;
+    }
+} // namespace Vultr::MeshLoaderSystem

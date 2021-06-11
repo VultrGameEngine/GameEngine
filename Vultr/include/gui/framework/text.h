@@ -32,7 +32,7 @@ class RichText : public RenderObjectWidget
         unsigned int max_lines = 0;
         Overflow overflow = Overflow::clip;
         TextAlign alignment = TextAlign::left;
-        glm::vec4 color = glm::vec4(255);
+        Vec4 color = Vec4(255);
         double size = 12;
     };
     std::string text;
@@ -40,7 +40,7 @@ class RichText : public RenderObjectWidget
     Overflow overflow;
     TextAlign alignment;
     std::string font;
-    glm::vec4 color;
+    Vec4 color;
     double size;
 
   public:
@@ -72,7 +72,7 @@ class RichText : public RenderObjectWidget
         void Paint(BuildContext *context) override
         {
             context->IncreaseZ();
-            glm::vec2 cursor = glm::vec2(0, 0);
+            Vec2 cursor = Vec2(0, 0);
             Font *font = context->GetFont(GetConfig()->font);
 
             // If the font has changed, then we need to recreate every single quad
@@ -135,7 +135,7 @@ class RichText : public RenderObjectWidget
                 {
                     offset = GetSize().width - line_width;
                 }
-                glm::vec2 origin = glm::vec2(
+                Vec2 origin = Vec2(
                     context->GetPosition().x - GetSize().width / 2 + offset,
                     -font->GetHeight(size) * i - font->GetHeight(size) / 4);
                 cursor = origin;
@@ -147,14 +147,14 @@ class RichText : public RenderObjectWidget
                     QuadProperties property;
                     property.color = GetConfig()->color;
                     property.size = Size(character.size);
-                    property.uv = glm::vec2(character.uv, 0);
+                    property.uv = Vec2(character.uv, 0);
                     property.uv_dimensions =
                         character.size *
-                        glm::vec2(TEXT_SCALE_FACTOR, TEXT_SCALE_FACTOR) /
-                        glm::vec2(this->size, this->size);
+                        Vec2(TEXT_SCALE_FACTOR, TEXT_SCALE_FACTOR) /
+                        Vec2(this->size, this->size);
                     property.texture_dimensions = font->texture_dimensions;
                     context->Branch();
-                    context->AccumulatePosition(glm::vec2(
+                    context->AccumulatePosition(Vec2(
                         cursor.x + character.bearing.x + character.size.x / 2,
                         cursor.y + character.bearing.y - character.size.y / 2));
                     quad.Commit(id, property, context);

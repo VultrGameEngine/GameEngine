@@ -2,83 +2,83 @@
 #include <core/components/material_component.h>
 #include <core/system_providers/texture_loader_system_provider.h>
 #include <core/systems/texture_loader_system.h>
-#include <ecs/world/world.hpp>
-#include <fstream>
-#include <helpers/loading_state.h>
 #include <helpers/texture_importer.h>
-#include <iostream>
-#include <map>
-#include <sstream>
 #include <stb_image/stb_image.h>
-#include <string.h>
-#include <string>
-#include <thread>
-#include <vector>
 #include <engine.hpp>
 
-namespace Vultr
+namespace Vultr::TextureLoaderSystem
 {
+    void check_and_load_texture(Entity entity);
 
-void TextureLoaderSystem::RegisterSystem()
-{
-    Signature signature;
-    signature.set(
-        Engine::GetComponentRegistry().GetComponentType<MaterialComponent>());
-    Engine::RegisterGlobalSystem<TextureLoaderSystemProvider>(signature);
-}
-
-void TextureLoaderSystem::Update()
-{
-    TextureLoaderSystemProvider &provider = *TextureLoaderSystemProvider::Get();
-    for (Entity entity : provider.entities)
+    void register_system()
     {
-        CheckAndLoadTexture(entity);
+        Signature signature;
+        signature.set(get_component_type<MaterialComponent>());
+        register_global_system<Component>(signature, on_create_entity, nullptr);
     }
-}
 
-void TextureLoaderSystem::OnCreateEntity(Entity entity)
-{
-    CheckAndLoadTexture(entity);
-}
-
-void TextureLoaderSystem::LoadTexture(const MaterialComponent &mat)
-{
-    TextureLoaderSystemProvider &provider = *TextureLoaderSystemProvider::Get();
-    for (auto [path, slot] : mat.textures)
+    void update()
     {
-        if (!provider.isLoaded(path))
+        auto &provider = get_provider();
+        for (Entity entity : provider.entities)
         {
-            provider.textures[path] = new Texture(GL_TEXTURE_2D);
-            TextureImporter::Import(path, *provider.textures[path]);
+            check_and_load_texture(entity);
         }
     }
-}
 
-void TextureLoaderSystem::CheckAndLoadTexture(Entity entity)
-{
-    TextureLoaderSystemProvider &provider = *TextureLoaderSystemProvider::Get();
-    auto &component = entity.GetComponent<MaterialComponent>();
-    if (component.identifier != nullptr)
+    void on_create_entity(Entity entity)
     {
-        auto &skybox_component = entity.GetComponent<SkyBoxComponent>();
-        if (!provider.isLoaded(skybox_component.identifier))
-        {
-            Texture *texture = new Texture(GL_TEXTURE_CUBE_MAP);
-            provider.textures[skybox_component.identifier] = texture;
-            TextureImporter::ImportSkybox(skybox_component.GetPaths(), *texture);
-        }
+        check_and_load_texture(entity);
     }
-    else
+
+    void load_texture(const MaterialComponent &mat)
     {
-        for (auto [path, slot] : component.textures)
+        auto &provider = get_provider();
+        for (auto [source, slot, name] : mat.textures)
         {
-            if (!provider.isLoaded(path))
+            if (!is_loaded(source))
             {
-                provider.textures[path] = new Texture(GL_TEXTURE_2D);
-                TextureImporter::Import(path, *provider.textures[path]);
+                provider.textures[source.path.string()] = new Texture(GL_TEXTURE_2D);
+                TextureImporter::import(source, *provider.textures[source.path.string()]);
             }
         }
     }
-}
 
-} // namespace Vultr
+    void check_and_load_texture(Entity entity)
+    {
+        auto &provider = get_provider();
+        auto &component = entity_get_component<MaterialComponent>(entity);
+        Signature signature;
+        signature.set(get_component_type<SkyBoxComponent>());
+        if (entity_has_component<SkyBoxComponent>(entity))
+        {
+            auto &skybox_component = entity_get_component<SkyBoxComponent>(entity);
+            if (!is_loaded(skybox_component.identifier.c_str()))
+            {
+                Texture *texture = new Texture(GL_TEXTURE_CUBE_MAP);
+                provider.textures[skybox_component.identifier] = texture;
+                TextureImporter::import_skybox(component.get_paths(), *texture);
+            }
+        }
+        else
+        {
+            for (auto [file, slot, name] : component.textures)
+            {
+                if (!is_loaded(file))
+                {
+                    Texture *new_tex = new Texture(GL_TEXTURE_2D);
+                    bool successful = TextureImporter::import(file, *new_tex);
+                    if (successful)
+                    {
+                        provider.textures[file.path.string()] = new_tex;
+                    }
+                    else
+                    {
+                        delete new_tex;
+                    }
+                }
+            }
+        }
+    }
+
+} // namespace Vultr::TextureLoaderSystem

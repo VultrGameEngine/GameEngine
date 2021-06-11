@@ -2,6 +2,20 @@
 
 namespace Vultr
 {
+template <> void VertexArray::Setup<Vertex>()
+{
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
+                          (const void *)offsetof(Vertex, position));
+
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
+                          (const void *)offsetof(Vertex, normal));
+
+    glEnableVertexAttribArray(2);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex),
+                          (const void *)offsetof(Vertex, uv));
+}
 Mesh::Mesh()
 {
 }
@@ -13,9 +27,9 @@ Mesh::~Mesh()
     delete vbo;
 }
 
-void Mesh::Init(const std::vector<glm::vec3> &p_positions,
-                const std::vector<glm::vec2> &p_uvs,
-                const std::vector<glm::vec3> &p_normals,
+void Mesh::Init(const std::vector<Vec3> &p_positions,
+                const std::vector<Vec2> &p_uvs,
+                const std::vector<Vec3> &p_normals,
                 const std::vector<unsigned short> &p_indices)
 {
     this->m_vertices.clear();

@@ -1,125 +1,46 @@
 // Bundles the EntityManager, ComponentManager, and SystemManager into one World
 #pragma once
 #define GLFW_INCLUDE_NONE
-#include "../component/component.hpp"
-#include "../component/component_manager.hpp"
-#include "../entity/entity_manager.hpp"
-#include "../system/system_manager.hpp"
-#include <memory>
+#include <ecs/entity/entity.hpp>
+#include <ecs/component/component.hpp>
+#include <ecs/entity/entity_manager.hpp>
+#include <ecs/component/component_manager.hpp>
+#include <ecs/system/system_manager.hpp>
 #include <set>
-#include "../../core/component_renderer.h"
-#include <fstream>
-#include <engine.hpp>
+#include <helpers/file.h>
 
-class World
+namespace Vultr
 {
-  public:
-    World() = default;
+    // Opaque type World
+    typedef struct InternalWorld World;
 
-    static std::shared_ptr<World> Get();
+    // Create a new World
+    World *new_world(const ComponentRegistry &r);
 
-    static void ChangeWorld(std::shared_ptr<World> world);
+    void save_world(World *world, json &j);
 
-    static std::shared_ptr<World> Init();
+    void save_world(World *world, const VultrSource &out);
 
-    static void ExportWorld(const std::string &path, std::shared_ptr<World> world);
+    void destroy_world(World *world);
 
-    static void ExportWorldEditor(const std::string &path,
-                                  std::shared_ptr<World> world);
+    // void ExportWorld(const std::string &path, std::shared_ptr<World> world);
 
-    static std::shared_ptr<World> ImportWorld(const std::string &path);
+    // void ExportWorldEditor(const std::string &path, std::shared_ptr<World> world);
 
-    // Entity methods
-    Entity CreateEntity();
+    // World ImportWorld(const std::string &path);
 
-    void DestroyEntity(Entity entity);
+    World *load_world(const json &j, const ComponentRegistry &r);
 
-    std::set<Entity> GetEntities(Signature signature);
+    World *load_world(const VultrSource &file, const ComponentRegistry &r);
 
-    Signature GetSignature(Entity entity);
+    // Entity methods, just wrappers around existing methods
+    Entity create_entity(World *world);
+    void destroy_entity(World *world, Entity entity);
+    std::set<Entity> get_entities(World *world, Signature signature);
+    Signature get_entity_signature(World *world, Entity entity);
 
-    template <typename T> std::shared_ptr<ComponentArray<T>> GetComponents()
-    {
-        return component_manager->GetComponentArray<T>();
-    }
-
-    // System methods
-    template <typename T> std::shared_ptr<T> RegisterSystem(Signature signature)
-    {
-        return system_manager->RegisterSystem<T>(signature);
-    }
-
-    template <typename T> void SetSignature(Signature signature)
-    {
-        return system_manager->SetSignature<T>(signature);
-    }
-
-    template <typename T> void DeregisterSystem()
-    {
-        return system_manager->DeregisterSystem<T>();
-    }
-
-    template <typename T> std::shared_ptr<T> GetSystemProvider()
-    {
-        return system_manager->GetSystemProvider<T>();
-    }
-
-    std::unique_ptr<ComponentManager> component_manager;
-    std::unique_ptr<EntityManager> entity_manager;
-    std::unique_ptr<SystemManager> system_manager;
-
-  private:
-    static std::shared_ptr<World> current_world;
-    friend Vultr::Engine;
-    friend Entity;
-};
-
-template <typename T> void Entity::AddComponent(T component)
-{
-    std::shared_ptr<World> world = World::Get();
-    assert(world != nullptr && "World does not exist! Make sure you create a world "
-                               "before trying to add a component to an entity");
-    world->component_manager->GetComponentArray<T>()->InsertData(*this, component);
-
-    auto signature = world->entity_manager->GetSignature(*this);
-    signature.set(Vultr::Engine::GetComponentRegistry().GetComponentType<T>(), true);
-    world->system_manager->EntitySignatureChanged(*this, signature);
-    Vultr::Engine::GetGlobalSystemManager().EntitySignatureChanged(*this, signature);
-    world->entity_manager->SetSignature(*this, signature);
-}
-
-template <typename T> void Entity::RemoveComponent()
-{
-    std::shared_ptr<World> world = World::Get();
-    assert(world != nullptr && "World does not exist! Make sure you create a world "
-                               "before trying to remove a component to an entity");
-    auto signature = world->entity_manager->GetSignature(*this);
-    signature.set(Vultr::Engine::GetComponentRegistry().GetComponentType<T>(),
-                  false);
-    world->system_manager->EntitySignatureChanged(*this, signature);
-    Vultr::Engine::GetGlobalSystemManager().EntitySignatureChanged(*this, signature);
-    world->entity_manager->SetSignature(*this, signature);
-
-    world->component_manager->GetComponentArray<T>()->RemoveData(*this);
-}
-
-template <typename T> T &Entity::GetComponent()
-{
-    std::shared_ptr<World> world = World::Get();
-    assert(world != nullptr && "Cannot get component because world does not exist!");
-    return world->component_manager->GetComponentArray<T>()->GetData(*this);
-}
-
-template <typename T> bool Entity::HasComponent()
-{
-    std::shared_ptr<World> world = World::Get();
-    assert(world != nullptr && "Cannot get component because world does not exist!");
-    return world->component_manager->GetComponentArray<T>()->HasComponent(*this);
-}
-
-template <typename T> T *Entity::GetComponentUnsafe()
-{
-    std::shared_ptr<World> world = World::Get();
-    assert(world != nullptr && "Cannot get component because world does not exist!");
-    return world->component_manager->GetComponentArray<T>()->GetDataUnsafe(*this);
-}
+    // Getters for World
+    EntityManager &world_get_entity_manager(World *world);
+    ComponentManager &world_get_component_manager(World *world);
+    SystemManager &world_get_system_manager(World *world);
+} // namespace Vultr

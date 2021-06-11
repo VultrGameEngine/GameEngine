@@ -1,67 +1,159 @@
 #pragma once
-#include "Game.hpp"
 #include <ecs/component/component_registry.hpp>
-#include <ecs/system/system_manager.hpp>
+#include <platform/window/window.h>
+#include <ecs/world/world.hpp>
+#include <game.hpp>
 #include <GLFW/glfw3.h>
 
 namespace Vultr
 {
-class Engine
-{
-  public:
-    static Engine &Get();
-    void Init(bool debug);
-    void LoadGame(const std::string &path);
-    void LoadGame(Game *game);
-    static void RegisterComponents();
-    void InitSystems();
-    void InitGame();
-    void UpdateGame(float &t);
-    void Destroy();
-    double GetElapsedTime();
-    GLFWwindow *window;
-    bool should_close = false;
-    static ComponentRegistry &GetComponentRegistry();
-    static SystemManager &GetGlobalSystemManager();
-    // Component methods
-    template <typename T>
-    static void RegisterComponent(bool inspector_available = true)
+    struct EditEvent;
+    typedef void (*OnEdit)(EditEvent *);
+    struct Engine
     {
-        Get().registry->RegisterComponent<T>(inspector_available);
-    }
+        GLFWwindow *window;
+        bool should_close = false;
+
+        bool debug;
+        Game *game;
+        World *current_world;
+        ComponentRegistry component_registry;
+        SystemManager system_manager;
+
+        // EDITOR ONLY
+        OnEdit on_edit = nullptr;
+    };
+
+    Engine *&engine_global();
+
+    World *get_current_world();
+    void change_world(World *);
+
+    void engine_init(Engine *e, bool debug);
+    void engine_load_game(Engine *e, const char *path);
+    void engine_load_game(Engine *e, Game *game);
+    void engine_register_default_components(Engine *e);
+    void engine_init_default_systems(Engine *e);
+    void engine_init_game(Engine *e);
+    UpdateTick engine_update_game(Engine *e, float &last_time, bool play);
+    double engine_get_time_elapsed(Engine *e);
+
+    void engine_send_update_event(EditEvent *event);
+
+#define WORLD_DOESNT_EXIST_ERROR(function_name) "Cannot call " #function_name " because world does not exist! Make sure you create a world before calling this method."
 
     template <typename T>
-    static std::shared_ptr<T> RegisterGlobalSystem(Signature signature)
+    ComponentType get_component_type()
     {
-        return Get().system_manager->RegisterSystem<T>(signature);
-    }
-    template <typename T> static void SetSignature(Signature signature)
-    {
-        return Get().system_manager->SetSignature<T>(signature);
+        return component_registry_get_component_type<T>(engine_global()->component_registry);
     }
 
-    template <typename T> static void DeregisterSystem()
+    template <typename T>
+    T &entity_get_component(Entity entity)
     {
-        return Get().system_manager->DeregisterSystem<T>();
+        World *world = get_current_world();
+        assert(world != nullptr && WORLD_DOESNT_EXIST_ERROR(entity_get_component));
+        return component_manager_get_component_array<T>(world_get_component_manager(world), get_component_type<T>())->GetData(entity);
     }
 
-    template <typename T> static std::shared_ptr<T> GetSystemProvider()
+    template <typename T>
+    void entity_add_component(Entity entity, T component)
     {
-        return Get().system_manager->GetSystemProvider<T>();
+        World *world = get_current_world();
+        assert(world != nullptr && WORLD_DOESNT_EXIST_ERROR(entity_add_component));
+        component_manager_get_component_array<T>(world_get_component_manager(world), get_component_type<T>())->InsertData(entity, component);
+
+        auto signature = get_entity_signature(world, entity);
+        signature.set(get_component_type<T>(), true);
+        system_manager_entity_signature_changed(world_get_system_manager(world), entity, signature);
+
+        system_manager_entity_signature_changed(engine_global()->system_manager, entity, signature);
+        entity_manager_set_signature(world_get_entity_manager(world), entity, signature);
     }
 
-  private:
-    Engine()
+    template <typename T>
+    void entity_remove_component(Entity entity)
     {
-        registry = std::make_shared<ComponentRegistry>();
-        system_manager = std::make_shared<SystemManager>();
+        World *world = get_current_world();
+        assert(world != nullptr && WORLD_DOESNT_EXIST_ERROR(entity_remove_component));
+        auto signature = get_entity_signature(world, entity);
+        signature.set(get_component_type<T>(), false);
+        system_manager_entity_signature_changed(world_get_system_manager(world), entity, signature);
+        system_manager_entity_signature_changed(engine_global()->system_manager, entity, signature);
+        entity_manager_set_signature(world_get_entity_manager(world), entity, signature);
+
+        component_manager_get_component_array<T>(world_get_component_manager(world), get_component_type<T>())->RemoveData(entity);
     }
-    ~Engine()
+
+    template <typename T>
+    bool entity_has_component(Entity entity)
     {
+        World *world = get_current_world();
+        assert(world != nullptr && WORLD_DOESNT_EXIST_ERROR(entity_has_component));
+        return component_manager_get_component_array<T>(world_get_component_manager(world), get_component_type<T>())->HasData(entity);
     }
-    bool debug;
-    Game *game;
-    std::shared_ptr<ComponentRegistry> registry;
-    std::shared_ptr<SystemManager> system_manager;
-};
+
+    template <typename T>
+    T *entity_get_component_unsafe(Entity entity)
+    {
+        World *world = get_current_world();
+        assert(world != nullptr && WORLD_DOESNT_EXIST_ERROR(entity_get_component_unsafe));
+        return component_manager_get_component_array<T>(world_get_component_manager(world), get_component_type<T>())->GetDataUnsafe(entity);
+    }
+
+    void destroy_entity(Entity entity);
+
+    Signature entity_get_signature(Entity entity);
+
+    template <typename T>
+    void register_component()
+    {
+        component_registry_register_component<T>(engine_global()->component_registry, [](Entity entity) { entity_add_component(entity, T::Create()); });
+    }
+
+    template <typename T>
+    bool is_component_registered()
+    {
+        ComponentType type = component_registry_get_component_type<T>(engine_global()->component_registry);
+        return component_registry_is_component_registered(engine_global()->component_registry, type);
+    }
+
+    template <typename T>
+    T *world_register_system(Signature signature, OnCreateEntity on_create_entity = nullptr, OnDestroyEntity on_destroy_entity = nullptr, MatchSignature match_signature = nullptr)
+    {
+        T *res = system_manager_register_system<T>(world_get_system_manager(get_current_world()), signature, on_create_entity, on_destroy_entity, match_signature);
+        EntityManager &entity_manager = world_get_entity_manager(get_current_world());
+        for (Entity e : entity_manager.living_entites)
+        {
+            system_manager_entity_signature_changed_in_system(res, e, entity_manager_get_signature(entity_manager, e));
+        }
+        return res;
+    }
+
+    template <typename T>
+    T *register_global_system(Signature signature, OnCreateEntity on_create_entity = nullptr, OnDestroyEntity on_destroy_entity = nullptr, MatchSignature match_signature = nullptr)
+    {
+        return system_manager_register_system<T>(engine_global()->system_manager, signature, on_create_entity, on_destroy_entity, match_signature);
+    }
+
+    template <typename T>
+    void deregister_global_system()
+    {
+        return system_manager_deregister_system<T>(engine_global()->system_manager);
+    }
+
+    template <typename T>
+    T *world_get_system_provider()
+    {
+        World *world = get_current_world();
+        assert(world != nullptr && WORLD_DOESNT_EXIST_ERROR(world_get_system_provider));
+        return system_manager_get_system_provider<T>(world_get_system_manager(world));
+    }
+
+    template <typename T>
+    T *get_global_system_provider()
+    {
+        return system_manager_get_system_provider<T>(engine_global()->system_manager);
+    }
+
 } // namespace Vultr

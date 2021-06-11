@@ -2,34 +2,27 @@
 #include <ecs/system/system_provider.hpp>
 #include <rendering/models/texture.h>
 #include <unordered_map>
-#include <vector>
-#include <ecs/world/world.hpp>
 #include <engine.hpp>
+#include <type_info/type_info.h>
 
 namespace Vultr
 {
-class TextureLoaderSystemProvider : public SystemProvider
-{
-  public:
-    static std::shared_ptr<TextureLoaderSystemProvider> Get()
+    namespace TextureLoaderSystem
     {
-        return Engine::GetSystemProvider<TextureLoaderSystemProvider>();
-    }
-    static Texture *GetTexture(const std::string &texture);
-    static bool isLoaded(const std::string &texture);
+        struct Component : public SystemProvider
+        {
+            std::unordered_map<std::string, Texture *> textures;
+        };
+        Component &get_provider();
+        Texture *get_texture(const TextureSource &texture);
+        Texture *get_texture(const char *texture);
+        bool is_loaded(const TextureSource &texture);
+        bool is_loaded(const char *texture);
+    } // namespace TextureLoaderSystem
 
-    std::unordered_map<std::string, Texture *> textures;
-    template <class Archive> void serialize(Archive &ar)
+    template <>
+    inline const char *get_struct_name<TextureLoaderSystem::Component>()
     {
-        // We pass this cast to the base type for each base type we
-        // need to serialize.  Do this instead of calling serialize functions
-        // directly
-        ar(cereal::base_class<SystemProvider>(this));
+        return "TextureLoaderSystem";
     }
-
-  protected:
-    void OnCreateEntity(Entity entity) override;
-    void OnDestroyEntity(Entity entity) override;
-};
 } // namespace Vultr
-VultrRegisterSystemProvider(Vultr::TextureLoaderSystemProvider)

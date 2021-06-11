@@ -2,6 +2,7 @@
 #include <gui/framework/input.h>
 
 using namespace Vultr;
+using namespace GUI;
 
 Widget *TestStateWidgetState::Build(BuildContext *context)
 {
@@ -20,9 +21,9 @@ Widget *TestStateWidgetState::Build(BuildContext *context)
                 .height = GetScale().y *GetWidget()->size.y,
                 .speed = 0.00000001,
             }),
-            .color = glm::vec4(252, 152, 3, 255),
+            .color = Vec4(252, 152, 3, 255),
             .borders = EdgeInsets::All(10),
-            .border_color = glm::vec4(255, 255, 255, GetBorderAlpha()),
+            .border_color = Vec4(255, 255, 255, GetBorderAlpha()),
         }),
         .on_hover =
             [this](HoverEvent event) {

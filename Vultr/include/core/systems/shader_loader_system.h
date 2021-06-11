@@ -1,36 +1,13 @@
 #pragma once
-#include <glad/glad.h>
-#include <array>
-#include <core/system_providers/shader_loader_system_provider.h>
-#include <fstream>
-#include <iostream>
-#include <memory>
-#include <sstream>
-#include <string.h>
-#include <vector>
-#include <core/components/material_component.h>
+#include <ecs/entity/entity.hpp>
 
-namespace Vultr
+struct MaterialComponent;
+namespace Vultr::ShaderLoaderSystem
 {
+    void register_system();
+    void update();
+    void load_shader(const MaterialComponent &mat);
 
-class ShaderLoaderSystem
-{
-
-  public:
-    static void LoadShader(const MaterialComponent &mat);
-    static void RegisterSystem();
-    static void Update();
-
-    static void OnDestroyEntity(Entity entity);
-    static void OnCreateEntity(Entity entity);
-    static SystemProvider &GetProvider()
-    {
-        std::shared_ptr<ShaderLoaderSystemProvider> provider =
-            ShaderLoaderSystemProvider::Get();
-        return *provider;
-    }
-
-  protected:
-    static void CheckAndLoadShader(Entity entity);
-};
-} // namespace Vultr
+    void on_create_entity(Entity entity);
+    void on_destroy_entity(Entity entity);
+} // namespace Vultr::ShaderLoaderSystem

@@ -1,7 +1,6 @@
 #pragma once
 #include "vertex.h"
 #include <glad/glad.h>
-#include <vector>
 
 namespace Vultr
 {

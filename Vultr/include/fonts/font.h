@@ -10,20 +10,20 @@ namespace Vultr
 struct FontCharacter
 {
     FontCharacter()
-        : size(glm::vec2(0, 0)), bearing(glm::vec2(0, 0)), advance(glm::vec2(0, 0)), uv(0)
+        : size(Vec2(0, 0)), bearing(Vec2(0, 0)), advance(Vec2(0, 0)), uv(0)
     {
     }
 
     FontCharacter(const FontCharacter &other, double scale_factor)
     {
-        this->size = other.size * glm::vec2(scale_factor);
-        this->bearing = other.bearing * glm::vec2(scale_factor);
-        this->advance = other.advance * glm::vec2(scale_factor);
+        this->size = other.size * Vec2(scale_factor);
+        this->bearing = other.bearing * Vec2(scale_factor);
+        this->advance = other.advance * Vec2(scale_factor);
         this->uv = other.uv;
     }
-    glm::vec2 size;
-    glm::vec2 bearing;
-    glm::vec2 advance;
+    Vec2 size;
+    Vec2 bearing;
+    Vec2 advance;
     float uv;
 };
 
@@ -32,7 +32,7 @@ class Font
   public:
     Texture *texture;
 
-    glm::vec2 texture_dimensions = glm::vec2(0, 0);
+    Vec2 texture_dimensions = Vec2(0, 0);
     Font()
     {
     }
