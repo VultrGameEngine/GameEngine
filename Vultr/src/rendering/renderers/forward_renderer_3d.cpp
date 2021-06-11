@@ -18,11 +18,13 @@ namespace Vultr::Renderer3D
         if (shader == nullptr)
             return;
         shader->Bind();
-        shader->SetUniformMatrix4fv("model", glm::value_ptr(transform));
+        glm::mat4 model = transform;
+        shader->SetUniformMatrix4fv("model", glm::value_ptr(model));
 
         const RenderContext &context = RenderContext::GetContext();
 
-        shader->SetUniformMatrix4fv("projection", glm::value_ptr(context.camera_component.GetProjectionMatrix(context.dimensions.x, context.dimensions.y)));
+        // shader->SetUniformMatrix4fv("projection", glm::value_ptr());
+        glm::mat4 projection = context.camera_component.GetProjectionMatrix(context.dimensions.x, context.dimensions.y);
 
         Entity directional_light = LightSystem::get_provider().directional_light;
         if (directional_light != INVALID_ENTITY)
@@ -40,7 +42,10 @@ namespace Vultr::Renderer3D
             Texture *texture = TextureLoaderSystem::get_texture(skybox_identifier);
             if (texture != nullptr)
                 texture->Bind(GL_TEXTURE0);
-            shader->SetUniformMatrix4fv("view", glm::value_ptr(Mat4(glm::mat3(context.camera_transform.GetViewMatrix()))));
+            glm::mat4 view = Mat4(glm::mat3(context.camera_transform.GetViewMatrix()));
+            glm::mat4 MVP = projection * view;
+            shader->SetUniformMatrix4fv("VP", glm::value_ptr(MVP));
+            // shader->SetUniformMatrix4fv("view", glm::value_ptr());
         }
         else
         {
@@ -50,7 +55,10 @@ namespace Vultr::Renderer3D
                 if (texture != nullptr)
                     texture->Bind(GL_TEXTURE0 + slot);
             }
-            shader->SetUniformMatrix4fv("view", glm::value_ptr(context.camera_transform.GetViewMatrix()));
+            glm::mat4 view = context.camera_transform.GetViewMatrix();
+            glm::mat4 MVP = projection * view * model;
+            shader->SetUniformMatrix4fv("MVP", glm::value_ptr(MVP));
+            // shader->SetUniformMatrix4fv("view", glm::value_ptr());
         }
 
         for (auto [uniform, value] : material.vec3s)
