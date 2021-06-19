@@ -2,6 +2,7 @@
 #include <editor.h>
 #define INCBIN_STYLE INCBIN_STYLE_SNAKE
 #include <incbin/incbin.h>
+#include <helpers/texture_importer.h>
 
 #ifndef SOURCE_PATH
 #define SOURCE_PATH "INVALID SOURCE"

@@ -22,7 +22,7 @@ namespace Vultr::InputSystem
             .button = static_cast<Input::MouseButton>(button),
             .action = static_cast<Input::Action>(action),
         };
-        GUISystem::receive_mouse_button_event(event);
+        // GUISystem::receive_mouse_button_event(event);
         for (auto &listener : p.mouse_button_listeners)
         {
             listener(event);
@@ -38,7 +38,7 @@ namespace Vultr::InputSystem
             .scroll_dir = dir,
         };
 
-        GUISystem::receive_scroll_event(event);
+        // GUISystem::receive_scroll_event(event);
         for (auto &listener : p.scroll_listeners)
         {
             listener(event);
@@ -118,13 +118,13 @@ namespace Vultr::InputSystem
         if (mouse_is_on_screen())
         {
             MousePositionEvent event = {.pos = p.mouse_pos};
-            if (!GUISystem::receive_mouse_position_event(event))
+            // if (!GUISystem::receive_mouse_position_event(event))
+            // {
+            for (auto &listener : p.mouse_position_listeners)
             {
-                for (auto &listener : p.mouse_position_listeners)
-                {
-                    listener(event);
-                }
+                listener(event);
             }
+            // }
         }
     }
 

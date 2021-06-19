@@ -13,8 +13,6 @@
 #include <imgui/imgui_impl_opengl3.h>
 #include <core/component_renderer.h>
 #include <errors/error_handler.h>
-#include <gui/framework/basic.h>
-#include <gui/layouts/test_layout.h>
 #include <helpers/path.h>
 #include <core/models/update_tick.h>
 #include <ImGuiFileDialog/ImGuiFileDialog.h>
@@ -191,7 +189,7 @@ namespace Vultr
         LightSystem::register_system();
         RenderSystem::register_system();
         RenderSystem::init();
-        GUISystem::register_system();
+        // GUISystem::register_system();
         InputSystem::register_system();
         FontSystem::register_system();
         FontSystem::init();
@@ -201,7 +199,6 @@ namespace Vultr
         glfwSetWindowFocusCallback(e->window, ControllerSystem::window_focus_callback);
 
         Vec2 dimensions = RenderSystem::get_dimensions(GAME);
-        GUISystem::init(TestLayout());
     }
 
     void engine_init_game(Engine *e)
