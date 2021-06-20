@@ -6,7 +6,6 @@ namespace Vultr
 {
     namespace IMGUI
     {
-        static const WidgetType __button_cache_id = ui_id(__FILE__);
         struct ButtonState
         {
             Vec2 shadow_offset = Vec2(20);

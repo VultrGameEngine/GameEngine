@@ -2,11 +2,15 @@
 #include "window.h"
 #include <gui/rendering/renderer.h>
 #include <gui/rendering/render_request.h>
+#include <gui/rendering/quad_batch.h>
 #include "ui_id.h"
 #include <stack>
 #include <input/input.h>
 #include "widget_cache.h"
 #include <core/models/update_tick.h>
+#include <rendering/models/texture.h>
+#include <fonts/font.h>
+#include <gui/utils/opengl.h>
 
 namespace Vultr
 {
@@ -41,6 +45,8 @@ namespace Vultr
             f32 delta_time;
 
             std::unordered_map<WidgetType, IWidgetCache *> cache_arrays{};
+
+            Font *font;
         };
 
         Context *new_context(const Window &window);
@@ -64,7 +70,7 @@ namespace Vultr
             auto *cache_array = get_widget_cache_array<T>(c, type);
             if (!cache_array->has_data(id))
             {
-                cache_array->insert_data(id, T{});
+                cache_array->insert_data(id);
             }
             return cache_array->get_data(id);
         }
@@ -75,6 +81,8 @@ namespace Vultr
         bool mouse_over(Vec2 top_left, Vec2 size);
 
         void draw_rect(Context *c, Vec4 color, Vec2 position, Vec2 dimensions, Shader *shader = nullptr);
+        void draw_texture(Context *c, Texture *tex, Vec2 position, Vec2 dimensions, Shader *shader = nullptr);
+        void draw_batch(Context *c, QuadBatch *batch, u32 quads);
 
         bool is_hot(Context *c, UI_ID id);
         bool is_active(Context *c, UI_ID id);

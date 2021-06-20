@@ -4,17 +4,17 @@
 
 namespace Vultr
 {
-class VertexBuffer
-{
-  public:
-    VertexBuffer(size_t size);
-    VertexBuffer(const GLvoid *vertices, unsigned int count);
-    ~VertexBuffer();
+    class VertexBuffer
+    {
+      public:
+        VertexBuffer(size_t size);
+        VertexBuffer(const GLvoid *vertices, unsigned int count);
+        ~VertexBuffer();
 
-    void Bind();
-    void Unbind();
+        void Bind();
+        void Unbind();
 
-  private:
-    unsigned int id;
-};
+      private:
+        unsigned int id;
+    };
 } // namespace Vultr

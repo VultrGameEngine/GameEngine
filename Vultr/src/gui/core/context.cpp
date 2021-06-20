@@ -4,6 +4,8 @@
 #include <core/system_providers/render_system_provider.h>
 
 #include <core/system_providers/input_system_provider.h>
+#include <helpers/font_importer.h>
+#include <core/system_providers/font_system_provider.h>
 
 using namespace Vultr;
 
@@ -67,6 +69,8 @@ IMGUI::Context *IMGUI::new_context(const IMGUI::Window &window)
     Context *context = new Context();
     context->window = window;
     context->renderer = new_imgui_renderer();
+    auto default_font = FontSource("/home/brandon/Dev/Monopoly/res/fonts/Antonio-Bold.ttf");
+    context->font = FontImporter::import_font(default_font, FontSystem::get_provider().library);
     return context;
 }
 
@@ -74,6 +78,8 @@ void IMGUI::begin(Context *c, const UpdateTick &t)
 {
     glClearColor(0.0, 0.0, 0.0, 0.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     update_mouse_state(c->left_mb, Input::MOUSE_LEFT);
     update_mouse_state(c->right_mb, Input::MOUSE_RIGHT);
@@ -96,20 +102,44 @@ bool IMGUI::mouse_over(Vec2 top_left, Vec2 size)
 
 void IMGUI::draw_rect(Context *c, Vec4 color, Vec2 position, Vec2 dimensions, Shader *shader)
 {
-    auto pos = position / RenderSystem::get_dimensions(GAME) * Vec2(2) + Vec2(-1, 1);
-    pos.y = 2 - pos.y;
-    auto col = color / Vec4(255);
-    auto size = dimensions / RenderSystem::get_dimensions(GAME);
+    auto col = gl_get_color(color);
+    auto size = gl_get_size(dimensions);
 
-    pos += size / Vec2(1, -1);
+    auto pos = gl_get_position(position, size);
     if (shader == nullptr)
+    {
         shader = c->renderer.default_gui_shader;
-
-    shader->Bind();
+        shader->Bind();
+        shader->SetUniform4f("color", col);
+    }
 
     glm::mat4 transform = glm::translate(Vec3(pos, 0)) * glm::scale(Vec3(size, 1));
     shader->SetUniformMatrix4fv("transform", glm::value_ptr(transform));
-    shader->SetUniform4f("color", col);
 
     c->renderer.quad->Draw();
+}
+
+void IMGUI::draw_texture(Context *c, Texture *tex, Vec2 position, Vec2 dimensions, Shader *shader)
+{
+    auto size = gl_get_size(dimensions);
+
+    auto pos = gl_get_position(position, size);
+    tex->Bind(GL_TEXTURE0);
+    if (shader == nullptr)
+    {
+        shader = c->renderer.texture_gui_shader;
+        shader->Bind();
+        shader->SetUniform4f("color", Vec4(1));
+        shader->SetUniform1i("tex", 0);
+    }
+
+    glm::mat4 transform = glm::translate(Vec3(pos, 0)) * glm::scale(Vec3(size, 1));
+    shader->SetUniformMatrix4fv("transform", glm::value_ptr(transform));
+
+    c->renderer.quad->Draw();
+}
+
+void IMGUI::draw_batch(Context *c, QuadBatch *batch, u32 quads)
+{
+    quad_batch_draw(batch, quads);
 }

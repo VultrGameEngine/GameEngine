@@ -3,6 +3,8 @@
 
 using namespace Vultr;
 
+#define __button_cache_id ui_id(__FILE__)
+
 bool IMGUI::button(Context *c, UI_ID id, Color color, Vec2 position, Vec2 size)
 {
     auto &state = get_widget_cache<ButtonState>(c, __button_cache_id, id);
@@ -22,7 +24,6 @@ bool IMGUI::button(Context *c, UI_ID id, Color color, Vec2 position, Vec2 size)
     {
         if (c->left_mb.mouse_went_down)
         {
-            printf("set active");
             set_active(c, id);
         }
     }
@@ -52,7 +53,7 @@ bool IMGUI::button(Context *c, UI_ID id, Color color, Vec2 position, Vec2 size)
 
     state.shadow_offset = Math::lerp(state.shadow_offset, shadow_offset, 0.000000001, c->delta_time);
 
-    draw_rect(c, Vec4(59), position + state.shadow_offset, size);
+    draw_rect(c, Vec4(59, 59, 59, 50), position + state.shadow_offset, size);
     draw_rect(c, color.value, position, size);
     return result;
 }

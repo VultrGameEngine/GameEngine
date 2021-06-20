@@ -22,7 +22,7 @@ namespace Vultr
         template <typename T>
         struct WidgetCache : IWidgetCache
         {
-            void insert_data(UI_ID id, T component)
+            void insert_data(UI_ID id)
             {
                 assert(widget_to_index_map.find(id) == widget_to_index_map.end() && "Cache added to same widget more than once");
 
@@ -36,7 +36,7 @@ namespace Vultr
                 index_to_widget_map[new_index] = id;
 
                 // Set the component in the component_array
-                cache_array[new_index] = component;
+                cache_array[new_index] = T{};
 
                 ++size;
             }
