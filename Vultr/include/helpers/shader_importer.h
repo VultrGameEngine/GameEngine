@@ -14,7 +14,7 @@ namespace Vultr::ShaderImporter
     const ShaderProgramSource OUTLINE = {
         .VertexSource = "layout (location = 0) in vec3 position;\n"
                         "layout (location = 1) in vec3 normal;\n"
-                        "layout (location = 2) in vec2 vertextUV; \n"
+                        "layout (location = 2) in vec2 uv; \n"
                         "out vec3 FragPos; \n"
                         "uniform mat4 model; \n"
                         "uniform mat4 view; \n"
@@ -44,7 +44,7 @@ namespace Vultr::ShaderImporter
                         "#extension GL_ARB_separate_shader_objects: enable\n"
                         "layout (location = 0) in vec3 position;\n"
                         "layout (location = 1) in vec3 normal;\n"
-                        "layout (location = 2) in vec2 vertextUV; \n"
+                        "layout (location = 2) in vec2 uv; \n"
                         "out vec3 FragPos; \n"
                         "uniform mat4 model; \n"
                         "uniform mat4 view; \n"

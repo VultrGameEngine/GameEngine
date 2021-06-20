@@ -68,6 +68,16 @@ namespace Vultr::InputSystem
         return pos.x <= 1 && pos.x >= 0 && pos.y <= 1 && pos.y >= 0;
     }
 
+    const Input::MousePos &get_mouse_position()
+    {
+        return get_provider().mouse_pos;
+    }
+
+    const Input::MousePos &get_scene_mouse_position()
+    {
+        return get_provider().scene_mouse_pos;
+    }
+
 #define LISTENER_REGISTERED_TWICE_ERROR "Listener already registered! Deregister your mouse position listener by calling "
 #define LISTENER_NOT_FOUND_ERROR "Failed to deregister, listener not found!"
 

@@ -31,6 +31,9 @@ namespace Vultr
         bool mouse_is_on_screen();
         bool mouse_is_on_screen(Vec2 pos);
 
+        const Input::MousePos &get_mouse_position();
+        const Input::MousePos &get_scene_mouse_position();
+
         void set_mouse_pos_listener(OnMousePositionChange listener);
         void deregister_mouse_pos_listener(OnMousePositionChange listener);
 
