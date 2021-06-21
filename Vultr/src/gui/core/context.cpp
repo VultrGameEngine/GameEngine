@@ -69,7 +69,7 @@ IMGUI::Context *IMGUI::new_context(const IMGUI::Window &window)
     Context *context = new Context();
     context->window = window;
     context->renderer = new_imgui_renderer();
-    auto default_font = FontSource("/home/brandon/Dev/Monopoly/res/fonts/Antonio-Bold.ttf");
+    auto default_font = FontSource("/home/brandon/Dev/Monopoly/res/fonts/Roboto-Regular.ttf");
     context->font = FontImporter::import_font(default_font, FontSystem::get_provider().library);
     return context;
 }
@@ -80,16 +80,30 @@ void IMGUI::begin(Context *c, const UpdateTick &t)
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_SCISSOR_TEST);
 
     update_mouse_state(c->left_mb, Input::MOUSE_LEFT);
     update_mouse_state(c->right_mb, Input::MOUSE_RIGHT);
     update_mouse_state(c->middle_mb, Input::MOUSE_MIDDLE);
 
     c->delta_time = t.m_delta_time;
+    c->z_index = 0;
+    c->drawing_id = NO_ID;
 }
 
 void IMGUI::end(Context *c)
 {
+}
+
+// void IMGUI::layout_widget(Context *c, UI_ID id)
+// {
+// }
+
+IMGUI::Layout IMGUI::end_layout(Context *c)
+{
+    auto l = c->layout_stack.top();
+    c->layout_stack.pop();
+    return l;
 }
 
 bool IMGUI::mouse_over(Vec2 top_left, Vec2 size)
@@ -100,7 +114,7 @@ bool IMGUI::mouse_over(Vec2 top_left, Vec2 size)
     return mp.x > top_left.x && mp.x < top_left.x + size.x && mp.y > top_left.y && mp.y < top_left.y + size.y;
 }
 
-void IMGUI::draw_rect(Context *c, Vec4 color, Vec2 position, Vec2 dimensions, Shader *shader)
+void IMGUI::draw_rect(Context *c, Color color, Vec2 position, Vec2 dimensions, Shader *shader)
 {
     auto col = gl_get_color(color);
     auto size = gl_get_size(dimensions);

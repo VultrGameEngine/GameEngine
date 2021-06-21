@@ -7,9 +7,9 @@ Vec2 IMGUI::gl_get_size(Vec2 size)
     return size / RenderSystem::get_dimensions(GAME);
 }
 
-Vec4 IMGUI::gl_get_color(Vec4 color)
+Vec4 IMGUI::gl_get_color(Color color)
 {
-    return color / Vec4(255);
+    return color.value / Vec4(255);
 }
 
 Vec2 IMGUI::gl_get_position(Vec2 position, Vec2 size)

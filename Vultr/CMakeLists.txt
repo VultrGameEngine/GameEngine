@@ -56,4 +56,5 @@ if(WIN32)
 
 endif(WIN32)
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DENABLE_DEBUG_MACRO")
+set(CMAKE_CXX_FLAGS "-Wno-reorder -Wreorder-init-list")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ftime-trace")

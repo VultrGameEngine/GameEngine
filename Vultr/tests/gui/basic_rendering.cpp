@@ -40,16 +40,22 @@ TEST(IMGUI, Rect)
         mouse_pos.y = 1 - mouse_pos.y;
         mouse_pos *= RenderSystem::get_dimensions(GAME);
         IMGUI::draw_rect(c, Vec4(255), Vec2(0), RenderSystem::get_dimensions(GAME));
+        IMGUI::text(c, __LINE__, std::to_string(tick.m_delta_time * 1000) + " ms", Vec2(0),
+                    {
+                        .highlight_color = Color(0, 0, 255, 255),
+                        .color = Color(255),
+                    });
 
-        // IMGUI::image(c, __LINE__, texture, Vec2(1000), Vec2(200));
+        IMGUI::image(c, __LINE__, texture, Vec2(1000), Vec2(200));
 
-        // if (IMGUI::button(c, __LINE__, Color(Vec4(255, 0, 0, 255)), Vec2(500), Vec2(500)))
-        // {
-        //     // break;
-        // }
-        IMGUI::draw_rect(c, Vec4(0, 255, 0, 255), Vec2(500), Vec2(100));
-        IMGUI::text(c, __LINE__, "#$%&()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~", Color(Vec4(255, 0, 0, 255)), Vec2(500), Vec2(1000, c->font->GetHeight(12)));
-        IMGUI::text(c, __LINE__, std::to_string(tick.m_delta_time * 1000) + " ms", Color(Vec4(255, 0, 0, 255)), Vec2(1000), Vec2(1000, c->font->GetHeight(12)));
+        if (IMGUI::button(c, __LINE__, Color(Vec4(255, 0, 0, 255)), Vec2(500), Vec2(500)))
+        {
+        }
+        IMGUI::text(c, __LINE__, "#$%&()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~", Vec2(500),
+                    {
+                        .highlight_color = Color(0, 255),
+                        .color = Color(255),
+                    });
 
         glfwSwapBuffers(vultr->window);
         glfwPollEvents();

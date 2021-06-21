@@ -11,6 +11,7 @@
 #include <rendering/models/texture.h>
 #include <fonts/font.h>
 #include <gui/utils/opengl.h>
+#include <gui/layout/layout.h>
 
 namespace Vultr
 {
@@ -35,8 +36,8 @@ namespace Vultr
 
             Renderer renderer;
 
-            UI_ID hot;
-            UI_ID active;
+            UI_ID hot = NO_ID;
+            UI_ID active = NO_ID;
 
             MouseState right_mb;
             MouseState left_mb;
@@ -47,6 +48,12 @@ namespace Vultr
             std::unordered_map<WidgetType, IWidgetCache *> cache_arrays{};
 
             Font *font;
+
+            s32 z_index = 0;
+
+            std::stack<Layout> layout_stack;
+
+            UI_ID drawing_id = NO_ID;
         };
 
         Context *new_context(const Window &window);
@@ -67,6 +74,8 @@ namespace Vultr
         template <typename T>
         T &get_widget_cache(Context *c, WidgetType type, UI_ID id)
         {
+            // assert(c->drawing_id == -1 && "You must call layout_widget before the end of your widget function before drawing another widget");
+            c->drawing_id = id;
             auto *cache_array = get_widget_cache_array<T>(c, type);
             if (!cache_array->has_data(id))
             {
@@ -78,9 +87,12 @@ namespace Vultr
         void begin(Context *c, const UpdateTick &t);
         void end(Context *c);
 
+        void layout_widget(Context *c, UI_ID id, Layout layout);
+        Layout end_layout(Context *c);
+
         bool mouse_over(Vec2 top_left, Vec2 size);
 
-        void draw_rect(Context *c, Vec4 color, Vec2 position, Vec2 dimensions, Shader *shader = nullptr);
+        void draw_rect(Context *c, Color color, Vec2 position, Vec2 dimensions, Shader *shader = nullptr);
         void draw_texture(Context *c, Texture *tex, Vec2 position, Vec2 dimensions, Shader *shader = nullptr);
         void draw_batch(Context *c, QuadBatch *batch, u32 quads);
 

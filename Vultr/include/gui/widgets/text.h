@@ -13,7 +13,15 @@ namespace Vultr
             QuadBatch *batch;
         };
 
-        void text(Context *c, UI_ID id, std::string text, Color color, Vec2 size, Vec2 position);
+        struct TextParams
+        {
+            f32 font_size = 12;
+            f32 line_spacing = 1;
+            Color highlight_color = Color(0);
+            Color color = Color(0, 0, 0, 255);
+        };
+
+        void text(Context *c, UI_ID id, std::string text, Vec2 position, TextParams params);
 
     } // namespace IMGUI
 } // namespace Vultr
