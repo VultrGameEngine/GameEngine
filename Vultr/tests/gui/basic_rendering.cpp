@@ -3,13 +3,17 @@
 #include <gui/widgets/button.h>
 #include <gui/widgets/image.h>
 #include <gui/widgets/text.h>
+#include <gui/widgets/center.h>
+#include <gui/widgets/sized.h>
+#include <gui/materials/default_gui_material.h>
 #include <helpers/texture_importer.h>
 
 #include <vultr.hpp>
+#include "basic_rendering_test.h"
 
 using namespace Vultr;
 
-TEST(IMGUI, Rect)
+void basic_rendering_test()
 {
     engine_global() = new Engine();
     auto *vultr = engine_global();
@@ -38,24 +42,37 @@ TEST(IMGUI, Rect)
         IMGUI::begin(c, tick);
         auto mouse_pos = InputSystem::get_mouse_position();
         mouse_pos.y = 1 - mouse_pos.y;
-        mouse_pos *= RenderSystem::get_dimensions(GAME);
-        IMGUI::draw_rect(c, Vec4(255), Vec2(0), RenderSystem::get_dimensions(GAME));
-        IMGUI::text(c, __LINE__, std::to_string(tick.m_delta_time * 1000) + " ms", Vec2(0),
+        // IMGUI::draw_rect_absolute(c, __LINE__, Vec2(0), RenderSystem::get_dimensions(GAME), IMGUI::new_gui_material(c, Color(255)));
+        IMGUI::text(c, __LINE__, std::to_string(tick.m_delta_time * 1000) + " ms",
                     {
+                        .font_color = Color(255),
+                        .font_size = 12,
+                        .line_spacing = 1,
                         .highlight_color = Color(0, 0, 255, 255),
-                        .color = Color(255),
                     });
-
-        IMGUI::image(c, __LINE__, texture, Vec2(1000), Vec2(200));
-
-        if (IMGUI::button(c, __LINE__, Color(Vec4(255, 0, 0, 255)), Vec2(500), Vec2(500)))
+        IMGUI::begin_center(c, __LINE__);
         {
+            IMGUI::begin_sized(c, __LINE__,
+                               {
+                                   .size = Vec2(255 * (mouse_pos.y + 1)),
+                               });
+            {
+                IMGUI::image(c, __LINE__, texture);
+            }
+            IMGUI::end_sized(c);
         }
-        IMGUI::text(c, __LINE__, "#$%&()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~", Vec2(500),
-                    {
-                        .highlight_color = Color(0, 255),
-                        .color = Color(255),
-                    });
+        IMGUI::end_center(c);
+
+        // IMGUI::begin_center(c, __LINE__);
+        // {
+        //     IMGUI::button(c, __LINE__,
+        //                   {
+        //                       .color = Color(255, 0, 0, 255),
+        //                   });
+        // }
+        // IMGUI::end_center(c);
+
+        IMGUI::end(c);
 
         glfwSwapBuffers(vultr->window);
         glfwPollEvents();

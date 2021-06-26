@@ -6,6 +6,7 @@
 #include <core/system_providers/input_system_provider.h>
 #include <helpers/font_importer.h>
 #include <core/system_providers/font_system_provider.h>
+#include <gui/materials/default_gui_material.h>
 
 using namespace Vultr;
 
@@ -71,6 +72,7 @@ IMGUI::Context *IMGUI::new_context(const IMGUI::Window &window)
     context->renderer = new_imgui_renderer();
     auto default_font = FontSource("/home/brandon/Dev/Monopoly/res/fonts/Roboto-Regular.ttf");
     context->font = FontImporter::import_font(default_font, FontSystem::get_provider().library);
+    context->requests.reserve(512);
     return context;
 }
 
@@ -89,71 +91,172 @@ void IMGUI::begin(Context *c, const UpdateTick &t)
     c->delta_time = t.m_delta_time;
     c->z_index = 0;
     c->drawing_id = NO_ID;
+    c->index = std::stack<s32>();
+    c->index.push(0);
 }
 
 void IMGUI::end(Context *c)
 {
+    // Cursor starts at the top left
+    Vec2 cursor = Vec2(-1, 1);
+    for (auto request : c->requests)
+    {
+        auto size = gl_get_size(get_widget_layout(c, request.id).local_size);
+        auto pos = gl_get_position(get_widget_position(c, request.id), size);
+        draw_render_request(request, glm::translate(Vec3(pos, 0)));
+        destroy_render_request(request);
+    }
+    c->requests.clear();
+    c->widget_layouts.clear();
 }
 
-// void IMGUI::layout_widget(Context *c, UI_ID id)
-// {
-// }
-
-IMGUI::Layout IMGUI::end_layout(Context *c)
+void IMGUI::begin_layout_with_children(Context *c, UI_ID id, Layout &layout, bool keep_old_layout)
 {
-    auto l = c->layout_stack.top();
-    c->layout_stack.pop();
-    return l;
+    c->index.top()++;
+    if (c->parent != NO_ID)
+    {
+        auto &parent_layout = get_widget_layout(c, c->parent);
+        layout_add_child(parent_layout, id);
+        layout.parent = c->parent;
+    }
+    c->parent = id;
+    c->index.push(0);
+    if (keep_old_layout)
+    {
+        if (c->widget_layouts.find(id) != c->widget_layouts.end())
+            return;
+    }
+    c->widget_layouts[id] = layout;
 }
 
-bool IMGUI::mouse_over(Vec2 top_left, Vec2 size)
+IMGUI::Layout &IMGUI::end_layout_with_children(Context *c)
 {
+    auto parent = c->parent;
+    assert(parent != NO_ID && "Cannot end layout! There is no parent widget!");
+    auto &parent_layout = get_widget_layout(c, parent);
+    c->parent = parent_layout.parent;
+    c->index.pop();
+    return parent_layout;
+}
+
+IMGUI::Constraints IMGUI::get_constraints(Context *c, UI_ID id)
+{
+    auto parent = c->parent;
+    if (parent == NO_ID)
+    {
+        return Constraints(Vec2(0), RenderSystem::get_dimensions(GAME));
+    }
+    auto parent_layout = get_widget_layout(c, parent);
+    return layout_get_constraints(parent_layout, id);
+}
+
+void IMGUI::layout_widget(Context *c, UI_ID id, Layout l)
+{
+    c->index.top()++;
+    if (c->parent != NO_ID)
+    {
+        auto &parent_layout = get_widget_layout(c, c->parent);
+        layout_add_child(parent_layout, id);
+        l.parent = c->parent;
+    }
+
+    if (c->widget_layouts.find(id) == c->widget_layouts.end())
+    {
+        c->widget_layouts.insert({id, l});
+    }
+    else
+    {
+        c->widget_layouts.at(id) = l;
+    }
+}
+
+bool IMGUI::widget_layed_out(Context *c, UI_ID id)
+{
+    return c->widget_layouts.find(id) != c->widget_layouts.end();
+}
+
+IMGUI::Layout &IMGUI::get_widget_layout(Context *c, UI_ID id)
+{
+    assert(widget_layed_out(c, id) && "Layout not found!");
+    return c->widget_layouts.at(id);
+}
+
+bool IMGUI::mouse_over(Context *c, UI_ID id)
+{
+    if (!widget_layed_out(c, id))
+        return false;
+    auto top_left = get_widget_position(c, id);
+    auto size = get_widget_layout(c, id).local_size;
     auto mp = InputSystem::get_mouse_position();
     mp.y = 1 - mp.y;
     mp *= RenderSystem::get_dimensions(GAME);
     return mp.x > top_left.x && mp.x < top_left.x + size.x && mp.y > top_left.y && mp.y < top_left.y + size.y;
 }
 
-void IMGUI::draw_rect(Context *c, Color color, Vec2 position, Vec2 dimensions, Shader *shader)
+void IMGUI::submit_render_request(Context *c, UI_ID id, const RenderRequest &r)
 {
-    auto col = gl_get_color(color);
-    auto size = gl_get_size(dimensions);
-
-    auto pos = gl_get_position(position, size);
-    if (shader == nullptr)
-    {
-        shader = c->renderer.default_gui_shader;
-        shader->Bind();
-        shader->SetUniform4f("color", col);
-    }
-
-    glm::mat4 transform = glm::translate(Vec3(pos, 0)) * glm::scale(Vec3(size, 1));
-    shader->SetUniformMatrix4fv("transform", glm::value_ptr(transform));
-
-    c->renderer.quad->Draw();
+    c->requests.push_back(r);
 }
 
-void IMGUI::draw_texture(Context *c, Texture *tex, Vec2 position, Vec2 dimensions, Shader *shader)
+void IMGUI::draw_rect_absolute(Context *c, UI_ID id, Vec2 position, Vec2 dimensions, Material *material)
+{
+    auto size = gl_get_size(dimensions);
+    auto pos = gl_get_position(position, size);
+
+    glm::mat4 transform = glm::translate(Vec3(pos, 0)) * glm::scale(Vec3(size, 1));
+    RenderRequest request = {
+        .type = RenderRequest::ABSOLUTE_MESH_DRAW,
+        .material = material,
+    };
+    request.data.mesh = c->renderer.quad;
+    request.transform = transform;
+    request.id = id;
+    submit_render_request(c, id, request);
+}
+
+Vec2 IMGUI::get_widget_position(Context *c, UI_ID id)
+{
+    auto &layout = get_widget_layout(c, id);
+    if (layout.parent == NO_ID)
+        return Vec2(0);
+    auto &parent_layout = get_widget_layout(c, layout.parent);
+    auto local_pos = get_child_position(parent_layout, id);
+    if (parent_layout.parent != NO_ID)
+    {
+        return local_pos + get_widget_position(c, layout.parent);
+    }
+    return local_pos;
+}
+
+void IMGUI::draw_rect(Context *c, UI_ID id, Vec2 position, Vec2 dimensions, Material *material)
 {
     auto size = gl_get_size(dimensions);
 
-    auto pos = gl_get_position(position, size);
-    tex->Bind(GL_TEXTURE0);
-    if (shader == nullptr)
-    {
-        shader = c->renderer.texture_gui_shader;
-        shader->Bind();
-        shader->SetUniform4f("color", Vec4(1));
-        shader->SetUniform1i("tex", 0);
-    }
-
-    glm::mat4 transform = glm::translate(Vec3(pos, 0)) * glm::scale(Vec3(size, 1));
-    shader->SetUniformMatrix4fv("transform", glm::value_ptr(transform));
-
-    c->renderer.quad->Draw();
+    glm::mat4 transform = glm::scale(Vec3(size, 1));
+    RenderRequest request = {
+        .type = RenderRequest::MESH_DRAW,
+        .material = material,
+    };
+    request.data.mesh = c->renderer.quad;
+    request.transform = transform;
+    request.id = id;
+    submit_render_request(c, id, request);
 }
 
-void IMGUI::draw_batch(Context *c, QuadBatch *batch, u32 quads)
+void IMGUI::draw_batch(Context *c, UI_ID id, QuadBatch *batch, u32 quads, Material *material)
 {
-    quad_batch_draw(batch, quads);
+    auto layout = get_widget_layout(c, id);
+    auto size = gl_get_size(layout.local_size);
+    auto pos = Vec2(1, -1) - size * Vec2(1, -1);
+
+    glm::mat4 transform = glm::translate(Vec3(pos, 0));
+    RenderRequest request = {
+        .type = RenderRequest::BATCH_DRAW,
+        .material = material,
+    };
+    request.data.batch = batch;
+    request.data.num_quads = quads;
+    request.transform = transform;
+    request.id = id;
+    submit_render_request(c, id, request);
 }

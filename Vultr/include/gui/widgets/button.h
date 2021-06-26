@@ -1,6 +1,7 @@
 #pragma once
 #include <gui/core/context.h>
 #include <core/models/color.h>
+#include <gui/layout/size.h>
 
 namespace Vultr
 {
@@ -13,11 +14,11 @@ namespace Vultr
 
         struct ButtonStyle
         {
+            Size size = EMPTY_SIZE;
             Color color = Color(255);
         };
 
-        bool button(Context *c, UI_ID id);
-        bool button(Context *c, UI_ID id, Color color, Vec2 size, Vec2 position);
+        bool button(Context *c, UI_ID id, ButtonStyle style);
 
     } // namespace IMGUI
 } // namespace Vultr

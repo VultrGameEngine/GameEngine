@@ -12,6 +12,7 @@
 #include <fonts/font.h>
 #include <gui/utils/opengl.h>
 #include <gui/layout/layout.h>
+#include <gui/layout/constraints.h>
 
 namespace Vultr
 {
@@ -51,7 +52,14 @@ namespace Vultr
 
             s32 z_index = 0;
 
-            std::stack<Layout> layout_stack;
+            UI_ID parent = NO_ID;
+
+            // This is the index that will increase every time that a widget is layed out when there is a parent
+            std::stack<s32> index;
+
+            std::unordered_map<UI_ID, Layout> widget_layouts;
+
+            std::vector<RenderRequest> requests;
 
             UI_ID drawing_id = NO_ID;
         };
@@ -74,7 +82,6 @@ namespace Vultr
         template <typename T>
         T &get_widget_cache(Context *c, WidgetType type, UI_ID id)
         {
-            // assert(c->drawing_id == -1 && "You must call layout_widget before the end of your widget function before drawing another widget");
             c->drawing_id = id;
             auto *cache_array = get_widget_cache_array<T>(c, type);
             if (!cache_array->has_data(id))
@@ -87,14 +94,34 @@ namespace Vultr
         void begin(Context *c, const UpdateTick &t);
         void end(Context *c);
 
+        //
+        //
+        //
+        //
+        // LAYOUT
         void layout_widget(Context *c, UI_ID id, Layout layout);
-        Layout end_layout(Context *c);
 
-        bool mouse_over(Vec2 top_left, Vec2 size);
+        bool widget_layed_out(Context *c, UI_ID id);
+        Layout &get_widget_layout(Context *c, UI_ID id);
+        Constraints get_constraints(Context *c, UI_ID id);
+        Vec2 get_widget_position(Context *c, UI_ID id);
 
-        void draw_rect(Context *c, Color color, Vec2 position, Vec2 dimensions, Shader *shader = nullptr);
-        void draw_texture(Context *c, Texture *tex, Vec2 position, Vec2 dimensions, Shader *shader = nullptr);
-        void draw_batch(Context *c, QuadBatch *batch, u32 quads);
+        void begin_layout_with_children(Context *c, UI_ID id, Layout &layout, bool keep_old_layout = true);
+        Layout &end_layout_with_children(Context *c);
+
+        //
+        //
+        //
+        //
+        // UTILS
+        bool mouse_over(Context *c, UI_ID id);
+
+        void submit_render_request(Context *c, UI_ID id, const RenderRequest &r);
+
+        void draw_rect_absolute(Context *c, UI_ID id, Vec2 position, Vec2 dimensions, Material *material);
+
+        void draw_rect(Context *c, UI_ID id, Vec2 position, Vec2 dimensions, Material *material);
+        void draw_batch(Context *c, UI_ID id, QuadBatch *batch, u32 quads, Material *material);
 
         bool is_hot(Context *c, UI_ID id);
         bool is_active(Context *c, UI_ID id);

@@ -32,7 +32,6 @@ IMGUI::QuadBatch *IMGUI::new_quad_batch()
 
 void IMGUI::quad_batch_push_quads(QuadBatch *b, Quad *quads, u32 num_quads)
 {
-    flush_quad_batch(b);
     b->vertices = static_cast<GUIVertex *>(malloc(sizeof(GUIVertex) * num_quads * 4));
     s32 quad_index = 0;
     for (s32 i = 0; i < num_quads * 4; i += 4)
@@ -46,6 +45,7 @@ void IMGUI::quad_batch_push_quads(QuadBatch *b, Quad *quads, u32 num_quads)
     }
     b->vbo->Bind();
     glBufferSubData(GL_ARRAY_BUFFER, 0, num_quads * 4 * sizeof(GUIVertex), b->vertices);
+    flush_quad_batch(b);
 }
 
 void IMGUI::flush_quad_batch(QuadBatch *b)

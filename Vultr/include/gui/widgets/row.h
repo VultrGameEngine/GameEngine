@@ -1,16 +1,19 @@
 #pragma once
 #include <gui/core/context.h>
-#include <rendering/models/texture.h>
 
 namespace Vultr
 {
     namespace IMGUI
     {
-        struct ImageState
+        struct RowState
         {
         };
 
-        void image(Context *c, UI_ID id, Texture *tex);
+        struct RowStyle
+        {
+        };
 
+        void begin_row(Context *c, UI_ID id);
+        void end_row(Context *c);
     } // namespace IMGUI
 } // namespace Vultr

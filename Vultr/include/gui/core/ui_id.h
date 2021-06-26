@@ -8,8 +8,8 @@ namespace Vultr
         typedef s32 UI_ID;
 
 #define AUTO_ID Vultr::IMGUI::ui_id(__FILE__ + std::to_string(__LINE__))
-#define NO_ID -1;
-#define UNSET_ID -2;
+#define NO_ID -1
+#define UNSET_ID -2
 
         consteval UI_ID ui_id(const char *value)
         {

@@ -9,6 +9,7 @@ namespace Vultr
         {
             Shader *shader;
             virtual void bind() = 0;
+            virtual ~Material() = default;
         };
     } // namespace IMGUI
 } // namespace Vultr
