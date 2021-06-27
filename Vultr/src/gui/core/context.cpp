@@ -96,10 +96,28 @@ void IMGUI::begin(Context *c, const UpdateTick &t)
     c->index.push(0);
 }
 
+void IMGUI::widget_accessed(Context *c, UI_ID id)
+{
+    c->widget_ids_to_be_removed.erase(id);
+}
+
 void IMGUI::end(Context *c)
 {
     std::sort(c->requests.begin(), c->requests.end());
     c->widget_transforms.clear();
+
+    // If there was an ID there before that did not have its state accessed this frame, then we should clean up the cache
+    if (c->widget_ids_to_be_removed.size() > 0)
+    {
+        for (auto id : c->widget_ids_to_be_removed)
+        {
+            for (auto &[_, array] : c->cache_arrays)
+            {
+                array->widget_destroyed(id);
+            }
+        }
+    }
+    c->widget_ids_to_be_removed.clear();
 
     // Cursor starts at the top left
     Vec2 cursor = Vec2(-1, 1);
@@ -111,12 +129,18 @@ void IMGUI::end(Context *c)
         destroy_render_request(request);
     }
 
+    for (auto &[_, array] : c->cache_arrays)
+    {
+        array->add_active_ids(c->widget_ids_to_be_removed);
+    }
+
     c->requests.clear();
     c->widget_layouts.clear();
 }
 
 void IMGUI::begin_layout_with_children(Context *c, UI_ID id, Layout &layout, bool keep_old_layout)
 {
+    widget_accessed(c, id);
     c->index.top()++;
     if (c->parent != NO_ID)
     {
@@ -157,6 +181,7 @@ IMGUI::Constraints IMGUI::get_constraints(Context *c, UI_ID id)
 
 void IMGUI::layout_widget(Context *c, UI_ID id, Layout l)
 {
+    widget_accessed(c, id);
     c->index.top()++;
     if (c->parent != NO_ID)
     {

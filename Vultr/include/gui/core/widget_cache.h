@@ -16,8 +16,12 @@ namespace Vultr
             {
                 return false;
             }
+            virtual void add_active_ids(std::set<UI_ID> &ids){};
             virtual ~IWidgetCache() = default;
         };
+
+        template <typename T>
+        void destroy_cache(T &cache);
 
         template <typename T>
         struct WidgetCache : IWidgetCache
@@ -51,12 +55,14 @@ namespace Vultr
                 // Get the index of the last element of the component array
                 size_t index_of_last_element = size - 1;
 
+                destroy_cache(cache_array[index_of_removed_widget]);
+
                 // Move the last element of the component array into the removed entity's
                 // index
                 cache_array[index_of_removed_widget] = cache_array[index_of_last_element];
 
                 // Update the maps for the newly moved element
-                UI_ID entity_of_last_element = widget_to_index_map[index_of_last_element];
+                UI_ID entity_of_last_element = index_to_widget_map[index_of_last_element];
                 widget_to_index_map[entity_of_last_element] = index_of_removed_widget;
                 index_to_widget_map[index_of_removed_widget] = entity_of_last_element;
 
@@ -65,6 +71,13 @@ namespace Vultr
                 index_to_widget_map.erase(index_of_last_element);
 
                 --size;
+            }
+            void add_active_ids(std::set<UI_ID> &ids) override
+            {
+                for (auto [id, _] : widget_to_index_map)
+                {
+                    ids.insert(id);
+                }
             }
 
             void widget_destroyed(UI_ID id) override

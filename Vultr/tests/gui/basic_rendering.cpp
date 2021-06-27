@@ -38,6 +38,7 @@ void basic_rendering_test()
     entity_add_component(camera, CameraComponent());
 
     u32 count = 0;
+    bool toggle_fps = true;
 
     while (!InputSystem::get_key(Input::KEY_ESCAPE))
     {
@@ -47,13 +48,16 @@ void basic_rendering_test()
         mouse_pos.y = 1 - mouse_pos.y;
 
         // FPS counter
-        IMGUI::text(c, __LINE__, std::to_string(tick.m_delta_time * 1000) + " ms",
-                    {
-                        .font_color = Color(255),
-                        .font_size = 9,
-                        .line_spacing = 1,
-                        .highlight_color = Color(0, 0, 255, 255),
-                    });
+        if (toggle_fps)
+        {
+            IMGUI::text(c, __LINE__, std::to_string(tick.m_delta_time * 1000) + " ms",
+                        {
+                            .font_color = Color(255),
+                            .font_size = 9,
+                            .line_spacing = 1,
+                            .highlight_color = Color(0, 0, 255, 255),
+                        });
+        }
 
         // Center button
         IMGUI::begin_center(c, __LINE__);
@@ -61,6 +65,7 @@ void basic_rendering_test()
             if (IMGUI::text_button(c, __LINE__, std::to_string(count)))
             {
                 count++;
+                toggle_fps = !toggle_fps;
             }
         }
         IMGUI::end_center(c);

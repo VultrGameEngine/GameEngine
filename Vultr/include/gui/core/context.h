@@ -62,12 +62,16 @@ namespace Vultr
 
             std::vector<RenderRequest> requests;
 
+            std::set<UI_ID> widget_ids_to_be_removed;
+
             UI_ID drawing_id = NO_ID;
         };
 
         Context *new_context(const Window &window);
 
         void context_destroy_widget(Context *c, UI_ID id);
+
+        void widget_accessed(Context *c, UI_ID id);
 
         template <typename T>
         WidgetCache<T> *get_widget_cache_array(Context *c, WidgetType type)
@@ -83,6 +87,7 @@ namespace Vultr
         template <typename T>
         T &get_widget_cache(Context *c, WidgetType type, UI_ID id)
         {
+            widget_accessed(c, id);
             c->drawing_id = id;
             auto *cache_array = get_widget_cache_array<T>(c, type);
             if (!cache_array->has_data(id))

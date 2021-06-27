@@ -30,6 +30,16 @@ IMGUI::QuadBatch *IMGUI::new_quad_batch()
     return b;
 }
 
+void IMGUI::destroy_quad_batch(QuadBatch *batch)
+{
+    flush_quad_batch(batch);
+    delete batch->ibo;
+    delete batch->vbo;
+    delete batch->vao;
+    delete[] batch->indices;
+    delete batch;
+}
+
 void IMGUI::quad_batch_push_quads(QuadBatch *b, Quad *quads, u32 num_quads)
 {
     b->vertices = static_cast<GUIVertex *>(malloc(sizeof(GUIVertex) * num_quads * 4));

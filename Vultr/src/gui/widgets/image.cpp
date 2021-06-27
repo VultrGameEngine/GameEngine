@@ -5,6 +5,9 @@ using namespace Vultr;
 
 #define __image_cache_id ui_id(__FILE__)
 
+template <>
+void IMGUI::destroy_cache<IMGUI::ImageState>(ImageState &cache){};
+
 void IMGUI::image(Context *c, UI_ID id, Texture *tex)
 {
     auto &state = get_widget_cache<ImageState>(c, __image_cache_id, id);

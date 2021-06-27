@@ -3,11 +3,13 @@
 #include <gui/widgets/padding.h>
 #include <gui/materials/default_gui_material.h>
 #include <math/lerp.h>
-#include <core/system_providers/render_system_provider.h>
 
 using namespace Vultr;
 
 #define __button_cache_id ui_id(__FILE__)
+
+template <>
+void IMGUI::destroy_cache<IMGUI::ButtonState>(ButtonState &cache){};
 
 void IMGUI::begin_button(Context *c, UI_ID id, ButtonStyle style)
 {

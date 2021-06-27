@@ -4,6 +4,8 @@ using namespace Vultr;
 
 #define __padding_cache_id ui_id(__FILE__)
 
+template <>
+void IMGUI::destroy_cache<IMGUI::PaddingState>(PaddingState &cache){};
 void IMGUI::begin_padding(Context *c, UI_ID id, PaddingStyle style)
 {
     auto &state = get_widget_cache<PaddingState>(c, __padding_cache_id, id);

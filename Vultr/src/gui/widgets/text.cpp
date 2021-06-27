@@ -8,6 +8,12 @@ using namespace Vultr;
 
 #define __text_cache_id ui_id(__FILE__)
 
+template <>
+void IMGUI::destroy_cache<IMGUI::TextState>(TextState &cache)
+{
+    destroy_quad_batch(cache.batch);
+}
+
 static void layout_text(IMGUI::Context *c, IMGUI::Layout &l)
 {
     using namespace IMGUI;
