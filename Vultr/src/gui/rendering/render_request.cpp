@@ -6,6 +6,11 @@
 
 using namespace Vultr;
 
+bool IMGUI::RenderRequest::operator<(const RenderRequest &other) const
+{
+    return this->z_index < other.z_index;
+}
+
 void IMGUI::draw_render_request(const RenderRequest &r, Transform global_transform)
 {
     Mat4 full_transform;

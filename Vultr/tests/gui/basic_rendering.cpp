@@ -45,6 +45,8 @@ void basic_rendering_test()
         IMGUI::begin(c, tick);
         auto mouse_pos = InputSystem::get_mouse_position();
         mouse_pos.y = 1 - mouse_pos.y;
+
+        // FPS counter
         IMGUI::text(c, __LINE__, std::to_string(tick.m_delta_time * 1000) + " ms",
                     {
                         .font_color = Color(255),
@@ -52,6 +54,8 @@ void basic_rendering_test()
                         .line_spacing = 1,
                         .highlight_color = Color(0, 0, 255, 255),
                     });
+
+        // Center button
         IMGUI::begin_center(c, __LINE__);
         {
             if (IMGUI::text_button(c, __LINE__, std::to_string(count)))

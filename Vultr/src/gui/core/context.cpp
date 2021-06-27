@@ -98,6 +98,7 @@ void IMGUI::begin(Context *c, const UpdateTick &t)
 
 void IMGUI::end(Context *c)
 {
+    std::sort(c->requests.begin(), c->requests.end());
     c->widget_transforms.clear();
 
     // Cursor starts at the top left
@@ -212,6 +213,7 @@ void IMGUI::draw_rect_absolute(Context *c, UI_ID id, Vec2 position, Vec2 size, M
     request.data.mesh = c->renderer.quad;
     request.local_transform = {.position = position, .scale = size};
     request.id = id;
+    request.z_index = c->z_index++;
     submit_render_request(c, id, request);
 }
 
@@ -244,6 +246,7 @@ void IMGUI::draw_rect(Context *c, UI_ID id, Vec2 position, Vec2 size, Material *
     };
     request.data.mesh = c->renderer.quad;
     request.local_transform = {.position = position, .scale = size};
+    request.z_index = c->z_index++;
     request.id = id;
     submit_render_request(c, id, request);
 }
@@ -262,5 +265,6 @@ void IMGUI::draw_batch(Context *c, UI_ID id, QuadBatch *batch, u32 quads, Materi
     request.data.num_quads = quads;
     request.local_transform = {.position = pos, .scale = size};
     request.id = id;
+    request.z_index = c->z_index++;
     submit_render_request(c, id, request);
 }

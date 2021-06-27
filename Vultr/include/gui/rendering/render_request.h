@@ -22,6 +22,7 @@ namespace Vultr
             Material *material;
             Transform local_transform;
             UI_ID id;
+            s32 z_index = 0;
 
             union RenderRequestData {
                 struct
@@ -39,6 +40,8 @@ namespace Vultr
                 };
                 ~RenderRequestData(){};
             } data;
+
+            bool operator<(const RenderRequest &other) const;
         };
 
         void draw_render_request(const RenderRequest &r, Transform global_transform);
