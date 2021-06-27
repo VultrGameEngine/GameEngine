@@ -2,6 +2,7 @@
 #include "material.h"
 #include "quad_batch.h"
 #include <gui/core/ui_id.h>
+#include <gui/core/transform.h>
 #include <rendering/models/shader.h>
 #include <rendering/models/mesh.h>
 
@@ -19,7 +20,7 @@ namespace Vultr
             };
             Type type = MESH_DRAW;
             Material *material;
-            glm::mat4 transform;
+            Transform local_transform;
             UI_ID id;
 
             union RenderRequestData {
@@ -40,7 +41,7 @@ namespace Vultr
             } data;
         };
 
-        void draw_render_request(const RenderRequest &r, glm::mat4 transform);
+        void draw_render_request(const RenderRequest &r, Transform global_transform);
         void destroy_render_request(RenderRequest &r);
     } // namespace IMGUI
 } // namespace Vultr

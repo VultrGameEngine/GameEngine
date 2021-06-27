@@ -7,6 +7,7 @@ namespace Vultr
     {
         Vec2 gl_get_size(Vec2 size);
         Vec4 gl_get_color(Color color);
+        Vec2 gl_get_raw_position(Vec2 position);
         Vec2 gl_get_position(Vec2 position, Vec2 size);
     } // namespace IMGUI
 } // namespace Vultr

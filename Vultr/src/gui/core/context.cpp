@@ -7,6 +7,7 @@
 #include <helpers/font_importer.h>
 #include <core/system_providers/font_system_provider.h>
 #include <gui/materials/default_gui_material.h>
+#include <gui/utils/opengl.h>
 
 using namespace Vultr;
 
@@ -97,15 +98,18 @@ void IMGUI::begin(Context *c, const UpdateTick &t)
 
 void IMGUI::end(Context *c)
 {
+    c->widget_transforms.clear();
+
     // Cursor starts at the top left
     Vec2 cursor = Vec2(-1, 1);
     for (auto request : c->requests)
     {
-        auto size = gl_get_size(get_widget_layout(c, request.id).local_size);
-        auto pos = gl_get_position(get_widget_position(c, request.id), size);
-        draw_render_request(request, glm::translate(Vec3(pos, 0)));
+        auto global_transform = get_widget_global_transform(c, request.id);
+
+        draw_render_request(request, global_transform);
         destroy_render_request(request);
     }
+
     c->requests.clear();
     c->widget_layouts.clear();
 }
@@ -181,12 +185,12 @@ IMGUI::Layout &IMGUI::get_widget_layout(Context *c, UI_ID id)
     return c->widget_layouts.at(id);
 }
 
-bool IMGUI::mouse_over(Context *c, UI_ID id)
+bool IMGUI::mouse_over(Context *c, UI_ID id, Vec2 size)
 {
-    if (!widget_layed_out(c, id))
+    if (c->widget_transforms.find(id) == c->widget_transforms.end(id))
         return false;
-    auto top_left = get_widget_position(c, id);
-    auto size = get_widget_layout(c, id).local_size;
+
+    auto top_left = c->widget_transforms.at(id).position;
     auto mp = InputSystem::get_mouse_position();
     mp.y = 1 - mp.y;
     mp *= RenderSystem::get_dimensions(GAME);
@@ -198,47 +202,48 @@ void IMGUI::submit_render_request(Context *c, UI_ID id, const RenderRequest &r)
     c->requests.push_back(r);
 }
 
-void IMGUI::draw_rect_absolute(Context *c, UI_ID id, Vec2 position, Vec2 dimensions, Material *material)
+void IMGUI::draw_rect_absolute(Context *c, UI_ID id, Vec2 position, Vec2 size, Material *material)
 {
-    auto size = gl_get_size(dimensions);
-    auto pos = gl_get_position(position, size);
 
-    glm::mat4 transform = glm::translate(Vec3(pos, 0)) * glm::scale(Vec3(size, 1));
     RenderRequest request = {
         .type = RenderRequest::ABSOLUTE_MESH_DRAW,
         .material = material,
     };
     request.data.mesh = c->renderer.quad;
-    request.transform = transform;
+    request.local_transform = {.position = position, .scale = size};
     request.id = id;
     submit_render_request(c, id, request);
 }
 
-Vec2 IMGUI::get_widget_position(Context *c, UI_ID id)
+IMGUI::Transform IMGUI::get_widget_global_transform(Context *c, UI_ID id)
 {
+    if (c->widget_transforms.find(id) != c->widget_transforms.end())
+        return c->widget_transforms[id];
     auto &layout = get_widget_layout(c, id);
     if (layout.parent == NO_ID)
-        return Vec2(0);
+    {
+        c->widget_transforms.insert({id, Transform()});
+        return Transform();
+    }
     auto &parent_layout = get_widget_layout(c, layout.parent);
-    auto local_pos = get_child_position(parent_layout, id);
+    auto local_transform = get_child_transform(parent_layout, id);
+    auto global_transform = local_transform;
     if (parent_layout.parent != NO_ID)
     {
-        return local_pos + get_widget_position(c, layout.parent);
+        global_transform = local_transform + get_widget_global_transform(c, layout.parent);
     }
-    return local_pos;
+    c->widget_transforms.insert({id, global_transform});
+    return global_transform;
 }
 
-void IMGUI::draw_rect(Context *c, UI_ID id, Vec2 position, Vec2 dimensions, Material *material)
+void IMGUI::draw_rect(Context *c, UI_ID id, Vec2 position, Vec2 size, Material *material)
 {
-    auto size = gl_get_size(dimensions);
-
-    glm::mat4 transform = glm::scale(Vec3(size, 1));
     RenderRequest request = {
         .type = RenderRequest::MESH_DRAW,
         .material = material,
     };
     request.data.mesh = c->renderer.quad;
-    request.transform = transform;
+    request.local_transform = {.position = position, .scale = size};
     request.id = id;
     submit_render_request(c, id, request);
 }
@@ -249,14 +254,13 @@ void IMGUI::draw_batch(Context *c, UI_ID id, QuadBatch *batch, u32 quads, Materi
     auto size = gl_get_size(layout.local_size);
     auto pos = Vec2(1, -1) - size * Vec2(1, -1);
 
-    glm::mat4 transform = glm::translate(Vec3(pos, 0));
     RenderRequest request = {
         .type = RenderRequest::BATCH_DRAW,
         .material = material,
     };
     request.data.batch = batch;
     request.data.num_quads = quads;
-    request.transform = transform;
+    request.local_transform = {.position = pos, .scale = size};
     request.id = id;
     submit_render_request(c, id, request);
 }

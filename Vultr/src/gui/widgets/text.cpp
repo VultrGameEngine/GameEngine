@@ -14,20 +14,9 @@ static void layout_text(IMGUI::Context *c, IMGUI::Layout &l)
     auto &state = get_widget_cache<TextState>(c, __text_cache_id, l.owner);
 }
 
-void IMGUI::text(Context *c, UI_ID id, std::string text, TextStyle style)
+static void push_text_vertices(IMGUI::TextState &state, const std::string &text, Font *font, const IMGUI::TextStyle &style)
 {
-    auto &state = get_widget_cache<TextState>(c, __text_cache_id, id);
-    if (state.batch == nullptr)
-    {
-        state.batch = new_quad_batch();
-    }
-
-    // If the text is exactly the same, then nothing needs to be done
-    if (state.text != text)
-    {
-    }
-
-    auto *font = c->font;
+    using namespace IMGUI;
     auto texture_dimensions = font->texture_dimensions;
 
     auto *quads = static_cast<Quad *>(malloc(sizeof(Quad) * text.size()));
@@ -66,19 +55,38 @@ void IMGUI::text(Context *c, UI_ID id, std::string text, TextStyle style)
         cursor.x += character.advance.x;
     }
 
-    auto size = cursor + Vec2(0, top_padding);
-    auto layout = new_no_child_layout(id, size);
+    state.size = cursor + Vec2(0, top_padding);
+
+    quad_batch_push_quads(state.batch, quads, text.size());
+
+    free(quads);
+}
+
+void IMGUI::text(Context *c, UI_ID id, std::string text, TextStyle style)
+{
+    auto &state = get_widget_cache<TextState>(c, __text_cache_id, id);
+    if (state.batch == nullptr)
+    {
+        state.batch = new_quad_batch();
+    }
+
+    auto *font = c->font;
+
+    // If the text is exactly the same, then nothing needs to be done
+    if (state.text != text)
+    {
+        push_text_vertices(state, text, font, style);
+    }
+
+    auto layout = new_no_child_layout(id, state.size);
     layout_widget(c, id, layout);
 
     if (style.highlight_color.value.a > 0)
     {
-        IMGUI::draw_rect(c, id, Vec2(0), size, new_gui_material(c, style.highlight_color));
+        IMGUI::draw_rect(c, id, Vec2(0), state.size, new_gui_material(c, style.highlight_color));
     }
 
-    quad_batch_push_quads(state.batch, quads, text.size());
     auto *mat = new_batch_material(c, font->texture);
-    mat->bind();
 
     draw_batch(c, id, state.batch, text.size(), mat);
-    free(quads);
 }

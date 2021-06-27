@@ -74,7 +74,7 @@ IMGUI::Layout IMGUI::new_multi_child_layout(UI_ID owner, Vec2 local_size, Constr
     Layout l;
     l.type = Layout::SINGLE_CHILD;
     l.data.multi_child = {.default_constraints = default_constraints};
-    l.data.multi_child.default_position = default_position;
+    l.data.multi_child.default_transform.position = default_position;
     l.owner = owner;
     l.parent = parent;
     l.local_size = local_size;
@@ -97,23 +97,23 @@ void IMGUI::layout_add_child(Layout &l, UI_ID id)
     }
 }
 
-Vec2 IMGUI::get_child_position(Layout &l, UI_ID child)
+IMGUI::Transform IMGUI::get_child_transform(Layout &l, UI_ID child)
 {
     assert(l.type != Layout::NO_CHILD && "Widget not allowed to have children!");
     if (l.type == Layout::SINGLE_CHILD)
     {
         auto &layout_data = get_layout_data<SingleChildLayout>(l);
-        return layout_data.child_position;
+        return layout_data.child_transform;
     }
     else if (l.type == Layout::MULTI_CHILD)
     {
         auto &layout_data = get_layout_data<MultiChildLayout>(l);
-        if (layout_data.children_positions.find(child) != layout_data.children_positions.end())
-            return layout_data.default_position;
-        return layout_data.children_positions[child];
+        if (layout_data.children_transforms.find(child) != layout_data.children_transforms.end())
+            return layout_data.default_transform;
+        return layout_data.children_transforms[child];
     }
     assert("how...");
-    return Vec2(0, 0);
+    return Transform();
 }
 
 IMGUI::Constraints IMGUI::layout_get_constraints(Layout &l, UI_ID id, u32 index)

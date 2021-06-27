@@ -17,5 +17,5 @@ void IMGUI::end_center(IMGUI::Context *c)
         return;
     data.render_child = true;
     auto child_size = get_widget_layout(c, data.child).local_size;
-    data.child_position = (layout.local_size - child_size) / Vec2(2);
+    data.child_transform.position = (layout.local_size - child_size) / Vec2(2);
 }

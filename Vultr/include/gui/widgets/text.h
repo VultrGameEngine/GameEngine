@@ -11,7 +11,7 @@ namespace Vultr
         {
             std::string text;
             QuadBatch *batch;
-            Vec2 dimensions;
+            Vec2 size;
         };
 
         struct TextStyle

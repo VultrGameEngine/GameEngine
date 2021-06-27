@@ -12,6 +12,13 @@ Vec4 IMGUI::gl_get_color(Color color)
     return color.value / Vec4(255);
 }
 
+Vec2 IMGUI::gl_get_raw_position(Vec2 position)
+{
+    auto pos = position / RenderSystem::get_dimensions(GAME) * Vec2(2);
+    pos.y = -pos.y;
+    return pos;
+}
+
 Vec2 IMGUI::gl_get_position(Vec2 position, Vec2 size)
 {
     auto pos = position / RenderSystem::get_dimensions(GAME) * Vec2(2) + Vec2(-1, 1);

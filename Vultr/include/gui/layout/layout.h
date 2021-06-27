@@ -1,5 +1,6 @@
 #pragma once
 #include <gui/core/ui_id.h>
+#include <gui/core/transform.h>
 #include "constraints.h"
 
 namespace Vultr
@@ -23,7 +24,7 @@ namespace Vultr
             Constraints child_constraints;
 
             // The position of the child that is calculated when the single child layout finishes
-            Vec2 child_position = Vec2(0, 0);
+            Transform child_transform = {};
 
             // Can render
             bool render_child = false;
@@ -38,13 +39,13 @@ namespace Vultr
             // This will occur when either the multi child widget renders for the first time (and as such cannot have had your desired size to set a constraint)
             // or when the child widgets of a multi child widget are changed between frames
             Constraints default_constraints;
-            Vec2 default_position = Vec2(0, 0);
+            Transform default_transform = {};
 
             // The saved constraints from the previous frame that will be applied to the child. NOTE: This member does not HAVE to be used
             std::unordered_map<UI_ID, Constraints> child_constraints;
 
             // The positions of each of the children calculated when the multi child layout finishes
-            std::unordered_map<UI_ID, Vec2> children_positions;
+            std::unordered_map<UI_ID, Transform> children_transforms;
 
             // Can render
             bool render_child = false;
@@ -98,7 +99,7 @@ namespace Vultr
         // Add a child widget to the layout
         void layout_add_child(Layout &l, UI_ID id);
 
-        Vec2 get_child_position(Layout &l, UI_ID child);
+        Transform get_child_transform(Layout &l, UI_ID child);
 
         // Get the current constraints. This will change dependineg on the type of layout, however the basic idea is that the constraints the parent wants for the child will be
         // stored in the data section of its layout which the child will then (hopefully) abide by, creating a size in its own layout

@@ -11,7 +11,7 @@ void IMGUI::begin_sized(Context *c, UI_ID id, SizedStyle style)
 
     auto &data = get_layout_data<SingleChildLayout>(scl);
     data.render_child = true;
-    data.child_position = Vec2(0);
+    data.child_transform.position = Vec2(0);
 
     begin_layout_with_children(c, id, scl);
 }

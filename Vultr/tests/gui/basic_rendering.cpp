@@ -5,6 +5,7 @@
 #include <gui/widgets/text.h>
 #include <gui/widgets/center.h>
 #include <gui/widgets/sized.h>
+#include <gui/widgets/padding.h>
 #include <gui/materials/default_gui_material.h>
 #include <helpers/texture_importer.h>
 
@@ -36,41 +37,29 @@ void basic_rendering_test()
     entity_add_component(camera, TransformComponent());
     entity_add_component(camera, CameraComponent());
 
+    u32 count = 0;
+
     while (!InputSystem::get_key(Input::KEY_ESCAPE))
     {
         const auto &tick = engine_update_game(vultr, lastTime, false);
         IMGUI::begin(c, tick);
         auto mouse_pos = InputSystem::get_mouse_position();
         mouse_pos.y = 1 - mouse_pos.y;
-        // IMGUI::draw_rect_absolute(c, __LINE__, Vec2(0), RenderSystem::get_dimensions(GAME), IMGUI::new_gui_material(c, Color(255)));
         IMGUI::text(c, __LINE__, std::to_string(tick.m_delta_time * 1000) + " ms",
                     {
                         .font_color = Color(255),
-                        .font_size = 12,
+                        .font_size = 9,
                         .line_spacing = 1,
                         .highlight_color = Color(0, 0, 255, 255),
                     });
         IMGUI::begin_center(c, __LINE__);
         {
-            IMGUI::begin_sized(c, __LINE__,
-                               {
-                                   .size = Vec2(255 * (mouse_pos.y + 1)),
-                               });
+            if (IMGUI::text_button(c, __LINE__, std::to_string(count)))
             {
-                IMGUI::image(c, __LINE__, texture);
+                count++;
             }
-            IMGUI::end_sized(c);
         }
         IMGUI::end_center(c);
-
-        // IMGUI::begin_center(c, __LINE__);
-        // {
-        //     IMGUI::button(c, __LINE__,
-        //                   {
-        //                       .color = Color(255, 0, 0, 255),
-        //                   });
-        // }
-        // IMGUI::end_center(c);
 
         IMGUI::end(c);
 
