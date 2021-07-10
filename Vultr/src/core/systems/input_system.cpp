@@ -64,6 +64,15 @@ namespace Vultr::InputSystem
         }
     } // namespace Vultr::InputSystem
 
+    static void on_character_input(GLFWwindow *window, u32 key)
+    {
+        auto &p = get_provider();
+        for (auto &listener : p.character_listeners)
+        {
+            listener(key);
+        }
+    }
+
     void init()
     {
         auto &provider = get_provider();
@@ -71,6 +80,7 @@ namespace Vultr::InputSystem
         glfwSetMouseButtonCallback(window, on_mouse_input);
         glfwSetScrollCallback(window, on_scroll);
         glfwSetKeyCallback(window, on_key_input);
+        glfwSetCharCallback(window, on_character_input);
     }
 
     void update(const UpdateTick &tick)

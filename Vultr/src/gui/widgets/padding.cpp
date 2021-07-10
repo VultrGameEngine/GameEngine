@@ -16,11 +16,7 @@ void IMGUI::begin_padding(Context *c, UI_ID id, PaddingStyle style)
     f32 horizontal_diff = style.insets.left + style.insets.right;
     f32 vertical_diff = style.insets.top + style.insets.bottom;
 
-    assert(horizontal_diff < parent_constraints.max_width && vertical_diff < parent_constraints.max_height && "Too much padding!");
-
     auto max = Vec2(parent_constraints.max_width - horizontal_diff, parent_constraints.max_height - vertical_diff);
-
-    assert(max.x > parent_constraints.min_width && max.y > parent_constraints.min_height && "Too much padding");
 
     Constraints constraints = generate_loose(parent_constraints);
     constraints.max_width = max.x;

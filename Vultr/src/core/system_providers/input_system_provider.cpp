@@ -162,26 +162,35 @@ namespace Vultr::InputSystem
     void set_key_listener(OnKey listener)
     {
         auto &p = get_provider();
-        for (auto l : p.key_listeners)
-        {
-            assert(l != listener && LISTENER_REGISTERED_TWICE_ERROR);
-        }
+        // for (auto l : p.key_listeners)
+        // {
+        //     assert(l != listener && LISTENER_REGISTERED_TWICE_ERROR);
+        // }
         p.key_listeners.push_back(listener);
     }
 
     void deregister_key_listener(OnKey listener)
     {
-        auto &p = get_provider();
-        auto &listeners = p.key_listeners;
-        u32 index = 0;
-        for (auto l : listeners)
-        {
-            if (l == listener)
-            {
-                listeners.erase(listeners.begin() + index);
-            }
-            index++;
-        }
+        // auto &p = get_provider();
+        // auto &listeners = p.key_listeners;
+        // u32 index = 0;
+        // for (auto l : listeners)
+        // {
+        //     if (l == listener)
+        //     {
+        //         listeners.erase(listeners.begin() + index);
+        //     }
+        //     index++;
+        // }
         assert(true && LISTENER_NOT_FOUND_ERROR);
+    }
+
+    void set_character_listener(OnCharacter listener)
+    {
+        auto &p = get_provider();
+        p.character_listeners.push_back(listener);
+    }
+    void deregister_character_listener(OnCharacter listener)
+    {
     }
 } // namespace Vultr::InputSystem

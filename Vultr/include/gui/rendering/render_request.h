@@ -19,6 +19,7 @@ namespace Vultr
                 BATCH_DRAW,
             };
             Type type = MESH_DRAW;
+            bool clip = false;
             Material *material;
             Transform local_transform;
             UI_ID id;

@@ -24,6 +24,9 @@ namespace Vultr
         void destroy_cache(T &cache);
 
         template <typename T>
+        void initialize_cache(T &cache){};
+
+        template <typename T>
         struct WidgetCache : IWidgetCache
         {
             void insert_data(UI_ID id)
@@ -41,6 +44,8 @@ namespace Vultr
 
                 // Set the component in the component_array
                 cache_array[new_index] = T{};
+
+                initialize_cache<T>(cache_array[new_index]);
 
                 ++size;
             }

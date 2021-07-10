@@ -21,6 +21,7 @@ namespace Vultr
             std::vector<OnMouseButton> mouse_button_listeners;
             std::vector<OnScroll> scroll_listeners;
             std::vector<OnKey> key_listeners;
+            std::vector<OnCharacter> character_listeners;
         };
 
         Component &get_provider();
@@ -45,6 +46,9 @@ namespace Vultr
 
         void set_key_listener(OnKey listener);
         void deregister_key_listener(OnKey listener);
+
+        void set_character_listener(OnCharacter listener);
+        void deregister_character_listener(OnCharacter listener);
 
     } // namespace InputSystem
 

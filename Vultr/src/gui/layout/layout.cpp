@@ -72,7 +72,7 @@ IMGUI::Layout IMGUI::new_single_child_layout(UI_ID owner, Vec2 local_size, Const
 IMGUI::Layout IMGUI::new_multi_child_layout(UI_ID owner, Vec2 local_size, Constraints default_constraints, Vec2 default_position, UI_ID parent)
 {
     Layout l;
-    l.type = Layout::SINGLE_CHILD;
+    l.type = Layout::MULTI_CHILD;
     l.data.multi_child = {.default_constraints = default_constraints};
     l.data.multi_child.default_transform.position = default_position;
     l.owner = owner;
@@ -108,7 +108,7 @@ IMGUI::Transform IMGUI::get_child_transform(Layout &l, UI_ID child)
     else if (l.type == Layout::MULTI_CHILD)
     {
         auto &layout_data = get_layout_data<MultiChildLayout>(l);
-        if (layout_data.children_transforms.find(child) != layout_data.children_transforms.end())
+        if (layout_data.children_transforms.find(child) == layout_data.children_transforms.end())
             return layout_data.default_transform;
         return layout_data.children_transforms[child];
     }
@@ -127,6 +127,7 @@ IMGUI::Constraints IMGUI::layout_get_constraints(Layout &l, UI_ID id, u32 index)
     else if (l.type == Layout::MULTI_CHILD)
     {
         const auto &layout_data = get_layout_data<MultiChildLayout>(l);
+        return layout_data.default_constraints;
     }
     assert(
         "???? How did you even get here you sad fuck??? How is that even physically possible. You had one job, pick one of 3 members of an enum, and you chose a fucking fourth option... how do you even do that???");

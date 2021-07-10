@@ -6,7 +6,9 @@
 #include <gui/widgets/center.h>
 #include <gui/widgets/sized.h>
 #include <gui/widgets/padding.h>
+#include <gui/widgets/text_input.h>
 #include <gui/materials/default_gui_material.h>
+#include <gui/utils/opengl.h>
 #include <helpers/texture_importer.h>
 
 #include <vultr.hpp>
@@ -40,6 +42,15 @@ void basic_rendering_test()
     u32 count = 0;
     bool toggle_fps = true;
 
+    Vec2 size = Vec2(1920, 1080);
+    Vec2 position = Vec2(0, 0);
+    auto gl_size = IMGUI::gl_get_size(size);
+    auto gl_position = IMGUI::gl_get_position(position, gl_size);
+
+    auto screen_size = IMGUI::screen_get_size_from_gl(gl_size);
+    auto screen_position = IMGUI::screen_get_position_from_gl(gl_position, gl_size);
+
+    std::string value = "";
     while (!InputSystem::get_key(Input::KEY_ESCAPE))
     {
         const auto &tick = engine_update_game(vultr, lastTime, false);
@@ -62,11 +73,18 @@ void basic_rendering_test()
         // Center button
         IMGUI::begin_center(c, __LINE__);
         {
-            if (IMGUI::text_button(c, __LINE__, std::to_string(count)))
+            IMGUI::begin_sized(c, __LINE__, {.size = Vec2(mouse_pos.y * RenderSystem::get_dimensions(GAME).x, 250)});
             {
-                count++;
-                toggle_fps = !toggle_fps;
+                IMGUI::text(c, __LINE__, "joe mama chungus big alskdjfklasj", {.font_color = Color(255)});
+                // IMGUI::image(c, __LINE__, texture);
+                // IMGUI::text_input(c, __LINE__, value, {.padding_style = {.insets = IMGUI::edge_insets_all(20)}});
+                // if (IMGUI::text_button(c, __LINE__, std::to_string(count)))
+                // {
+                //     count++;
+                //     toggle_fps = !toggle_fps;
+                // }
             }
+            IMGUI::end_sized(c);
         }
         IMGUI::end_center(c);
 

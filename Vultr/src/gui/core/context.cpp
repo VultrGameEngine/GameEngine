@@ -79,6 +79,8 @@ IMGUI::Context *IMGUI::new_context(const IMGUI::Window &window)
 
 void IMGUI::begin(Context *c, const UpdateTick &t)
 {
+    auto dimensions = RenderSystem::get_dimensions(GAME);
+    glViewport(0, 0, dimensions.x, dimensions.y);
     glClearColor(0.0, 0.0, 0.0, 0.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_BLEND);
@@ -263,10 +265,11 @@ IMGUI::Transform IMGUI::get_widget_global_transform(Context *c, UI_ID id)
     return global_transform;
 }
 
-void IMGUI::draw_rect(Context *c, UI_ID id, Vec2 position, Vec2 size, Material *material)
+void IMGUI::draw_rect(Context *c, UI_ID id, Vec2 position, Vec2 size, Material *material, bool clip)
 {
     RenderRequest request = {
         .type = RenderRequest::MESH_DRAW,
+        .clip = clip,
         .material = material,
     };
     request.data.mesh = c->renderer.quad;

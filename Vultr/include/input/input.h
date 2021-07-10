@@ -178,5 +178,7 @@ namespace Vultr
         Input::Key key;
         Input::Action action;
     };
-    typedef void (*OnKey)(KeyEvent);
+    typedef std::function<void(KeyEvent)> OnKey;
+
+    typedef std::function<void(u32)> OnCharacter;
 } // namespace Vultr

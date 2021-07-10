@@ -14,6 +14,8 @@ bool IMGUI::RenderRequest::operator<(const RenderRequest &other) const
 void IMGUI::draw_render_request(const RenderRequest &r, Transform global_transform)
 {
     Mat4 full_transform;
+    Vec3 gl_global_pos;
+    Vec3 gl_global_size;
     if (r.type == RenderRequest::ABSOLUTE_MESH_DRAW)
     {
         // full_transform = get_transform_matrix(r.transform);
@@ -24,7 +26,9 @@ void IMGUI::draw_render_request(const RenderRequest &r, Transform global_transfo
         Vec3 global_position = Vec3(gl_get_position(global_transform.position, local_scale), 0);
         Vec3 local_position = Vec3(gl_get_raw_position(r.local_transform.position), 0);
         Vec2 global_scale = glm::scale(Vec3(global_transform.scale, 1.0)) * Vec4(local_scale.x, local_scale.y, 0.0, 1.0);
-        full_transform = glm::translate(global_position + local_position) * glm::scale(Vec3(global_scale, 1));
+        gl_global_pos = global_position + local_position;
+        gl_global_size = Vec3(global_scale, 1);
+        full_transform = glm::translate(gl_global_pos) * glm::scale(gl_global_size);
     }
     else if (r.type == RenderRequest::BATCH_DRAW)
     {
@@ -33,7 +37,9 @@ void IMGUI::draw_render_request(const RenderRequest &r, Transform global_transfo
         Vec3 local_position = Vec3(r.local_transform.position, 0);
         Vec2 inverted_global_scale = Vec2(1) - global_transform.scale;
         Vec3 offset = Vec3(inverted_global_scale * (Vec2(1) - Vec2(local_scale)) * Vec2(1, -1), 0);
-        full_transform = glm::translate(global_position + local_position - offset) * glm::scale(Vec3(global_transform.scale, 1.0));
+        gl_global_pos = global_position + local_position - offset;
+        gl_global_size = Vec3(global_transform.scale, 1.0);
+        full_transform = glm::translate(gl_global_pos) * glm::scale(gl_global_size);
     }
     else
     {
@@ -43,6 +49,13 @@ void IMGUI::draw_render_request(const RenderRequest &r, Transform global_transfo
     r.material->bind();
     r.material->shader->SetUniformMatrix4fv("transform", glm::value_ptr(full_transform));
 
+    if (r.clip)
+    {
+        auto screen_global_size = screen_get_size_from_gl(gl_global_size);
+        auto screen_global_pos = screen_get_position_from_gl(gl_global_pos, gl_global_size);
+        glScissor(screen_global_pos.x, screen_global_pos.y, screen_global_size.x, screen_global_size.y);
+    }
+
     if (r.type == RenderRequest::ABSOLUTE_MESH_DRAW || r.type == RenderRequest::MESH_DRAW)
     {
         r.data.mesh->Draw();
@@ -50,6 +63,11 @@ void IMGUI::draw_render_request(const RenderRequest &r, Transform global_transfo
     else
     {
         quad_batch_draw(r.data.batch, r.data.num_quads);
+    }
+    if (r.clip)
+    {
+        auto dimensions = RenderSystem::get_dimensions(GAME);
+        glScissor(0, 0, dimensions.x, dimensions.y);
     }
 }
 

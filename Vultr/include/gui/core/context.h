@@ -126,7 +126,7 @@ namespace Vultr
 
         void draw_rect_absolute(Context *c, UI_ID id, Vec2 position, Vec2 size, Material *material);
 
-        void draw_rect(Context *c, UI_ID id, Vec2 position, Vec2 size, Material *material);
+        void draw_rect(Context *c, UI_ID id, Vec2 position, Vec2 size, Material *material, bool clip = false);
         void draw_batch(Context *c, UI_ID id, QuadBatch *batch, u32 quads, Material *material);
 
         bool is_hot(Context *c, UI_ID id);
