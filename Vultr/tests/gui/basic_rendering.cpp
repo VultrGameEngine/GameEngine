@@ -5,6 +5,7 @@
 #include <gui/widgets/text.h>
 #include <gui/widgets/center.h>
 #include <gui/widgets/sized.h>
+#include <gui/widgets/constrained_box.h>
 #include <gui/widgets/padding.h>
 #include <gui/widgets/text_input.h>
 #include <gui/materials/default_gui_material.h>
@@ -40,7 +41,7 @@ void basic_rendering_test()
     entity_add_component(camera, CameraComponent());
 
     u32 count = 0;
-    bool toggle_fps = true;
+    bool toggle_fps = false;
 
     Vec2 size = Vec2(1920, 1080);
     Vec2 position = Vec2(0, 0);
@@ -54,7 +55,11 @@ void basic_rendering_test()
     while (!InputSystem::get_key(Input::KEY_ESCAPE))
     {
         const auto &tick = engine_update_game(vultr, lastTime, false);
+
+        // Begin IMGUI
         IMGUI::begin(c, tick);
+
+        // Mouse pos stuff for testing
         auto mouse_pos = InputSystem::get_mouse_position();
         mouse_pos.y = 1 - mouse_pos.y;
 
@@ -73,7 +78,8 @@ void basic_rendering_test()
         // Center button
         IMGUI::begin_center(c, __LINE__);
         {
-            IMGUI::begin_sized(c, __LINE__, {.size = Vec2(mouse_pos.y * RenderSystem::get_dimensions(GAME).x, 250)});
+            // IMGUI::begin_sized(c, __LINE__, {.size = Vec2(mouse_pos.y * RenderSystem::get_dimensions(GAME).x, 250)});
+            IMGUI::begin_constrained_box(c, __LINE__, {.max_width = mouse_pos.y * RenderSystem::get_dimensions(GAME).x});
             {
                 IMGUI::text(c, __LINE__, "joe mama chungus big alskdjfklasj", {.font_color = Color(255)});
                 // IMGUI::image(c, __LINE__, texture);
@@ -84,7 +90,8 @@ void basic_rendering_test()
                 //     toggle_fps = !toggle_fps;
                 // }
             }
-            IMGUI::end_sized(c);
+            // IMGUI::end_sized(c);
+            IMGUI::end_constrained_box(c);
         }
         IMGUI::end_center(c);
 

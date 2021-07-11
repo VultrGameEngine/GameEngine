@@ -28,6 +28,9 @@ namespace Vultr
                 TEXT_ALIGN_CENTER,
                 TEXT_ALIGN_RIGHT,
             };
+
+	    TextAlign alignment = TextAlign::TEXT_ALIGN_LEFT;
+
         };
 
         f32 text_get_height(Context *c, const TextStyle &style);
