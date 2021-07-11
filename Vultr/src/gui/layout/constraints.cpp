@@ -40,4 +40,17 @@ Vec2 IMGUI::constraints_min(const Constraints &c)
     return Vec2(c.min_width, c.min_height);
 }
 
-Vec2 IMGUI::get_size_from_constraints(const Constraints &c, Vec2 size);
+Vec2 IMGUI::get_size_from_constraints(const Constraints &c, Vec2 size)
+{
+    if (size.x < c.min_width)
+        size.x = c.min_width;
+    else if (size.x > c.max_width)
+        size.x = c.max_width;
+
+    if (size.y < c.min_height)
+        size.y = c.min_height;
+    else if (size.y > c.max_height)
+        size.y = c.max_height;
+
+    return size;
+}

@@ -81,7 +81,11 @@ void basic_rendering_test()
             // IMGUI::begin_sized(c, __LINE__, {.size = Vec2(mouse_pos.y * RenderSystem::get_dimensions(GAME).x, 250)});
             IMGUI::begin_constrained_box(c, __LINE__, {.max_width = mouse_pos.y * RenderSystem::get_dimensions(GAME).x});
             {
-                IMGUI::text(c, __LINE__, "joe mama chungus big alskdjfklasj", {.font_color = Color(255)});
+                IMGUI::text(c, __LINE__, "joe mama chungus big alskdjfklasj",
+                            {
+                                .font_color = Color(255),
+                                .alignment = IMGUI::TextStyle::TEXT_ALIGN_CENTER,
+                            });
                 // IMGUI::image(c, __LINE__, texture);
                 // IMGUI::text_input(c, __LINE__, value, {.padding_style = {.insets = IMGUI::edge_insets_all(20)}});
                 // if (IMGUI::text_button(c, __LINE__, std::to_string(count)))

@@ -173,6 +173,22 @@ static u32 get_paragraph_character_count(const TextParagraph &paragraph)
     return count;
 }
 
+static f32 get_cursor_pos(const TextLine &line, f32 max_width, IMGUI::TextStyle::TextAlign alignment)
+{
+    using namespace IMGUI;
+
+    switch (alignment)
+    {
+        case TextStyle::TEXT_ALIGN_LEFT:
+            return 0;
+        case TextStyle::TEXT_ALIGN_RIGHT:
+            return max_width - line.width;
+        case TextStyle::TEXT_ALIGN_CENTER:
+            f32 difference = max_width - line.width;
+            return max_width - line.width - difference / 2;
+    }
+}
+
 static void push_text_vertices(IMGUI::Context *c, IMGUI::TextState &state, const TextParagraph &paragraph, Font *font, const IMGUI::TextStyle &style)
 {
     using namespace IMGUI;
@@ -200,6 +216,8 @@ static void push_text_vertices(IMGUI::Context *c, IMGUI::TextState &state, const
     {
         // Get the text line, which we will then create the quads for
         auto text = get_text_line_text(line);
+
+        cursor.x = get_cursor_pos(line, paragraph.max_width, style.alignment);
 
         for (char c : text)
         {
@@ -247,11 +265,10 @@ static void push_text_vertices(IMGUI::Context *c, IMGUI::TextState &state, const
 
         // After each line, we want to move the cursor down by the line height and reset the cursor to the beginning of the line
         cursor.y += text_height;
-        cursor.x = 0;
     }
 
     // Set the size of our widget
-    state.size = Vec2(cursor.x, text_height * paragraph.lines.size());
+    state.size = Vec2(paragraph.max_width, text_height * paragraph.lines.size());
 
     // Push the quads
     quad_batch_push_quads(state.batch, quads, character_count);
@@ -285,6 +302,9 @@ void IMGUI::text(Context *c, UI_ID id, const std::string &text, TextStyle style)
         // Then use the lines to create the vertices
         push_text_vertices(c, state, lines, font, style);
     }
+
+    // Get the REAL size from the constraints
+    state.size = get_size_from_constraints(get_constraints(c, id), state.size);
 
     // Create the layout
     auto layout = new_no_child_layout(id, state.size);
