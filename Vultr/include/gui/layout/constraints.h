@@ -11,7 +11,7 @@ namespace Vultr
             f32 min_height = 0;
             f32 max_width = 0;
             f32 max_height = 0;
-            Constraints() = default;
+            Constraints() : min_width(0), min_height(0), max_width(FLT_MAX), max_height(FLT_MAX){};
             Constraints(Vec2 min, Vec2 max) : min_width(min.x), min_height(min.y), max_width(max.x), max_height(max.y){};
             Constraints(f32 p_min_width, f32 p_max_width, f32 p_min_height, f32 p_max_height) : min_width(p_min_width), min_height(p_min_height), max_width(p_max_width), max_height(p_max_height){};
         };

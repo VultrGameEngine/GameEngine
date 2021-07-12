@@ -22,21 +22,22 @@ void IMGUI::begin_padding(Context *c, UI_ID id, PaddingStyle style)
     constraints.max_width = max.x;
     constraints.max_height = max.y;
 
-    auto scl = new_single_child_layout(id, Vec2(0), constraints);
+    auto scl = new_single_child_layout(__padding_cache_id, id, Vec2(0), constraints);
 
     begin_layout_with_children(c, id, scl);
 }
 
 void IMGUI::end_padding(Context *c)
 {
-    auto &layout = end_layout_with_children(c);
+    auto &layout = end_layout_with_children(c, __padding_cache_id);
     auto id = layout.owner;
 
     auto &data = get_layout_data<SingleChildLayout>(layout);
 
     auto parent_constraints = get_constraints(c, id);
 
-    if (data.child == NO_ID)
+    // If no child was rendered to our padding, then nothing needs to be done
+    if (data.child == NO_ID || data.child == UNSET_ID)
     {
         layout.local_size = constraints_max(parent_constraints);
         return;

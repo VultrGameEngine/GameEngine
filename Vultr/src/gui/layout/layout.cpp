@@ -13,6 +13,7 @@ IMGUI::Layout::Layout(const Layout &other)
     this->parent = other.parent;
     this->type = other.type;
     this->local_size = other.local_size;
+    this->widget_type = other.widget_type;
     switch (type)
     {
         case NO_CHILD:
@@ -33,6 +34,7 @@ void IMGUI::Layout::operator=(const Layout &other)
     this->parent = other.parent;
     this->type = other.type;
     this->local_size = other.local_size;
+    this->widget_type = other.widget_type;
     switch (type)
     {
         case NO_CHILD:
@@ -47,34 +49,37 @@ void IMGUI::Layout::operator=(const Layout &other)
     }
 }
 
-IMGUI::Layout IMGUI::new_no_child_layout(UI_ID owner, Vec2 local_size, UI_ID parent)
+IMGUI::Layout IMGUI::new_no_child_layout(Widget_ID widget, UI_ID owner, Vec2 local_size, UI_ID parent)
 {
     Layout l;
     l.type = Layout::NO_CHILD;
     l.data.no_child = {};
+    l.widget_type = widget;
     l.owner = owner;
     l.parent = parent;
     l.local_size = local_size;
     return l;
 }
 
-IMGUI::Layout IMGUI::new_single_child_layout(UI_ID owner, Vec2 local_size, Constraints constraints, UI_ID parent)
+IMGUI::Layout IMGUI::new_single_child_layout(Widget_ID widget, UI_ID owner, Vec2 local_size, Constraints constraints, UI_ID parent)
 {
     Layout l;
     l.type = Layout::SINGLE_CHILD;
     l.data.single_child = {.child_constraints = constraints};
+    l.widget_type = widget;
     l.owner = owner;
     l.parent = parent;
     l.local_size = local_size;
     return l;
 }
 
-IMGUI::Layout IMGUI::new_multi_child_layout(UI_ID owner, Vec2 local_size, Constraints default_constraints, Vec2 default_position, UI_ID parent)
+IMGUI::Layout IMGUI::new_multi_child_layout(Widget_ID widget, UI_ID owner, Vec2 local_size, Constraints default_constraints, Vec2 default_position, UI_ID parent)
 {
     Layout l;
     l.type = Layout::MULTI_CHILD;
     l.data.multi_child = {.default_constraints = default_constraints};
     l.data.multi_child.default_transform.position = default_position;
+    l.widget_type = widget;
     l.owner = owner;
     l.parent = parent;
     l.local_size = local_size;

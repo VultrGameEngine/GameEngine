@@ -18,7 +18,7 @@ namespace Vultr
             f32 max_height = FLT_MAX;
         };
 
-        void begin_constrained_box(Context *c, UI_ID id, const ConstrainedBoxStyle &style);
+        void begin_constrained_box(Context *c, UI_ID id, const Constraints &style = Constraints());
         void end_constrained_box(Context *c);
 
     } // namespace IMGUI

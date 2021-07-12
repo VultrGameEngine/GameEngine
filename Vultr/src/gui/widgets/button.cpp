@@ -16,14 +16,14 @@ void IMGUI::begin_button(Context *c, UI_ID id, ButtonStyle style)
     auto &state = get_widget_cache<ButtonState>(c, __button_cache_id, id);
     state.style = style;
     auto parent_constraints = get_constraints(c, id);
-    auto scl = new_single_child_layout(id, Vec2(0), parent_constraints);
+    auto scl = new_single_child_layout(__button_cache_id, id, Vec2(0), parent_constraints);
     c->z_index += 1;
     begin_layout_with_children(c, id, scl);
 }
 
 bool IMGUI::end_button(Context *c)
 {
-    auto &layout = end_layout_with_children(c);
+    auto &layout = end_layout_with_children(c, __button_cache_id);
 
     // This is done so that our background rectangle of the button is rendered below any foreground
     c->z_index -= 2;

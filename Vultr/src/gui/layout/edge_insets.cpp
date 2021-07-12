@@ -1,8 +1,8 @@
 #include <gui/layout/edge_insets.h>
 
-using namespace Vultr;
+using namespace Vultr::IMGUI;
 
-IMGUI::EdgeInsets IMGUI::edge_insets_symmetrical(f32 horizontal, f32 vertical)
+EdgeInsets EdgeInsets::SYMMETRICAL(f32 horizontal, f32 vertical)
 {
     return {
         .left = horizontal,
@@ -11,7 +11,8 @@ IMGUI::EdgeInsets IMGUI::edge_insets_symmetrical(f32 horizontal, f32 vertical)
         .bottom = vertical,
     };
 }
-IMGUI::EdgeInsets IMGUI::edge_insets_all(f32 all)
+
+EdgeInsets EdgeInsets::ALL(f32 all)
 {
     return {
         .left = all,
@@ -19,4 +20,9 @@ IMGUI::EdgeInsets IMGUI::edge_insets_all(f32 all)
         .top = all,
         .bottom = all,
     };
+}
+
+bool has_insets(const EdgeInsets &insets)
+{
+    return insets.top != 0 || insets.bottom != 0 || insets.left != 0 || insets.right != 0;
 }

@@ -34,8 +34,12 @@ namespace Vultr
         {
             Color background_color = Color(255);
             Color cursor_color = Color(0, 0, 255, 255);
-            TextStyle text_style = {};
-            PaddingStyle padding_style = {.insets = edge_insets_all(0)};
+            TextStyle text_style = {
+                .max_lines = 1,
+            };
+            PaddingStyle padding_style = {
+                .insets = EdgeInsets::ALL(0),
+            };
             u32 max_lines = 1;
             s32 max_characters = -1;
         };

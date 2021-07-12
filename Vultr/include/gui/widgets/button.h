@@ -23,7 +23,7 @@ namespace Vultr
                 .line_spacing = 1,
                 .highlight_color = Color(0),
             };
-            EdgeInsets padding = edge_insets_symmetrical(100, 50);
+            EdgeInsets padding = EdgeInsets::SYMMETRICAL(100, 50);
         }; // namespace IMGUI
 
         struct TextButtonState

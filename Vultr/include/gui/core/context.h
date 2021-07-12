@@ -112,8 +112,8 @@ namespace Vultr
         Constraints get_constraints(Context *c, UI_ID id);
         Transform get_widget_global_transform(Context *c, UI_ID id);
 
-        void begin_layout_with_children(Context *c, UI_ID id, Layout &layout, bool keep_old_layout = true);
-        Layout &end_layout_with_children(Context *c);
+        void begin_layout_with_children(Context *c, UI_ID id, Layout &layout);
+        Layout &end_layout_with_children(Context *c, Widget_ID widget);
 
         //
         //

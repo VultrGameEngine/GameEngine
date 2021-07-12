@@ -140,7 +140,7 @@ void IMGUI::end(Context *c)
     c->widget_layouts.clear();
 }
 
-void IMGUI::begin_layout_with_children(Context *c, UI_ID id, Layout &layout, bool keep_old_layout)
+void IMGUI::begin_layout_with_children(Context *c, UI_ID id, Layout &layout)
 {
     widget_accessed(c, id);
     c->index.top()++;
@@ -152,19 +152,17 @@ void IMGUI::begin_layout_with_children(Context *c, UI_ID id, Layout &layout, boo
     }
     c->parent = id;
     c->index.push(0);
-    if (keep_old_layout)
-    {
-        if (c->widget_layouts.find(id) != c->widget_layouts.end())
-            return;
-    }
     c->widget_layouts[id] = layout;
 }
 
-IMGUI::Layout &IMGUI::end_layout_with_children(Context *c)
+IMGUI::Layout &IMGUI::end_layout_with_children(Context *c, Widget_ID widget)
 {
     auto parent = c->parent;
     assert(parent != NO_ID && "Cannot end layout! There is no parent widget!");
     auto &parent_layout = get_widget_layout(c, parent);
+
+    assert(parent_layout.widget_type == widget && "Failed to end layout! Widget type does not match! Are you missing an `end` widget somewhere?");
+
     c->parent = parent_layout.parent;
     c->index.pop();
     return parent_layout;

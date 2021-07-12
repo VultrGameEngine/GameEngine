@@ -267,8 +267,14 @@ static void push_text_vertices(IMGUI::Context *c, IMGUI::TextState &state, const
         cursor.y += text_height;
     }
 
+    // We are going to set a minimum height for text to at least 1 line.
+    // If the text widget literally has no text in it, it should still have a 1 line height
+    u32 line_count = 1;
+    if (paragraph.lines.size() > line_count)
+        line_count = paragraph.lines.size();
+
     // Set the size of our widget
-    state.size = Vec2(paragraph.max_width, text_height * paragraph.lines.size());
+    state.size = Vec2(paragraph.max_width, text_height * line_count);
 
     // Push the quads
     quad_batch_push_quads(state.batch, quads, character_count);
@@ -307,7 +313,7 @@ void IMGUI::text(Context *c, UI_ID id, const std::string &text, TextStyle style)
     state.size = get_size_from_constraints(get_constraints(c, id), state.size);
 
     // Create the layout
-    auto layout = new_no_child_layout(id, state.size);
+    auto layout = new_no_child_layout(__text_cache_id, id, state.size);
     layout_widget(c, id, layout);
 
     if (style.highlight_color.value.a > 0)

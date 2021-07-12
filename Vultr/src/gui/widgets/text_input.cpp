@@ -52,13 +52,16 @@ void IMGUI::destroy_cache<IMGUI::TextInputState>(TextInputState &cache){};
 
 void IMGUI::text_input(Context *c, UI_ID id, std::string &text, TextInputStyle style)
 {
+    // Get our cache
     auto &state = get_widget_cache<TextInputState>(c, __text_input_cache_id, id);
 
+    // If we had some key events then we need to use them here
     while (state.queued_events.size() > 0)
     {
         auto event = state.queued_events.front();
         switch (event.type)
         {
+                // If there was a key event, add whatever character there was
             case TextInputEvent::KEY:
                 text += event.data;
                 break;
@@ -74,17 +77,21 @@ void IMGUI::text_input(Context *c, UI_ID id, std::string &text, TextInputStyle s
             case TextInputEvent::MOVE_RIGHT:
                 break;
         }
+        // Remove the event so we keep going
         state.queued_events.pop();
     }
 
+    // Get the parent constraints
     auto parent_constraints = get_constraints(c, id);
-    f32 text_height = text_get_height(c, style.text_style);
 
+    // Get the max size for our widget. This will be the width of our text input
     auto size = constraints_max(parent_constraints);
 
-    auto mcl = new_multi_child_layout(id, size, parent_constraints, Vec2(0));
-    c->z_index++;
+    auto mcl = new_multi_child_layout(__text_input_cache_id, id, size, parent_constraints, Vec2(0));
+
     begin_layout_with_children(c, id, mcl);
+
+    c->z_index++;
 
     auto text_parent_id = id + 19309 + __LINE__;
     auto text_id = id + 19309 + __LINE__;
@@ -94,7 +101,7 @@ void IMGUI::text_input(Context *c, UI_ID id, std::string &text, TextInputStyle s
     }
     IMGUI::end_padding(c);
 
-    auto &layout = end_layout_with_children(c);
+    auto &layout = end_layout_with_children(c, __text_input_cache_id);
     auto &data = get_layout_data<MultiChildLayout>(layout);
 
     c->z_index -= 2;

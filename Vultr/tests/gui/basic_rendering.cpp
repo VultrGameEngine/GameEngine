@@ -8,6 +8,7 @@
 #include <gui/widgets/constrained_box.h>
 #include <gui/widgets/padding.h>
 #include <gui/widgets/text_input.h>
+#include <gui/widgets/container.h>
 #include <gui/materials/default_gui_material.h>
 #include <gui/utils/opengl.h>
 #include <helpers/texture_importer.h>
@@ -79,23 +80,42 @@ void basic_rendering_test()
         IMGUI::begin_center(c, __LINE__);
         {
             // IMGUI::begin_sized(c, __LINE__, {.size = Vec2(mouse_pos.y * RenderSystem::get_dimensions(GAME).x, 250)});
-            IMGUI::begin_constrained_box(c, __LINE__, {.max_width = mouse_pos.y * RenderSystem::get_dimensions(GAME).x});
+            // IMGUI::begin_constrained_box(c, __LINE__, {.max_width = mouse_pos.y * RenderSystem::get_dimensions(GAME).x});
+            // {
+            //     // IMGUI::text(c, __LINE__, "joe mama chungus big alskdjfklasj",
+            //     //             {
+            //     //                 .font_color = Color(255),
+            //     //                 .alignment = IMGUI::TextStyle::TEXT_ALIGN_CENTER,
+            //     //             });
+            //     IMGUI::text_input(c, __LINE__, value,
+            //                       {
+            //                           .padding_style =
+            //                               {
+            //                                   .insets = IMGUI::EdgeInsets::ALL(20),
+            //                               },
+            //                       });
+            //     // if (IMGUI::text_button(c, __LINE__, std::to_string(count)))
+            //     // {
+            //     //     count++;
+            //     //     toggle_fps = !toggle_fps;
+            //     // }
+            //     // IMGUI::image(c, __LINE__, texture);
+            // }
+            // IMGUI::end_constrained_box(c);
+            IMGUI::begin_container(c, __LINE__,
+                                   {
+                                       .color = Color(255),
+                                       .margin = IMGUI::EdgeInsets::SYMMETRICAL(100, 100),
+                                       .padding = IMGUI::EdgeInsets::ALL(200),
+                                       .constraints = IMGUI::Constraints(800, 800, 800, 800),
+                                   });
             {
-                IMGUI::text(c, __LINE__, "joe mama chungus big alskdjfklasj",
-                            {
-                                .font_color = Color(255),
-                                .alignment = IMGUI::TextStyle::TEXT_ALIGN_CENTER,
-                            });
-                // IMGUI::image(c, __LINE__, texture);
-                // IMGUI::text_input(c, __LINE__, value, {.padding_style = {.insets = IMGUI::edge_insets_all(20)}});
-                // if (IMGUI::text_button(c, __LINE__, std::to_string(count)))
-                // {
-                //     count++;
-                //     toggle_fps = !toggle_fps;
-                // }
+                IMGUI::container(c, __LINE__,
+                                 {
+                                     .color = Color(255, 0, 0, 255),
+                                 });
             }
-            // IMGUI::end_sized(c);
-            IMGUI::end_constrained_box(c);
+            IMGUI::end_container(c);
         }
         IMGUI::end_center(c);
 

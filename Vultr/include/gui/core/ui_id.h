@@ -6,6 +6,7 @@ namespace Vultr
     namespace IMGUI
     {
         typedef s32 UI_ID;
+        typedef s32 Widget_ID;
 
 #define AUTO_ID Vultr::IMGUI::ui_id(__FILE__ + std::to_string(__LINE__))
 #define NO_ID -1
