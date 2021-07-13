@@ -4,6 +4,7 @@
 #include <gui/widgets/image.h>
 #include <gui/widgets/text.h>
 #include <gui/widgets/center.h>
+#include <gui/widgets/align.h>
 #include <gui/widgets/sized.h>
 #include <gui/widgets/constrained_box.h>
 #include <gui/widgets/padding.h>
@@ -82,11 +83,6 @@ void basic_rendering_test()
             // IMGUI::begin_sized(c, __LINE__, {.size = Vec2(mouse_pos.y * RenderSystem::get_dimensions(GAME).x, 250)});
             // IMGUI::begin_constrained_box(c, __LINE__, {.max_width = mouse_pos.y * RenderSystem::get_dimensions(GAME).x});
             // {
-            //     // IMGUI::text(c, __LINE__, "joe mama chungus big alskdjfklasj",
-            //     //             {
-            //     //                 .font_color = Color(255),
-            //     //                 .alignment = IMGUI::TextStyle::TEXT_ALIGN_CENTER,
-            //     //             });
             //     IMGUI::text_input(c, __LINE__, value,
             //                       {
             //                           .padding_style =
@@ -107,13 +103,13 @@ void basic_rendering_test()
                                        .color = Color(255),
                                        .margin = IMGUI::EdgeInsets::SYMMETRICAL(100, 100),
                                        .padding = IMGUI::EdgeInsets::ALL(200),
-                                       .constraints = IMGUI::Constraints(800, 800, 800, 800),
                                    });
             {
-                IMGUI::container(c, __LINE__,
-                                 {
-                                     .color = Color(255, 0, 0, 255),
-                                 });
+                // IMGUI::text(c, __LINE__, "joe mama chungus big alskdjfklasj",
+                //             {
+                //                 .font_color = Color(0, 0, 0, 255),
+                //                 .alignment = IMGUI::TextStyle::TEXT_ALIGN_CENTER,
+                //             });
             }
             IMGUI::end_container(c);
         }

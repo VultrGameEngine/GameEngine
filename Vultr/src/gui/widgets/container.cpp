@@ -1,5 +1,6 @@
 #include <gui/widgets/container.h>
 #include <gui/widgets/padding.h>
+#include <gui/widgets/align.h>
 #include <gui/widgets/constrained_box.h>
 #include <gui/materials/default_gui_material.h>
 
@@ -70,7 +71,9 @@ void IMGUI::end_container(Context *c)
     auto &style = cache.style;
 
     // The container will have different behavior if there is a child or not
-    auto child = data.child;
+    UI_ID child = data.child;
+
+    // This layout will always exist since we have a padding and a constrained box as children
     auto child_layout = get_widget_layout(c, child);
 
     // Get the parent constraints
@@ -86,8 +89,8 @@ void IMGUI::end_container(Context *c)
     c->z_index -= 2;
 
     // Create our material
-    auto &color = style.color;
-    auto *mat = new_gui_material(c, color);
+    Color &color = style.color;
+    DefaultGUIMaterial *mat = new_gui_material(c, color);
 
     // Draw our rectangle
     draw_rect(c, id, Vec2(0), layout.local_size, mat);
