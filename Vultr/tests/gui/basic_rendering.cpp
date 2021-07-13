@@ -6,6 +6,7 @@
 #include <gui/widgets/center.h>
 #include <gui/widgets/align.h>
 #include <gui/widgets/sized.h>
+#include <gui/widgets/stack.h>
 #include <gui/widgets/constrained_box.h>
 #include <gui/widgets/padding.h>
 #include <gui/widgets/text_input.h>
@@ -80,7 +81,6 @@ void basic_rendering_test()
         // Center button
         IMGUI::begin_center(c, __LINE__);
         {
-            // IMGUI::begin_sized(c, __LINE__, {.size = Vec2(mouse_pos.y * RenderSystem::get_dimensions(GAME).x, 250)});
             // IMGUI::begin_constrained_box(c, __LINE__, {.max_width = mouse_pos.y * RenderSystem::get_dimensions(GAME).x});
             // {
             //     IMGUI::text_input(c, __LINE__, value,
@@ -95,21 +95,39 @@ void basic_rendering_test()
             //     //     count++;
             //     //     toggle_fps = !toggle_fps;
             //     // }
-            //     // IMGUI::image(c, __LINE__, texture);
             // }
             // IMGUI::end_constrained_box(c);
             IMGUI::begin_container(c, __LINE__,
                                    {
-                                       .color = Color(255),
-                                       .margin = IMGUI::EdgeInsets::SYMMETRICAL(100, 100),
-                                       .padding = IMGUI::EdgeInsets::ALL(200),
+                                       .color = Color(0),
+                                       // .margin = IMGUI::EdgeInsets::SYMMETRICAL(100, 100),
+                                       // .padding = IMGUI::EdgeInsets::ALL(200),
                                    });
             {
-                // IMGUI::text(c, __LINE__, "joe mama chungus big alskdjfklasj",
-                //             {
-                //                 .font_color = Color(0, 0, 0, 255),
-                //                 .alignment = IMGUI::TextStyle::TEXT_ALIGN_CENTER,
-                //             });
+                IMGUI::begin_stack(c, __LINE__,
+                                   {
+                                       .alignment = IMGUI::Alignment::BOTTOM_RIGHT(),
+                                   });
+                {
+                    IMGUI::begin_sized(c, __LINE__, {.size = Vec2(500)});
+                    {
+                        IMGUI::image(c, __LINE__, texture);
+                    }
+                    IMGUI::end_sized(c);
+
+                    IMGUI::begin_sized(c, __LINE__, {.size = Vec2(200)});
+                    {
+                        IMGUI::image(c, __LINE__, texture);
+                    }
+                    IMGUI::end_sized(c);
+
+                    // IMGUI::text(c, __LINE__, "joe mama chungus big alskdjfklasj",
+                    //             {
+                    //                 .font_color = Color(255),
+                    //                 .alignment = IMGUI::TextStyle::TEXT_ALIGN_CENTER,
+                    //             });
+                }
+                IMGUI::end_stack(c);
             }
             IMGUI::end_container(c);
         }
