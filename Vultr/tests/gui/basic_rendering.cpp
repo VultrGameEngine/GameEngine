@@ -7,6 +7,7 @@
 #include <gui/widgets/align.h>
 #include <gui/widgets/sized.h>
 #include <gui/widgets/stack.h>
+#include <gui/widgets/row.h>
 #include <gui/widgets/constrained_box.h>
 #include <gui/widgets/padding.h>
 #include <gui/widgets/text_input.h>
@@ -102,32 +103,54 @@ void basic_rendering_test()
                                        .color = Color(0),
                                        // .margin = IMGUI::EdgeInsets::SYMMETRICAL(100, 100),
                                        // .padding = IMGUI::EdgeInsets::ALL(200),
+                                       // .constraints = IMGUI::Constraints(Vec2(0, 0), Vec2(UNBOUNDED, RenderSystem::get_dimensions(GAME).y)),
                                    });
             {
-                IMGUI::begin_stack(c, __LINE__,
-                                   {
-                                       .alignment = IMGUI::Alignment::BOTTOM_RIGHT(),
-                                   });
+                IMGUI::begin_row(c, __LINE__,
+                                 {
+                                     .cross_axis_alignment = IMGUI::CrossAxisAlignment::STRETCH,
+                                 });
                 {
-                    IMGUI::begin_sized(c, __LINE__, {.size = Vec2(500)});
+                    IMGUI::begin_row_element(c, 0);
                     {
-                        IMGUI::image(c, __LINE__, texture);
+                        IMGUI::begin_sized(c, __LINE__, {.size = Vec2(500)});
+                        {
+                            IMGUI::image(c, __LINE__, texture);
+                        }
+                        IMGUI::end_sized(c);
                     }
-                    IMGUI::end_sized(c);
+                    IMGUI::end_row_element(c);
 
-                    IMGUI::begin_sized(c, __LINE__, {.size = Vec2(200)});
+                    IMGUI::begin_row_element(c, 1, 0.75);
                     {
-                        IMGUI::image(c, __LINE__, texture);
+                        IMGUI::container(c, __LINE__,
+                                         {
+                                             .color = Color(255),
+                                         });
                     }
-                    IMGUI::end_sized(c);
+                    IMGUI::end_row_element(c);
 
-                    // IMGUI::text(c, __LINE__, "joe mama chungus big alskdjfklasj",
-                    //             {
-                    //                 .font_color = Color(255),
-                    //                 .alignment = IMGUI::TextStyle::TEXT_ALIGN_CENTER,
-                    //             });
+                    IMGUI::begin_row_element(c, 2, 0.25);
+                    {
+                        IMGUI::text(c, __LINE__,
+                                    "Did you ever hear the Tragedy of Darth Plagueis the wise? I thought not. It's not a story the Jedi would tell you. It's a Sith legend. Darth Plagueis was a Dark Lord of the "
+                                    "Sith, so powerful and so wise he could use the Force to influence the midichlorians to create life... He had such a knowledge of the dark side that he could even keep the ones "
+                                    "he cared about from dying. The dark side of the Force is a pathway to many abilities some consider to be unnatural. He became so powerful... the only thing he was afraid of was "
+                                    "losing his power, which eventually, of course, he did. Unfortunately, he taught his apprentice everything he knew, then his apprentice killed him in his sleep. It's ironic he "
+                                    "could save others from death, but not himself.",
+                                    {
+                                        .font_color = Color(255),
+                                        .font_size = 12,
+                                        .alignment = IMGUI::TextStyle::TEXT_ALIGN_CENTER,
+                                    });
+                        // IMGUI::container(c, __LINE__,
+                        //                  {
+                        //                      .color = Color(255, 0, 0, 255),
+                        //                  });
+                    }
+                    IMGUI::end_row_element(c);
                 }
-                IMGUI::end_stack(c);
+                IMGUI::end_row(c);
             }
             IMGUI::end_container(c);
         }

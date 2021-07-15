@@ -305,6 +305,18 @@ void IMGUI::text(Context *c, UI_ID id, const std::string &text, TextStyle style)
         // The format our words based on the max width. This will split our words into lines
         auto lines = get_lines_of_text(words, constraints.max_width);
 
+        // If there are some tight constraints, we should abide by those constraints
+        if (lines.max_width < constraints.min_width)
+        {
+            lines.max_width = constraints.min_width;
+        }
+
+        // If there is more than 1 line, then we can assume that the text takes up the entirety of the constraints width
+        if (lines.lines.size() > 1)
+        {
+            lines.max_width = constraints.max_width;
+        }
+
         // Then use the lines to create the vertices
         push_text_vertices(c, state, lines, font, style);
     }

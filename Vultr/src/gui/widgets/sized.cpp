@@ -8,8 +8,9 @@ using namespace Vultr;
 void IMGUI::begin_sized(Context *c, UI_ID id, SizedStyle style)
 {
     auto size = style.size;
-    auto child_constraints = Constraints(size, size);
-    auto scl = new_single_child_layout(__sized_cache_id, id, size, child_constraints);
+    auto parent_constraints = get_constraints(c, id);
+    auto child_constraints = generate_constraints(parent_constraints, Constraints(size, size));
+    auto scl = new_single_child_layout(__sized_cache_id, id, get_size_from_constraints(child_constraints, size), child_constraints);
 
     auto &data = get_layout_data<SingleChildLayout>(scl);
     data.render_child = true;

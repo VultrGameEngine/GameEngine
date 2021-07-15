@@ -1,6 +1,8 @@
 #pragma once
 #include <types/types.hpp>
 
+#define UNBOUNDED FLT_MAX
+
 namespace Vultr
 {
     namespace IMGUI

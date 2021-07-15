@@ -21,12 +21,20 @@ IMGUI::Constraints IMGUI::generate_constraints(const Constraints &c, const Const
     Constraints new_constraints = other;
     if (other.min_width < c.min_width)
         new_constraints.min_width = c.min_width;
+    if (other.max_width < c.min_width)
+        new_constraints.max_width = c.min_width;
     if (other.max_width > c.max_width)
         new_constraints.max_width = c.max_width;
+    if (other.min_width > c.max_width)
+        new_constraints.min_width = c.max_width;
     if (other.min_height < c.min_height)
         new_constraints.min_height = c.min_height;
+    if (other.max_height < c.min_height)
+        new_constraints.max_height = c.min_height;
     if (other.max_height > c.max_height)
         new_constraints.max_height = c.max_height;
+    if (other.min_height > c.max_height)
+        new_constraints.min_height = c.max_height;
     return new_constraints;
 }
 
