@@ -101,7 +101,7 @@ void basic_rendering_test()
             IMGUI::begin_row(c, __LINE__,
                              {
                                  .main_axis_alignment = IMGUI::MainAxisAlignment::SPACE_EVENLY,
-                                 .cross_axis_alignment = IMGUI::CrossAxisAlignment::CENTER,
+                                 .cross_axis_alignment = IMGUI::CrossAxisAlignment::START,
                              });
             {
                 Color colors[5] = {Color(255, 0, 0), Color(0, 255, 0), Color(0, 0, 255), Color(255), Color(255, 0, 0)};
@@ -109,7 +109,7 @@ void basic_rendering_test()
                 {
                     IMGUI::begin_row_element(c, i);
                     {
-                        IMGUI::begin_sized(c, IMGUI::ui_id("RowElementSized") + i, Vec2(500));
+                        IMGUI::begin_sized(c, IMGUI::ui_id("RowElementSized") + i, Vec2(300 + i * 100));
                         {
                             IMGUI::container(c, IMGUI::ui_id("RowElementContainer") + i, {.color = colors[i]});
                         }

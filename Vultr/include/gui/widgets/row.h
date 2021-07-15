@@ -13,8 +13,8 @@ namespace Vultr
             MainAxisAlignment main_axis_alignment = MainAxisAlignment::START;
             MainAxisSize main_axis_size = MainAxisSize::MAX;
             CrossAxisAlignment cross_axis_alignment = CrossAxisAlignment::CENTER;
-            HorizontalDirection horizontal_direction = HorizontalDirection::LEFT_TO_RIGHT; // Not used currently, always ltr
-            VerticalDirection vertical_direction = VerticalDirection::DOWN;                // Not used currently, always down
+            HorizontalDirection horizontal_direction = HorizontalDirection::LEFT_TO_RIGHT;
+            VerticalDirection vertical_direction = VerticalDirection::DOWN;
         };
 
         struct RowState

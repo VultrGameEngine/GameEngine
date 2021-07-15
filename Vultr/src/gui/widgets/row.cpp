@@ -244,13 +244,35 @@ void IMGUI::end_row(Context *c)
         // Find the remaining space based on our constraints and size
         f32 remaining_space = parent_constraints.max_width - state.total_width;
 
-        if (mal == MainAxisAlignment::CENTER)
+        if (mal == MainAxisAlignment::START)
+        {
+            if (style.horizontal_direction == HorizontalDirection::LEFT_TO_RIGHT)
+            {
+                // If the horizontal direction is left to right, then the start is at 0, the left of the row
+                cursor = 0;
+            }
+            else
+            {
+                // If the horizontal direction is right to left, then the start is at the remaining_space, the right of the row
+                cursor = remaining_space;
+            }
+        }
+        else if (mal == MainAxisAlignment::CENTER)
         {
             cursor = remaining_space / 2;
         }
         else if (mal == MainAxisAlignment::END)
         {
-            cursor = remaining_space;
+            if (style.horizontal_direction == HorizontalDirection::LEFT_TO_RIGHT)
+            {
+                // If the horizontal direction is left to right, then the end is at the remaining_space, the right of the row
+                cursor = remaining_space;
+            }
+            else
+            {
+                // If the horizontal direction is right to left, then the end is at 0, the left of the row
+                cursor = 0;
+            }
         }
         else if (mal == MainAxisAlignment::SPACE_EVENLY)
         {
@@ -293,7 +315,6 @@ void IMGUI::end_row(Context *c)
         Alignment cross_axis_alignment;
         switch (style.cross_axis_alignment)
         {
-                // For stretch, since the widgets will have a strict constraint then we will just align them at the top
             case CrossAxisAlignment::STRETCH:
             case CrossAxisAlignment::START:
                 cross_axis_alignment = Alignment::TOP_LEFT();
