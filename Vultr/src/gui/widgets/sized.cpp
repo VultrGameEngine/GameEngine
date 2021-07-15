@@ -5,9 +5,8 @@ using namespace Vultr;
 
 #define __sized_cache_id ui_id(__FILE__)
 
-void IMGUI::begin_sized(Context *c, UI_ID id, SizedStyle style)
+void IMGUI::begin_sized(Context *c, UI_ID id, Vec2 size)
 {
-    auto size = style.size;
     auto parent_constraints = get_constraints(c, id);
     auto child_constraints = generate_constraints(parent_constraints, Constraints(size, size));
     auto scl = new_single_child_layout(__sized_cache_id, id, get_size_from_constraints(child_constraints, size), child_constraints);

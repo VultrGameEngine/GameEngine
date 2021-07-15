@@ -80,7 +80,7 @@ void basic_rendering_test()
         }
 
         // Center button
-        IMGUI::begin_center(c, __LINE__);
+        IMGUI::begin_align(c, __LINE__, IMGUI::Alignment::CENTER());
         {
             // IMGUI::begin_constrained_box(c, __LINE__, {.max_width = mouse_pos.y * RenderSystem::get_dimensions(GAME).x});
             // {
@@ -98,63 +98,29 @@ void basic_rendering_test()
             //     // }
             // }
             // IMGUI::end_constrained_box(c);
-            IMGUI::begin_container(c, __LINE__,
-                                   {
-                                       .color = Color(0),
-                                       // .margin = IMGUI::EdgeInsets::SYMMETRICAL(100, 100),
-                                       // .padding = IMGUI::EdgeInsets::ALL(200),
-                                       // .constraints = IMGUI::Constraints(Vec2(0, 0), Vec2(UNBOUNDED, RenderSystem::get_dimensions(GAME).y)),
-                                   });
+            IMGUI::begin_row(c, __LINE__,
+                             {
+                                 .main_axis_alignment = IMGUI::MainAxisAlignment::SPACE_EVENLY,
+                                 .cross_axis_alignment = IMGUI::CrossAxisAlignment::CENTER,
+                             });
             {
-                IMGUI::begin_row(c, __LINE__,
-                                 {
-                                     .cross_axis_alignment = IMGUI::CrossAxisAlignment::STRETCH,
-                                 });
+                Color colors[5] = {Color(255, 0, 0), Color(0, 255, 0), Color(0, 0, 255), Color(255), Color(255, 0, 0)};
+                for (u32 i = 0; i < 3; i++)
                 {
-                    IMGUI::begin_row_element(c, 0);
+                    IMGUI::begin_row_element(c, i);
                     {
-                        IMGUI::begin_sized(c, __LINE__, {.size = Vec2(500)});
+                        IMGUI::begin_sized(c, IMGUI::ui_id("RowElementSized") + i, Vec2(500));
                         {
-                            IMGUI::image(c, __LINE__, texture);
+                            IMGUI::container(c, IMGUI::ui_id("RowElementContainer") + i, {.color = colors[i]});
                         }
                         IMGUI::end_sized(c);
                     }
                     IMGUI::end_row_element(c);
-
-                    IMGUI::begin_row_element(c, 1, 0.75);
-                    {
-                        IMGUI::container(c, __LINE__,
-                                         {
-                                             .color = Color(255),
-                                         });
-                    }
-                    IMGUI::end_row_element(c);
-
-                    IMGUI::begin_row_element(c, 2, 0.25);
-                    {
-                        IMGUI::text(c, __LINE__,
-                                    "Did you ever hear the Tragedy of Darth Plagueis the wise? I thought not. It's not a story the Jedi would tell you. It's a Sith legend. Darth Plagueis was a Dark Lord of the "
-                                    "Sith, so powerful and so wise he could use the Force to influence the midichlorians to create life... He had such a knowledge of the dark side that he could even keep the ones "
-                                    "he cared about from dying. The dark side of the Force is a pathway to many abilities some consider to be unnatural. He became so powerful... the only thing he was afraid of was "
-                                    "losing his power, which eventually, of course, he did. Unfortunately, he taught his apprentice everything he knew, then his apprentice killed him in his sleep. It's ironic he "
-                                    "could save others from death, but not himself.",
-                                    {
-                                        .font_color = Color(255),
-                                        .font_size = 12,
-                                        .alignment = IMGUI::TextStyle::TEXT_ALIGN_CENTER,
-                                    });
-                        // IMGUI::container(c, __LINE__,
-                        //                  {
-                        //                      .color = Color(255, 0, 0, 255),
-                        //                  });
-                    }
-                    IMGUI::end_row_element(c);
                 }
-                IMGUI::end_row(c);
             }
-            IMGUI::end_container(c);
+            IMGUI::end_row(c);
         }
-        IMGUI::end_center(c);
+        IMGUI::end_align(c);
 
         IMGUI::end(c);
 

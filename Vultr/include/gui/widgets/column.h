@@ -8,18 +8,18 @@ namespace Vultr
 {
     namespace IMGUI
     {
-        struct RowStyle
+        struct ColumnStyle
         {
-            MainAxisAlignment main_axis_alignment = MainAxisAlignment::START;
+            MainAxisAlignment main_axis_alignment = MainAxisAlignment::START; // Not used currently, always start
             MainAxisSize main_axis_size = MainAxisSize::MAX;
             CrossAxisAlignment cross_axis_alignment = CrossAxisAlignment::CENTER;
             HorizontalDirection horizontal_direction = HorizontalDirection::LEFT_TO_RIGHT; // Not used currently, always ltr
             VerticalDirection vertical_direction = VerticalDirection::DOWN;                // Not used currently, always down
         };
 
-        struct RowState
+        struct ColumnState
         {
-            RowStyle style = {};
+            ColumnStyle style = {};
 
             // The number of possible elements that could fill widget_order
             size_t widget_order_size = 0;
@@ -41,12 +41,12 @@ namespace Vultr
             f32 flex_accumulator = 0;
         };
 
-        void begin_row(Context *c, UI_ID id, RowStyle style = {});
+        void begin_column(Context *c, UI_ID id, ColumnStyle style = {});
 
         // All elements in a row must be wrapped with a begin and end row element
-        void begin_row_element(Context *c, s32 index = -1, f32 flex_factor = -1);
-        void end_row_element(Context *c);
+        void begin_column_element(Context *c, s32 index = -1, f32 flex_factor = -1);
+        void end_column_element(Context *c);
 
-        void end_row(Context *c);
+        void end_column(Context *c);
     } // namespace IMGUI
 } // namespace Vultr

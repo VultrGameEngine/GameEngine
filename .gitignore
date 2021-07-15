@@ -11,3 +11,4 @@ Makefile
 *.make
 generated/
 VultrEditor/src/data.cpp
+build-Vultr-Imported_Kit_temporary-Debug

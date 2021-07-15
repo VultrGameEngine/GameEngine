@@ -163,6 +163,9 @@ void IMGUI::end_row_element(Context *c)
     // Get the child layout
     Layout child_layout = get_widget_layout(c, child);
 
+    // Make sure that the child does not have infinite size
+    assert(child_layout.local_size.x != UNBOUNDED && "Widget with infinite width cannot be placed inside of a row!");
+
     // Get our cache
     auto &state = get_widget_cache<RowState>(c, __row_cache_id, row);
 
@@ -174,7 +177,7 @@ void IMGUI::end_row_element(Context *c)
     layout.local_size = get_size_from_constraints(parent_constraints, child_layout.local_size);
 
     // Update our total width
-    if (state.total_width == 0)
+    if (state.flex_accumulator == 0)
     {
         state.total_width += layout.local_size.x;
     }
@@ -227,6 +230,52 @@ void IMGUI::end_row(Context *c)
 
     // Loop through all of the UI_IDs in our ordered array
     f32 cursor = 0;
+
+    // Additional space to be added between row elements
+    f32 cursor_increment = 0;
+
+    // If there is any flex, then main axis alignment makes 0 difference, the cursor will always start at the beginning
+    // If main axis size is min, then there is no remaining space so the cursor will also always start at the beginning
+    if (state.flex_accumulator == 0 && style.main_axis_size != MainAxisSize::MIN)
+    {
+        // Get the alignment
+        auto mal = style.main_axis_alignment;
+
+        // Find the remaining space based on our constraints and size
+        f32 remaining_space = parent_constraints.max_width - state.total_width;
+
+        if (mal == MainAxisAlignment::CENTER)
+        {
+            cursor = remaining_space / 2;
+        }
+        else if (mal == MainAxisAlignment::END)
+        {
+            cursor = remaining_space;
+        }
+        else if (mal == MainAxisAlignment::SPACE_EVENLY)
+        {
+            // For space evenly, we will have num_children + 1 empty spaces so we will distribute the remaining space among that number
+            f32 space = remaining_space / (data.children.size() + 1);
+            cursor_increment = space;
+            cursor = space;
+        }
+        else if (mal == MainAxisAlignment::SPACE_BETWEEN)
+        {
+            // For space between, we will have num_children - 1 empty spaces so we will distribute the remaining space among that number
+            f32 space = remaining_space / (data.children.size() - 1);
+            cursor_increment = space;
+            cursor = 0;
+        }
+        else if (mal == MainAxisAlignment::SPACE_AROUND)
+        {
+            // For space around, we will have num_children empty spaces (the last space will be divided by two which will be placed at the beginning and end
+            // so that the edges are only half the size as the rest of the spaces) so we will distribute the remaining space among that number
+            f32 space = remaining_space / data.children.size();
+            cursor_increment = space;
+            cursor = space / 2;
+        }
+    }
+
     for (size_t i = 0; i < state.widget_order_size; i++)
     {
         // Get the child UI_ID
@@ -268,6 +317,6 @@ void IMGUI::end_row(Context *c)
 
         // Update the child's position in the transforms. Only care about the Y position
         data.children_transforms[child].position = Vec2(cursor, position.y);
-        cursor += child_layout.local_size.x;
+        cursor += child_layout.local_size.x + cursor_increment;
     }
 }
