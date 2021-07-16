@@ -92,30 +92,45 @@ void basic_rendering_test()
             //                                   .insets = IMGUI::EdgeInsets::ALL(20),
             //                               },
             //                       });
-            //     // if (IMGUI::text_button(c, __LINE__, std::to_string(count)))
-            //     // {
-            //     //     count++;
-            //     //     toggle_fps = !toggle_fps;
-            //     // }
             // }
             // IMGUI::end_constrained_box(c);
-            IMGUI::begin_column(c, __LINE__, {});
+            IMGUI::begin_container(c, __LINE__,
+                                   {
+                                       .color = Color(255),
+                                   });
             {
-                Color colors[5] = {Color(255, 0, 0), Color(0, 255, 0), Color(0, 0, 255), Color(255), Color(255, 0, 0)};
-                for (u32 i = 0; i < 3; i++)
+                IMGUI::begin_column(c, __LINE__, {});
                 {
-                    IMGUI::begin_column_element(c, i);
+                    Color colors[5] = {Color(255, 0, 0), Color(0, 255, 0), Color(0, 0, 255), Color(255), Color(255, 0, 0)};
+                    for (u32 i = 0; i < 3; i++)
                     {
-                        IMGUI::begin_sized(c, IMGUI::ui_id("ColumnElementSized") + i, Vec2(300 + i * 100));
+                        IMGUI::begin_column_element(c, i);
                         {
-                            IMGUI::container(c, IMGUI::ui_id("ColumnElementContainer") + i, {.color = colors[i]});
+                            IMGUI::begin_sized(c, IMGUI::ui_id("ColumnElementSized") + i, Vec2(300 + i * 100));
+                            {
+                                IMGUI::container(c, IMGUI::ui_id("ColumnElementContainer") + i, {.color = colors[i]});
+                            }
+                            IMGUI::end_sized(c);
                         }
-                        IMGUI::end_sized(c);
+                        IMGUI::end_column_element(c);
                     }
-                    IMGUI::end_column_element(c);
                 }
+                IMGUI::begin_column_element(c);
+                {
+                    if (IMGUI::text_button(c, __LINE__, std::to_string(count),
+                                           {
+                                               .background_color = Color(0, 255),
+                                               .expand_factor = 0,
+                                           }))
+                    {
+                        count++;
+                        toggle_fps = !toggle_fps;
+                    }
+                }
+                IMGUI::end_column_element(c);
+                IMGUI::end_column(c);
             }
-            IMGUI::end_column(c);
+            IMGUI::end_container(c);
         }
         IMGUI::end_align(c);
 

@@ -13,6 +13,8 @@
 #include <gui/layout/layout.h>
 #include <gui/layout/constraints.h>
 
+#define MAX_WIDGET_DEPTH 1000
+
 namespace Vultr
 {
     namespace IMGUI
@@ -31,9 +33,6 @@ namespace Vultr
         {
             Window window;
 
-            Vec2 cursor_position;
-            Vec2 cusor_dimension;
-
             Renderer renderer;
 
             UI_ID hot = NO_ID;
@@ -49,8 +48,6 @@ namespace Vultr
 
             Font *font;
 
-            s32 z_index = 0;
-
             UI_ID parent = NO_ID;
 
             // This is the index that will increase every time that a widget is layed out when there is a parent
@@ -63,6 +60,11 @@ namespace Vultr
             std::vector<RenderRequest> requests;
 
             std::set<UI_ID> widget_ids_to_be_removed;
+
+            // The Z Index stack
+            s32 z_index[1000];
+
+            size_t widget_depth;
 
             UI_ID drawing_id = NO_ID;
         };
@@ -106,6 +108,12 @@ namespace Vultr
         //
         // LAYOUT
         void layout_widget(Context *c, UI_ID id, Layout layout);
+
+        s32 get_z_index(Context *c);
+        s32 increase_z(Context *c);
+        s32 decrease_z(Context *c);
+        s32 branch_z_index(Context *c);
+        void exit_branch(Context *c);
 
         bool widget_layed_out(Context *c, UI_ID id);
         Layout &get_widget_layout(Context *c, UI_ID id);

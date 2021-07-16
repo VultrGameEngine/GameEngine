@@ -12,6 +12,7 @@ namespace Vultr
         struct ButtonStyle
         {
             Color color = Color(255);
+            f32 expand_factor = 0.07;
         };
 
         struct TextButtonStyle
@@ -24,6 +25,7 @@ namespace Vultr
                 .highlight_color = Color(0),
             };
             EdgeInsets padding = EdgeInsets::SYMMETRICAL(100, 50);
+            f32 expand_factor = 0.07;
         }; // namespace IMGUI
 
         struct TextButtonState

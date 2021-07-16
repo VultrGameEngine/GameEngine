@@ -92,7 +92,8 @@ void IMGUI::begin(Context *c, const UpdateTick &t)
     update_mouse_state(c->middle_mb, Input::MOUSE_MIDDLE);
 
     c->delta_time = t.m_delta_time;
-    c->z_index = 0;
+    c->z_index[0] = 0;
+    c->widget_depth = 0;
     c->drawing_id = NO_ID;
     c->index = std::stack<s32>();
     c->index.push(0);
@@ -153,6 +154,7 @@ void IMGUI::begin_layout_with_children(Context *c, UI_ID id, Layout &layout)
     c->parent = id;
     c->index.push(0);
     c->widget_layouts[id] = layout;
+    branch_z_index(c);
 }
 
 IMGUI::Layout &IMGUI::end_layout_with_children(Context *c, Widget_ID widget)
@@ -165,6 +167,7 @@ IMGUI::Layout &IMGUI::end_layout_with_children(Context *c, Widget_ID widget)
 
     c->parent = parent_layout.parent;
     c->index.pop();
+    exit_branch(c);
     return parent_layout;
 }
 
@@ -177,6 +180,37 @@ IMGUI::Constraints IMGUI::get_constraints(Context *c, UI_ID id)
     }
     auto parent_layout = get_widget_layout(c, parent);
     return layout_get_constraints(parent_layout, id);
+}
+
+s32 IMGUI::get_z_index(Context *c)
+{
+    return c->z_index[c->widget_depth];
+}
+
+s32 IMGUI::increase_z(Context *c)
+{
+    return ++c->z_index[c->widget_depth];
+}
+
+s32 IMGUI::decrease_z(Context *c)
+{
+    return --c->z_index[c->widget_depth];
+}
+
+s32 IMGUI::branch_z_index(Context *c)
+{
+    assert(c->widget_depth < MAX_WIDGET_DEPTH && "HOW DO YOU HAVE MORE THAN 1000 CHILDREN????");
+    // Increase the widget depth
+    c->widget_depth++;
+
+    // Set the new z_index to be one increased from the previous z_index
+    c->z_index[c->widget_depth] = c->z_index[c->widget_depth - 1] + 1;
+    return c->z_index[c->widget_depth];
+}
+
+void IMGUI::exit_branch(Context *c)
+{
+    c->widget_depth--;
 }
 
 void IMGUI::layout_widget(Context *c, UI_ID id, Layout l)
@@ -238,7 +272,7 @@ void IMGUI::draw_rect_absolute(Context *c, UI_ID id, Vec2 position, Vec2 size, M
     request.data.mesh = c->renderer.quad;
     request.local_transform = {.position = position, .scale = size};
     request.id = id;
-    request.z_index = c->z_index++;
+    request.z_index = c->z_index[c->widget_depth]++;
     submit_render_request(c, id, request);
 }
 
@@ -272,7 +306,7 @@ void IMGUI::draw_rect(Context *c, UI_ID id, Vec2 position, Vec2 size, Material *
     };
     request.data.mesh = c->renderer.quad;
     request.local_transform = {.position = position, .scale = size};
-    request.z_index = c->z_index++;
+    request.z_index = increase_z(c);
     request.id = id;
     submit_render_request(c, id, request);
 }
@@ -291,6 +325,6 @@ void IMGUI::draw_batch(Context *c, UI_ID id, QuadBatch *batch, u32 quads, Materi
     request.data.num_quads = quads;
     request.local_transform = {.position = pos, .scale = size};
     request.id = id;
-    request.z_index = c->z_index++;
+    request.z_index = increase_z(c);
     submit_render_request(c, id, request);
 }

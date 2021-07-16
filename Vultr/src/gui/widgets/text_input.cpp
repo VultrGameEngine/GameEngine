@@ -91,8 +91,6 @@ void IMGUI::text_input(Context *c, UI_ID id, std::string &text, TextInputStyle s
 
     begin_layout_with_children(c, id, mcl);
 
-    c->z_index++;
-
     auto text_parent_id = id + 19309 + __LINE__;
     auto text_id = id + 19309 + __LINE__;
     IMGUI::begin_padding(c, text_parent_id, style.padding_style);
@@ -103,8 +101,6 @@ void IMGUI::text_input(Context *c, UI_ID id, std::string &text, TextInputStyle s
 
     auto &layout = end_layout_with_children(c, __text_input_cache_id);
     auto &data = get_layout_data<MultiChildLayout>(layout);
-
-    c->z_index -= 2;
 
     data.children_transforms[text_parent_id] = {.position = Vec2(0)};
     size.y = get_widget_layout(c, text_parent_id).local_size.y;

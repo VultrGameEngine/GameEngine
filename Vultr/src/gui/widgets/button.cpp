@@ -17,25 +17,22 @@ void IMGUI::begin_button(Context *c, UI_ID id, ButtonStyle style)
     state.style = style;
     auto parent_constraints = get_constraints(c, id);
     auto scl = new_single_child_layout(__button_cache_id, id, Vec2(0), parent_constraints);
-    c->z_index += 1;
     begin_layout_with_children(c, id, scl);
 }
 
 bool IMGUI::end_button(Context *c)
 {
-    auto &layout = end_layout_with_children(c, __button_cache_id);
+    Layout &layout = end_layout_with_children(c, __button_cache_id);
 
-    // This is done so that our background rectangle of the button is rendered below any foreground
-    c->z_index -= 2;
+    SingleChildLayout &data = get_layout_data<SingleChildLayout>(layout);
+    UI_ID child = data.child;
+    Layout &child_layout = get_widget_layout(c, child);
+    Vec2 child_size = child_layout.local_size;
 
-    auto &data = get_layout_data<SingleChildLayout>(layout);
-    auto child = data.child;
-    auto &child_layout = get_widget_layout(c, child);
-    auto child_size = child_layout.local_size;
-
-    auto id = layout.owner;
-    auto &state = get_widget_cache<ButtonState>(c, __button_cache_id, id);
-    auto result = false;
+    UI_ID id = layout.owner;
+    ButtonState &state = get_widget_cache<ButtonState>(c, __button_cache_id, id);
+    ButtonStyle &style = state.style;
+    bool result = false;
 
     if (is_active(c, id))
     {
@@ -72,11 +69,11 @@ bool IMGUI::end_button(Context *c)
     Vec2 scale;
     if (is_active(c, id))
     {
-        scale = Vec2(0.93);
+        scale = Vec2(1 - style.expand_factor);
     }
     else if (is_hot(c, id))
     {
-        scale = Vec2(1.07);
+        scale = Vec2(1 + style.expand_factor);
     }
     else
     {
@@ -91,7 +88,7 @@ bool IMGUI::end_button(Context *c)
 
     data.child_transform.position = Vec2(0);
     data.child_transform.scale = state.scale;
-    auto *mat = new_gui_material(c, state.style.color);
+    auto *mat = new_gui_material(c, style.color);
 
     draw_rect(c, id, -difference, animated_size, mat);
     return result;
@@ -99,7 +96,11 @@ bool IMGUI::end_button(Context *c)
 
 bool IMGUI::text_button(Context *c, UI_ID id, std::string text, TextButtonStyle button_style)
 {
-    begin_button(c, id, {.color = button_style.background_color});
+    begin_button(c, id,
+                 {
+                     .color = button_style.background_color,
+                     .expand_factor = button_style.expand_factor,
+                 });
     IMGUI::begin_padding(c, __LINE__, {.insets = button_style.padding});
     {
         IMGUI::text(c, id + 1209 + __LINE__, text, button_style.text_style);

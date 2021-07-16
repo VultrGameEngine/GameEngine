@@ -37,9 +37,6 @@ void IMGUI::begin_container(Context *c, UI_ID id, ContainerStyle style)
     // Create the layout
     auto scl = new_single_child_layout(__container_cache_id, id, Vec2(0), child_constraints);
 
-    // Leave room for our rectangle
-    c->z_index++;
-
     // And begin our layout
     begin_layout_with_children(c, id, scl);
 
@@ -84,9 +81,6 @@ void IMGUI::end_container(Context *c)
 
     // Set the size of our layout as our child's size, which will be the max if there is no child because of how the padding widget works
     layout.local_size = size;
-
-    // Go down 2 z indices so we can render our rectangle
-    c->z_index -= 2;
 
     // Create our material
     Color &color = style.color;
