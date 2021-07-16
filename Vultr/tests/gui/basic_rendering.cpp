@@ -8,6 +8,7 @@
 #include <gui/widgets/sized.h>
 #include <gui/widgets/stack.h>
 #include <gui/widgets/row.h>
+#include <gui/widgets/column.h>
 #include <gui/widgets/constrained_box.h>
 #include <gui/widgets/padding.h>
 #include <gui/widgets/text_input.h>
@@ -98,27 +99,23 @@ void basic_rendering_test()
             //     // }
             // }
             // IMGUI::end_constrained_box(c);
-            IMGUI::begin_row(c, __LINE__,
-                             {
-                                 .main_axis_alignment = IMGUI::MainAxisAlignment::SPACE_EVENLY,
-                                 .cross_axis_alignment = IMGUI::CrossAxisAlignment::START,
-                             });
+            IMGUI::begin_column(c, __LINE__, {});
             {
                 Color colors[5] = {Color(255, 0, 0), Color(0, 255, 0), Color(0, 0, 255), Color(255), Color(255, 0, 0)};
                 for (u32 i = 0; i < 3; i++)
                 {
-                    IMGUI::begin_row_element(c, i);
+                    IMGUI::begin_column_element(c, i);
                     {
-                        IMGUI::begin_sized(c, IMGUI::ui_id("RowElementSized") + i, Vec2(300 + i * 100));
+                        IMGUI::begin_sized(c, IMGUI::ui_id("ColumnElementSized") + i, Vec2(300 + i * 100));
                         {
-                            IMGUI::container(c, IMGUI::ui_id("RowElementContainer") + i, {.color = colors[i]});
+                            IMGUI::container(c, IMGUI::ui_id("ColumnElementContainer") + i, {.color = colors[i]});
                         }
                         IMGUI::end_sized(c);
                     }
-                    IMGUI::end_row_element(c);
+                    IMGUI::end_column_element(c);
                 }
             }
-            IMGUI::end_row(c);
+            IMGUI::end_column(c);
         }
         IMGUI::end_align(c);
 

@@ -30,7 +30,7 @@ namespace Vultr
             // Stores the current index that we are rendering for
             u32 index = 0;
 
-            // Values to keep track of. NOTE: total_width becomes irrelevant once flex_mode becomes true
+            // Values to keep track of. NOTE: total_width becomes irrelevant once flex widgets are introduced
             f32 total_width = 0;
             f32 max_height = 0;
 
