@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include <gui/core/context.h>
 #include <gui/widgets/button.h>
+#include <gui/widgets/rounded_rect.h>
 #include <gui/widgets/image.h>
 #include <gui/widgets/text.h>
 #include <gui/widgets/center.h>
@@ -83,54 +84,52 @@ void basic_rendering_test()
         // Center button
         IMGUI::begin_align(c, __LINE__, IMGUI::Alignment::CENTER());
         {
-            // IMGUI::begin_constrained_box(c, __LINE__, {.max_width = mouse_pos.y * RenderSystem::get_dimensions(GAME).x});
+            // IMGUI::begin_container(c, __LINE__,
+            //                        {
+            //                            .color = Color(255),
+            //                        });
             // {
-            //     IMGUI::text_input(c, __LINE__, value,
-            //                       {
-            //                           .padding_style =
-            //                               {
-            //                                   .insets = IMGUI::EdgeInsets::ALL(20),
-            //                               },
-            //                       });
+            //     IMGUI::begin_column(c, __LINE__, {});
+            //     {
+            //         Color colors[5] = {Color(255, 0, 0), Color(0, 255, 0), Color(0, 0, 255), Color(255), Color(255, 0, 0)};
+            //         for (u32 i = 0; i < 3; i++)
+            //         {
+            //             IMGUI::begin_column_element(c, i);
+            //             {
+            //                 IMGUI::begin_sized(c, IMGUI::ui_id("ColumnElementSized") + i, Vec2(300 + i * 100));
+            //                 {
+            //                     IMGUI::container(c, IMGUI::ui_id("ColumnElementContainer") + i, {.color = colors[i]});
+            //                 }
+            //                 IMGUI::end_sized(c);
+            //             }
+            //             IMGUI::end_column_element(c);
+            //         }
+            //     }
+            //     IMGUI::begin_column_element(c);
+            //     {
+            //         if (IMGUI::text_button(c, __LINE__, std::to_string(count),
+            //                                {
+            //                                    .background_color = Color(0, 255),
+            //                                    .expand_factor = 0,
+            //                                }))
+            //         {
+            //             count++;
+            //             toggle_fps = !toggle_fps;
+            //         }
+            //     }
+            //     IMGUI::end_column_element(c);
+            //     IMGUI::end_column(c);
             // }
-            // IMGUI::end_constrained_box(c);
-            IMGUI::begin_container(c, __LINE__,
-                                   {
-                                       .color = Color(255),
-                                   });
+            // IMGUI::end_container(c);
+
+            IMGUI::begin_sized(c, __LINE__, Vec2(200));
             {
-                IMGUI::begin_column(c, __LINE__, {});
-                {
-                    Color colors[5] = {Color(255, 0, 0), Color(0, 255, 0), Color(0, 0, 255), Color(255), Color(255, 0, 0)};
-                    for (u32 i = 0; i < 3; i++)
-                    {
-                        IMGUI::begin_column_element(c, i);
-                        {
-                            IMGUI::begin_sized(c, IMGUI::ui_id("ColumnElementSized") + i, Vec2(300 + i * 100));
-                            {
-                                IMGUI::container(c, IMGUI::ui_id("ColumnElementContainer") + i, {.color = colors[i]});
-                            }
-                            IMGUI::end_sized(c);
-                        }
-                        IMGUI::end_column_element(c);
-                    }
-                }
-                IMGUI::begin_column_element(c);
-                {
-                    if (IMGUI::text_button(c, __LINE__, std::to_string(count),
-                                           {
-                                               .background_color = Color(0, 255),
-                                               .expand_factor = 0,
-                                           }))
-                    {
-                        count++;
-                        toggle_fps = !toggle_fps;
-                    }
-                }
-                IMGUI::end_column_element(c);
-                IMGUI::end_column(c);
+                IMGUI::rounded_rect(c, __LINE__,
+                                    {
+                                        .corner_radius = 0.1,
+                                    });
             }
-            IMGUI::end_container(c);
+            IMGUI::end_sized(c);
         }
         IMGUI::end_align(c);
 

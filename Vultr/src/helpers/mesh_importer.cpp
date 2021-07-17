@@ -54,10 +54,10 @@ namespace Vultr
     Mesh *MeshImporter::init_quad()
     {
         std::vector<Vertex> vertices = {
-            Vertex(Vec3(-1, -1, 0)), // bottom left
-            Vertex(Vec3(-1, 1, 0)),  // top left
-            Vertex(Vec3(1, -1, 0)),  // bottom right
-            Vertex(Vec3(1, 1, 0)),   // top right
+            Vertex(Vec3(-1, -1, 0), Vec3(0), Vec2(0, 0)), // bottom left
+            Vertex(Vec3(-1, 1, 0), Vec3(0), Vec2(0, 1)),  // top left
+            Vertex(Vec3(1, -1, 0), Vec3(0), Vec2(1, 0)),  // bottom right
+            Vertex(Vec3(1, 1, 0), Vec3(0), Vec2(1, 1)),   // top right
         };
         std::vector<unsigned short> indices = {
             1, 2, 3, 1, 0, 2,

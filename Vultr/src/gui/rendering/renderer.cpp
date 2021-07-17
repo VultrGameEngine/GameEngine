@@ -113,9 +113,56 @@ IMGUI::Renderer IMGUI::new_imgui_renderer()
                           ""
                           "}\n",
     };
+
+    const ShaderImporter::ShaderProgramSource ROUNDED_CORNER_GUI = {
+        .VertexSource = "#version 410 core\n"
+                        "#extension GL_ARB_separate_shader_objects: enable\n"
+                        "layout (location = 0) in vec3 vposition;\n"
+                        "layout (location = 1) in vec3 normal; \n"
+                        "layout (location = 2) in vec2 uv; \n"
+                        ""
+                        "uniform mat4 transform; \n"
+                        ""
+                        "out vec2 fUV; \n"
+                        ""
+                        "void main() \n"
+                        "{\n"
+                        "   gl_Position = transform * vec4(vposition, 1.0f); \n"
+                        "   fUV = uv; \n"
+                        ""
+                        "}\n",
+
+        .FragmentSource = "#version 410 core\n"
+                          "#extension GL_ARB_separate_shader_objects: enable\n"
+                          "out vec4 FragColor; \n"
+                          ""
+                          "in vec2 fUV;\n"
+                          ""
+                          "uniform vec4 u_radius; \n"
+                          "uniform vec4 u_color; \n"
+                          ""
+                          "float sd_rounded_rectangle(vec2 point, vec2 dimensions, vec4 radius)\n"
+                          "{\n"
+                          "   radius.xy = (point.x > 0.0) ? radius.xy : radius.zw; \n"
+                          "   radius.x  = (point.y > 0.0) ? radius.x  : radius.y; \n"
+                          "   vec2 q = abs(point) - dimensions + radius.x; \n"
+                          "   return min(max(q.x, q.y), 0.0) + length(max(q, 0.0)) - radius.x; \n"
+                          "}\n"
+                          ""
+                          "void main() \n"
+                          "{\n"
+                          "   vec2 coord = fUV * vec2(2) - vec2(1); \n"
+                          ""
+                          "   float d = sd_rounded_rectangle(coord, vec2(1), vec4(u_radius)); \n"
+                          ""
+                          "   FragColor = u_color * vec4(1, 1, 1, 1 - sign(d)); \n"
+                          "}\n",
+    };
+
     renderer.default_gui_shader = ShaderImporter::import_engine_shader(DEFAULT_GUI);
     renderer.texture_gui_shader = ShaderImporter::import_engine_shader(TEXTURE_GUI);
     renderer.batch_gui_shader = ShaderImporter::import_engine_shader(BATCH_GUI);
+    renderer.rounded_gui_shader = ShaderImporter::import_engine_shader(ROUNDED_CORNER_GUI);
     return renderer;
 }
 void IMGUI::destroy_imgui_renderer(const Renderer &r)

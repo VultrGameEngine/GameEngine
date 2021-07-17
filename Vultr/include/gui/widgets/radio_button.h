@@ -5,5 +5,5 @@ namespace Vultr
 {
     namespace IMGUI
     {
-    }
+    } // namespace IMGUI
 } // namespace Vultr
