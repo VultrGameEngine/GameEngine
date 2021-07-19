@@ -89,63 +89,85 @@ void basic_rendering_test()
             //                            .color = Color(255),
             //                        });
             // {
-            //     IMGUI::begin_column(c, __LINE__, {});
-            //     {
-            //         Color colors[5] = {Color(255, 0, 0), Color(0, 255, 0), Color(0, 0, 255), Color(255), Color(255, 0, 0)};
-            //         for (u32 i = 0; i < 3; i++)
-            //         {
-            //             IMGUI::begin_column_element(c, i);
-            //             {
-            //                 IMGUI::begin_sized(c, IMGUI::ui_id("ColumnElementSized") + i, Vec2(300 + i * 100));
-            //                 {
-            //                     IMGUI::container(c, IMGUI::ui_id("ColumnElementContainer") + i, {.color = colors[i]});
-            //                 }
-            //                 IMGUI::end_sized(c);
-            //             }
-            //             IMGUI::end_column_element(c);
-            //         }
-            //     }
-            //     IMGUI::begin_column_element(c);
-            //     {
-            //         if (IMGUI::text_button(c, __LINE__, std::to_string(count),
-            //                                {
-            //                                    .background_color = Color(0, 255),
-            //                                    .expand_factor = 0,
-            //                                }))
-            //         {
-            //             count++;
-            //             toggle_fps = !toggle_fps;
-            //         }
-            //     }
-            //     IMGUI::end_column_element(c);
-            //     IMGUI::end_column(c);
             // }
             // IMGUI::end_container(c);
+            // IMGUI::begin_rounded_rect(c, __LINE__, {.corner_radius = 1});
+            // {
+            // IMGUI::begin_rounded_rect(c, __LINE__, {.corner_radius = 1});
+            // {
+            // u8 rounded_rect_count = 50;
+            // for (u8 i = 0; i < rounded_rect_count; i++)
+            // {
+            //     IMGUI::begin_rounded_rect(c, IMGUI::ui_id("RoundedRect") + i, {.corner_radius = 1});
+            // }
             IMGUI::begin_sized(c, __LINE__, Vec2(2000));
             {
-                // IMGUI::begin_rounded_rect(c, __LINE__, {.corner_radius = 0.2});
+                //     IMGUI::begin_align(c, __LINE__, {.value = Vec2(1, 1)});
+                //     {
+                //         IMGUI::begin_sized(c, __LINE__, Vec2(500));
+                //         {
+                //             IMGUI::begin_rounded_rect(c, __LINE__, {.corner_radius = 0.1});
+                //             {
+                //                 IMGUI::container(c, __LINE__, {.color = Color(255, 0, 0, 255)});
+                //             }
+                //             IMGUI::end_rounded_rect(c);
+                //         }
+                //         IMGUI::end_sized(c);
+                //     }
+                //     IMGUI::end_align(c);
+
+                // IMGUI::begin_container(c, __LINE__, {.color = Color(255)});
                 // {
-                IMGUI::begin_container(c, __LINE__, {.color = Color(255)});
+
+                IMGUI::begin_column(c, __LINE__, {});
                 {
-                    IMGUI::begin_align(c, __LINE__, {.value = Vec2(1, 1)});
+                    Color colors[5] = {Color(255, 0, 0), Color(0, 255, 0), Color(0, 0, 255), Color(255), Color(255, 0, 0)};
+                    for (u32 i = 0; i < 3; i++)
                     {
-                        IMGUI::begin_sized(c, __LINE__, Vec2(500));
+                        IMGUI::begin_column_element(c, i);
                         {
-                            // IMGUI::begin_rounded_rect(c, __LINE__, {.corner_radius = 0.1});
-                            // {
-                            IMGUI::container(c, __LINE__, {.color = Color(255, 0, 0, 255)});
-                            // }
-                            // IMGUI::end_rounded_rect(c);
+                            IMGUI::begin_sized(c, IMGUI::ui_id("ColumnElementSized") + i, Vec2(300 + i * 100));
+                            {
+                                IMGUI::begin_rounded_rect(c, IMGUI::ui_id("ROUNDED_RECT") + i, {.corner_radius = 0.1});
+                                {
+                                    IMGUI::container(c, IMGUI::ui_id("ColumnElementContainer") + i, {.color = colors[i]});
+                                }
+                                IMGUI::end_rounded_rect(c);
+                            }
+                            IMGUI::end_sized(c);
                         }
-                        IMGUI::end_sized(c);
+                        IMGUI::end_column_element(c);
                     }
-                    IMGUI::end_align(c);
+                    IMGUI::begin_column_element(c);
+                    {
+                        if (IMGUI::text_button(c, __LINE__, std::to_string(count),
+                                               {
+                                                   .background_color = Color(255),
+                                                   .text_style =
+                                                       {
+                                                           .font_color = Color(0, 255),
+                                                       },
+                                               }))
+                        {
+                            count++;
+                            toggle_fps = !toggle_fps;
+                        }
+                    }
+                    IMGUI::end_column_element(c);
                 }
-                IMGUI::end_container(c);
+                IMGUI::end_column(c);
                 // }
-                // IMGUI::end_rounded_rect(c);
+                // IMGUI::end_container(c);
             }
             IMGUI::end_sized(c);
+            // for (u8 i = 0; i < rounded_rect_count; i++)
+            // {
+            //     IMGUI::end_rounded_rect(c);
+            // }
+            // }
+            // IMGUI::end_rounded_rect(c);
+            // }
+            // IMGUI::end_rounded_rect(c);
         }
         IMGUI::end_align(c);
 

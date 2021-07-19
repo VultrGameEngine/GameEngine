@@ -97,13 +97,13 @@ void IMGUI::begin(Context *c, const UpdateTick &t)
     glClearColor(0.0, 0.0, 0.0, 0.0);
 
     glDisable(GL_DEPTH_TEST);
-    glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+    glStencilOp(GL_KEEP, GL_KEEP, GL_INCR);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_SCISSOR_TEST);
-    glEnable(GL_MULTISAMPLE);
+    // glEnable(GL_MULTISAMPLE);
     glEnable(GL_STENCIL_TEST);
     glStencilFunc(GL_ALWAYS, 1, 0xFF); // All widgets will pass the stencil test by default
     glStencilMask(0x00);               // Don't update stencil buffer by default
@@ -140,12 +140,12 @@ static void get_gl_transform(const IMGUI::Transform &local_transform, const IMGU
     full_transform = glm::translate(gl_global_pos) * glm::scale(gl_global_size);
 }
 
-static void apply_stencil(IMGUI::Context *c, IMGUI::StencilRequest *request)
+static u8 apply_stencil(IMGUI::Context *c, IMGUI::StencilRequest *request, u8 index = 0, bool is_recurse = false)
 {
     using namespace IMGUI;
     if (request != nullptr)
     {
-        apply_stencil(c, request->parent);
+        u8 val = apply_stencil(c, request->parent, index + 1, true);
 
         // When drawing a stencil there shouldn't be any color
         glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
@@ -161,11 +161,15 @@ static void apply_stencil(IMGUI::Context *c, IMGUI::StencilRequest *request)
         request->material->shader->SetUniformMatrix4fv("transform", glm::value_ptr(full_transform));
         request->mesh->Draw();
 
-        // When we finish drawing a stencil, we need to update our stencil function so that all subsequent draw calls will only draw when the stencil buffer is 1
-        glStencilFunc(GL_EQUAL, 1, 0xFF);
+        if (!is_recurse)
+        {
+            // When we finish drawing a stencil, we need to update our stencil function so that all subsequent draw calls will only draw when the stencil buffer is 1
+            glStencilFunc(GL_EQUAL, val, 0xFF);
+        }
 
         // Also re-enable color writing
         glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+        return val;
     }
     else
     {
@@ -174,8 +178,46 @@ static void apply_stencil(IMGUI::Context *c, IMGUI::StencilRequest *request)
 
         // When there is no stencil, then never discard
         glStencilFunc(GL_ALWAYS, 1, 0xFF);
+        return index;
     }
 }
+
+// static void apply_stencil(IMGUI::Context *c, IMGUI::StencilRequest *request, IMGUI::RenderRequestContext *context)
+// {
+//     using namespace IMGUI;
+// }
+
+// static size_t get_stencil_parent_count(IMGUI::StencilRequest *request)
+// {
+//     if (request == nullptr)
+//     {
+//         return 0;
+//     }
+
+//     size_t count = 0;
+//     auto *r = request;
+//     while (request->parent != nullptr)
+//     {
+//         count++;
+//         r = request->parent;
+//     }
+//     return count;
+// }
+
+// static size_t find_stencil_parent(IMGUI::StencilRequest *request, IMGUI::StencilRequest *parent)
+// {
+//     if (request == nullptr)
+//     {
+//         return 0;
+//     }
+//     size_t count = 0;
+//     auto *r = request;
+//     while (r != parent && r->parent != nullptr)
+//     {
+//         r = r->parent;
+//     }
+//     return count;
+// }
 
 void draw_render_request(IMGUI::Context *c, IMGUI::RenderRequestContext *context, const IMGUI::RenderRequest &r, IMGUI::Transform global_transform)
 {
@@ -210,11 +252,11 @@ void draw_render_request(IMGUI::Context *c, IMGUI::RenderRequestContext *context
 
     if (r.stencil != context->stencil)
     {
-        context->stencil = r.stencil;
-
         glStencilMask(0xFF); // We need to enable writing to the stencil buffer whenever drawing a stencil
-        apply_stencil(c, context->stencil);
+        apply_stencil(c, r.stencil);
         glStencilMask(0x00); // And then disable writin after we are done
+
+        context->stencil = r.stencil;
     }
 
     r.material->bind();
