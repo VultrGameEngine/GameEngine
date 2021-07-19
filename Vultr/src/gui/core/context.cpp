@@ -151,15 +151,15 @@ static u8 apply_stencil(IMGUI::Context *c, IMGUI::StencilRequest *request, u8 in
         glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
 
         // Bind the material
-        request->material->bind();
+        request->data.material->bind();
         Mat4 full_transform;
         Vec3 gl_global_pos;
         Vec3 gl_global_size;
         Transform global_transform = get_widget_global_transform(c, request->id);
         get_gl_transform(request->local_transform, global_transform, gl_global_pos, gl_global_size, full_transform);
 
-        request->material->shader->SetUniformMatrix4fv("transform", glm::value_ptr(full_transform));
-        request->mesh->Draw();
+        request->data.material->shader->SetUniformMatrix4fv("transform", glm::value_ptr(full_transform));
+        request->data.mesh->Draw();
 
         if (!is_recurse)
         {
@@ -527,15 +527,14 @@ void IMGUI::begin_stencil(Context *c, UI_ID id)
     StencilRequest request = {
         .id = id,
         .parent = c->current_stencil,
-        .mesh = c->renderer.quad,
     };
-    submit_stencil_request(c, id, request);
+    request.data.mesh = c->renderer.quad, submit_stencil_request(c, id, request);
 }
 
 void IMGUI::end_stencil(Context *c, UI_ID id, Vec2 position, Vec2 size, Material *material)
 {
     Transform local_transform = {.position = position, .scale = size};
     auto &stencil = c->stencil_requests[c->layout_to_stencil[id]];
-    stencil.material = material;
+    stencil.data.material = material;
     stencil.local_transform = local_transform;
 }

@@ -45,7 +45,7 @@ namespace Vultr
                 RenderRequestData()
                 {
                     memset(this, 0, sizeof(RenderRequestData));
-                };
+                }
                 ~RenderRequestData(){};
             } data;
 

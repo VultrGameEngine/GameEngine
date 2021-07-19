@@ -1,5 +1,6 @@
 #pragma once
 #include <types/types.hpp>
+#include <gui/core/context.h>
 
 namespace Vultr
 {
@@ -94,6 +95,18 @@ namespace Vultr
             ListIterator end();
         };
 
+        struct ListViewStyle
+        {
+        };
+
+        struct ListViewState
+        {
+            ListViewStyle style = {};
+        };
+
         ListBuilder listview_builder();
+
+        void begin_listview(Context *c, UI_ID id, ListViewStyle = {});
+        void end_listview(Context *c);
     } // namespace IMGUI
 } // namespace Vultr

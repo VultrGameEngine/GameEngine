@@ -80,6 +80,7 @@ namespace Vultr
         };
 
         Context *new_context(const Window &window);
+        void delete_context(Context *c);
 
         void context_destroy_widget(Context *c, UI_ID id);
 
@@ -138,6 +139,7 @@ namespace Vultr
         //
         //
         // UTILS
+        // NOTE: Materials are always cleaned up for you, so you don't need to worry about them
         bool mouse_over(Context *c, UI_ID id, Vec2 size);
 
         void submit_render_request(Context *c, UI_ID id, const RenderRequest &r);
@@ -147,10 +149,18 @@ namespace Vultr
         void draw_rect(Context *c, UI_ID id, Vec2 position, Vec2 size, Material *material, bool clip = false);
         void draw_batch(Context *c, UI_ID id, QuadBatch *batch, u32 quads, Material *material);
 
+        //
+        //
+        //
+        //
+        // STENCILS
         // NOTE: The reason that styling options for stenciling is done at the end because a common usecase is to change the stencil based on the children size.
         // There is no downside to this method, because you can always just store the styling at the beginning. It makes less intuitive sense but it works better for more usecases.
         void begin_stencil(Context *c, UI_ID id);
         void end_stencil(Context *c, UI_ID id, Vec2 position, Vec2 size, Material *material);
+
+        void begin_scissor(Context *c, UI_ID id);
+        void end_scissor(Context *c, UI_ID id, Vec2 position, Vec2 size);
 
         bool is_hot(Context *c, UI_ID id);
         bool is_active(Context *c, UI_ID id);
