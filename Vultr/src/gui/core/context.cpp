@@ -77,15 +77,36 @@ IMGUI::Context *IMGUI::new_context(const IMGUI::Window &window)
     return context;
 }
 
+static void submit_stencil_request(IMGUI::Context *c, IMGUI::UI_ID id, const IMGUI::StencilRequest &request)
+{
+    // Stencils have to be attached to layouts with children, otherwise the gui system will have no idea what children to apply a stencil to
+    assert(request.id == c->parent && "Stencils have to be attached to layouts with children!");
+
+    // Add the request to our array
+    c->stencil_requests[++c->stencil_request_index] = request;
+
+    // Map it properly
+    c->layout_to_stencil[id] = c->stencil_request_index;
+    c->current_stencil = &c->stencil_requests[c->stencil_request_index];
+}
+
 void IMGUI::begin(Context *c, const UpdateTick &t)
 {
     auto dimensions = RenderSystem::get_dimensions(GAME);
     glViewport(0, 0, dimensions.x, dimensions.y);
     glClearColor(0.0, 0.0, 0.0, 0.0);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    glDisable(GL_DEPTH_TEST);
+    glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_SCISSOR_TEST);
+    glEnable(GL_MULTISAMPLE);
+    glEnable(GL_STENCIL_TEST);
+    glStencilFunc(GL_ALWAYS, 1, 0xFF); // All widgets will pass the stencil test by default
+    glStencilMask(0x00);               // Don't update stencil buffer by default
 
     update_mouse_state(c->left_mb, Input::MOUSE_LEFT);
     update_mouse_state(c->right_mb, Input::MOUSE_RIGHT);
@@ -97,11 +118,128 @@ void IMGUI::begin(Context *c, const UpdateTick &t)
     c->drawing_id = NO_ID;
     c->index = std::stack<s32>();
     c->index.push(0);
+    c->layout_to_stencil.clear();
+    c->current_stencil = nullptr;
+    c->stencil_request_index = 0;
 }
 
 void IMGUI::widget_accessed(Context *c, UI_ID id)
 {
     c->widget_ids_to_be_removed.erase(id);
+}
+
+static void get_gl_transform(const IMGUI::Transform &local_transform, const IMGUI::Transform &global_transform, Vec3 &gl_global_pos, Vec3 &gl_global_size, Mat4 &full_transform)
+{
+    using namespace IMGUI;
+    Vec3 local_scale = Vec3(gl_get_size(local_transform.scale), 1);
+    Vec3 global_position = Vec3(gl_get_position(global_transform.position, local_scale), 0);
+    Vec3 local_position = Vec3(gl_get_raw_position(local_transform.position), 0);
+    Vec2 global_scale = glm::scale(Vec3(global_transform.scale, 1.0)) * Vec4(local_scale.x, local_scale.y, 0.0, 1.0);
+    gl_global_pos = global_position + local_position;
+    gl_global_size = Vec3(global_scale, 1);
+    full_transform = glm::translate(gl_global_pos) * glm::scale(gl_global_size);
+}
+
+static void apply_stencil(IMGUI::Context *c, IMGUI::StencilRequest *request)
+{
+    using namespace IMGUI;
+    if (request != nullptr)
+    {
+        apply_stencil(c, request->parent);
+
+        // When drawing a stencil there shouldn't be any color
+        glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+
+        // Bind the material
+        request->material->bind();
+        Mat4 full_transform;
+        Vec3 gl_global_pos;
+        Vec3 gl_global_size;
+        Transform global_transform = get_widget_global_transform(c, request->id);
+        get_gl_transform(request->local_transform, global_transform, gl_global_pos, gl_global_size, full_transform);
+
+        request->material->shader->SetUniformMatrix4fv("transform", glm::value_ptr(full_transform));
+        request->mesh->Draw();
+
+        // When we finish drawing a stencil, we need to update our stencil function so that all subsequent draw calls will only draw when the stencil buffer is 1
+        glStencilFunc(GL_EQUAL, 1, 0xFF);
+
+        // Also re-enable color writing
+        glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+    }
+    else
+    {
+        // We want to clear the stencil buffer when there is no stencil request, as this is our starting stencil
+        glClear(GL_STENCIL_BUFFER_BIT);
+
+        // When there is no stencil, then never discard
+        glStencilFunc(GL_ALWAYS, 1, 0xFF);
+    }
+}
+
+void draw_render_request(IMGUI::Context *c, IMGUI::RenderRequestContext *context, const IMGUI::RenderRequest &r, IMGUI::Transform global_transform)
+{
+    using namespace IMGUI;
+    Mat4 full_transform;
+    Vec3 gl_global_pos;
+    Vec3 gl_global_size;
+    if (r.type == RenderRequest::ABSOLUTE_MESH_DRAW)
+    {
+        // full_transform = get_transform_matrix(r.transform);
+    }
+    else if (r.type == RenderRequest::MESH_DRAW)
+    {
+        get_gl_transform(r.local_transform, global_transform, gl_global_pos, gl_global_size, full_transform);
+    }
+    else if (r.type == RenderRequest::BATCH_DRAW)
+    {
+        Vec3 local_scale = Vec3(r.local_transform.scale, 1);
+        Vec3 global_position = Vec3(gl_get_position(global_transform.position, local_scale), 0);
+        Vec3 local_position = Vec3(r.local_transform.position, 0);
+        Vec2 inverted_global_scale = Vec2(1) - global_transform.scale;
+        Vec3 offset = Vec3(inverted_global_scale * (Vec2(1) - Vec2(local_scale)) * Vec2(1, -1), 0);
+        gl_global_pos = global_position + local_position - offset;
+        gl_global_size = Vec3(global_transform.scale, 1.0);
+        full_transform = glm::translate(gl_global_pos) * glm::scale(gl_global_size);
+    }
+    else
+    {
+        throw("???");
+        return;
+    }
+
+    if (r.stencil != context->stencil)
+    {
+        context->stencil = r.stencil;
+
+        glStencilMask(0xFF); // We need to enable writing to the stencil buffer whenever drawing a stencil
+        apply_stencil(c, context->stencil);
+        glStencilMask(0x00); // And then disable writin after we are done
+    }
+
+    r.material->bind();
+    r.material->shader->SetUniformMatrix4fv("transform", glm::value_ptr(full_transform));
+
+    // if (r.clip)
+    // {
+    //     auto screen_global_size = screen_get_size_from_gl(gl_global_size);
+    //     auto screen_global_pos = screen_get_position_from_gl(gl_global_pos, gl_global_size);
+    //     glScissor(screen_global_pos.x, screen_global_pos.y, screen_global_size.x, screen_global_size.y);
+    // }
+
+    if (r.type == RenderRequest::ABSOLUTE_MESH_DRAW || r.type == RenderRequest::MESH_DRAW)
+    {
+        r.data.mesh->Draw();
+    }
+    else
+    {
+        quad_batch_draw(r.data.batch, r.data.num_quads);
+    }
+    // if (r.clip)
+    // {
+    //     auto dimensions = RenderSystem::get_dimensions(GAME);
+    //     glScissor(0, 0, dimensions.x, dimensions.y);
+    // }
 }
 
 void IMGUI::end(Context *c)
@@ -122,13 +260,15 @@ void IMGUI::end(Context *c)
     }
     c->widget_ids_to_be_removed.clear();
 
+    RenderRequestContext rc = {};
+
     // Cursor starts at the top left
     Vec2 cursor = Vec2(-1, 1);
     for (auto request : c->requests)
     {
         auto global_transform = get_widget_global_transform(c, request.id);
 
-        draw_render_request(request, global_transform);
+        draw_render_request(c, &rc, request, global_transform);
         destroy_render_request(request);
     }
 
@@ -165,9 +305,17 @@ IMGUI::Layout &IMGUI::end_layout_with_children(Context *c, Widget_ID widget)
 
     assert(parent_layout.widget_type == widget && "Failed to end layout! Widget type does not match! Are you missing an `end` widget somewhere?");
 
+    // If the current stencil request matches the widget that we are currently finishing up laying out
+    if (c->current_stencil != nullptr && c->current_stencil->id == parent)
+    {
+        // Then move up one stencil request
+        c->current_stencil = c->current_stencil->parent;
+    }
+
     c->parent = parent_layout.parent;
     c->index.pop();
     exit_branch(c);
+
     return parent_layout;
 }
 
@@ -215,6 +363,7 @@ void IMGUI::exit_branch(Context *c)
 
 void IMGUI::layout_widget(Context *c, UI_ID id, Layout l)
 {
+    assert(l.type == Layout::NO_CHILD && "To layout a widget with more than one child, use `begin_layout_with_children` and `end_layout_with_children`");
     widget_accessed(c, id);
     c->index.top()++;
     if (c->parent != NO_ID)
@@ -264,10 +413,10 @@ void IMGUI::submit_render_request(Context *c, UI_ID id, const RenderRequest &r)
 
 void IMGUI::draw_rect_absolute(Context *c, UI_ID id, Vec2 position, Vec2 size, Material *material)
 {
-
     RenderRequest request = {
         .type = RenderRequest::ABSOLUTE_MESH_DRAW,
         .material = material,
+        .stencil = c->current_stencil,
     };
     request.data.mesh = c->renderer.quad;
     request.local_transform = {.position = position, .scale = size};
@@ -303,6 +452,7 @@ void IMGUI::draw_rect(Context *c, UI_ID id, Vec2 position, Vec2 size, Material *
         .type = RenderRequest::MESH_DRAW,
         .clip = clip,
         .material = material,
+        .stencil = c->current_stencil,
     };
     request.data.mesh = c->renderer.quad;
     request.local_transform = {.position = position, .scale = size};
@@ -320,6 +470,7 @@ void IMGUI::draw_batch(Context *c, UI_ID id, QuadBatch *batch, u32 quads, Materi
     RenderRequest request = {
         .type = RenderRequest::BATCH_DRAW,
         .material = material,
+        .stencil = c->current_stencil,
     };
     request.data.batch = batch;
     request.data.num_quads = quads;
@@ -327,4 +478,22 @@ void IMGUI::draw_batch(Context *c, UI_ID id, QuadBatch *batch, u32 quads, Materi
     request.id = id;
     request.z_index = increase_z(c);
     submit_render_request(c, id, request);
+}
+
+void IMGUI::begin_stencil(Context *c, UI_ID id)
+{
+    StencilRequest request = {
+        .id = id,
+        .parent = c->current_stencil,
+        .mesh = c->renderer.quad,
+    };
+    submit_stencil_request(c, id, request);
+}
+
+void IMGUI::end_stencil(Context *c, UI_ID id, Vec2 position, Vec2 size, Material *material)
+{
+    Transform local_transform = {.position = position, .scale = size};
+    auto &stencil = c->stencil_requests[c->layout_to_stencil[id]];
+    stencil.material = material;
+    stencil.local_transform = local_transform;
 }

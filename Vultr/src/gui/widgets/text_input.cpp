@@ -91,8 +91,8 @@ void IMGUI::text_input(Context *c, UI_ID id, std::string &text, TextInputStyle s
 
     begin_layout_with_children(c, id, mcl);
 
-    auto text_parent_id = id + 19309 + __LINE__;
-    auto text_id = id + 19309 + __LINE__;
+    auto text_parent_id = id + ui_id("TEXT_INPUT_PADDING");
+    auto text_id = id + ui_id("TEXT_INPUT_TEXT");
     IMGUI::begin_padding(c, text_parent_id, style.padding_style);
     {
         IMGUI::text(c, text_id, text, style.text_style);

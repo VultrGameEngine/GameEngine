@@ -2,7 +2,9 @@
 
 using namespace Vultr;
 
-#define __constrained_box_cache_id ui_id(__FILE__)
+#define __constrained_box_cache_id 12
+
+// ui_id(__FILE__)
 
 void IMGUI::begin_constrained_box(Context *c, UI_ID id, const Constraints &style)
 {

@@ -155,7 +155,11 @@ IMGUI::Renderer IMGUI::new_imgui_renderer()
                           ""
                           "   float d = sd_rounded_rectangle(coord, vec2(1), vec4(u_radius)); \n"
                           ""
-                          "   FragColor = u_color * vec4(1, 1, 1, 1 - sign(d)); \n"
+                          "   if(d >= 0) { \n"
+                          "       discard;\n"
+                          "   }\n"
+                          ""
+                          "   FragColor = u_color; \n"
                           "}\n",
     };
 

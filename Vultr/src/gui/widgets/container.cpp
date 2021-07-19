@@ -6,7 +6,8 @@
 
 using namespace Vultr;
 
-#define __container_cache_id ui_id(__FILE__)
+#define __container_cache_id 10
+// ui_id("widget_container")
 
 template <>
 void IMGUI::destroy_cache<IMGUI::ContainerState>(ContainerState &cache){};
@@ -41,13 +42,13 @@ void IMGUI::begin_container(Context *c, UI_ID id, ContainerStyle style)
     begin_layout_with_children(c, id, scl);
 
     // If there is padding, then we will render it here
-    begin_padding(c, id + __container_cache_id + __LINE__,
+    begin_padding(c, id + ui_id("CONTAINER_PADDING"),
                   {
                       .insets = style.padding,
                   });
 
     // If there are constraints, then we will render it here
-    begin_constrained_box(c, id + __container_cache_id + __LINE__, style.constraints);
+    begin_constrained_box(c, id + ui_id("CONTAINER_CONSTRAINED_BOX"), style.constraints);
 }
 
 void IMGUI::end_container(Context *c)

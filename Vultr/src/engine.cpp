@@ -97,6 +97,8 @@ namespace Vultr
         glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
         glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
 
+        glfwWindowHint(GLFW_SAMPLES, 4);
+
         const GLFWvidmode *mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 
         if (debug)

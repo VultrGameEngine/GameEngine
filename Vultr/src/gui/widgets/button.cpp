@@ -101,9 +101,9 @@ bool IMGUI::text_button(Context *c, UI_ID id, std::string text, TextButtonStyle 
                      .color = button_style.background_color,
                      .expand_factor = button_style.expand_factor,
                  });
-    IMGUI::begin_padding(c, __LINE__, {.insets = button_style.padding});
+    IMGUI::begin_padding(c, ui_id("TEXT_BUTTON_PADDING"), {.insets = button_style.padding});
     {
-        IMGUI::text(c, id + 1209 + __LINE__, text, button_style.text_style);
+        IMGUI::text(c, id + ui_id("TEXT_BUTTON_TEXT"), text, button_style.text_style);
     }
     IMGUI::end_padding(c);
     return end_button(c);

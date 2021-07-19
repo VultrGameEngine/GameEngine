@@ -7,11 +7,15 @@ namespace Vultr
     {
         struct RoundedRectStyle
         {
-            Color color = Color(255);
-
             f32 corner_radius = 0;
         };
 
-        void rounded_rect(Context *c, UI_ID id, RoundedRectStyle style = {});
+        struct RoundedRectState
+        {
+            RoundedRectStyle style;
+        };
+
+        void begin_rounded_rect(Context *c, UI_ID id, RoundedRectStyle style = {});
+        void end_rounded_rect(Context *c);
     } // namespace IMGUI
 } // namespace Vultr

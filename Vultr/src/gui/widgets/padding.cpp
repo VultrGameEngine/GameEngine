@@ -2,7 +2,9 @@
 
 using namespace Vultr;
 
-#define __padding_cache_id ui_id(__FILE__)
+#define __padding_cache_id 11
+
+// ui_id(__FILE__)
 
 template <>
 void IMGUI::destroy_cache<IMGUI::PaddingState>(PaddingState &cache){};

@@ -70,16 +70,16 @@ void basic_rendering_test()
         mouse_pos.y = 1 - mouse_pos.y;
 
         // FPS counter
-        if (toggle_fps)
-        {
-            IMGUI::text(c, __LINE__, std::to_string(tick.m_delta_time * 1000) + " ms",
-                        {
-                            .font_color = Color(255),
-                            .font_size = 9,
-                            .line_spacing = 1,
-                            .highlight_color = Color(0, 0, 255, 255),
-                        });
-        }
+        // if (toggle_fps)
+        // {
+        IMGUI::text(c, __LINE__, std::to_string(tick.m_delta_time * 1000) + " ms",
+                    {
+                        .font_color = Color(255),
+                        .font_size = 9,
+                        .line_spacing = 1,
+                        .highlight_color = Color(0, 0, 255, 255),
+                    });
+        // }
 
         // Center button
         IMGUI::begin_align(c, __LINE__, IMGUI::Alignment::CENTER());
@@ -121,13 +121,29 @@ void basic_rendering_test()
             //     IMGUI::end_column(c);
             // }
             // IMGUI::end_container(c);
-
-            IMGUI::begin_sized(c, __LINE__, Vec2(200));
+            IMGUI::begin_sized(c, __LINE__, Vec2(2000));
             {
-                IMGUI::rounded_rect(c, __LINE__,
-                                    {
-                                        .corner_radius = 0.1,
-                                    });
+                // IMGUI::begin_rounded_rect(c, __LINE__, {.corner_radius = 0.2});
+                // {
+                IMGUI::begin_container(c, __LINE__, {.color = Color(255)});
+                {
+                    IMGUI::begin_align(c, __LINE__, {.value = Vec2(1, 1)});
+                    {
+                        IMGUI::begin_sized(c, __LINE__, Vec2(500));
+                        {
+                            // IMGUI::begin_rounded_rect(c, __LINE__, {.corner_radius = 0.1});
+                            // {
+                            IMGUI::container(c, __LINE__, {.color = Color(255, 0, 0, 255)});
+                            // }
+                            // IMGUI::end_rounded_rect(c);
+                        }
+                        IMGUI::end_sized(c);
+                    }
+                    IMGUI::end_align(c);
+                }
+                IMGUI::end_container(c);
+                // }
+                // IMGUI::end_rounded_rect(c);
             }
             IMGUI::end_sized(c);
         }

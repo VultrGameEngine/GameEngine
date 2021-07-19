@@ -1,6 +1,7 @@
 #pragma once
 #include "material.h"
 #include "quad_batch.h"
+#include "stencil_request.h"
 #include <gui/core/ui_id.h>
 #include <gui/core/transform.h>
 #include <rendering/models/shader.h>
@@ -10,6 +11,11 @@ namespace Vultr
 {
     namespace IMGUI
     {
+        struct RenderRequestContext
+        {
+            StencilRequest *stencil = nullptr;
+        };
+
         struct RenderRequest
         {
             enum Type
@@ -24,6 +30,7 @@ namespace Vultr
             Transform local_transform;
             UI_ID id;
             s32 z_index = 0;
+            StencilRequest *stencil = nullptr;
 
             union RenderRequestData {
                 struct
@@ -45,7 +52,6 @@ namespace Vultr
             bool operator<(const RenderRequest &other) const;
         };
 
-        void draw_render_request(const RenderRequest &r, Transform global_transform);
         void destroy_render_request(RenderRequest &r);
     } // namespace IMGUI
 } // namespace Vultr

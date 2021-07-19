@@ -24,7 +24,7 @@ void IMGUI::begin_align(Context *c, UI_ID id, Alignment alignment)
     cache.alignment = alignment;
 
     // Get the parent constraints
-    auto parent_constraints = get_constraints(c, id);
+    auto parent_constraints = generate_loose(get_constraints(c, id));
 
     // The size of our widget will fill the parent widget
     auto size = constraints_max(parent_constraints);

@@ -2,6 +2,7 @@
 #include "window.h"
 #include <gui/rendering/renderer.h>
 #include <gui/rendering/render_request.h>
+#include <gui/rendering/stencil_request.h>
 #include <gui/rendering/quad_batch.h>
 #include "ui_id.h"
 #include <stack>
@@ -14,6 +15,7 @@
 #include <gui/layout/constraints.h>
 
 #define MAX_WIDGET_DEPTH 1000
+#define MAX_STENCIL_REQUESTS 100
 
 namespace Vultr
 {
@@ -62,11 +64,19 @@ namespace Vultr
             std::set<UI_ID> widget_ids_to_be_removed;
 
             // The Z Index stack
-            s32 z_index[1000];
-
+            s32 z_index[MAX_WIDGET_DEPTH];
             size_t widget_depth;
 
             UI_ID drawing_id = NO_ID;
+
+            // Array of stencil requests
+            StencilRequest stencil_requests[MAX_STENCIL_REQUESTS];
+            // Index into the stencil_requests array
+            size_t stencil_request_index = 0;
+            // Hashmap from widget id to stencil_request index
+            std::unordered_map<UI_ID, size_t> layout_to_stencil;
+            // Cached stencil request from the closest parent with a stencil request
+            StencilRequest *current_stencil = nullptr;
         };
 
         Context *new_context(const Window &window);
@@ -136,6 +146,11 @@ namespace Vultr
 
         void draw_rect(Context *c, UI_ID id, Vec2 position, Vec2 size, Material *material, bool clip = false);
         void draw_batch(Context *c, UI_ID id, QuadBatch *batch, u32 quads, Material *material);
+
+        // NOTE: The reason that styling options for stenciling is done at the end because a common usecase is to change the stencil based on the children size.
+        // There is no downside to this method, because you can always just store the styling at the beginning. It makes less intuitive sense but it works better for more usecases.
+        void begin_stencil(Context *c, UI_ID id);
+        void end_stencil(Context *c, UI_ID id, Vec2 position, Vec2 size, Material *material);
 
         bool is_hot(Context *c, UI_ID id);
         bool is_active(Context *c, UI_ID id);
