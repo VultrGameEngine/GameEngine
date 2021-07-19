@@ -14,11 +14,11 @@ IMGUI::DefaultGUIMaterial *IMGUI::new_gui_material(Context *c, Color color, Text
 
 void IMGUI::DefaultGUIMaterial::bind()
 {
-    shader->Bind();
-    shader->SetUniform4f("color", gl_get_color(color));
+    bind_shader(shader);
+    set_uniform_4f(shader, "color", gl_get_color(color));
     if (is_valid_texture(texture))
     {
         bind_texture(texture, GL_TEXTURE0);
-        shader->SetUniform1i("tex", 0);
+        set_uniform_1i(shader, "tex", 0);
     }
 }

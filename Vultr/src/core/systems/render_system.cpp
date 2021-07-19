@@ -208,8 +208,8 @@ namespace Vultr::RenderSystem
             glViewport(0, 0, mode->width, mode->height);
             glClearColor(0.0, 0.0, 0.0, 0.0);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-            provider.post_processing_shader->Bind();
-            provider.post_processing_shader->SetUniform1i("renderedTexture", 0);
+            bind_shader(provider.post_processing_shader);
+            set_uniform_1i(provider.post_processing_shader, "renderedTexture", 0);
             bind_texture(provider.game.render_texture, GL_TEXTURE0);
             provider.render_quad->Draw();
             glDisable(GL_FRAMEBUFFER_SRGB);
@@ -300,13 +300,13 @@ namespace Vultr::RenderSystem
                 const auto &context = RenderContext::GetContext();
 
                 // Use the input shader
-                Shader *shader = provider.input_shader;
-                shader->Bind();
+                Shader shader = provider.input_shader;
+                bind_shader(shader);
 
                 // Set MVP uniforms
-                shader->SetUniformMatrix4fv("model", glm::value_ptr(transform.Matrix()));
-                shader->SetUniformMatrix4fv("projection", glm::value_ptr(context.camera_component.GetProjectionMatrix(context.dimensions.x, context.dimensions.y)));
-                shader->SetUniformMatrix4fv("view", glm::value_ptr(context.camera_transform.GetViewMatrix()));
+                set_uniform_matrix_4fv(shader, "model", glm::value_ptr(transform.Matrix()));
+                set_uniform_matrix_4fv(shader, "projection", glm::value_ptr(context.camera_component.GetProjectionMatrix(context.dimensions.x, context.dimensions.y)));
+                set_uniform_matrix_4fv(shader, "view", glm::value_ptr(context.camera_transform.GetViewMatrix()));
 
                 // Get an RGB value that will be used to represent our object using an entity id
                 int r = (entity & 0x000000FF) >> 0;
@@ -314,7 +314,7 @@ namespace Vultr::RenderSystem
                 int b = (entity & 0x00FF0000) >> 16;
 
                 // And use that as the color for our object which will single color shaded
-                shader->SetUniform4f("color", Vec4(r / 255.0f, g / 255.0f, b / 255.0f, 1.0f));
+                set_uniform_4f(shader, "color", Vec4(r / 255.0f, g / 255.0f, b / 255.0f, 1.0f));
 
                 // Draw the mesh
                 mesh_obj->Draw();

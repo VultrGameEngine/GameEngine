@@ -33,8 +33,8 @@ namespace Vultr
             ViewportData game;
             ViewportData input_data;
 
-            Shader *post_processing_shader;
-            Shader *input_shader;
+            Shader post_processing_shader;
+            Shader input_shader;
             Mesh *render_quad;
             Mesh *skybox;
         };

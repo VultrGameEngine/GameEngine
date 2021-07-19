@@ -6,30 +6,30 @@
 
 namespace Vultr
 {
-struct RenderEntity
-{
-    Mesh *mesh;
-    Shader *shader;
-    std::vector<Texture *> textures;
-};
-
-class RenderGroup
-{
-  public:
-    RenderGroup(Shader *input_shader) : shader(input_shader)
+    struct RenderEntity
     {
-    }
+        Mesh *mesh;
+        Shader shader;
+        std::vector<Texture> textures;
+    };
 
-    ~RenderGroup()
+    class RenderGroup
     {
-        delete shader;
-    }
+      public:
+        RenderGroup(Shader input_shader) : shader(input_shader)
+        {
+        }
 
-    void Render(RenderContext context, RenderType type);
-    void RegisterEntity(Mesh *mesh, const std::vector<Texture *> &textures);
+        ~RenderGroup()
+        {
+            delete_shader(shader);
+        }
 
-  private:
-    std::set<RenderEntity> entities;
-    Shader *shader;
-};
+        void Render(RenderContext context, RenderType type);
+        void RegisterEntity(Mesh *mesh, const std::vector<Texture *> &textures);
+
+      private:
+        std::set<RenderEntity> entities;
+        Shader shader;
+    };
 } // namespace Vultr

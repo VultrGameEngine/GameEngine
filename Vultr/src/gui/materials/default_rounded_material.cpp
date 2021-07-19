@@ -14,7 +14,7 @@ IMGUI::DefaultRoundedMaterial *IMGUI::new_rounded_material(Context *c, Color col
 
 void IMGUI::DefaultRoundedMaterial::bind()
 {
-    shader->Bind();
-    shader->SetUniform4f("u_color", color.value);
-    shader->SetUniform4f("u_radius", corner_radius);
+    bind_shader(shader);
+    set_uniform_4f(shader, "u_color", color.value);
+    set_uniform_4f(shader, "u_radius", corner_radius);
 }

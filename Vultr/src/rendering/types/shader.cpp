@@ -3,62 +3,61 @@
 
 namespace Vultr
 {
-Shader::Shader()
-{
-}
+    Shader invalid_shader()
+    {
+        return 0;
+    }
 
-Shader::Shader(unsigned int p_id, RenderType p_type) : id(p_id), type(p_type)
-{
-}
+    void bind_shader(Shader shader)
+    {
+        glUseProgram(shader);
+    }
 
-Shader::~Shader()
-{
-    glDeleteProgram(this->id);
-}
+    void unbind_all_shaders()
+    {
+        glUseProgram(0);
+    }
 
-void Shader::Bind()
-{
-    glUseProgram(this->id);
-}
+    bool is_valid_shader(Shader shader)
+    {
+        return shader > 0;
+    }
 
-void Shader::Unbind()
-{
-    glUseProgram(0);
-}
+    void delete_shader(Shader shader)
+    {
+        glDeleteProgram(shader);
+    }
 
-void Shader::SetUniformMatrix4fv(const std::string &uniform, const float *value)
-{
-    glUniformMatrix4fv(GetUniformLocation(uniform), 1, GL_FALSE, value);
-}
-
-void Shader::SetUniform4f(const std::string &uniform, const Vec4 &value)
-{
-    glUniform4f(GetUniformLocation(uniform), value.x, value.y, value.z, value.w);
-}
-
-void Shader::SetUniform3f(const std::string &uniform, const Vec3 &value)
-{
-    glUniform3f(GetUniformLocation(uniform), value.x, value.y, value.z);
-}
-
-void Shader::SetUniform2f(const std::string &uniform, const Vec2 &value)
-{
-    glUniform2f(GetUniformLocation(uniform), value.x, value.y);
-}
-
-void Shader::SetUniform1i(const std::string &uniform, int value)
-{
-    glUniform1i(GetUniformLocation(uniform), value);
-}
-
-void Shader::SetUniform1f(const std::string &uniform, float value)
-{
-    glUniform1f(GetUniformLocation(uniform), value);
-}
-
-unsigned int Shader::GetUniformLocation(const std::string &uniform)
-{
-    return glGetUniformLocation(this->id, uniform.c_str());
-}
-
+    void set_uniform_matrix_4fv(Shader shader, const char *uniform, const float *value)
+    {
+        glUniformMatrix4fv(get_uniform_location(shader, uniform), 1, GL_FALSE, value);
+    }
+    void set_uniform_4f(Shader shader, const char *uniform, const Vec4 &value)
+    {
+        glUniform4f(get_uniform_location(shader, uniform), value.x, value.y, value.z, value.w);
+    }
+    void set_uniform_3f(Shader shader, const char *uniform, const Vec3 &value)
+    {
+        glUniform3f(get_uniform_location(shader, uniform), value.x, value.y, value.z);
+    }
+    void set_uniform_2f(Shader shader, const char *uniform, const Vec2 &value)
+    {
+        glUniform2f(get_uniform_location(shader, uniform), value.x, value.y);
+    }
+    void set_uniform_1i(Shader shader, const char *uniform, s32 value)
+    {
+        glUniform1i(get_uniform_location(shader, uniform), value);
+    }
+    void set_uniform_1iv(Shader shader, const char *uniform, size_t size, const s32 *value)
+    {
+        glUniform1iv(get_uniform_location(shader, uniform), size, value);
+    }
+    void set_uniform_1f(Shader shader, const char *uniform, f32 value)
+    {
+        glUniform1f(get_uniform_location(shader, uniform), value);
+    }
+    u32 get_uniform_location(Shader shader, const char *uniform)
+    {
+        return glGetUniformLocation(shader, uniform);
+    }
 } // namespace Vultr

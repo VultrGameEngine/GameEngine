@@ -16,7 +16,7 @@ IMGUI::DefaultBatchMaterial *IMGUI::new_batch_material(Context *c, Texture textu
 
 void IMGUI::DefaultBatchMaterial::bind()
 {
-    shader->Bind();
+    bind_shader(shader);
     bind_texture(texture, GL_TEXTURE0);
-    glUniform1iv(shader->GetUniformLocation("u_Textures"), 16, samplers);
+    set_uniform_1iv(shader, "u_Textures", 16, samplers);
 }

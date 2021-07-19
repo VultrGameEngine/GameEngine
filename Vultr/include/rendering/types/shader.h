@@ -1,37 +1,25 @@
 #pragma once
-#include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <rendering/render_type.h>
-#include <string>
+#include <types/types.hpp>
 #include <fundamental/types.h>
 
 namespace Vultr
 {
-    class Shader
-    {
-      public:
-        Shader();
-        Shader(unsigned int p_id, RenderType p_type);
-        ~Shader();
-        void SetUniformMatrix4fv(const std::string &uniform, const float *value);
+    typedef u32 Shader;
 
-        void SetUniform4f(const std::string &uniform, const Vec4 &value);
+    Shader invalid_shader();
 
-        void SetUniform3f(const std::string &uniform, const Vec3 &value);
-
-        void SetUniform2f(const std::string &uniform, const Vec2 &value);
-
-        void SetUniform1i(const std::string &uniform, int value);
-
-        void SetUniform1f(const std::string &uniform, float value);
-
-        unsigned int GetUniformLocation(const std::string &uniform);
-
-        void Bind();
-        void Unbind();
-
-      private:
-        unsigned int id = 0;
-        RenderType type = Forward;
-    };
+    void bind_shader(Shader shader);
+    void unbind_all_shaders();
+    bool is_valid_shader(Shader shader);
+    void delete_shader(Shader shader);
+    void set_uniform_matrix_4fv(Shader shader, const char *uniform, const float *value);
+    void set_uniform_4f(Shader shader, const char *uniform, const Vec4 &value);
+    void set_uniform_3f(Shader shader, const char *uniform, const Vec3 &value);
+    void set_uniform_2f(Shader shader, const char *uniform, const Vec2 &value);
+    void set_uniform_1i(Shader shader, const char *uniform, s32 value);
+    void set_uniform_1iv(Shader shader, const char *uniform, size_t size, const s32 *value);
+    void set_uniform_1f(Shader shader, const char *uniform, f32 value);
+    u32 get_uniform_location(Shader shader, const char *uniform);
 } // namespace Vultr

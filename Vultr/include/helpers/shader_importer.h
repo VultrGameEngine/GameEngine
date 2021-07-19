@@ -71,11 +71,11 @@ namespace Vultr::ShaderImporter
                           "}\n",
     };
 
-    Shader *import_shader(const ShaderSource &source);
-    Shader *import_engine_shader(ShaderProgramSource source);
+    Shader import_shader(const ShaderSource &source);
+    Shader import_engine_shader(ShaderProgramSource source);
 
     ShaderProgramSource parse_shader(const ShaderSource &source);
-    u32 create_shader(const ShaderSource &source);
+    Shader create_shader(const ShaderSource &source);
     u32 compile_shader(u32 type, const std::string &source);
 
 } // namespace Vultr::ShaderImporter

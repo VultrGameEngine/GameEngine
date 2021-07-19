@@ -12,12 +12,12 @@ namespace Vultr
     {
         struct Component : public SystemProvider
         {
-            std::unordered_map<std::string, Shader *> loaded_shaders;
+            std::unordered_map<std::string, Shader> loaded_shaders;
         };
 
         Component &get_provider();
 
-        Shader *get_shader(const ShaderSource &source);
+        Shader get_shader(const ShaderSource &source);
     } // namespace ShaderLoaderSystem
 
     template <>

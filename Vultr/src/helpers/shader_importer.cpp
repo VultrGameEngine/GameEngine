@@ -7,14 +7,14 @@
 
 namespace Vultr
 {
-    Shader *ShaderImporter::import_shader(const ShaderSource &source)
+    Shader ShaderImporter::import_shader(const ShaderSource &source)
     {
         auto correct_path = source.path.string();
-        Shader *shader = new Shader(create_shader(ShaderSource(correct_path)), Deferred);
+        Shader shader = create_shader(ShaderSource(correct_path));
         return shader;
     }
 
-    Shader *ShaderImporter::import_engine_shader(ShaderProgramSource source)
+    Shader ShaderImporter::import_engine_shader(ShaderProgramSource source)
     {
         unsigned int program = glCreateProgram();
         unsigned int vs = compile_shader(GL_VERTEX_SHADER, source.VertexSource);
@@ -27,10 +27,10 @@ namespace Vultr
 
         glDeleteShader(vs);
         glDeleteShader(fs);
-        Shader *shader = new Shader(program, Forward);
-        return shader;
+        return program;
     }
 
+    // TODO: Eventually, we need to get rid of the STL shit
     ShaderImporter::ShaderProgramSource ShaderImporter::parse_shader(const ShaderSource &source)
     {
         // Opens file
@@ -71,13 +71,14 @@ namespace Vultr
         }
         return {ss[0].str(), ss[1].str()};
     }
+
     u32 ShaderImporter::create_shader(const ShaderSource &path)
     {
         // Parse the shader
         ShaderProgramSource source = parse_shader(path);
-        unsigned int program = glCreateProgram();
-        unsigned int vs = compile_shader(GL_VERTEX_SHADER, source.VertexSource);
-        unsigned int fs = compile_shader(GL_FRAGMENT_SHADER, source.FragmentSource);
+        u32 program = glCreateProgram();
+        u32 vs = compile_shader(GL_VERTEX_SHADER, source.VertexSource);
+        u32 fs = compile_shader(GL_FRAGMENT_SHADER, source.FragmentSource);
 
         glAttachShader(program, vs);
         glAttachShader(program, fs);
