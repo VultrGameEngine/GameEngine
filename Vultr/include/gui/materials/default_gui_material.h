@@ -14,9 +14,9 @@ namespace Vultr
             void bind() override;
 
             Color color;
-            Texture *texture;
+            Texture texture;
         };
 
-        DefaultGUIMaterial *new_gui_material(Context *c, Color color, Texture *texture = nullptr);
+        DefaultGUIMaterial *new_gui_material(Context *c, Color color, Texture texture = invalid_texture());
     } // namespace IMGUI
 } // namespace Vultr

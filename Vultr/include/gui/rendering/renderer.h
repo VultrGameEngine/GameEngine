@@ -1,6 +1,6 @@
 #pragma once
-#include <rendering/models/mesh.h>
-#include <rendering/models/shader.h>
+#include <rendering/types/mesh.h>
+#include <rendering/types/shader.h>
 
 namespace Vultr
 {

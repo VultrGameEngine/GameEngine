@@ -1,6 +1,6 @@
 #pragma once
-#include <rendering/models/mesh.h>
-#include <rendering/models/texture.h>
+#include <rendering/types/mesh.h>
+#include <rendering/types/texture.h>
 #include <rendering/render_context.h>
 #include <rendering/render_type.h>
 

@@ -1,10 +1,10 @@
 #pragma once
 #include <ecs/system/system_provider.hpp>
-#include <rendering/models/frame_buffer.h>
-#include <rendering/models/texture.h>
-#include <rendering/models/render_buffer.h>
-#include <rendering/models/mesh.h>
-#include <rendering/models/shader.h>
+#include <rendering/types/frame_buffer.h>
+#include <rendering/types/texture.h>
+#include <rendering/types/render_buffer.h>
+#include <rendering/types/mesh.h>
+#include <rendering/types/shader.h>
 #include <type_info/type_info.h>
 #include <fundamental/types.h>
 
@@ -23,7 +23,7 @@ namespace Vultr
             Vec2 dimensions = Vec2(1920, 1080);
             Vec2 position = Vec2(0);
             FrameBuffer *fbo = nullptr;
-            Texture *render_texture = nullptr;
+            Texture render_texture;
             RenderBuffer *rbo = nullptr;
         };
 

@@ -41,7 +41,7 @@ namespace Vultr::Renderer3D
         {
             Texture *texture = TextureLoaderSystem::get_texture(skybox_identifier);
             if (texture != nullptr)
-                texture->Bind(GL_TEXTURE0);
+                bind_texture(*texture, GL_TEXTURE0);
             glm::mat4 view = Mat4(glm::mat3(context.camera_transform.GetViewMatrix()));
             glm::mat4 MVP = projection * view;
             shader->SetUniformMatrix4fv("VP", glm::value_ptr(MVP));
@@ -53,7 +53,7 @@ namespace Vultr::Renderer3D
             {
                 Texture *texture = TextureLoaderSystem::get_texture(file.path.string().c_str());
                 if (texture != nullptr)
-                    texture->Bind(GL_TEXTURE0 + slot);
+                    bind_texture(*texture, GL_TEXTURE0 + slot);
             }
             glm::mat4 view = context.camera_transform.GetViewMatrix();
             glm::mat4 MVP = projection * view * model;

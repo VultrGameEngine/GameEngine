@@ -1,5 +1,5 @@
 #pragma once
-#include <rendering/models/shader.h>
+#include <rendering/types/shader.h>
 
 namespace Vultr
 {

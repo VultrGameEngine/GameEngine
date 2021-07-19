@@ -2,7 +2,7 @@
 
 using namespace Vultr;
 
-IMGUI::DefaultBatchMaterial *IMGUI::new_batch_material(Context *c, Texture *texture)
+IMGUI::DefaultBatchMaterial *IMGUI::new_batch_material(Context *c, Texture texture)
 {
     auto *mat = new DefaultBatchMaterial();
     mat->shader = c->renderer.batch_gui_shader;
@@ -17,6 +17,6 @@ IMGUI::DefaultBatchMaterial *IMGUI::new_batch_material(Context *c, Texture *text
 void IMGUI::DefaultBatchMaterial::bind()
 {
     shader->Bind();
-    texture->Bind(GL_TEXTURE0);
+    bind_texture(texture, GL_TEXTURE0);
     glUniform1iv(shader->GetUniformLocation("u_Textures"), 16, samplers);
 }

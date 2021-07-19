@@ -1,6 +1,6 @@
 #pragma once
 #include <ecs/system/system_provider.hpp>
-#include <rendering/models/shader.h>
+#include <rendering/types/shader.h>
 #include <helpers/shader_importer.h>
 #include <engine.hpp>
 #include <input/input.h>

@@ -1,5 +1,5 @@
 #pragma once
-#include <rendering/models/shader.h>
+#include <rendering/types/shader.h>
 #include <string>
 #include <types/types.hpp>
 #include <helpers/file.h>

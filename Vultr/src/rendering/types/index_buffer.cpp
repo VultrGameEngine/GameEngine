@@ -1,4 +1,4 @@
-#include <rendering/models/index_buffer.h>
+#include <rendering/types/index_buffer.h>
 
 namespace Vultr
 {

@@ -1,13 +1,13 @@
 #pragma once
-#include <rendering/models/texture.h>
+#include <rendering/types/texture.h>
 #include <string>
 #include <types/types.hpp>
 #include <helpers/file.h>
 
 namespace Vultr::TextureImporter
 {
-    bool import(const TextureSource &source, Texture &texture);
-    void import(const unsigned char *data, u32 size, Texture &texture);
-    void import(const unsigned char *data, Texture &texture, u32 width, u32 height);
-    bool import_skybox(const std::vector<TextureSource> &paths, Texture &texture);
+    bool import(Texture &texture, const TextureSource &source);
+    void import(Texture &texture, const unsigned char *data, u32 size);
+    void import(Texture &texture, const unsigned char *data, u32 width, u32 height);
+    bool import_skybox(Texture &texture, const std::vector<TextureSource> &paths);
 } // namespace Vultr::TextureImporter

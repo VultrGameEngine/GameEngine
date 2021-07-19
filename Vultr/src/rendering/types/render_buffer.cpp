@@ -1,6 +1,6 @@
 #include <glad/glad.h>
 #include <iostream>
-#include <rendering/models/render_buffer.h>
+#include <rendering/types/render_buffer.h>
 
 namespace Vultr
 {

@@ -1,6 +1,6 @@
 #include <core/system_providers/shader_loader_system_provider.h>
 #include <core/systems/shader_loader_system.h>
-#include <rendering/models/shader.h>
+#include <rendering/types/shader.h>
 #include <engine.hpp>
 
 namespace Vultr::ShaderLoaderSystem

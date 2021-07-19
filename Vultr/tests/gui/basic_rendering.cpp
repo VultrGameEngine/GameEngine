@@ -36,9 +36,9 @@ void basic_rendering_test()
 
     auto window = IMGUI::new_window();
     auto *c = IMGUI::new_context(window);
-    auto *texture = new Texture(GL_TEXTURE_2D);
+    auto texture = generate_texture(GL_TEXTURE_2D);
     auto texture_source = TextureSource("/home/brandon/Dev/Monopoly/GameEngine/Vultr/tests/gui/troll.png");
-    TextureImporter::import(texture_source, *texture);
+    TextureImporter::import(texture, texture_source);
 
     change_world(new_world(engine_global()->component_registry));
 

@@ -2,7 +2,7 @@
 #include <glad/glad.h>
 #include <assert.h>
 #include <glm/glm.hpp>
-#include <rendering/models/vertex.h>
+#include <rendering/types/vertex.h>
 
 namespace Vultr
 {

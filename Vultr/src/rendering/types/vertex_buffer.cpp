@@ -1,5 +1,5 @@
-#include <rendering/models/vertex.h>
-#include <rendering/models/vertex_buffer.h>
+#include <rendering/types/vertex.h>
+#include <rendering/types/vertex_buffer.h>
 
 namespace Vultr
 {

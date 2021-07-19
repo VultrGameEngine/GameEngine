@@ -2,7 +2,7 @@
 #include <helpers/path.h>
 #include <algorithm>
 #include <glad/glad.h>
-#include <rendering/models/texture.h>
+#include <rendering/types/texture.h>
 
 namespace Vultr
 {
@@ -88,7 +88,10 @@ namespace Vultr
             x += g->bitmap.width;
         }
 
-        Texture *texture = new Texture(GL_TEXTURE_2D, tex);
+        Texture texture = {
+            .id = tex,
+            .type = GL_TEXTURE_2D,
+        };
         font->texture = texture;
         FT_Done_Face(face);
 

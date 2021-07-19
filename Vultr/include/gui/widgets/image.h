@@ -1,6 +1,6 @@
 #pragma once
 #include <gui/core/context.h>
-#include <rendering/models/texture.h>
+#include <rendering/types/texture.h>
 
 namespace Vultr
 {
@@ -10,7 +10,7 @@ namespace Vultr
         {
         };
 
-        void image(Context *c, UI_ID id, Texture *tex);
+        void image(Context *c, UI_ID id, Texture tex);
 
     } // namespace IMGUI
 } // namespace Vultr

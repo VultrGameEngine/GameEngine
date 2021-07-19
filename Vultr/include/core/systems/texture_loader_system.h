@@ -8,7 +8,7 @@
 #include <core/system_providers/texture_loader_system_provider.h>
 #include <glm/glm.hpp>
 #include <memory>
-#include <rendering/models/texture.h>
+#include <rendering/types/texture.h>
 
 namespace Vultr::TextureLoaderSystem
 {

@@ -1,6 +1,6 @@
 #pragma once
 #include <map>
-#include <rendering/models/mesh.h>
+#include <rendering/types/mesh.h>
 #include <string>
 #include <helpers/file.h>
 

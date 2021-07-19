@@ -38,8 +38,8 @@ namespace Vultr::TextureLoaderSystem
         {
             if (!is_loaded(source))
             {
-                provider.textures[source.path.string()] = new Texture(GL_TEXTURE_2D);
-                TextureImporter::import(source, *provider.textures[source.path.string()]);
+                provider.textures[source.path.string()] = {};
+                TextureImporter::import(provider.textures[source.path.string()], source);
             }
         }
     }
@@ -55,9 +55,9 @@ namespace Vultr::TextureLoaderSystem
             auto &skybox_component = entity_get_component<SkyBoxComponent>(entity);
             if (!is_loaded(skybox_component.identifier.c_str()))
             {
-                Texture *texture = new Texture(GL_TEXTURE_CUBE_MAP);
+                auto texture = generate_texture(GL_TEXTURE_CUBE_MAP);
                 provider.textures[skybox_component.identifier] = texture;
-                TextureImporter::import_skybox(component.get_paths(), *texture);
+                TextureImporter::import_skybox(texture, component.get_paths());
             }
         }
         else
@@ -66,15 +66,15 @@ namespace Vultr::TextureLoaderSystem
             {
                 if (!is_loaded(file))
                 {
-                    Texture *new_tex = new Texture(GL_TEXTURE_2D);
-                    bool successful = TextureImporter::import(file, *new_tex);
+                    auto new_tex = generate_texture(GL_TEXTURE_2D);
+                    bool successful = TextureImporter::import(new_tex, file);
                     if (successful)
                     {
                         provider.textures[file.path.string()] = new_tex;
                     }
                     else
                     {
-                        delete new_tex;
+                        delete_texture(new_tex);
                     }
                 }
             }

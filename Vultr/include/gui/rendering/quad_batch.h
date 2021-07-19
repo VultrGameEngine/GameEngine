@@ -1,7 +1,7 @@
 #pragma once
-#include <rendering/models/index_buffer.h>
-#include <rendering/models/vertex_buffer.h>
-#include <rendering/models/vertex_array.h>
+#include <rendering/types/index_buffer.h>
+#include <rendering/types/vertex_buffer.h>
+#include <rendering/types/vertex_array.h>
 #include <gui/rendering/gui_vertex.h>
 #include "quad.h"
 

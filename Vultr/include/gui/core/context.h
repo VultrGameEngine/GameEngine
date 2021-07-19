@@ -9,7 +9,7 @@
 #include <input/input.h>
 #include "widget_cache.h"
 #include <core/models/update_tick.h>
-#include <rendering/models/texture.h>
+#include <rendering/types/texture.h>
 #include <fonts/font.h>
 #include <gui/layout/layout.h>
 #include <gui/layout/constraints.h>

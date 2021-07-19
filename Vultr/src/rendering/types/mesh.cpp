@@ -1,4 +1,4 @@
-#include <rendering/models/mesh.h>
+#include <rendering/types/mesh.h>
 
 namespace Vultr
 {

@@ -1,4 +1,4 @@
-#include <rendering/models/g_buffer.h>
+#include <rendering/types/g_buffer.h>
 
 namespace Vultr
 {

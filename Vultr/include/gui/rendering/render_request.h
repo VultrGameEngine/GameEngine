@@ -4,8 +4,8 @@
 #include "stencil_request.h"
 #include <gui/core/ui_id.h>
 #include <gui/core/transform.h>
-#include <rendering/models/shader.h>
-#include <rendering/models/mesh.h>
+#include <rendering/types/shader.h>
+#include <rendering/types/mesh.h>
 
 namespace Vultr
 {

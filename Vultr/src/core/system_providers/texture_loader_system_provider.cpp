@@ -15,7 +15,7 @@ namespace Vultr::TextureLoaderSystem
     {
         if (is_loaded(texture))
         {
-            return get_provider().textures[texture];
+            return &get_provider().textures[texture];
         }
         else
         {

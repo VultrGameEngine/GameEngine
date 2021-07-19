@@ -1,5 +1,5 @@
 #include <glm/gtc/type_ptr.hpp>
-#include <rendering/models/shader.h>
+#include <rendering/types/shader.h>
 
 namespace Vultr
 {

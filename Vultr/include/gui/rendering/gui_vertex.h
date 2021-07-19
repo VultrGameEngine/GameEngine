@@ -1,6 +1,6 @@
 #pragma once
 #include <types/types.hpp>
-#include <rendering/models/vertex_array.h>
+#include <rendering/types/vertex_array.h>
 
 namespace Vultr
 {

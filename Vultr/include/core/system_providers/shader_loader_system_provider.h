@@ -2,7 +2,7 @@
 #include <ecs/system/system_provider.hpp>
 #include <unordered_map>
 #include <type_info/type_info.h>
-#include <rendering/models/shader.h>
+#include <rendering/types/shader.h>
 #include <helpers/file.h>
 
 namespace Vultr

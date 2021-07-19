@@ -1,6 +1,6 @@
 #pragma once
 #include <glm/glm.hpp>
-#include <rendering/models/mesh.h>
+#include <rendering/types/mesh.h>
 #include <string>
 #include <helpers/file.h>
 

@@ -1,6 +1,6 @@
 #pragma once
 #include <ecs/system/system_provider.hpp>
-#include <rendering/models/mesh.h>
+#include <rendering/types/mesh.h>
 #include <memory>
 #include <unordered_map>
 #include <type_info/type_info.h>

@@ -54,21 +54,23 @@ namespace Vultr::RenderSystem
         assert("Unfinished");
     }
 
+    // TODO: Get rid of this shit lmfao, it's so bad
     void generate_render_texture(ViewportData &data, s32 width, s32 height)
     {
         if (data.fbo != nullptr)
             delete data.fbo;
-        if (data.render_texture != nullptr)
-            delete data.render_texture;
+        if (is_valid_texture(data.render_texture))
+            delete_texture(data.render_texture);
         if (data.rbo != nullptr)
             delete data.rbo;
 
         data.fbo = new FrameBuffer();
         data.fbo->Bind();
-        data.render_texture = new Texture(GL_TEXTURE_2D);
-        data.render_texture->Bind(GL_TEXTURE0);
-        data.render_texture->Generate(width, height);
-        data.render_texture->FrameBufferTexture2D();
+        data.render_texture = generate_texture(GL_TEXTURE_2D);
+        bind_texture(data.render_texture, GL_TEXTURE0);
+        texture_image_2D(data.render_texture, 0, GL_RGB, width, height, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
+        texture_parameter_i(data.render_texture, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, data.render_texture.type, data.render_texture.id, 0);
 
         data.rbo = new RenderBuffer(width, height);
 
@@ -82,20 +84,19 @@ namespace Vultr::RenderSystem
         auto &data = get_provider().input_data;
         if (data.fbo != nullptr)
             delete data.fbo;
-        if (data.render_texture != nullptr)
-            delete data.render_texture;
+        if (is_valid_texture(data.render_texture))
+            delete_texture(data.render_texture);
         if (data.rbo != nullptr)
             delete data.rbo;
 
         data.fbo = new FrameBuffer();
         data.fbo->Bind();
-        data.render_texture = new Texture(GL_TEXTURE_2D);
-        data.render_texture->Bind(GL_TEXTURE0);
-        data.render_texture->Generate(width, height);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, width, height, 0, GL_RGBA, GL_FLOAT, nullptr);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-        data.render_texture->FrameBufferTexture2D();
+        data.render_texture = generate_texture(GL_TEXTURE_2D);
+        bind_texture(data.render_texture, GL_TEXTURE0);
+        texture_image_2D(data.render_texture, 0, GL_RGBA16F, width, height, GL_RGBA, GL_FLOAT, nullptr);
+        texture_parameter_i(data.render_texture, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        texture_parameter_i(data.render_texture, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, data.render_texture.type, data.render_texture.id, 0);
 
         data.rbo = new RenderBuffer(width, height);
 
@@ -209,7 +210,7 @@ namespace Vultr::RenderSystem
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             provider.post_processing_shader->Bind();
             provider.post_processing_shader->SetUniform1i("renderedTexture", 0);
-            provider.game.render_texture->Bind(GL_TEXTURE0);
+            bind_texture(provider.game.render_texture, GL_TEXTURE0);
             provider.render_quad->Draw();
             glDisable(GL_FRAMEBUFFER_SRGB);
         }
