@@ -3,34 +3,39 @@
 
 namespace Vultr
 {
+    VertexBuffer new_vertex_buffer(const GLvoid *vertices, size_t count)
+    {
+        VertexBuffer vbo;
 
-VertexBuffer::VertexBuffer(const GLvoid *vertices, unsigned int count)
-{
-    // Create and set the vertex buffer data
-    glGenBuffers(1, &this->id);
-    Bind();
-    glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * count, vertices, GL_STATIC_DRAW);
-}
+        // Create and set the vertex buffer data
+        glGenBuffers(1, &vbo);
+        bind_vertex_buffer(vbo);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * count, vertices, GL_STATIC_DRAW);
+        return vbo;
+    }
 
-VertexBuffer::VertexBuffer(size_t size)
-{
-    glGenBuffers(1, &this->id);
-    Bind();
-    glBufferData(GL_ARRAY_BUFFER, size, nullptr, GL_DYNAMIC_DRAW);
-}
+    VertexBuffer new_vertex_buffer(u32 size)
+    {
+        VertexBuffer vbo;
 
-VertexBuffer::~VertexBuffer()
-{
-    glDeleteBuffers(1, &this->id);
-}
+        glGenBuffers(1, &vbo);
+        bind_vertex_buffer(vbo);
+        glBufferData(GL_ARRAY_BUFFER, size, nullptr, GL_DYNAMIC_DRAW);
+        return vbo;
+    }
 
-void VertexBuffer::Bind()
-{
-    glBindBuffer(GL_ARRAY_BUFFER, this->id);
-}
-void VertexBuffer::Unbind()
-{
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-}
+    void delete_vertex_buffer(VertexBuffer vbo)
+    {
+        glDeleteBuffers(1, &vbo);
+    }
 
+    void bind_vertex_buffer(VertexBuffer vbo)
+    {
+        glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    }
+
+    void unbind_vertex_buffer()
+    {
+        glBindBuffer(GL_ARRAY_BUFFER, 0);
+    }
 } // namespace Vultr

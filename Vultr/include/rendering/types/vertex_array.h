@@ -1,28 +1,19 @@
 #pragma once
-#include <glad/glad.h>
+#include <types/types.hpp>
 #include <assert.h>
 #include <glm/glm.hpp>
 #include <rendering/types/vertex.h>
 
 namespace Vultr
 {
+    typedef u32 VertexArray;
 
-class VertexArray
-{
-  public:
-    VertexArray();
-    ~VertexArray();
+    VertexArray new_vertex_array();
+    void delete_vertex_array(VertexArray vao);
 
-    template <typename T> void Setup()
-    {
-        assert(false && "Unsupported buffer layout type");
-    }
+    void bind_vertex_array(VertexArray vao);
+    void unbind_vertex_array();
 
-    void Bind() const;
-    void Unbind() const;
-
-  private:
-    unsigned int id;
-};
-
+    template <typename T>
+    void setup_vertex_array();
 } // namespace Vultr

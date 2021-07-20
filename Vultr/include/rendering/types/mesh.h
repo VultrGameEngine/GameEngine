@@ -19,7 +19,7 @@ namespace Vultr
 
         inline LoadingState GetLoadingState()
         {
-            if (vao == nullptr || ibo == nullptr || vbo == nullptr)
+            if (vao == 0 || ibo == 0 || vbo == 0)
                 return LoadingState_NotLoaded;
             return LoadingState_Loaded;
         }
@@ -35,8 +35,8 @@ namespace Vultr
         std::vector<unsigned short> m_indices;
 
         // A bunch of required buffers
-        VertexArray *vao;
-        IndexBuffer *ibo;
-        VertexBuffer *vbo;
+        VertexArray vao = 0;
+        IndexBuffer ibo = 0;
+        VertexBuffer vbo = 0;
     };
 } // namespace Vultr

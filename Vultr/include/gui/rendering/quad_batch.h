@@ -12,9 +12,9 @@ namespace Vultr
 #define MAX_QUADS 1000
         struct QuadBatch
         {
-            IndexBuffer *ibo;
-            VertexBuffer *vbo;
-            VertexArray *vao;
+            IndexBuffer ibo;
+            VertexBuffer vbo;
+            VertexArray vao;
             unsigned short *indices;
             IMGUI::GUIVertex *vertices;
         };

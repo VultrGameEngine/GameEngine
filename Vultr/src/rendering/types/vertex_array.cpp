@@ -2,23 +2,25 @@
 
 namespace Vultr
 {
-VertexArray::VertexArray()
-{
-    glGenVertexArrays(1, &this->id);
-}
+    VertexArray new_vertex_array()
+    {
+        VertexArray vao;
+        glGenVertexArrays(1, &vao);
+        return vao;
+    }
 
-VertexArray::~VertexArray()
-{
-    glDeleteVertexArrays(1, &this->id);
-}
+    void delete_vertex_array(VertexArray vao)
+    {
+        glDeleteVertexArrays(1, &vao);
+    }
 
-void VertexArray::Bind() const
-{
-    glBindVertexArray(this->id);
-}
+    void bind_vertex_array(VertexArray vao)
+    {
+        glBindVertexArray(vao);
+    }
 
-void VertexArray::Unbind() const
-{
-    glBindVertexArray(0);
-}
+    void unbind_vertex_array()
+    {
+        glBindVertexArray(0);
+    }
 } // namespace Vultr

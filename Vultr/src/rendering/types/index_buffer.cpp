@@ -2,34 +2,39 @@
 
 namespace Vultr
 {
-IndexBuffer::IndexBuffer(const GLvoid *indices, unsigned int count)
-{
-    glGenBuffers(1, &this->id);
-    Bind();
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned short) * count, indices,
-                 GL_STATIC_DRAW);
-}
+    IndexBuffer new_index_buffer(const void *indices, size_t count)
+    {
+        IndexBuffer ibo;
 
-IndexBuffer::IndexBuffer(size_t size) 
-{
-    glGenBuffers(1, &this->id);
-    Bind();
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, nullptr, GL_DYNAMIC_DRAW);
-}
+        glGenBuffers(1, &ibo);
+        bind_index_buffer(ibo);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned short) * count, indices, GL_STATIC_DRAW);
+        return ibo;
+    }
 
-IndexBuffer::~IndexBuffer()
-{
-    glDeleteBuffers(1, &this->id);
-}
+    IndexBuffer new_index_buffer(u32 size)
+    {
+        IndexBuffer ibo;
 
-void IndexBuffer::Bind() const
-{
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, this->id);
-}
+        glGenBuffers(1, &ibo);
+        bind_index_buffer(ibo);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, nullptr, GL_DYNAMIC_DRAW);
+        return ibo;
+    }
 
-void IndexBuffer::Unbind() const
-{
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-}
+    void delete_index_buffer(IndexBuffer ibo)
+    {
+        glDeleteBuffers(1, &ibo);
+    }
+
+    void bind_index_buffer(IndexBuffer ibo)
+    {
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
+    }
+
+    void unbind_index_buffer()
+    {
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+    }
 
 } // namespace Vultr

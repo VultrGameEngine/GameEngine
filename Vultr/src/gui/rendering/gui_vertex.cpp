@@ -3,7 +3,7 @@
 namespace Vultr
 {
     template <>
-    void VertexArray::Setup<IMGUI::GUIVertex>()
+    void setup_vertex_array<IMGUI::GUIVertex>()
     {
         glEnableVertexAttribArray(0);
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(IMGUI::GUIVertex), (const void *)offsetof(IMGUI::GUIVertex, position));

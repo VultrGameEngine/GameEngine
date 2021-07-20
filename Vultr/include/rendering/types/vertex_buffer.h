@@ -1,20 +1,16 @@
 #pragma once
 #include "vertex.h"
-#include <glad/glad.h>
+#include <types/types.hpp>
 
 namespace Vultr
 {
-    class VertexBuffer
-    {
-      public:
-        VertexBuffer(size_t size);
-        VertexBuffer(const GLvoid *vertices, unsigned int count);
-        ~VertexBuffer();
+    typedef u32 VertexBuffer;
 
-        void Bind();
-        void Unbind();
+    VertexBuffer new_vertex_buffer(u32 size);
+    VertexBuffer new_vertex_buffer(const void *vertices, size_t count);
 
-      private:
-        unsigned int id;
-    };
+    void delete_vertex_buffer(VertexBuffer vbo);
+
+    void bind_vertex_buffer(VertexBuffer vbo);
+    void unbind_vertex_buffer();
 } // namespace Vultr

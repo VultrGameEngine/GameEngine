@@ -5,11 +5,12 @@ using namespace Vultr;
 IMGUI::QuadBatch *IMGUI::new_quad_batch()
 {
     auto *b = new QuadBatch();
-    b->vao = new VertexArray();
-    b->vao->Bind();
-    b->vbo = new VertexBuffer(sizeof(IMGUI::GUIVertex) * MAX_QUADS * 4);
-    b->vbo->Bind();
-    b->vao->Setup<IMGUI::GUIVertex>();
+    b->vao = new_vertex_array();
+    bind_vertex_array(b->vao);
+    b->vbo = new_vertex_buffer(sizeof(IMGUI::GUIVertex) * MAX_QUADS * 4);
+    bind_vertex_buffer(b->vbo);
+    setup_vertex_array<IMGUI::GUIVertex>();
+
     u32 offset = 0;
     b->indices = new unsigned short[MAX_QUADS * 6];
     for (int i = 0; i < MAX_QUADS * 6; i += 6)
@@ -23,7 +24,7 @@ IMGUI::QuadBatch *IMGUI::new_quad_batch()
         b->indices[i + 5] = 2 + offset;
         offset += 4;
     }
-    b->ibo = new IndexBuffer(b->indices, MAX_QUADS * 6);
+    b->ibo = new_index_buffer(b->indices, MAX_QUADS * 6);
 
     b->vertices = new IMGUI::GUIVertex[MAX_QUADS * 4];
 
@@ -33,9 +34,9 @@ IMGUI::QuadBatch *IMGUI::new_quad_batch()
 void IMGUI::destroy_quad_batch(QuadBatch *batch)
 {
     flush_quad_batch(batch);
-    delete batch->ibo;
-    delete batch->vbo;
-    delete batch->vao;
+    delete_index_buffer(batch->ibo);
+    delete_vertex_buffer(batch->vbo);
+    delete_vertex_array(batch->vao);
     delete[] batch->indices;
     delete batch;
 }
@@ -53,7 +54,7 @@ void IMGUI::quad_batch_push_quads(QuadBatch *b, Quad *quads, u32 num_quads)
         b->vertices[i + 3] = quad.vertices[3];
         quad_index++;
     }
-    b->vbo->Bind();
+    bind_vertex_buffer(b->vbo);
     glBufferSubData(GL_ARRAY_BUFFER, 0, num_quads * 4 * sizeof(GUIVertex), b->vertices);
     flush_quad_batch(b);
 }
@@ -68,8 +69,8 @@ void IMGUI::flush_quad_batch(QuadBatch *b)
 
 void IMGUI::quad_batch_draw(QuadBatch *b, u32 num_quads)
 {
-    b->vbo->Bind();
-    b->vao->Bind();
-    b->ibo->Bind();
+    bind_vertex_buffer(b->vbo);
+    bind_vertex_array(b->vao);
+    bind_index_buffer(b->ibo);
     glDrawElements(GL_TRIANGLES, num_quads * 6, GL_UNSIGNED_SHORT, (void *)0);
 }

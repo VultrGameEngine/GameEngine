@@ -1,21 +1,15 @@
 #pragma once
-#include <glad/glad.h>
-#include <stddef.h>
+#include <types/types.hpp>
 
 namespace Vultr
 {
-class IndexBuffer
-{
-  public:
-    IndexBuffer(const GLvoid *indices, unsigned int count);
-    IndexBuffer(size_t size);
+    typedef u32 IndexBuffer;
 
-    ~IndexBuffer();
+    IndexBuffer new_index_buffer(const void *indices, size_t count);
+    IndexBuffer new_index_buffer(u32 size);
 
-    void Bind() const;
-    void Unbind() const;
+    void delete_index_buffer(IndexBuffer ibo);
 
-  private:
-    unsigned int id;
-};
+    void bind_index_buffer(IndexBuffer ibo);
+    void unbind_index_buffer();
 } // namespace Vultr

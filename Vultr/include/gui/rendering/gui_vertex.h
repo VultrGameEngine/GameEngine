@@ -25,6 +25,7 @@ namespace Vultr
         };
 
     } // namespace IMGUI
+
     template <>
-    void VertexArray::Setup<IMGUI::GUIVertex>();
+    void setup_vertex_array<IMGUI::GUIVertex>();
 } // namespace Vultr
