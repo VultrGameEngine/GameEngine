@@ -35,8 +35,8 @@ namespace Vultr
 
             Shader post_processing_shader;
             Shader input_shader;
-            Mesh *render_quad;
-            Mesh *skybox;
+            Mesh render_quad;
+            Mesh skybox;
         };
 
         Component &get_provider();

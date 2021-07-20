@@ -2,66 +2,84 @@
 
 namespace Vultr
 {
-    template <>
-    void setup_vertex_array<Vertex>()
-    {
-        glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const void *)offsetof(Vertex, position));
 
-        glEnableVertexAttribArray(1);
-        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const void *)offsetof(Vertex, normal));
-
-        glEnableVertexAttribArray(2);
-        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const void *)offsetof(Vertex, uv));
-    }
-    Mesh::Mesh()
+    bool is_valid_mesh(const Mesh &mesh)
     {
+        return mesh.vertices != nullptr;
     }
 
-    Mesh::~Mesh()
+    Mesh new_mesh(Vec3 positions[], Vec2 uvs[], Vec3 normals[], size_t vertex_count, unsigned short indices[], size_t index_count)
     {
-        delete_vertex_array(vao);
-        delete_index_buffer(ibo);
-        delete_vertex_buffer(vbo);
-    }
+        auto *vertices = static_cast<Vertex *>(malloc(sizeof(Vertex) * vertex_count));
 
-    void Mesh::Init(const std::vector<Vec3> &p_positions, const std::vector<Vec2> &p_uvs, const std::vector<Vec3> &p_normals, const std::vector<unsigned short> &p_indices)
-    {
-        this->m_vertices.clear();
-        this->m_indices = p_indices;
-        for (int i = 0; i < p_positions.size(); i++)
+        for (size_t i = 0; i < vertex_count; i++)
         {
-            this->m_vertices.push_back(Vertex(p_positions.at(i), p_normals.at(i), p_uvs.at(i)));
+            vertices[i] = Vertex(positions[i], normals[i], uvs[i]);
         }
 
-        vao = new_vertex_array();
+        free(positions);
+        free(uvs);
+        free(normals);
+
+        auto vao = new_vertex_array();
         bind_vertex_array(vao);
-        vbo = new_vertex_buffer(&m_vertices[0], m_vertices.size());
+
+        auto vbo = new_vertex_buffer(vertices, vertex_count);
+        bind_vertex_buffer(vbo);
+
+        setup_vertex_array<Vertex>();
+
+        auto ibo = new_index_buffer(indices, index_count);
+        return {
+            .vertices = vertices,
+            .vertex_count = vertex_count,
+            .indices = indices,
+            .index_count = index_count,
+            .vao = vao,
+            .ibo = ibo,
+            .vbo = vbo,
+        };
+    }
+
+    Mesh new_mesh(Vertex vertices[], size_t vertex_count, unsigned short indices[], size_t index_count)
+    {
+        auto vao = new_vertex_array();
+        bind_vertex_array(vao);
+        auto vbo = new_vertex_buffer(vertices, vertex_count);
         bind_vertex_buffer(vbo);
         setup_vertex_array<Vertex>();
-        ibo = new_index_buffer(&m_indices[0], m_indices.size());
+        auto ibo = new_index_buffer(indices, index_count);
+
+        return {
+            .vertices = vertices,
+            .vertex_count = vertex_count,
+            .indices = indices,
+            .index_count = index_count,
+            .vao = vao,
+            .ibo = ibo,
+            .vbo = vbo,
+        };
     }
 
-    void Mesh::Init(const std::vector<Vertex> &p_vertices, const std::vector<unsigned short> &p_indices)
+    void delete_mesh(Mesh &mesh)
     {
-        this->m_vertices.clear();
-        this->m_indices = p_indices;
-        this->m_vertices = p_vertices;
+        free(mesh.vertices);
+        free(mesh.indices);
+        mesh.vertices = nullptr;
+        mesh.vertex_count = 0;
+        mesh.indices = nullptr;
+        mesh.index_count = 0;
 
-        vao = new_vertex_array();
-        bind_vertex_array(vao);
-        vbo = new_vertex_buffer(&m_vertices[0], m_vertices.size());
-        bind_vertex_buffer(vbo);
-        setup_vertex_array<Vertex>();
-        ibo = new_index_buffer(&m_indices[0], m_indices.size());
+        delete_vertex_array(mesh.vao);
+        delete_index_buffer(mesh.ibo);
+        delete_vertex_buffer(mesh.vbo);
     }
 
-    void Mesh::Draw() const
+    void draw_mesh(const Mesh &mesh)
     {
-        bind_vertex_array(vao);
-        bind_index_buffer(ibo);
+        bind_vertex_array(mesh.vao);
+        bind_index_buffer(mesh.ibo);
 
-        glDrawElements(GL_TRIANGLES, this->m_indices.size(), GL_UNSIGNED_SHORT, (void *)0);
+        glDrawElements(GL_TRIANGLES, mesh.index_count, GL_UNSIGNED_SHORT, (void *)0);
     }
-
 } // namespace Vultr

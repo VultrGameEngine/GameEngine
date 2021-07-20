@@ -35,7 +35,7 @@ namespace Vultr
             union RenderRequestData {
                 struct
                 {
-                    Mesh *mesh;
+                    Mesh mesh;
                 };
                 struct
                 {

@@ -8,7 +8,7 @@ namespace Vultr
     {
         struct Renderer
         {
-            Mesh *quad;
+            Mesh quad;
 
             Shader default_gui_shader;
             Shader texture_gui_shader;
@@ -17,6 +17,6 @@ namespace Vultr
         };
 
         Renderer new_imgui_renderer();
-        void destroy_imgui_renderer(const Renderer &r);
+        void destroy_imgui_renderer(Renderer &r);
     } // namespace IMGUI
 } // namespace Vultr

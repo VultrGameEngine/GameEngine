@@ -211,7 +211,7 @@ namespace Vultr::RenderSystem
             bind_shader(provider.post_processing_shader);
             set_uniform_1i(provider.post_processing_shader, "renderedTexture", 0);
             bind_texture(provider.game.render_texture, GL_TEXTURE0);
-            provider.render_quad->Draw();
+            draw_mesh(provider.render_quad);
             glDisable(GL_FRAMEBUFFER_SRGB);
         }
 
@@ -269,10 +269,10 @@ namespace Vultr::RenderSystem
                 continue;
             TransformComponent &transform = entity_get_component<TransformComponent>(entity);
             StaticMeshComponent &mesh = entity_get_component<StaticMeshComponent>(entity);
-            Mesh *mesh_obj = MeshLoaderSystem::get_mesh(mesh.source);
-            if (mesh_obj != nullptr)
+            Mesh mesh_obj = MeshLoaderSystem::get_mesh(mesh.source);
+            if (is_valid_mesh(mesh_obj))
             {
-                Renderer3D::ForwardRenderer::Submit(material, transform.Matrix(), *mesh_obj);
+                Renderer3D::ForwardRenderer::Submit(material, transform.Matrix(), mesh_obj);
             }
         }
     }
@@ -291,10 +291,10 @@ namespace Vultr::RenderSystem
             // All the components we need
             auto &transform = entity_get_component<TransformComponent>(entity);
             auto &mesh = entity_get_component<StaticMeshComponent>(entity);
-            auto *mesh_obj = MeshLoaderSystem::get_mesh(mesh.source);
+            auto mesh_obj = MeshLoaderSystem::get_mesh(mesh.source);
 
             // If the mesh has loaded
-            if (mesh_obj != nullptr)
+            if (is_valid_mesh(mesh_obj))
             {
                 // Get the render context data
                 const auto &context = RenderContext::GetContext();
@@ -317,7 +317,7 @@ namespace Vultr::RenderSystem
                 set_uniform_4f(shader, "color", Vec4(r / 255.0f, g / 255.0f, b / 255.0f, 1.0f));
 
                 // Draw the mesh
-                mesh_obj->Draw();
+                draw_mesh(mesh_obj);
             }
         }
     }
@@ -346,7 +346,7 @@ namespace Vultr::RenderSystem
 
             Renderer3D::ForwardRenderer::BindMaterial(material_component, RenderContext::GetContext().camera_transform.Matrix(), skybox_component.identifier.c_str());
 
-            get_provider().skybox->Draw();
+            draw_mesh(get_provider().skybox);
             glDepthMask(GL_TRUE);
             glDepthFunc(GL_LESS); // Reset depth test
         }

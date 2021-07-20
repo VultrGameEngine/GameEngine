@@ -159,7 +159,7 @@ static u8 apply_stencil(IMGUI::Context *c, IMGUI::StencilRequest *request, u8 in
         get_gl_transform(request->local_transform, global_transform, gl_global_pos, gl_global_size, full_transform);
 
         set_uniform_matrix_4fv(request->data.material->shader, "transform", glm::value_ptr(full_transform));
-        request->data.mesh->Draw();
+        draw_mesh(request->data.mesh);
 
         if (!is_recurse)
         {
@@ -271,7 +271,7 @@ void draw_render_request(IMGUI::Context *c, IMGUI::RenderRequestContext *context
 
     if (r.type == RenderRequest::ABSOLUTE_MESH_DRAW || r.type == RenderRequest::MESH_DRAW)
     {
-        r.data.mesh->Draw();
+        draw_mesh(r.data.mesh);
     }
     else
     {

@@ -12,12 +12,12 @@ namespace Vultr
     {
         struct Component : public SystemProvider
         {
-            std::unordered_map<std::string, Mesh *> meshes;
+            std::unordered_map<std::string, Mesh> meshes;
         };
 
-        Mesh *get_mesh(const ModelSource &source);
+        Mesh get_mesh(const ModelSource &source);
 
-        void add_mesh(const ModelSource &source, Mesh *mesh);
+        void add_mesh(const ModelSource &source, Mesh mesh);
 
         Component &get_provider();
     } // namespace MeshLoaderSystem

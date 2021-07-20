@@ -10,7 +10,7 @@ namespace Vultr::Renderer3D
     void ForwardRenderer::Submit(const MaterialComponent &material, const Mat4 &transform, const Mesh &mesh, const char *skybox_identifier)
     {
         BindMaterial(material, transform, skybox_identifier);
-        mesh.Draw();
+        draw_mesh(mesh);
     }
     void ForwardRenderer::BindMaterial(const MaterialComponent &material, const Mat4 &transform, const char *skybox_identifier)
     {

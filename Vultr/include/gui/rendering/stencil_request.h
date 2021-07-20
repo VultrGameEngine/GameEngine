@@ -25,7 +25,7 @@ namespace Vultr
                 struct
                 {
                     Material *material;
-                    Mesh *mesh;
+                    Mesh mesh;
                 };
 
                 StencilRequestData()

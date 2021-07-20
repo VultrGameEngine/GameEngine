@@ -6,8 +6,8 @@
 
 namespace Vultr::MeshImporter
 {
-    Mesh *import_mesh(const ModelSource &source);
-    Mesh *init_quad();
-    Mesh *init_skybox();
+    Mesh import_mesh(const ModelSource &source);
+    Mesh init_quad();
+    Mesh init_skybox();
 
 } // namespace Vultr::MeshImporter

@@ -11,32 +11,24 @@
 
 namespace Vultr
 {
-    class Mesh
+    struct Mesh
     {
-      public:
-        Mesh();
-        ~Mesh();
-
-        inline LoadingState GetLoadingState()
-        {
-            if (vao == 0 || ibo == 0 || vbo == 0)
-                return LoadingState_NotLoaded;
-            return LoadingState_Loaded;
-        }
-
-        void Init(const std::vector<Vec3> &p_positions, const std::vector<Vec2> &p_uvs, const std::vector<Vec3> &p_normals, const std::vector<unsigned short> &p_indices);
-        void Init(const std::vector<Vertex> &p_vertices, const std::vector<unsigned short> &p_indices);
-
-        void Draw() const;
-
-      private:
         // Holds the saved vertices and indices in a buffer cpu side
-        std::vector<Vertex> m_vertices;
-        std::vector<unsigned short> m_indices;
+        Vertex *vertices = nullptr;
+        size_t vertex_count = 0;
+        unsigned short *indices = nullptr;
+        size_t index_count = 0;
 
         // A bunch of required buffers
         VertexArray vao = 0;
         IndexBuffer ibo = 0;
         VertexBuffer vbo = 0;
     };
+
+    bool is_valid_mesh(const Mesh &mesh);
+    Mesh new_mesh(Vec3 positions[], Vec2 uvs[], Vec3 normals[], size_t vertex_count, unsigned short indices[], size_t index_count);
+    Mesh new_mesh(Vertex vertices[], size_t vertex_count, unsigned short indices[], size_t index_count);
+    void delete_mesh(Mesh &mesh);
+
+    void draw_mesh(const Mesh &mesh);
 } // namespace Vultr

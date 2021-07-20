@@ -169,7 +169,7 @@ IMGUI::Renderer IMGUI::new_imgui_renderer()
     renderer.rounded_gui_shader = ShaderImporter::import_engine_shader(ROUNDED_CORNER_GUI);
     return renderer;
 }
-void IMGUI::destroy_imgui_renderer(const Renderer &r)
+void IMGUI::destroy_imgui_renderer(Renderer &r)
 {
-    delete r.quad;
+    delete_mesh(r.quad);
 }

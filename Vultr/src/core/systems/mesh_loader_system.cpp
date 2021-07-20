@@ -16,8 +16,8 @@ namespace Vultr::MeshLoaderSystem
     static void import(const ModelSource &source)
     {
         auto &provider = get_provider();
-        Mesh *mesh = MeshImporter::import_mesh(source);
-        if (mesh == nullptr)
+        Mesh mesh = MeshImporter::import_mesh(source);
+        if (!is_valid_mesh(mesh))
             return;
         add_mesh(source, mesh);
     }
@@ -26,7 +26,8 @@ namespace Vultr::MeshLoaderSystem
         auto &component = entity_get_component<StaticMeshComponent>(entity);
         auto source = component.source;
 
-        if (get_mesh(source) == nullptr)
+        auto mesh = get_mesh(source);
+        if (!is_valid_mesh(mesh))
         {
             MeshLoaderSystem::import(source);
         }
