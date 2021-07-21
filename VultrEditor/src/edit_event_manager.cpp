@@ -18,7 +18,7 @@ void on_edit(EditEvent *e)
     m.event_stack.push_back(e);
 }
 
-void undo()
+void undo(Engine *e)
 {
     auto &m = get_editor().edit_event_manager;
     if (m.event_stack.size() == 0)
@@ -26,11 +26,11 @@ void undo()
     if (m.event_index <= -1)
         return;
     auto *event = m.event_stack[m.event_index];
-    event->Undo(engine_global());
+    event->Undo(e);
     m.event_index--;
 }
 
-void redo()
+void redo(Engine *e)
 {
     auto &m = get_editor().edit_event_manager;
     if (m.event_stack.size() == 0)
@@ -40,5 +40,5 @@ void redo()
         return;
     m.event_index++;
     auto *event = m.event_stack[m.event_index];
-    event->Redo(engine_global());
+    event->Redo(e);
 }

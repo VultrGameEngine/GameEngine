@@ -8,7 +8,7 @@ using namespace Vultr;
 #define DEFAULT_ROW_CHILDREN_SIZE 10
 
 template <>
-void IMGUI::destroy_cache<IMGUI::RowState>(RowState &cache)
+void IMGUI::destroy_cache<IMGUI::RowState>(Context *c, RowState &cache)
 {
     // If we can, then free the widget order array
     if (cache.widget_order != nullptr)

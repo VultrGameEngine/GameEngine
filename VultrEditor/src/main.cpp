@@ -13,7 +13,6 @@
 #include <windows/entity_window.h>
 #include <windows/game_window.h>
 #include <windows/scene_window.h>
-
 #ifndef SOURCE_PATH
 #define SOURCE_PATH "INVALID SOURCE"
 #endif
@@ -29,8 +28,7 @@ INCBIN(roboto, "../res/roboto.ttf");
 using namespace Vultr;
 int main(void)
 {
-    engine_global() = new Engine();
-    auto *vultr = engine_global();
+    auto *e = new Engine();
 
     Directory cwd = Directory(std::filesystem::current_path().string());
     auto _f = directory_get_files(cwd);
@@ -92,17 +90,17 @@ int main(void)
     change_working_directory(resource_directory.path);
 #endif
 
-    engine_init(vultr, true);
+    engine_init(e, true);
 
 #ifdef _WIN32
-    engine_load_game(vultr, dll.path.string().c_str());
+    engine_load_game(e, dll.path.string().c_str());
 #else
-    engine_load_game(vultr, dll.path.string().c_str());
+    engine_load_game(e, dll.path.string().c_str());
 #endif
 
-    engine_global()->game->RegisterComponents();
-    vultr->game->SetImGuiContext(ImGui::GetCurrentContext());
-    engine_global()->on_edit = on_edit;
+    e->game->RegisterComponents(e);
+    e->game->SetImGuiContext(ImGui::GetCurrentContext());
+    e->on_edit = on_edit;
 
     static const ImWchar icons_ranges[] = {ICON_MIN_FK, ICON_MAX_FK, 0};
     ImFontConfig icons_config;
@@ -112,17 +110,17 @@ int main(void)
     io.Fonts->AddFontFromMemoryTTF((void *)groboto_data, groboto_size, 30);
     io.Fonts->AddFontFromMemoryTTF((void *)gfork_awesome_data, gfork_awesome_size, 24.0f, &icons_config, icons_ranges);
 
-    register_asset_browser(resource_directory);
-    register_component_window();
-    register_entity_window();
-    register_game_window();
-    register_scene_window();
+    register_asset_browser(e, resource_directory);
+    register_component_window(e);
+    register_entity_window(e);
+    register_game_window(e);
+    register_scene_window(e);
 
-    while (!vultr->should_close)
+    while (!e->should_close)
     {
-        auto tick = engine_update_game(vultr, lastTime, get_editor().game_manager.playing);
-        editor_render(tick);
-        glfwSwapBuffers(vultr->window);
+        auto tick = engine_update_game(e, lastTime, get_editor().game_manager.playing);
+        editor_render(e, tick);
+        glfwSwapBuffers(e->window);
         glfwPollEvents();
     }
 }

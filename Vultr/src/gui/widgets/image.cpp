@@ -6,7 +6,7 @@ using namespace Vultr;
 #define __image_cache_id ui_id(__FILE__)
 
 template <>
-void IMGUI::destroy_cache<IMGUI::ImageState>(ImageState &cache){};
+void IMGUI::destroy_cache<IMGUI::ImageState>(Context *c, ImageState &cache){};
 
 void IMGUI::image(Context *c, UI_ID id, Texture tex)
 {

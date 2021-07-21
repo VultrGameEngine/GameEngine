@@ -69,10 +69,10 @@ namespace Vultr
         return dynamic_cast<T *>(manager.system_providers.at(type));
     }
 
-    void system_manager_entity_signature_changed_in_system(SystemProvider *system, Entity entity, Signature entity_signature);
+    void system_manager_entity_signature_changed_in_system(Engine *e, SystemProvider *system, Entity entity, Signature entity_signature);
 
     // Called by world or engine to update the systems when new entities are created
-    void system_manager_entity_destroyed(SystemManager &manager, Entity entity);
+    void system_manager_entity_destroyed(Engine *e, SystemManager &manager, Entity entity);
 
-    void system_manager_entity_signature_changed(SystemManager &manager, Entity entity, Signature entity_signature);
+    void system_manager_entity_signature_changed(Engine *e, SystemManager &manager, Entity entity, Signature entity_signature);
 } // namespace Vultr

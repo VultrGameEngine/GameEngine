@@ -10,7 +10,7 @@ using namespace Vultr;
 // ui_id("widget_container")
 
 template <>
-void IMGUI::destroy_cache<IMGUI::ContainerState>(ContainerState &cache){};
+void IMGUI::destroy_cache<IMGUI::ContainerState>(Context *c, ContainerState &cache){};
 
 // Draw a container without a child
 void IMGUI::container(Context *c, UI_ID id, ContainerStyle style)

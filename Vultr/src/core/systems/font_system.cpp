@@ -5,24 +5,24 @@
 
 namespace Vultr::FontSystem
 {
-    void register_system()
+    void register_system(Engine *e)
     {
         Signature signature;
-        register_global_system<Component>(signature, nullptr, nullptr);
+        register_global_system<Component>(e, signature, nullptr, nullptr);
     }
 
-    void init()
+    void init(Engine *e)
     {
-        auto &provider = get_provider();
+        auto &provider = get_provider(e);
         if (FT_Init_FreeType(&provider.library))
         {
             assert("Could not init the freetype library");
         }
     }
 
-    void preload_font(const FontSource &source)
+    void preload_font(Engine *e, const FontSource &source)
     {
-        auto &provider = get_provider();
+        auto &provider = get_provider(e);
         provider.fonts[source.path.string().c_str()] = FontImporter::import_font(source, provider.library);
     }
 } // namespace Vultr::FontSystem

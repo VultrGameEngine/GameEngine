@@ -1,4 +1,5 @@
 #pragma once
+#include <engine.hpp>
 #include <ecs/system/system_provider.hpp>
 #include <rendering/types/framebuffer.h>
 #include <rendering/types/texture.h>
@@ -34,11 +35,11 @@ namespace Vultr
             Mesh skybox;
         };
 
-        Component &get_provider();
+        Component &get_provider(Engine *e);
 
-        Vec2 get_dimensions(u8 type);
+        Vec2 get_dimensions(Engine *e, u8 type);
 
-        Entity get_entity_at_pixel(s32 x, s32 y);
+        Entity get_entity_at_pixel(Engine *e, s32 x, s32 y);
 
     } // namespace RenderSystem
 

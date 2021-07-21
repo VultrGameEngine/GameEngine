@@ -1,4 +1,5 @@
 #pragma once
+#include <engine.hpp>
 #include <types/types.hpp>
 
 namespace Vultr
@@ -11,6 +12,6 @@ namespace Vultr
             Vec2 position;
         };
 
-        Window new_window();
+        Window new_window(Engine *e);
     } // namespace IMGUI
 } // namespace Vultr

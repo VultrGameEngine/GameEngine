@@ -3,6 +3,7 @@
 // The render system will bind these ids and render them via opengl
 
 #pragma once
+#include <engine.hpp>
 #include <types/types.hpp>
 
 namespace Vultr
@@ -13,11 +14,11 @@ namespace Vultr
 
 namespace Vultr::RenderSystem
 {
-    void register_system();
-    void init();
-    void update(const UpdateTick &meta_data);
+    void register_system(Engine *e);
+    void init(Engine *e);
+    void update(Engine *e, const UpdateTick &meta_data);
 
-    void init_g_buffer(s32 width, s32 height);
-    void resize(s32 width, s32 height, u8 type);
-    void update_viewport_pos(s32 x, s32 y, u8 type);
+    void init_g_buffer(Engine *e, s32 width, s32 height);
+    void resize(Engine *e, s32 width, s32 height, u8 type);
+    void update_viewport_pos(Engine *e, s32 x, s32 y, u8 type);
 } // namespace Vultr::RenderSystem

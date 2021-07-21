@@ -9,7 +9,7 @@ using namespace Vultr;
 #define __button_cache_id ui_id(__FILE__)
 
 template <>
-void IMGUI::destroy_cache<IMGUI::ButtonState>(ButtonState &cache){};
+void IMGUI::destroy_cache<IMGUI::ButtonState>(Context *c, ButtonState &cache){};
 
 void IMGUI::begin_button(Context *c, UI_ID id, ButtonStyle style)
 {

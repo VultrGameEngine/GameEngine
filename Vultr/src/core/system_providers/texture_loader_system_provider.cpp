@@ -2,20 +2,20 @@
 
 namespace Vultr::TextureLoaderSystem
 {
-    Component &get_provider()
+    Component &get_provider(Engine *e)
     {
-        return *get_global_system_provider<Component>();
+        return *get_global_system_provider<Component>(e);
     }
-    Texture *get_texture(const TextureSource &texture)
+    Texture *get_texture(Engine *e, const TextureSource &texture)
     {
-        return get_texture(texture.path.string().c_str());
+        return get_texture(e, texture.path.string().c_str());
     }
 
-    Texture *get_texture(const char *texture)
+    Texture *get_texture(Engine *e, const char *texture)
     {
-        if (is_loaded(texture))
+        if (is_loaded(e, texture))
         {
-            return &get_provider().textures[texture];
+            return &get_provider(e).textures[texture];
         }
         else
         {
@@ -23,14 +23,14 @@ namespace Vultr::TextureLoaderSystem
         }
     }
 
-    bool is_loaded(const TextureSource &texture)
+    bool is_loaded(Engine *e, const TextureSource &texture)
     {
-        return is_loaded(texture.path.string().c_str());
+        return is_loaded(e, texture.path.string().c_str());
     }
 
-    bool is_loaded(const char *texture)
+    bool is_loaded(Engine *e, const char *texture)
     {
-        auto &p = get_provider();
+        auto &p = get_provider(e);
         return p.textures.find(texture) != p.textures.end();
     }
 } // namespace Vultr::TextureLoaderSystem

@@ -13,7 +13,8 @@
 namespace Vultr
 {
 
-    typedef void (*ComponentRender)(Vultr::Entity);
+    struct Engine;
+    typedef void (*ComponentRender)(Vultr::Engine *e, Vultr::Entity);
 
     struct RenderMemberResult
     {
@@ -29,24 +30,24 @@ namespace Vultr
     };
     RenderMemberResult was_edited();
 
-#define _RENDER_MEMBER(T, x)                                                                                                                                                                                          \
+#define _RENDER_MEMBER(e, T, x)                                                                                                                                                                                       \
     ImGui::PushID(typeid(T).name());                                                                                                                                                                                  \
     RenderMember(#x, T->x);                                                                                                                                                                                           \
     ImGui::PopID();
 
 #define VULTR_REGISTER_COMPONENT(T, ...)                                                                                                                                                                              \
     template <>                                                                                                                                                                                                       \
-    inline void RenderComponent<T>(Entity entity)                                                                                                                                                                     \
+    inline void RenderComponent<T>(Engine * e, Entity entity)                                                                                                                                                         \
     {                                                                                                                                                                                                                 \
-        T *component = entity_get_component_unsafe<T>(entity);                                                                                                                                                        \
+        T *component = entity_get_component_unsafe<T>(e, entity);                                                                                                                                                     \
         if (component == nullptr)                                                                                                                                                                                     \
             return;                                                                                                                                                                                                   \
         if (ImGui::CollapsingHeader(#T))                                                                                                                                                                              \
         {                                                                                                                                                                                                             \
-            MAP(_RENDER_MEMBER, component, __VA_ARGS__);                                                                                                                                                              \
+            MAP(_RENDER_MEMBER, e, component, __VA_ARGS__);                                                                                                                                                           \
             if (ImGui::Button("Remove"))                                                                                                                                                                              \
             {                                                                                                                                                                                                         \
-                entity_remove_component<T>(entity);                                                                                                                                                                   \
+                entity_remove_component<T>(e, entity);                                                                                                                                                                \
             }                                                                                                                                                                                                         \
         }                                                                                                                                                                                                             \
     }                                                                                                                                                                                                                 \
@@ -57,7 +58,7 @@ namespace Vultr
     }
 
     template <typename T>
-    void RenderComponent(Vultr::Entity entity);
+    void RenderComponent(Engine *e, Vultr::Entity entity);
 
     template <typename T>
     RenderMemberResult RenderMember(const std::string &name, T &m)

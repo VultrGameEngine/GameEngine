@@ -3,7 +3,7 @@
 #include "../components/generated/test_component.generated.h"
 
 using namespace Vultr;
-void register_components()
+void register_components(Vultr::Engine *e)
 {
-    register_component<TestComponent>();
+    register_component<TestComponent>(e);
 }

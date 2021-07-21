@@ -12,7 +12,7 @@ namespace Vultr
             bool focused = false;
         };
 
-        Component &get_provider();
+        Component &get_provider(Engine *e);
     } // namespace ControllerSystem
     template <>
     inline const char *get_struct_name<ControllerSystem::Component>()

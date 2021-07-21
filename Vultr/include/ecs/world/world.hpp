@@ -17,9 +17,9 @@ namespace Vultr
     // Create a new World
     World *new_world(const ComponentRegistry &r);
 
-    void save_world(World *world, json &j);
+    void save_world(Engine *e, World *world, json &j);
 
-    void save_world(World *world, const VultrSource &out);
+    void save_world(Engine *e, World *world, const VultrSource &out);
 
     void destroy_world(World *world);
 
@@ -29,13 +29,13 @@ namespace Vultr
 
     // World ImportWorld(const std::string &path);
 
-    World *load_world(const json &j, const ComponentRegistry &r);
+    World *load_world(Engine *e, const json &j, const ComponentRegistry &r);
 
-    World *load_world(const VultrSource &file, const ComponentRegistry &r);
+    World *load_world(Engine *e, const VultrSource &file, const ComponentRegistry &r);
 
     // Entity methods, just wrappers around existing methods
     Entity create_entity(World *world);
-    void destroy_entity(World *world, Entity entity);
+    void destroy_entity(Engine *e, World *world, Entity entity);
     std::set<Entity> get_entities(World *world, Signature signature);
     Signature get_entity_signature(World *world, Entity entity);
 

@@ -17,13 +17,14 @@ Editor::Editor() : selected_entity(Entity(0))
 {
 }
 
+// TODO: AHHH MORE FUCKING GLOBAL VARIABLES KILL ME
 Editor &get_editor()
 {
     static Editor instance;
     return instance;
 }
 
-void editor_register_window(WindowRenderer renderer, void *state)
+void editor_register_window(Vultr::Engine *e, WindowRenderer renderer, void *state)
 {
     get_editor().windows.push_back({
         .renderer = renderer,
@@ -31,12 +32,12 @@ void editor_register_window(WindowRenderer renderer, void *state)
     });
 }
 
-void delete_entity()
+void delete_entity(Vultr::Engine *e)
 {
     auto &m = get_editor();
     if (m.selected_entity == INVALID_ENTITY)
         return;
-    auto *world = get_current_world();
+    auto *world = get_current_world(e);
 
     auto &component_manager = world_get_component_manager(world);
     auto *event = new EntityDestroyEvent();
@@ -50,16 +51,16 @@ void delete_entity()
         }
     }
     event->entity = selected_entity;
-    destroy_entity(selected_entity);
+    destroy_entity(e, selected_entity);
     on_edit(event);
 }
 
-void select_entity(Entity entity)
+void select_entity(Vultr::Engine *e, Entity entity)
 {
     get_editor().selected_entity = entity;
 }
 
-void editor_render(const UpdateTick &tick)
+void editor_render(Vultr::Engine *e, const UpdateTick &tick)
 {
     auto &m = get_editor();
 
@@ -97,7 +98,7 @@ void editor_render(const UpdateTick &tick)
         for (auto &pair : m.windows)
         {
             ImGui::SetNextWindowDockID(m.dockspace, ImGuiCond_FirstUseEver);
-            pair.renderer(tick, pair.state);
+            pair.renderer(e, tick, pair.state);
         }
         ImGui::End();
     }
@@ -129,7 +130,7 @@ void editor_render(const UpdateTick &tick)
                 if (!gm.game_running)
                 {
                     World *cached_world = new InternalWorld();
-                    auto *world = get_current_world();
+                    auto *world = get_current_world(e);
                     component_manager_copy(cached_world->component_manager, world->component_manager);
                     cached_world->entity_manager = world->entity_manager;
                     cached_world->system_manager = world->system_manager;
@@ -137,7 +138,7 @@ void editor_render(const UpdateTick &tick)
                         delete gm.cached_world;
                     gm.cached_world = cached_world;
 
-                    engine_init_game(engine_global());
+                    engine_init_game(e);
                     gm.game_running = true;
                 }
 
@@ -152,7 +153,7 @@ void editor_render(const UpdateTick &tick)
             {
                 gm.playing = false;
                 gm.game_running = false;
-                change_world(gm.cached_world);
+                change_world(e, gm.cached_world);
             }
         }
 
@@ -168,21 +169,21 @@ void editor_render(const UpdateTick &tick)
     glEnable(GL_DEPTH_TEST);
 }
 
-void save()
+void save(Vultr::Engine *e)
 {
-    save_world(get_current_world(), VultrSource("test_world.vultr"));
+    save_world(e, get_current_world(e), VultrSource("test_world.vultr"));
 }
 
-void duplicate_entity()
+void duplicate_entity(Vultr::Engine *e)
 {
     auto &m = get_editor();
     Entity selected_entity = m.selected_entity;
     if (selected_entity == INVALID_ENTITY)
         return;
-    auto *world = get_current_world();
+    auto *world = get_current_world(e);
     Entity duplicate = create_entity(world);
     auto &component_manager = world_get_component_manager(world);
-    for (auto [type, data] : engine_global()->component_registry.components)
+    for (auto [type, data] : e->component_registry.components)
     {
         auto *component_array = component_manager.component_arrays[type];
         if (component_array->HasData(selected_entity))
@@ -191,7 +192,7 @@ void duplicate_entity()
         }
     }
     auto signature = get_entity_signature(world, selected_entity);
-    system_manager_entity_signature_changed(world_get_system_manager(world), duplicate, signature);
-    system_manager_entity_signature_changed(engine_global()->system_manager, duplicate, signature);
+    system_manager_entity_signature_changed(e, world_get_system_manager(world), duplicate, signature);
+    system_manager_entity_signature_changed(e, e->system_manager, duplicate, signature);
     entity_manager_set_signature(world_get_entity_manager(world), duplicate, signature);
 }

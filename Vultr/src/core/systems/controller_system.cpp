@@ -11,21 +11,21 @@
 namespace Vultr::ControllerSystem
 {
 
-    void init(GLFWwindow *window)
+    void init(Engine *e, GLFWwindow *window)
     {
-        get_provider().window = window;
+        get_provider(e).window = window;
     }
 
-    void update(float delta_time)
+    void update(Engine *e, float delta_time)
     {
-        auto &transform_component = CameraSystem::get_provider().scene_camera.transform_component;
+        auto &transform_component = CameraSystem::get_provider(e).scene_camera.transform_component;
 
-        auto &controller_component = CameraSystem::get_provider().scene_camera.controller_component;
+        auto &controller_component = CameraSystem::get_provider(e).scene_camera.controller_component;
 
-        if (!InputSystem::mouse_is_on_screen(InputSystem::get_provider().scene_mouse_pos))
+        if (!InputSystem::mouse_is_on_screen(e, InputSystem::get_provider(e).scene_mouse_pos))
             return;
 
-        ControllerSystem::Component &provider = get_provider();
+        ControllerSystem::Component &provider = get_provider(e);
         if (!provider.focused)
             return;
         if (!glfwGetMouseButton(provider.window, GLFW_MOUSE_BUTTON_RIGHT))
@@ -33,7 +33,7 @@ namespace Vultr::ControllerSystem
             glfwSetInputMode(provider.window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
             return;
         }
-        Vec2 dimensions = RenderSystem::get_dimensions(SCENE);
+        Vec2 dimensions = RenderSystem::get_dimensions(e, SCENE);
 
         double xpos, ypos;
         glfwGetCursorPos(provider.window, &xpos, &ypos);
@@ -79,19 +79,20 @@ namespace Vultr::ControllerSystem
     }
     void window_focus_callback(GLFWwindow *window, int focused)
     {
-        Component &provider = get_provider();
+        Engine *e = get_engine(window);
+        Component &provider = get_provider(e);
         provider.focused = focused;
         if (provider.focused)
         {
-            glfwSetCursorPos(provider.window, RenderSystem::get_dimensions(GAME).x / 2, RenderSystem::get_dimensions(GAME).y / 2);
+            glfwSetCursorPos(provider.window, RenderSystem::get_dimensions(e, GAME).x / 2, RenderSystem::get_dimensions(e, GAME).y / 2);
         }
     }
 
-    void register_system()
+    void register_system(Engine *e)
     {
         Signature signature;
-        signature.set(get_component_type<ControllerComponent>(), true);
-        signature.set(get_component_type<TransformComponent>(), true);
-        register_global_system<Component>(signature, nullptr, nullptr);
+        signature.set(get_component_type<ControllerComponent>(e), true);
+        signature.set(get_component_type<TransformComponent>(e), true);
+        register_global_system<Component>(e, signature, nullptr, nullptr);
     }
 } // namespace Vultr::ControllerSystem

@@ -12,25 +12,26 @@
 
 using namespace Vultr;
 
-static void on_mouse_click(MouseButtonEvent event)
+static void on_mouse_click(Engine *e, MouseButtonEvent event)
 {
     if (event.button != Input::MOUSE_LEFT)
         return;
-    if (!InputSystem::mouse_is_on_screen(InputSystem::get_provider().scene_mouse_pos))
+    if (!InputSystem::mouse_is_on_screen(e, InputSystem::get_provider(e).scene_mouse_pos))
         return;
-    Vec2 pos = InputSystem::get_provider().scene_mouse_pos * RenderSystem::get_dimensions(SCENE);
-    Entity entity = RenderSystem::get_entity_at_pixel(pos.x, pos.y);
+    Vec2 pos = InputSystem::get_provider(e).scene_mouse_pos * RenderSystem::get_dimensions(e, SCENE);
+    Entity entity = RenderSystem::get_entity_at_pixel(e, pos.x, pos.y);
     if (entity != INVALID_ENTITY)
         get_editor().selected_entity = entity;
 }
 
+// TODO: AHHH GLOBAL FUCKING VARIABLE WHAT IS WRONG WITH ME
 static SceneWindow *&get_scene_window()
 {
     static SceneWindow *window = nullptr;
     return window;
 }
 
-static void on_key_press(KeyEvent event)
+static void on_key_press(Engine *e, KeyEvent event)
 {
     if (event.action != Input::PRESS)
         return;
@@ -38,34 +39,34 @@ static void on_key_press(KeyEvent event)
     {
         case Input::KEY_S:
         {
-            if (InputSystem::get_key(Input::KEY_CONTROL))
+            if (InputSystem::get_key(e, Input::KEY_CONTROL))
             {
-                save();
+                save(e);
                 std::cout << "Saved! \n";
             }
             break;
         }
         case Input::KEY_D:
         {
-            if (InputSystem::get_key(Input::KEY_CONTROL))
+            if (InputSystem::get_key(e, Input::KEY_CONTROL))
             {
-                duplicate_entity();
+                duplicate_entity(e);
                 std::cout << "Duplicated! \n";
             }
             break;
         }
         case Input::KEY_Z:
         {
-            if (InputSystem::get_key(Input::KEY_CONTROL))
+            if (InputSystem::get_key(e, Input::KEY_CONTROL))
             {
-                if (InputSystem::get_key(Input::KEY_SHIFT))
+                if (InputSystem::get_key(e, Input::KEY_SHIFT))
                 {
-                    redo();
+                    redo(e);
                     std::cout << "Redo! \n";
                 }
                 else
                 {
-                    undo();
+                    undo(e);
                     std::cout << "Undo! \n";
                 }
             }
@@ -75,13 +76,13 @@ static void on_key_press(KeyEvent event)
         {
             if (get_editor().selected_entity != INVALID_ENTITY)
             {
-                delete_entity();
+                delete_entity(e);
             }
             break;
         }
         case Input::KEY_Q:
         {
-            if (InputSystem::get_mouse_button(Input::MOUSE_RIGHT))
+            if (InputSystem::get_mouse_button(e, Input::MOUSE_RIGHT) == 0)
             {
                 get_scene_window()->current_operation = ImGuizmo::OPERATION::TRANSLATE;
             }
@@ -89,7 +90,7 @@ static void on_key_press(KeyEvent event)
         }
         case Input::KEY_W:
         {
-            if (InputSystem::get_mouse_button(Input::MOUSE_RIGHT))
+            if (InputSystem::get_mouse_button(e, Input::MOUSE_RIGHT) == 0)
             {
                 get_scene_window()->current_operation = ImGuizmo::OPERATION::ROTATE;
             }
@@ -97,7 +98,7 @@ static void on_key_press(KeyEvent event)
         }
         case Input::KEY_E:
         {
-            if (InputSystem::get_mouse_button(Input::MOUSE_RIGHT))
+            if (InputSystem::get_mouse_button(e, Input::MOUSE_RIGHT) == 0)
             {
                 get_scene_window()->current_operation = ImGuizmo::OPERATION::SCALE;
             }
@@ -108,23 +109,23 @@ static void on_key_press(KeyEvent event)
     }
 }
 
-void register_scene_window()
+void register_scene_window(Engine *e)
 {
     void *state = static_cast<void *>(new SceneWindow());
     get_scene_window() = static_cast<SceneWindow *>(state);
-    editor_register_window(scene_window_render, state);
-    InputSystem::set_mouse_button_listener(on_mouse_click);
-    InputSystem::set_key_listener(on_key_press);
+    editor_register_window(e, scene_window_render, state);
+    InputSystem::set_mouse_button_listener(e, on_mouse_click);
+    InputSystem::set_key_listener(e, on_key_press);
 }
 
-void scene_window_render(const UpdateTick &tick, void *_state)
+void scene_window_render(Engine *e, const UpdateTick &tick, void *_state)
 {
     // General state things
     auto *state = static_cast<SceneWindow *>(_state);
 
     // Save the system providers here for easy access
-    auto &render_system_provider = RenderSystem::get_provider();
-    auto &camera_system_provider = CameraSystem::get_provider();
+    auto &render_system_provider = RenderSystem::get_provider(e);
+    auto &camera_system_provider = CameraSystem::get_provider(e);
 
     // For the scene window we will need the scene texture
     auto texture = get_framebuffer_color_texture(render_system_provider.scene.fbo, 0);
@@ -133,9 +134,9 @@ void scene_window_render(const UpdateTick &tick, void *_state)
     // Draw all imgui windows
     ImGui::Begin("Scene");
     ImVec2 viewport_panel_size = ImGui::GetContentRegionAvail();
-    RenderSystem::resize(viewport_panel_size.x, viewport_panel_size.y, SCENE);
+    RenderSystem::resize(e, viewport_panel_size.x, viewport_panel_size.y, SCENE);
     ImVec2 position = ImGui::GetCursorScreenPos();
-    RenderSystem::update_viewport_pos(position.x, position.y, SCENE);
+    RenderSystem::update_viewport_pos(e, position.x, position.y, SCENE);
 
     // Get rid of incorrect warnings
 #pragma clang diagnostic push
@@ -164,11 +165,11 @@ void scene_window_render(const UpdateTick &tick, void *_state)
         // Editor camera
         const auto &editor_camera_component = camera_system_provider.scene_camera.camera_component;
         const auto &editor_camera_transform = camera_system_provider.scene_camera.transform_component;
-        const auto &cameraProjection = editor_camera_component.GetProjectionMatrix(RenderSystem::get_dimensions(SCENE).x, RenderSystem::get_dimensions(SCENE).y);
+        const auto &cameraProjection = editor_camera_component.GetProjectionMatrix(RenderSystem::get_dimensions(e, SCENE).x, RenderSystem::get_dimensions(e, SCENE).y);
         auto cameraView = editor_camera_transform.GetViewMatrix();
 
         // Entity transform
-        auto *tc = entity_get_component_unsafe<TransformComponent>(selected_entity);
+        auto *tc = entity_get_component_unsafe<TransformComponent>(e, selected_entity);
 
         // If an entity is selected
         if (tc != nullptr)
@@ -177,7 +178,7 @@ void scene_window_render(const UpdateTick &tick, void *_state)
             static bool was_using_guizmo = false;
             static TransformComponent copy;
 
-            bool snap = InputSystem::get_key(Input::KEY_SHIFT) > 0;
+            bool snap = InputSystem::get_key(e, Input::KEY_SHIFT) > 0;
             float snap_value = 0.5f;
 
             if (state->current_operation == ImGuizmo::OPERATION::ROTATE)
@@ -210,8 +211,8 @@ void scene_window_render(const UpdateTick &tick, void *_state)
                 event->before = copy;
                 event->after = *tc;
                 event->entities = {selected_entity};
-                event->type = get_component_type<TransformComponent>();
-                engine_send_update_event(event);
+                event->type = get_component_type<TransformComponent>(e);
+                engine_send_update_event(e, event);
             }
 
             was_using_guizmo = ImGuizmo::IsUsing();

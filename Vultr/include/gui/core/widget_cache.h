@@ -6,12 +6,13 @@ namespace Vultr
 {
     namespace IMGUI
     {
+        struct Context;
 
         typedef u32 WidgetType;
 #define MAX_WIDGETS 1000
         struct IWidgetCache
         {
-            virtual void widget_destroyed(UI_ID id){};
+            virtual void widget_destroyed(Context *c, UI_ID id){};
             virtual bool has_data(UI_ID id)
             {
                 return false;
@@ -21,15 +22,15 @@ namespace Vultr
         };
 
         template <typename T>
-        void destroy_cache(T &cache);
+        void destroy_cache(Context *c, T &cache);
 
         template <typename T>
-        void initialize_cache(T &cache){};
+        void initialize_cache(Context *c, T &cache){};
 
         template <typename T>
         struct WidgetCache : IWidgetCache
         {
-            void insert_data(UI_ID id)
+            void insert_data(Context *c, UI_ID id)
             {
                 assert(widget_to_index_map.find(id) == widget_to_index_map.end() && "Cache added to same widget more than once");
 
@@ -45,12 +46,12 @@ namespace Vultr
                 // Set the component in the component_array
                 cache_array[new_index] = T{};
 
-                initialize_cache<T>(cache_array[new_index]);
+                initialize_cache<T>(c, cache_array[new_index]);
 
                 ++size;
             }
 
-            void remove_data(UI_ID id)
+            void remove_data(Context *c, UI_ID id)
             {
                 assert(widget_to_index_map.find(id) != widget_to_index_map.end() && "Attempting to remove nonexistent widget cache");
 
@@ -60,7 +61,7 @@ namespace Vultr
                 // Get the index of the last element of the component array
                 size_t index_of_last_element = size - 1;
 
-                destroy_cache(cache_array[index_of_removed_widget]);
+                destroy_cache(c, cache_array[index_of_removed_widget]);
 
                 // Move the last element of the component array into the removed entity's
                 // index
@@ -85,11 +86,11 @@ namespace Vultr
                 }
             }
 
-            void widget_destroyed(UI_ID id) override
+            void widget_destroyed(Context *c, UI_ID id) override
             {
                 if (widget_to_index_map.find(id) != widget_to_index_map.end())
                 {
-                    remove_data(id);
+                    remove_data(c, id);
                 }
             }
 

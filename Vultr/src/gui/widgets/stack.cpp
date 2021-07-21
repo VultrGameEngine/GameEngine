@@ -6,7 +6,7 @@ using namespace Vultr;
 #define __stack_cache_id ui_id(__FILE__)
 
 template <>
-void IMGUI::destroy_cache<IMGUI::StackState>(StackState &cache){};
+void IMGUI::destroy_cache<IMGUI::StackState>(Context *c, StackState &cache){};
 
 void IMGUI::begin_stack(Context *c, UI_ID id, StackStyle style)
 {

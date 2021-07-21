@@ -9,5 +9,5 @@ struct AssetBrowser
     s32 selected = -1;
 };
 
-void register_asset_browser(const Vultr::Directory &current_dir);
-void asset_browser_render(const Vultr::UpdateTick &tick, void *state);
+void register_asset_browser(Vultr::Engine *e, const Vultr::Directory &current_dir);
+void asset_browser_render(Vultr::Engine *e, const Vultr::UpdateTick &tick, void *state);

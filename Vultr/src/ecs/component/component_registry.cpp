@@ -13,11 +13,11 @@ namespace Vultr
         return r.components.find(type) != r.components.end();
     }
 
-    void component_registry_render_entity_components(const ComponentRegistry &r, Entity entity)
+    void component_registry_render_entity_components(Engine *e, const ComponentRegistry &r, Entity entity)
     {
         for (auto const [type, data] : r.components)
         {
-            data.component_renderer(entity);
+            data.component_renderer(e, entity);
         }
     }
 

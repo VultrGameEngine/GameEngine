@@ -8,35 +8,35 @@
 
 namespace Vultr::TextureLoaderSystem
 {
-    void check_and_load_texture(Entity entity);
+    void check_and_load_texture(Engine *e, Entity entity);
 
-    void register_system()
+    void register_system(Engine *e)
     {
         Signature signature;
-        signature.set(get_component_type<MaterialComponent>());
-        register_global_system<Component>(signature, on_create_entity, nullptr);
+        signature.set(get_component_type<MaterialComponent>(e));
+        register_global_system<Component>(e, signature, on_create_entity, nullptr);
     }
 
-    void update()
+    void update(Engine *e)
     {
-        auto &provider = get_provider();
+        auto &provider = get_provider(e);
         for (Entity entity : provider.entities)
         {
-            check_and_load_texture(entity);
+            check_and_load_texture(e, entity);
         }
     }
 
-    void on_create_entity(Entity entity)
+    void on_create_entity(Engine *e, Entity entity)
     {
-        check_and_load_texture(entity);
+        check_and_load_texture(e, entity);
     }
 
-    void load_texture(const MaterialComponent &mat)
+    void load_texture(Engine *e, const MaterialComponent &mat)
     {
-        auto &provider = get_provider();
+        auto &provider = get_provider(e);
         for (auto [source, slot, name] : mat.textures)
         {
-            if (!is_loaded(source))
+            if (!is_loaded(e, source))
             {
                 provider.textures[source.path.string()] = {};
                 TextureImporter::import(provider.textures[source.path.string()], source);
@@ -44,27 +44,29 @@ namespace Vultr::TextureLoaderSystem
         }
     }
 
-    void check_and_load_texture(Entity entity)
+    void check_and_load_texture(Engine *e, Entity entity)
     {
-        auto &provider = get_provider();
-        auto &component = entity_get_component<MaterialComponent>(entity);
+        auto &provider = get_provider(e);
+        auto &component = entity_get_component<MaterialComponent>(e, entity);
         Signature signature;
-        signature.set(get_component_type<SkyBoxComponent>());
-        if (entity_has_component<SkyBoxComponent>(entity))
+        signature.set(get_component_type<SkyBoxComponent>(e));
+        if (entity_has_component<SkyBoxComponent>(e, entity))
         {
-            auto &skybox_component = entity_get_component<SkyBoxComponent>(entity);
-            if (!is_loaded(skybox_component.identifier.c_str()))
-            {
-                auto texture = generate_texture(GL_TEXTURE_CUBE_MAP);
-                provider.textures[skybox_component.identifier] = texture;
-                TextureImporter::import_skybox(texture, component.get_paths());
-            }
+            auto &skybox_component = entity_get_component<SkyBoxComponent>(e, entity);
+            // TODO: Make this hashed by default
+            // auto skybox_id = std::to_string(skybox_component.identifier);
+            // if (!is_loaded(skybox_id))
+            // {
+            //     auto texture = generate_texture(GL_TEXTURE_CUBE_MAP);
+            //     provider.textures[skybox_id] = texture;
+            //     TextureImporter::import_skybox(texture, component.get_paths());
+            // }
         }
         else
         {
             for (auto [file, slot, name] : component.textures)
             {
-                if (!is_loaded(file))
+                if (!is_loaded(e, file))
                 {
                     auto new_tex = generate_texture(GL_TEXTURE_2D);
                     bool successful = TextureImporter::import(new_tex, file);

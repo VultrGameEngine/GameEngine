@@ -1,5 +1,5 @@
 #pragma once
 #include <editor.h>
 
-void register_game_window();
-void game_window_render(const Vultr::UpdateTick &tick, void *state);
+void register_game_window(Vultr::Engine *e);
+void game_window_render(Vultr::Engine *e, const Vultr::UpdateTick &tick, void *state);

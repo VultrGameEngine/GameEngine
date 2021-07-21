@@ -4,11 +4,12 @@
 // MeshLoaderSystem will do that with the specified path
 
 #pragma once
+#include <engine.hpp>
 #include <ecs/entity/entity.hpp>
 
 namespace Vultr::MeshLoaderSystem
 {
-    void register_system();
-    void update();
-    void on_create_entity(Entity entity);
+    void register_system(Engine *e);
+    void update(Engine *e);
+    void on_create_entity(Engine *e, Entity entity);
 } // namespace Vultr::MeshLoaderSystem

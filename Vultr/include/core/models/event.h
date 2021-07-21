@@ -20,31 +20,31 @@ namespace Vultr
         T before;
         T after;
 
-        void Undo(Vultr::Engine *engine) override
+        void Undo(Vultr::Engine *e) override
         {
-            for (Entity e : entities)
+            for (Entity entity : entities)
             {
-                if (!entity_has_component<T>(e))
+                if (!entity_has_component<T>(e, entity))
                 {
-                    std::cout << "Failed to undo!" << std::endl;
+                    fprintf(stderr, "Failed to undo!");
                     return;
                 }
 
-                entity_get_component<T>(e) = before;
+                entity_get_component<T>(e, entity) = before;
             }
         }
 
-        void Redo(Vultr::Engine *engine) override
+        void Redo(Vultr::Engine *e) override
         {
-            for (Entity e : entities)
+            for (Entity entity : entities)
             {
-                if (!entity_has_component<T>(e))
+                if (!entity_has_component<T>(e, entity))
                 {
-                    std::cout << "Failed to redo!" << std::endl;
+                    fprintf(stderr, "Failed to redo!");
                     return;
                 }
 
-                entity_get_component<T>(e) = after;
+                entity_get_component<T>(e, entity) = after;
             }
         }
     };
@@ -54,10 +54,10 @@ namespace Vultr
         Vultr::Entity entity;
         std::unordered_map<Vultr::ComponentType, void *> components;
 
-        void Undo(Vultr::Engine *engine) override
+        void Undo(Vultr::Engine *e) override
         {
-            entity = create_entity(get_current_world());
-            auto *world = get_current_world();
+            entity = create_entity(get_current_world(e));
+            auto *world = get_current_world(e);
             auto &component_manager = world_get_component_manager(world);
             Signature signature;
             for (auto [type, component] : components)
@@ -65,15 +65,15 @@ namespace Vultr
                 component_manager.component_arrays[type]->InsertData(entity, component);
                 signature.set(type);
             }
-            system_manager_entity_signature_changed(world_get_system_manager(world), entity, signature);
+            system_manager_entity_signature_changed(e, world_get_system_manager(world), entity, signature);
 
-            system_manager_entity_signature_changed(engine_global()->system_manager, entity, signature);
+            system_manager_entity_signature_changed(e, e->system_manager, entity, signature);
             entity_manager_set_signature(world_get_entity_manager(world), entity, signature);
         }
 
-        void Redo(Vultr::Engine *engine) override
+        void Redo(Vultr::Engine *e) override
         {
-            destroy_entity(entity);
+            destroy_entity(e, entity);
         }
 
         ~EntityDestroyEvent()

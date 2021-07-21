@@ -1,4 +1,5 @@
 #pragma once
+#include <engine.hpp>
 #include <ecs/system/system_provider.hpp>
 #include <unordered_map>
 #include <type_info/type_info.h>
@@ -15,9 +16,9 @@ namespace Vultr
             std::unordered_map<std::string, Shader> loaded_shaders;
         };
 
-        Component &get_provider();
+        Component &get_provider(Engine *e);
 
-        Shader get_shader(const ShaderSource &source);
+        Shader get_shader(Engine *e, const ShaderSource &source);
     } // namespace ShaderLoaderSystem
 
     template <>

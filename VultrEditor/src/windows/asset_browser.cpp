@@ -62,24 +62,24 @@ static void on_back(void *_state)
     }
 }
 
-static void on_back_button_listener(MouseButtonEvent event)
+static void on_back_button_listener(Engine *e, MouseButtonEvent event)
 {
     if (event.button == Input::MOUSE_BUTTON_4 && event.action == GLFW_PRESS)
         on_back(static_cast<void *>(get_asset_browser()));
 }
 
-void register_asset_browser(const Vultr::Directory &current_dir)
+void register_asset_browser(Engine *e, const Vultr::Directory &current_dir)
 {
     AssetBrowser *state = new AssetBrowser();
     state->current_directory = current_dir;
     get_asset_browser() = state;
     WindowRenderer renderer = asset_browser_render;
-    editor_register_window(renderer, static_cast<void *>(state));
+    editor_register_window(e, renderer, static_cast<void *>(state));
 
-    InputSystem::set_mouse_button_listener(on_back_button_listener);
+    InputSystem::set_mouse_button_listener(e, on_back_button_listener);
 }
 
-void asset_browser_render(const Vultr::UpdateTick &tick, void *_state)
+void asset_browser_render(Engine *e, const Vultr::UpdateTick &tick, void *_state)
 {
     ImGui::Begin("Asset Browser");
 
@@ -220,8 +220,8 @@ void asset_browser_render(const Vultr::UpdateTick &tick, void *_state)
                         if (file_get_extension_type(file) == File::VULTR)
                         {
                             // Load the world
-                            World *world = load_world(VultrSource(file.path.string()), engine_global()->component_registry);
-                            change_world(world);
+                            World *world = load_world(e, VultrSource(file.path.string()), e->component_registry);
+                            change_world(e, world);
                         }
                     }
                 }

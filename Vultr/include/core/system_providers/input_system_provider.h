@@ -24,31 +24,31 @@ namespace Vultr
             std::vector<OnCharacter> character_listeners;
         };
 
-        Component &get_provider();
+        Component &get_provider(Engine *e);
 
-        Input::Action get_key(Input::Key key);
-        Input::Action get_mouse_button(Input::MouseButton button);
+        Input::Action get_key(Engine *e, Input::Key key);
+        Input::Action get_mouse_button(Engine *e, Input::MouseButton button);
 
-        bool mouse_is_on_screen();
-        bool mouse_is_on_screen(Vec2 pos);
+        bool mouse_is_on_screen(Engine *e);
+        bool mouse_is_on_screen(Engine *e, Vec2 pos);
 
-        const Input::MousePos &get_mouse_position();
-        const Input::MousePos &get_scene_mouse_position();
+        const Input::MousePos &get_mouse_position(Engine *e);
+        const Input::MousePos &get_scene_mouse_position(Engine *e);
 
-        void set_mouse_pos_listener(OnMousePositionChange listener);
-        void deregister_mouse_pos_listener(OnMousePositionChange listener);
+        void set_mouse_pos_listener(Engine *e, OnMousePositionChange listener);
+        void deregister_mouse_pos_listener(Engine *e, OnMousePositionChange listener);
 
-        void set_mouse_button_listener(OnMouseButton listener);
-        void deregister_mouse_button_listener(OnMouseButton listener);
+        void set_mouse_button_listener(Engine *e, OnMouseButton listener);
+        void deregister_mouse_button_listener(Engine *e, OnMouseButton listener);
 
-        void set_scroll_listener(OnScroll listener);
-        void deregister_scroll_listener(OnScroll listener);
+        void set_scroll_listener(Engine *e, OnScroll listener);
+        void deregister_scroll_listener(Engine *e, OnScroll listener);
 
-        void set_key_listener(OnKey listener);
-        void deregister_key_listener(OnKey listener);
+        void set_key_listener(Engine *e, OnKey listener);
+        void deregister_key_listener(Engine *e, OnKey listener);
 
-        void set_character_listener(OnCharacter listener);
-        void deregister_character_listener(OnCharacter listener);
+        void set_character_listener(Engine *e, OnCharacter listener);
+        void deregister_character_listener(Engine *e, OnCharacter listener);
 
     } // namespace InputSystem
 

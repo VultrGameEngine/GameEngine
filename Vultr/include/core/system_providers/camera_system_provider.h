@@ -20,7 +20,7 @@ namespace Vultr
             } scene_camera;
         };
 
-        Component &get_provider();
+        Component &get_provider(Engine *e);
 
     } // namespace CameraSystem
 

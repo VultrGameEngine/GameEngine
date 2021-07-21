@@ -29,10 +29,9 @@ namespace Vultr
             bool mouse_went_down = false;
         };
 
-        void update_mouse_state(MouseState &m, Input::MouseButton button);
-
         struct Context
         {
+            Engine *engine;
             Window window;
 
             Renderer renderer;
@@ -79,7 +78,7 @@ namespace Vultr
             StencilRequest *current_stencil = nullptr;
         };
 
-        Context *new_context(const Window &window);
+        Context *new_context(Engine *e, const Window &window);
         void delete_context(Context *c);
 
         void context_destroy_widget(Context *c, UI_ID id);
@@ -105,7 +104,7 @@ namespace Vultr
             auto *cache_array = get_widget_cache_array<T>(c, type);
             if (!cache_array->has_data(id))
             {
-                cache_array->insert_data(id);
+                cache_array->insert_data(c, id);
             }
             return cache_array->get_data(id);
         }
@@ -169,6 +168,5 @@ namespace Vultr
         void set_not_hot(Context *c, UI_ID id);
         void set_active(Context *c, UI_ID id);
         void set_not_active(Context *c, UI_ID id);
-
     } // namespace IMGUI
 } // namespace Vultr

@@ -1,16 +1,15 @@
 #pragma once
+#include <engine.hpp>
 #include <core/components/material_component.h>
 #include <rendering/types/mesh.h>
 
 namespace Vultr::Renderer3D
 {
-
-    class ForwardRenderer
+    namespace ForwardRenderer
     {
-      public:
         // Render a vao and ibo with a shader and transform
-        static void Submit(const MaterialComponent &material, const Mat4 &transform, const Mesh &mesh, const char *skybox_identifier = nullptr);
-        static void BindMaterial(const MaterialComponent &material, const Mat4 &transform, const char *skybox_identifier = nullptr);
-    };
+        void submit(Engine *e, const MaterialComponent &material, const Mat4 &transform, const Mesh &mesh, u32 skybox_identifier = 0);
+        void bind_material(Engine *e, const MaterialComponent &material, const Mat4 &transform, u32 skybox_identifier = 0);
+    }; // namespace ForwardRenderer
 
 } // namespace Vultr::Renderer3D

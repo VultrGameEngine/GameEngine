@@ -6,9 +6,9 @@ using namespace Vultr;
 #define __text_input_cache_id ui_id(__FILE__)
 
 template <>
-void IMGUI::initialize_cache(IMGUI::TextInputState &cache)
+void IMGUI::initialize_cache(Context *c, IMGUI::TextInputState &cache)
 {
-    InputSystem::set_key_listener([&cache](KeyEvent event) {
+    InputSystem::set_key_listener(c->engine, [&cache](Engine *e, KeyEvent event) {
         if (event.action == Input::PRESS || event.action == Input::REPEAT)
         {
             TextInputEvent::Type type;
@@ -39,7 +39,7 @@ void IMGUI::initialize_cache(IMGUI::TextInputState &cache)
         }
     });
 
-    InputSystem::set_character_listener([&cache](u32 data) {
+    InputSystem::set_character_listener(c->engine, [&cache](Engine *e, u32 data) {
         cache.queued_events.push({
             .type = TextInputEvent::KEY,
             .data = char(data),
@@ -48,7 +48,7 @@ void IMGUI::initialize_cache(IMGUI::TextInputState &cache)
 }
 
 template <>
-void IMGUI::destroy_cache<IMGUI::TextInputState>(TextInputState &cache){};
+void IMGUI::destroy_cache<IMGUI::TextInputState>(Context *c, TextInputState &cache){};
 
 void IMGUI::text_input(Context *c, UI_ID id, std::string &text, TextInputStyle style)
 {

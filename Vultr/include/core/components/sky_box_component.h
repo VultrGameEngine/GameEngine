@@ -1,4 +1,5 @@
 #pragma once
+#include <stdlib.h>
 #include <glm/glm.hpp>
 #include <string>
 #include <vector>
@@ -12,13 +13,11 @@ namespace Vultr
     {
         static SkyBoxComponent Create()
         {
-            // TODO Fix this because this will not work
-            static s16 identifier = 0;
             SkyBoxComponent component = SkyBoxComponent();
-            component.identifier = std::to_string(++identifier);
+            component.identifier = 1; // rand() % 10000;
             return component;
         }
 
-        std::string identifier;
+        u32 identifier;
     };
 } // namespace Vultr

@@ -14,7 +14,7 @@ namespace Vultr
             std::set<Entity> point_lights;
         };
 
-        Component &get_provider();
+        Component &get_provider(Engine *e);
     } // namespace LightSystem
 
     template <>

@@ -7,60 +7,64 @@
 
 namespace Vultr::LightSystem
 {
-    void register_system()
+    void register_system(Engine *e)
     {
         Signature signature;
-        signature.set(get_component_type<LightComponent>(), true);
-        signature.set(get_component_type<TransformComponent>(), true);
-        register_global_system<Component>(signature, nullptr, on_destroy_entity);
+        signature.set(get_component_type<LightComponent>(e), true);
+        signature.set(get_component_type<TransformComponent>(e), true);
+        register_global_system<Component>(e, signature, nullptr, on_destroy_entity);
     }
 
-    static void remove_extraneous_point_lights(Entity e)
+    static void remove_extraneous_point_lights(Engine *e, Entity entity)
     {
-        auto &provider = get_provider();
-        if (provider.point_lights.find(e) != provider.point_lights.end())
+        auto &p = get_provider(e);
+        if (p.point_lights.find(entity) != p.point_lights.end())
         {
-            provider.point_lights.erase(e);
+            p.point_lights.erase(entity);
         }
     }
 
-    void update()
+    void update(Engine *e)
     {
-        auto &provider = get_provider();
-        for (auto e : provider.entities)
+        auto &p = get_provider(e);
+        for (auto entity : p.entities)
         {
-            auto &light_component = entity_get_component<LightComponent>(e);
+            auto &light_component = entity_get_component<LightComponent>(e, entity);
             switch (light_component.type)
             {
-            case LightComponent::DirectionalLight: {
-                if (provider.directional_light != INVALID_ENTITY && provider.directional_light != e)
+                case LightComponent::DirectionalLight:
                 {
-                    std::cout << "Vultr only supports 1 directional light per scene!";
+                    if (p.directional_light != INVALID_ENTITY && p.directional_light != entity)
+                    {
+                        std::cout << "Vultr only supports 1 directional light per scene!";
+                    }
+                    else
+                    {
+                        p.directional_light = entity;
+                    }
+                    remove_extraneous_point_lights(e, entity);
+                    break;
                 }
-                else
+                case LightComponent::PointLight:
                 {
-                    provider.directional_light = e;
+                    p.point_lights.insert(entity);
+                    break;
                 }
-                remove_extraneous_point_lights(e);
-                break;
-            }
-            case LightComponent::PointLight: {
-                provider.point_lights.insert(e);
-                break;
-            }
-            case LightComponent::SpotLight: {
-                break;
-            }
-            default: {
-                break;
-            }
+                case LightComponent::SpotLight:
+                {
+                    break;
+                }
+                default:
+                {
+                    break;
+                }
             }
         }
     }
 
-    void on_destroy_entity(Entity entity)
+    void on_destroy_entity(Engine *e, Entity entity)
     {
-        auto &provider = get_provider();
+        auto &provider = get_provider(e);
         if (provider.directional_light == entity)
         {
             provider.directional_light = INVALID_ENTITY;

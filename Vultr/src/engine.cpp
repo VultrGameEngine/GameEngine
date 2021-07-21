@@ -38,45 +38,43 @@ namespace Vultr
 #endif
     }
 
-    Engine *&engine_global()
+    World *get_current_world(Engine *e)
     {
-        static Engine *engine;
-        return engine;
+        return e->current_world;
     }
 
-    World *get_current_world()
+    void change_world(Engine *e, World *new_world)
     {
-        return engine_global()->current_world;
-    }
-
-    void change_world(World *new_world)
-    {
-        auto *e = engine_global();
         World *old_world = e->current_world;
         e->current_world = new_world;
         if (old_world == nullptr)
             return;
         for (Entity entity : world_get_entity_manager(old_world).living_entites)
         {
-            system_manager_entity_destroyed(e->system_manager, entity);
+            system_manager_entity_destroyed(e, e->system_manager, entity);
         }
         auto &entity_manager = world_get_entity_manager(new_world);
         auto &system_manager_world = world_get_system_manager(new_world);
         for (Entity entity : entity_manager.living_entites)
         {
             // Add the new entities to both the global systems and the new systems in the new world
-            system_manager_entity_signature_changed(e->system_manager, entity, entity_manager.signatures[entity]);
-            system_manager_entity_signature_changed(system_manager_world, entity, entity_manager.signatures[entity]);
+            system_manager_entity_signature_changed(e, e->system_manager, entity, entity_manager.signatures[entity]);
+            system_manager_entity_signature_changed(e, system_manager_world, entity, entity_manager.signatures[entity]);
         }
         destroy_world(old_world);
     }
 
-    void destroy_entity(Entity entity)
+    Engine *get_engine(GLFWwindow *window)
     {
-        auto *world = get_current_world();
+        return static_cast<Engine *>(glfwGetWindowUserPointer(window));
+    }
+
+    void destroy_entity(Engine *e, Entity entity)
+    {
+        auto *world = get_current_world(e);
         assert(world != nullptr && WORLD_DOESNT_EXIST_ERROR(destroy_entity));
-        destroy_entity(world, entity);
-        system_manager_entity_destroyed(engine_global()->system_manager, entity);
+        destroy_entity(e, world, entity);
+        system_manager_entity_destroyed(e, e->system_manager, entity);
     }
 
     void engine_init(Engine *e, bool debug)
@@ -128,6 +126,9 @@ namespace Vultr
             return;
         }
 
+        // Add our engine to the window, that way GLFW callbacks can have our engine
+        glfwSetWindowUserPointer(e->window, static_cast<void *>(e));
+
         e->debug = debug;
 
         glEnable(GL_CULL_FACE);
@@ -146,7 +147,7 @@ namespace Vultr
             ImGui::StyleColorsDark();
         }
 
-        change_world(new_world(e->component_registry));
+        change_world(e, new_world(e->component_registry));
         engine_register_default_components(e);
         engine_init_default_systems(e);
     }
@@ -158,9 +159,21 @@ namespace Vultr
         typedef void *(*GameInit_f)(void *);
         typedef void (*GameDestroy_f)(void *);
         GameInit_f init = (GameInit_f)get_function_pointer(DLL, "init");
+        auto *error = dlerror();
+        if (error != nullptr)
+        {
+            fprintf(stderr, "%s\n", error);
+            return;
+        }
         GameDestroy_f destroy = (GameDestroy_f)get_function_pointer(DLL, "flush");
+        error = dlerror();
+        if (error != nullptr)
+        {
+            fprintf(stderr, "%s\n", error);
+            return;
+        }
 
-        e->game = (Game *)init(e);
+        e->game = static_cast<Game *>(init(e));
     }
 
     void engine_load_game(Engine *e, Game *game)
@@ -170,41 +183,41 @@ namespace Vultr
 
     void engine_register_default_components(Engine *e)
     {
-        register_component<StaticMeshComponent>();
-        register_component<MaterialComponent>();
-        register_component<TransformComponent>();
-        register_component<LightComponent>();
-        register_component<CameraComponent>();
-        register_component<ControllerComponent>();
-        register_component<SkyBoxComponent>();
+        register_component<StaticMeshComponent>(e);
+        register_component<MaterialComponent>(e);
+        register_component<TransformComponent>(e);
+        register_component<LightComponent>(e);
+        register_component<CameraComponent>(e);
+        register_component<ControllerComponent>(e);
+        register_component<SkyBoxComponent>(e);
     }
 
     void engine_init_default_systems(Engine *e)
     {
-        MeshLoaderSystem::register_system();
-        ShaderLoaderSystem::register_system();
-        TextureLoaderSystem::register_system();
-        ControllerSystem::register_system();
-        CameraSystem::register_system();
-        LightSystem::register_system();
-        RenderSystem::register_system();
-        RenderSystem::init();
+        MeshLoaderSystem::register_system(e);
+        ShaderLoaderSystem::register_system(e);
+        TextureLoaderSystem::register_system(e);
+        ControllerSystem::register_system(e);
+        CameraSystem::register_system(e);
+        LightSystem::register_system(e);
+        RenderSystem::register_system(e);
+        RenderSystem::init(e);
         // GUISystem::register_system();
-        InputSystem::register_system();
-        FontSystem::register_system();
-        FontSystem::init();
-        InputSystem::init();
+        InputSystem::register_system(e);
+        FontSystem::register_system(e);
+        FontSystem::init(e);
+        InputSystem::init(e);
 
-        ControllerSystem::init(e->window);
+        ControllerSystem::init(e, e->window);
         glfwSetWindowFocusCallback(e->window, ControllerSystem::window_focus_callback);
 
-        Vec2 dimensions = RenderSystem::get_dimensions(GAME);
+        Vec2 dimensions = RenderSystem::get_dimensions(e, GAME);
     }
 
     void engine_init_game(Engine *e)
     {
         assert(e->game != nullptr && "Game has not been loaded!");
-        e->game->Init();
+        e->game->Init(e);
     }
     UpdateTick engine_update_game(Engine *e, float &last_time, bool play)
     {
@@ -216,7 +229,7 @@ namespace Vultr
         UpdateTick tick = UpdateTick(deltaTime, e->debug);
 
         if (e->game != nullptr && play)
-            e->game->Update(tick);
+            e->game->Update(e, tick);
 
         // Only continuously update the meshes if we are planning on changing
         // these components at random (really will only happen in the editor) If
@@ -224,15 +237,15 @@ namespace Vultr
         // the components
         if (e->debug)
         {
-            ShaderLoaderSystem::update();
-            TextureLoaderSystem::update();
-            MeshLoaderSystem::update();
-            ControllerSystem::update(tick.m_delta_time);
+            ShaderLoaderSystem::update(e);
+            TextureLoaderSystem::update(e);
+            MeshLoaderSystem::update(e);
+            ControllerSystem::update(e, tick.m_delta_time);
         }
 
-        LightSystem::update();
-        InputSystem::update(tick);
-        RenderSystem::update(tick);
+        LightSystem::update(e);
+        InputSystem::update(e, tick);
+        RenderSystem::update(e, tick);
         return tick;
     }
 
@@ -241,25 +254,25 @@ namespace Vultr
         return glfwGetTime();
     }
 
-    Signature entity_get_signature(Entity entity)
+    Signature entity_get_signature(Engine *e, Entity entity)
     {
-        World *world = get_current_world();
+        World *world = get_current_world(e);
         assert(world != nullptr && WORLD_DOESNT_EXIST_ERROR(entity_get_signature));
         return entity_manager_get_signature(world_get_entity_manager(world), entity);
     }
 
-    void engine_send_update_event(EditEvent *event)
+    void engine_send_update_event(Engine *e, EditEvent *event)
     {
-        OnEdit e = engine_global()->on_edit;
-        if (e != nullptr)
+        OnEdit on_edit = e->on_edit;
+        if (on_edit != nullptr)
         {
-            e(event);
+            on_edit(event);
         }
     }
     template <>
-    void RenderComponent<MaterialComponent>(Vultr::Entity entity)
+    void RenderComponent<MaterialComponent>(Engine *e, Vultr::Entity entity)
     {
-        auto *_component = entity_get_component_unsafe<MaterialComponent>(entity);
+        auto *_component = entity_get_component_unsafe<MaterialComponent>(e, entity);
         if (_component == nullptr)
             return;
         auto &component = *_component;
@@ -470,21 +483,21 @@ namespace Vultr
                 event->before = copy;
                 event->after = component;
                 event->entities = {entity};
-                event->type = get_component_type<MaterialComponent>();
-                engine_send_update_event(event);
+                event->type = get_component_type<MaterialComponent>(e);
+                engine_send_update_event(e, event);
                 std::cout << "Finished editing material component\n";
             }
 
             if (ImGui::Button("Remove"))
             {
-                entity_remove_component<MaterialComponent>(entity);
+                entity_remove_component<MaterialComponent>(e, entity);
             }
         }
     }
     template <>
-    void RenderComponent<TransformComponent>(Entity entity)
+    void RenderComponent<TransformComponent>(Engine *e, Entity entity)
     {
-        auto *component = entity_get_component_unsafe<TransformComponent>(entity);
+        auto *component = entity_get_component_unsafe<TransformComponent>(e, entity);
         if (component == nullptr)
             return;
         static TransformComponent copy;
@@ -506,13 +519,13 @@ namespace Vultr
                 event->before = copy;
                 event->after = *component;
                 event->entities = {entity};
-                event->type = get_component_type<TransformComponent>();
-                engine_send_update_event(event);
+                event->type = get_component_type<TransformComponent>(e);
+                engine_send_update_event(e, event);
             }
 
             if (ImGui::Button("Remove"))
             {
-                entity_remove_component<TransformComponent>(entity);
+                entity_remove_component<TransformComponent>(e, entity);
             }
             ImGui::PopID();
         }
@@ -524,9 +537,9 @@ namespace Vultr
     }
 
     template <>
-    void RenderComponent<StaticMeshComponent>(Entity entity)
+    void RenderComponent<StaticMeshComponent>(Engine *e, Entity entity)
     {
-        auto *component = entity_get_component_unsafe<StaticMeshComponent>(entity);
+        auto *component = entity_get_component_unsafe<StaticMeshComponent>(e, entity);
         if (component == nullptr)
             return;
 
@@ -547,12 +560,12 @@ namespace Vultr
                 event->before = copy;
                 event->after = *component;
                 event->entities = {entity};
-                event->type = get_component_type<StaticMeshComponent>();
-                engine_send_update_event(event);
+                event->type = get_component_type<StaticMeshComponent>(e);
+                engine_send_update_event(e, event);
             }
             if (ImGui::Button("Remove"))
             {
-                entity_remove_component<StaticMeshComponent>(entity);
+                entity_remove_component<StaticMeshComponent>(e, entity);
             }
             ImGui::PopID();
         }
@@ -563,9 +576,9 @@ namespace Vultr
         return "StaticMeshComponent";
     }
     template <>
-    void RenderComponent<SkyBoxComponent>(Entity entity)
+    void RenderComponent<SkyBoxComponent>(Engine *e, Entity entity)
     {
-        auto *component = entity_get_component_unsafe<SkyBoxComponent>(entity);
+        auto *component = entity_get_component_unsafe<SkyBoxComponent>(e, entity);
         if (component == nullptr)
             return;
         static SkyBoxComponent copy;
@@ -585,12 +598,12 @@ namespace Vultr
                 event->before = copy;
                 event->after = *component;
                 event->entities = {entity};
-                event->type = get_component_type<SkyBoxComponent>();
-                engine_send_update_event(event);
+                event->type = get_component_type<SkyBoxComponent>(e);
+                engine_send_update_event(e, event);
             }
             if (ImGui::Button("Remove"))
             {
-                entity_remove_component<StaticMeshComponent>(entity);
+                entity_remove_component<StaticMeshComponent>(e, entity);
             }
             ImGui::PopID();
         }
@@ -601,9 +614,9 @@ namespace Vultr
         return "SkyBoxComponent";
     }
     template <>
-    void RenderComponent<LightComponent>(Entity entity)
+    void RenderComponent<LightComponent>(Engine *e, Entity entity)
     {
-        auto *component = entity_get_component_unsafe<LightComponent>(entity);
+        auto *component = entity_get_component_unsafe<LightComponent>(e, entity);
         if (component == nullptr)
             return;
         static LightComponent copy;
@@ -719,13 +732,13 @@ namespace Vultr
                 event->before = copy;
                 event->after = *component;
                 event->entities = {entity};
-                event->type = get_component_type<LightComponent>();
-                engine_send_update_event(event);
+                event->type = get_component_type<LightComponent>(e);
+                engine_send_update_event(e, event);
             }
 
             if (ImGui::Button("Remove"))
             {
-                entity_remove_component<LightComponent>(entity);
+                entity_remove_component<LightComponent>(e, entity);
             }
             ImGui::PopID();
         }
@@ -737,9 +750,9 @@ namespace Vultr
     }
 
     template <>
-    void RenderComponent<ControllerComponent>(Entity entity)
+    void RenderComponent<ControllerComponent>(Engine *e, Entity entity)
     {
-        auto *component = entity_get_component_unsafe<ControllerComponent>(entity);
+        auto *component = entity_get_component_unsafe<ControllerComponent>(e, entity);
         if (component == nullptr)
             return;
         static ControllerComponent copy;
@@ -759,12 +772,12 @@ namespace Vultr
                 event->before = copy;
                 event->after = *component;
                 event->entities = {entity};
-                event->type = get_component_type<ControllerComponent>();
-                engine_send_update_event(event);
+                event->type = get_component_type<ControllerComponent>(e);
+                engine_send_update_event(e, event);
             }
             if (ImGui::Button("Remove"))
             {
-                entity_remove_component<ControllerComponent>(entity);
+                entity_remove_component<ControllerComponent>(e, entity);
             }
             ImGui::PopID();
         }
@@ -775,9 +788,9 @@ namespace Vultr
         return "ControllerComponent";
     }
     template <>
-    void RenderComponent<CameraComponent>(Entity entity)
+    void RenderComponent<CameraComponent>(Engine *e, Entity entity)
     {
-        auto *component = entity_get_component_unsafe<CameraComponent>(entity);
+        auto *component = entity_get_component_unsafe<CameraComponent>(e, entity);
         if (component == nullptr)
             return;
         static CameraComponent copy;
@@ -801,12 +814,12 @@ namespace Vultr
                 event->before = copy;
                 event->after = *component;
                 event->entities = {entity};
-                event->type = get_component_type<CameraComponent>();
-                engine_send_update_event(event);
+                event->type = get_component_type<CameraComponent>(e);
+                engine_send_update_event(e, event);
             }
             if (ImGui::Button("Remove"))
             {
-                entity_remove_component<CameraComponent>(entity);
+                entity_remove_component<CameraComponent>(e, entity);
             }
             ImGui::PopID();
         }

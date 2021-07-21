@@ -6,7 +6,7 @@ using namespace Vultr;
 #define __rounded_rect_cache_id ui_id(__FILE__)
 
 template <>
-void IMGUI::destroy_cache<IMGUI::RoundedRectState>(RoundedRectState &cache){};
+void IMGUI::destroy_cache<IMGUI::RoundedRectState>(Context *c, RoundedRectState &cache){};
 
 void IMGUI::begin_rounded_rect(Context *c, UI_ID id, RoundedRectStyle style)
 {

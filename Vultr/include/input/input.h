@@ -3,6 +3,7 @@
 
 namespace Vultr
 {
+    struct Engine;
     namespace Input
     {
         typedef Vec2 MousePos;
@@ -156,7 +157,7 @@ namespace Vultr
     {
         Input::MousePos pos;
     };
-    typedef void (*OnMousePositionChange)(MousePositionEvent);
+    typedef void (*OnMousePositionChange)(Vultr::Engine *, MousePositionEvent);
 
     struct MouseButtonEvent
     {
@@ -164,21 +165,21 @@ namespace Vultr
         Input::MouseButton button;
         Input::Action action;
     };
-    typedef void (*OnMouseButton)(MouseButtonEvent);
+    typedef void (*OnMouseButton)(Vultr::Engine *, MouseButtonEvent);
 
     struct ScrollEvent
     {
         Input::MousePos pos;
         Input::ScrollDir scroll_dir;
     };
-    typedef void (*OnScroll)(ScrollEvent);
+    typedef void (*OnScroll)(Vultr::Engine *, ScrollEvent);
 
     struct KeyEvent
     {
         Input::Key key;
         Input::Action action;
     };
-    typedef std::function<void(KeyEvent)> OnKey;
+    typedef std::function<void(Vultr::Engine *e, KeyEvent)> OnKey;
 
-    typedef std::function<void(u32)> OnCharacter;
+    typedef std::function<void(Vultr::Engine *e, u32)> OnCharacter;
 } // namespace Vultr

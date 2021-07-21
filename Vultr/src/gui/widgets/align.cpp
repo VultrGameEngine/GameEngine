@@ -5,7 +5,7 @@ using namespace Vultr;
 #define __align_cache_id ui_id(__FILE__)
 
 template <>
-void IMGUI::destroy_cache<IMGUI::AlignState>(AlignState &cache){};
+void IMGUI::destroy_cache<IMGUI::AlignState>(Context *c, AlignState &cache){};
 
 Vec2 IMGUI::get_alignment_position(Alignment alignment, const Vec2 &child_size, const Vec2 &parent_size)
 {

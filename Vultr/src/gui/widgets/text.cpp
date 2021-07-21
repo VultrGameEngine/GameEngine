@@ -1,3 +1,4 @@
+#include <gui/core/context.h>
 #include <gui/widgets/text.h>
 #include <helpers/font_importer.h>
 #include <core/system_providers/render_system_provider.h>
@@ -9,7 +10,7 @@ using namespace Vultr;
 #define __text_cache_id ui_id(__FILE__)
 
 template <>
-void IMGUI::destroy_cache<IMGUI::TextState>(TextState &cache)
+void IMGUI::destroy_cache<IMGUI::TextState>(Context *c, TextState &cache)
 {
     destroy_quad_batch(cache.batch);
 }
@@ -219,14 +220,14 @@ static void push_text_vertices(IMGUI::Context *c, IMGUI::TextState &state, const
 
         cursor.x = get_cursor_pos(line, paragraph.max_width, style.alignment);
 
-        for (char c : text)
+        for (char text_character : text)
         {
             // Create a new quad in our buffer
             auto &quad = quads[quad_index];
             quad = Quad();
 
             // We get the character using our font size
-            auto character = font->GetCharacter(c, style.font_size);
+            auto character = font->GetCharacter(text_character, style.font_size);
 
             // Get the UV top left posiiton
             auto uv = Vec2(character.uv, 0);
@@ -244,7 +245,7 @@ static void push_text_vertices(IMGUI::Context *c, IMGUI::TextState &state, const
             auto character_position = cursor + Vec2(character.bearing.x, -character.bearing.y);
 
             // Then set the quad position and size
-            set_quad_transform(quad, character_position, character.size);
+            set_quad_transform(c, quad, character_position, character.size);
 
             // Update the UVs
             quad.vertices[0].uv = Vec2(left, bottom);
@@ -253,8 +254,8 @@ static void push_text_vertices(IMGUI::Context *c, IMGUI::TextState &state, const
             quad.vertices[3].uv = Vec2(right, top);
 
             // Set color nd texture
-            set_quad_color(quad, style.font_color);
-            set_quad_texture_slot(quad, 0);
+            set_quad_color(c, quad, style.font_color);
+            set_quad_texture_slot(c, quad, 0);
 
             // Move the cursor
             cursor.x += character.advance.x;

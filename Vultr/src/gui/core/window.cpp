@@ -3,9 +3,9 @@
 
 using namespace Vultr;
 
-IMGUI::Window IMGUI::new_window()
+IMGUI::Window IMGUI::new_window(Engine *e)
 {
-    auto dimensions = Vultr::RenderSystem::get_dimensions(GAME);
+    auto dimensions = Vultr::RenderSystem::get_dimensions(e, GAME);
 
     Window window;
 

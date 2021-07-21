@@ -8,7 +8,7 @@ using namespace Vultr;
 #define DEFAULT_COLUMN_CHILDREN_SIZE 10
 
 template <>
-void IMGUI::destroy_cache<IMGUI::ColumnState>(ColumnState &cache)
+void IMGUI::destroy_cache<IMGUI::ColumnState>(Context *c, ColumnState &cache)
 {
     // If we can, then free the widget order array
     if (cache.widget_order != nullptr)

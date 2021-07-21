@@ -3,7 +3,7 @@
 
 namespace Vultr
 {
-    void system_manager_entity_destroyed(SystemManager &m, Entity entity)
+    void system_manager_entity_destroyed(Engine *e, SystemManager &m, Entity entity)
     {
         // Erase a destroyed entity from all system lists
         for (auto const &pair : m.system_providers)
@@ -12,12 +12,12 @@ namespace Vultr
             system->entities.erase(entity);
             if (system->on_destroy_entity != nullptr)
             {
-                system->on_destroy_entity(entity);
+                system->on_destroy_entity(e, entity);
             }
         }
     }
 
-    void system_manager_entity_signature_changed(SystemManager &m, Entity entity, Signature entity_signature)
+    void system_manager_entity_signature_changed(Engine *e, SystemManager &m, Entity entity, Signature entity_signature)
     {
         // Notify each system that an entity's signature has changed
         for (auto &pair : m.system_providers)
@@ -26,16 +26,16 @@ namespace Vultr
             auto &system = pair.second;
             auto &system_signature = pair.second->signature;
 
-            system_manager_entity_signature_changed_in_system(system, entity, entity_signature);
+            system_manager_entity_signature_changed_in_system(e, system, entity, entity_signature);
         }
     }
 
-    void system_manager_entity_signature_changed_in_system(SystemProvider *system, Entity entity, Signature entity_signature)
+    void system_manager_entity_signature_changed_in_system(Engine *e, SystemProvider *system, Entity entity, Signature entity_signature)
     {
         bool match_signature;
         if (system->match_signature != nullptr)
         {
-            match_signature = system->match_signature(entity_signature);
+            match_signature = system->match_signature(e, entity_signature);
         }
         else
         {
@@ -46,13 +46,13 @@ namespace Vultr
         if (match_signature)
         {
             // Insert into set
-            system_provider_on_create_entity(*system, entity);
+            system_provider_on_create_entity(e, *system, entity);
         }
         // Entity signature does not match system signature
         else
         {
             // Erase from set
-            system_provider_on_destroy_entity(*system, entity);
+            system_provider_on_destroy_entity(e, *system, entity);
         }
     }
 

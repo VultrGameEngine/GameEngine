@@ -6,6 +6,7 @@ namespace Vultr
 {
     namespace IMGUI
     {
+        struct Context;
         struct Quad
         {
             GUIVertex vertices[4];
@@ -23,9 +24,8 @@ namespace Vultr
             }
         };
 
-        void set_quad_transform(Quad &quad, Vec2 position, Vec2 scale);
-        void set_quad_uvs(Quad &quad, Vec2 uvs[4]);
-        void set_quad_texture_slot(Quad &quad, f32 texture_slot);
-        void set_quad_color(Quad &quad, Color color);
+        void set_quad_transform(Context *c, Quad &quad, Vec2 position, Vec2 scale);
+        void set_quad_texture_slot(Context *c, Quad &quad, f32 texture_slot);
+        void set_quad_color(Context *c, Quad &quad, Color color);
     } // namespace IMGUI
 } // namespace Vultr

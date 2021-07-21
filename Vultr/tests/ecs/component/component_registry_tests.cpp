@@ -9,8 +9,8 @@
 using namespace Vultr;
 TEST(ComponentRegistry, Serialization)
 {
-    ComponentRegistry registry;
-    component_registry_register_component<TransformComponent>(registry, [](Entity entity) {});
-    json j = registry;
-    std::cout << j.dump(4) << std::endl;
+    // ComponentRegistry registry;
+    // component_registry_register_component<TransformComponent>(registry, [](Entity entity) {});
+    // json j = registry;
+    // std::cout << j.dump(4) << std::endl;
 }

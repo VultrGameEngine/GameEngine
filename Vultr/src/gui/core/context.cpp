@@ -11,9 +11,10 @@
 
 using namespace Vultr;
 
-void IMGUI::update_mouse_state(MouseState &m, Input::MouseButton button)
+static void update_mouse_state(Engine *e, IMGUI::MouseState &m, Input::MouseButton button)
 {
-    auto state = InputSystem::get_mouse_button(button);
+    using namespace IMGUI;
+    auto state = InputSystem::get_mouse_button(e, button);
     if (m.state == state)
     {
         m.mouse_went_down = false;
@@ -66,13 +67,14 @@ void IMGUI::set_not_active(Context *c, UI_ID id)
         c->active = NO_ID;
 }
 
-IMGUI::Context *IMGUI::new_context(const IMGUI::Window &window)
+IMGUI::Context *IMGUI::new_context(Engine *e, const IMGUI::Window &window)
 {
     Context *context = new Context();
     context->window = window;
+    context->engine = e;
     context->renderer = new_imgui_renderer();
     auto default_font = FontSource("/home/brandon/Dev/Monopoly/res/fonts/Roboto-Regular.ttf");
-    context->font = FontImporter::import_font(default_font, FontSystem::get_provider().library);
+    context->font = FontImporter::import_font(default_font, FontSystem::get_provider(e).library);
     context->requests.reserve(512);
     return context;
 }
@@ -92,7 +94,7 @@ static void submit_stencil_request(IMGUI::Context *c, IMGUI::UI_ID id, const IMG
 
 void IMGUI::begin(Context *c, const UpdateTick &t)
 {
-    auto dimensions = RenderSystem::get_dimensions(GAME);
+    auto dimensions = RenderSystem::get_dimensions(c->engine, GAME);
     glViewport(0, 0, dimensions.x, dimensions.y);
     glClearColor(0.0, 0.0, 0.0, 0.0);
 
@@ -108,9 +110,9 @@ void IMGUI::begin(Context *c, const UpdateTick &t)
     glStencilFunc(GL_ALWAYS, 1, 0xFF); // All widgets will pass the stencil test by default
     glStencilMask(0x00);               // Don't update stencil buffer by default
 
-    update_mouse_state(c->left_mb, Input::MOUSE_LEFT);
-    update_mouse_state(c->right_mb, Input::MOUSE_RIGHT);
-    update_mouse_state(c->middle_mb, Input::MOUSE_MIDDLE);
+    update_mouse_state(c->engine, c->left_mb, Input::MOUSE_LEFT);
+    update_mouse_state(c->engine, c->right_mb, Input::MOUSE_RIGHT);
+    update_mouse_state(c->engine, c->middle_mb, Input::MOUSE_MIDDLE);
 
     c->delta_time = t.m_delta_time;
     c->z_index[0] = 0;
@@ -128,12 +130,12 @@ void IMGUI::widget_accessed(Context *c, UI_ID id)
     c->widget_ids_to_be_removed.erase(id);
 }
 
-static void get_gl_transform(const IMGUI::Transform &local_transform, const IMGUI::Transform &global_transform, Vec3 &gl_global_pos, Vec3 &gl_global_size, Mat4 &full_transform)
+static void get_gl_transform(IMGUI::Context *c, const IMGUI::Transform &local_transform, const IMGUI::Transform &global_transform, Vec3 &gl_global_pos, Vec3 &gl_global_size, Mat4 &full_transform)
 {
     using namespace IMGUI;
-    Vec3 local_scale = Vec3(gl_get_size(local_transform.scale), 1);
-    Vec3 global_position = Vec3(gl_get_position(global_transform.position, local_scale), 0);
-    Vec3 local_position = Vec3(gl_get_raw_position(local_transform.position), 0);
+    Vec3 local_scale = Vec3(gl_get_size(c, local_transform.scale), 1);
+    Vec3 global_position = Vec3(gl_get_position(c, global_transform.position, local_scale), 0);
+    Vec3 local_position = Vec3(gl_get_raw_position(c, local_transform.position), 0);
     Vec2 global_scale = glm::scale(Vec3(global_transform.scale, 1.0)) * Vec4(local_scale.x, local_scale.y, 0.0, 1.0);
     gl_global_pos = global_position + local_position;
     gl_global_size = Vec3(global_scale, 1);
@@ -156,7 +158,7 @@ static u8 apply_stencil(IMGUI::Context *c, IMGUI::StencilRequest *request, u8 in
         Vec3 gl_global_pos;
         Vec3 gl_global_size;
         Transform global_transform = get_widget_global_transform(c, request->id);
-        get_gl_transform(request->local_transform, global_transform, gl_global_pos, gl_global_size, full_transform);
+        get_gl_transform(c, request->local_transform, global_transform, gl_global_pos, gl_global_size, full_transform);
 
         set_uniform_matrix_4fv(request->data.material->shader, "transform", glm::value_ptr(full_transform));
         draw_mesh(request->data.mesh);
@@ -231,12 +233,12 @@ void draw_render_request(IMGUI::Context *c, IMGUI::RenderRequestContext *context
     }
     else if (r.type == RenderRequest::MESH_DRAW)
     {
-        get_gl_transform(r.local_transform, global_transform, gl_global_pos, gl_global_size, full_transform);
+        get_gl_transform(c, r.local_transform, global_transform, gl_global_pos, gl_global_size, full_transform);
     }
     else if (r.type == RenderRequest::BATCH_DRAW)
     {
         Vec3 local_scale = Vec3(r.local_transform.scale, 1);
-        Vec3 global_position = Vec3(gl_get_position(global_transform.position, local_scale), 0);
+        Vec3 global_position = Vec3(gl_get_position(c, global_transform.position, local_scale), 0);
         Vec3 local_position = Vec3(r.local_transform.position, 0);
         Vec2 inverted_global_scale = Vec2(1) - global_transform.scale;
         Vec3 offset = Vec3(inverted_global_scale * (Vec2(1) - Vec2(local_scale)) * Vec2(1, -1), 0);
@@ -296,7 +298,7 @@ void IMGUI::end(Context *c)
         {
             for (auto &[_, array] : c->cache_arrays)
             {
-                array->widget_destroyed(id);
+                array->widget_destroyed(c, id);
             }
         }
     }
@@ -366,7 +368,7 @@ IMGUI::Constraints IMGUI::get_constraints(Context *c, UI_ID id)
     auto parent = c->parent;
     if (parent == NO_ID)
     {
-        return Constraints(Vec2(0), RenderSystem::get_dimensions(GAME));
+        return Constraints(Vec2(0), c->window.dimensions);
     }
     auto parent_layout = get_widget_layout(c, parent);
     return layout_get_constraints(parent_layout, id);
@@ -442,9 +444,9 @@ bool IMGUI::mouse_over(Context *c, UI_ID id, Vec2 size)
         return false;
 
     auto top_left = c->widget_transforms.at(id).position;
-    auto mp = InputSystem::get_mouse_position();
+    auto mp = InputSystem::get_mouse_position(c->engine);
     mp.y = 1 - mp.y;
-    mp *= RenderSystem::get_dimensions(GAME);
+    mp *= RenderSystem::get_dimensions(c->engine, GAME);
     return mp.x > top_left.x && mp.x < top_left.x + size.x && mp.y > top_left.y && mp.y < top_left.y + size.y;
 }
 
@@ -506,7 +508,7 @@ void IMGUI::draw_rect(Context *c, UI_ID id, Vec2 position, Vec2 size, Material *
 void IMGUI::draw_batch(Context *c, UI_ID id, QuadBatch *batch, u32 quads, Material *material)
 {
     auto layout = get_widget_layout(c, id);
-    auto size = gl_get_size(layout.local_size);
+    auto size = gl_get_size(c, layout.local_size);
     auto pos = Vec2(1, -1) - size * Vec2(1, -1);
 
     RenderRequest request = {

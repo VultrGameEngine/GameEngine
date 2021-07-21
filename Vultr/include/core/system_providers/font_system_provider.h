@@ -14,7 +14,7 @@ namespace Vultr
             std::unordered_map<const char *, Font *> fonts;
         };
 
-        Component &get_provider();
+        Component &get_provider(Engine *e);
 
     } // namespace FontSystem
 

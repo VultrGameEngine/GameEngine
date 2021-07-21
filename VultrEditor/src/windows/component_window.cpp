@@ -2,21 +2,21 @@
 
 using namespace Vultr;
 
-void register_component_window()
+void register_component_window(Engine *e)
 {
     void *state = static_cast<void *>(nullptr);
     WindowRenderer renderer = component_window_render;
-    editor_register_window(component_window_render, state);
+    editor_register_window(e, component_window_render, state);
 }
 
-void component_window_render(const UpdateTick &tick, void *state)
+void component_window_render(Engine *e, const UpdateTick &tick, void *state)
 {
     ImGui::Begin("Inspector");
     Entity entity = get_editor().selected_entity;
     if (entity != INVALID_ENTITY)
     {
-        auto &registry = engine_global()->component_registry;
-        component_registry_render_entity_components(registry, entity);
+        auto &registry = e->component_registry;
+        component_registry_render_entity_components(e, registry, entity);
         if (ImGui::Button("Add Component"))
         {
             ImGui::OpenPopup("ComponentList");
@@ -25,11 +25,11 @@ void component_window_render(const UpdateTick &tick, void *state)
         {
             for (auto [type, pair] : registry.components)
             {
-                if (world_get_component_manager(get_current_world()).component_arrays[type]->HasData(entity))
+                if (world_get_component_manager(get_current_world(e)).component_arrays[type]->HasData(entity))
                     continue;
                 if (ImGui::MenuItem(component_registry_get_component_name(registry, type)))
                 {
-                    pair.component_constructor(entity);
+                    pair.component_constructor(e, entity);
                 }
             }
             ImGui::EndPopup();

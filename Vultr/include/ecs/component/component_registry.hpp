@@ -46,7 +46,7 @@ namespace Vultr
         r.component_type_to_name[type] = type_name;
 
         // Create the renderer
-        ComponentRender renderer = [](Entity entity) { RenderComponent<T>(entity); };
+        ComponentRender renderer = [](Engine *e, Entity entity) { RenderComponent<T>(e, entity); };
 
         // Create the component array constructor
         ComponentArrayConstructor array_constructor = []() { return static_cast<IComponentArray *>(new ComponentArray<T>()); };
@@ -73,7 +73,7 @@ namespace Vultr
 
     bool component_registry_is_component_registered(const ComponentRegistry &r, ComponentType type);
 
-    void component_registry_render_entity_components(const ComponentRegistry &r, Entity entity);
+    void component_registry_render_entity_components(Engine *e, const ComponentRegistry &r, Entity entity);
 
     void to_json(json &j, const ComponentRegistry &r);
 

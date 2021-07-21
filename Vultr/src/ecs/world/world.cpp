@@ -86,7 +86,7 @@ namespace Vultr
     }
     void from_json(const json &j, SkyBoxComponent &c)
     {
-        FROMJSON(identifier, std::string);
+        FROMJSON(identifier, u32);
     }
     void to_json(json &j, const StaticMeshComponent &c)
     {
@@ -350,16 +350,16 @@ namespace Vultr
         }
     }
 
-    World *load_world(const json &j, const ComponentRegistry &r)
+    World *load_world(Engine *e, const json &j, const ComponentRegistry &r)
     {
         World *world = new_world(r);
-        component_manager_from_json(j["ComponentManager"], world->component_manager, engine_global()->component_registry);
+        component_manager_from_json(j["ComponentManager"], world->component_manager, e->component_registry);
         ComponentRegistry old_registry = j["ComponentRegistry"];
-        entity_manager_from_json(j["EntityManager"], world->entity_manager, old_registry, engine_global()->component_registry);
+        entity_manager_from_json(j["EntityManager"], world->entity_manager, old_registry, e->component_registry);
         return world;
     }
 
-    World *load_world(const VultrSource &file, const ComponentRegistry &r)
+    World *load_world(Engine *e, const VultrSource &file, const ComponentRegistry &r)
     {
         assert(file_exists(file) && "Couldn't find save file!");
         std::ifstream i;
@@ -367,14 +367,14 @@ namespace Vultr
 
         json world_saved_json;
         i >> world_saved_json;
-        return load_world(world_saved_json, r);
+        return load_world(e, world_saved_json, r);
     }
 
-    void save_world(World *world, json &j)
+    void save_world(Engine *e, World *world, json &j)
     {
         json component_manager_json;
-        component_manager_to_json(component_manager_json, world_get_component_manager(world), engine_global()->component_registry);
-        json component_registry_json = engine_global()->component_registry;
+        component_manager_to_json(component_manager_json, world_get_component_manager(world), e->component_registry);
+        json component_registry_json = e->component_registry;
         json entity_manager_json = world_get_entity_manager(world);
         j = {
             {"ComponentRegistry", component_registry_json},
@@ -383,13 +383,13 @@ namespace Vultr
         };
     }
 
-    void save_world(World *_world, const VultrSource &out)
+    void save_world(Engine *e, World *_world, const VultrSource &out)
     {
         std::ofstream o;
         o.open(out.path);
         InternalWorld *world = static_cast<InternalWorld *>(_world);
         json final_output;
-        save_world(world, final_output);
+        save_world(e, world, final_output);
         o << std::setw(4) << final_output;
         o.close();
     }
@@ -405,10 +405,10 @@ namespace Vultr
         return entity_manager_create_entity(world->entity_manager);
     }
 
-    void destroy_entity(World *world, Entity entity)
+    void destroy_entity(Engine *e, World *world, Entity entity)
     {
         component_manager_entity_destroyed(world->component_manager, entity);
-        system_manager_entity_destroyed(world->system_manager, entity);
+        system_manager_entity_destroyed(e, world->system_manager, entity);
         entity_manager_destroy_entity(world->entity_manager, entity);
     }
 

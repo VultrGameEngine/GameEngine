@@ -5,7 +5,7 @@
 #include "edit_event_manager.h"
 #include "game_manager.h"
 
-typedef void (*WindowRenderer)(const Vultr::UpdateTick &tick, void *state);
+typedef void (*WindowRenderer)(Vultr::Engine *e, const Vultr::UpdateTick &tick, void *state);
 
 struct Window
 {
@@ -38,17 +38,17 @@ struct Editor
 // Get singleton instance
 Editor &get_editor();
 
-void editor_register_window(WindowRenderer renderer, void *state);
-void editor_render(const Vultr::UpdateTick &tick);
+void editor_register_window(Vultr::Engine *e, WindowRenderer renderer, void *state);
+void editor_render(Vultr::Engine *e, const Vultr::UpdateTick &tick);
 void select_entity(Vultr::Entity entity);
 
 void on_edit(Vultr::EditEvent *e);
-void undo();
-void redo();
+void undo(Vultr::Engine *e);
+void redo(Vultr::Engine *e);
 
-void save();
+void save(Vultr::Engine *e);
 
-void duplicate_entity();
+void duplicate_entity(Vultr::Engine *e);
 
 // Delete the currently selected entity
-void delete_entity();
+void delete_entity(Vultr::Engine *e);

@@ -3,16 +3,16 @@
 
 namespace Vultr::RenderSystem
 {
-    Component &get_provider()
+    Component &get_provider(Engine *e)
     {
-        return *get_global_system_provider<Component>();
+        return *get_global_system_provider<Component>(e);
     }
 
-    Vec2 get_dimensions(u8 type)
+    Vec2 get_dimensions(Engine *e, u8 type)
     {
         assert((type == GAME || type == SCENE) && "Please call this method with a valid type, either GAME or SCENE");
 
-        auto &p = get_provider();
+        auto &p = get_provider(e);
 
         if (type == GAME)
         {
@@ -24,9 +24,9 @@ namespace Vultr::RenderSystem
         }
     }
 
-    Entity get_entity_at_pixel(s32 x, s32 y)
+    Entity get_entity_at_pixel(Engine *e, s32 x, s32 y)
     {
-        auto &p = get_provider();
+        auto &p = get_provider(e);
         auto &input = p.input_data;
         bind_framebuffer(input.fbo);
         unsigned char data[4];

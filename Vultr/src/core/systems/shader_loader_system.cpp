@@ -7,29 +7,29 @@
 
 namespace Vultr::ShaderLoaderSystem
 {
-    static void check_and_load_shader(Entity entity);
-    void register_system()
+    static void check_and_load_shader(Engine *e, Entity entity);
+    void register_system(Engine *e)
     {
         Signature signature;
-        signature.set(get_component_type<MaterialComponent>(), true);
-        register_global_system<Component>(signature, on_create_entity, on_destroy_entity);
+        signature.set(get_component_type<MaterialComponent>(e), true);
+        register_global_system<Component>(e, signature, on_create_entity, on_destroy_entity);
     }
 
-    void update()
+    void update(Engine *e)
     {
-        auto &provider = get_provider();
+        auto &provider = get_provider(e);
         for (Entity entity : provider.entities)
         {
-            check_and_load_shader(entity);
+            check_and_load_shader(e, entity);
         }
     }
 
-    void on_create_entity(Entity entity)
+    void on_create_entity(Engine *e, Entity entity)
     {
-        check_and_load_shader(entity);
+        check_and_load_shader(e, entity);
     }
 
-    void on_destroy_entity(Entity entity)
+    void on_destroy_entity(Engine *e, Entity entity)
     {
         // auto &shader_component = World::GetComponent<MaterialComponent>(entity);
         // Shader *shader = shader_component.GetShader();
@@ -39,15 +39,15 @@ namespace Vultr::ShaderLoaderSystem
         // }
     }
 
-    void load_shader(const MaterialComponent &mat)
+    void load_shader(Engine *e, const MaterialComponent &mat)
     {
-        auto &provider = get_provider();
+        auto &provider = get_provider(e);
         // Get the material path
         auto source = mat.shader_source;
 
         // If we have already loaded the shader and cached it, then reuse the id and
         // don't reload
-        auto material_shader = get_shader(source);
+        auto material_shader = get_shader(e, source);
         if (is_valid_shader(material_shader))
             return;
 
@@ -62,10 +62,10 @@ namespace Vultr::ShaderLoaderSystem
         provider.loaded_shaders[source.path.string()] = shader;
     }
 
-    static void check_and_load_shader(Entity entity)
+    static void check_and_load_shader(Engine *e, Entity entity)
     {
-        auto &material_component = entity_get_component<MaterialComponent>(entity);
-        load_shader(material_component);
+        auto &material_component = entity_get_component<MaterialComponent>(e, entity);
+        load_shader(e, material_component);
     }
 
 } // namespace Vultr::ShaderLoaderSystem

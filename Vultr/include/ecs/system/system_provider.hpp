@@ -6,9 +6,10 @@
 
 namespace Vultr
 {
-    typedef void (*OnCreateEntity)(Entity);
-    typedef void (*OnDestroyEntity)(Entity);
-    typedef bool (*MatchSignature)(Signature other);
+    struct Engine;
+    typedef void (*OnCreateEntity)(Engine *, Entity);
+    typedef void (*OnDestroyEntity)(Engine *, Entity);
+    typedef bool (*MatchSignature)(Engine *, Signature other);
 
     // Alias to describe the ID of the systems
     // Every system has an ID which is just a number so we define [SystemType]
@@ -44,7 +45,7 @@ namespace Vultr
         MatchSignature match_signature = nullptr;
     };
 
-    void system_provider_on_create_entity(SystemProvider &provider, Entity entity);
-    void system_provider_on_destroy_entity(SystemProvider &provider, Entity entity);
+    void system_provider_on_create_entity(Engine *e, SystemProvider &provider, Entity entity);
+    void system_provider_on_destroy_entity(Engine *e, SystemProvider &provider, Entity entity);
 
 } // namespace Vultr

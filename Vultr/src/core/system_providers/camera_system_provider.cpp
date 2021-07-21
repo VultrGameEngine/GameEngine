@@ -3,9 +3,9 @@
 
 namespace Vultr::CameraSystem
 {
-    Component &get_provider()
+    Component &get_provider(Engine *e)
     {
-        return *get_global_system_provider<Component>();
+        return *get_global_system_provider<Component>(e);
     }
 
 } // namespace Vultr::CameraSystem

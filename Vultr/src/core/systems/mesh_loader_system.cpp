@@ -13,44 +13,44 @@
 
 namespace Vultr::MeshLoaderSystem
 {
-    static void import(const ModelSource &source)
+    static void import(Engine *e, const ModelSource &source)
     {
-        auto &provider = get_provider();
+        auto &provider = get_provider(e);
         Mesh mesh = MeshImporter::import_mesh(source);
         if (!is_valid_mesh(mesh))
             return;
-        add_mesh(source, mesh);
+        add_mesh(e, source, mesh);
     }
-    static void check_and_load_mesh(Entity entity)
+    static void check_and_load_mesh(Engine *e, Entity entity)
     {
-        auto &component = entity_get_component<StaticMeshComponent>(entity);
+        auto &component = entity_get_component<StaticMeshComponent>(e, entity);
         auto source = component.source;
 
-        auto mesh = get_mesh(source);
+        auto mesh = get_mesh(e, source);
         if (!is_valid_mesh(mesh))
         {
-            MeshLoaderSystem::import(source);
+            MeshLoaderSystem::import(e, source);
         }
     }
-    void register_system()
+    void register_system(Engine *e)
     {
         Signature signature;
-        signature.set(get_component_type<StaticMeshComponent>(), true);
-        register_global_system<Component>(signature, on_create_entity, nullptr);
+        signature.set(get_component_type<StaticMeshComponent>(e), true);
+        register_global_system<Component>(e, signature, on_create_entity, nullptr);
     }
 
-    void update()
+    void update(Engine *e)
     {
-        auto &provider = get_provider();
-        for (Entity entity : provider.entities)
+        auto &p = get_provider(e);
+        for (Entity entity : p.entities)
         {
-            check_and_load_mesh(entity);
+            check_and_load_mesh(e, entity);
         }
     }
 
-    void on_create_entity(Entity entity)
+    void on_create_entity(Engine *e, Entity entity)
     {
-        check_and_load_mesh(entity);
+        check_and_load_mesh(e, entity);
     }
 
 } // namespace Vultr::MeshLoaderSystem

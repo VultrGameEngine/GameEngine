@@ -24,9 +24,9 @@
 namespace Vultr::RenderSystem
 {
     // Internal private helper methods
-    static void render_skybox(u8 type);
-    static void render_elements(u8 type);
-    static void render_element_input();
+    static void render_skybox(Engine *e, u8 type);
+    static void render_elements(Engine *e, u8 type);
+    static void render_element_input(Engine *e);
     static void init_render_texture(ViewportData &d, u32 width, u32 height)
     {
         d.fbo = new_framebuffer(width, height);
@@ -57,17 +57,17 @@ namespace Vultr::RenderSystem
         confirm_complete_framebuffer(d.fbo);
     }
 
-    void register_system()
+    void register_system(Engine *e)
     {
         Signature signature;
-        signature.set(get_component_type<MaterialComponent>(), true);
-        signature.set(get_component_type<StaticMeshComponent>(), true);
-        register_global_system<Component>(signature);
+        signature.set(get_component_type<MaterialComponent>(e), true);
+        signature.set(get_component_type<StaticMeshComponent>(e), true);
+        register_global_system<Component>(e, signature);
     }
 
-    void init()
+    void init(Engine *e)
     {
-        auto &p = get_provider();
+        auto &p = get_provider(e);
         const GLFWvidmode *mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
 
         auto dimensions = Vec2(mode->width, mode->height);
@@ -89,60 +89,9 @@ namespace Vultr::RenderSystem
         assert("Unfinished");
     }
 
-    // TODO: Get rid of this shit lmfao, it's so bad
-    // void generate_render_texture(ViewportData &data, s32 width, s32 height)
-    // {
-    //     if (data.fbo != nullptr)
-    //         delete data.fbo;
-    //     if (is_valid_texture(data.render_texture))
-    //         delete_texture(data.render_texture);
-    //     if (data.rbo != nullptr)
-    //         delete data.rbo;
-
-    //     data.fbo = new FrameBuffer();
-    //     data.fbo->Bind();
-    //     data.render_texture = generate_texture(GL_TEXTURE_2D);
-    //     bind_texture(data.render_texture, GL_TEXTURE0);
-    //     texture_image_2D(data.render_texture, 0, GL_RGB, width, height, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
-    //     texture_parameter_i(data.render_texture, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    //     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, data.render_texture.type, data.render_texture.id, 0);
-
-    //     data.rbo = new RenderBuffer(width, height);
-
-    //     data.fbo->Unbind();
-    //     data.dimensions.x = width;
-    //     data.dimensions.y = height;
-    // }
-
-    // void generate_input_render_texture(s32 width, s32 height)
-    // {
-    //     auto &data = get_provider().input_data;
-    //     if (data.fbo != nullptr)
-    //         delete data.fbo;
-    //     if (is_valid_texture(data.render_texture))
-    //         delete_texture(data.render_texture);
-    //     if (data.rbo != nullptr)
-    //         delete data.rbo;
-
-    //     data.fbo = new FrameBuffer();
-    //     data.fbo->Bind();
-    //     data.render_texture = generate_texture(GL_TEXTURE_2D);
-    //     bind_texture(data.render_texture, GL_TEXTURE0);
-    //     texture_image_2D(data.render_texture, 0, GL_RGBA16F, width, height, GL_RGBA, GL_FLOAT, nullptr);
-    //     texture_parameter_i(data.render_texture, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    //     texture_parameter_i(data.render_texture, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    //     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, data.render_texture.type, data.render_texture.id, 0);
-
-    //     data.rbo = new RenderBuffer(width, height);
-
-    //     data.fbo->Unbind();
-    //     data.dimensions.x = width;
-    //     data.dimensions.y = height;
-    // }
-
-    void resize(s32 width, s32 height, u8 type)
+    void resize(Engine *e, s32 width, s32 height, u8 type)
     {
-        auto &p = get_provider();
+        auto &p = get_provider(e);
         if (type == GAME)
         {
             p.game.dimensions = Vec2(width, height);
@@ -154,17 +103,17 @@ namespace Vultr::RenderSystem
         }
     }
 
-    void update_viewport_pos(s32 x, s32 y, u8 type)
+    void update_viewport_pos(Engine *e, s32 x, s32 y, u8 type)
     {
         // Change different positions in the provider
         if (type == GAME)
         {
-            get_provider().game.position = Vec2(x, y);
+            get_provider(e).game.position = Vec2(x, y);
         }
         else if (type == SCENE)
         {
-            get_provider().scene.position = Vec2(x, y);
-            get_provider().input_data.position = Vec2(x, y);
+            get_provider(e).scene.position = Vec2(x, y);
+            get_provider(e).input_data.position = Vec2(x, y);
         }
     }
 
@@ -179,11 +128,11 @@ namespace Vultr::RenderSystem
     }
 
     // Used in the actual update loop in main
-    void update(const UpdateTick &meta_data)
+    void update(Engine *e, const UpdateTick &meta_data)
     {
-        auto &provider = get_provider();
-        const auto &camera_system_provider = CameraSystem::get_provider();
-        const auto &light_system_provider = LightSystem::get_provider();
+        auto &provider = get_provider(e);
+        const auto &camera_system_provider = CameraSystem::get_provider(e);
+        const auto &light_system_provider = LightSystem::get_provider(e);
 
         perform_resize(provider.scene);
         perform_resize(provider.game);
@@ -204,17 +153,17 @@ namespace Vultr::RenderSystem
             // Get the transform of the game camera that will actually be present
             // in an entity, can be non existent which is why we check earlier to ensure
             // that there actually is one
-            auto &camera_transform = entity_get_component<TransformComponent>(camera);
-            auto &camera_component = entity_get_component<CameraComponent>(camera);
+            auto &camera_transform = entity_get_component<TransformComponent>(e, camera);
+            auto &camera_component = entity_get_component<CameraComponent>(e, camera);
 
-            RenderContext::SetContext(get_dimensions(GAME), camera_transform, camera_component);
+            RenderContext::SetContext(get_dimensions(e, GAME), camera_transform, camera_component);
 
             // Set the vieport dimensions to match that in the editor
-            glViewport(0, 0, get_dimensions(GAME).x, get_dimensions(GAME).y);
+            glViewport(0, 0, get_dimensions(e, GAME).x, get_dimensions(e, GAME).y);
 
             // Render both the skybox an the static meshes in the scene
-            render_skybox(GAME);
-            render_elements(GAME);
+            render_skybox(e, GAME);
+            render_elements(e, GAME);
 
             // Update the gui system for the game
             // GUISystem::update(meta_data);
@@ -233,7 +182,7 @@ namespace Vultr::RenderSystem
         {
             if (camera != INVALID_ENTITY)
             {
-                auto &camera_component = entity_get_component<CameraComponent>(camera);
+                auto &camera_component = entity_get_component<CameraComponent>(e, camera);
                 if (camera_component.gamma_correction)
                 {
                     glEnable(GL_FRAMEBUFFER_SRGB);
@@ -263,15 +212,15 @@ namespace Vultr::RenderSystem
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
             // Set the viewport to match that in the editor
-            glViewport(0, 0, get_dimensions(SCENE).x, get_dimensions(SCENE).y);
+            glViewport(0, 0, get_dimensions(e, SCENE).x, get_dimensions(e, SCENE).y);
             // Get the transform of the light
             // auto &light_transform = entity_get_component<TransformComponent>(light);
 
-            RenderContext::SetContext(get_dimensions(SCENE), camera_transform, camera_component);
+            RenderContext::SetContext(get_dimensions(e, SCENE), camera_transform, camera_component);
 
             // Render both the skybox and the static meshes in the scene
-            render_skybox(SCENE);
-            render_elements(SCENE);
+            render_skybox(e, SCENE);
+            render_elements(e, SCENE);
 
             // Unbind the frame buffer
             unbind_all_framebuffers();
@@ -282,9 +231,9 @@ namespace Vultr::RenderSystem
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
             // Set the viewport to match that in the editor
-            glViewport(0, 0, get_dimensions(SCENE).x, get_dimensions(SCENE).y);
+            glViewport(0, 0, get_dimensions(e, SCENE).x, get_dimensions(e, SCENE).y);
 
-            render_element_input();
+            render_element_input(e);
 
             // Render both the skybox and the static meshes in the scene
             unbind_all_framebuffers();
@@ -292,29 +241,29 @@ namespace Vultr::RenderSystem
     }
 
     // Render all of the static meshes in the scene
-    void render_elements(u8 type)
+    void render_elements(Engine *e, u8 type)
     {
-        auto &provider = get_provider();
+        auto &provider = get_provider(e);
         glEnable(GL_BLEND);
 
         for (Entity entity : provider.entities)
         {
-            MaterialComponent &material = entity_get_component<MaterialComponent>(entity);
-            if (signature_contains(entity_get_signature(entity), get_component_type<SkyBoxComponent>()))
+            MaterialComponent &material = entity_get_component<MaterialComponent>(e, entity);
+            if (signature_contains(entity_get_signature(e, entity), get_component_type<SkyBoxComponent>(e)))
                 continue;
-            TransformComponent &transform = entity_get_component<TransformComponent>(entity);
-            StaticMeshComponent &mesh = entity_get_component<StaticMeshComponent>(entity);
-            Mesh mesh_obj = MeshLoaderSystem::get_mesh(mesh.source);
+            TransformComponent &transform = entity_get_component<TransformComponent>(e, entity);
+            StaticMeshComponent &mesh = entity_get_component<StaticMeshComponent>(e, entity);
+            Mesh mesh_obj = MeshLoaderSystem::get_mesh(e, mesh.source);
             if (is_valid_mesh(mesh_obj))
             {
-                Renderer3D::ForwardRenderer::Submit(material, transform.Matrix(), mesh_obj);
+                Renderer3D::ForwardRenderer::submit(e, material, transform.Matrix(), mesh_obj);
             }
         }
     }
 
-    void render_element_input()
+    void render_element_input(Engine *e)
     {
-        auto &provider = get_provider();
+        auto &provider = get_provider(e);
 
         // Both have to be cleared before rendering to the input buffer
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -324,9 +273,9 @@ namespace Vultr::RenderSystem
         {
 
             // All the components we need
-            auto &transform = entity_get_component<TransformComponent>(entity);
-            auto &mesh = entity_get_component<StaticMeshComponent>(entity);
-            auto mesh_obj = MeshLoaderSystem::get_mesh(mesh.source);
+            auto &transform = entity_get_component<TransformComponent>(e, entity);
+            auto &mesh = entity_get_component<StaticMeshComponent>(e, entity);
+            auto mesh_obj = MeshLoaderSystem::get_mesh(e, mesh.source);
 
             // If the mesh has loaded
             if (is_valid_mesh(mesh_obj))
@@ -357,31 +306,31 @@ namespace Vultr::RenderSystem
         }
     }
 
-    void render_skybox(u8 type)
+    void render_skybox(Engine *e, u8 type)
     {
-        Entity camera = CameraSystem::get_provider().camera;
+        Entity camera = CameraSystem::get_provider(e).camera;
         if (!camera)
             return;
         Signature signature;
-        signature.set(get_component_type<SkyBoxComponent>(), true);
-        signature.set(get_component_type<MaterialComponent>(), true);
+        signature.set(get_component_type<SkyBoxComponent>(e), true);
+        signature.set(get_component_type<MaterialComponent>(e), true);
 
-        Signature camera_signature = entity_get_signature(camera);
+        Signature camera_signature = entity_get_signature(e, camera);
 
         // If the camera doesn't have both a skybox and material component, then we can't render a skybox
-        if (entity_has_component<SkyBoxComponent>(camera) && entity_has_component<MaterialComponent>(camera))
+        if (entity_has_component<SkyBoxComponent>(e, camera) && entity_has_component<MaterialComponent>(e, camera))
         {
             glDepthFunc(GL_LEQUAL); // Ensure depth test passes when values are equal to
                                     // the depth buffer's content
             glDepthMask(GL_FALSE);  // Disable depth mask
 
             // Get the components needed to render
-            auto &material_component = entity_get_component<MaterialComponent>(camera);
-            auto &skybox_component = entity_get_component<SkyBoxComponent>(camera);
+            auto &material_component = entity_get_component<MaterialComponent>(e, camera);
+            auto &skybox_component = entity_get_component<SkyBoxComponent>(e, camera);
 
-            Renderer3D::ForwardRenderer::BindMaterial(material_component, RenderContext::GetContext().camera_transform.Matrix(), skybox_component.identifier.c_str());
+            Renderer3D::ForwardRenderer::bind_material(e, material_component, RenderContext::GetContext().camera_transform.Matrix(), skybox_component.identifier);
 
-            draw_mesh(get_provider().skybox);
+            draw_mesh(get_provider(e).skybox);
             glDepthMask(GL_TRUE);
             glDepthFunc(GL_LESS); // Reset depth test
         }

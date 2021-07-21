@@ -16,7 +16,7 @@ namespace Vultr
             Shader *gui_shader = nullptr;
         };
 
-        Component &get_provider();
+        Component &get_provider(Engine *e);
     } // namespace GUISystem
 
     template <>

@@ -1,4 +1,5 @@
 #pragma once
+#include <engine.hpp>
 #include <ecs/system/system_provider.hpp>
 #include <rendering/types/mesh.h>
 #include <memory>
@@ -15,11 +16,11 @@ namespace Vultr
             std::unordered_map<std::string, Mesh> meshes;
         };
 
-        Mesh get_mesh(const ModelSource &source);
+        Mesh get_mesh(Engine *e, const ModelSource &source);
 
-        void add_mesh(const ModelSource &source, Mesh mesh);
+        void add_mesh(Engine *e, const ModelSource &source, Mesh mesh);
 
-        Component &get_provider();
+        Component &get_provider(Engine *e);
     } // namespace MeshLoaderSystem
 
     template <>
