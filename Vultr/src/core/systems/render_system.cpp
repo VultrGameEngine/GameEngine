@@ -27,6 +27,35 @@ namespace Vultr::RenderSystem
     static void render_skybox(u8 type);
     static void render_elements(u8 type);
     static void render_element_input();
+    static void init_render_texture(ViewportData &d, u32 width, u32 height)
+    {
+        d.fbo = new_framebuffer(width, height);
+
+        // Attach our color texture
+        auto texture = generate_texture(GL_TEXTURE_2D);
+        attach_color_texture_framebuffer(d.fbo, texture, 0, GL_RGB, GL_RGB, GL_UNSIGNED_BYTE);
+
+        // Attach our depth/stencil rbo
+        auto rbo = new_renderbuffer();
+        attach_stencil_depth_renderbuffer_framebuffer(d.fbo, rbo);
+
+        confirm_complete_framebuffer(d.fbo);
+    }
+
+    static void init_input_texture(ViewportData &d, u32 width, u32 height)
+    {
+        d.fbo = new_framebuffer(width, height);
+
+        // Attach our color texture
+        auto texture = generate_texture(GL_TEXTURE_2D);
+        attach_color_texture_framebuffer(d.fbo, texture, 0, GL_RGBA16F, GL_RGBA, GL_FLOAT);
+
+        // Attach our depth/stencil rbo
+        auto rbo = new_renderbuffer();
+        attach_stencil_depth_renderbuffer_framebuffer(d.fbo, rbo);
+
+        confirm_complete_framebuffer(d.fbo);
+    }
 
     void register_system()
     {
@@ -40,9 +69,15 @@ namespace Vultr::RenderSystem
     {
         auto &p = get_provider();
         const GLFWvidmode *mode = glfwGetVideoMode(glfwGetPrimaryMonitor());
-        generate_render_texture(p.scene, mode->width, mode->height);
-        generate_render_texture(p.game, mode->width, mode->height);
-        generate_input_render_texture(mode->width, mode->height);
+
+        auto dimensions = Vec2(mode->width, mode->height);
+        init_render_texture(p.scene, mode->width, mode->height);
+        p.scene.dimensions = dimensions;
+        init_render_texture(p.game, mode->width, mode->height);
+        p.game.dimensions = dimensions;
+        init_input_texture(p.input_data, mode->width, mode->height);
+        p.input_data.dimensions = dimensions;
+
         p.post_processing_shader = ShaderImporter::import_shader(ShaderSource("shaders/post_processing.glsl"));
         p.input_shader = ShaderImporter::import_engine_shader(ShaderImporter::EDITOR_INPUT);
         p.render_quad = MeshImporter::init_quad();
@@ -55,81 +90,67 @@ namespace Vultr::RenderSystem
     }
 
     // TODO: Get rid of this shit lmfao, it's so bad
-    void generate_render_texture(ViewportData &data, s32 width, s32 height)
-    {
-        if (data.fbo != nullptr)
-            delete data.fbo;
-        if (is_valid_texture(data.render_texture))
-            delete_texture(data.render_texture);
-        if (data.rbo != nullptr)
-            delete data.rbo;
+    // void generate_render_texture(ViewportData &data, s32 width, s32 height)
+    // {
+    //     if (data.fbo != nullptr)
+    //         delete data.fbo;
+    //     if (is_valid_texture(data.render_texture))
+    //         delete_texture(data.render_texture);
+    //     if (data.rbo != nullptr)
+    //         delete data.rbo;
 
-        data.fbo = new FrameBuffer();
-        data.fbo->Bind();
-        data.render_texture = generate_texture(GL_TEXTURE_2D);
-        bind_texture(data.render_texture, GL_TEXTURE0);
-        texture_image_2D(data.render_texture, 0, GL_RGB, width, height, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
-        texture_parameter_i(data.render_texture, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, data.render_texture.type, data.render_texture.id, 0);
+    //     data.fbo = new FrameBuffer();
+    //     data.fbo->Bind();
+    //     data.render_texture = generate_texture(GL_TEXTURE_2D);
+    //     bind_texture(data.render_texture, GL_TEXTURE0);
+    //     texture_image_2D(data.render_texture, 0, GL_RGB, width, height, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
+    //     texture_parameter_i(data.render_texture, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    //     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, data.render_texture.type, data.render_texture.id, 0);
 
-        data.rbo = new RenderBuffer(width, height);
+    //     data.rbo = new RenderBuffer(width, height);
 
-        data.fbo->Unbind();
-        data.dimensions.x = width;
-        data.dimensions.y = height;
-    }
+    //     data.fbo->Unbind();
+    //     data.dimensions.x = width;
+    //     data.dimensions.y = height;
+    // }
 
-    void generate_input_render_texture(s32 width, s32 height)
-    {
-        auto &data = get_provider().input_data;
-        if (data.fbo != nullptr)
-            delete data.fbo;
-        if (is_valid_texture(data.render_texture))
-            delete_texture(data.render_texture);
-        if (data.rbo != nullptr)
-            delete data.rbo;
+    // void generate_input_render_texture(s32 width, s32 height)
+    // {
+    //     auto &data = get_provider().input_data;
+    //     if (data.fbo != nullptr)
+    //         delete data.fbo;
+    //     if (is_valid_texture(data.render_texture))
+    //         delete_texture(data.render_texture);
+    //     if (data.rbo != nullptr)
+    //         delete data.rbo;
 
-        data.fbo = new FrameBuffer();
-        data.fbo->Bind();
-        data.render_texture = generate_texture(GL_TEXTURE_2D);
-        bind_texture(data.render_texture, GL_TEXTURE0);
-        texture_image_2D(data.render_texture, 0, GL_RGBA16F, width, height, GL_RGBA, GL_FLOAT, nullptr);
-        texture_parameter_i(data.render_texture, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        texture_parameter_i(data.render_texture, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, data.render_texture.type, data.render_texture.id, 0);
+    //     data.fbo = new FrameBuffer();
+    //     data.fbo->Bind();
+    //     data.render_texture = generate_texture(GL_TEXTURE_2D);
+    //     bind_texture(data.render_texture, GL_TEXTURE0);
+    //     texture_image_2D(data.render_texture, 0, GL_RGBA16F, width, height, GL_RGBA, GL_FLOAT, nullptr);
+    //     texture_parameter_i(data.render_texture, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    //     texture_parameter_i(data.render_texture, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    //     glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, data.render_texture.type, data.render_texture.id, 0);
 
-        data.rbo = new RenderBuffer(width, height);
+    //     data.rbo = new RenderBuffer(width, height);
 
-        data.fbo->Unbind();
-        data.dimensions.x = width;
-        data.dimensions.y = height;
-    }
+    //     data.fbo->Unbind();
+    //     data.dimensions.x = width;
+    //     data.dimensions.y = height;
+    // }
 
     void resize(s32 width, s32 height, u8 type)
     {
-        auto &provider = get_provider();
-        auto p_dimensions = Vec2(width, height);
-        // init_g_buffer(width, height);
+        auto &p = get_provider();
         if (type == GAME)
         {
-            if (provider.game.dimensions == p_dimensions)
-                return;
-            provider.game.dimensions = p_dimensions;
-            generate_render_texture(provider.game, width, height);
+            p.game.dimensions = Vec2(width, height);
         }
         else if (type == SCENE)
         {
-            // Actual scene fbo
-            if (provider.scene.dimensions == p_dimensions)
-                return;
-            provider.scene.dimensions = p_dimensions;
-            generate_render_texture(provider.scene, width, height);
-
-            // Mouse picking fbo
-            if (provider.input_data.dimensions == Vec2(width, height))
-                return;
-            provider.input_data.dimensions = p_dimensions;
-            generate_input_render_texture(width, height);
+            p.scene.dimensions = Vec2(width, height);
+            p.input_data.dimensions = Vec2(width, height);
         }
     }
 
@@ -147,12 +168,26 @@ namespace Vultr::RenderSystem
         }
     }
 
+    static void perform_resize(ViewportData &data)
+    {
+        resize_framebuffer(data.fbo, data.dimensions.x, data.dimensions.y);
+        // if (data.fbo.width != data.dimensions.x || data.fbo.height != data.dimensions.y)
+        // {
+        //     delete_framebuffer(data.fbo);
+        //     init_render_texture(data, data.dimensions.x, data.dimensions.y);
+        // }
+    }
+
     // Used in the actual update loop in main
     void update(const UpdateTick &meta_data)
     {
         auto &provider = get_provider();
         const auto &camera_system_provider = CameraSystem::get_provider();
         const auto &light_system_provider = LightSystem::get_provider();
+
+        perform_resize(provider.scene);
+        perform_resize(provider.game);
+        perform_resize(provider.input_data);
 
         // Get the entities saved by other systems
         Entity camera = camera_system_provider.camera;
@@ -161,7 +196,7 @@ namespace Vultr::RenderSystem
         if (camera != INVALID_ENTITY)
         {
             // This renders to the game scene, important for the editor
-            provider.game.fbo->Bind();
+            bind_framebuffer(provider.game.fbo);
 
             // Clear the screen
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -187,7 +222,7 @@ namespace Vultr::RenderSystem
             glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
             // Unbind the frame buffer
-            provider.game.fbo->Unbind();
+            unbind_all_framebuffers();
         }
         else
         {
@@ -210,7 +245,7 @@ namespace Vultr::RenderSystem
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             bind_shader(provider.post_processing_shader);
             set_uniform_1i(provider.post_processing_shader, "renderedTexture", 0);
-            bind_texture(provider.game.render_texture, GL_TEXTURE0);
+            bind_texture(get_framebuffer_color_texture(provider.game.fbo, 0), GL_TEXTURE0);
             draw_mesh(provider.render_quad);
             glDisable(GL_FRAMEBUFFER_SRGB);
         }
@@ -222,7 +257,7 @@ namespace Vultr::RenderSystem
             auto &camera_component = camera_system_provider.scene_camera.camera_component;
 
             // Always will have a scene camera, render to the editor scene view
-            provider.scene.fbo->Bind();
+            bind_framebuffer(provider.scene.fbo);
 
             // Clear the screen
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -239,10 +274,10 @@ namespace Vultr::RenderSystem
             render_elements(SCENE);
 
             // Unbind the frame buffer
-            provider.scene.fbo->Unbind();
+            unbind_all_framebuffers();
 
             // Render the elements again for mouse picking
-            provider.input_data.fbo->Bind();
+            bind_framebuffer(provider.input_data.fbo);
 
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -252,7 +287,7 @@ namespace Vultr::RenderSystem
             render_element_input();
 
             // Render both the skybox and the static meshes in the scene
-            provider.input_data.fbo->Unbind();
+            unbind_all_framebuffers();
         }
     }
 

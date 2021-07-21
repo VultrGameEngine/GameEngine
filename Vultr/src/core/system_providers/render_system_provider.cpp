@@ -12,13 +12,15 @@ namespace Vultr::RenderSystem
     {
         assert((type == GAME || type == SCENE) && "Please call this method with a valid type, either GAME or SCENE");
 
+        auto &p = get_provider();
+
         if (type == GAME)
         {
-            return get_provider().game.dimensions;
+            return p.game.dimensions;
         }
         else
         {
-            return get_provider().scene.dimensions;
+            return p.scene.dimensions;
         }
     }
 
@@ -26,13 +28,13 @@ namespace Vultr::RenderSystem
     {
         auto &p = get_provider();
         auto &input = p.input_data;
-        input.fbo->Bind();
+        bind_framebuffer(input.fbo);
         unsigned char data[4];
         glReadPixels(x, y, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, data);
 
         Entity pickedID = data[0] + data[1] * 256 + data[2] * 256 * 256;
 
-        input.fbo->Unbind();
+        bind_framebuffer(input.fbo);
         return pickedID;
     }
 

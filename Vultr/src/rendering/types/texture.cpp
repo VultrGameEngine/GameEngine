@@ -18,6 +18,12 @@ namespace Vultr
     void texture_image_2D(Texture &texture, u32 level, GLenum internalformat, u32 width, u32 height, GLenum format, GLenum type, const void *data)
     {
         bind_texture(texture, GL_TEXTURE0);
+        texture.level = level;
+        texture.internal_format = internalformat;
+        texture.width = width;
+        texture.height = height;
+        texture.format = format;
+        texture.pixel_data_type = type;
         glTexImage2D(texture.type, level, internalformat, width, height, 0, format, type, data);
     }
 
@@ -44,14 +50,12 @@ namespace Vultr
 
     void bind_texture(Texture &texture, u32 slot)
     {
-        texture.bound = true;
         glActiveTexture(slot);
         glBindTexture(texture.type, texture.id);
     }
 
     void unbind_texture(Texture &texture)
     {
-        texture.bound = false;
         glBindTexture(texture.type, 0);
     }
 } // namespace Vultr

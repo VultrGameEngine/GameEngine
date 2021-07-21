@@ -5,10 +5,10 @@ namespace Vultr
 {
     struct Texture
     {
-        bool bound = false;
         u32 id = 0;
         u32 width = 0;
         u32 height = 0;
+        u32 level = 0;
         u32 type = GL_TEXTURE_2D;
         u32 internal_format = GL_RGB;
         u32 format = GL_RGB;
