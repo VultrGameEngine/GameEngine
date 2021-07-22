@@ -1,6 +1,7 @@
 #pragma once
 #include <vultr.hpp>
 
+struct Editor;
 struct EditorTextureManager
 {
     EditorTextureManager();
@@ -12,4 +13,4 @@ struct EditorTextureManager
     Vultr::Texture model_icon;
     Vultr::Texture vultr_icon;
 };
-Vultr::Texture &get_texture_from_file(const Vultr::File &file);
+Vultr::Texture &get_texture_from_file(Editor *editor, const Vultr::File &file);

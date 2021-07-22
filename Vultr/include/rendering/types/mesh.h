@@ -16,7 +16,7 @@ namespace Vultr
         // Holds the saved vertices and indices in a buffer cpu side
         Vertex *vertices = nullptr;
         size_t vertex_count = 0;
-        unsigned short *indices = nullptr;
+        u16 *indices = nullptr;
         size_t index_count = 0;
 
         // A bunch of required buffers
@@ -26,8 +26,8 @@ namespace Vultr
     };
 
     bool is_valid_mesh(const Mesh &mesh);
-    Mesh new_mesh(Vec3 positions[], Vec2 uvs[], Vec3 normals[], size_t vertex_count, unsigned short indices[], size_t index_count);
-    Mesh new_mesh(Vertex vertices[], size_t vertex_count, unsigned short indices[], size_t index_count);
+    Mesh new_mesh(Vec3 positions[], Vec2 uvs[], Vec3 normals[], size_t vertex_count, u16 indices[], size_t index_count);
+    Mesh new_mesh(Vertex vertices[], size_t vertex_count, u16 indices[], size_t index_count);
     void delete_mesh(Mesh &mesh);
 
     void draw_mesh(const Mesh &mesh);

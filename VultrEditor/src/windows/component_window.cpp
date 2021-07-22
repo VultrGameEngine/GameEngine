@@ -2,17 +2,17 @@
 
 using namespace Vultr;
 
-void register_component_window(Engine *e)
+void register_component_window(Engine *e, Editor *editor)
 {
     void *state = static_cast<void *>(nullptr);
     WindowRenderer renderer = component_window_render;
-    editor_register_window(e, component_window_render, state);
+    editor_register_window(e, editor, component_window_render, state);
 }
 
-void component_window_render(Engine *e, const UpdateTick &tick, void *state)
+void component_window_render(Engine *e, Editor *editor, const UpdateTick &tick, void *state)
 {
     ImGui::Begin("Inspector");
-    Entity entity = get_editor().selected_entity;
+    Entity entity = editor->selected_entity;
     if (entity != INVALID_ENTITY)
     {
         auto &registry = e->component_registry;

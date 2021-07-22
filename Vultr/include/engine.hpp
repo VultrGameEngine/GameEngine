@@ -8,7 +8,7 @@
 namespace Vultr
 {
     struct EditEvent;
-    typedef void (*OnEdit)(EditEvent *);
+    typedef void (*OnEdit)(void *editor, EditEvent *);
     struct Engine
     {
         GLFWwindow *window;
@@ -22,16 +22,19 @@ namespace Vultr
 
         // EDITOR ONLY
         OnEdit on_edit = nullptr;
+        void *editor = nullptr;
     };
 
     World *get_current_world(Engine *e);
     void change_world(Engine *e, World *);
 
     Engine *get_engine(GLFWwindow *window);
+    void add_editor(Engine *e, void *editor);
 
     void engine_init(Engine *e, bool debug);
     void engine_load_game(Engine *e, const char *path);
     void engine_load_game(Engine *e, Game *game);
+    void engine_destroy_game(Engine *e);
     void engine_register_default_components(Engine *e);
     void engine_init_default_systems(Engine *e);
     void engine_init_game(Engine *e);

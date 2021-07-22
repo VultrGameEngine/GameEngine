@@ -1,14 +1,14 @@
 #include <windows/game_window.h>
 
 using namespace Vultr;
-void register_game_window(Vultr::Engine *e)
+void register_game_window(Vultr::Engine *e, Editor *editor)
 {
     void *state = static_cast<void *>(nullptr);
     WindowRenderer renderer = game_window_render;
-    editor_register_window(e, renderer, state);
+    editor_register_window(e, editor, renderer, state);
 }
 
-void game_window_render(Vultr::Engine *e, const UpdateTick &tick, void *state)
+void game_window_render(Vultr::Engine *e, Editor *editor, const UpdateTick &tick, void *state)
 {
     auto &texture = get_framebuffer_color_texture(RenderSystem::get_provider(e).game.fbo, 0);
     bind_texture(texture, GL_TEXTURE0);

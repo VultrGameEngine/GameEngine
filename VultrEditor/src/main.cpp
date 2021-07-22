@@ -42,7 +42,7 @@ int main(void)
 
     if (files.find(vultr_helper) == files.end())
     {
-        std::cout << "No VultrHelper found in current working directory " << cwd.path.string() << std::endl;
+        fprintf(stderr, "No VultrHelper found in current working directory %s", cwd.path.string().c_str());
         return 1;
     }
     auto _sd = directory_get_sub_directories(cwd);
@@ -52,7 +52,7 @@ int main(void)
 
     if (sub_directories.find(resource_directory) == sub_directories.end())
     {
-        std::cout << "No resource directory found in current working directory " << cwd.path.string() << std::endl;
+        fprintf(stderr, "No resource directory found in current working directory %s", cwd.path.string().c_str());
         return 1;
     }
 
@@ -64,7 +64,7 @@ int main(void)
 
     if (!std::filesystem::exists(build_directory.path))
     {
-        std::cout << "No build directory found in current working directory " << cwd.path.string() << std::endl;
+        fprintf(stderr, "No build directory found in current working directory %s", cwd.path.string().c_str());
         return 1;
     }
 
@@ -79,7 +79,7 @@ int main(void)
 
     if (build_files.find(dll) == build_files.end())
     {
-        std::cout << "No DLL found in build directory " << cwd.path.string() << std::endl;
+        fprintf(stderr, "No DLL found in build directory %s", cwd.path.string().c_str());
         return 1;
     }
     float lastTime = 0;
@@ -98,6 +98,12 @@ int main(void)
     engine_load_game(e, dll.path.string().c_str());
 #endif
 
+    auto *reload_watcher = init_reload_watcher(dll.path.string());
+
+    auto *editor = new Editor();
+    editor->reload_watcher = reload_watcher;
+    add_editor(e, static_cast<void *>(editor));
+
     e->game->RegisterComponents(e);
     e->game->SetImGuiContext(ImGui::GetCurrentContext());
     e->on_edit = on_edit;
@@ -110,16 +116,16 @@ int main(void)
     io.Fonts->AddFontFromMemoryTTF((void *)groboto_data, groboto_size, 30);
     io.Fonts->AddFontFromMemoryTTF((void *)gfork_awesome_data, gfork_awesome_size, 24.0f, &icons_config, icons_ranges);
 
-    register_asset_browser(e, resource_directory);
-    register_component_window(e);
-    register_entity_window(e);
-    register_game_window(e);
-    register_scene_window(e);
+    register_asset_browser(e, editor, resource_directory);
+    register_component_window(e, editor);
+    register_entity_window(e, editor);
+    register_game_window(e, editor);
+    register_scene_window(e, editor);
 
     while (!e->should_close)
     {
-        auto tick = engine_update_game(e, lastTime, get_editor().game_manager.playing);
-        editor_render(e, tick);
+        auto tick = engine_update_game(e, lastTime, editor->game_manager.playing);
+        editor_render(e, editor, tick);
         glfwSwapBuffers(e->window);
         glfwPollEvents();
     }

@@ -20,18 +20,18 @@ static s32 get_num_cols()
     return num_cols;
 }
 
-static void draw_directory(const Directory &dir)
+static void draw_directory(Editor *editor, const Directory &dir)
 {
     // All directories use the folder icon
-    auto &texture = get_editor().texture_manager.folder_icon;
+    auto &texture = editor->texture_manager.folder_icon;
     bind_texture(texture, GL_TEXTURE0);
     ImGui::Image((void *)(intptr_t)texture.id, ImVec2(125, 125));
 }
 
-static void draw_file(const File &file)
+static void draw_file(Editor *editor, const File &file)
 {
     // Different files will have different textures
-    auto &texture = get_texture_from_file(file);
+    auto &texture = get_texture_from_file(editor, file);
     bind_texture(texture, GL_TEXTURE0);
     ImGui::Image((void *)(intptr_t)texture.id, ImVec2(125, 125));
 }
@@ -68,18 +68,18 @@ static void on_back_button_listener(Engine *e, MouseButtonEvent event)
         on_back(static_cast<void *>(get_asset_browser()));
 }
 
-void register_asset_browser(Engine *e, const Vultr::Directory &current_dir)
+void register_asset_browser(Engine *e, Editor *editor, const Vultr::Directory &current_dir)
 {
     AssetBrowser *state = new AssetBrowser();
     state->current_directory = current_dir;
     get_asset_browser() = state;
     WindowRenderer renderer = asset_browser_render;
-    editor_register_window(e, renderer, static_cast<void *>(state));
+    editor_register_window(e, editor, renderer, static_cast<void *>(state));
 
     InputSystem::set_mouse_button_listener(e, on_back_button_listener);
 }
 
-void asset_browser_render(Engine *e, const Vultr::UpdateTick &tick, void *_state)
+void asset_browser_render(Engine *e, Editor *editor, const Vultr::UpdateTick &tick, void *_state)
 {
     ImGui::Begin("Asset Browser");
 
@@ -156,11 +156,11 @@ void asset_browser_render(Engine *e, const Vultr::UpdateTick &tick, void *_state
                     // Draw our element while dragging
                     if (is_directory)
                     {
-                        draw_directory(directories[di]);
+                        draw_directory(editor, directories[di]);
                     }
                     else
                     {
-                        draw_file(files[fi]);
+                        draw_file(editor, files[fi]);
                     }
 
                     ImGui::Text("%s", label.c_str());
@@ -231,11 +231,11 @@ void asset_browser_render(Engine *e, const Vultr::UpdateTick &tick, void *_state
 
                 if (is_directory)
                 {
-                    draw_directory(directories[di]);
+                    draw_directory(editor, directories[di]);
                 }
                 else
                 {
-                    draw_file(files[fi]);
+                    draw_file(editor, files[fi]);
                 }
 
                 // Draw our text using the label

@@ -1,19 +1,19 @@
 ﻿#include <windows/entity_window.h>
 
 using namespace Vultr;
-void register_entity_window(Vultr::Engine *e)
+void register_entity_window(Vultr::Engine *e, Editor *editor)
 {
     void *state = static_cast<void *>(nullptr);
     WindowRenderer renderer = entity_window_render;
-    editor_register_window(e, renderer, state);
+    editor_register_window(e, editor, renderer, state);
 }
 
-void entity_window_render(Vultr::Engine *e, const Vultr::UpdateTick &tick, void *state)
+void entity_window_render(Vultr::Engine *e, Editor *editor, const Vultr::UpdateTick &tick, void *state)
 {
     ImGui::Begin("Hierarchy");
     if (ImGui::Button("Undo"))
     {
-        undo(e);
+        undo(e, editor);
     }
     if (ImGui::Button("Add Entity"))
     {
@@ -25,9 +25,9 @@ void entity_window_render(Vultr::Engine *e, const Vultr::UpdateTick &tick, void 
     {
         if (get_entity_signature(get_current_world(e), entity) != empty)
         {
-            if (ImGui::Selectable(("Entity " + std::to_string(entity)).c_str(), get_editor().selected_entity == entity))
+            if (ImGui::Selectable(("Entity " + std::to_string(entity)).c_str(), editor->selected_entity == entity))
             {
-                get_editor().selected_entity = Entity(entity);
+                editor->selected_entity = Entity(entity);
                 if (ImGui::BeginPopupContextWindow())
                 {
                     if (ImGui::MenuItem("New camera"))

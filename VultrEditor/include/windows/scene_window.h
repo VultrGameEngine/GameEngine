@@ -7,5 +7,5 @@ struct SceneWindow
     ImGuizmo::OPERATION current_operation = ImGuizmo::OPERATION::TRANSLATE;
 };
 
-void register_scene_window(Vultr::Engine *e);
-void scene_window_render(Vultr::Engine *e, const Vultr::UpdateTick &tick, void *state);
+void register_scene_window(Vultr::Engine *e, Editor *editor);
+void scene_window_render(Vultr::Engine *e, Editor *editor, const Vultr::UpdateTick &tick, void *state);

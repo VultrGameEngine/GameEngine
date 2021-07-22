@@ -2,9 +2,10 @@
 #include <core/models/event.h>
 
 using namespace Vultr;
-void on_edit(EditEvent *e)
+void on_edit(void *_editor, EditEvent *e)
 {
-    auto &m = get_editor().edit_event_manager;
+    auto *editor = static_cast<Editor *>(_editor);
+    auto &m = editor->edit_event_manager;
     s32 stack_size = m.event_stack.size();
     if (m.event_index < stack_size - 1)
     {
@@ -18,9 +19,9 @@ void on_edit(EditEvent *e)
     m.event_stack.push_back(e);
 }
 
-void undo(Engine *e)
+void undo(Engine *e, Editor *editor)
 {
-    auto &m = get_editor().edit_event_manager;
+    auto &m = editor->edit_event_manager;
     if (m.event_stack.size() == 0)
         return;
     if (m.event_index <= -1)
@@ -30,9 +31,9 @@ void undo(Engine *e)
     m.event_index--;
 }
 
-void redo(Engine *e)
+void redo(Engine *e, Editor *editor)
 {
-    auto &m = get_editor().edit_event_manager;
+    auto &m = editor->edit_event_manager;
     if (m.event_stack.size() == 0)
         return;
     s32 stack_size = m.event_stack.size();

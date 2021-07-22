@@ -8,7 +8,7 @@ namespace Vultr
         return mesh.vertices != nullptr;
     }
 
-    Mesh new_mesh(Vec3 positions[], Vec2 uvs[], Vec3 normals[], size_t vertex_count, unsigned short indices[], size_t index_count)
+    Mesh new_mesh(Vec3 positions[], Vec2 uvs[], Vec3 normals[], size_t vertex_count, u16 indices[], size_t index_count)
     {
         auto *vertices = static_cast<Vertex *>(malloc(sizeof(Vertex) * vertex_count));
 
@@ -41,7 +41,7 @@ namespace Vultr
         };
     }
 
-    Mesh new_mesh(Vertex vertices[], size_t vertex_count, unsigned short indices[], size_t index_count)
+    Mesh new_mesh(Vertex vertices[], size_t vertex_count, u16 indices[], size_t index_count)
     {
         auto vao = new_vertex_array();
         bind_vertex_array(vao);

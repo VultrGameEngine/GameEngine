@@ -12,7 +12,7 @@
 
 using namespace Vultr;
 
-static void on_mouse_click(Engine *e, MouseButtonEvent event)
+static void on_mouse_click(Engine *e, Editor *editor, MouseButtonEvent event)
 {
     if (event.button != Input::MOUSE_LEFT)
         return;
@@ -21,7 +21,7 @@ static void on_mouse_click(Engine *e, MouseButtonEvent event)
     Vec2 pos = InputSystem::get_provider(e).scene_mouse_pos * RenderSystem::get_dimensions(e, SCENE);
     Entity entity = RenderSystem::get_entity_at_pixel(e, pos.x, pos.y);
     if (entity != INVALID_ENTITY)
-        get_editor().selected_entity = entity;
+        editor->selected_entity = entity;
 }
 
 // TODO: AHHH GLOBAL FUCKING VARIABLE WHAT IS WRONG WITH ME
@@ -31,7 +31,7 @@ static SceneWindow *&get_scene_window()
     return window;
 }
 
-static void on_key_press(Engine *e, KeyEvent event)
+static void on_key_press(Engine *e, Editor *editor, KeyEvent event)
 {
     if (event.action != Input::PRESS)
         return;
@@ -41,7 +41,7 @@ static void on_key_press(Engine *e, KeyEvent event)
         {
             if (InputSystem::get_key(e, Input::KEY_CONTROL))
             {
-                save(e);
+                save(e, editor);
                 std::cout << "Saved! \n";
             }
             break;
@@ -50,7 +50,7 @@ static void on_key_press(Engine *e, KeyEvent event)
         {
             if (InputSystem::get_key(e, Input::KEY_CONTROL))
             {
-                duplicate_entity(e);
+                duplicate_entity(e, editor);
                 std::cout << "Duplicated! \n";
             }
             break;
@@ -61,12 +61,12 @@ static void on_key_press(Engine *e, KeyEvent event)
             {
                 if (InputSystem::get_key(e, Input::KEY_SHIFT))
                 {
-                    redo(e);
+                    redo(e, editor);
                     std::cout << "Redo! \n";
                 }
                 else
                 {
-                    undo(e);
+                    undo(e, editor);
                     std::cout << "Undo! \n";
                 }
             }
@@ -74,9 +74,9 @@ static void on_key_press(Engine *e, KeyEvent event)
         }
         case Input::KEY_DELETE:
         {
-            if (get_editor().selected_entity != INVALID_ENTITY)
+            if (editor->selected_entity != INVALID_ENTITY)
             {
-                delete_entity(e);
+                delete_entity(e, editor);
             }
             break;
         }
@@ -109,16 +109,16 @@ static void on_key_press(Engine *e, KeyEvent event)
     }
 }
 
-void register_scene_window(Engine *e)
+void register_scene_window(Engine *e, Editor *editor)
 {
     void *state = static_cast<void *>(new SceneWindow());
     get_scene_window() = static_cast<SceneWindow *>(state);
-    editor_register_window(e, scene_window_render, state);
-    InputSystem::set_mouse_button_listener(e, on_mouse_click);
-    InputSystem::set_key_listener(e, on_key_press);
+    editor_register_window(e, editor, scene_window_render, state);
+    InputSystem::set_mouse_button_listener(e, [editor](Vultr::Engine *e, MouseButtonEvent event) { on_mouse_click(e, editor, event); });
+    InputSystem::set_key_listener(e, [editor](Vultr::Engine *e, KeyEvent event) { on_key_press(e, editor, event); });
 }
 
-void scene_window_render(Engine *e, const UpdateTick &tick, void *_state)
+void scene_window_render(Engine *e, Editor *editor, const UpdateTick &tick, void *_state)
 {
     // General state things
     auto *state = static_cast<SceneWindow *>(_state);
@@ -148,7 +148,7 @@ void scene_window_render(Engine *e, const UpdateTick &tick, void *_state)
 #pragma clang diagnostic pop
 
     // Get the currently selected entity in the EntityWindow
-    Entity selected_entity = get_editor().selected_entity;
+    Entity selected_entity = editor->selected_entity;
 
     if (selected_entity != INVALID_ENTITY)
     {

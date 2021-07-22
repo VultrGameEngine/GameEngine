@@ -84,10 +84,10 @@ namespace Vultr::InputSystem
     void set_mouse_pos_listener(Engine *e, OnMousePositionChange listener)
     {
         auto &p = get_provider(e);
-        for (auto l : p.mouse_position_listeners)
-        {
-            assert(l != listener && LISTENER_REGISTERED_TWICE_ERROR);
-        }
+        // for (auto l : p.mouse_position_listeners)
+        // {
+        //     assert(l != listener && LISTENER_REGISTERED_TWICE_ERROR);
+        // }
         p.mouse_position_listeners.push_back(listener);
     }
 
@@ -96,24 +96,24 @@ namespace Vultr::InputSystem
         auto &p = get_provider(e);
         auto &listeners = p.mouse_position_listeners;
         u32 index = 0;
-        for (auto l : listeners)
-        {
-            if (l == listener)
-            {
-                listeners.erase(listeners.begin() + index);
-            }
-            index++;
-        }
+        // for (auto l : listeners)
+        // {
+        //     if (l == listener)
+        //     {
+        //         listeners.erase(listeners.begin() + index);
+        //     }
+        //     index++;
+        // }
         assert(true && LISTENER_NOT_FOUND_ERROR);
     }
 
     void set_mouse_button_listener(Engine *e, OnMouseButton listener)
     {
         auto &p = get_provider(e);
-        for (auto l : p.mouse_button_listeners)
-        {
-            assert(l != listener && LISTENER_REGISTERED_TWICE_ERROR);
-        }
+        // for (auto l : p.mouse_button_listeners)
+        // {
+        //     assert(l != listener && LISTENER_REGISTERED_TWICE_ERROR);
+        // }
         p.mouse_button_listeners.push_back(listener);
     }
 
@@ -122,24 +122,24 @@ namespace Vultr::InputSystem
         auto &p = get_provider(e);
         auto &listeners = p.mouse_button_listeners;
         u32 index = 0;
-        for (auto l : listeners)
-        {
-            if (l == listener)
-            {
-                listeners.erase(listeners.begin() + index);
-            }
-            index++;
-        }
+        // for (auto l : listeners)
+        // {
+        //     if (l == listener)
+        //     {
+        //         listeners.erase(listeners.begin() + index);
+        //     }
+        //     index++;
+        // }
         assert(true && LISTENER_NOT_FOUND_ERROR);
     }
 
     void set_scroll_listener(Engine *e, OnScroll listener)
     {
         auto &p = get_provider(e);
-        for (auto l : p.scroll_listeners)
-        {
-            assert(l != listener && LISTENER_REGISTERED_TWICE_ERROR);
-        }
+        // for (auto l : p.scroll_listeners)
+        // {
+        //     assert(l != listener && LISTENER_REGISTERED_TWICE_ERROR);
+        // }
         p.scroll_listeners.push_back(listener);
     }
 
@@ -148,14 +148,14 @@ namespace Vultr::InputSystem
         auto &p = get_provider(e);
         auto &listeners = p.scroll_listeners;
         u32 index = 0;
-        for (auto l : listeners)
-        {
-            if (l == listener)
-            {
-                listeners.erase(listeners.begin() + index);
-            }
-            index++;
-        }
+        // for (auto l : listeners)
+        // {
+        //     if (l == listener)
+        //     {
+        //         listeners.erase(listeners.begin() + index);
+        //     }
+        //     index++;
+        // }
         assert(true && LISTENER_NOT_FOUND_ERROR);
     }
 

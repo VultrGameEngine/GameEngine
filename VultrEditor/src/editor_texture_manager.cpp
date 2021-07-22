@@ -51,10 +51,10 @@ EditorTextureManager::EditorTextureManager()
     TextureImporter::import(vultr_icon, gvultr_icon_data, gvultr_icon_size);
 }
 
-Texture &get_texture_from_file(const File &file)
+Texture &get_texture_from_file(Editor *editor, const File &file)
 {
     auto extension = file_get_extension_type(file);
-    auto &m = get_editor().texture_manager;
+    auto &m = editor->texture_manager;
     switch (extension)
     {
         case File::SHADER:

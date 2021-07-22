@@ -1,11 +1,12 @@
 #pragma once
 #include <vultr.hpp>
 #include <vector>
+#include <services/reload_watcher.h>
 #include "editor_texture_manager.h"
 #include "edit_event_manager.h"
 #include "game_manager.h"
 
-typedef void (*WindowRenderer)(Vultr::Engine *e, const Vultr::UpdateTick &tick, void *state);
+typedef void (*WindowRenderer)(Vultr::Engine *e, Editor *editor, const Vultr::UpdateTick &tick, void *state);
 
 struct Window
 {
@@ -33,22 +34,22 @@ struct Editor
 
     // Textures used throughout the program
     EditorTextureManager texture_manager;
+
+    // Used to hot relaod the game DLL
+    ReloadWatcher *reload_watcher;
 };
 
-// Get singleton instance
-Editor &get_editor();
+void editor_register_window(Vultr::Engine *e, Editor *editor, WindowRenderer renderer, void *state);
+void editor_render(Vultr::Engine *e, Editor *editor, const Vultr::UpdateTick &tick);
+void select_entity(Vultr::Engine *e, Editor *editor, Vultr::Entity entity);
 
-void editor_register_window(Vultr::Engine *e, WindowRenderer renderer, void *state);
-void editor_render(Vultr::Engine *e, const Vultr::UpdateTick &tick);
-void select_entity(Vultr::Entity entity);
+void on_edit(void *editor, Vultr::EditEvent *e);
+void undo(Vultr::Engine *e, Editor *editor);
+void redo(Vultr::Engine *e, Editor *editor);
 
-void on_edit(Vultr::EditEvent *e);
-void undo(Vultr::Engine *e);
-void redo(Vultr::Engine *e);
+void save(Vultr::Engine *e, Editor *editor);
 
-void save(Vultr::Engine *e);
-
-void duplicate_entity(Vultr::Engine *e);
+void duplicate_entity(Vultr::Engine *e, Editor *editor);
 
 // Delete the currently selected entity
-void delete_entity(Vultr::Engine *e);
+void delete_entity(Vultr::Engine *e, Editor *editor);

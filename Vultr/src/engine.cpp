@@ -69,6 +69,11 @@ namespace Vultr
         return static_cast<Engine *>(glfwGetWindowUserPointer(window));
     }
 
+    void add_editor(Engine *e, void *editor)
+    {
+        e->editor = editor;
+    }
+
     void destroy_entity(Engine *e, Entity entity)
     {
         auto *world = get_current_world(e);
@@ -163,14 +168,14 @@ namespace Vultr
         if (error != nullptr)
         {
             fprintf(stderr, "%s\n", error);
-            return;
+            exit(1);
         }
         GameDestroy_f destroy = (GameDestroy_f)get_function_pointer(DLL, "flush");
         error = dlerror();
         if (error != nullptr)
         {
             fprintf(stderr, "%s\n", error);
-            return;
+            exit(1);
         }
 
         e->game = static_cast<Game *>(init(e));
@@ -179,6 +184,20 @@ namespace Vultr
     void engine_load_game(Engine *e, Game *game)
     {
         e->game = game;
+    }
+
+    void engine_destroy_game(Engine *e)
+    {
+        // for (auto &type_name : e->component_registry.game_loaded_components)
+        // {
+        //     auto type = e->component_registry.component_name_to_type[type_name];
+        //     auto &component_manager = world_get_component_manager(e->current_world);
+        //     component_manager_remove_component(component_manager, type);
+        // }
+        // component_registry_destroy_game_components(e->component_registry);
+        // e->game->Flush(e);
+        // delete e->game;
+        // e->game = nullptr;
     }
 
     void engine_register_default_components(Engine *e)
@@ -266,7 +285,7 @@ namespace Vultr
         OnEdit on_edit = e->on_edit;
         if (on_edit != nullptr)
         {
-            on_edit(event);
+            on_edit(e->editor, event);
         }
     }
     template <>
@@ -832,7 +851,7 @@ namespace Vultr
     template <>
     const char *get_struct_name<MaterialComponent>()
     {
-        return ("MaterialComponent");
+        return "MaterialComponent";
     }
 
 } // namespace Vultr

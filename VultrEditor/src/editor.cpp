@@ -17,31 +17,23 @@ Editor::Editor() : selected_entity(Entity(0))
 {
 }
 
-// TODO: AHHH MORE FUCKING GLOBAL VARIABLES KILL ME
-Editor &get_editor()
+void editor_register_window(Vultr::Engine *e, Editor *editor, WindowRenderer renderer, void *state)
 {
-    static Editor instance;
-    return instance;
-}
-
-void editor_register_window(Vultr::Engine *e, WindowRenderer renderer, void *state)
-{
-    get_editor().windows.push_back({
+    editor->windows.push_back({
         .renderer = renderer,
         .state = state,
     });
 }
 
-void delete_entity(Vultr::Engine *e)
+void delete_entity(Vultr::Engine *e, Editor *editor)
 {
-    auto &m = get_editor();
-    if (m.selected_entity == INVALID_ENTITY)
+    if (editor->selected_entity == INVALID_ENTITY)
         return;
     auto *world = get_current_world(e);
 
     auto &component_manager = world_get_component_manager(world);
     auto *event = new EntityDestroyEvent();
-    Entity selected_entity = m.selected_entity;
+    Entity selected_entity = editor->selected_entity;
     for (auto [type, array] : component_manager.component_arrays)
     {
         void *component = array->InternalGetData(selected_entity);
@@ -52,18 +44,16 @@ void delete_entity(Vultr::Engine *e)
     }
     event->entity = selected_entity;
     destroy_entity(e, selected_entity);
-    on_edit(event);
+    on_edit(editor, event);
 }
 
-void select_entity(Vultr::Engine *e, Entity entity)
+void select_entity(Vultr::Engine *e, Editor *editor, Entity entity)
 {
-    get_editor().selected_entity = entity;
+    editor->selected_entity = entity;
 }
 
-void editor_render(Vultr::Engine *e, const UpdateTick &tick)
+void editor_render(Vultr::Engine *e, Editor *editor, const UpdateTick &tick)
 {
-    auto &m = get_editor();
-
     glDisable(GL_DEPTH_TEST);
 
     ImGui_ImplOpenGL3_NewFrame();
@@ -92,13 +82,13 @@ void editor_render(Vultr::Engine *e, const UpdateTick &tick)
         ImGui::Begin("DockSpace Demo", &dockspaceOpen, window_flags);
         ImGui::PopStyleVar(3);
         ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-        m.dockspace = ImGui::GetID("HUB_DockSpace");
-        ImGui::DockSpace(m.dockspace, ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_None | ImGuiDockNodeFlags_PassthruCentralNode | ImGuiDockNodeFlags_NoResize);
+        editor->dockspace = ImGui::GetID("HUB_DockSpace");
+        ImGui::DockSpace(editor->dockspace, ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_None | ImGuiDockNodeFlags_PassthruCentralNode | ImGuiDockNodeFlags_NoResize);
 
-        for (auto &pair : m.windows)
+        for (auto &pair : editor->windows)
         {
-            ImGui::SetNextWindowDockID(m.dockspace, ImGuiCond_FirstUseEver);
-            pair.renderer(e, tick, pair.state);
+            ImGui::SetNextWindowDockID(editor->dockspace, ImGuiCond_FirstUseEver);
+            pair.renderer(e, editor, tick, pair.state);
         }
         ImGui::End();
     }
@@ -114,7 +104,7 @@ void editor_render(Vultr::Engine *e, const UpdateTick &tick)
         ImGui::Begin("TOOLBAR", NULL, window_flags);
         ImGui::PopStyleVar();
 
-        auto &gm = m.game_manager;
+        auto &gm = editor->game_manager;
 
         if (gm.playing)
         {
@@ -154,6 +144,8 @@ void editor_render(Vultr::Engine *e, const UpdateTick &tick)
                 gm.playing = false;
                 gm.game_running = false;
                 change_world(e, gm.cached_world);
+                engine_destroy_game(e);
+                engine_init_game(e);
             }
         }
 
@@ -167,17 +159,26 @@ void editor_render(Vultr::Engine *e, const UpdateTick &tick)
     ImGui::RenderPlatformWindowsDefault();
     glfwMakeContextCurrent(backup_current_context);
     glEnable(GL_DEPTH_TEST);
+
+    // Once we are done rendering everything, THEN we will look at reloading the DLL
+    // Only do this when there isn't a game actively running
+    if (!editor->game_manager.game_running)
+    {
+        bool reload = watch_dll(editor->reload_watcher);
+        if (reload)
+        {
+        }
+    }
 }
 
-void save(Vultr::Engine *e)
+void save(Vultr::Engine *e, Editor *editor)
 {
     save_world(e, get_current_world(e), VultrSource("test_world.vultr"));
 }
 
-void duplicate_entity(Vultr::Engine *e)
+void duplicate_entity(Vultr::Engine *e, Editor *editor)
 {
-    auto &m = get_editor();
-    Entity selected_entity = m.selected_entity;
+    Entity selected_entity = editor->selected_entity;
     if (selected_entity == INVALID_ENTITY)
         return;
     auto *world = get_current_world(e);
