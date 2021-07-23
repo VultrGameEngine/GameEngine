@@ -52,6 +52,16 @@ void select_entity(Vultr::Engine *e, Editor *editor, Entity entity)
     editor->selected_entity = entity;
 }
 
+static World *cache_world(Vultr::Engine *e)
+{
+    World *cached_world = new InternalWorld();
+    auto *world = get_current_world(e);
+    component_manager_copy(cached_world->component_manager, world->component_manager);
+    cached_world->entity_manager = world->entity_manager;
+    cached_world->system_manager = world->system_manager;
+    return cached_world;
+}
+
 void editor_render(Vultr::Engine *e, Editor *editor, const UpdateTick &tick)
 {
     glDisable(GL_DEPTH_TEST);
@@ -119,15 +129,10 @@ void editor_render(Vultr::Engine *e, Editor *editor, const UpdateTick &tick)
             {
                 if (!gm.game_running)
                 {
-                    World *cached_world = new InternalWorld();
-                    auto *world = get_current_world(e);
-                    component_manager_copy(cached_world->component_manager, world->component_manager);
-                    cached_world->entity_manager = world->entity_manager;
-                    // cached_world->system_manager = SystemManager();
-                    cached_world->system_manager = world->system_manager;
-                    gm.cached_world = cached_world;
-                    bool empty = world_get_system_manager(world).system_providers.empty();
+                    // We need to cache our world that way we can use it after we stop playing
+                    gm.cached_world = cache_world(e);
 
+                    // Then we will run the game, letting it do whatever initialization it needs with the current world
                     engine_init_game(e);
                     gm.game_running = true;
                 }
@@ -141,9 +146,11 @@ void editor_render(Vultr::Engine *e, Editor *editor, const UpdateTick &tick)
             ImGui::SameLine();
             if (ImGui::Button("Stop"))
             {
+                // When we stop playing, we will basically just go back to our cached world (right before we hit play) and use that
                 gm.playing = false;
                 gm.game_running = false;
-                engine_detach_game(e);
+
+                // Change world will delete the old world for us so there is no memory leak here
                 change_world(e, gm.cached_world);
                 gm.cached_world = nullptr;
             }
@@ -167,6 +174,11 @@ void editor_render(Vultr::Engine *e, Editor *editor, const UpdateTick &tick)
         bool reload = watch_dll(editor->reload_watcher);
         if (reload)
         {
+            auto *cached_world = cache_world(e);
+            engine_flush_game(e);
+            engine_load_game(e, editor->reload_watcher->dll.path.string().c_str());
+            e->game->RegisterComponents(e);
+            e->game->SetImGuiContext(ImGui::GetCurrentContext());
         }
     }
 }

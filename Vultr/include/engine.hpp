@@ -23,6 +23,7 @@ namespace Vultr
         // EDITOR ONLY
         OnEdit on_edit = nullptr;
         void *editor = nullptr;
+        void *dll = nullptr;
     };
 
     World *get_current_world(Engine *e);

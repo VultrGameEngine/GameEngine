@@ -29,6 +29,14 @@ namespace Vultr
 #endif
     }
 
+    static void close_dll(void *DLL)
+    {
+#ifdef _WIN32
+#else
+        dlclose(DLL);
+#endif
+    }
+
     static void *get_function_pointer(void *dll, const std::string &name)
     {
 #ifdef _WIN32
@@ -179,6 +187,7 @@ namespace Vultr
         }
 
         e->game = static_cast<Game *>(init(e));
+        e->dll = DLL;
     }
 
     void engine_load_game(Engine *e, Game *game)
@@ -204,6 +213,12 @@ namespace Vultr
         e->game->Flush(e);
         delete e->game;
         e->game = nullptr;
+
+        if (e->dll != nullptr)
+        {
+            dlclose(e->dll);
+            e->dll = nullptr;
+        }
     }
 
     template <typename T>
