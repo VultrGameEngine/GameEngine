@@ -21,4 +21,16 @@ namespace Vultr
         }
     }
 
+    void component_registry_delete_game_components(ComponentRegistry &r)
+    {
+        for (auto type_name : r.game_components)
+        {
+            auto type = r.component_name_to_type[type_name];
+            r.component_name_to_type.erase(type_name);
+            r.component_type_to_name.erase(type);
+            r.components.erase(type);
+        }
+        r.game_components.clear();
+    }
+
 } // namespace Vultr

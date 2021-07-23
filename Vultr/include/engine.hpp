@@ -34,7 +34,10 @@ namespace Vultr
     void engine_init(Engine *e, bool debug);
     void engine_load_game(Engine *e, const char *path);
     void engine_load_game(Engine *e, Game *game);
-    void engine_destroy_game(Engine *e);
+
+    void engine_detach_game(Engine *e);
+    void engine_flush_game(Engine *e);
+
     void engine_register_default_components(Engine *e);
     void engine_init_default_systems(Engine *e);
     void engine_init_game(Engine *e);
@@ -111,7 +114,8 @@ namespace Vultr
     template <typename T>
     void register_component(Engine *e)
     {
-        component_registry_register_component<T>(e->component_registry, [](Engine *e, Entity entity) { entity_add_component(e, entity, T::Create()); });
+        component_registry_register_component<T>(
+            e->component_registry, [](Engine *e, Entity entity) { entity_add_component(e, entity, T::Create()); }, true);
     }
 
     template <typename T>

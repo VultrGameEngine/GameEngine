@@ -28,6 +28,8 @@ namespace Vultr
         // Map from component type to component stringified name
         std::unordered_map<ComponentType, std::string> component_type_to_name{};
 
+        std::vector<std::string> game_components;
+
         // The component type to be assigned to the next registered component
         // starting at
         // 0
@@ -35,7 +37,7 @@ namespace Vultr
     };
 
     template <typename T>
-    void component_registry_register_component(ComponentRegistry &r, ComponentConstructor constructor)
+    void component_registry_register_component(ComponentRegistry &r, ComponentConstructor constructor, bool game_added)
     {
         std::string type_name = get_struct_name<T>();
 
@@ -57,6 +59,11 @@ namespace Vultr
         // Add the component type to the map
         r.components.insert({type, data});
         r.next_component_type++;
+
+        if (game_added)
+        {
+            r.game_components.push_back(type_name);
+        }
     }
 
     template <typename T>
@@ -74,6 +81,8 @@ namespace Vultr
     bool component_registry_is_component_registered(const ComponentRegistry &r, ComponentType type);
 
     void component_registry_render_entity_components(Engine *e, const ComponentRegistry &r, Entity entity);
+
+    void component_registry_delete_game_components(ComponentRegistry &r);
 
     void to_json(json &j, const ComponentRegistry &r);
 

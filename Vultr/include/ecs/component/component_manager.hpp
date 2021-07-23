@@ -43,4 +43,6 @@ namespace Vultr
 
     void component_manager_copy(ComponentManager &copy, const ComponentManager &other);
 
+    void component_manager_remove_component(ComponentManager &manager, ComponentType type);
+
 } // namespace Vultr

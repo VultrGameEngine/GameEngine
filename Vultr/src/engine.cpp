@@ -186,29 +186,42 @@ namespace Vultr
         e->game = game;
     }
 
-    void engine_destroy_game(Engine *e)
+    void engine_detach_game(Engine *e)
     {
-        // for (auto &type_name : e->component_registry.game_loaded_components)
-        // {
-        //     auto type = e->component_registry.component_name_to_type[type_name];
-        //     auto &component_manager = world_get_component_manager(e->current_world);
-        //     component_manager_remove_component(component_manager, type);
-        // }
-        // component_registry_destroy_game_components(e->component_registry);
-        // e->game->Flush(e);
-        // delete e->game;
-        // e->game = nullptr;
+    }
+
+    void engine_flush_game(Engine *e)
+    {
+        // Deregister all components registered through game
+        for (auto &type_name : e->component_registry.game_components)
+        {
+            auto type = e->component_registry.component_name_to_type[type_name];
+            auto &component_manager = world_get_component_manager(e->current_world);
+            component_manager_remove_component(component_manager, type);
+        }
+        component_registry_delete_game_components(e->component_registry);
+
+        e->game->Flush(e);
+        delete e->game;
+        e->game = nullptr;
+    }
+
+    template <typename T>
+    void internal_register_component(Engine *e)
+    {
+        component_registry_register_component<T>(
+            e->component_registry, [](Engine *e, Entity entity) { entity_add_component(e, entity, T::Create()); }, false);
     }
 
     void engine_register_default_components(Engine *e)
     {
-        register_component<StaticMeshComponent>(e);
-        register_component<MaterialComponent>(e);
-        register_component<TransformComponent>(e);
-        register_component<LightComponent>(e);
-        register_component<CameraComponent>(e);
-        register_component<ControllerComponent>(e);
-        register_component<SkyBoxComponent>(e);
+        internal_register_component<StaticMeshComponent>(e);
+        internal_register_component<MaterialComponent>(e);
+        internal_register_component<TransformComponent>(e);
+        internal_register_component<LightComponent>(e);
+        internal_register_component<CameraComponent>(e);
+        internal_register_component<ControllerComponent>(e);
+        internal_register_component<SkyBoxComponent>(e);
     }
 
     void engine_init_default_systems(Engine *e)

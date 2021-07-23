@@ -43,5 +43,10 @@ namespace Vultr
             delete array;
         }
     }
+    void component_manager_remove_component(ComponentManager &manager, ComponentType type)
+    {
+        delete manager.component_arrays[type];
+        manager.component_arrays.erase(type);
+    }
 
 } // namespace Vultr

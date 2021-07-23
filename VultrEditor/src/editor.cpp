@@ -123,10 +123,10 @@ void editor_render(Vultr::Engine *e, Editor *editor, const UpdateTick &tick)
                     auto *world = get_current_world(e);
                     component_manager_copy(cached_world->component_manager, world->component_manager);
                     cached_world->entity_manager = world->entity_manager;
+                    // cached_world->system_manager = SystemManager();
                     cached_world->system_manager = world->system_manager;
-                    if (gm.cached_world != nullptr)
-                        delete gm.cached_world;
                     gm.cached_world = cached_world;
+                    bool empty = world_get_system_manager(world).system_providers.empty();
 
                     engine_init_game(e);
                     gm.game_running = true;
@@ -143,9 +143,9 @@ void editor_render(Vultr::Engine *e, Editor *editor, const UpdateTick &tick)
             {
                 gm.playing = false;
                 gm.game_running = false;
+                engine_detach_game(e);
                 change_world(e, gm.cached_world);
-                engine_destroy_game(e);
-                engine_init_game(e);
+                gm.cached_world = nullptr;
             }
         }
 
