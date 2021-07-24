@@ -5,16 +5,26 @@ namespace Vultr
 }
 #include <core/models/update_tick.h>
 #include <imgui/imgui.h>
+#include "scene.hpp"
+#include <types/types.hpp>
+#include <ecs/world/world.hpp>
 
-class Game
+struct Game
 {
-  public:
-    virtual void RegisterComponents(Vultr::Engine *e) = 0;
-    virtual void Init(Vultr::Engine *e) = 0;
-    virtual void Update(Vultr::Engine *e, const Vultr::UpdateTick &tick) = 0;
-    virtual void Flush(Vultr::Engine *e) = 0;
-    virtual void SetImGuiContext(ImGuiContext *context) = 0;
-    virtual ~Game()
-    {
-    }
+    virtual void register_components(Vultr::Engine *e) = 0;
+    virtual Scene *init_scene(Vultr::Engine *e, Vultr::World *world) = 0;
+
+    Scene *perform_init_scene(Vultr::Engine *e, Vultr::World *world);
+
+    virtual void flush(Vultr::Engine *e) = 0;
+
+    void perform_flush(Vultr::Engine *e);
+
+    virtual void set_imgui_context(ImGuiContext *context) = 0;
+
+    void update(Vultr::Engine *e, const Vultr::UpdateTick &tick);
+    void flush_scene(Vultr::Engine *e);
+    virtual ~Game(){};
+
+    Scene *scene = nullptr;
 };

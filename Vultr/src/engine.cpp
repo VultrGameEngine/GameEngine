@@ -55,8 +55,16 @@ namespace Vultr
     {
         World *old_world = e->current_world;
         e->current_world = new_world;
+
+        // If there is an older scene, then we will flush it
+        if (e->game != nullptr)
+        {
+            e->game->flush_scene(e);
+        }
+
         if (old_world == nullptr)
             return;
+
         for (Entity entity : world_get_entity_manager(old_world).living_entites)
         {
             system_manager_entity_destroyed(e, e->system_manager, entity);
@@ -69,6 +77,7 @@ namespace Vultr
             system_manager_entity_signature_changed(e, e->system_manager, entity, entity_manager.signatures[entity]);
             system_manager_entity_signature_changed(e, system_manager_world, entity, entity_manager.signatures[entity]);
         }
+
         destroy_world(old_world);
     }
 
@@ -188,11 +197,13 @@ namespace Vultr
 
         e->game = static_cast<Game *>(init(e));
         e->dll = DLL;
+        e->game->register_components(e);
     }
 
     void engine_load_game(Engine *e, Game *game)
     {
         e->game = game;
+        e->game->register_components(e);
     }
 
     void engine_detach_game(Engine *e)
@@ -210,7 +221,7 @@ namespace Vultr
         }
         component_registry_delete_game_components(e->component_registry);
 
-        e->game->Flush(e);
+        e->game->flush(e);
         delete e->game;
         e->game = nullptr;
 
@@ -264,7 +275,7 @@ namespace Vultr
     void engine_init_game(Engine *e)
     {
         assert(e->game != nullptr && "Game has not been loaded!");
-        e->game->Init(e);
+        e->game->perform_init_scene(e, e->current_world);
     }
     UpdateTick engine_update_game(Engine *e, float &last_time, bool play)
     {
@@ -276,7 +287,7 @@ namespace Vultr
         UpdateTick tick = UpdateTick(deltaTime, e->debug);
 
         if (e->game != nullptr && play)
-            e->game->Update(e, tick);
+            e->game->update(e, tick);
 
         // Only continuously update the meshes if we are planning on changing
         // these components at random (really will only happen in the editor) If

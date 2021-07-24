@@ -27,7 +27,7 @@ namespace Vultr
     };
 
     World *get_current_world(Engine *e);
-    void change_world(Engine *e, World *);
+    void change_world(Engine *e, World *new_world);
 
     Engine *get_engine(GLFWwindow *window);
     void add_editor(Engine *e, void *editor);

@@ -132,7 +132,6 @@ void editor_render(Vultr::Engine *e, Editor *editor, const UpdateTick &tick)
                     // We need to cache our world that way we can use it after we stop playing
                     gm.cached_world = cache_world(e);
 
-                    // Then we will run the game, letting it do whatever initialization it needs with the current world
                     engine_init_game(e);
                     gm.game_running = true;
                 }
@@ -177,8 +176,7 @@ void editor_render(Vultr::Engine *e, Editor *editor, const UpdateTick &tick)
             auto *cached_world = cache_world(e);
             engine_flush_game(e);
             engine_load_game(e, editor->reload_watcher->dll.path.string().c_str());
-            e->game->RegisterComponents(e);
-            e->game->SetImGuiContext(ImGui::GetCurrentContext());
+            e->game->set_imgui_context(ImGui::GetCurrentContext());
         }
     }
 }

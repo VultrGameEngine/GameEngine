@@ -380,6 +380,7 @@ namespace Vultr
             {"ComponentRegistry", component_registry_json},
             {"ComponentManager", component_manager_json},
             {"EntityManager", entity_manager_json},
+            {"WorldHash", world->world_hash},
         };
     }
 
@@ -388,6 +389,7 @@ namespace Vultr
         std::ofstream o;
         o.open(out.path);
         InternalWorld *world = static_cast<InternalWorld *>(_world);
+        world->file_path = out.path.string().c_str();
         json final_output;
         save_world(e, world, final_output);
         o << std::setw(4) << final_output;

@@ -104,8 +104,8 @@ int main(void)
     editor->reload_watcher = reload_watcher;
     add_editor(e, static_cast<void *>(editor));
 
-    e->game->RegisterComponents(e);
-    e->game->SetImGuiContext(ImGui::GetCurrentContext());
+    engine_init_game(e);
+    e->game->set_imgui_context(ImGui::GetCurrentContext());
     e->on_edit = on_edit;
 
     static const ImWchar icons_ranges[] = {ICON_MIN_FK, ICON_MAX_FK, 0};
