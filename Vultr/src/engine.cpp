@@ -342,19 +342,19 @@ namespace Vultr
             const char *shader_options[] = {"Forward", "PBR", "Unlit", "Skybox", "Custom"};
             static int selected_shader_option = 0;
 
-            if (component.shader_source.path == FORWARD_MATERIAL_SOURCE)
+            if (component.shader_source == FORWARD_MATERIAL_SOURCE)
             {
                 selected_shader_option = 0;
             }
-            else if (component.shader_source.path == PBR_MATERIAL_SOURCE)
+            else if (component.shader_source == PBR_MATERIAL_SOURCE)
             {
                 selected_shader_option = 1;
             }
-            else if (component.shader_source.path == UNLIT_MATERIAL_SOURCE)
+            else if (component.shader_source == UNLIT_MATERIAL_SOURCE)
             {
                 selected_shader_option = 2;
             }
-            else if (component.shader_source.path == SKYBOX_MATERIAL_SOURCE)
+            else if (component.shader_source == SKYBOX_MATERIAL_SOURCE)
             {
                 selected_shader_option = 3;
             }
@@ -377,17 +377,17 @@ namespace Vultr
                         {
                             case 0:
                             {
-                                component = ForwardMaterial::Create("");
+                                component = ForwardMaterial::Create("", "");
                                 break;
                             }
                             case 1:
                             {
-                                component = ForwardMaterial::Create("");
+                                component = ForwardMaterial::Create("", "");
                                 break;
                             }
                             case 2:
                             {
-                                component = UnlitMaterial::Create();
+                                component = UnlitMaterial::Create(Color(255));
                                 break;
                             }
 
@@ -398,8 +398,8 @@ namespace Vultr
                             }
                             case 4:
                             {
-                                auto path = component.shader_source.path;
-                                if (path == FORWARD_MATERIAL_SOURCE || path == SKYBOX_MATERIAL_SOURCE || path == PBR_MATERIAL_SOURCE || path == UNLIT_MATERIAL_SOURCE)
+                                auto source = component.shader_source;
+                                if (source == FORWARD_MATERIAL_SOURCE || source == SKYBOX_MATERIAL_SOURCE || source == PBR_MATERIAL_SOURCE || source == UNLIT_MATERIAL_SOURCE)
                                 {
                                     component = MaterialComponent();
                                     component.shader_source = ShaderSource("");
@@ -422,114 +422,22 @@ namespace Vultr
             }
             ImGui::PopID();
 
-            // Different rendering for different shaders
-            switch (selected_shader_option)
+            for (u16 i = 0; i < component.texture_count; i++)
             {
-                    // Forward
-                case 0:
-                {
-                    if (component.textures.size() > 0)
-                    {
-                        ImGui::PushID("diffuse");
-                        res = RenderMember("Diffuse", component.textures[0]);
-                        ImGui::PopID();
-                    }
-                    if (component.textures.size() > 1)
-                    {
-                        ImGui::PushID("specular");
-                        res = RenderMember("Specular", component.textures[1]);
-                        ImGui::PopID();
-                    }
-
-                    if (component.colors.find("tint") != component.colors.end())
-                    {
-                        ImGui::PushID("tint");
-                        res = RenderMember("Tint", component.colors["tint"]);
-                        ImGui::PopID();
-                    }
-
-                    if (component.floats.find("material.shininess") != component.floats.end())
-                    {
-                        ImGui::PushID("shininess");
-                        res = RenderMember("Shininess", component.floats["material.shininess"]);
-                        ImGui::PopID();
-                    }
-                }
-                // PBR
-                case 1:
-                {
-                    break;
-                }
-                // Unlit
-                case 2:
-                {
-                    ImGui::PushID("lightColor");
-                    res = RenderMember("Color", component.colors["lightColor"]);
-                    ImGui::PopID();
-                    break;
-                }
-
-                // Skybox
-                case 3:
-                {
-                    for (auto &pair : component.textures)
-                    {
-                        ImGui::PushID(pair.name.c_str());
-                        res = RenderMember(pair.name, pair.file);
-                        ImGui::PopID();
-                    }
-                    break;
-                }
-                default:
-                {
-                    ImGui::PushID("shader_source");
-                    res = RenderMember("shader_source", component.shader_source);
-                    ImGui::PopID();
-
-                    ImGui::PushID("textures");
-                    if (ImGui::CollapsingHeader("textures"))
-                    {
-                        res = RenderMember("textures", component.textures);
-                    }
-                    ImGui::PopID();
-
-                    ImGui::PushID("vec3s");
-                    if (ImGui::CollapsingHeader("vec3s"))
-                    {
-                        res = RenderMember("vec3s", component.vec3s);
-                    }
-                    ImGui::PopID();
-
-                    ImGui::PushID("vec4s");
-                    if (ImGui::CollapsingHeader("vec4s"))
-                    {
-                        res = RenderMember("vec4s", component.vec4s);
-                    }
-                    ImGui::PopID();
-
-                    ImGui::PushID("colors");
-                    if (ImGui::CollapsingHeader("colors"))
-                    {
-                        res = RenderMember("colors", component.colors);
-                    }
-                    ImGui::PopID();
-
-                    ImGui::PushID("ints");
-                    if (ImGui::CollapsingHeader("ints"))
-                    {
-                        res = RenderMember("ints", component.ints);
-                    }
-                    ImGui::PopID();
-
-                    ImGui::PushID("floats");
-                    if (ImGui::CollapsingHeader("floats"))
-                    {
-                        res = RenderMember("floats", component.floats);
-                    }
-                    ImGui::PopID();
-                    break;
-                }
+                auto &texture = component.textures[i];
+                ImGui::PushID(texture.location.c_str());
+                res = RenderMember(texture.location, texture.file);
+                ImGui::PopID();
             }
+
+            for (u16 i = 0; i < component.uniform_count; i++)
+            {
+                auto &uniform = component.uniforms[i];
+                ImGui::PushID(uniform.location.c_str());
+                res = RenderMember(uniform.location, uniform);
+                ImGui::PopID();
+            }
+
             if (res.started_editing)
             {
                 copy = temp;
@@ -552,6 +460,7 @@ namespace Vultr
             }
         }
     }
+
     template <>
     void RenderComponent<TransformComponent>(Engine *e, Entity entity)
     {

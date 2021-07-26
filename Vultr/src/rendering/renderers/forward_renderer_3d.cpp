@@ -50,11 +50,12 @@ namespace Vultr::Renderer3D
         }
         else
         {
-            for (auto [file, slot, name] : material.textures)
+            for (s16 i = 0; i < material.texture_count; i++)
             {
-                Texture *texture = TextureLoaderSystem::get_texture(e, file.path.string().c_str());
+                auto &texture_res = material.textures[i];
+                Texture *texture = TextureLoaderSystem::get_texture(e, texture_res.file.path.string().c_str());
                 if (texture != nullptr)
-                    bind_texture(*texture, GL_TEXTURE0 + slot);
+                    bind_texture(*texture, GL_TEXTURE0 + i);
             }
             glm::mat4 view = context.camera_transform.GetViewMatrix();
             glm::mat4 MVP = projection * view * model;
@@ -62,30 +63,7 @@ namespace Vultr::Renderer3D
             // shader->SetUniformMatrix4fv("view", glm::value_ptr());
         }
 
-        for (auto [uniform, value] : material.vec3s)
-        {
-            set_uniform_3f(shader, uniform.c_str(), value);
-        }
-
-        for (auto [uniform, value] : material.vec4s)
-        {
-            set_uniform_3f(shader, uniform.c_str(), value);
-        }
-
-        for (auto [uniform, value] : material.colors)
-        {
-            set_uniform_4f(shader, uniform.c_str(), value.value);
-        }
-
-        for (auto [uniform, value] : material.ints)
-        {
-            set_uniform_1i(shader, uniform.c_str(), value);
-        }
-
-        for (auto [uniform, value] : material.floats)
-        {
-            set_uniform_1f(shader, uniform.c_str(), value);
-        }
+        material_bind_uniforms(material, shader);
     }
 
 } // namespace Vultr::Renderer3D

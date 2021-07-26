@@ -4,11 +4,11 @@ namespace Vultr
 {
     namespace UnlitMaterial
     {
-        MaterialComponent Create()
+        MaterialComponent Create(const Color &color)
         {
             MaterialComponent component = MaterialComponent();
-            component.shader_source = ShaderSource(UNLIT_MATERIAL_SOURCE);
-            component.colors.insert({"lightColor", Color(Vec4(1))});
+            component.shader_source = UNLIT_MATERIAL_SOURCE;
+            color_uniform(component, "u_Color", color);
             return component;
         }
 

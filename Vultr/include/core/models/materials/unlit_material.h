@@ -5,8 +5,8 @@ namespace Vultr
 {
     namespace UnlitMaterial
     {
-#define UNLIT_MATERIAL_SOURCE "shaders/unlit.glsl"
-        MaterialComponent Create();
+#define UNLIT_MATERIAL_SOURCE ShaderSource("shaders/unlit.glsl")
+        MaterialComponent Create(const Color &color);
 
     } // namespace UnlitMaterial
 } // namespace Vultr

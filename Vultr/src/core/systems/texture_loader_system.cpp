@@ -34,8 +34,10 @@ namespace Vultr::TextureLoaderSystem
     void load_texture(Engine *e, const MaterialComponent &mat)
     {
         auto &provider = get_provider(e);
-        for (auto [source, slot, name] : mat.textures)
+        for (auto [source, name] : mat.textures)
         {
+            if (name.size() == 0)
+                continue;
             if (!is_loaded(e, source))
             {
                 provider.textures[source.path.string()] = {};
@@ -64,8 +66,10 @@ namespace Vultr::TextureLoaderSystem
         }
         else
         {
-            for (auto [file, slot, name] : component.textures)
+            for (auto [file, name] : component.textures)
             {
+                if (name.size() == 0)
+                    continue;
                 if (!is_loaded(e, file))
                 {
                     auto new_tex = generate_texture(GL_TEXTURE_2D);
@@ -76,6 +80,7 @@ namespace Vultr::TextureLoaderSystem
                     }
                     else
                     {
+                        fprintf(stderr, "Failed to import texture %s!", file.path.string().c_str());
                         delete_texture(new_tex);
                     }
                 }

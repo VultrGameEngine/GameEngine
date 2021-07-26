@@ -111,50 +111,150 @@ namespace Vultr
     void to_json(json &j, const MaterialComponent &c)
     {
         TOJSON(shader_source);
-        TOJSON(textures);
-        TOJSON(vec3s);
-        TOJSON(vec4s);
-        TOJSON(colors);
-        TOJSON(ints);
-        TOJSON(floats);
+        TOJSON(uniform_count);
+        TOJSON(texture_count);
+        std::vector<Material::TextureResource> textures;
+        textures.assign(c.textures, c.textures + c.texture_count);
+        j["textures"] = textures;
+        std::vector<MaterialUniform> uniforms;
+        uniforms.assign(c.uniforms, c.uniforms + c.uniform_count);
+        j["uniforms"] = uniforms;
     }
     void from_json(const json &j, MaterialComponent &c)
     {
         FROMJSON(shader_source, Vultr::ShaderSource)
-        FROMJSON(textures, std::vector<MaterialComponent::TexturePair>)
-        if (j.contains("vec3s"))
+        FROMJSON(uniform_count, size_t)
+        FROMJSON(texture_count, size_t)
+        if (j.contains("textures"))
         {
-            c.vec3s = j["vec3s"].get<std::unordered_map<std::string, Vec3>>();
+            auto textures = j["textures"].get<std::vector<Material::TextureResource>>();
+            for (s16 i = 0; i < c.texture_count; i++)
+            {
+                c.textures[i] = textures[i];
+            }
         }
-        if (j.contains("vec4s"))
+        if (j.contains("uniforms"))
         {
-            c.vec4s = j["vec4s"].get<std::unordered_map<std::string, Vec4>>();
+            auto uniforms = j["uniforms"].get<std::vector<MaterialUniform>>();
+            for (s16 i = 0; i < c.uniform_count; i++)
+            {
+                c.uniforms[i] = uniforms[i];
+            }
         }
-        if (j.contains("colors"))
-        {
-            c.colors = j["colors"].get<std::unordered_map<std::string, Color>>();
-        }
-        if (j.contains("ints"))
-        {
-            c.ints = j["ints"].get<std::unordered_map<std::string, s32>>();
-        }
-        if (j.contains("floats"))
-        {
-            c.floats = j["floats"].get<std::unordered_map<std::string, f32>>();
-        }
+        // if (j.contains("vec4s"))
+        // {
+        //     c.vec4s = j["vec4s"].get<std::unordered_map<std::string, Vec4>>();
+        // }
+        // if (j.contains("colors"))
+        // {
+        //     c.colors = j["colors"].get<std::unordered_map<std::string, Color>>();
+        // }
+        // if (j.contains("ints"))
+        // {
+        //     c.ints = j["ints"].get<std::unordered_map<std::string, s32>>();
+        // }
+        // if (j.contains("floats"))
+        // {
+        //     c.floats = j["floats"].get<std::unordered_map<std::string, f32>>();
+        // }
     }
-    void to_json(json &j, const MaterialComponent::TexturePair &c)
+    void to_json(json &j, const MaterialComponent::TextureResource &c)
     {
         TOJSON(file);
-        TOJSON(slot);
-        TOJSON(name);
+        TOJSON(location);
     }
-    void from_json(const json &j, MaterialComponent::TexturePair &c)
+    void from_json(const json &j, MaterialComponent::TextureResource &c)
     {
         FROMJSON(file, Vultr::TextureSource)
-        FROMJSON(slot, u16)
-        FROMJSON(name, std::string)
+        if (j.contains("location"))
+        {
+            c.location = j["location"].get<std::string>();
+        }
     }
+
+    void to_json(json &j, const MaterialUniform &c)
+    {
+        TOJSON(type);
+        TOJSON(location);
+        switch (c.type)
+        {
+            case MaterialUniform::BOOL:
+                TOJSON(data.u_bool);
+                break;
+            case MaterialUniform::U32:
+                TOJSON(data.u_u32);
+                break;
+            case MaterialUniform::S32:
+                TOJSON(data.u_s32);
+                break;
+            case MaterialUniform::F64:
+                TOJSON(data.u_f64);
+                break;
+            case MaterialUniform::VEC2:
+                TOJSON(data.u_vec2);
+                break;
+            case MaterialUniform::VEC3:
+                TOJSON(data.u_vec3);
+                break;
+            case MaterialUniform::VEC4:
+                TOJSON(data.u_vec4);
+                break;
+            case MaterialUniform::COLOR:
+                TOJSON(data.u_color);
+                break;
+            case MaterialUniform::MAT4:
+                // TODO: Add support for mat4 serialization
+                // TOJSON(data.u_mat4);
+                break;
+            case MaterialUniform::EMPTY:
+                // Nothing to do here, as this is the default
+                break;
+        }
+    }
+
+    void from_json(const json &j, MaterialUniform &c)
+    {
+        FROMJSON(type, MaterialUniform::Type)
+        if (j.contains("location"))
+        {
+            c.location = j["location"].get<std::string>();
+        }
+        switch (c.type)
+        {
+            case MaterialUniform::BOOL:
+                FROMJSON(data.u_bool, bool);
+                break;
+            case MaterialUniform::U32:
+                FROMJSON(data.u_u32, u32);
+                break;
+            case MaterialUniform::S32:
+                FROMJSON(data.u_s32, s32);
+                break;
+            case MaterialUniform::F64:
+                FROMJSON(data.u_f64, f64);
+                break;
+            case MaterialUniform::VEC2:
+                FROMJSON(data.u_vec2, Vec2);
+                break;
+            case MaterialUniform::VEC3:
+                FROMJSON(data.u_vec3, Vec3);
+                break;
+            case MaterialUniform::VEC4:
+                FROMJSON(data.u_vec4, Vec4);
+                break;
+            case MaterialUniform::COLOR:
+                FROMJSON(data.u_color, Color);
+                break;
+            case MaterialUniform::MAT4:
+                // TODO: Add support for mat4 serialization
+                // TOJSON(data.u_mat4);
+                break;
+            case MaterialUniform::EMPTY:
+                // Nothing to do here, as this is the default
+                break;
+        }
+    }
+
     void to_json(json &j, const Color &c)
     {
         TOJSON(value);
@@ -293,7 +393,9 @@ namespace Vultr
 
     void from_json(const json &j, File &f)
     {
-        f.path = file_get_relative_path(File(j["path"].get<std::string>())).string();
+        auto relative_path = j["path"].get<std::string>();
+        auto file = File(relative_path);
+        f.path = file.path;
         f.expected_extensions = j["expected_extensions"].get<std::vector<std::string>>();
     }
 

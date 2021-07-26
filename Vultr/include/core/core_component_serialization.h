@@ -19,8 +19,10 @@ namespace Vultr
 
     void to_json(json &j, const MaterialComponent &c);
     void from_json(const json &j, MaterialComponent &c);
-    void to_json(json &j, const MaterialComponent::TexturePair &c);
-    void from_json(const json &j, MaterialComponent::TexturePair &c);
+    void to_json(json &j, const MaterialComponent::TextureResource &c);
+    void from_json(const json &j, MaterialComponent::TextureResource &c);
+    void to_json(json &j, const MaterialUniform &c);
+    void from_json(const json &j, MaterialUniform &c);
     void to_json(json &j, const Color &c);
     void from_json(const json &j, Color &c);
 } // namespace Vultr

@@ -3,9 +3,10 @@
 
 namespace Vultr
 {
+#define FORWARD_MATERIAL_SOURCE ShaderSource("shaders/forward_material.glsl")
     namespace ForwardMaterial
     {
-#define FORWARD_MATERIAL_SOURCE "shaders/forward_material.glsl"
-        MaterialComponent Create(const char *p_texture);
-    } // namespace ForwardMaterial
+        MaterialComponent Create(const char *diffuse, const char *specular);
+    }
+
 } // namespace Vultr

@@ -102,7 +102,7 @@ namespace Vultr
     }
 
     template <>
-    inline RenderMemberResult RenderMember(const std::string &name, float &m)
+    inline RenderMemberResult RenderMember(const std::string &name, f32 &m)
     {
         ImGui::DragFloat(name.c_str(), &m, 0.02f);
         return was_edited();
@@ -116,7 +116,7 @@ namespace Vultr
     }
 
     template <>
-    inline RenderMemberResult RenderMember(const std::string &name, double &m)
+    inline RenderMemberResult RenderMember(const std::string &name, f64 &m)
     {
         ImGui::DragFloat(name.c_str(), (float *)&m, 0.02f);
         return was_edited();
@@ -319,10 +319,10 @@ namespace Vultr
     }
 
     template <>
-    inline RenderMemberResult RenderMember(const std::string &name, MaterialComponent::TexturePair &m)
+    inline RenderMemberResult RenderMember(const std::string &name, MaterialComponent::TextureResource &m)
     {
         ImGui::PushID("texture");
-        auto res = RenderMember(m.name, m.file);
+        auto res = RenderMember(m.location, m.file);
         ImGui::PopID();
         return res;
     }
@@ -331,8 +331,55 @@ namespace Vultr
     inline RenderMemberResult RenderMember(const std::string &name, Color &m)
     {
         ImGui::PushID(name.c_str());
+        m.value /= Vec4(255);
         float *val = glm::value_ptr(m.value);
         ImGui::ColorEdit4(name.c_str(), val);
+        m.value *= Vec4(255);
+        ImGui::PopID();
+        return was_edited();
+    }
+
+    template <>
+    inline RenderMemberResult RenderMember(const std::string &name, MaterialUniform &m)
+    {
+        if (m.type == MaterialUniform::EMPTY)
+            return {false, false};
+
+        ImGui::PushID(name.c_str());
+        auto &data = m.data;
+        switch (m.type)
+        {
+            case MaterialUniform::BOOL:
+                RenderMember<bool>(name.c_str(), data.u_bool);
+                break;
+            case MaterialUniform::U32:
+                RenderMember<u32>(name.c_str(), data.u_u32);
+                break;
+            case MaterialUniform::S32:
+                RenderMember<s32>(name.c_str(), data.u_s32);
+                break;
+            case MaterialUniform::F64:
+                RenderMember<f64>(name.c_str(), data.u_f64);
+                break;
+            case MaterialUniform::VEC2:
+                RenderMember<Vec2>(name.c_str(), data.u_vec2);
+                break;
+            case MaterialUniform::VEC3:
+                RenderMember<Vec3>(name.c_str(), data.u_vec3);
+                break;
+            case MaterialUniform::VEC4:
+                RenderMember<Vec4>(name.c_str(), data.u_vec4);
+                break;
+            case MaterialUniform::COLOR:
+                RenderMember<Color>(name.c_str(), data.u_color);
+                break;
+            case MaterialUniform::MAT4:
+                // TODO: Add support for mat4s
+                break;
+            case MaterialUniform::EMPTY:
+                // Nothing to do here, as this is the default
+                break;
+        }
         ImGui::PopID();
         return was_edited();
     }

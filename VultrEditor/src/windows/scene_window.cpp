@@ -217,10 +217,6 @@ void scene_window_render(Engine *e, Editor *editor, const UpdateTick &tick, void
 
             was_using_guizmo = ImGuizmo::IsUsing();
         }
-        else
-        {
-            std::cout << "Error getting transform component from entity" << std::endl;
-        }
     }
     ImGui::End();
 }

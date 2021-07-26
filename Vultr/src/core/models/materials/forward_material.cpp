@@ -1,19 +1,18 @@
 #include <core/models/materials/forward_material.h>
+#include <rendering/types/shader.h>
 
 namespace Vultr
 {
     namespace ForwardMaterial
     {
-        MaterialComponent Create(const char *p_texture = "textures/clone/albedo.jpeg")
+        MaterialComponent Create(const char *diffuse, const char *specular)
         {
             MaterialComponent component = MaterialComponent();
-            component.shader_source = ShaderSource(FORWARD_MATERIAL_SOURCE);
-            component.textures.push_back({TextureSource(p_texture), 0, "Diffuse"});
-            component.textures.push_back({TextureSource(p_texture), 1, "Specular"});
-            component.colors.insert({"tint", Color(Vec4(1))});
-            component.ints.insert({"material.diffuse", 0});
-            component.ints.insert({"material.specular", 1});
-            component.floats.insert({"material.shininess", 1.0});
+            component.shader_source = FORWARD_MATERIAL_SOURCE;
+            texture_uniform(component, "u_Diffuse", TextureSource(diffuse));
+            texture_uniform(component, "u_Specular", TextureSource(specular));
+            color_uniform(component, "u_Tint", Color(255));
+            f64_uniform(component, "u_Shininess", 1.0);
             return component;
         }
     } // namespace ForwardMaterial
