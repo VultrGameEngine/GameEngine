@@ -10,11 +10,6 @@ namespace Vultr
         return texture;
     }
 
-    Texture invalid_texture()
-    {
-        return {.id = 0};
-    }
-
     void texture_image_2D(Texture &texture, u32 level, GLenum internalformat, u32 width, u32 height, GLenum format, GLenum type, const void *data)
     {
         bind_texture(texture, GL_TEXTURE0);

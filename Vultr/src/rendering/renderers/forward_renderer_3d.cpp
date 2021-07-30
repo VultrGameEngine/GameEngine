@@ -7,37 +7,38 @@
 
 namespace Vultr::Renderer3D
 {
-    void ForwardRenderer::submit(Engine *e, const MaterialComponent &material, const Mat4 &transform, const Mesh &mesh, u32 skybox_identifier)
+    void ForwardRenderer::submit(Engine *e, const MaterialComponent &material, const Mat4 &transform, const Mesh &mesh, const RenderContext &context, u32 skybox_identifier)
     {
-        bind_material(e, material, transform, skybox_identifier);
+        bind_material(e, material, transform, context, skybox_identifier);
         draw_mesh(mesh);
     }
 
-    void ForwardRenderer::bind_material(Engine *e, const MaterialComponent &material, const Mat4 &transform, u32 skybox_identifier)
+    void ForwardRenderer::bind_material(Engine *e, const MaterialComponent &material, const Mat4 &transform, const RenderContext &context, u32 skybox_identifier)
     {
         Shader shader = ShaderLoaderSystem::get_shader(e, material.shader_source);
         if (!is_valid_shader(shader))
             return;
         bind_shader(shader);
         glm::mat4 model = transform;
-        set_uniform_matrix_4fv(shader, "model", glm::value_ptr(model));
-
-        const RenderContext &context = RenderContext::GetContext();
+        set_uniform_matrix_4fv(shader, "u_Model_matrix", glm::value_ptr(model));
 
         // shader->SetUniformMatrix4fv("projection", glm::value_ptr());
-        glm::mat4 projection = context.camera_component.GetProjectionMatrix(context.dimensions.x, context.dimensions.y);
+        // glm::mat4 projection = context.camera_component.GetProjectionMatrix(context.dimensions.x, context.dimensions.y);
 
         Entity directional_light = LightSystem::get_provider(e).directional_light;
+
+        // TODO: Add this to a UBO
         if (directional_light != INVALID_ENTITY)
         {
-            auto &light_component = entity_get_component<LightComponent>(e, directional_light);
-            auto &transform_component = entity_get_component<TransformComponent>(e, directional_light);
+            auto [transform_component, light_component] = entity_get_components<TransformComponent, LightComponent>(e, directional_light);
             set_uniform_3f(shader, "directional_light.direction", -transform_component.Up());
             set_uniform_3f(shader, "directional_light.ambient", light_component.ambient.value);
             set_uniform_3f(shader, "directional_light.diffuse", light_component.diffuse.value);
             set_uniform_3f(shader, "directional_light.specular", Vec3(light_component.specular));
         }
-        set_uniform_3f(shader, "viewPos", context.camera_transform.position);
+        // TODO: Add this to UBO
+        // set_uniform_3f(shader, "viewPos", context.camera_transform.position);
+
         if (skybox_identifier != 0)
         {
             // Texture *texture = TextureLoaderSystem::get_texture(std::to_string(skybox_identifier));
@@ -57,9 +58,9 @@ namespace Vultr::Renderer3D
                 if (texture != nullptr)
                     bind_texture(*texture, GL_TEXTURE0 + i);
             }
-            glm::mat4 view = context.camera_transform.GetViewMatrix();
-            glm::mat4 MVP = projection * view * model;
-            set_uniform_matrix_4fv(shader, "MVP", glm::value_ptr(MVP));
+            // glm::mat4 view = context.camera_transform.GetViewMatrix();
+            glm::mat4 MVP = context.projection_matrix * context.view_matrix * model;
+            set_uniform_matrix_4fv(shader, "u_MVP", glm::value_ptr(MVP));
             // shader->SetUniformMatrix4fv("view", glm::value_ptr());
         }
 

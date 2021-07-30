@@ -3,6 +3,7 @@
 #include <core/components/material_component.h>
 #include <core/components/sky_box_component.h>
 #include <core/components/static_mesh_component.h>
+#include <core/system_providers/shader_loader_system_provider.h>
 #include <core/system_providers/camera_system_provider.h>
 #include <core/system_providers/light_system_provider.h>
 #include <core/system_providers/render_system_provider.h>
@@ -24,9 +25,9 @@
 namespace Vultr::RenderSystem
 {
     // Internal private helper methods
-    static void render_skybox(Engine *e, u8 type);
-    static void render_elements(Engine *e, u8 type);
-    static void render_element_input(Engine *e);
+    static void render_skybox(Engine *e, const RenderContext &context, u8 type);
+    static void render_elements(Engine *e, const RenderContext &context, u8 type);
+    static void render_element_input(Engine *e, const RenderContext &context);
     static void init_render_texture(ViewportData &d, u32 width, u32 height)
     {
         d.fbo = new_framebuffer(width, height);
@@ -138,6 +139,8 @@ namespace Vultr::RenderSystem
         perform_resize(provider.game);
         perform_resize(provider.input_data);
 
+        ShaderLoaderSystem::bind_camera_uniform(e);
+
         // Get the entities saved by other systems
         Entity camera = camera_system_provider.camera;
 
@@ -156,14 +159,28 @@ namespace Vultr::RenderSystem
             auto &camera_transform = entity_get_component<TransformComponent>(e, camera);
             auto &camera_component = entity_get_component<CameraComponent>(e, camera);
 
-            RenderContext::SetContext(get_dimensions(e, GAME), camera_transform, camera_component);
+            auto dimensions = get_dimensions(e, GAME);
+
+            RenderContext context = {
+                .dimensions = get_dimensions(e, GAME),
+                .camera_transform = camera_transform,
+                .camera_component = camera_component,
+                .view_matrix = camera_transform.GetViewMatrix(),
+                .projection_matrix = camera_component.GetProjectionMatrix(dimensions.x, dimensions.y),
+            };
+
+            ShaderLoaderSystem::set_camera_uniform(e, {
+                                                          .position = Vec4(camera_transform.position, 1),
+                                                          .view_matrix = context.view_matrix,
+                                                          .projection_matrix = context.projection_matrix,
+                                                      });
 
             // Set the vieport dimensions to match that in the editor
-            glViewport(0, 0, get_dimensions(e, GAME).x, get_dimensions(e, GAME).y);
+            glViewport(0, 0, dimensions.x, dimensions.y);
 
             // Render both the skybox an the static meshes in the scene
-            render_skybox(e, GAME);
-            render_elements(e, GAME);
+            render_skybox(e, context, GAME);
+            render_elements(e, context, GAME);
 
             // Update the gui system for the game
             // GUISystem::update(meta_data);
@@ -211,16 +228,30 @@ namespace Vultr::RenderSystem
             // Clear the screen
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+            auto dimensions = get_dimensions(e, SCENE);
+
             // Set the viewport to match that in the editor
-            glViewport(0, 0, get_dimensions(e, SCENE).x, get_dimensions(e, SCENE).y);
+            glViewport(0, 0, dimensions.x, dimensions.y);
             // Get the transform of the light
             // auto &light_transform = entity_get_component<TransformComponent>(light);
 
-            RenderContext::SetContext(get_dimensions(e, SCENE), camera_transform, camera_component);
+            RenderContext context = {
+                .dimensions = get_dimensions(e, SCENE),
+                .camera_transform = camera_transform,
+                .camera_component = camera_component,
+                .view_matrix = camera_transform.GetViewMatrix(),
+                .projection_matrix = camera_component.GetProjectionMatrix(dimensions.x, dimensions.y),
+            };
+
+            ShaderLoaderSystem::set_camera_uniform(e, {
+                                                          .position = Vec4(camera_transform.position, 1),
+                                                          .view_matrix = context.view_matrix,
+                                                          .projection_matrix = context.projection_matrix,
+                                                      });
 
             // Render both the skybox and the static meshes in the scene
-            render_skybox(e, SCENE);
-            render_elements(e, SCENE);
+            render_skybox(e, context, SCENE);
+            render_elements(e, context, SCENE);
 
             // Unbind the frame buffer
             unbind_all_framebuffers();
@@ -233,7 +264,7 @@ namespace Vultr::RenderSystem
             // Set the viewport to match that in the editor
             glViewport(0, 0, get_dimensions(e, SCENE).x, get_dimensions(e, SCENE).y);
 
-            render_element_input(e);
+            render_element_input(e, context);
 
             // Render both the skybox and the static meshes in the scene
             unbind_all_framebuffers();
@@ -241,7 +272,7 @@ namespace Vultr::RenderSystem
     }
 
     // Render all of the static meshes in the scene
-    void render_elements(Engine *e, u8 type)
+    void render_elements(Engine *e, const RenderContext &context, u8 type)
     {
         auto &provider = get_provider(e);
         glEnable(GL_BLEND);
@@ -256,12 +287,12 @@ namespace Vultr::RenderSystem
             Mesh mesh_obj = MeshLoaderSystem::get_mesh(e, mesh.source);
             if (is_valid_mesh(mesh_obj))
             {
-                Renderer3D::ForwardRenderer::submit(e, material, transform.Matrix(), mesh_obj);
+                Renderer3D::ForwardRenderer::submit(e, material, transform.Matrix(), mesh_obj, context);
             }
         }
     }
 
-    void render_element_input(Engine *e)
+    void render_element_input(Engine *e, const RenderContext &context)
     {
         auto &provider = get_provider(e);
 
@@ -280,9 +311,6 @@ namespace Vultr::RenderSystem
             // If the mesh has loaded
             if (is_valid_mesh(mesh_obj))
             {
-                // Get the render context data
-                const auto &context = RenderContext::GetContext();
-
                 // Use the input shader
                 Shader shader = provider.input_shader;
                 bind_shader(shader);
@@ -306,7 +334,7 @@ namespace Vultr::RenderSystem
         }
     }
 
-    void render_skybox(Engine *e, u8 type)
+    void render_skybox(Engine *e, const RenderContext &context, u8 type)
     {
         Entity camera = CameraSystem::get_provider(e).camera;
         if (!camera)
@@ -328,7 +356,7 @@ namespace Vultr::RenderSystem
             auto &material_component = entity_get_component<MaterialComponent>(e, camera);
             auto &skybox_component = entity_get_component<SkyBoxComponent>(e, camera);
 
-            Renderer3D::ForwardRenderer::bind_material(e, material_component, RenderContext::GetContext().camera_transform.Matrix(), skybox_component.identifier);
+            Renderer3D::ForwardRenderer::bind_material(e, material_component, context.camera_transform.Matrix(), context, skybox_component.identifier);
 
             draw_mesh(get_provider(e).skybox);
             glDepthMask(GL_TRUE);

@@ -16,7 +16,10 @@ namespace Vultr
     };
 
     Texture generate_texture(GLenum type);
-    Texture invalid_texture();
+#define invalid_texture()                                                                                                                                                                                             \
+    Texture                                                                                                                                                                                                           \
+    {                                                                                                                                                                                                                 \
+    }
     void texture_image_2D(Texture &texture, u32 level, GLenum internalformat, u32 width, u32 height, GLenum format, GLenum type, const void *data);
     void texture_image_2D(GLenum target, u32 level, GLenum internalformat, u32 width, u32 height, GLenum format, GLenum type, const void *data);
     void texture_parameter_i(Texture &texture, GLenum pname, u32 param);

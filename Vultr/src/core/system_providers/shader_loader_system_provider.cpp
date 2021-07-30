@@ -18,4 +18,22 @@ namespace Vultr::ShaderLoaderSystem
 
         return p.loaded_shaders[source.path.string()];
     }
+
+    void bind_camera_uniform(Engine *e)
+    {
+        auto &p = get_provider(e);
+        bind_uniform_buffer(p.ubos[0]);
+    }
+
+    void set_camera_uniform(Engine *e, const CameraUniform &uniform)
+    {
+        auto &p = get_provider(e);
+
+        auto &ubo = p.ubos[0];
+        bind_uniform_buffer(ubo);
+
+        glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(Vec4), &uniform.position.x);
+        glBufferSubData(GL_UNIFORM_BUFFER, sizeof(Vec4), sizeof(Mat4), glm::value_ptr(uniform.view_matrix));
+        glBufferSubData(GL_UNIFORM_BUFFER, sizeof(Vec4) + sizeof(Mat4), sizeof(Mat4), glm::value_ptr(uniform.projection_matrix));
+    }
 } // namespace Vultr::ShaderLoaderSystem

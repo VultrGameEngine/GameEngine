@@ -13,7 +13,6 @@ const u8 SCENE = 1;
 
 namespace Vultr
 {
-
     namespace RenderSystem
     {
         struct ViewportData

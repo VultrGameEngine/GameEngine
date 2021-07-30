@@ -63,6 +63,12 @@ namespace Vultr
         return component_manager_get_component_array<T>(world_get_component_manager(world), get_component_type<T>(e))->GetData(entity);
     }
 
+    template <typename... Components>
+    std::tuple<Components &...> entity_get_components(Engine *e, Entity entity)
+    {
+        return std::tuple<Components &...>((entity_get_component<Components>(e, entity))...);
+    }
+
     template <typename T>
     void entity_add_component(Engine *e, Entity entity, T component)
     {

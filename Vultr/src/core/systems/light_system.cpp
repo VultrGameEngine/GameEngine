@@ -36,7 +36,7 @@ namespace Vultr::LightSystem
                 {
                     if (p.directional_light != INVALID_ENTITY && p.directional_light != entity)
                     {
-                        std::cout << "Vultr only supports 1 directional light per scene!";
+                        fprintf(stderr, "Vultr only supports 1 directional light per scene!\n");
                     }
                     else
                     {

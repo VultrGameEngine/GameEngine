@@ -54,7 +54,10 @@ namespace Vultr
         Internal::TextureOrRBO depth_stencil_attachment = {};
     };
 
-    Framebuffer invalid_framebuffer();
+#define invalid_framebuffer()                                                                                                                                                                                         \
+    Framebuffer                                                                                                                                                                                                       \
+    {                                                                                                                                                                                                                 \
+    }
 
     Framebuffer new_framebuffer(u32 width, u32 height);
 

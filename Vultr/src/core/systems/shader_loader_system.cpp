@@ -8,6 +8,7 @@
 namespace Vultr::ShaderLoaderSystem
 {
     static void check_and_load_shader(Engine *e, Entity entity);
+
     void register_system(Engine *e)
     {
         Signature signature;
@@ -55,8 +56,12 @@ namespace Vultr::ShaderLoaderSystem
         // Create the shader on the gpu
         Shader shader = ShaderImporter::import_shader(source);
 
-        // Create the shader wrapper with the given shader id
-        // Shader *shader = new Shader(shader_id, Forward);
+        // Attach all of our uniform buffers to the shader
+        for (u16 i = 0; i < UNIFORM_BUFFER_COUNT; i++)
+        {
+            auto &ubo = provider.ubos[i];
+            attach_shader_uniform_buffer(shader, ubo);
+        }
 
         // Add it to the loaded shaders
         provider.loaded_shaders[source.path.string()] = shader;

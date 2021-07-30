@@ -87,11 +87,6 @@ namespace Vultr
         glBindRenderbuffer(GL_RENDERBUFFER, 0);
     }
 
-    Framebuffer invalid_framebuffer()
-    {
-        return {.id = 0};
-    }
-
     Framebuffer new_framebuffer(u32 width, u32 height)
     {
         Framebuffer fbo;
