@@ -54,5 +54,29 @@ namespace Vultr::ShaderLoaderSystem
         glBufferSubData(GL_UNIFORM_BUFFER, sizeof(Vec4), sizeof(Vec4), &uniform.ambient.x);
         glBufferSubData(GL_UNIFORM_BUFFER, sizeof(Vec4) * 2, sizeof(Vec4), &uniform.diffuse.x);
         glBufferSubData(GL_UNIFORM_BUFFER, sizeof(Vec4) * 3, sizeof(float), &uniform.specular);
+        glBufferSubData(GL_UNIFORM_BUFFER, sizeof(Vec4) * 3 + sizeof(float), sizeof(u16), &uniform.exists);
+    }
+
+    void bind_point_lights_uniform(Engine *e)
+    {
+        auto &p = get_provider(e);
+        bind_uniform_buffer(p.ubos[2]);
+    }
+
+    void set_point_lights_uniform(Engine *e, const PointLightsUniform &uniform)
+    {
+        auto &p = get_provider(e);
+
+        auto &ubo = p.ubos[2];
+        bind_uniform_buffer(ubo);
+
+        glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(Vec4) * MAX_POINT_LIGHTS, &uniform.positions[0].x);
+        glBufferSubData(GL_UNIFORM_BUFFER, sizeof(Vec4) * 1 * MAX_POINT_LIGHTS, sizeof(Vec4) * MAX_POINT_LIGHTS, uniform.constants);
+        glBufferSubData(GL_UNIFORM_BUFFER, sizeof(Vec4) * 2 * MAX_POINT_LIGHTS, sizeof(Vec4) * MAX_POINT_LIGHTS, uniform.linears);
+        glBufferSubData(GL_UNIFORM_BUFFER, sizeof(Vec4) * 3 * MAX_POINT_LIGHTS, sizeof(Vec4) * MAX_POINT_LIGHTS, uniform.quadratics);
+        glBufferSubData(GL_UNIFORM_BUFFER, sizeof(Vec4) * 4 * MAX_POINT_LIGHTS, sizeof(Vec4) * MAX_POINT_LIGHTS, &uniform.ambients[0].x);
+        glBufferSubData(GL_UNIFORM_BUFFER, sizeof(Vec4) * 5 * MAX_POINT_LIGHTS, sizeof(Vec4) * MAX_POINT_LIGHTS, &uniform.diffuses[0].x);
+        glBufferSubData(GL_UNIFORM_BUFFER, sizeof(Vec4) * 6 * MAX_POINT_LIGHTS, sizeof(Vec4) * MAX_POINT_LIGHTS, uniform.speculars);
+        glBufferSubData(GL_UNIFORM_BUFFER, sizeof(Vec4) * 7 * MAX_POINT_LIGHTS, sizeof(u16), &uniform.count);
     }
 } // namespace Vultr::ShaderLoaderSystem

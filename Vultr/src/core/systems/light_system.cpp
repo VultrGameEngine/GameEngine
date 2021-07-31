@@ -14,6 +14,9 @@ namespace Vultr::LightSystem
         signature.set(get_component_type<LightComponent>(e), true);
         signature.set(get_component_type<TransformComponent>(e), true);
         register_global_system<Component>(e, signature, nullptr, on_destroy_entity);
+
+        auto &p = get_provider(e);
+        p.internal_point_lights_uniform = new ShaderLoaderSystem::PointLightsUniform();
     }
 
     static void remove_extraneous_point_lights(Engine *e, Entity entity)
@@ -28,6 +31,8 @@ namespace Vultr::LightSystem
     void update(Engine *e)
     {
         auto &p = get_provider(e);
+
+        u16 point_light_index = 0;
         for (auto entity : p.entities)
         {
             auto &light_component = entity_get_component<LightComponent>(e, entity);
@@ -49,6 +54,18 @@ namespace Vultr::LightSystem
                 case LightComponent::PointLight:
                 {
                     p.point_lights.insert(entity);
+                    auto &transform_component = entity_get_component<TransformComponent>(e, entity);
+
+                    p.internal_point_lights_uniform->positions[point_light_index] = Vec4(transform_component.position, 1.0);
+                    p.internal_point_lights_uniform->constants[point_light_index] = Vec4(light_component.constant);
+                    p.internal_point_lights_uniform->linears[point_light_index] = Vec4(light_component.linear);
+                    p.internal_point_lights_uniform->quadratics[point_light_index] = Vec4(light_component.quadratic);
+                    p.internal_point_lights_uniform->ambients[point_light_index] = light_component.ambient.value / Vec4(255);
+                    p.internal_point_lights_uniform->diffuses[point_light_index] = light_component.diffuse.value / Vec4(255);
+                    p.internal_point_lights_uniform->speculars[point_light_index] = Vec4(light_component.specular);
+                    point_light_index++;
+
+                    assert(point_light_index < MAX_POINT_LIGHTS && "Max number of point lights exceeded!");
                     break;
                 }
                 case LightComponent::SpotLight:
@@ -61,16 +78,26 @@ namespace Vultr::LightSystem
                 }
             }
         }
+        ShaderLoaderSystem::DirectionalLightUniform uniform = {};
         if (p.directional_light != INVALID_ENTITY)
         {
             auto [transform_component, light_component] = entity_get_components<TransformComponent, LightComponent>(e, p.directional_light);
-            ShaderLoaderSystem::set_directional_light_uniform(e, {
-                                                                     .direction = Vec4(-transform_component.Up(), 0.0),
-                                                                     .ambient = light_component.ambient.value / Vec4(255),
-                                                                     .diffuse = light_component.diffuse.value / Vec4(255),
-                                                                     .specular = light_component.specular,
-                                                                 });
+            uniform = {
+                .direction = Vec4(-transform_component.Up(), 0.0),
+                .ambient = light_component.ambient.value / Vec4(255),
+                .diffuse = light_component.diffuse.value / Vec4(255),
+                .specular = light_component.specular,
+                .exists = 1,
+            };
         }
+        else
+        {
+            uniform.exists = 0;
+        }
+        ShaderLoaderSystem::set_directional_light_uniform(e, uniform);
+
+        p.internal_point_lights_uniform->count = point_light_index;
+        ShaderLoaderSystem::set_point_lights_uniform(e, *p.internal_point_lights_uniform);
     }
 
     void on_destroy_entity(Engine *e, Entity entity)
