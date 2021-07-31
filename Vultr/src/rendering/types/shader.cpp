@@ -32,6 +32,12 @@ namespace Vultr
     {
         glUniformMatrix4fv(location, 1, GL_FALSE, value);
     }
+
+    void set_uniform_matrix_3fv(u32 location, const float *value)
+    {
+        glUniformMatrix3fv(location, 1, GL_FALSE, value);
+    }
+
     void set_uniform_4f(u32 location, const Vec4 &value)
     {
         glUniform4f(location, value.x, value.y, value.z, value.w);
@@ -65,6 +71,12 @@ namespace Vultr
     {
         set_uniform_matrix_4fv(get_uniform_location(shader, uniform), value);
     }
+
+    void set_uniform_matrix_3fv(Shader shader, const char *uniform, const float *value)
+    {
+        set_uniform_matrix_3fv(get_uniform_location(shader, uniform), value);
+    }
+
     void set_uniform_4f(Shader shader, const char *uniform, const Vec4 &value)
     {
         set_uniform_4f(get_uniform_location(shader, uniform), value);

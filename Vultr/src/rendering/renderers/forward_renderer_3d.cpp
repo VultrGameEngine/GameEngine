@@ -19,8 +19,11 @@ namespace Vultr::Renderer3D
         if (!is_valid_shader(shader))
             return;
         bind_shader(shader);
-        glm::mat4 model = transform;
+        Mat4 model = transform;
         set_uniform_matrix_4fv(shader, "u_Model_matrix", glm::value_ptr(model));
+
+        Mat3 normal_matrix = Mat3(glm::transpose(glm::inverse(model)));
+        set_uniform_matrix_3fv(shader, "u_Normal_matrix", glm::value_ptr(normal_matrix));
 
         // shader->SetUniformMatrix4fv("projection", glm::value_ptr());
         // glm::mat4 projection = context.camera_component.GetProjectionMatrix(context.dimensions.x, context.dimensions.y);
@@ -31,11 +34,13 @@ namespace Vultr::Renderer3D
         if (directional_light != INVALID_ENTITY)
         {
             auto [transform_component, light_component] = entity_get_components<TransformComponent, LightComponent>(e, directional_light);
-            set_uniform_3f(shader, "directional_light.direction", -transform_component.Up());
-            set_uniform_3f(shader, "directional_light.ambient", light_component.ambient.value);
-            set_uniform_3f(shader, "directional_light.diffuse", light_component.diffuse.value);
-            set_uniform_3f(shader, "directional_light.specular", Vec3(light_component.specular));
+            set_uniform_3f(shader, "u_Directional_light.direction", -transform_component.Up());
+            set_uniform_3f(shader, "u_Directional_light.ambient", light_component.ambient.value);
+            set_uniform_3f(shader, "u_Directional_light.diffuse", light_component.diffuse.value);
+            set_uniform_1f(shader, "u_Directional_light.specular", light_component.specular);
+            set_uniform_3f(shader, "light_position", transform_component.position);
         }
+
         // TODO: Add this to UBO
         // set_uniform_3f(shader, "viewPos", context.camera_transform.position);
 

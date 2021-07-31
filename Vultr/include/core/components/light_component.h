@@ -20,7 +20,7 @@ namespace Vultr
         // Universal
         Color ambient = Color();
         Color diffuse = Color();
-        f32 specular = 1;
+        f32 specular = 0.5;
 
         // Point
         f32 constant = 0;

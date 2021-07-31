@@ -116,13 +116,6 @@ namespace Vultr
     }
 
     template <>
-    inline RenderMemberResult RenderMember(const std::string &name, f64 &m)
-    {
-        ImGui::DragFloat(name.c_str(), (float *)&m, 0.02f);
-        return was_edited();
-    }
-
-    template <>
     inline RenderMemberResult RenderMember(const std::string &name, bool &m)
     {
         ImGui::Checkbox(name.c_str(), &m);
@@ -358,8 +351,8 @@ namespace Vultr
             case MaterialUniform::S32:
                 RenderMember<s32>(name.c_str(), data.u_s32);
                 break;
-            case MaterialUniform::F64:
-                RenderMember<f64>(name.c_str(), data.u_f64);
+            case MaterialUniform::F32:
+                RenderMember<f32>(name.c_str(), data.u_f32);
                 break;
             case MaterialUniform::VEC2:
                 RenderMember<Vec2>(name.c_str(), data.u_vec2);

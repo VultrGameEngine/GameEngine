@@ -16,6 +16,7 @@ namespace Vultr
     void delete_shader(Shader shader);
 
     void set_uniform_matrix_4fv(u32 location, const float *value);
+    void set_uniform_matrix_3fv(u32 location, const float *value);
     void set_uniform_4f(u32 location, const Vec4 &value);
     void set_uniform_3f(u32 location, const Vec3 &value);
     void set_uniform_2f(u32 location, const Vec2 &value);
@@ -25,6 +26,7 @@ namespace Vultr
     void set_uniform_bool(u32 location, bool value);
 
     void set_uniform_matrix_4fv(Shader shader, const char *uniform, const float *value);
+    void set_uniform_matrix_3fv(Shader shader, const char *uniform, const float *value);
     void set_uniform_4f(Shader shader, const char *uniform, const Vec4 &value);
     void set_uniform_3f(Shader shader, const char *uniform, const Vec3 &value);
     void set_uniform_2f(Shader shader, const char *uniform, const Vec2 &value);

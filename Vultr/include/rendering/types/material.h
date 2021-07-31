@@ -17,7 +17,7 @@ namespace Vultr
             bool u_bool;
             u32 u_u32;
             s32 u_s32;
-            f64 u_f64;
+            f32 u_f32;
             Vec2 u_vec2;
             Vec3 u_vec3;
             Vec4 u_vec4;
@@ -35,7 +35,7 @@ namespace Vultr
             BOOL = 0,
             U32 = 1,
             S32 = 2,
-            F64 = 3,
+            F32 = 3,
             VEC2 = 4,
             VEC3 = 5,
             VEC4 = 6,
@@ -72,7 +72,7 @@ namespace Vultr
     void bool_uniform(Material &material, const char *location, bool value);
     void u32_uniform(Material &material, const char *location, u32 value);
     void s32_uniform(Material &material, const char *location, s32 value);
-    void f64_uniform(Material &material, const char *location, f32 value);
+    void f32_uniform(Material &material, const char *location, f32 value);
     void vec2_uniform(Material &material, const char *location, Vec2 value);
     void vec3_uniform(Material &material, const char *location, Vec3 value);
     void vec4_uniform(Material &material, const char *location, Vec4 value);

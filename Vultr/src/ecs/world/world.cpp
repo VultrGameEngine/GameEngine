@@ -187,8 +187,8 @@ namespace Vultr
             case MaterialUniform::S32:
                 TOJSON(data.u_s32);
                 break;
-            case MaterialUniform::F64:
-                TOJSON(data.u_f64);
+            case MaterialUniform::F32:
+                TOJSON(data.u_f32);
                 break;
             case MaterialUniform::VEC2:
                 TOJSON(data.u_vec2);
@@ -230,8 +230,8 @@ namespace Vultr
             case MaterialUniform::S32:
                 FROMJSON(data.u_s32, s32);
                 break;
-            case MaterialUniform::F64:
-                FROMJSON(data.u_f64, f64);
+            case MaterialUniform::F32:
+                FROMJSON(data.u_f32, f64);
                 break;
             case MaterialUniform::VEC2:
                 FROMJSON(data.u_vec2, Vec2);

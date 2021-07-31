@@ -33,12 +33,12 @@ namespace Vultr
         uniform.location = location;
         material.uniform_count++;
     }
-    void f64_uniform(Material &material, const char *location, f32 value)
+    void f32_uniform(Material &material, const char *location, f32 value)
     {
         CAN_ADD_UNIFORM(material)
         auto &uniform = material.uniforms[material.uniform_count];
-        uniform.type = MaterialUniform::F64;
-        uniform.data.u_f64 = value;
+        uniform.type = MaterialUniform::F32;
+        uniform.data.u_f32 = value;
         uniform.location = location;
         material.uniform_count++;
     }
@@ -117,8 +117,8 @@ namespace Vultr
                 case MaterialUniform::S32:
                     set_uniform_1i(shader, location.c_str(), data.u_s32);
                     break;
-                case MaterialUniform::F64:
-                    set_uniform_1f(shader, location.c_str(), data.u_f64);
+                case MaterialUniform::F32:
+                    set_uniform_1f(shader, location.c_str(), data.u_f32);
                     break;
                 case MaterialUniform::VEC2:
                     set_uniform_2f(shader, location.c_str(), data.u_vec2);

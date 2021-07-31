@@ -12,7 +12,7 @@ namespace Vultr
             texture_uniform(component, "u_Diffuse", TextureSource(diffuse));
             texture_uniform(component, "u_Specular", TextureSource(specular));
             color_uniform(component, "u_Tint", Color(255));
-            f64_uniform(component, "u_Shininess", 1.0);
+            f32_uniform(component, "u_Shininess", 1.0);
             return component;
         }
     } // namespace ForwardMaterial
