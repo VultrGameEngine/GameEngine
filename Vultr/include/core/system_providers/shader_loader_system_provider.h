@@ -18,16 +18,24 @@ namespace Vultr
             Mat4 projection_matrix;
         };
 
-        struct LightUniform
+        struct DirectionalLightUniform
         {
+            Vec4 direction;
+
+            Vec4 ambient;
+            Vec4 diffuse;
+            float specular;
         };
 
         struct Component : public SystemProvider
         {
             std::unordered_map<std::string, Shader> loaded_shaders;
 
-#define UNIFORM_BUFFER_COUNT 1
-            UniformBuffer ubos[UNIFORM_BUFFER_COUNT] = {new_uniform_buffer("Camera", 0, sizeof(Vec4) + sizeof(Mat4) + sizeof(Mat4))};
+#define UNIFORM_BUFFER_COUNT 2
+            UniformBuffer ubos[UNIFORM_BUFFER_COUNT] = {
+                new_uniform_buffer("Camera", 0, sizeof(Vec4) + sizeof(Mat4) + sizeof(Mat4)),
+                new_uniform_buffer("DirectionalLight", 1, sizeof(Vec4) * 3 + sizeof(float)),
+            };
         };
 
         Component &get_provider(Engine *e);
@@ -36,6 +44,9 @@ namespace Vultr
 
         void bind_camera_uniform(Engine *e);
         void set_camera_uniform(Engine *e, const CameraUniform &uniform);
+
+        void bind_directional_light_uniform(Engine *e);
+        void set_directional_light_uniform(Engine *e, const DirectionalLightUniform &uniform);
     } // namespace ShaderLoaderSystem
 
     template <>

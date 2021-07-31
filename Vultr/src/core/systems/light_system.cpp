@@ -2,6 +2,7 @@
 #include <core/components/transform_component.h>
 #include <core/systems/light_system.h>
 #include <core/system_providers/light_system_provider.h>
+#include <core/system_providers/shader_loader_system_provider.h>
 #include <ecs/world/world.hpp>
 #include <engine.hpp>
 
@@ -59,6 +60,16 @@ namespace Vultr::LightSystem
                     break;
                 }
             }
+        }
+        if (p.directional_light != INVALID_ENTITY)
+        {
+            auto [transform_component, light_component] = entity_get_components<TransformComponent, LightComponent>(e, p.directional_light);
+            ShaderLoaderSystem::set_directional_light_uniform(e, {
+                                                                     .direction = Vec4(-transform_component.Up(), 0.0),
+                                                                     .ambient = light_component.ambient.value / Vec4(255),
+                                                                     .diffuse = light_component.diffuse.value / Vec4(255),
+                                                                     .specular = light_component.specular,
+                                                                 });
         }
     }
 

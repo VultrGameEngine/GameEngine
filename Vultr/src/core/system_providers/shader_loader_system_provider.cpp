@@ -36,4 +36,23 @@ namespace Vultr::ShaderLoaderSystem
         glBufferSubData(GL_UNIFORM_BUFFER, sizeof(Vec4), sizeof(Mat4), glm::value_ptr(uniform.view_matrix));
         glBufferSubData(GL_UNIFORM_BUFFER, sizeof(Vec4) + sizeof(Mat4), sizeof(Mat4), glm::value_ptr(uniform.projection_matrix));
     }
+
+    void bind_directional_light_uniform(Engine *e)
+    {
+        auto &p = get_provider(e);
+        bind_uniform_buffer(p.ubos[1]);
+    }
+
+    void set_directional_light_uniform(Engine *e, const DirectionalLightUniform &uniform)
+    {
+        auto &p = get_provider(e);
+
+        auto &ubo = p.ubos[1];
+        bind_uniform_buffer(ubo);
+
+        glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(Vec4), &uniform.direction.x);
+        glBufferSubData(GL_UNIFORM_BUFFER, sizeof(Vec4), sizeof(Vec4), &uniform.ambient.x);
+        glBufferSubData(GL_UNIFORM_BUFFER, sizeof(Vec4) * 2, sizeof(Vec4), &uniform.diffuse.x);
+        glBufferSubData(GL_UNIFORM_BUFFER, sizeof(Vec4) * 3, sizeof(float), &uniform.specular);
+    }
 } // namespace Vultr::ShaderLoaderSystem
