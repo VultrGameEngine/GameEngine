@@ -65,6 +65,8 @@ namespace Vultr::InputSystem
         {
             listener(e, event);
         }
+        ImGui_ImplGlfw_KeyCallback(window, key, scancode, action, mods);
+
     } // namespace Vultr::InputSystem
 
     static void on_character_input(GLFWwindow *window, u32 key)
@@ -75,6 +77,7 @@ namespace Vultr::InputSystem
         {
             listener(e, key);
         }
+        ImGui_ImplGlfw_CharCallback(window, key);
     }
 
     void init(Engine *e)

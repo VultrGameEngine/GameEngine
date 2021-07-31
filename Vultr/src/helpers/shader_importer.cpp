@@ -1,5 +1,6 @@
 #include <fstream>
 #include <helpers/shader_importer.h>
+#include <core/system_providers/light_system_provider.h>
 #include <iostream>
 #include <sstream>
 #include <stdio.h>
@@ -46,11 +47,15 @@ namespace Vultr
         std::string line;
         std::stringstream ss[2];
         ShaderType type = ShaderType::NONE;
+
+        bool set_defines = false;
+
         while (getline(stream, line))
         {
             // Has found "#shader" on line
             if (line.find("#shader") != std::string::npos)
             {
+                set_defines = true;
                 // Set mode to vertex
                 if (line.find("vertex") != std::string::npos)
                 {
@@ -65,6 +70,12 @@ namespace Vultr
             // For any other line of code
             else
             {
+                // Automatically push defines to loaded shaders
+                // if (set_defines)
+                // {
+                //     set_defines = false;
+                //     ss[(int)type] << "#define MAX_POINT_LIGHTS " << MAX_POINT_LIGHTS << " \n";
+                // }
                 // Add line to the appropriate string stream
                 ss[(int)type] << line << '\n';
             }

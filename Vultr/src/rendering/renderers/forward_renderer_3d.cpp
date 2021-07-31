@@ -25,16 +25,16 @@ namespace Vultr::Renderer3D
         Mat3 normal_matrix = Mat3(glm::transpose(glm::inverse(model)));
         set_uniform_matrix_3fv(shader, "u_Normal_matrix", glm::value_ptr(normal_matrix));
 
-        Entity directional_light = LightSystem::get_provider(e).directional_light;
-
-        // TODO: Add this to a UBO
-        if (directional_light != INVALID_ENTITY)
+        for (auto point_light : LightSystem::get_provider(e).point_lights)
         {
-            auto [transform_component, light_component] = entity_get_components<TransformComponent, LightComponent>(e, directional_light);
-            // set_uniform_3f(shader, "u_Directional_light.direction", -transform_component.Up());
-            // set_uniform_3f(shader, "u_Directional_light.ambient", light_component.ambient.value);
-            // set_uniform_3f(shader, "u_Directional_light.diffuse", light_component.diffuse.value);
-            // set_uniform_1f(shader, "u_Directional_light.specular", light_component.specular);
+            auto [transform_component, light_component] = entity_get_components<TransformComponent, LightComponent>(e, point_light);
+            set_uniform_3f(shader, "u_Point_light.position", transform_component.position);
+            set_uniform_1f(shader, "u_Point_light.constant", light_component.constant);
+            set_uniform_1f(shader, "u_Point_light.linear", light_component.linear);
+            set_uniform_1f(shader, "u_Point_light.quadratic", light_component.quadratic);
+            set_uniform_4f(shader, "u_Point_light.ambient", light_component.ambient.value / Vec4(255));
+            set_uniform_4f(shader, "u_Point_light.diffuse", light_component.diffuse.value / Vec4(255));
+            set_uniform_1f(shader, "u_Point_light.specular", light_component.specular);
         }
 
         if (skybox_identifier != 0)
