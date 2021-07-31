@@ -34,7 +34,7 @@ namespace Vultr
         }
         inline Vec3 Up() const
         {
-            return Vec3(0, 1, 0);
+            return rotation * Vec3(0, 1, 0);
         }
 
         inline Mat4 Matrix() const

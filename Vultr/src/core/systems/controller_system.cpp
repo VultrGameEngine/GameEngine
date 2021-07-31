@@ -69,12 +69,12 @@ namespace Vultr::ControllerSystem
         // Strafe up
         if (glfwGetKey(provider.window, GLFW_KEY_E) == GLFW_PRESS)
         {
-            transform_component.position += transform_component.Up() * delta_time * speed;
+            transform_component.position += Vec3(0, 1, 0) * delta_time * speed;
         }
         // Strafe down
         if (glfwGetKey(provider.window, GLFW_KEY_Q) == GLFW_PRESS)
         {
-            transform_component.position -= transform_component.Up() * delta_time * speed;
+            transform_component.position -= Vec3(0, 1, 0) * delta_time * speed;
         }
     }
     void window_focus_callback(GLFWwindow *window, int focused)
