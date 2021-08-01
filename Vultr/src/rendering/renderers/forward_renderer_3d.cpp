@@ -25,23 +25,6 @@ namespace Vultr::Renderer3D
         Mat3 normal_matrix = Mat3(glm::transpose(glm::inverse(model)));
         set_uniform_matrix_3fv(shader, "u_Normal_matrix", glm::value_ptr(normal_matrix));
 
-        // u16 i = 0;
-
-        // Max number of lights is 1000, so the max number of characters needed to represent it is 3 digits, for 999
-        // for (auto point_light : LightSystem::get_provider(e).point_lights)
-        // {
-        //     auto [transform_component, light_component] = entity_get_components<TransformComponent, LightComponent>(e, point_light);
-        //     set_uniform_3f(shader, std::string("u_Point_lights[" + std::to_string(i) + "].position").c_str(), transform_component.position);
-        //     set_uniform_1f(shader, std::string("u_Point_lights[" + std::to_string(i) + "].constant").c_str(), light_component.constant);
-        //     set_uniform_1f(shader, std::string("u_Point_lights[" + std::to_string(i) + "].linear").c_str(), light_component.linear);
-        //     set_uniform_1f(shader, std::string("u_Point_lights[" + std::to_string(i) + "].quadratic").c_str(), light_component.quadratic);
-        //     set_uniform_4f(shader, std::string("u_Point_lights[" + std::to_string(i) + "].ambient").c_str(), light_component.ambient.value / Vec4(255));
-        //     set_uniform_4f(shader, std::string("u_Point_lights[" + std::to_string(i) + "].diffuse").c_str(), light_component.diffuse.value / Vec4(255));
-        //     set_uniform_1f(shader, std::string("u_Point_lights[" + std::to_string(i) + "].specular").c_str(), light_component.specular);
-        //     i++;
-        // }
-        // set_uniform_1i(shader, "u_Point_light_count", i);
-
         if (skybox_identifier != 0)
         {
             // Texture *texture = TextureLoaderSystem::get_texture(std::to_string(skybox_identifier));

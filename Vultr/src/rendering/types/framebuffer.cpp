@@ -182,8 +182,8 @@ namespace Vultr
 
         texture_image_2D(texture, 0, internal_format, fbo.width, fbo.height, format, data_type, nullptr);
 
-        texture_parameter_i(texture, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        texture_parameter_i(texture, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        texture_parameter_i(texture, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        texture_parameter_i(texture, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         texture_parameter_i(texture, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
         texture_parameter_i(texture, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         texture_parameter_i(texture, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);

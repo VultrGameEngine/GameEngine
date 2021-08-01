@@ -19,7 +19,9 @@ namespace Vultr
         {
             Vec2 position = Vec2(0);
             Vec2 dimensions = Vec2(1920, 1080);
-            Framebuffer fbo = invalid_framebuffer();
+            Framebuffer render_fbo = invalid_framebuffer();
+            Framebuffer post_processed_fbo = invalid_framebuffer();
+            Framebuffer ping_pong_blur_framebuffers[2] = {invalid_framebuffer(), invalid_framebuffer()};
         };
 
         struct Component : public SystemProvider
@@ -28,8 +30,10 @@ namespace Vultr
             ViewportData game;
             ViewportData input_data;
 
-            Shader post_processing_shader;
-            Shader input_shader;
+            Shader post_processing_shader = invalid_shader();
+            Shader input_shader = invalid_shader();
+            Shader gaussian_blur_shader = invalid_shader();
+
             Mesh render_quad;
             Mesh skybox;
         };

@@ -157,6 +157,7 @@ namespace Vultr
         glEnable(GL_DEBUG_OUTPUT);
         glDebugMessageCallback(ErrorHandler::ErrorCallback, 0);
         glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+
         if (debug)
         {
             IMGUI_CHECKVERSION();
@@ -770,6 +771,9 @@ namespace Vultr
             res = RenderMember("fov", component->fov);
             res = RenderMember("znear", component->znear);
             res = RenderMember("zfar", component->zfar);
+            res = RenderMember("exposure", component->exposure);
+            res = RenderMember("bloom_intensity", component->bloom_intensity);
+            res = RenderMember("bloom_quality", component->bloom_quality);
             res = RenderMember("gamma_correction", component->gamma_correction);
             if (res.started_editing)
             {

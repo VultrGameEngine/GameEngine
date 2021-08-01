@@ -28,13 +28,14 @@ namespace Vultr::RenderSystem
     {
         auto &p = get_provider(e);
         auto &input = p.input_data;
-        bind_framebuffer(input.fbo);
+        bind_framebuffer(input.render_fbo);
         unsigned char data[4];
         glReadPixels(x, y, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, data);
 
         Entity pickedID = data[0] + data[1] * 256 + data[2] * 256 * 256;
 
-        bind_framebuffer(input.fbo);
+        unbind_all_renderbuffers();
+
         return pickedID;
     }
 

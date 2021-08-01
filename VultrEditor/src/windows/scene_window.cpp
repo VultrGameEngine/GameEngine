@@ -128,7 +128,7 @@ void scene_window_render(Engine *e, Editor *editor, const UpdateTick &tick, void
     auto &camera_system_provider = CameraSystem::get_provider(e);
 
     // For the scene window we will need the scene texture
-    auto texture = get_framebuffer_color_texture(render_system_provider.scene.fbo, 0);
+    auto texture = get_framebuffer_color_texture(render_system_provider.scene.post_processed_fbo, 0);
     bind_texture(texture, GL_TEXTURE0);
 
     // Draw all imgui windows

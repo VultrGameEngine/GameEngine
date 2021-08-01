@@ -109,9 +109,51 @@ namespace Vultr
     }
 
     template <>
-    inline RenderMemberResult RenderMember(const std::string &name, int &m)
+    inline RenderMemberResult RenderMember(const std::string &name, f64 &m)
     {
-        ImGui::DragInt(name.c_str(), &m);
+        ImGui::DragScalar(name.c_str(), ImGuiDataType_Double, &m, 0.02f);
+        return was_edited();
+    }
+
+    template <>
+    inline RenderMemberResult RenderMember(const std::string &name, u32 &m)
+    {
+        ImGui::DragScalar(name.c_str(), ImGuiDataType_U32, &m);
+        return was_edited();
+    }
+
+    template <>
+    inline RenderMemberResult RenderMember(const std::string &name, u16 &m)
+    {
+        ImGui::DragScalar(name.c_str(), ImGuiDataType_U16, &m);
+        return was_edited();
+    }
+
+    template <>
+    inline RenderMemberResult RenderMember(const std::string &name, u8 &m)
+    {
+        ImGui::DragScalar(name.c_str(), ImGuiDataType_U8, &m);
+        return was_edited();
+    }
+
+    template <>
+    inline RenderMemberResult RenderMember(const std::string &name, s32 &m)
+    {
+        ImGui::DragScalar(name.c_str(), ImGuiDataType_S32, &m);
+        return was_edited();
+    }
+
+    template <>
+    inline RenderMemberResult RenderMember(const std::string &name, s16 &m)
+    {
+        ImGui::DragScalar(name.c_str(), ImGuiDataType_S16, &m);
+        return was_edited();
+    }
+
+    template <>
+    inline RenderMemberResult RenderMember(const std::string &name, s8 &m)
+    {
+        ImGui::DragScalar(name.c_str(), ImGuiDataType_S16, &m);
         return was_edited();
     }
 

@@ -39,7 +39,7 @@ namespace Vultr
         texture_parameter_i(texture, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         texture_parameter_i(texture, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-        texture_image_2D(texture, 0, GL_RGBA, width, height, GL_RGBA, GL_UNSIGNED_BYTE, data);
+        texture_image_2D(texture, 0, GL_SRGB_ALPHA, width, height, GL_RGBA, GL_UNSIGNED_BYTE, data);
     }
 
     bool TextureImporter::import_skybox(Texture &texture, const std::vector<TextureSource> &paths)
