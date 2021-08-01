@@ -16,6 +16,7 @@ namespace Vultr
         }
 
         u8 type = DirectionalLight;
+        f32 intensity = 1.0;
 
         // Universal
         Color ambient = Color();

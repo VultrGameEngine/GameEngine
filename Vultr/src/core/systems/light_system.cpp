@@ -63,6 +63,7 @@ namespace Vultr::LightSystem
                     p.internal_point_lights_uniform->ambients[point_light_index] = light_component.ambient.value / Vec4(255);
                     p.internal_point_lights_uniform->diffuses[point_light_index] = light_component.diffuse.value / Vec4(255);
                     p.internal_point_lights_uniform->speculars[point_light_index] = Vec4(light_component.specular);
+                    p.internal_point_lights_uniform->intensities[point_light_index] = Vec4(light_component.intensity);
                     point_light_index++;
 
                     assert(point_light_index < MAX_POINT_LIGHTS && "Max number of point lights exceeded!");
@@ -87,6 +88,7 @@ namespace Vultr::LightSystem
                 .ambient = light_component.ambient.value / Vec4(255),
                 .diffuse = light_component.diffuse.value / Vec4(255),
                 .specular = light_component.specular,
+                .intensity = light_component.intensity,
                 .exists = 1,
             };
         }

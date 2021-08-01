@@ -658,6 +658,10 @@ namespace Vultr
             res = RenderMember("Diffuse", component->diffuse);
             ImGui::PopID();
 
+            ImGui::PushID("intensity");
+            res = RenderMember("Intensity", component->intensity);
+            ImGui::PopID();
+
             ImGui::PushID("specular");
             res = RenderMember("Specular", component->specular);
             ImGui::PopID();

@@ -69,6 +69,7 @@ namespace Vultr
     void to_json(json &j, const LightComponent &c)
     {
         TOJSON(type);
+        TOJSON(intensity);
         TOJSON(ambient);
         TOJSON(diffuse);
         TOJSON(specular);
@@ -79,6 +80,7 @@ namespace Vultr
     void from_json(const json &j, LightComponent &c)
     {
         FROMJSON(type, u8)
+        FROMJSON(intensity, f32)
         FROMJSON(ambient, Color)
         FROMJSON(diffuse, Color)
         FROMJSON(specular, f32)

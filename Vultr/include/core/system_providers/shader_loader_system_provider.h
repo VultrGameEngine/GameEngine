@@ -25,7 +25,8 @@ namespace Vultr
 
             Vec4 ambient;
             Vec4 diffuse;
-            float specular;
+            f32 specular;
+            f32 intensity;
 
             u16 exists;
         };
@@ -42,6 +43,7 @@ namespace Vultr
             Vec4 diffuses[MAX_POINT_LIGHTS];
 
             Vec4 speculars[MAX_POINT_LIGHTS];
+            Vec4 intensities[MAX_POINT_LIGHTS];
 
             u16 count;
         };
@@ -53,8 +55,8 @@ namespace Vultr
 #define UNIFORM_BUFFER_COUNT 3
             UniformBuffer ubos[UNIFORM_BUFFER_COUNT] = {
                 new_uniform_buffer("Camera", 0, sizeof(Vec4) + sizeof(Mat4) + sizeof(Mat4)),
-                new_uniform_buffer("DirectionalLight", 1, sizeof(Vec4) * 3 + sizeof(float) + sizeof(u16)),
-                new_uniform_buffer("PointLights", 2, (sizeof(Vec4) * 7) * MAX_POINT_LIGHTS + sizeof(u16)),
+                new_uniform_buffer("DirectionalLight", 1, sizeof(Vec4) * 3 + sizeof(f32) * 2 + sizeof(u16)),
+                new_uniform_buffer("PointLights", 2, (sizeof(Vec4) * 8) * MAX_POINT_LIGHTS + sizeof(u16)),
             };
         };
 
