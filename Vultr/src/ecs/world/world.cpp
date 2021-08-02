@@ -170,6 +170,7 @@ namespace Vultr
     {
         TOJSON(file);
         TOJSON(location);
+        TOJSON(is_set_location);
     }
     void from_json(const json &j, MaterialComponent::TextureResource &c)
     {
@@ -177,6 +178,10 @@ namespace Vultr
         if (j.contains("location"))
         {
             c.location = j["location"].get<std::string>();
+        }
+        if (j.contains("is_set_location"))
+        {
+            c.is_set_location = j["is_set_location"].get<std::string>();
         }
     }
 

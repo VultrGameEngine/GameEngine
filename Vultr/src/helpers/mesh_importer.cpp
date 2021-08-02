@@ -31,8 +31,9 @@ namespace Vultr
             const aiVector3D *pPos = &(imported_mesh->mVertices[i]);
             const aiVector3D *pNormal = &(imported_mesh->mNormals[i]);
             const aiVector3D *pTexCoord = imported_mesh->HasTextureCoords(0) ? &(imported_mesh->mTextureCoords[0][i]) : &Zero3D;
+            const aiVector3D *pTangent = &(imported_mesh->mTangents[i]);
 
-            vertices[i] = Vertex(Vec3(pPos->x, pPos->y, pPos->z), Vec3(pNormal->x, pNormal->y, pNormal->z), Vec2(pTexCoord->x, pTexCoord->y));
+            vertices[i] = Vertex(Vec3(pPos->x, pPos->y, pPos->z), Vec3(pNormal->x, pNormal->y, pNormal->z), Vec2(pTexCoord->x, pTexCoord->y), Vec3(pTangent->x, pTangent->y, pTangent->z));
         }
 
         unsigned short *indices = new unsigned short[imported_mesh->mNumFaces * 3];
@@ -52,6 +53,7 @@ namespace Vultr
 
     Mesh MeshImporter::init_quad()
     {
+        // TODO: Add bitangent calculations
         Vertex vertices[] = {
             Vertex(Vec3(-1, -1, 0), Vec3(0), Vec2(0, 0)), // bottom left
             Vertex(Vec3(-1, 1, 0), Vec3(0), Vec2(0, 1)),  // top left

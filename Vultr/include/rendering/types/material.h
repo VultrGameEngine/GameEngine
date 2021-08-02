@@ -55,6 +55,7 @@ namespace Vultr
         {
             TextureSource file;
             std::string location = "";
+            std::string is_set_location = "";
         };
 
         MaterialUniform uniforms[MAX_UNIFORMS];
@@ -78,7 +79,7 @@ namespace Vultr
     void vec4_uniform(Material &material, const char *location, Vec4 value);
     void color_uniform(Material &material, const char *location, Color value);
     void mat4_uniform(Material &material, const char *location, Mat4 value);
-    void texture_uniform(Material &material, const char *location, const TextureSource &source);
+    void texture_uniform(Material &material, const char *location, const TextureSource &source, const char *is_set_location = "");
 
     void material_bind_uniforms(const Material &material, Shader shader);
 

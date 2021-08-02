@@ -34,7 +34,7 @@ namespace Vultr::TextureLoaderSystem
     void load_texture(Engine *e, const MaterialComponent &mat)
     {
         auto &provider = get_provider(e);
-        for (auto [source, name] : mat.textures)
+        for (auto [source, name, optional_location] : mat.textures)
         {
             if (name.size() == 0)
                 continue;
@@ -66,7 +66,7 @@ namespace Vultr::TextureLoaderSystem
         }
         else
         {
-            for (auto [file, name] : component.textures)
+            for (auto [file, name, optional_location] : component.textures)
             {
                 if (name.size() == 0)
                     continue;
@@ -80,7 +80,10 @@ namespace Vultr::TextureLoaderSystem
                     }
                     else
                     {
-                        fprintf(stderr, "Failed to import texture %s!", file.path.string().c_str());
+                        if (optional_location == "")
+                        {
+                            fprintf(stderr, "Failed to import texture %s!", file.path.string().c_str());
+                        }
                         delete_texture(new_tex);
                     }
                 }

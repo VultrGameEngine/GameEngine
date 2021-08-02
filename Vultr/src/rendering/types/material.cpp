@@ -90,12 +90,13 @@ namespace Vultr
         material.uniform_count++;
     }
 
-    void texture_uniform(Material &material, const char *location, const TextureSource &source)
+    void texture_uniform(Material &material, const char *location, const TextureSource &source, const char *is_set_location)
     {
         assert(material.texture_count < MAX_MATERIAL_TEXTURES && "Max textures added!");
         auto &texture = material.textures[material.texture_count];
         texture.location = location;
         texture.file = source;
+        texture.is_set_location = is_set_location;
         material.texture_count++;
     }
 
@@ -145,6 +146,17 @@ namespace Vultr
             auto &texture = material.textures[i];
 
             set_uniform_1i(shader, texture.location.c_str(), i);
+            if (texture.is_set_location != "")
+            {
+                if (texture.file != TextureSource(""))
+                {
+                    set_uniform_1i(shader, texture.is_set_location.c_str(), 1);
+                }
+                else
+                {
+                    set_uniform_1i(shader, texture.is_set_location.c_str(), 0);
+                }
+            }
         }
     }
 } // namespace Vultr
