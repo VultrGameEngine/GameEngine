@@ -12,6 +12,13 @@
 
 using namespace Vultr;
 
+// TODO: AHHH GLOBAL FUCKING VARIABLE WHAT IS WRONG WITH ME
+static SceneWindow *&get_scene_window()
+{
+    static SceneWindow *window = nullptr;
+    return window;
+}
+
 static void on_mouse_click(Engine *e, Editor *editor, MouseButtonEvent event)
 {
     if (event.button != Input::MOUSE_LEFT)
@@ -21,14 +28,10 @@ static void on_mouse_click(Engine *e, Editor *editor, MouseButtonEvent event)
     Vec2 pos = InputSystem::get_provider(e).scene_mouse_pos * RenderSystem::get_dimensions(e, SCENE);
     Entity entity = RenderSystem::get_entity_at_pixel(e, pos.x, pos.y);
     if (entity != INVALID_ENTITY)
-        editor->selected_entity = entity;
-}
-
-// TODO: AHHH GLOBAL FUCKING VARIABLE WHAT IS WRONG WITH ME
-static SceneWindow *&get_scene_window()
-{
-    static SceneWindow *window = nullptr;
-    return window;
+    {
+        get_scene_window()->clicked = true;
+        get_scene_window()->clicked_entity = entity;
+    }
 }
 
 static void on_key_press(Engine *e, Editor *editor, KeyEvent event)
@@ -147,6 +150,8 @@ void scene_window_render(Engine *e, Editor *editor, const UpdateTick &tick, void
 
 #pragma clang diagnostic pop
 
+    bool is_using = false;
+
     // Get the currently selected entity in the EntityWindow
     Entity selected_entity = editor->selected_entity;
 
@@ -203,6 +208,7 @@ void scene_window_render(Engine *e, Editor *editor, const UpdateTick &tick, void
                 tc->position = translation;
                 tc->rotation = Quat(rotation);
                 tc->scale = scale;
+                is_using = true;
             }
             // If we just stopped using this guizmo, push this event to the edit stack
             else if (was_using_guizmo)
@@ -213,10 +219,25 @@ void scene_window_render(Engine *e, Editor *editor, const UpdateTick &tick, void
                 event->entities = {selected_entity};
                 event->type = get_component_type<TransformComponent>(e);
                 engine_send_update_event(e, event);
+                is_using = true;
+            }
+            else if (ImGuizmo::IsOver())
+            {
+                is_using = true;
             }
 
             was_using_guizmo = ImGuizmo::IsUsing();
         }
     }
+
+    if (state->clicked && !is_using)
+    {
+        auto entity = state->clicked_entity;
+        if (entity != INVALID_ENTITY)
+        {
+            editor->selected_entity = entity;
+        }
+    }
+    state->clicked = false;
     ImGui::End();
 }

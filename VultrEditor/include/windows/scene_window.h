@@ -5,6 +5,8 @@
 struct SceneWindow
 {
     ImGuizmo::OPERATION current_operation = ImGuizmo::OPERATION::TRANSLATE;
+    Vultr::Entity clicked_entity = INVALID_ENTITY;
+    bool clicked = true;
 };
 
 void register_scene_window(Vultr::Engine *e, Editor *editor);
