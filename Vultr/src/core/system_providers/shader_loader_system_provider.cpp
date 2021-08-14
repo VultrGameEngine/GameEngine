@@ -35,6 +35,7 @@ namespace Vultr::ShaderLoaderSystem
         glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(Vec4), &uniform.position.x);
         glBufferSubData(GL_UNIFORM_BUFFER, sizeof(Vec4), sizeof(Mat4), glm::value_ptr(uniform.view_matrix));
         glBufferSubData(GL_UNIFORM_BUFFER, sizeof(Vec4) + sizeof(Mat4), sizeof(Mat4), glm::value_ptr(uniform.projection_matrix));
+        glBufferSubData(GL_UNIFORM_BUFFER, sizeof(Vec4) + sizeof(Mat4) + sizeof(Mat4), sizeof(f32), &uniform.bloom_threshold);
     }
 
     void bind_directional_light_uniform(Engine *e)

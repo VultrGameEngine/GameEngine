@@ -383,12 +383,12 @@ namespace Vultr
                             }
                             case 1:
                             {
-                                component = ForwardMaterial::Create("", "");
+                                component = PBRMaterial::Create({});
                                 break;
                             }
                             case 2:
                             {
-                                component = UnlitMaterial::Create(Color(255));
+                                component = UnlitMaterial::Create(Color(255), 1.0);
                                 break;
                             }
 
@@ -778,6 +778,7 @@ namespace Vultr
             res = RenderMember("exposure", component->exposure);
             res = RenderMember("bloom_intensity", component->bloom_intensity);
             res = RenderMember("bloom_quality", component->bloom_quality);
+            res = RenderMember("bloom_threshold", component->bloom_threshold);
             res = RenderMember("gamma_correction", component->gamma_correction);
             if (res.started_editing)
             {

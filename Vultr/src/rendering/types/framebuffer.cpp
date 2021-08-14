@@ -368,7 +368,7 @@ namespace Vultr
     void bind_framebuffer(const Framebuffer &fbo, GLenum mode)
     {
         assert(is_valid_framebuffer(fbo) && "Invalid framebuffer!");
-        glBindFramebuffer(GL_FRAMEBUFFER, fbo.id);
+        glBindFramebuffer(mode, fbo.id);
     }
 
     void unbind_all_framebuffers(GLenum mode)

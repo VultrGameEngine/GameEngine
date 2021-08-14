@@ -5,8 +5,27 @@ namespace Vultr
 {
     namespace PBRMaterial
     {
-#define PBR_MATERIAL_SOURCE ShaderSource("shaders/forward_material.glsl")
-        MaterialComponent Create(const std::string &p_diffuse_path, const std::string &p_specular_path);
+#define PBR_MATERIAL_SOURCE ShaderSource("shaders/pbr.glsl")
+
+        struct PBRMaterial
+        {
+            const char *albedo_map = "";
+            Vec4 albedo = Vec4(1);
+
+            const char *normal_map = "";
+
+            const char *metallic_map = "";
+            float metallic = 0;
+
+            const char *roughness_map = "";
+            float roughness = 0.5;
+            bool is_smoothness_map = false;
+
+            const char *ambient_occlusion_map = "";
+            float ambient_occlusion = 0;
+        };
+
+        MaterialComponent Create(const PBRMaterial &material);
 
     } // namespace PBRMaterial
 

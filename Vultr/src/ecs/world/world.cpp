@@ -47,6 +47,7 @@ namespace Vultr
         TOJSON(exposure);
         TOJSON(bloom_intensity);
         TOJSON(bloom_quality);
+        TOJSON(bloom_threshold);
     }
     void from_json(const json &j, CameraComponent &c)
     {
@@ -57,6 +58,7 @@ namespace Vultr
         FROMJSON(exposure, f32)
         FROMJSON(bloom_intensity, f32)
         FROMJSON(bloom_quality, s32)
+        FROMJSON(bloom_threshold, f32)
     }
     void to_json(json &j, const ControllerComponent &c)
     {

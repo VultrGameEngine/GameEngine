@@ -17,6 +17,7 @@ namespace Vultr
             Vec4 position;
             Mat4 view_matrix;
             Mat4 projection_matrix;
+            f32 bloom_threshold;
         };
 
         struct DirectionalLightUniform
@@ -54,7 +55,7 @@ namespace Vultr
 
 #define UNIFORM_BUFFER_COUNT 3
             UniformBuffer ubos[UNIFORM_BUFFER_COUNT] = {
-                new_uniform_buffer("Camera", 0, sizeof(Vec4) + sizeof(Mat4) + sizeof(Mat4)),
+                new_uniform_buffer("Camera", 0, sizeof(Vec4) + sizeof(Mat4) + sizeof(Mat4) + sizeof(f32)),
                 new_uniform_buffer("DirectionalLight", 1, sizeof(Vec4) * 3 + sizeof(f32) * 2 + sizeof(u16)),
                 new_uniform_buffer("PointLights", 2, (sizeof(Vec4) * 8) * MAX_POINT_LIGHTS + sizeof(u16)),
             };

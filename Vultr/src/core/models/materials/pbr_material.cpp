@@ -4,12 +4,26 @@ namespace Vultr
 {
     namespace PBRMaterial
     {
-        MaterialComponent Create(const char *p_diffuse_path, const char *p_specular_path)
+        MaterialComponent Create(const PBRMaterial &material)
         {
             MaterialComponent component = MaterialComponent();
             component.shader_source = PBR_MATERIAL_SOURCE;
-            // component.textures[0] = {TextureSource(p_diffuse_path), 0, "Diffuse"};
-            // component.textures[1] = {TextureSource(p_specular_path), 1, "Specular"};
+            texture_uniform(component, "u_Albedo_map", TextureSource(material.albedo_map), "u_Has_albedo_map");
+            color_uniform(component, "u_Albedo", material.albedo);
+
+            texture_uniform(component, "u_Normal_map", TextureSource(material.normal_map), "u_Has_normal_map");
+
+            texture_uniform(component, "u_Metallic_map", TextureSource(material.metallic_map), "u_Has_metallic_map");
+            f32_uniform(component, "u_Metallic", material.metallic);
+
+            texture_uniform(component, "u_Roughness_map", TextureSource(material.roughness_map), "u_Has_roughness_map");
+            f32_uniform(component, "u_Roughness", material.roughness);
+
+            bool_uniform(component, "u_Is_smoothness_map", material.is_smoothness_map);
+
+            texture_uniform(component, "u_Ambient_occlusion_map", TextureSource(material.ambient_occlusion_map), "u_Has_ambient_occlusion_map");
+            f32_uniform(component, "u_Ambient_occlusion", material.ambient_occlusion);
+
             return component;
         }
 

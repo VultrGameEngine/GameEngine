@@ -24,6 +24,8 @@
 
 namespace Vultr::RenderSystem
 {
+
+#define BLOOM_DOWNSAMPLE_SCALE 0.25
     // Internal private helper methods
     static void render_skybox(Engine *e, const RenderContext &context, u8 type);
     static void render_elements(Engine *e, const RenderContext &context, u8 type);
@@ -52,7 +54,7 @@ namespace Vultr::RenderSystem
             for (s8 i = 0; i < 2; i++)
             {
                 auto &fbo = d.ping_pong_blur_framebuffers[i];
-                fbo = new_framebuffer(width, height);
+                fbo = new_framebuffer(width * BLOOM_DOWNSAMPLE_SCALE, height * BLOOM_DOWNSAMPLE_SCALE);
 
                 auto texture = generate_texture(GL_TEXTURE_2D);
                 attach_color_texture_framebuffer(fbo, texture, 0, GL_RGBA16F, GL_RGBA, GL_FLOAT);
@@ -167,7 +169,7 @@ namespace Vultr::RenderSystem
         {
             if (is_valid_framebuffer(data.ping_pong_blur_framebuffers[i]))
             {
-                resize_framebuffer(data.ping_pong_blur_framebuffers[i], data.dimensions.x, data.dimensions.y);
+                resize_framebuffer(data.ping_pong_blur_framebuffers[i], data.dimensions.x * BLOOM_DOWNSAMPLE_SCALE, data.dimensions.y * BLOOM_DOWNSAMPLE_SCALE);
             }
         }
     }
@@ -216,6 +218,7 @@ namespace Vultr::RenderSystem
                                                               .position = Vec4(camera_transform.position, 1),
                                                               .view_matrix = context.view_matrix,
                                                               .projection_matrix = context.projection_matrix,
+                                                              .bloom_threshold = camera_component.bloom_threshold,
                                                           });
 
                 // Set the vieport dimensions to match that in the editor
@@ -263,10 +266,18 @@ namespace Vultr::RenderSystem
                 .projection_matrix = camera_component.GetProjectionMatrix(dimensions.x, dimensions.y),
             };
 
+            f32 bloom_threshold = 1.2f;
+
+            if (camera_system_provider.camera != INVALID_ENTITY)
+            {
+                bloom_threshold = entity_get_component<CameraComponent>(e, camera_system_provider.camera).bloom_threshold;
+            }
+
             ShaderLoaderSystem::set_camera_uniform(e, {
                                                           .position = Vec4(camera_transform.position, 1),
                                                           .view_matrix = context.view_matrix,
                                                           .projection_matrix = context.projection_matrix,
+                                                          .bloom_threshold = bloom_threshold,
                                                       });
 
             // Render both the skybox and the static meshes in the scene
@@ -301,7 +312,6 @@ namespace Vultr::RenderSystem
         Entity camera = camera_system_provider.camera;
 
         bool horizontal = true;
-        bool first_pass = true;
 
         f32 bloom_intensity = 7.0;
         u32 bloom_quality = 10;
@@ -316,39 +326,47 @@ namespace Vultr::RenderSystem
         set_uniform_1i(p.gaussian_blur_shader, "u_Render_texture", 0);
         set_uniform_1f(p.gaussian_blur_shader, "u_Blur_radius", bloom_intensity);
 
-        glDisable(GL_DEPTH_TEST);
+        // Lower the resolution of the output FBO for better performance
+        {
+            auto &downsampled_fbo = data.ping_pong_blur_framebuffers[!horizontal];
+            auto &upsampled_fbo = data.render_fbo;
+
+            glDisable(GL_DEPTH_TEST);
+
+            bind_framebuffer(data.render_fbo, GL_READ_FRAMEBUFFER);
+            glReadBuffer(GL_COLOR_ATTACHMENT0);
+
+            bind_framebuffer(downsampled_fbo, GL_DRAW_FRAMEBUFFER);
+            glDrawBuffer(GL_COLOR_ATTACHMENT0);
+
+            glViewport(0, 0, downsampled_fbo.width, downsampled_fbo.height);
+            glClearColor(0.0, 0.0, 0.0, 0.0);
+            glClear(GL_COLOR_BUFFER_BIT);
+
+            glBlitFramebuffer(0, 0, upsampled_fbo.width, upsampled_fbo.height, 0, 0, downsampled_fbo.width, downsampled_fbo.height, GL_COLOR_BUFFER_BIT, GL_LINEAR);
+        }
 
         for (u8 i = 0; i < bloom_quality; i++)
         {
-            bind_framebuffer(data.ping_pong_blur_framebuffers[horizontal]);
+            auto &fbo = data.ping_pong_blur_framebuffers[horizontal];
+            bind_framebuffer(fbo);
 
-            if (i < 2)
+            if (i == 0)
             {
-                glViewport(0, 0, data.dimensions.x, data.dimensions.y);
+                glViewport(0, 0, fbo.width, fbo.height);
                 glClearColor(0.0, 0.0, 0.0, 0.0);
                 glClear(GL_COLOR_BUFFER_BIT);
             }
 
             set_uniform_1i(p.gaussian_blur_shader, "u_Horizontal", horizontal);
 
-            Texture texture;
-            if (first_pass)
-            {
-                texture = get_framebuffer_color_texture(data.render_fbo, 1);
-            }
-            else
-            {
-                texture = get_framebuffer_color_texture(data.ping_pong_blur_framebuffers[!horizontal], 0);
-            }
+            Texture texture = get_framebuffer_color_texture(data.ping_pong_blur_framebuffers[!horizontal], 0);
             bind_texture(texture, GL_TEXTURE0);
 
             draw_mesh(p.render_quad);
 
             horizontal = !horizontal;
-            if (first_pass)
-                first_pass = false;
         }
-
         unbind_all_framebuffers();
         glEnable(GL_DEPTH_TEST);
 
