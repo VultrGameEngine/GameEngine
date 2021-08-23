@@ -21,7 +21,10 @@ namespace Vultr
             Vec2 dimensions = Vec2(1920, 1080);
             Framebuffer render_fbo = invalid_framebuffer();
             Framebuffer post_processed_fbo = invalid_framebuffer();
-            Framebuffer ping_pong_blur_framebuffers[2] = {invalid_framebuffer(), invalid_framebuffer()};
+
+#define BLOOM_DOWNSAMPLE_PASSES 8
+#define PING_PONG_FRAMEBUFFERS BLOOM_DOWNSAMPLE_PASSES * 2
+            Framebuffer ping_pong_blur_framebuffers[2 * BLOOM_DOWNSAMPLE_PASSES];
         };
 
         struct Component : public SystemProvider

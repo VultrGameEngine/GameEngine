@@ -179,8 +179,10 @@ namespace Vultr
         bind_framebuffer(fbo);
 
         bind_texture(texture, GL_TEXTURE0);
+        texture.width = fbo.width;
+        texture.height = fbo.height;
 
-        texture_image_2D(texture, 0, internal_format, fbo.width, fbo.height, format, data_type, nullptr);
+        texture_image_2D(texture, 0, internal_format, texture.width, texture.height, format, data_type, nullptr);
 
         texture_parameter_i(texture, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         texture_parameter_i(texture, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -247,7 +249,10 @@ namespace Vultr
 
         bind_texture(texture, GL_TEXTURE0);
 
-        texture_image_2D(texture, 0, GL_DEPTH24_STENCIL8, fbo.width, fbo.height, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, nullptr);
+        texture.width = fbo.width;
+        texture.height = fbo.height;
+
+        texture_image_2D(texture, 0, GL_DEPTH24_STENCIL8, texture.width, texture.height, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, nullptr);
 
         texture_parameter_i(texture, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         texture_parameter_i(texture, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -314,9 +319,14 @@ namespace Vultr
                 {
                     auto old_texture = t_or_rbo.data.texture;
                     auto texture = generate_texture(old_texture.type);
+                    texture.width = old_texture.width;
+                    texture.height = old_texture.height;
+                    texture.level = old_texture.level;
+                    texture.internal_format = old_texture.internal_format;
+                    texture.format = old_texture.format;
+                    texture.pixel_data_type = old_texture.pixel_data_type;
 
-                    bind_texture(texture, GL_TEXTURE0);
-                    attach_color_texture_framebuffer(fbo, texture, i, old_texture.internal_format, old_texture.format, old_texture.pixel_data_type);
+                    attach_color_texture_framebuffer(fbo, texture, i, texture.internal_format, texture.format, texture.pixel_data_type);
                 }
                 else
                 {

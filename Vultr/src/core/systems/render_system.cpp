@@ -25,13 +25,14 @@
 namespace Vultr::RenderSystem
 {
 
-#define BLOOM_DOWNSAMPLE_SCALE 0.25
     // Internal private helper methods
     static void render_skybox(Engine *e, const RenderContext &context, u8 type);
     static void render_elements(Engine *e, const RenderContext &context, u8 type);
     static void render_element_input(Engine *e, const RenderContext &context);
     static void init_render_texture(ViewportData &d, u32 width, u32 height)
     {
+        d.dimensions.x = width;
+        d.dimensions.y = height;
         {
             d.render_fbo = new_framebuffer(width, height);
 
@@ -51,19 +52,25 @@ namespace Vultr::RenderSystem
         }
         // Initialize bloom frame buffers
         {
-            for (s8 i = 0; i < 2; i++)
+
+            Vec2 downsample_dimensions = Vec2(width, height);
+            for (s8 i = 1; i <= PING_PONG_FRAMEBUFFERS; i++)
             {
-                auto &fbo = d.ping_pong_blur_framebuffers[i];
-                fbo = new_framebuffer(width * BLOOM_DOWNSAMPLE_SCALE, height * BLOOM_DOWNSAMPLE_SCALE);
+                auto &fbo = d.ping_pong_blur_framebuffers[i - 1];
+                fbo = new_framebuffer(width, height);
 
                 auto texture = generate_texture(GL_TEXTURE_2D);
+                texture.width = downsample_dimensions.x;
+                texture.height = downsample_dimensions.y;
+
                 attach_color_texture_framebuffer(fbo, texture, 0, GL_RGBA16F, GL_RGBA, GL_FLOAT);
 
-                // Attach our depth/stencil rbo
-                auto rbo = new_renderbuffer();
-                attach_stencil_depth_renderbuffer_framebuffer(fbo, rbo);
+                if (i % 2 == 0)
+                {
+                    downsample_dimensions /= Vec2(2);
+                }
 
-                confirm_complete_framebuffer(fbo);
+                assert(confirm_complete_framebuffer(fbo) && "Framebuffer incomplete!");
             }
         }
         {
@@ -83,6 +90,8 @@ namespace Vultr::RenderSystem
 
     static void init_input_texture(ViewportData &d, u32 width, u32 height)
     {
+        d.dimensions.x = width;
+        d.dimensions.y = height;
         d.render_fbo = new_framebuffer(width, height);
 
         // Attach our color texture
@@ -111,11 +120,10 @@ namespace Vultr::RenderSystem
 
         auto dimensions = Vec2(mode->width, mode->height);
         init_render_texture(p.scene, mode->width, mode->height);
-        p.scene.dimensions = dimensions;
+
         init_render_texture(p.game, mode->width, mode->height);
-        p.game.dimensions = dimensions;
+
         init_input_texture(p.input_data, mode->width, mode->height);
-        p.input_data.dimensions = dimensions;
 
         p.post_processing_shader = ShaderImporter::import_shader(ShaderSource("shaders/post_processing.glsl"));
         p.gaussian_blur_shader = ShaderImporter::import_shader(ShaderSource("shaders/gaussian_blur.glsl"));
@@ -158,18 +166,27 @@ namespace Vultr::RenderSystem
         }
     }
 
-    static void perform_resize(ViewportData &data)
+    static void perform_resize(ViewportData &d)
     {
-        resize_framebuffer(data.render_fbo, data.dimensions.x, data.dimensions.y);
+        resize_framebuffer(d.render_fbo, d.dimensions.x, d.dimensions.y);
 
-        if (is_valid_framebuffer(data.post_processed_fbo))
-            resize_framebuffer(data.post_processed_fbo, data.dimensions.x, data.dimensions.y);
+        if (is_valid_framebuffer(d.post_processed_fbo))
+            resize_framebuffer(d.post_processed_fbo, d.dimensions.x, d.dimensions.y);
 
-        for (u8 i = 0; i < 2; i++)
+        Vec2 downsample_dimensions = d.dimensions;
+        for (s8 i = 1; i <= PING_PONG_FRAMEBUFFERS; i++)
         {
-            if (is_valid_framebuffer(data.ping_pong_blur_framebuffers[i]))
+            auto &fbo = d.ping_pong_blur_framebuffers[i - 1];
+            if (is_valid_framebuffer(fbo))
             {
-                resize_framebuffer(data.ping_pong_blur_framebuffers[i], data.dimensions.x * BLOOM_DOWNSAMPLE_SCALE, data.dimensions.y * BLOOM_DOWNSAMPLE_SCALE);
+                resize_framebuffer(fbo, downsample_dimensions.x, downsample_dimensions.y);
+
+                if (i % 2 == 0)
+                {
+                    downsample_dimensions /= Vec2(2);
+                }
+
+                assert(confirm_complete_framebuffer(fbo) && "Framebuffer incomplete!");
             }
         }
     }
@@ -311,29 +328,18 @@ namespace Vultr::RenderSystem
 
         Entity camera = camera_system_provider.camera;
 
-        bool horizontal = true;
+        bool horizontal = false;
 
-        f32 bloom_intensity = 7.0;
-        u32 bloom_quality = 10;
+        // bind_shader(p.gaussian_blur_shader);
 
-        if (camera != INVALID_ENTITY)
+        for (s8 i = 0; i < PING_PONG_FRAMEBUFFERS; i += 2)
         {
-            auto &camera_component = entity_get_component<CameraComponent>(e, camera);
-            bloom_intensity = camera_component.bloom_intensity;
-            bloom_quality = camera_component.bloom_quality;
-        }
-        bind_shader(p.gaussian_blur_shader);
-        set_uniform_1i(p.gaussian_blur_shader, "u_Render_texture", 0);
-        set_uniform_1f(p.gaussian_blur_shader, "u_Blur_radius", bloom_intensity);
-
-        // Lower the resolution of the output FBO for better performance
-        {
-            auto &downsampled_fbo = data.ping_pong_blur_framebuffers[!horizontal];
-            auto &upsampled_fbo = data.render_fbo;
+            auto &downsampled_fbo = data.ping_pong_blur_framebuffers[i];
+            auto &upsampled_fbo = i == 0 ? data.render_fbo : data.ping_pong_blur_framebuffers[i - 2];
 
             glDisable(GL_DEPTH_TEST);
 
-            bind_framebuffer(data.render_fbo, GL_READ_FRAMEBUFFER);
+            bind_framebuffer(upsampled_fbo, GL_READ_FRAMEBUFFER);
             glReadBuffer(GL_COLOR_ATTACHMENT0);
 
             bind_framebuffer(downsampled_fbo, GL_DRAW_FRAMEBUFFER);
@@ -343,34 +349,35 @@ namespace Vultr::RenderSystem
             glClearColor(0.0, 0.0, 0.0, 0.0);
             glClear(GL_COLOR_BUFFER_BIT);
 
+            // Downsample with bilinear filtering
             glBlitFramebuffer(0, 0, upsampled_fbo.width, upsampled_fbo.height, 0, 0, downsampled_fbo.width, downsampled_fbo.height, GL_COLOR_BUFFER_BIT, GL_LINEAR);
         }
 
-        for (u8 i = 0; i < bloom_quality; i++)
-        {
-            auto &fbo = data.ping_pong_blur_framebuffers[horizontal];
-            bind_framebuffer(fbo);
+        // for (u8 i = 0; i < bloom_quality; i++)
+        // {
+        //     auto &fbo = data.ping_pong_blur_framebuffers[horizontal];
+        //     bind_framebuffer(fbo);
 
-            if (i == 0)
-            {
-                glViewport(0, 0, fbo.width, fbo.height);
-                glClearColor(0.0, 0.0, 0.0, 0.0);
-                glClear(GL_COLOR_BUFFER_BIT);
-            }
+        //     if (i == 0)
+        //     {
+        //         glViewport(0, 0, fbo.width, fbo.height);
+        //         glClearColor(0.0, 0.0, 0.0, 0.0);
+        //         glClear(GL_COLOR_BUFFER_BIT);
+        //     }
 
-            set_uniform_1i(p.gaussian_blur_shader, "u_Horizontal", horizontal);
+        //     set_uniform_1i(p.gaussian_blur_shader, "u_Horizontal", horizontal);
 
-            Texture texture = get_framebuffer_color_texture(data.ping_pong_blur_framebuffers[!horizontal], 0);
-            bind_texture(texture, GL_TEXTURE0);
+        //     Texture texture = get_framebuffer_color_texture(data.ping_pong_blur_framebuffers[!horizontal], 0);
+        //     bind_texture(texture, GL_TEXTURE0);
 
-            draw_mesh(p.render_quad);
+        //     draw_mesh(p.render_quad);
 
-            horizontal = !horizontal;
-        }
+        //     horizontal = !horizontal;
+        // }
         unbind_all_framebuffers();
         glEnable(GL_DEPTH_TEST);
 
-        return get_framebuffer_color_texture(data.ping_pong_blur_framebuffers[!horizontal], 0);
+        return get_framebuffer_color_texture(data.ping_pong_blur_framebuffers[PING_PONG_FRAMEBUFFERS - 2], 0);
     }
 
     static void post_processing_pass(Engine *e, const UpdateTick &tick, Texture &game_bloom, Texture &scene_bloom)
