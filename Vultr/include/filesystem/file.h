@@ -72,16 +72,16 @@ namespace Vultr
 
     // Get the name of the file, not the path.
     template <const char *const extensions[]>
-    char *basename(const File<extensions> *file)
+    const char *basename(const File<extensions> *file)
     {
         return basename(file->path);
     }
 
     template <const char *const extensions[]>
-    char *extension(const File<extensions> *file, bool with_dot = true)
+    const char *extension(const File<extensions> *file, bool with_dot = true)
     {
-        char *basename = basename(file);
-        char *extension = strchr(basename, '.');
+        const char *basename = basename(file);
+        const char *extension = strchr(basename, '.');
 
         // If no pointer was found, then just return
         if (!extension)
@@ -101,6 +101,24 @@ namespace Vultr
     bool rm_file(const File<extensions> *file)
     {
         return remove(file->path) == 0;
+    }
+
+    // Rename a file with the extension
+    template <const char *const extensions[]>
+    bool rename_file(File<extensions> *src, const char *new_name)
+    {
+        char *path = src->path;
+        char *basename = basename(src->path);
+        size_t path_size = strlen(path) - strlen(basename);
+        size_t new_name_size = strlen(new_name);
+        size_t new_path_size = path_size + new_name_size;
+        char *new_path = static_cast<char *>(malloc(src->path, sizeof(char) * new_path_size));
+
+        bool res = rename(src->path, new_path) == 0;
+        free(src->path);
+        src->path = new_path;
+
+        return res;
     }
 
     template <const char *const extensions[]>
@@ -148,7 +166,10 @@ namespace Vultr
 
     // Used for editor, will compare expected_extensions of file1 to the real extension of file2 if it has an extension
     // It does NOT compare the real file extensions of both files to see if they match, there is no function to do this. Simply compare file_get_extension to do this
-    bool file_extension_matches(const File &file1, const File &file2);
+    template <const char *const extensions[]>
+    bool file_extension_matches(const File<extensions> *file1, const File<extensions> *file2)
+    {
+    }
 
     std::filesystem::file_time_type file_get_date_modified(const File &file);
 
