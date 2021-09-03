@@ -1,11 +1,11 @@
 #pragma once
 #include <json/json_fwd.hpp>
 #include <types/types.hpp>
-#include "path.h"
-#include <libgen.h>
+#include <utils/string/string.h>
 #include <cstring>
-#include <fcntl.h>
 #include <unistd.h>
+#include <sys/types.h>
+#include <sys/stat.h>
 
 namespace Vultr
 {
@@ -21,6 +21,10 @@ namespace Vultr
     template <const char *const extensions[]>
     struct File : IFile
     {
+        File()
+        {
+            this->path = nullptr;
+        }
         File(const char *path)
         {
             u32 size = strlen(path);
@@ -35,7 +39,7 @@ namespace Vultr
 
         const char *const *get_file_extensions(size_t *size) override
         {
-            *size = sizeof(extensions);
+            *size = sizeof(extensions) / sizeof(char *const);
             return extensions;
         }
 
@@ -43,8 +47,8 @@ namespace Vultr
         void from_json(const json &j, File &f);
     };
 
-    inline const char *const flex_file_extensions[] = {};
-    typedef File<flex_file_extensions> FlexFile;
+    inline const char *const generic_file_extensions[] = {};
+    typedef File<generic_file_extensions> GenericFile;
 
     inline const char *const texture_source_extensions[] = {".jpeg", ".jpg", ".png", ".bmp", ".dds"};
     typedef File<texture_source_extensions> TextureSource;
@@ -71,117 +75,63 @@ namespace Vultr
     typedef File<vultr_source_extensions> VultrSource;
 
     // Get the name of the file, not the path.
-    template <const char *const extensions[]>
-    const char *basename(const File<extensions> *file)
-    {
-        return basename(file->path);
-    }
+    const char *fbasename(const IFile *file);
 
-    template <const char *const extensions[]>
-    const char *extension(const File<extensions> *file, bool with_dot = true)
-    {
-        const char *basename = basename(file);
-        const char *extension = strchr(basename, '.');
+    const char *fextension(const IFile *file, bool with_dot = true);
 
-        // If no pointer was found, then just return
-        if (!extension)
-            return nullptr;
-
-        if (with_dot)
-        {
-            return extension;
-        }
-        else
-        {
-            return extension + 1;
-        }
-    }
-
-    template <const char *const extensions[]>
-    bool rm_file(const File<extensions> *file)
-    {
-        return remove(file->path) == 0;
-    }
+    bool rm_file(const IFile *file);
 
     // Rename a file with the extension
+    bool rename_file(IFile *src, const char *new_name);
+
+    bool mv_file(const IFile *src, const IFile *destination);
+    bool mv_file(IFile *src, const char *destination);
+
+    bool cp_file(IFile *src, const char *dest);
+
+    // Casts a file (if possible) from one extension type to another
     template <const char *const extensions[]>
-    bool rename_file(File<extensions> *src, const char *new_name)
+    bool cast_file(const GenericFile *src, File<extensions> *dest)
     {
-        char *path = src->path;
-        char *basename = basename(src->path);
-        size_t path_size = strlen(path) - strlen(basename);
-        size_t new_name_size = strlen(new_name);
-        size_t new_path_size = path_size + new_name_size;
-        char *new_path = static_cast<char *>(malloc(src->path, sizeof(char) * new_path_size));
 
-        bool res = rename(src->path, new_path) == 0;
-        free(src->path);
-        src->path = new_path;
-
-        return res;
-    }
-
-    template <const char *const extensions[]>
-    bool mv_file(const File<extensions> *src, const File<extensions> *destination)
-    {
-        return rename(src->path, destination->path) == 0;
-    }
-
-    template <const char *const extensions[]>
-    bool cp_file(const File<extensions> *source, const File<extensions> *destination)
-    {
-        FILE *f_src = fopen(source->path, "r");
-        if (f_src == nullptr)
+        size_t dest_extension_count = sizeof(extensions) / sizeof(char *const);
+        if (dest_extension_count == 0)
         {
-            fprintf(stderr, "Failed to open file %s", source->path);
-            fclose(f_src);
+            dest->path = str(src->path);
+            return true;
+        }
+
+        const char *extension = fextension(src);
+
+        // If for whatever reason there is no extension on the generic file then we cannot determine if the destination is valid
+        if (extension == nullptr)
+        {
             return false;
         }
 
-        FILE *f_dest = fopen(destination->path, "w");
-        if (f_dest == nullptr)
+        for (size_t i = 0; i < dest_extension_count; i++)
         {
-            fprintf(stderr, "Failed to open file %s", destination->path);
-            fclose(f_src);
-            fclose(f_dest);
-            return false;
+            const char *dest_extension = extensions[i];
+            if (strcmp(dest_extension, extension) == 0)
+            {
+                dest->path = str(src->path);
+                return true;
+            }
         }
-
-        // 32 kB buffer
-#define READ_BUFFER_SIZE 32768
-        char buffer[READ_BUFFER_SIZE];
-
-        while (!feof(f_src))
-        {
-            // Read contents from source
-            size_t bytes = fread(buffer, 1, sizeof(buffer), f_src);
-
-            // If there are any bytes read, then write them to the destination file
-            if (bytes)
-                fwrite(f_dest, 1, bytes, f_dest);
-        }
-
-        return true;
+        return false;
     }
 
-    // Used for editor, will compare expected_extensions of file1 to the real extension of file2 if it has an extension
-    // It does NOT compare the real file extensions of both files to see if they match, there is no function to do this. Simply compare file_get_extension to do this
+    u16 file_get_date_modified(const IFile *file);
+
     template <const char *const extensions[]>
-    bool file_extension_matches(const File<extensions> *file1, const File<extensions> *file2)
+    bool operator<(const File<extensions> &a, const File<extensions> &b)
     {
+        return strcmp(a.path, b.path) < 0;
     }
 
-    std::filesystem::file_time_type file_get_date_modified(const File &file);
-
-    void file_rename(const File &file, const char *name);
-
-    bool operator<(const File &a, const File &b)
+    template <const char *const extensions[]>
+    bool operator==(const File<extensions> &a, const File<extensions> &b)
     {
-        return a.path < b.path;
-    }
-
-    bool operator==(const File &a, const File &b)
-    {
-        return a.path == b.path;
+        return strcmp(a.path, b.path) == 0;
     }
 } // namespace Vultr

@@ -1,191 +1,122 @@
-#include <helpers/file.h>
-#include <chrono>
-#include <iomanip>
-#include <helpers/path.h>
+#include <filesystem/file.h>
 
-Vultr::File::File(const std::string &p_path, Extensions extension) : path(p_path)
+namespace Vultr
 {
-    if (p_path != "")
+    const char *fbasename(const IFile *file)
     {
-        if (path.is_relative())
-        {
-            auto abs = std::filesystem::absolute(path);
-            assert(abs != path && "Couldn't get an absolute path! Something went wrong");
-            path = abs;
-        }
+        char *path = file->path;
+        return basename(path);
     }
-    switch (extension)
-    {
-    case TEXTURE: {
-        expected_extensions = TEXTURE_FILE_EXTENSIONS;
-        break;
-    }
-    case MODEL: {
-        expected_extensions = MODEL_FILE_EXTENSIONS;
-        break;
-    }
-    case HEADER_SOURCE: {
-        expected_extensions = HEADER_SOURCE_FILE_EXTENSIONS;
-        break;
-    }
-    case HEADER: {
-        expected_extensions = HEADER_FILE_EXTENSIONS;
-        break;
-    }
-    case SOURCE: {
-        expected_extensions = SOURCE_FILE_EXTENSIONS;
-        break;
-    }
-    case SHADER: {
-        expected_extensions = SHADER_FILE_EXTENSIONS;
-        break;
-    }
-    case FONT: {
-        expected_extensions = FONT_FILE_EXTENSIONS;
-        break;
-    }
-    case VULTR: {
-        expected_extensions = VULTR_FILE_EXTENSIONS;
-        break;
-    }
-    case NONE:
-        expected_extensions = {};
-        break;
-    default:
-        break;
-    }
-}
 
-std::string Vultr::file_get_name(const File &file, bool extension)
-{
-    if (file.path.has_filename())
+    const char *fextension(const IFile *file, bool with_dot)
     {
-        if (extension)
+        const char *basename = fbasename(file);
+        const char *extension = strchr(basename, '.');
+
+        // If no pointer was found, then just return
+        if (!extension)
+            return nullptr;
+
+        if (with_dot)
         {
-            return file.path.filename().string();
+            return extension;
         }
         else
         {
-            return file.path.stem().string();
+            return extension + 1;
         }
     }
-    else
-    {
-        return "";
-    }
-}
-bool Vultr::file_has_extension(const File &file)
-{
-    return file.path.has_extension();
-}
-std::string Vultr::file_get_extension(const File &file, bool dot)
-{
-    auto extension = file.path.extension().string();
-    if (!dot && extension.size() > 1)
-    {
-        return extension.substr(1);
-    }
-    return extension;
-}
 
-Vultr::File::Extensions Vultr::file_get_extension_type(const File &file)
-{
-    auto extension = file_get_extension(file, true);
-    for (auto e : TEXTURE_FILE_EXTENSIONS)
+    bool rm_file(const IFile *file)
     {
-        if (e == extension)
-            return File::TEXTURE;
+        return remove(file->path) == 0;
     }
-    for (auto e : MODEL_FILE_EXTENSIONS)
-    {
-        if (e == extension)
-            return File::MODEL;
-    }
-    for (auto e : HEADER_SOURCE_FILE_EXTENSIONS)
-    {
-        if (e == extension)
-            return File::HEADER_SOURCE;
-    }
-    for (auto e : HEADER_FILE_EXTENSIONS)
-    {
-        if (e == extension)
-            return File::HEADER;
-    }
-    for (auto e : SOURCE_FILE_EXTENSIONS)
-    {
-        if (e == extension)
-            return File::SOURCE;
-    }
-    for (auto e : SHADER_FILE_EXTENSIONS)
-    {
-        if (e == extension)
-            return File::SHADER;
-    }
-    for (auto e : FONT_FILE_EXTENSIONS)
-    {
-        if (e == extension)
-            return File::FONT;
-    }
-    for (auto e : VULTR_FILE_EXTENSIONS)
-    {
-        if (e == extension)
-            return File::VULTR;
-    }
-    return File::NONE;
-}
 
-bool Vultr::file_exists(const File &file)
-{
-    return std::filesystem::exists(file.path);
-}
-
-bool Vultr::file_extension_matches(const File &file, const File &other)
-{
-    if (file.expected_extensions.size() == 0)
-        return true;
-
-    if (!file_has_extension(other))
-        return false;
-
-    auto other_extension = file_get_extension(other, false);
-
-    for (auto e : file.expected_extensions)
+    bool rename_file(IFile *src, const char *new_name)
     {
-        if (e == other_extension)
-            return true;
+        const char *path = src->path;
+        const char *basename = fbasename(src);
 
-        // Strip the dot just in case we accidentally add it to the file
-        // This shouldn't happen in the first place, but just in case someone is an idiot...
-        if (e[0] == '.' && e.size() > 1)
+        size_t path_size = strlen(path) - strlen(basename);
+        size_t new_path_len = path_size + strlen(new_name);
+
+        char *new_path = str(new_path_len);
+        strcat(new_path, new_name);
+
+        bool successful = rename(path, new_path) == 0;
+        if (successful)
         {
-            if (e.substr(1) == other_extension)
-                return true;
+            free(src->path);
+            src->path = new_path;
         }
+        else
+        {
+            free(new_path);
+        }
+
+        return successful;
     }
-    return false;
-}
-std::string Vultr::file_get_expected_extension_string(const File &file)
-{
-    return "";
-}
 
-void Vultr::file_rename(const File &file, const char *name)
-{
-    Path base = file.path.parent_path();
-    std::filesystem::rename(file.path, base / name);
-}
+    bool mv_file(const IFile *src, const IFile *destination)
+    {
+        return rename(src->path, destination->path) == 0;
+    }
 
-bool Vultr::delete_file(const File &file)
-{
-    return std::filesystem::remove(file.path);
-}
+    bool mv_file(IFile *src, const char *destination)
+    {
+        bool successful = rename(src->path, destination) == 0;
 
-std::filesystem::file_time_type Vultr::file_get_date_modified(const File &file)
-{
-    return std::filesystem::last_write_time(file.path);
-}
+        if (successful)
+        {
+            free(src->path);
+            src->path = str(destination);
+        }
+        return successful;
+    }
 
-Vultr::Path Vultr::file_get_relative_path(const File &file)
-{
-    return std::filesystem::relative(file.path);
-}
+    bool cp_file(IFile *src, const char *dest)
+    {
+        FILE *f_src = fopen(src->path, "r");
+        if (f_src == nullptr)
+        {
+            fprintf(stderr, "Failed to open file %s", src->path);
+            fclose(f_src);
+            return false;
+        }
+
+        FILE *f_dest = fopen(dest, "w");
+        if (f_dest == nullptr)
+        {
+            fprintf(stderr, "Failed to open file %s", dest);
+            fclose(f_src);
+            fclose(f_dest);
+            return false;
+        }
+
+        // 32 kB buffer
+#define READ_BUFFER_SIZE 32768
+        char buffer[READ_BUFFER_SIZE];
+
+        while (!feof(f_src))
+        {
+            // Read contents from source
+            size_t bytes = fread(buffer, 1, sizeof(buffer), f_src);
+
+            // If there are any bytes read, then write them to the destination file
+            if (bytes)
+                fwrite(f_dest, 1, bytes, f_dest);
+        }
+
+        free(src->path);
+        src->path = str(dest);
+
+        return true;
+    }
+
+    u16 file_get_date_modified(const IFile *file)
+    {
+        struct stat time;
+        lstat(file->path, &time);
+        return time.st_mtim.tv_sec * 1000;
+    }
+} // namespace Vultr

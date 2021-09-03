@@ -4,14 +4,12 @@
 #include <iostream>
 #include <sstream>
 #include <stdio.h>
-#include <helpers/path.h>
 
 namespace Vultr
 {
     Shader ShaderImporter::import_shader(const ShaderSource &source)
     {
-        auto correct_path = source.path.string();
-        Shader shader = create_shader(ShaderSource(correct_path));
+        Shader shader = create_shader(ShaderSource(source.path));
         return shader;
     }
 
@@ -35,7 +33,7 @@ namespace Vultr
     ShaderImporter::ShaderProgramSource ShaderImporter::parse_shader(const ShaderSource &source)
     {
         // Opens file
-        std::ifstream stream(source.path.string());
+        std::ifstream stream(source.path);
 
         enum class ShaderType
         {

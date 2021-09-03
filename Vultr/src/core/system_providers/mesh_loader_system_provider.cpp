@@ -10,20 +10,21 @@ namespace Vultr::MeshLoaderSystem
         return *get_global_system_provider<Component>(e);
     }
 
+    // TODO: Get rid of this std string shit
     Mesh get_mesh(Engine *e, const ModelSource &source)
     {
         auto &p = get_provider(e);
         // If we do not have that mesh, return nullptr
-        if (p.meshes.find(source.path.string()) == p.meshes.end())
+        if (p.meshes.find(std::string(source.path)) == p.meshes.end())
         {
             return {};
         }
 
-        return p.meshes[source.path.string()];
+        return p.meshes[std::string(source.path)];
     }
 
     void add_mesh(Engine *e, const ModelSource &source, Mesh mesh)
     {
-        get_provider(e).meshes[source.path.string()] = mesh;
+        get_provider(e).meshes[std::string(source.path)] = mesh;
     }
 } // namespace Vultr::MeshLoaderSystem

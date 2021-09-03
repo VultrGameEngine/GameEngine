@@ -6,9 +6,11 @@ namespace Vultr::TextureLoaderSystem
     {
         return *get_global_system_provider<Component>(e);
     }
+
+    // TODO: FUCK YOU STL STD STRING SHIT
     Texture *get_texture(Engine *e, const TextureSource &texture)
     {
-        return get_texture(e, texture.path.string().c_str());
+        return get_texture(e, texture.path);
     }
 
     Texture *get_texture(Engine *e, const char *texture)
@@ -25,7 +27,7 @@ namespace Vultr::TextureLoaderSystem
 
     bool is_loaded(Engine *e, const TextureSource &texture)
     {
-        return is_loaded(e, texture.path.string().c_str());
+        return is_loaded(e, texture.path);
     }
 
     bool is_loaded(Engine *e, const char *texture)
