@@ -27,12 +27,12 @@ namespace Vultr
         }
     }
 
-    bool rm_file(const IFile *file)
+    bool fremove(const IFile *file)
     {
         return remove(file->path) == 0;
     }
 
-    bool rename_file(IFile *src, const char *new_name)
+    bool frename(IFile *src, const char *new_name)
     {
         const char *path = src->path;
         const char *basename = fbasename(src);
@@ -57,12 +57,12 @@ namespace Vultr
         return successful;
     }
 
-    bool mv_file(const IFile *src, const IFile *destination)
+    bool fmove(const IFile *src, const IFile *destination)
     {
         return rename(src->path, destination->path) == 0;
     }
 
-    bool mv_file(IFile *src, const char *destination)
+    bool fmove(IFile *src, const char *destination)
     {
         bool successful = rename(src->path, destination) == 0;
 
@@ -74,7 +74,7 @@ namespace Vultr
         return successful;
     }
 
-    bool cp_file(IFile *src, const char *dest)
+    bool fcopy(IFile *src, const char *dest)
     {
         FILE *f_src = fopen(src->path, "r");
         if (f_src == nullptr)
@@ -104,16 +104,25 @@ namespace Vultr
 
             // If there are any bytes read, then write them to the destination file
             if (bytes)
-                fwrite(f_dest, 1, bytes, f_dest);
+                fwrite(buffer, 1, bytes, f_dest);
         }
 
         free(src->path);
         src->path = str(dest);
 
+        fclose(f_src);
+        fclose(f_dest);
+
         return true;
     }
 
-    u16 file_get_date_modified(const IFile *file)
+    bool fexists(IFile *file)
+    {
+        struct stat buffer;
+        return (stat(file->path, &buffer) == 0);
+    }
+
+    u16 fdate_modified(const IFile *file)
     {
         struct stat time;
         lstat(file->path, &time);

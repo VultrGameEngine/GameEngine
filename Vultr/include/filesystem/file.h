@@ -55,6 +55,12 @@ namespace Vultr
             }
             return expected_extensions;
         }
+
+        void operator=(const File &other)
+        {
+            free(path);
+            path = str(other.path);
+        }
     };
 
     inline const char *const generic_file_extensions[] = {};
@@ -89,15 +95,17 @@ namespace Vultr
 
     const char *fextension(const IFile *file, bool with_dot = true);
 
-    bool rm_file(const IFile *file);
+    bool fremove(const IFile *file);
 
     // Rename a file with the extension
-    bool rename_file(IFile *src, const char *new_name);
+    bool frename(IFile *src, const char *new_name);
 
-    bool mv_file(const IFile *src, const IFile *destination);
-    bool mv_file(IFile *src, const char *destination);
+    bool fmove(const IFile *src, const IFile *destination);
+    bool fmove(IFile *src, const char *destination);
 
-    bool cp_file(IFile *src, const char *dest);
+    bool fcopy(IFile *src, const char *dest);
+
+    bool fexists(IFile *file);
 
     // Casts a file (if possible) from one extension type to another
     template <const char *const extensions[]>
@@ -131,7 +139,7 @@ namespace Vultr
         return false;
     }
 
-    u16 file_get_date_modified(const IFile *file);
+    u16 fdate_modified(const IFile *file);
 
     template <const char *const extensions[]>
     bool operator<(const File<extensions> &a, const File<extensions> &b)
