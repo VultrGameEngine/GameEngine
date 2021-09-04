@@ -1,11 +1,12 @@
 ﻿#include <ecs/world/world.hpp>
 #include <ecs/world/internal_world.hpp>
 #include <core/core_component_serialization.h>
-#include <helpers/file.h>
+#include <filesystem/file.h>
 #include <json/json.hpp>
 #include <json/glm_serializer.hpp>
 #include <engine.hpp>
 #include <fstream>
+#include <iomanip>
 
 void nlohmann::adl_serializer<Vultr::Signature>::to_json(json &j, const Vultr::Signature &v)
 {
@@ -400,18 +401,15 @@ namespace Vultr
         }
     }
 
-    void to_json(json &j, const File &f)
+    void to_json(json &j, const IFile &f)
     {
-        j["path"] = file_get_relative_path(f).string();
-        j["expected_extensions"] = f.expected_extensions;
+        j["path"] = std::string(f.path);
     }
 
-    void from_json(const json &j, File &f)
+    void from_json(const json &j, IFile &f)
     {
         auto relative_path = j["path"].get<std::string>();
-        auto file = File(relative_path);
-        f.path = file.path;
-        f.expected_extensions = j["expected_extensions"].get<std::vector<std::string>>();
+        f.path = str(relative_path.c_str());
     }
 
     void component_manager_to_json(json &j, const ComponentManager &m, const ComponentRegistry &r)
@@ -478,7 +476,8 @@ namespace Vultr
 
     World *load_world(Engine *e, const VultrSource &file, const ComponentRegistry &r)
     {
-        assert(file_exists(file) && "Couldn't find save file!");
+        // TODO: Readd this
+        // assert(file_exists(file) && "Couldn't find save file!");
         std::ifstream i;
         i.open(file.path);
 
@@ -506,7 +505,7 @@ namespace Vultr
         std::ofstream o;
         o.open(out.path);
         InternalWorld *world = static_cast<InternalWorld *>(_world);
-        world->file_path = out.path.string().c_str();
+        world->file_path = out.path;
         json final_output;
         save_world(e, world, final_output);
         o << std::setw(4) << final_output;

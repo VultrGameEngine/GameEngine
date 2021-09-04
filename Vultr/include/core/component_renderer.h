@@ -261,95 +261,98 @@ namespace Vultr
         return res;
     }
 
-    template <>
-    inline RenderMemberResult RenderMember(const std::string &name, Vultr::IFile &file)
+    // TODO: Finish this
+    template <const char *const extensions[]>
+    inline RenderMemberResult RenderMember(const std::string &name, Vultr::File<extensions> *file)
     {
-        // ImGui::PushID(name.c_str());
-        // ImGui::Text("%s", name.c_str());
-        // ImGui::SameLine();
+        ImGui::PushID(name.c_str());
+        ImGui::Text("%s", name.c_str());
+        ImGui::SameLine();
         RenderMemberResult res;
-        // if (ImGui::Button("##", ImVec2(300, 150)))
-        // {
-        //     ImGuiFileDialog::Instance()->OpenDialog("FileChooser" + name, "Choose File", file_get_expected_extension_string(file).c_str(), Vultr::get_working_directory().string());
-        //     res.started_editing = true;
-        // }
+        if (ImGui::Button("##", ImVec2(300, 150)))
+        {
+            char *expected_extensions = file->expected_extensions_string();
+            ImGuiFileDialog::Instance()->OpenDialog("FileChooser" + name, "Choose File", expected_extensions, "");
+            free(expected_extensions);
+            res.started_editing = true;
+        }
 
-        // if (ImGui::BeginDragDropTarget())
-        // {
-        //     auto *payload = ImGui::GetDragDropPayload();
-        //     if (payload != nullptr && payload->IsDataType("File"))
-        //     {
-        //         auto *payload_file = static_cast<Vultr::IFile *>(payload->Data);
-        //         if (file_extension_matches(file, *payload_file))
-        //         {
-        //             payload = ImGui::AcceptDragDropPayload("File");
-        //             if (payload != nullptr)
-        //             {
-        //                 payload_file = static_cast<Vultr::File *>(payload->Data);
-        //                 file.path = Vultr::file_get_relative_path(*payload_file);
-        //                 ImGui::EndDragDropTarget();
-        //                 res.started_editing = true;
-        //                 res.finished_editing = true;
-        //             }
-        //         }
-        //     }
-        // }
-        // ImGui::SameLine();
-        // ImGui::SetCursorPosX(ImGui::GetCursorPosX() - 270);
-        // ImGui::PushTextWrapPos(ImGui::GetCursorPosX() + 270);
-        // ImGui::Text("%s", fbasename(&file));
-        // ImGui::PopTextWrapPos();
+        if (ImGui::BeginDragDropTarget())
+        {
+            auto *payload = ImGui::GetDragDropPayload();
+            if (payload != nullptr && payload->IsDataType("File"))
+            {
+                GenericFile *payload_file = static_cast<GenericFile *>(payload->Data);
+                // if (file_extension_matches(file, *payload_file))
+                // {
+                //     payload = ImGui::AcceptDragDropPayload("File");
+                //     if (payload != nullptr)
+                //     {
+                //         payload_file = static_cast<GenericFile *>(payload->Data);
+                //         file.path = Vultr::file_get_relative_path(*payload_file);
+                //         ImGui::EndDragDropTarget();
+                //         res.started_editing = true;
+                //         res.finished_editing = true;
+                //     }
+                // }
+            }
+        }
+        ImGui::SameLine();
+        ImGui::SetCursorPosX(ImGui::GetCursorPosX() - 270);
+        ImGui::PushTextWrapPos(ImGui::GetCursorPosX() + 270);
+        ImGui::Text("%s", fbasename(&file));
+        ImGui::PopTextWrapPos();
 
-        // if (ImGuiFileDialog::Instance()->Display("FileChooser" + name))
-        // {
-        //     if (ImGuiFileDialog::Instance()->IsOk())
-        //     {
-        //         std::string filePathName = ImGuiFileDialog::Instance()->GetFilePathName();
-        //         std::string filePath = ImGuiFileDialog::Instance()->GetCurrentPath();
-        //         file.path = Vultr::file_get_relative_path(Vultr::File(filePathName));
-        //         std::cout << "Path " << file.path << std::endl;
-        //     }
-        //     ImGuiFileDialog::Instance()->Close();
-        //     res.finished_editing = true;
-        // }
-        // ImGui::PopID();
+        if (ImGuiFileDialog::Instance()->Display("FileChooser" + name))
+        {
+            if (ImGuiFileDialog::Instance()->IsOk())
+            {
+                // std::string filePathName = ImGuiFileDialog::Instance()->GetFilePathName();
+                // std::string filePath = ImGuiFileDialog::Instance()->GetCurrentPath();
+                // file.path = Vultr::file_get_relative_path(Vultr::File(filePathName));
+                // std::cout << "Path " << file.path << std::endl;
+            }
+            ImGuiFileDialog::Instance()->Close();
+            res.finished_editing = true;
+        }
+        ImGui::PopID();
         return res;
     }
 
     template <>
     inline RenderMemberResult RenderMember(const std::string &name, Vultr::TextureSource &m)
     {
-        return RenderMember<Vultr::IFile>(name, m);
+        return RenderMember<Vultr::TextureSource>(name, m);
     }
 
     template <>
     inline RenderMemberResult RenderMember(const std::string &name, Vultr::ModelSource &m)
     {
-        return RenderMember<Vultr::IFile>(name, m);
+        return RenderMember<Vultr::ModelSource>(name, m);
     }
 
     template <>
     inline RenderMemberResult RenderMember(const std::string &name, Vultr::HeaderFile &m)
     {
-        return RenderMember<Vultr::IFile>(name, m);
+        return RenderMember<Vultr::HeaderFile>(name, m);
     }
 
     template <>
     inline RenderMemberResult RenderMember(const std::string &name, Vultr::SourceFile &m)
     {
-        return RenderMember<Vultr::IFile>(name, m);
+        return RenderMember<Vultr::SourceFile>(name, m);
     }
 
     template <>
     inline RenderMemberResult RenderMember(const std::string &name, Vultr::HeaderAndSourceFile &m)
     {
-        return RenderMember<Vultr::IFile>(name, m);
+        return RenderMember<Vultr::HeaderAndSourceFile>(name, m);
     }
 
     template <>
     inline RenderMemberResult RenderMember(const std::string &name, Vultr::ShaderSource &m)
     {
-        return RenderMember<Vultr::IFile>(name, m);
+        return RenderMember<Vultr::ShaderSource>(name, m);
     }
 
     template <>

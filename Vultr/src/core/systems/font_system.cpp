@@ -20,9 +20,10 @@ namespace Vultr::FontSystem
         }
     }
 
+    // TODO: More ugly shit
     void preload_font(Engine *e, const FontSource &source)
     {
         auto &provider = get_provider(e);
-        provider.fonts[source.path.string().c_str()] = FontImporter::import_font(source, provider.library);
+        provider.fonts[std::string(source.path).c_str()] = FontImporter::import_font(source, provider.library);
     }
 } // namespace Vultr::FontSystem

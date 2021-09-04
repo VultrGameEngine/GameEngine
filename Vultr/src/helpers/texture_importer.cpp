@@ -3,7 +3,6 @@
 #include <iostream>
 #include <stb_image/stb_image.h>
 #include <string>
-#include <helpers/path.h>
 
 namespace Vultr
 {
@@ -13,7 +12,7 @@ namespace Vultr
         s32 width;
         s32 height;
         s32 bpp;
-        unsigned char *buffer = stbi_load(source.path.string().c_str(), &width, &height, &bpp, 4);
+        unsigned char *buffer = stbi_load(source.path, &width, &height, &bpp, 4);
         if (buffer == nullptr)
         {
             return false;
@@ -52,7 +51,7 @@ namespace Vultr
         int width, height, nrChannels;
         for (unsigned int i = 0; i < paths.size(); i++)
         {
-            unsigned char *data = stbi_load(paths[i].path.string().c_str(), &width, &height, &nrChannels, 0);
+            unsigned char *data = stbi_load(paths[i].path, &width, &height, &nrChannels, 0);
             if (data)
             {
                 texture_image_2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, width, height, GL_RGB, GL_UNSIGNED_BYTE, data);

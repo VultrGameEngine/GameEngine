@@ -40,8 +40,8 @@ namespace Vultr::TextureLoaderSystem
                 continue;
             if (!is_loaded(e, source))
             {
-                provider.textures[source.path.string()] = {};
-                TextureImporter::import(provider.textures[source.path.string()], source);
+                provider.textures[std::string(source.path)] = {};
+                TextureImporter::import(provider.textures[std::string(source.path)], source);
             }
         }
     }
@@ -76,13 +76,13 @@ namespace Vultr::TextureLoaderSystem
                     bool successful = TextureImporter::import(new_tex, file);
                     if (successful)
                     {
-                        provider.textures[file.path.string()] = new_tex;
+                        provider.textures[std::string(file.path)] = new_tex;
                     }
                     else
                     {
                         if (optional_location == "")
                         {
-                            fprintf(stderr, "Failed to import texture %s!", file.path.string().c_str());
+                            fprintf(stderr, "Failed to import texture %s!", file.path);
                         }
                         delete_texture(new_tex);
                     }

@@ -15,15 +15,18 @@ namespace Vultr
     {
         char *path;
 
-        virtual const char *const *get_file_extensions(size_t *size);
+        virtual const char *const *get_file_extensions(size_t *size) = 0;
+        virtual char *expected_extensions_string() = 0;
     };
 
     template <const char *const extensions[]>
     struct File : IFile
     {
+        static constexpr size_t extensions_length = sizeof(extensions) / sizeof(char *const);
+
         File()
         {
-            this->path = nullptr;
+            path = nullptr;
         }
         File(const char *path)
         {
@@ -39,12 +42,19 @@ namespace Vultr
 
         const char *const *get_file_extensions(size_t *size) override
         {
-            *size = sizeof(extensions) / sizeof(char *const);
+            *size = extensions_length;
             return extensions;
         }
 
-        void to_json(json &j, const File &f);
-        void from_json(const json &j, File &f);
+        char *expected_extensions_string() override
+        {
+            char *expected_extensions = str(100);
+            for (size_t i = 0; i < extensions_length; i++)
+            {
+                strcat(expected_extensions, extensions[i]);
+            }
+            return expected_extensions;
+        }
     };
 
     inline const char *const generic_file_extensions[] = {};
@@ -134,4 +144,7 @@ namespace Vultr
     {
         return strcmp(a.path, b.path) == 0;
     }
+
+    void to_json(json &j, const IFile &f);
+    void from_json(const json &j, IFile &f);
 } // namespace Vultr

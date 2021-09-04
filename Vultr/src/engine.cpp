@@ -13,7 +13,6 @@
 #include <imgui/imgui_impl_opengl3.h>
 #include <core/component_renderer.h>
 #include <errors/error_handler.h>
-#include <helpers/path.h>
 #include <core/models/update_tick.h>
 #include <ImGuiFileDialog/ImGuiFileDialog.h>
 #include <core/models/event.h>

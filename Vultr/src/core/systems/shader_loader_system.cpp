@@ -64,7 +64,7 @@ namespace Vultr::ShaderLoaderSystem
         }
 
         // Add it to the loaded shaders
-        provider.loaded_shaders[source.path.string()] = shader;
+        provider.loaded_shaders[std::string(source.path)] = shader;
     }
 
     static void check_and_load_shader(Engine *e, Entity entity)

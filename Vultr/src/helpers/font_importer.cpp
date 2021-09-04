@@ -1,5 +1,4 @@
 #include <helpers/font_importer.h>
-#include <helpers/path.h>
 #include <algorithm>
 #include <glad/glad.h>
 #include <rendering/types/texture.h>
@@ -12,7 +11,7 @@ namespace Vultr
         int h = 0;
         Font *font = new Font();
         FT_Face face;
-        if (FT_New_Face(library, source.path.string().c_str(), 0, &face))
+        if (FT_New_Face(library, source.path, 0, &face))
         {
             assert("Failed to load font");
             return font;

@@ -40,7 +40,7 @@ namespace Vultr::Renderer3D
             for (s16 i = 0; i < material.texture_count; i++)
             {
                 auto &texture_res = material.textures[i];
-                Texture *texture = TextureLoaderSystem::get_texture(e, texture_res.file.path.string().c_str());
+                Texture *texture = TextureLoaderSystem::get_texture(e, texture_res.file.path);
                 if (texture != nullptr)
                     bind_texture(*texture, GL_TEXTURE0 + i);
             }
