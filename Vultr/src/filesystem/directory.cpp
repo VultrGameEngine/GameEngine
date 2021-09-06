@@ -1,113 +1,143 @@
-// #include <helpers/directory.h>
-// #include <filesystem>
+#include <filesystem/directory.h>
+#include <libgen.h>
+#include <sys/stat.h>
 
-// static void directory_cache_files(Vultr::Directory &dir)
-// {
-//     dir.files.clear();
-//     dir.sub_directories.clear();
-//     for (auto &file : std::filesystem::directory_iterator(dir.path))
-//     {
-//         if (file.is_directory())
-//         {
-//             dir.sub_directories.push_back(Vultr::Directory(file.path().string()));
-//         }
-//         else
-//         {
-//             dir.files.push_back(Vultr::File(file.path().string()));
-//         }
-//     }
-//     dir.cached_files = true;
-// }
+#include <stdio.h>
+#include <ftw.h>
+#include <unistd.h>
 
-// Vultr::Directory::Directory(const std::string &p_path) : path(p_path)
-// {
-//     if (path.is_relative())
-//     {
-//         auto abs = std::filesystem::absolute(path);
-//         assert(abs != path && "Couldn't get an absolute path! Something went wrong");
-//         path = abs;
-//     }
-// }
+namespace Vultr
+{
+    Directory::Directory(const char *path)
+    {
+        size_t len = strlen(path);
 
-// std::string Vultr::directory_get_name(const Directory &dir)
-// {
-//     return dir.path.filename().string();
-// }
+        // If there is a trailing slash, delete it
+        bool append_slash = false;
+        if (path[len - 1] != '/')
+        {
+            len += 1;
+            append_slash = true;
+        }
 
-// u32 Vultr::directory_get_number_files(Directory &dir, bool use_cache)
-// {
-//     if (!use_cache || !dir.cached_files)
-//         directory_cache_files(dir);
-//     return dir.files.size() + dir.sub_directories.size();
-// }
+        this->path = strn(path, len);
+        if (append_slash)
+        {
+            this->path[len - 1] = '/';
+        }
+    }
 
-// std::vector<Vultr::File> Vultr::directory_get_files(Directory &dir, bool use_cache)
-// {
-//     if (!use_cache || !dir.cached_files)
-//         directory_cache_files(dir);
-//     return dir.files;
-// }
+    Directory::~Directory()
+    {
+        if (path != nullptr)
+        {
+            free(path);
+        }
+    }
 
-// std::vector<Vultr::Directory> Vultr::directory_get_sub_directories(Directory &dir, bool use_cache)
-// {
-//     if (!use_cache || !dir.cached_files)
-//         directory_cache_files(dir);
-//     return dir.sub_directories;
-// }
-// Vultr::Path Vultr::file_get_relative_path(const Directory &dir)
-// {
-//     return std::filesystem::relative(dir.path);
-// }
+    void Directory::operator=(const Directory &other)
+    {
+        if (path != nullptr)
+            free(path);
+        path = str(other.path);
+    }
 
-// bool Vultr::delete_directory(Directory &dir)
-// {
-//     auto res = std::filesystem::remove_all(dir.path);
-//     if (res)
-//         directory_cache_files(dir);
-//     return res;
-// }
+    static s8 mkdir_p(const char *path, u32 mode)
+    {
+        const size_t len = strlen(path);
 
-// void Vultr::rename_directory(Directory &dir, const char *name)
-// {
-//     Directory new_dir = Directory((dir.path / std::string(name)).string());
-//     std::filesystem::rename(dir.path, new_dir.path);
-//     directory_cache_files(dir);
-// }
+        char _path[len + 1];
+        strcpy(_path, path);
 
-// void Vultr::move_file(File &file, Directory &dir)
-// {
-//     auto new_path = dir.path / file_get_name(file);
-//     std::filesystem::rename(file.path, new_path);
-//     file.path = new_path;
-// }
+        // Iterate the string
+        for (char *p = _path + 1; *p; p++)
+        {
+            if (*p == '/')
+            {
+                // Temporarily truncate
+                *p = '\0';
 
-// Vultr::Directory Vultr::create_sub_directory(Directory &dir, const char *name)
-// {
-//     Directory new_dir = Directory((dir.path / name).string());
-//     std::filesystem::create_directory(new_dir.path);
-//     return new_dir;
-// }
-// Vultr::File Vultr::create_file(Directory &dir, const char *name)
-// {
-//     return File((dir.path / name).string());
-// }
+                if (mkdir(_path, mode) != 0)
+                {
+                    // If the directory already exists, we can ignore the error because this is normal and expected. However if the error is something else we should fail and return
+                    if (errno != EEXIST)
+                        return -1;
+                }
 
-// Vultr::Directory Vultr::directory_get_parent_directory(const Directory &directory)
-// {
-//     return Directory(directory.path.parent_path().string());
-// }
+                *p = '/';
+            }
+        }
 
-// Vultr::Directory Vultr::directory_get_root_directory(const Directory &directory)
-// {
-//     return Directory(directory.path.root_directory().string());
-// }
+        if (mkdir(_path, mode) != 0)
+        {
+            if (errno != EEXIST)
+                return -1;
+        }
 
-// Vultr::Directory Vultr::file_get_parent_directory(const File &file)
-// {
-//     return Directory(file.path.parent_path().string());
-// }
+        return 0;
+    }
 
-// Vultr::Directory Vultr::file_get_root_directory(const File &file)
-// {
-//     return Directory(file.path.root_directory().string());
-// }
+    bool dirmake(const char *path, Directory *dir)
+    {
+        bool res = mkdir_p(path, S_IRWXU | S_IRWXG | S_IRWXO) == 0;
+
+        if (res)
+        {
+            *dir = Directory(path);
+        }
+        else
+        {
+            dir->path = nullptr;
+        }
+
+        return res;
+    }
+
+    bool direxists(const Directory *dir)
+    {
+        struct stat st = {0};
+        return stat(dir->path, &st) == 0;
+    }
+
+    void dirparent(const Directory *dir, Directory *parent)
+    {
+        const char *parent_path = dirname(dir->path);
+        *parent = Directory(parent_path);
+    }
+
+    void dirparent(const IFile *file, Directory *parent)
+    {
+        const char *parent_path = dirname(file->path);
+        *parent = Directory(parent_path);
+    }
+
+    static s32 on_rm_dir_cb(const char *fpath, const struct stat *sb, s32 typeflag, struct FTW *ftwbuf)
+    {
+        s32 rv = remove(fpath);
+
+        if (rv)
+            perror(fpath);
+
+        return rv;
+    }
+
+    bool dirremove(const Directory *dir)
+    {
+        return nftw(dir->path, on_rm_dir_cb, 64, FTW_DEPTH | FTW_PHYS) == 0;
+    }
+
+    // bool dirrename(Directory *dir, const char *name)
+    // {
+    // }
+
+    // bool dirmove(Directory *src, const Directory *dest)
+    // {
+    // }
+    // bool dirmove(Directory *src, const char *dest)
+    // {
+    // }
+
+    // bool dircopy(Directory *src, const char *dest)
+    // {
+    // }
+} // namespace Vultr

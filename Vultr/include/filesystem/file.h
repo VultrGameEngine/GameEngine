@@ -13,7 +13,7 @@ namespace Vultr
 
     struct IFile
     {
-        char *path;
+        char *path = nullptr;
 
         virtual const char *const *get_file_extensions(size_t *size) = 0;
         virtual char *expected_extensions_string() = 0;
@@ -28,16 +28,15 @@ namespace Vultr
         {
             path = nullptr;
         }
+
         File(const char *path)
         {
-            u32 size = strlen(path);
-            this->path = static_cast<char *>(malloc(sizeof(char) * size));
-
-            strcpy(this->path, path);
+            this->path = str(path);
         }
         ~File()
         {
-            free(this->path);
+            if (path != nullptr)
+                free(path);
         }
 
         const char *const *get_file_extensions(size_t *size) override
@@ -58,7 +57,8 @@ namespace Vultr
 
         void operator=(const File &other)
         {
-            free(path);
+            if (path != nullptr)
+                free(path);
             path = str(other.path);
         }
     };
@@ -105,13 +105,12 @@ namespace Vultr
 
     bool fcopy(IFile *src, const char *dest);
 
-    bool fexists(IFile *file);
+    bool fexists(const IFile *file);
 
     // Casts a file (if possible) from one extension type to another
     template <const char *const extensions[]>
     bool cast_file(const GenericFile *src, File<extensions> *dest)
     {
-
         size_t dest_extension_count = sizeof(extensions) / sizeof(char *const);
         if (dest_extension_count == 0)
         {
@@ -150,7 +149,7 @@ namespace Vultr
     template <const char *const extensions[]>
     bool operator==(const File<extensions> &a, const File<extensions> &b)
     {
-        return strcmp(a.path, b.path) == 0;
+        return strequal(a.path, b.path);
     }
 
     void to_json(json &j, const IFile &f);

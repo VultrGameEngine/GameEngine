@@ -116,7 +116,7 @@ namespace Vultr
         return true;
     }
 
-    bool fexists(IFile *file)
+    bool fexists(const IFile *file)
     {
         struct stat buffer;
         return (stat(file->path, &buffer) == 0);

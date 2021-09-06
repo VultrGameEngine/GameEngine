@@ -5,15 +5,36 @@
 
 namespace Vultr
 {
-    // struct Directory
-    // {
-    //     Directory() = default;
-    //     Directory(const std::string &path);
-    //     Path path;
-    //     std::vector<File> files;
-    //     std::vector<Directory> sub_directories;
-    //     bool cached_files = false;
-    // };
+    struct Directory
+    {
+        Directory() = default;
+        Directory(const char *path);
+        ~Directory();
+
+        void operator=(const Directory &other);
+        char *path = nullptr;
+    };
+
+    void dirparent(const Directory *dir, Directory *parent);
+    void dirparent(const IFile *file, Directory *parent);
+
+    bool dirmake(const char *path, Directory *dir);
+
+    bool dirremove(const Directory *dir);
+    bool dirrename(Directory *dir, const char *name);
+
+    bool dirmove(Directory *src, const Directory *dest);
+    bool dirmove(Directory *src, const char *dest);
+
+    bool dircopy(Directory *src, const char *dest);
+
+    bool direxists(const Directory *dir);
+
+    u32 dirfilecount(const Directory *dir);
+    u32 dirsubdirectorycount(const Directory *dir);
+
+    Directory *dirsubdirs(const Directory *dir);
+    GenericFile *dirfiles(const Directory *dir);
 
     // std::string directory_get_name(const Directory &dir);
     // u32 directory_get_number_files(Directory &dir, bool use_cache = true);

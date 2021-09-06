@@ -27,8 +27,13 @@ namespace Vultr
     char *str(const char *string)
     {
         size_t len = strlen(string);
+        return strn(string, len);
+    }
+
+    char *strn(const char *string, size_t len)
+    {
         char *allocated_string = str(len);
-        strcpy(allocated_string, string);
+        strncpy(allocated_string, string, len);
         return allocated_string;
     }
 

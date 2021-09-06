@@ -20,6 +20,12 @@ TEST(String_Utils, Str)
     free(string);
 
     const char *string_literal = "Hello my baby, hello my honey, hello my ragtime gal";
+    string = strn(string_literal, 5);
+    ASSERT_EQ(strlen(string), 5);
+    ASSERT_EQ(strcmp(string, "Hello"), 0);
+    ASSERT_EQ(string[5], '\0');
+    free(string);
+
     string = str(string_literal);
     ASSERT_EQ(strcmp(string, string_literal), 0);
     free(string);

@@ -10,7 +10,7 @@ static const char *file_extension = ".txt";
 static const char *file_data = "string";
 
 using namespace Vultr;
-class Filesystem : public testing::Test
+class FileTests : public testing::Test
 {
   protected:
     // Per-test-suite set-up.
@@ -32,13 +32,13 @@ class Filesystem : public testing::Test
     }
 };
 
-TEST_F(Filesystem, FBasename)
+TEST_F(FileTests, FBasename)
 {
     GenericFile file = GenericFile(file_path);
     EXPECT_TRUE(strequal(fbasename(&file), file_path));
 }
 
-TEST_F(Filesystem, FExtension)
+TEST_F(FileTests, FExtension)
 {
     GenericFile file = GenericFile(file_path);
     EXPECT_TRUE(strequal(fextension(&file), file_extension));
@@ -47,7 +47,7 @@ TEST_F(Filesystem, FExtension)
     EXPECT_EQ(fextension(&file), nullptr);
 }
 
-TEST_F(Filesystem, FRename)
+TEST_F(FileTests, FRename)
 {
     GenericFile file = GenericFile(file_path);
     file_path = "new_test_file.text";
@@ -77,7 +77,7 @@ TEST_F(Filesystem, FRename)
     fclose(f);
 }
 
-TEST_F(Filesystem, FCopy)
+TEST_F(FileTests, FCopy)
 {
     const char *copy_file_path = "copy_file.txt";
     GenericFile file = GenericFile(file_path);
@@ -107,7 +107,7 @@ TEST_F(Filesystem, FCopy)
     fclose(f);
 }
 
-TEST_F(Filesystem, FRemove_FExists)
+TEST_F(FileTests, FRemove_FExists)
 {
     const char *copy_file_path = "copy_file.txt";
     GenericFile file = GenericFile(copy_file_path);
