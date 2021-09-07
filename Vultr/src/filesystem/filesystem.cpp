@@ -48,6 +48,10 @@ namespace Vultr
         return path;
     }
 
+    static char *path_dirname(char *path, size_t *len)
+    {
+    }
+
     const char *fbasename(const IFile *file, size_t *len)
     {
         char *path = file->path;
