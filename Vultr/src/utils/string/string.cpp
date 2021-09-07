@@ -26,8 +26,7 @@ namespace Vultr
 
     char *str(const char *string)
     {
-        size_t len = strlen(string);
-        return strn(string, len);
+        return strdup(string);
     }
 
     char *strn(const char *string, size_t len)

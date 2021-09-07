@@ -15,6 +15,8 @@ namespace Vultr
         char *path = nullptr;
     };
 
+    const char *dirbasename(const Directory *dir);
+
     void dirparent(const Directory *dir, Directory *parent);
     void dirparent(const IFile *file, Directory *parent);
 
