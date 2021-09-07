@@ -34,8 +34,19 @@ class FileTests : public testing::Test
 
 TEST_F(FileTests, FBasename)
 {
+    size_t len;
     GenericFile file = GenericFile(file_path);
-    EXPECT_TRUE(strequal(fbasename(&file), file_path));
+    EXPECT_STRCASEEQ(fbasename(&file, &len), file_path);
+    EXPECT_EQ(len, strlen(file_path));
+
+    GenericFile local_file = GenericFile("./test_file.cpp");
+    EXPECT_STRCASEEQ(fbasename(&local_file, &len), "test_file.cpp");
+    EXPECT_EQ(len, strlen("test_file.cpp"));
+
+    GenericFile windows_file = GenericFile("C:\\Windows Path\\test_file.cpp");
+    EXPECT_STRCASEEQ(windows_file.path, "C:/Windows Path/test_file.cpp");
+    EXPECT_STRCASEEQ(fbasename(&windows_file, &len), "test_file.cpp");
+    EXPECT_EQ(len, strlen("test_file.cpp"));
 }
 
 TEST_F(FileTests, FExtension)
@@ -54,8 +65,11 @@ TEST_F(FileTests, FRename)
     file_extension = ".text";
     frename(&file, file_path);
 
-    EXPECT_TRUE(strequal(fextension(&file), file_extension));
-    EXPECT_TRUE(strequal(fbasename(&file), file_path));
+    size_t len;
+
+    EXPECT_STRCASEEQ(fextension(&file), file_extension);
+    EXPECT_STRCASEEQ(fbasename(&file, &len), file_path);
+    EXPECT_EQ(len, strlen(file_path));
 
     FILE *f = fopen(file_path, "r");
 #define READ_BUFFER_SIZE 32768

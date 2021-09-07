@@ -8,27 +8,65 @@
 
 namespace Vultr
 {
-    static char *path_basename(char *path, size_t &len)
+    static char *path_basename(char *path, size_t *len)
     {
         size_t _len = strlen(path);
-        for (size_t i = _len - 1; i >= 0; i--)
+        if (_len < 2)
+        {
+            *len = _len;
+            return path;
+        }
+
+        if (_len == 2)
+        {
+            if (strequal(path, "./"))
+            {
+                *len = 2;
+                return path;
+            }
+        }
+
+        size_t prev_slash_loc = _len;
+        for (s32 i = _len - 1; i >= 0; i--)
         {
             char c = path[i];
             if (c == '/')
             {
+                if (i < _len - 1)
+                {
+                    *len = prev_slash_loc - i - 1;
+                    return path + i + 1;
+                }
+                else
+                {
+                    prev_slash_loc = i;
+                }
             }
         }
+
+        *len = _len;
+        return path;
     }
 
-    const char *fbasename(const IFile *file)
+    const char *fbasename(const IFile *file, size_t *len)
     {
         char *path = file->path;
-        return basename(path);
+        size_t path_len = strlen(path);
+        if (path_len < 3)
+        {
+            assert(!strequal(path, ".") && "File `.` does not have a file name!");
+            assert(!strequal(path, "./") && "File `./` does not have a file name!");
+            assert(!strequal(path, "/") && "File `/` does not have a file name!");
+            assert(path[path_len - 1] == '/' && "File ends with a `/`!");
+        }
+
+        return path_basename(path, len);
     }
 
     const char *fextension(const IFile *file, bool with_dot)
     {
-        const char *basename = fbasename(file);
+        size_t len;
+        const char *basename = fbasename(file, &len);
         const char *extension = strchr(basename, '.');
 
         // If no pointer was found, then just return
@@ -52,10 +90,11 @@ namespace Vultr
 
     bool frename(IFile *src, const char *new_name)
     {
+        size_t len;
         const char *path = src->path;
-        const char *basename = fbasename(src);
+        const char *basename = fbasename(src, &len);
 
-        size_t path_size = strlen(path) - strlen(basename);
+        size_t path_size = strlen(path) - len;
         size_t new_path_len = path_size + strlen(new_name);
 
         char *new_path = str(new_path_len);
@@ -153,7 +192,7 @@ namespace Vultr
 
         // If there is a trailing slash, delete it
         bool append_slash = false;
-        if (path[len - 1] != '/')
+        if (path[len - 1] != '/' && path[len - 1] != '\\')
         {
             len += 1;
             append_slash = true;
@@ -164,6 +203,8 @@ namespace Vultr
         {
             this->path[len - 1] = '/';
         }
+
+        strcreplace(this->path, '\\', '/');
     }
 
     Directory::~Directory()
@@ -216,10 +257,10 @@ namespace Vultr
         return 0;
     }
 
-    const char *dirbasename(const Directory *dir)
+    const char *dirbasename(const Directory *dir, size_t *len)
     {
         char *path = dir->path;
-        return basename(path);
+        return path_basename(path, len);
     }
 
     bool dirmake(const char *path, Directory *dir)
@@ -273,8 +314,9 @@ namespace Vultr
 
     bool dirrename(Directory *dir, const char *name)
     {
+        size_t len;
         const char *path = dir->path;
-        const char *basename = dirbasename(dir);
+        const char *basename = dirbasename(dir, &len);
 
         size_t path_size = strlen(path) - strlen(basename);
     }

@@ -1,4 +1,5 @@
 #include <utils/string/string.h>
+#include <types/types.hpp>
 
 namespace Vultr
 {
@@ -64,4 +65,21 @@ namespace Vultr
         strcat(dest, src);
         return dest;
     }
+
+    void strcreplace(char *string, char src, char dest)
+    {
+        size_t len = strlen(string);
+        for (u32 i = 0; i < len; i++)
+        {
+            if (string[i] == src)
+            {
+                string[i] = dest;
+            }
+        }
+    }
+
+    // char *strsreplace(char *string, const char *src, const char *dest)
+    // {
+    //     throw("Not implemented");
+    // }
 } // namespace Vultr

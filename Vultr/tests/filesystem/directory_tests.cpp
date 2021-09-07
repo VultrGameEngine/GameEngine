@@ -32,6 +32,45 @@ TEST_F(DirectoryTests, Directory)
     EXPECT_STRCASEEQ(dir.path, "res/");
     dir = Directory("res/");
     EXPECT_STRCASEEQ(dir.path, "res/");
+    dir = Directory("C:\\Windows Path\\");
+    EXPECT_STRCASEEQ(dir.path, "C:/Windows Path/");
+}
+
+TEST_F(DirectoryTests, Dirbasename)
+{
+    size_t len;
+    auto dir = Directory("./res/");
+    EXPECT_STRCASEEQ(dir.path, "./res/");
+
+    EXPECT_STRCASEEQ(dirbasename(&dir, &len), "res/");
+    EXPECT_EQ(len, strlen("res"));
+
+    dir = Directory("/res/otherpath/");
+    EXPECT_STRCASEEQ(dirbasename(&dir, &len), "otherpath/");
+    EXPECT_EQ(len, strlen("otherpath"));
+
+    dir = Directory("/res/otherpath");
+    EXPECT_STRCASEEQ(dirbasename(&dir, &len), "otherpath/");
+    EXPECT_EQ(len, strlen("otherpath"));
+
+    dir = Directory("/");
+    EXPECT_STRCASEEQ(dirbasename(&dir, &len), "/");
+    EXPECT_EQ(len, strlen("/"));
+
+    dir = Directory("./");
+    EXPECT_STRCASEEQ(dirbasename(&dir, &len), "./");
+    EXPECT_EQ(len, strlen("./"));
+
+    dir = Directory("//");
+    EXPECT_STRCASEEQ(dirbasename(&dir, &len), "/");
+    EXPECT_EQ(len, 0);
+
+    dir = Directory(".//");
+    EXPECT_STRCASEEQ(dirbasename(&dir, &len), "/");
+    EXPECT_EQ(len, 0);
+
+    dir = Directory("res/");
+    EXPECT_STRCASEEQ(dir.path, "res/");
 }
 
 TEST_F(DirectoryTests, Dirparent)

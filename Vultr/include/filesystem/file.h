@@ -31,7 +31,12 @@ namespace Vultr
 
         File(const char *path)
         {
+            size_t len = strlen(path);
+            assert(path[len - 1] != '/' && "File ends with a `/`!");
+
             this->path = str(path);
+
+            strcreplace(this->path, '\\', '/');
         }
         ~File()
         {
@@ -91,7 +96,7 @@ namespace Vultr
     typedef File<vultr_source_extensions> VultrSource;
 
     // Get the name of the file, not the path.
-    const char *fbasename(const IFile *file);
+    const char *fbasename(const IFile *file, size_t *len);
 
     const char *fextension(const IFile *file, bool with_dot = true);
 
