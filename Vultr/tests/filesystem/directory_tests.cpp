@@ -75,14 +75,31 @@ TEST_F(DirectoryTests, Dirbasename)
 
 TEST_F(DirectoryTests, Dirparent)
 {
-    auto dir = Directory(dir_path);
     Directory parent;
+
+    Directory dir = Directory("res");
     dirparent(&dir, &parent);
     EXPECT_STRCASEEQ(parent.path, "./");
 
     dir = Directory("/usr/bin");
     dirparent(&dir, &parent);
     EXPECT_STRCASEEQ(parent.path, "/usr/");
+
+    dir = Directory("/usr/bin/");
+    dirparent(&dir, &parent);
+    EXPECT_STRCASEEQ(parent.path, "/usr/");
+
+    dir = Directory("./res/some_path/");
+    dirparent(&dir, &parent);
+    EXPECT_STRCASEEQ(parent.path, "./res/");
+
+    dir = Directory("./res/some_path");
+    dirparent(&dir, &parent);
+    EXPECT_STRCASEEQ(parent.path, "./res/");
+
+    dir = Directory("res/some_path");
+    dirparent(&dir, &parent);
+    EXPECT_STRCASEEQ(parent.path, "res/");
 }
 
 TEST_F(DirectoryTests, Dirmake_Direxists_Dirremove)
@@ -98,4 +115,23 @@ TEST_F(DirectoryTests, Dirmake_Direxists_Dirremove)
     dir = Directory("testdir");
     ASSERT_TRUE(dirremove(&dir));
     ASSERT_FALSE(direxists(&dir));
+}
+
+TEST_F(DirectoryTests, Dirrename)
+{
+    const char *paths[] = {"toberemoveddir/oldname/"};
+
+    Directory dir;
+    Directory parent;
+    ASSERT_TRUE(dirmake(paths[0], &dir));
+    ASSERT_TRUE(direxists(&dir));
+
+    ASSERT_TRUE(dirrename(&dir, "newname"));
+    ASSERT_STRCASEEQ(dir.path, "toberemoveddir/newname/");
+    ASSERT_TRUE(direxists(&dir));
+
+    dirparent(&dir, &parent);
+    ASSERT_TRUE(dirremove(&parent));
+    ASSERT_FALSE(direxists(&parent));
+    ASSERT_FALSE(direxists(&parent));
 }

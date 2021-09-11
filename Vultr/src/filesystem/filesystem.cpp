@@ -48,8 +48,21 @@ namespace Vultr
         return path;
     }
 
-    static char *path_dirname(char *path, size_t *len)
+    static size_t path_dirname(char *path)
     {
+        size_t len = strlen(path);
+        for (s32 i = len - 1; i >= 0; i--)
+        {
+            char c = path[i];
+            if (c == '/')
+            {
+                if (i < len - 1)
+                {
+                    return i;
+                }
+            }
+        }
+        return 0;
     }
 
     const char *fbasename(const IFile *file, size_t *len)
@@ -102,6 +115,8 @@ namespace Vultr
         size_t new_path_len = path_size + strlen(new_name);
 
         char *new_path = str(new_path_len);
+
+        strncat(new_path, path, path_size);
         strcat(new_path, new_name);
 
         bool successful = rename(path, new_path) == 0;
@@ -291,14 +306,40 @@ namespace Vultr
 
     void dirparent(const Directory *dir, Directory *parent)
     {
-        // const char *parent_path = dirname(dir->path);
-        // *parent = Directory(parent_path);
+        size_t len = path_dirname(dir->path);
+
+        // If the length is 0, that means that the user likely forgot to put a "./" indicating the working directory
+        // i.e. `some_path` is the same thing as `./some_path`
+        if (len == 0)
+        {
+            *parent = Directory("./");
+        }
+        else
+        {
+            char str[len + 1];
+            strncpy(str, dir->path, len);
+            str[len] = '\0';
+            *parent = Directory(str);
+        }
     }
 
     void dirparent(const IFile *file, Directory *parent)
     {
-        // const char *parent_path = dirname(file->path);
-        // *parent = Directory(parent_path);
+        size_t len = path_dirname(file->path);
+
+        // If the length is 0, that means that the user likely forgot to put a "./" indicating the working directory
+        // i.e. `some_path` is the same thing as `./some_path`
+        if (len == 0)
+        {
+            *parent = Directory("./");
+        }
+        else
+        {
+            char str[len + 1];
+            strncpy(str, file->path, len);
+            str[len] = '\0';
+            *parent = Directory(str);
+        }
     }
 
     static s32 on_rm_dir_cb(const char *fpath, const struct stat *sb, s32 typeflag, struct FTW *ftwbuf)
@@ -322,7 +363,29 @@ namespace Vultr
         const char *path = dir->path;
         const char *basename = dirbasename(dir, &len);
 
-        size_t path_size = strlen(path) - strlen(basename);
+        size_t path_size = path_dirname(dir->path) + 1;
+        size_t new_path_len = path_size + strlen(name);
+
+        char new_path[new_path_len + 1];
+        for (u16 i = 0; i < new_path_len + 1; i++)
+        {
+            new_path[i] = '\0';
+        }
+
+        strncpy(new_path, path, path_size);
+        strcat(new_path, name);
+        new_path[new_path_len] = '\0';
+
+        auto out_dir = Directory(new_path);
+
+        bool successful = rename(path, out_dir.path) == 0;
+
+        if (successful)
+        {
+            *dir = Directory(new_path);
+        }
+
+        return successful;
     }
 
     // bool dirmove(Directory *src, const Directory *dest)
