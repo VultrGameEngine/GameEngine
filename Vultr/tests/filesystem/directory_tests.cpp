@@ -34,6 +34,8 @@ TEST_F(DirectoryTests, Directory)
     EXPECT_STRCASEEQ(dir.path, "res/");
     dir = Directory("C:\\Windows Path\\");
     EXPECT_STRCASEEQ(dir.path, "C:/Windows Path/");
+    auto sub_dir = Directory(&dir, "subdirectory");
+    EXPECT_STRCASEEQ(sub_dir.path, "C:/Windows Path/subdirectory/");
 }
 
 TEST_F(DirectoryTests, Dirbasename)
@@ -119,11 +121,11 @@ TEST_F(DirectoryTests, Dirmake_Direxists_Dirremove)
 
 TEST_F(DirectoryTests, Dirrename)
 {
-    const char *paths[] = {"toberemoveddir/oldname/"};
+    const char *path = "toberemoveddir/oldname/";
 
     Directory dir;
     Directory parent;
-    ASSERT_TRUE(dirmake(paths[0], &dir));
+    ASSERT_TRUE(dirmake(path, &dir));
     ASSERT_TRUE(direxists(&dir));
 
     ASSERT_TRUE(dirrename(&dir, "newname"));
@@ -134,4 +136,42 @@ TEST_F(DirectoryTests, Dirrename)
     ASSERT_TRUE(dirremove(&parent));
     ASSERT_FALSE(direxists(&parent));
     ASSERT_FALSE(direxists(&parent));
+
+    const char *paths[] = {"toberemoveddir/oldname/insidedir/"};
+
+    ASSERT_TRUE(dirmake(paths[0], &dir));
+    ASSERT_TRUE(direxists(&dir));
+    dirparent(&dir, &parent);
+    dir = parent;
+
+    ASSERT_TRUE(dirrename(&dir, "newname"));
+    ASSERT_STRCASEEQ(dir.path, "toberemoveddir/newname/");
+    ASSERT_TRUE(direxists(&dir));
+
+    dirparent(&dir, &parent);
+    ASSERT_TRUE(direxists(&dir));
+    ASSERT_TRUE(dirremove(&dir));
+    ASSERT_FALSE(direxists(&dir));
+
+    dir = Directory("toberemoveddir");
+    ASSERT_TRUE(direxists(&dir));
+    ASSERT_TRUE(dirremove(&dir));
+    ASSERT_FALSE(direxists(&dir));
+}
+
+TEST_F(DirectoryTests, Dirmove)
+{
+    const char *path = "toberemoveddir/oldname/";
+
+    Directory dir;
+    Directory parent;
+    ASSERT_TRUE(dirmake(path, &dir));
+    ASSERT_TRUE(direxists(&dir));
+
+    ASSERT_TRUE(dirmove(&dir, "./"));
+    ASSERT_STRCASEEQ(dir.path, "./oldname/");
+    ASSERT_TRUE(direxists(&dir));
+
+    ASSERT_TRUE(dirremove(&dir));
+    ASSERT_FALSE(direxists(&dir));
 }

@@ -9,6 +9,7 @@ namespace Vultr
     {
         Directory() = default;
         Directory(const char *path);
+        Directory(const Directory *dir, const char *path);
         ~Directory();
 
         void operator=(const Directory &other);
@@ -41,8 +42,8 @@ namespace Vultr
     // std::string directory_get_name(const Directory &dir);
     // u32 directory_get_number_files(Directory &dir, bool use_cache = true);
     // std::vector<File> directory_get_files(Directory &dir, bool use_cache = true);
-    // std::vector<Directory> directory_get_sub_directories(Directory &dir, bool use_cache = true);
-    // Path file_get_relative_path(const Directory &dir);
+    // std::vector<Directory> directory_get_sub_directories(Directory &dir, bool
+    // use_cache = true); Path file_get_relative_path(const Directory &dir);
 
     // bool delete_directory(Directory &dir);
     // void rename_directory(Directory &dir, const char *name);

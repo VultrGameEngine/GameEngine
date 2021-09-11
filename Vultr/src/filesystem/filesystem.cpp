@@ -205,7 +205,7 @@ namespace Vultr
         return time.st_mtim.tv_sec * 1000;
     }
 
-    Directory::Directory(const char *path)
+    static char *dir_path(const char *path)
     {
         size_t len = strlen(path);
 
@@ -216,14 +216,35 @@ namespace Vultr
             len += 1;
             append_slash = true;
         }
-
-        this->path = strn(path, len);
+        char *res_path = strn(path, len);
         if (append_slash)
         {
-            this->path[len - 1] = '/';
+            res_path[len - 1] = '/';
         }
 
-        strcreplace(this->path, '\\', '/');
+        strcreplace(res_path, '\\', '/');
+        return res_path;
+    }
+
+    Directory::Directory(const char *path)
+    {
+        this->path = dir_path(path);
+    }
+
+    Directory::Directory(const Directory *dir, const char *path)
+    {
+        size_t len = strlen(dir->path) + strlen(path);
+
+        char combined_path[len + 1];
+        for (u16 i = 0; i < len + 1; i++)
+        {
+            combined_path[i] = '\0';
+        }
+
+        strcpy(combined_path, dir->path);
+        strcat(combined_path, path);
+
+        this->path = dir_path(combined_path);
     }
 
     Directory::~Directory()
@@ -258,7 +279,9 @@ namespace Vultr
 
                 if (mkdir(_path, mode) != 0)
                 {
-                    // If the directory already exists, we can ignore the error because this is normal and expected. However if the error is something else we should fail and return
+                    // If the directory already exists, we can ignore the error because
+                    // this is normal and expected. However if the error is something
+                    // else we should fail and return
                     if (errno != EEXIST)
                         return -1;
                 }
@@ -308,8 +331,9 @@ namespace Vultr
     {
         size_t len = path_dirname(dir->path);
 
-        // If the length is 0, that means that the user likely forgot to put a "./" indicating the working directory
-        // i.e. `some_path` is the same thing as `./some_path`
+        // If the length is 0, that means that the user likely forgot to put a "./"
+        // indicating the working directory i.e. `some_path` is the same thing as
+        // `./some_path`
         if (len == 0)
         {
             *parent = Directory("./");
@@ -327,8 +351,9 @@ namespace Vultr
     {
         size_t len = path_dirname(file->path);
 
-        // If the length is 0, that means that the user likely forgot to put a "./" indicating the working directory
-        // i.e. `some_path` is the same thing as `./some_path`
+        // If the length is 0, that means that the user likely forgot to put a "./"
+        // indicating the working directory i.e. `some_path` is the same thing as
+        // `./some_path`
         if (len == 0)
         {
             *parent = Directory("./");
@@ -388,12 +413,39 @@ namespace Vultr
         return successful;
     }
 
-    // bool dirmove(Directory *src, const Directory *dest)
-    // {
-    // }
-    // bool dirmove(Directory *src, const char *dest)
-    // {
-    // }
+    bool dirmove(Directory *src, const char *dest)
+    {
+        size_t len;
+        const char *basename = dirbasename(src, &len);
+
+        size_t path_size = strlen(dest) + strlen(basename);
+
+        char new_path[path_size + 1];
+
+        for (u16 i = 0; i < path_size + 1 + 1; i++)
+        {
+            new_path[i] = '\0';
+        }
+
+        strcpy(new_path, dest);
+        strcat(new_path, basename);
+        new_path[path_size] = '\0';
+
+        auto out_dir = Directory(new_path);
+
+        bool succcessful = rename(src->path, new_path) == 0;
+        if (succcessful)
+        {
+            *src = Directory(new_path);
+        }
+
+        return succcessful;
+    }
+
+    bool dirmove(Directory *src, const Directory *dest)
+    {
+        return dirmove(src, dest->path);
+    }
 
     // bool dircopy(Directory *src, const char *dest)
     // {
