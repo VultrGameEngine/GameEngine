@@ -152,11 +152,6 @@ TEST_F(DirectoryTests, Dirrename)
     ASSERT_TRUE(direxists(&dir));
     ASSERT_TRUE(dirremove(&dir));
     ASSERT_FALSE(direxists(&dir));
-
-    dir = Directory("toberemoveddir");
-    ASSERT_TRUE(direxists(&dir));
-    ASSERT_TRUE(dirremove(&dir));
-    ASSERT_FALSE(direxists(&dir));
 }
 
 TEST_F(DirectoryTests, Dirmove)
@@ -172,6 +167,11 @@ TEST_F(DirectoryTests, Dirmove)
     ASSERT_STRCASEEQ(dir.path, "./oldname/");
     ASSERT_TRUE(direxists(&dir));
 
+    ASSERT_TRUE(dirremove(&dir));
+    ASSERT_FALSE(direxists(&dir));
+
+    dir = Directory("toberemoveddir");
+    ASSERT_TRUE(direxists(&dir));
     ASSERT_TRUE(dirremove(&dir));
     ASSERT_FALSE(direxists(&dir));
 }
