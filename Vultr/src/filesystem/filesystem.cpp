@@ -453,7 +453,7 @@ namespace Vultr
     // }
     static u32 count_dir_type(const char *path, unsigned char type)
     {
-        u32 file_count = 0;
+        u32 count = 0;
         DIR *odir;
         struct dirent *entry;
 
@@ -463,11 +463,16 @@ namespace Vultr
         {
             if (entry->d_type == type)
             {
-                file_count++;
+                if (type == DT_DIR)
+                {
+                    if (strequal(entry->d_name, ".") || strequal(entry->d_name, ".."))
+                        continue;
+                }
+                count++;
             }
         }
         closedir(odir);
-        return file_count;
+        return count;
     }
 
     u32 dirfilecount(const Directory *dir)
