@@ -33,7 +33,7 @@ namespace Vultr
     void add_editor(Engine *e, void *editor);
 
     void engine_init(Engine *e, bool debug);
-    void engine_load_game(Engine *e, const char *path);
+    void engine_load_game(Engine *e, DLLSource *src);
     void engine_load_game(Engine *e, Game *game);
 
     void engine_detach_game(Engine *e);

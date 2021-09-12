@@ -17,5 +17,4 @@ TEST(EntityManager, Serialization)
     entity_manager_destroy_entity(manager, 3);
     entity_manager_destroy_entity(manager, 7);
     json j = manager;
-    std::cout << j.dump(2) << std::endl;
 }

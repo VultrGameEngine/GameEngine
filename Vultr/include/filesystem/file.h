@@ -16,7 +16,7 @@ namespace Vultr
     {
         char *path = nullptr;
 
-        virtual const char *const *get_file_extensions(size_t *size) = 0;
+        virtual const char *const *get_file_extensions(size_t *size) const = 0;
         virtual char *expected_extensions_string() = 0;
     };
 
@@ -60,7 +60,7 @@ namespace Vultr
                 free(path);
         }
 
-        const char *const *get_file_extensions(size_t *size) override
+        const char *const *get_file_extensions(size_t *size) const override
         {
             *size = extensions_length;
             return extensions;
@@ -84,37 +84,48 @@ namespace Vultr
         }
     };
 
-    inline const char *const generic_file_extensions[] = {};
-    typedef File<generic_file_extensions> GenericFile;
+    namespace FileTypes
+    {
+        // OK who in the c++ standard committee thought that these syntax being valid was a good idea
+        // inline const constexpr consteval inline char *const *char *const []const constexpr constantinople
+        inline constexpr const char *const GENERIC_FILE[] = {};
+        inline constexpr const char *const TEXTURE_SOURCE[] = {".jpeg", ".jpg", ".png", ".bmp", ".dds"};
+        static const size_t TEXTURE_SOURCE_LEN = sizeof(TEXTURE_SOURCE) / sizeof(const char *);
+        inline constexpr const char *const MODEL_SOURCE[] = {".obj", ".fbx", ".blend"};
+        static const size_t MODEL_SOURCE_LEN = sizeof(MODEL_SOURCE) / sizeof(const char *);
+        inline constexpr const char *const HEADER_SOURCE[] = {".h", ".hpp", ".c", ".cpp", ".cc"};
+        static const size_t HEADER_SOURCE_LEN = sizeof(HEADER_SOURCE) / sizeof(const char *);
+        inline constexpr const char *const HEADER[] = {".h", ".hpp"};
+        static const size_t HEADER_LEN = sizeof(HEADER) / sizeof(const char *);
+        inline constexpr const char *const SOURCE[] = {".c", ".cpp", ".cc"};
+        static const size_t SOURCE_LEN = sizeof(SOURCE) / sizeof(const char *);
+        inline constexpr const char *const SHADER[] = {".glsl"};
+        static const size_t SHADER_LEN = sizeof(SHADER) / sizeof(const char *);
+        inline constexpr const char *const FONT_SOURCE[] = {".ttf"};
+        static const size_t FONT_SOURCE_LEN = sizeof(FONT_SOURCE) / sizeof(const char *);
+        inline constexpr const char *const VULTR_SOURCE[] = {".vultr"};
+        static const size_t VULTR_SOURCE_LEN = sizeof(VULTR_SOURCE) / sizeof(const char *);
+        inline constexpr const char *const DLL_SOURCE[] = {".so", ".dll"};
+        static const size_t DLL_SOURCE_LEN = sizeof(DLL_SOURCE) / sizeof(const char *);
+    } // namespace FileTypes
 
-    inline const char *const texture_source_extensions[] = {".jpeg", ".jpg", ".png", ".bmp", ".dds"};
-    typedef File<texture_source_extensions> TextureSource;
-
-    inline const char *const model_source_extensions[] = {".obj", ".fbx", ".blend"};
-    typedef File<model_source_extensions> ModelSource;
-
-    inline const char *const header_source_extensions[] = {".h", ".hpp", ".c", ".cpp", ".cc"};
-    typedef File<header_source_extensions> HeaderAndSourceFile;
-
-    inline const char *const header_extensions[] = {".h", ".hpp"};
-    typedef File<header_extensions> HeaderFile;
-
-    inline const char *const source_extensions[] = {".c", ".cpp", ".cc"};
-    typedef File<source_extensions> SourceFile;
-
-    inline const char *const shader_extensions[] = {".glsl"};
-    typedef File<shader_extensions> ShaderSource;
-
-    inline const char *const font_source_extensions[] = {".ttf"};
-    typedef File<font_source_extensions> FontSource;
-
-    inline const char *const vultr_source_extensions[] = {".vultr"};
-    typedef File<vultr_source_extensions> VultrSource;
+    typedef File<FileTypes::GENERIC_FILE> GenericFile;
+    typedef File<FileTypes::TEXTURE_SOURCE> TextureSource;
+    typedef File<FileTypes::MODEL_SOURCE> ModelSource;
+    typedef File<FileTypes::HEADER_SOURCE> HeaderAndSourceFile;
+    typedef File<FileTypes::HEADER> HeaderFile;
+    typedef File<FileTypes::SOURCE> SourceFile;
+    typedef File<FileTypes::SHADER> ShaderSource;
+    typedef File<FileTypes::FONT_SOURCE> FontSource;
+    typedef File<FileTypes::VULTR_SOURCE> VultrSource;
+    typedef File<FileTypes::DLL_SOURCE> DLLSource;
 
     // Get the name of the file, not the path.
     const char *fbasename(const IFile *file, size_t *len);
 
     const char *fextension(const IFile *file, bool with_dot = true);
+
+    bool fextension_matches(const char *extension, const char *const file_type[], size_t len);
 
     bool fremove(const IFile *file);
 
@@ -128,7 +139,7 @@ namespace Vultr
 
     bool fexists(const IFile *file);
 
-    GenericFile *dirfiles(const Directory *dir);
+    GenericFile *dirfiles(const Directory *dir, size_t *len);
 
     // Casts a file (if possible) from one extension type to another
     template <const char *const extensions[]>

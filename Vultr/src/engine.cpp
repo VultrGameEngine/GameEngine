@@ -174,9 +174,9 @@ namespace Vultr
         engine_init_default_systems(e);
     }
 
-    void engine_load_game(Engine *e, const char *path)
+    void engine_load_game(Engine *e, DLLSource *src)
     {
-        void *DLL = load_dll(path);
+        void *DLL = load_dll(src->path);
 
         typedef void *(*GameInit_f)(void *);
         typedef void (*GameDestroy_f)(void *);

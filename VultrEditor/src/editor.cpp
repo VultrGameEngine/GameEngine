@@ -175,7 +175,7 @@ void editor_render(Vultr::Engine *e, Editor *editor, const UpdateTick &tick)
         {
             auto *cached_world = cache_world(e);
             engine_flush_game(e);
-            engine_load_game(e, editor->reload_watcher->dll.path.string().c_str());
+            engine_load_game(e, &editor->reload_watcher->dll);
             e->game->set_imgui_context(ImGui::GetCurrentContext());
         }
     }

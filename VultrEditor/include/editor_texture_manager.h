@@ -13,4 +13,4 @@ struct EditorTextureManager
     Vultr::Texture model_icon;
     Vultr::Texture vultr_icon;
 };
-Vultr::Texture &get_texture_from_file(Editor *editor, const Vultr::File &file);
+Vultr::Texture &get_texture_from_file(Editor *editor, const Vultr::IFile *file);

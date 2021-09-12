@@ -51,26 +51,34 @@ EditorTextureManager::EditorTextureManager()
     TextureImporter::import(vultr_icon, gvultr_icon_data, gvultr_icon_size);
 }
 
-Texture &get_texture_from_file(Editor *editor, const File &file)
+Texture &get_texture_from_file(Editor *editor, const IFile *file)
 {
-    auto extension = file_get_extension_type(file);
-    auto &m = editor->texture_manager;
-    switch (extension)
+    size_t len;
+    const char *extension = fextension(file);
+    auto *m = &editor->texture_manager;
+
+    if (fextension_matches(extension, FileTypes::SHADER, FileTypes::SHADER_LEN))
     {
-        case File::SHADER:
-        {
-            return m.shader_icon;
-        }
-        case File::HEADER:
-        case File::SOURCE:
-            return m.c_icon;
-        case File::TEXTURE:
-            return m.image_icon;
-        case File::MODEL:
-            return m.model_icon;
-        case File::VULTR:
-            return m.vultr_icon;
-        default:
-            return m.file_icon;
+        return m->shader_icon;
+    }
+    else if (fextension_matches(extension, FileTypes::HEADER, FileTypes::HEADER_LEN) || fextension_matches(extension, FileTypes::SOURCE, FileTypes::SOURCE_LEN))
+    {
+        return m->c_icon;
+    }
+    else if (fextension_matches(extension, FileTypes::TEXTURE_SOURCE, FileTypes::TEXTURE_SOURCE_LEN))
+    {
+        return m->image_icon;
+    }
+    else if (fextension_matches(extension, FileTypes::MODEL_SOURCE, FileTypes::MODEL_SOURCE_LEN))
+    {
+        return m->model_icon;
+    }
+    else if (fextension_matches(extension, FileTypes::VULTR_SOURCE, FileTypes::VULTR_SOURCE_LEN))
+    {
+        return m->vultr_icon;
+    }
+    else
+    {
+        return m->file_icon;
     }
 }

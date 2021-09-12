@@ -20,6 +20,9 @@ namespace Vultr
 
     const char *dirbasename(const Directory *dir, size_t *len);
 
+    bool dircurrentworking(Directory *dir);
+    bool dirchangeworking(const Directory *dir);
+
     void dirparent(const Directory *dir, Directory *parent);
     void dirparent(const IFile *file, Directory *parent);
 

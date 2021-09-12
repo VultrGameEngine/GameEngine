@@ -15,10 +15,10 @@ static u64 get_time()
     return ms;
 }
 
-ReloadWatcher *init_reload_watcher(const std::string &dll_path, u64 check_interval_miliseconds)
+ReloadWatcher *init_reload_watcher(DLLSource *src, u64 check_interval_miliseconds)
 {
     auto *watcher = new ReloadWatcher();
-    watcher->dll.path = std::filesystem::absolute(dll_path);
+    watcher->dll = *src;
     watcher->check_interval_miliseconds = check_interval_miliseconds;
     watcher->last_check_time = get_time();
     watcher->last_load_time = get_time();
@@ -29,7 +29,7 @@ bool watch_dll(ReloadWatcher *watcher)
 {
     auto time = get_time();
     struct stat statbuf;
-    stat(watcher->dll.path.string().c_str(), &statbuf);
+    stat(watcher->dll.path, &statbuf);
     auto ms = (u64)statbuf.st_ctim.tv_sec * 1000;
     if (time - ms > 2000 && ms > watcher->last_load_time + 2000)
     {

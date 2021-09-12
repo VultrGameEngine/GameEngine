@@ -28,7 +28,7 @@ static void draw_directory(Editor *editor, const Directory &dir)
     ImGui::Image((void *)(intptr_t)texture.id, ImVec2(125, 125));
 }
 
-static void draw_file(Editor *editor, const File &file)
+static void draw_file(Editor *editor, const IFile *file)
 {
     // Different files will have different textures
     auto &texture = get_texture_from_file(editor, file);

@@ -101,6 +101,18 @@ namespace Vultr
         }
     }
 
+    bool fextension_matches(const char *extension, const char *const file_type[], size_t len)
+    {
+        for (s32 i = 0; i < len; i++)
+        {
+            if (strequal(extension, file_type[i]))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     bool fremove(const IFile *file)
     {
         return remove(file->path) == 0;
@@ -306,6 +318,23 @@ namespace Vultr
         return path_basename(path, len);
     }
 
+    bool dircurrentworking(Directory *dir)
+    {
+        char cwd[PATH_MAX];
+        if (getcwd(cwd, sizeof(cwd)) == nullptr)
+        {
+            return false;
+        }
+
+        *dir = Directory(cwd);
+        return true;
+    }
+
+    bool dirchangeworking(const Directory *dir)
+    {
+        return chdir(dir->path) == 0;
+    }
+
     bool dirmake(const char *path, Directory *dir)
     {
         bool res = mkdir_p(path, S_IRWXU | S_IRWXG | S_IRWXO) == 0;
@@ -485,9 +514,27 @@ namespace Vultr
         return count_dir_type(dir->path, DT_DIR);
     }
 
-    // GenericFile *dirfiles(const Directory *dir)
-    // {
-    // }
+#define DEFAULT_MAX_DIR_FILES_FIND 2048
+    GenericFile *dirfiles(const Directory *dir, size_t *len)
+    {
+        GenericFile *files = static_cast<GenericFile *>(malloc(sizeof(GenericFile) * DEFAULT_MAX_DIR_FILES_FIND));
+        DIR *odir;
+        struct dirent *entry;
+
+        odir = opendir(dir->path);
+        assert(odir != nullptr && "Failed to open directory!");
+
+        u16 i = 0;
+        while ((entry = readdir(odir)) != nullptr)
+        {
+            if (entry->d_type == DT_REG)
+            {
+                files[i] = GenericFile(dir, entry->d_name);
+            }
+        }
+        closedir(odir);
+        return files;
+    }
 
     // Directory *dirsubdirs(const Directory *dir)
     // {

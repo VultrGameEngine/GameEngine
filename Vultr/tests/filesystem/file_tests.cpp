@@ -64,6 +64,15 @@ TEST_F(FileTests, FExtension)
     EXPECT_EQ(fextension(&file), nullptr);
 }
 
+TEST_F(FileTests, FExtensionMatches)
+{
+    GenericFile file = GenericFile("some_file.jpeg");
+
+    const char *extension = fextension(&file);
+    EXPECT_TRUE(fextension_matches(extension, FileTypes::TEXTURE_SOURCE, FileTypes::TEXTURE_SOURCE_LEN));
+    EXPECT_FALSE(fextension_matches(extension, FileTypes::MODEL_SOURCE, FileTypes::MODEL_SOURCE_LEN));
+}
+
 TEST_F(FileTests, FRename)
 {
     GenericFile file = GenericFile(file_path);
