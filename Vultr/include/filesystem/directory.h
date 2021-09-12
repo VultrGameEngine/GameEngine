@@ -1,10 +1,12 @@
 #pragma once
 #include <string>
-#include "file.h"
-#include <filesystem>
+// #include "file.h"
+#include <types/types.hpp>
 
 namespace Vultr
 {
+    struct IFile;
+
     struct Directory
     {
         Directory() = default;
@@ -37,7 +39,6 @@ namespace Vultr
     u32 dirsubdirectorycount(const Directory *dir);
 
     Directory *dirsubdirs(const Directory *dir);
-    GenericFile *dirfiles(const Directory *dir);
 
     // std::string directory_get_name(const Directory &dir);
     // u32 directory_get_number_files(Directory &dir, bool use_cache = true);

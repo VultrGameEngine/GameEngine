@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <ftw.h>
 #include <unistd.h>
+#include <dirent.h>
 
 namespace Vultr
 {
@@ -450,4 +451,41 @@ namespace Vultr
     // bool dircopy(Directory *src, const char *dest)
     // {
     // }
+    static u32 count_dir_type(const char *path, unsigned char type)
+    {
+        u32 file_count = 0;
+        DIR *odir;
+        struct dirent *entry;
+
+        odir = opendir(path);
+        assert(odir != nullptr && "Failed to open directory!");
+        while ((entry = readdir(odir)) != nullptr)
+        {
+            if (entry->d_type == type)
+            {
+                file_count++;
+            }
+        }
+        closedir(odir);
+        return file_count;
+    }
+
+    u32 dirfilecount(const Directory *dir)
+    {
+        return count_dir_type(dir->path, DT_REG);
+    }
+
+    u32 dirsubdirectorycount(const Directory *dir)
+    {
+        return count_dir_type(dir->path, DT_DIR);
+    }
+
+    // GenericFile *dirfiles(const Directory *dir)
+    // {
+    // }
+
+    // Directory *dirsubdirs(const Directory *dir)
+    // {
+    // }
+
 } // namespace Vultr

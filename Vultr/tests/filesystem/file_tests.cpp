@@ -31,6 +31,12 @@ class FileTests : public testing::Test
         remove(file_path);
     }
 };
+TEST_F(FileTests, File)
+{
+    Directory dir = Directory("./some/path");
+    GenericFile file = GenericFile(&dir, "file_name.cpp");
+    EXPECT_STRCASEEQ(file.path, "./some/path/file_name.cpp");
+}
 
 TEST_F(FileTests, FBasename)
 {

@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
+#include "directory.h"
 
 namespace Vultr
 {
@@ -38,6 +39,21 @@ namespace Vultr
 
             strcreplace(this->path, '\\', '/');
         }
+
+        File(const Directory *dir, const char *fname)
+        {
+            size_t flen = strlen(fname);
+            size_t plen = strlen(dir->path);
+
+            assert(fname[flen - 1] != '/' && "File ends with a `/`!");
+            assert(fname[0] != '/' && "File name cannot start with a `/`!");
+
+            path = str(dir->path);
+            path = strappend(path, fname);
+
+            strcreplace(path, '\\', '/');
+        }
+
         ~File()
         {
             if (path != nullptr)
@@ -111,6 +127,8 @@ namespace Vultr
     bool fcopy(IFile *src, const char *dest);
 
     bool fexists(const IFile *file);
+
+    GenericFile *dirfiles(const Directory *dir);
 
     // Casts a file (if possible) from one extension type to another
     template <const char *const extensions[]>

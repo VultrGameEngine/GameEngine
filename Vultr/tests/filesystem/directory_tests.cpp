@@ -4,6 +4,7 @@
 
 #include <filesystem/directory.h>
 #include <utils/string/string.h>
+#include <filesystem/file.h>
 
 static const char *dir_path = "res";
 
@@ -108,15 +109,15 @@ TEST_F(DirectoryTests, Dirmake_Direxists_Dirremove)
 {
     const char *second_dir_path = "testdir/recursivedir/";
     Directory dir;
-    ASSERT_TRUE(dirmake(second_dir_path, &dir));
-    ASSERT_TRUE(direxists(&dir));
+    EXPECT_TRUE(dirmake(second_dir_path, &dir));
+    EXPECT_TRUE(direxists(&dir));
 
-    ASSERT_TRUE(dirremove(&dir));
-    ASSERT_FALSE(direxists(&dir));
+    EXPECT_TRUE(dirremove(&dir));
+    EXPECT_FALSE(direxists(&dir));
 
     dir = Directory("testdir");
-    ASSERT_TRUE(dirremove(&dir));
-    ASSERT_FALSE(direxists(&dir));
+    EXPECT_TRUE(dirremove(&dir));
+    EXPECT_FALSE(direxists(&dir));
 }
 
 TEST_F(DirectoryTests, Dirrename)
@@ -125,33 +126,33 @@ TEST_F(DirectoryTests, Dirrename)
 
     Directory dir;
     Directory parent;
-    ASSERT_TRUE(dirmake(path, &dir));
-    ASSERT_TRUE(direxists(&dir));
+    EXPECT_TRUE(dirmake(path, &dir));
+    EXPECT_TRUE(direxists(&dir));
 
-    ASSERT_TRUE(dirrename(&dir, "newname"));
-    ASSERT_STRCASEEQ(dir.path, "toberemoveddir/newname/");
-    ASSERT_TRUE(direxists(&dir));
+    EXPECT_TRUE(dirrename(&dir, "newname"));
+    EXPECT_STRCASEEQ(dir.path, "toberemoveddir/newname/");
+    EXPECT_TRUE(direxists(&dir));
 
     dirparent(&dir, &parent);
-    ASSERT_TRUE(dirremove(&parent));
-    ASSERT_FALSE(direxists(&parent));
-    ASSERT_FALSE(direxists(&parent));
+    EXPECT_TRUE(dirremove(&parent));
+    EXPECT_FALSE(direxists(&parent));
+    EXPECT_FALSE(direxists(&parent));
 
     const char *paths[] = {"toberemoveddir/oldname/insidedir/"};
 
-    ASSERT_TRUE(dirmake(paths[0], &dir));
-    ASSERT_TRUE(direxists(&dir));
+    EXPECT_TRUE(dirmake(paths[0], &dir));
+    EXPECT_TRUE(direxists(&dir));
     dirparent(&dir, &parent);
     dir = parent;
 
-    ASSERT_TRUE(dirrename(&dir, "newname"));
-    ASSERT_STRCASEEQ(dir.path, "toberemoveddir/newname/");
-    ASSERT_TRUE(direxists(&dir));
+    EXPECT_TRUE(dirrename(&dir, "newname"));
+    EXPECT_STRCASEEQ(dir.path, "toberemoveddir/newname/");
+    EXPECT_TRUE(direxists(&dir));
 
     dirparent(&dir, &parent);
-    ASSERT_TRUE(direxists(&dir));
-    ASSERT_TRUE(dirremove(&dir));
-    ASSERT_FALSE(direxists(&dir));
+    EXPECT_TRUE(direxists(&dir));
+    EXPECT_TRUE(dirremove(&dir));
+    EXPECT_FALSE(direxists(&dir));
 }
 
 TEST_F(DirectoryTests, Dirmove)
@@ -163,15 +164,44 @@ TEST_F(DirectoryTests, Dirmove)
     ASSERT_TRUE(dirmake(path, &dir));
     ASSERT_TRUE(direxists(&dir));
 
-    ASSERT_TRUE(dirmove(&dir, "./"));
-    ASSERT_STRCASEEQ(dir.path, "./oldname/");
-    ASSERT_TRUE(direxists(&dir));
+    EXPECT_TRUE(dirmove(&dir, "./"));
+    EXPECT_STRCASEEQ(dir.path, "./oldname/");
+    EXPECT_TRUE(direxists(&dir));
 
-    ASSERT_TRUE(dirremove(&dir));
-    ASSERT_FALSE(direxists(&dir));
+    EXPECT_TRUE(dirremove(&dir));
+    EXPECT_FALSE(direxists(&dir));
 
     dir = Directory("toberemoveddir");
-    ASSERT_TRUE(direxists(&dir));
-    ASSERT_TRUE(dirremove(&dir));
-    ASSERT_FALSE(direxists(&dir));
+    EXPECT_TRUE(direxists(&dir));
+    EXPECT_TRUE(dirremove(&dir));
+    EXPECT_FALSE(direxists(&dir));
+}
+
+TEST_F(DirectoryTests, Dircount)
+{
+    const char *file_data = "DOIN UR MOM DOIN UR MOM WE KNOW WE STRAIGHT DOIN YOUR MOM";
+    Directory dir;
+    ASSERT_TRUE(dirmake("testdir/stuff", &dir));
+
+    const u32 file_count = 10;
+    for (u32 i = 0; i < file_count; i++)
+    {
+        const char *basefilename = "createdfile.txt";
+        char filename[strlen(basefilename) + 2];
+        sprintf(filename, "createdfile%i.txt", i);
+        GenericFile file = GenericFile(&dir, filename);
+        FILE *f = fopen(file.path, "w+");
+        fputs(file_data, f);
+        fclose(f);
+    }
+
+    EXPECT_EQ(dirfilecount(&dir), file_count);
+
+    Directory parent;
+    dirparent(&dir, &parent);
+    EXPECT_EQ(dirsubdirectorycount(&parent), 1);
+
+    EXPECT_TRUE(direxists(&parent));
+    EXPECT_TRUE(dirremove(&parent));
+    EXPECT_FALSE(direxists(&parent));
 }
