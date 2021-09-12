@@ -111,6 +111,14 @@ TEST_F(DirectoryTests, Dirmake_Direxists_Dirremove)
     Directory dir;
     EXPECT_TRUE(dirmake(second_dir_path, &dir));
     EXPECT_TRUE(direxists(&dir));
+    EXPECT_STRCASEEQ(dir.path, second_dir_path);
+
+    EXPECT_TRUE(dirremove(&dir));
+    EXPECT_FALSE(direxists(&dir));
+
+    dir = Directory(second_dir_path);
+    EXPECT_TRUE(dirmake(&dir));
+    EXPECT_TRUE(direxists(&dir));
 
     EXPECT_TRUE(dirremove(&dir));
     EXPECT_FALSE(direxists(&dir));
@@ -204,4 +212,96 @@ TEST_F(DirectoryTests, Dircount)
     EXPECT_TRUE(direxists(&parent));
     EXPECT_TRUE(dirremove(&parent));
     EXPECT_FALSE(direxists(&parent));
+}
+
+TEST_F(DirectoryTests, Dirfiles)
+{
+    const char *file_data = "DOIN UR MOM DOIN UR MOM WE KNOW WE STRAIGHT DOIN YOUR MOM";
+    Directory dir;
+    ASSERT_TRUE(dirmake("testdir", &dir));
+
+    const u32 file_count = 10;
+    const char *basefilename = "createdfile.txt";
+
+    char filename[strlen(basefilename) + 2];
+    for (u32 i = 0; i < file_count; i++)
+    {
+        sprintf(filename, "createdfile%i.txt", i);
+        GenericFile file = GenericFile(&dir, filename);
+        FILE *f = fopen(file.path, "w+");
+        fputs(file_data, f);
+        fclose(f);
+    }
+
+    size_t len;
+    auto *files = dirfiles(&dir, &len);
+
+    EXPECT_EQ(len, file_count);
+
+    for (u32 i = 0; i < len; i++)
+    {
+        size_t _;
+        const char *basename = fbasename(&files[i], &_);
+        bool found_file = false;
+        for (u32 j = 0; j < file_count; j++)
+        {
+            sprintf(filename, "createdfile%i.txt", j);
+            if (strequal(basename, filename))
+            {
+                found_file = true;
+                break;
+            }
+        }
+        EXPECT_TRUE(found_file) << "File name is " << basename;
+    }
+    delete[] files;
+
+    EXPECT_TRUE(direxists(&dir));
+    EXPECT_TRUE(dirremove(&dir));
+    EXPECT_FALSE(direxists(&dir));
+}
+
+TEST_F(DirectoryTests, Dirsubdirs)
+{
+    Directory dir;
+    ASSERT_TRUE(dirmake("testdir", &dir));
+
+    const u32 dir_count = 10;
+    const char *basedirname = "createdsubdir";
+
+    char dirname[strlen(basedirname) + 2];
+    for (u32 i = 0; i < dir_count; i++)
+    {
+        sprintf(dirname, "createdsubdir%i", i);
+        Directory subdir = Directory(&dir, dirname);
+        dirmake(&subdir);
+    }
+
+    size_t len;
+    auto *dirs = dirsubdirs(&dir, &len);
+
+    EXPECT_EQ(len, dir_count);
+
+    for (u32 i = 0; i < len; i++)
+    {
+        size_t _;
+        const char *basename = dirbasename(&dirs[i], &_);
+
+        bool found_dir = false;
+        for (u32 j = 0; j < dir_count; j++)
+        {
+            sprintf(dirname, "createdsubdir%i/", j);
+            if (strequal(basename, dirname))
+            {
+                found_dir = true;
+                break;
+            }
+        }
+        EXPECT_TRUE(found_dir) << "Subdir name is " << basename;
+    }
+    delete[] dirs;
+
+    EXPECT_TRUE(direxists(&dir));
+    EXPECT_TRUE(dirremove(&dir));
+    EXPECT_FALSE(direxists(&dir));
 }
