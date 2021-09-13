@@ -105,6 +105,30 @@ TEST_F(DirectoryTests, Dirparent)
     EXPECT_STRCASEEQ(parent.path, "res/");
 }
 
+TEST_F(DirectoryTests, Dirhasparent)
+{
+    Directory dir = Directory("res");
+    EXPECT_FALSE(dirhasparent(&dir));
+
+    dir = Directory("./res");
+    EXPECT_FALSE(dirhasparent(&dir));
+
+    dir = Directory("/res");
+    EXPECT_FALSE(dirhasparent(&dir));
+
+    dir = Directory("");
+    EXPECT_FALSE(dirhasparent(&dir));
+
+    dir = Directory("res/subdir");
+    EXPECT_TRUE(dirhasparent(&dir));
+
+    dir = Directory("./res/subdir");
+    EXPECT_TRUE(dirhasparent(&dir));
+
+    dir = Directory("/res/subdir");
+    EXPECT_TRUE(dirhasparent(&dir));
+}
+
 TEST_F(DirectoryTests, Dirmake_Direxists_Dirremove)
 {
     const char *second_dir_path = "testdir/recursivedir/";

@@ -163,6 +163,22 @@ namespace Vultr
         return successful;
     }
 
+    bool fmove(IFile *src, const Directory *destination)
+    {
+        size_t len;
+        const char *basename = fbasename(src, &len);
+
+        auto dest_file = GenericFile(destination, basename);
+        bool successful = rename(src->path, dest_file.path) == 0;
+
+        if (successful)
+        {
+            free(src->path);
+            src->path = str(dest_file.path);
+        }
+        return successful;
+    }
+
     bool fcopy(IFile *src, const char *dest)
     {
         FILE *f_src = fopen(src->path, "r");
@@ -363,6 +379,23 @@ namespace Vultr
         return stat(dir->path, &st) == 0;
     }
 
+    bool dirhasparent(const Directory *dir)
+    {
+        size_t len = path_dirname(dir->path);
+        if (len == 0)
+        {
+            return false;
+        }
+        else if (len == 1 && dir->path[0] == '.')
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
     void dirparent(const Directory *dir, Directory *parent)
     {
         size_t len = path_dirname(dir->path);
@@ -371,6 +404,17 @@ namespace Vultr
         // indicating the working directory i.e. `some_path` is the same thing as
         // `./some_path`
         if (len == 0)
+        {
+            if (dir->path[0] == '/')
+            {
+                *parent = Directory("/");
+            }
+            else
+            {
+                *parent = Directory("./");
+            }
+        }
+        else if (len == 1 && dir->path[0] == '.')
         {
             *parent = Directory("./");
         }

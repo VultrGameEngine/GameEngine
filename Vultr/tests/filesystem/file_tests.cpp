@@ -136,6 +136,30 @@ TEST_F(FileTests, FCopy)
     fclose(f);
 }
 
+TEST_F(FileTests, FMove)
+{
+    Directory some_dir = Directory("some/directory");
+    ASSERT_TRUE(dirmake(&some_dir));
+
+    GenericFile file = GenericFile(&some_dir, "some_file.txt");
+    ASSERT_STRCASEEQ(file.path, "some/directory/some_file.txt");
+
+    FILE *f = fopen(file.path, "w+");
+    fputs(file_data, f);
+    fclose(f);
+
+    Directory result_dir;
+    dirparent(&some_dir, &result_dir);
+
+    bool res = fmove(&file, &result_dir);
+    ASSERT_TRUE(res);
+    ASSERT_TRUE(fexists(&file));
+    ASSERT_STRCASEEQ(file.path, "some/some_file.txt");
+
+    ASSERT_TRUE(dirremove(&result_dir));
+    ASSERT_FALSE(direxists(&result_dir));
+}
+
 TEST_F(FileTests, FRemove_FExists)
 {
     const char *copy_file_path = "copy_file.txt";

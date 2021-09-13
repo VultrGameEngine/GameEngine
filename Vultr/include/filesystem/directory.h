@@ -23,6 +23,7 @@ namespace Vultr
     bool dircurrentworking(Directory *dir);
     bool dirchangeworking(const Directory *dir);
 
+    bool dirhasparent(const Directory *dir);
     void dirparent(const Directory *dir, Directory *parent);
     void dirparent(const IFile *file, Directory *parent);
 

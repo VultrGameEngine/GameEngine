@@ -28,7 +28,7 @@ static void draw_directory(Editor *editor, const Directory &dir)
     ImGui::Image((void *)(intptr_t)texture.id, ImVec2(125, 125));
 }
 
-static void draw_file(Editor *editor, const IFile *file)
+static void draw_file(Editor *editor, const GenericFile *file)
 {
     // Different files will have different textures
     auto &texture = get_texture_from_file(editor, file);
@@ -48,16 +48,15 @@ static void on_back(void *_state)
 {
     // General state things
     auto &state = *static_cast<AssetBrowser *>(_state);
-    auto &current_directory = state.current_directory;
+    auto current_directory = &state.current_directory;
     auto &selected = state.selected;
 
-    auto path = current_directory.path;
-    if (path.has_parent_path())
+    if (dirhasparent(current_directory))
     {
-        current_directory = Directory(path.parent_path().string());
+        Directory parent;
+        dirparent(current_directory, &parent);
+        *current_directory = parent;
 
-        // We need to invalidate the current directory cache so that next render it looks correct
-        current_directory.cached_files = false;
         DESELECT()
     }
 }
@@ -90,8 +89,11 @@ void asset_browser_render(Engine *e, Editor *editor, const Vultr::UpdateTick &ti
     s32 num_cols = get_num_cols();
 
     // We are going to automatically use the cache for all of these files unless there is a reason to invalidate the cache, which will be done throughout this loop sometimes
-    auto files = directory_get_files(current_directory);
-    auto directories = directory_get_sub_directories(current_directory);
+    size_t len_files;
+    GenericFile *files = dirfiles(&current_directory, &len_files);
+
+    size_t len_directories;
+    Directory *directories = dirsubdirs(&current_directory, &len_directories);
 
     // Set the cursor position down a little bit for padding, we also need this so that we can render the current directory info at the top and whatnot
     // TODO WHAT?? is this a bug or what lmfao
@@ -104,31 +106,33 @@ void asset_browser_render(Engine *e, Editor *editor, const Vultr::UpdateTick &ti
         s32 index = 0;
 
         // Keep looping until we've render all of the files and directories
-        while (index < files.size() + directories.size())
+        while (index < len_files + len_directories)
         {
             // Render each row with the number of columns created before
             ImGui::TableNextRow();
             for (int column = 0; column < num_cols; column++)
             {
                 // If the index is over ,then we need to break early, this will occur every time that the files or directories in a row do not reach the end
-                if (index >= files.size() + directories.size())
+                if (index >= len_files + len_directories)
                     break;
 
                 // This is necessary because since we are looping through both the directories and files in one loop, we will eventually pass the directories and move into the files array
-                bool is_directory = index < directories.size();
+                bool is_directory = index < len_directories;
                 // Ability to get the indexes easily, so that we don't have to do this every time
-                u32 di = index;                      // Directory index
-                u32 fi = index - directories.size(); // File index
+                u32 di = index;             // Directory index
+                u32 fi = index - len_files; // File index
 
                 // Get the label
-                std::string label;
+                const char *label;
                 if (!is_directory)
                 {
-                    label = file_get_name(files[fi]);
+                    size_t len;
+                    label = fbasename(&files[fi], &len);
                 }
                 else
                 {
-                    label = directory_get_name(directories[di]);
+                    size_t len;
+                    label = dirbasename(&directories[di], &len);
                 }
 
                 // ImGui stuff
@@ -145,10 +149,12 @@ void asset_browser_render(Engine *e, Editor *editor, const Vultr::UpdateTick &ti
                 if (ImGui::BeginDragDropSource())
                 {
                     // We are going to copy our file and directory into a new instance and cast it to a void pointer
-                    void *payload = is_directory ? static_cast<void *>(new Directory(directories[di])) : static_cast<void *>(new File(files[fi]));
+                    void *payload = is_directory ? static_cast<void *>(new Directory(directories[di])) : static_cast<void *>(new GenericFile(files[fi]));
+                    const char *type = is_directory ? "Directory" : "File";
+                    size_t size = is_directory ? sizeof(Directory) : sizeof(GenericFile);
 
                     // Then send this payload to ImGui
-                    ImGui::SetDragDropPayload(is_directory ? "Directory" : "File", payload, sizeof(Vultr::File));
+                    ImGui::SetDragDropPayload(type, payload, size);
 
                     // Free our resources
                     free(payload);
@@ -160,10 +166,10 @@ void asset_browser_render(Engine *e, Editor *editor, const Vultr::UpdateTick &ti
                     }
                     else
                     {
-                        draw_file(editor, files[fi]);
+                        draw_file(editor, &files[fi]);
                     }
 
-                    ImGui::Text("%s", label.c_str());
+                    ImGui::Text("%s", label);
                     ImGui::EndDragDropSource();
                 }
 
@@ -175,10 +181,10 @@ void asset_browser_render(Engine *e, Editor *editor, const Vultr::UpdateTick &ti
                     if (payload != nullptr)
                     {
                         // Get the file
-                        auto *file = static_cast<Vultr::File *>(payload->Data);
+                        auto *file = static_cast<Vultr::GenericFile *>(payload->Data);
 
                         // Then move it into the directory
-                        move_file(*file, directories[di]);
+                        fmove(file, &directories[di]);
 
                         // We need to invalidate the current directory cache so that next render it looks correct
                         current_directory.cached_files = false;
@@ -214,13 +220,17 @@ void asset_browser_render(Engine *e, Editor *editor, const Vultr::UpdateTick &ti
                     // If it's a file and it's a Vultr world file, then open it
                     else
                     {
-                        auto &file = files[fi];
+                        GenericFile *file = &files[fi];
 
                         // Make sure that the file extension is .vultr
-                        if (file_get_extension_type(file) == File::VULTR)
+                        const char *extension = fextension(file);
+                        if (fextension_matches(extension, FileTypes::VULTR_SOURCE, FileTypes::VULTR_SOURCE_LEN))
                         {
                             // Load the world
-                            World *world = load_world(e, VultrSource(file.path.string()), e->component_registry);
+                            VultrSource vsource;
+                            cast_file(file, &vsource);
+
+                            World *world = load_world(e, vsource, e->component_registry);
                             change_world(e, world);
                         }
                     }
@@ -235,7 +245,7 @@ void asset_browser_render(Engine *e, Editor *editor, const Vultr::UpdateTick &ti
                 }
                 else
                 {
-                    draw_file(editor, files[fi]);
+                    draw_file(editor, &files[fi]);
                 }
 
                 // Draw our text using the label
@@ -246,7 +256,7 @@ void asset_browser_render(Engine *e, Editor *editor, const Vultr::UpdateTick &ti
 
                 // Wrap text if it doesn't fit
                 ImGui::PushTextWrapPos(ImGui::GetCursorPos().x + 180);
-                ImGui::Text("%s", label.c_str());
+                ImGui::Text("%s", label);
                 ImGui::PopTextWrapPos();
                 ImGui::PopID();
 
@@ -264,7 +274,7 @@ void asset_browser_render(Engine *e, Editor *editor, const Vultr::UpdateTick &ti
     ImGui::SetCursorPosY(ImGui::GetCursorPosY() - 100);
 
     // This path will sequentially accumulate directories starting from the root path of our current_directory
-    Path parent_path;
+    Directory parent_dir;
 
     // Loop through all of the paths in current_directory
     for (auto path : current_directory.path)
@@ -295,14 +305,10 @@ void asset_browser_render(Engine *e, Editor *editor, const Vultr::UpdateTick &ti
             if (payload != nullptr)
             {
                 // Get the file from the payload
-                auto *file = static_cast<Vultr::File *>(payload->Data);
-
-                // Create a new file that has its path in the parent_path
-                File new_file = Directory(parent_path.string()) / *file;
-                Directory dir = Directory(parent_path.string());
+                auto *file = static_cast<Vultr::GenericFile *>(payload->Data);
 
                 // Move the file to the new location
-                move_file(*file, dir);
+                fmove(file, &parent_dir);
 
                 // We need to invalidate the current directory cache so that next render it looks correct
                 current_directory.cached_files = false;
@@ -337,7 +343,7 @@ void asset_browser_render(Engine *e, Editor *editor, const Vultr::UpdateTick &ti
         // Create a new folder
         if (ImGui::Button("New Folder"))
         {
-            std::filesystem::create_directory(current_directory.path / "New Folder");
+            dirmake("New Folder", &current_directory);
 
             // We need to invalidate the current directory cache so that next render it looks correct
             current_directory.cached_files = false;

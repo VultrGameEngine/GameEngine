@@ -134,6 +134,7 @@ namespace Vultr
 
     bool fmove(const IFile *src, const IFile *destination);
     bool fmove(IFile *src, const char *destination);
+    bool fmove(IFile *src, const Directory *destination);
 
     bool fcopy(IFile *src, const char *dest);
 
