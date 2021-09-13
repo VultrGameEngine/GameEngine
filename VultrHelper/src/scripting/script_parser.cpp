@@ -45,7 +45,8 @@ namespace Vultr
         file << "#pragma once\n";
 
         // Includes
-        file << "#include \"../" << file_get_name(this->m_FullFilepath) << "\"\n\n";
+        size_t len;
+        file << "#include \"../" << fbasename(&this->m_FullFilepath, &len) << "\"\n\n";
 
         for (auto component : m_components)
         {
@@ -90,9 +91,10 @@ namespace Vultr
         // Includes
         file << "#include <vultr.hpp>\n\n";
 
-        file << "#include \"../" << file_get_name(this->m_FullFilepath) << "\"\n\n";
+        size_t len;
+        file << "#include \"../" << fbasename(&this->m_FullFilepath, &len) << "\"\n\n";
 
-        std::string generated_header = file_get_name(m_FullFilepath).substr(0, file_get_name(m_FullFilepath).size() - 2) + ".generated.h";
+        std::string generated_header = std::string(fbasename(&m_FullFilepath, &len)).substr(0, strlen(fbasename(&m_FullFilepath, &len)) - 2) + ".generated.h";
 
         file << "#include \"" << generated_header << "\"\n";
 

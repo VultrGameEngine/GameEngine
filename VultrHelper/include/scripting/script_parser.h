@@ -1,7 +1,7 @@
 #pragma once
 
 #include "script_scanner.h"
-#include <helpers/directory.h>
+#include <filesystem/directory.h>
 #include <list>
 
 namespace Vultr
@@ -16,20 +16,20 @@ namespace Vultr
     {
         std::vector<std::string> m_Namespaces;
         std::string m_ClassName;
-        File m_file;
+        HeaderAndSourceFile m_file;
         std::list<VVariable> m_Variables;
     };
 
     struct Component
     {
         std::string name;
-        File m_file;
+        HeaderAndSourceFile m_file;
     };
 
     class ScriptParser
     {
       public:
-        ScriptParser(std::vector<Token> &tokens, File &file) : m_Tokens(tokens), m_FullFilepath(file)
+        ScriptParser(std::vector<Token> &tokens, HeaderAndSourceFile &file) : m_Tokens(tokens), m_FullFilepath(file)
         {
         }
 
@@ -56,7 +56,7 @@ namespace Vultr
       private:
         int m_CurrentToken;
         std::vector<Token>::iterator m_CurrentIter;
-        const File &m_FullFilepath;
+        const HeaderAndSourceFile &m_FullFilepath;
 
         std::vector<Token> &m_Tokens;
         std::vector<VClass> m_components;

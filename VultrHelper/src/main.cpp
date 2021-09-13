@@ -1,12 +1,11 @@
 #include <iostream>
 #include <scripting/script_parser.h>
 #include <scripting/script_scanner.h>
-#include <helpers/path.h>
 #include <helpers/file_outputter.h>
 #include <set>
 
 using namespace Vultr;
-void ParseFile(File &source, File &output_source, File &output_header)
+void ParseFile(HeaderAndSourceFile &source, HeaderAndSourceFile &output_source, HeaderAndSourceFile &output_header)
 {
     std::cout << "Parsing " << source.path << std::endl;
     {
@@ -31,10 +30,15 @@ void ParseFile(File &source, File &output_source, File &output_header)
 
 void GenerateInDir(Directory dir)
 {
-    Directory generated = create_sub_directory(dir, "generated");
-    auto _f = directory_get_files(generated);
+    Directory generated = Directory(&dir, "generated");
+    dirmake(&generated);
+
+    size_t file_count;
+    auto _f = dirfiles(&generated, &file_count);
+
     auto files = std::set(_f.begin(), _f.end());
-    std::set<File> remaining_files;
+    std::set<HeaderAndSourceFile> remaining_files;
+
     for (File f : files)
     {
         remaining_files.insert(f);
@@ -43,13 +47,13 @@ void GenerateInDir(Directory dir)
     {
         std::string name_no_extensions = file_get_name(f);
         name_no_extensions = name_no_extensions.substr(0, name_no_extensions.size() - 2);
-        File expected_source_file = File((generated.path / (name_no_extensions + ".generated.cpp")).string());
-        File expected_header_file = File((generated.path / (name_no_extensions + ".generated.h")).string());
+        HeaderAndSourceFile expected_source_file = HeaderAndSourceFile((generated.path / (name_no_extensions + ".generated.cpp")).string());
+        HeaderAndSourceFile expected_header_file = HeaderAndSourceFile((generated.path / (name_no_extensions + ".generated.h")).string());
         // If we already have a generated file
         if (files.find(expected_source_file) != files.end())
         {
-            File generated_source_file = *files.find(expected_source_file);
-            File generated_header_file = *files.find(expected_header_file);
+            HeaderAndSourceFile generated_source_file = *files.find(expected_source_file);
+            HeaderAndSourceFile generated_header_file = *files.find(expected_header_file);
             if (file_get_date_modified(f) > file_get_date_modified(generated_source_file) || file_get_date_modified(f) > file_get_date_modified(generated_header_file))
             {
                 ParseFile(f, generated_source_file, generated_header_file);
@@ -57,18 +61,18 @@ void GenerateInDir(Directory dir)
         }
         else
         {
-            File generated_source_file = create_file(generated, (name_no_extensions + ".generated.cpp").c_str());
-            File generated_header_file = create_file(generated, (name_no_extensions + ".generated.h").c_str());
+            HeaderAndSourceFile generated_source_file = create_file(generated, (name_no_extensions + ".generated.cpp").c_str());
+            HeaderAndSourceFile generated_header_file = create_file(generated, (name_no_extensions + ".generated.h").c_str());
             ParseFile(f, generated_source_file, generated_header_file);
         }
         remaining_files.erase(expected_source_file);
         remaining_files.erase(expected_header_file);
     }
 
-    for (File f : remaining_files)
+    for (HeaderAndSourceFile f : remaining_files)
     {
         std::cout << "Removing generated " << file_get_name(f) << std::endl;
-        delete_file(f);
+        fremove(&f);
     }
 
     for (Directory d : directory_get_sub_directories(dir))
@@ -82,8 +86,9 @@ void GenerateInDir(Directory dir)
 
 int main(int argc, char *argv[])
 {
-    Directory current((std::filesystem::current_path()).string());
-    create_sub_directory(current, "build");
+    Directory current;
+    dircurrentworking(&current);
+    dirmake("build", &current);
     Directory systems((std::filesystem::current_path() / "include/system_providers/").string());
     GenerateInDir(systems);
     Directory components((std::filesystem::current_path() / "include/components/").string());

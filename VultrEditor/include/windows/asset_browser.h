@@ -5,6 +5,13 @@ struct AssetBrowser
 {
     Vultr::Directory current_directory;
 
+    bool cached_directory_files = false;
+    Vultr::GenericFile *files;
+    size_t len_files;
+
+    Vultr::Directory *directories;
+    size_t len_directories;
+
     // Selected file/directory as an index
     s32 selected = -1;
 };

@@ -2,7 +2,7 @@
 #include <map>
 #include <string>
 #include <vector>
-#include <helpers/file.h>
+#include <filesystem/file.h>
 
 namespace Vultr
 {
@@ -70,7 +70,7 @@ namespace Vultr
     class ScriptScanner
     {
       public:
-        ScriptScanner(const File &file);
+        ScriptScanner(const HeaderAndSourceFile &file);
 
         std::vector<Token> ScanTokens();
 
@@ -124,7 +124,7 @@ namespace Vultr
                                                            {"namespace", TokenType::NAMESPACE_KW}};
 
         std::string m_FileContents;
-        File m_Filepath;
+        HeaderAndSourceFile m_Filepath;
 
         int m_Cursor = 0;
         int m_Line = 1;

@@ -6,10 +6,10 @@
 
 namespace Vultr
 {
-    ScriptScanner::ScriptScanner(const File &file) : m_Filepath(file)
+    ScriptScanner::ScriptScanner(const HeaderAndSourceFile &file) : m_Filepath(file)
     {
         std::string line;
-        std::string file_path = file.path.string();
+        std::string file_path = file.path;
         std::ifstream stream(file_path);
         std::stringstream ss;
         while (getline(stream, line))
@@ -44,77 +44,78 @@ namespace Vultr
         char c = Advance();
         switch (c)
         {
-            // Single character tokens
-        case '<':
-            return GenerateToken(TokenType::LEFT_ANGLE_BRACKET, "<");
-        case '>':
-            return GenerateToken(TokenType::RIGHT_ANGLE_BRACKET, "<");
-        case '*':
-            return GenerateToken(TokenType::STAR, "*");
-        case '&':
-            return GenerateToken(TokenType::REF, "&");
-        case '(':
-            return GenerateToken(TokenType::LEFT_PAREN, "(");
-        case ')':
-            return GenerateToken(TokenType::RIGHT_PAREN, ")");
-        case '#':
-            return GenerateToken(TokenType::HASHTAG, "#");
-        case '{':
-            return GenerateToken(TokenType::LEFT_BRACKET, "{");
-        case '}':
-            return GenerateToken(TokenType::RIGHT_BRACKET, "}");
-        case ';':
-            return GenerateToken(TokenType::SEMICOLON, ";");
-        case '=':
-            return GenerateToken(TokenType::EQUAL, "=");
-        case ':':
-            return GenerateToken(TokenType::COLON, ":");
-        case '"':
-            return String();
-            // Whitespace
-        case '/': {
-            if (Match('/'))
+                // Single character tokens
+            case '<':
+                return GenerateToken(TokenType::LEFT_ANGLE_BRACKET, "<");
+            case '>':
+                return GenerateToken(TokenType::RIGHT_ANGLE_BRACKET, "<");
+            case '*':
+                return GenerateToken(TokenType::STAR, "*");
+            case '&':
+                return GenerateToken(TokenType::REF, "&");
+            case '(':
+                return GenerateToken(TokenType::LEFT_PAREN, "(");
+            case ')':
+                return GenerateToken(TokenType::RIGHT_PAREN, ")");
+            case '#':
+                return GenerateToken(TokenType::HASHTAG, "#");
+            case '{':
+                return GenerateToken(TokenType::LEFT_BRACKET, "{");
+            case '}':
+                return GenerateToken(TokenType::RIGHT_BRACKET, "}");
+            case ';':
+                return GenerateToken(TokenType::SEMICOLON, ";");
+            case '=':
+                return GenerateToken(TokenType::EQUAL, "=");
+            case ':':
+                return GenerateToken(TokenType::COLON, ":");
+            case '"':
+                return String();
+                // Whitespace
+            case '/':
             {
-                while (Peek() != '\n' && !AtEnd())
-                    Advance();
-                return GenerateErrorToken();
-            }
-            else if (Match('*'))
-            {
-                while (!AtEnd() && Peek() != '*' && PeekNext() != '/')
+                if (Match('/'))
                 {
-                    c = Advance();
-                    if (c == '\n')
-                    {
-                        m_Column = 0;
-                        m_Line++;
-                    }
+                    while (Peek() != '\n' && !AtEnd())
+                        Advance();
+                    return GenerateErrorToken();
                 }
+                else if (Match('*'))
+                {
+                    while (!AtEnd() && Peek() != '*' && PeekNext() != '/')
+                    {
+                        c = Advance();
+                        if (c == '\n')
+                        {
+                            m_Column = 0;
+                            m_Line++;
+                        }
+                    }
 
-                // Consume */
-                if (!AtEnd())
-                    Match('*');
-                if (!AtEnd())
-                    Match('/');
+                    // Consume */
+                    if (!AtEnd())
+                        Match('*');
+                    if (!AtEnd())
+                        Match('/');
+                    return GenerateErrorToken();
+                }
+                break;
+            }
+            case ' ':
+            case '\r':
+            case '\t':
+                // Ignore whitespace
                 return GenerateErrorToken();
-            }
-            break;
-        }
-        case ' ':
-        case '\r':
-        case '\t':
-            // Ignore whitespace
-            return GenerateErrorToken();
-        case '\n':
-            m_Column = 0;
-            m_Line++;
-            return GenerateErrorToken();
-        default:
-            if (IsAlpha(c))
-            {
-                return PropertyIdentifier();
-            }
-            break;
+            case '\n':
+                m_Column = 0;
+                m_Line++;
+                return GenerateErrorToken();
+            default:
+                if (IsAlpha(c))
+                {
+                    return PropertyIdentifier();
+                }
+                break;
         }
 
         return GenerateErrorToken();
