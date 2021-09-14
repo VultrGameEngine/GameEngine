@@ -89,10 +89,13 @@ int main(int argc, char *argv[])
     Directory current;
     dircurrentworking(&current);
     dirmake("build", &current);
-    Directory systems((std::filesystem::current_path() / "include/system_providers/").string());
+
+    Directory systems(&current, "include/system_providers/");
     GenerateInDir(systems);
-    Directory components((std::filesystem::current_path() / "include/components/").string());
+
+    Directory components(&current, "include/components/");
     GenerateInDir(components);
+
 #ifndef _WIN32
     system("/usr/bin/cmake --no-warn-unused-cli "
            "-DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=TRUE -DCMAKE_BUILD_TYPE:STRING=Debug "
