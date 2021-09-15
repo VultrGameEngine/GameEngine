@@ -1,16 +1,13 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <rendering/types/shader.h>
+#include <rendering/types/internal/internal_shader.h>
 
 namespace Vultr
 {
-    Shader invalid_shader()
+    void bind_shader(Shader *shader)
     {
-        return 0;
-    }
-
-    void bind_shader(Shader shader)
-    {
-        glUseProgram(shader);
+        assert(shader->id != 0 && "Invalid shader!");
+        glUseProgram(shader->id);
     }
 
     void unbind_all_shaders()
@@ -18,14 +15,15 @@ namespace Vultr
         glUseProgram(0);
     }
 
-    bool is_valid_shader(Shader shader)
+    bool is_valid_shader(Shader *shader)
     {
-        return shader > 0;
+        return shader->id > 0;
     }
 
-    void delete_shader(Shader shader)
+    void delete_shader(Shader *shader)
     {
-        glDeleteProgram(shader);
+        glDeleteProgram(shader->id);
+        shader->id = 0;
     }
 
     void set_uniform_matrix_4fv(u32 location, const float *value)
@@ -65,45 +63,46 @@ namespace Vultr
 
     void set_uniform_bool(u32 location, bool value)
     {
+        glUniform1i(location, value ? 1 : 0);
     }
 
-    void set_uniform_matrix_4fv(Shader shader, const char *uniform, const float *value)
+    void set_uniform_matrix_4fv(Shader *shader, const char *uniform, const float *value)
     {
         set_uniform_matrix_4fv(get_uniform_location(shader, uniform), value);
     }
 
-    void set_uniform_matrix_3fv(Shader shader, const char *uniform, const float *value)
+    void set_uniform_matrix_3fv(Shader *shader, const char *uniform, const float *value)
     {
         set_uniform_matrix_3fv(get_uniform_location(shader, uniform), value);
     }
 
-    void set_uniform_4f(Shader shader, const char *uniform, const Vec4 &value)
+    void set_uniform_4f(Shader *shader, const char *uniform, const Vec4 &value)
     {
         set_uniform_4f(get_uniform_location(shader, uniform), value);
     }
-    void set_uniform_3f(Shader shader, const char *uniform, const Vec3 &value)
+    void set_uniform_3f(Shader *shader, const char *uniform, const Vec3 &value)
     {
         set_uniform_3f(get_uniform_location(shader, uniform), value);
     }
-    void set_uniform_2f(Shader shader, const char *uniform, const Vec2 &value)
+    void set_uniform_2f(Shader *shader, const char *uniform, const Vec2 &value)
     {
         set_uniform_2f(get_uniform_location(shader, uniform), value);
     }
-    void set_uniform_1i(Shader shader, const char *uniform, s32 value)
+    void set_uniform_1i(Shader *shader, const char *uniform, s32 value)
     {
         set_uniform_1i(get_uniform_location(shader, uniform), value);
     }
-    void set_uniform_1iv(Shader shader, const char *uniform, size_t size, const s32 *value)
+    void set_uniform_1iv(Shader *shader, const char *uniform, size_t size, const s32 *value)
     {
         set_uniform_1iv(get_uniform_location(shader, uniform), size, value);
     }
-    void set_uniform_1f(Shader shader, const char *uniform, f32 value)
+    void set_uniform_1f(Shader *shader, const char *uniform, f32 value)
     {
         set_uniform_1f(get_uniform_location(shader, uniform), value);
     }
 
-    u32 get_uniform_location(Shader shader, const char *uniform)
+    u32 get_uniform_location(Shader *shader, const char *uniform)
     {
-        return glGetUniformLocation(shader, uniform);
+        return glGetUniformLocation(shader->id, uniform);
     }
 } // namespace Vultr

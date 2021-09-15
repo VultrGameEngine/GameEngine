@@ -1,4 +1,5 @@
 #include <rendering/types/framebuffer.h>
+#include <rendering/types/internal/internal_texture.h>
 
 namespace Vultr
 {
@@ -39,7 +40,7 @@ namespace Vultr
         t_or_rbo = invalid_texture_or_rbo();
     }
 
-    static TextureOrRBO new_texture_object(Texture &texture)
+    static TextureOrRBO new_texture_object(Texture *texture)
     {
         TextureOrRBO t_or_rbo = {
             .type = TextureOrRBO::TEXTURE,
@@ -149,7 +150,7 @@ namespace Vultr
         }
     }
 
-    Texture &get_framebuffer_color_texture(Framebuffer &fbo, s16 slot)
+    Texture *get_framebuffer_color_texture(Framebuffer &fbo, s16 slot)
     {
         auto &t_or_rbo = fbo.color_attachments[slot];
         assert(is_valid_texture_or_rbo(t_or_rbo) && "Texture is not attached to color slot!");
@@ -157,7 +158,7 @@ namespace Vultr
         return t_or_rbo.data.texture;
     }
 
-    Texture &get_framebuffer_depth_stencil_texture(Framebuffer &fbo, s16 slot)
+    Texture *get_framebuffer_depth_stencil_texture(Framebuffer &fbo, s16 slot)
     {
         auto &t_or_rbo = fbo.depth_stencil_attachment;
         assert(is_valid_texture_or_rbo(t_or_rbo) && "Texture is not attached depth-stencil!");
@@ -170,19 +171,19 @@ namespace Vultr
         return slot < fbo.max_color_attachments;
     }
 
-    void attach_color_texture_framebuffer(Framebuffer &fbo, Texture &texture, s16 slot, GLenum internal_format, GLenum format, GLenum data_type)
+    void attach_color_texture_framebuffer(Framebuffer &fbo, Texture *texture, s16 slot, GLenum internal_format, GLenum format, GLenum data_type)
     {
         assert(is_valid_framebuffer(fbo) && "Invalid framebuffer!");
         assert(!is_valid_texture_or_rbo(fbo.color_attachments[slot]) && "Slot is already taken!");
         assert(can_attach_color_texture(fbo, slot) && "Not enough space for texture!");
-        assert(texture.type == GL_TEXTURE_2D && "Only a texture 2D can be color attached to a framebuffer");
+        assert(texture->type == GL_TEXTURE_2D && "Only a texture 2D can be color attached to a framebuffer");
         bind_framebuffer(fbo);
 
         bind_texture(texture, GL_TEXTURE0);
-        texture.width = fbo.width;
-        texture.height = fbo.height;
+        texture->width = fbo.width;
+        texture->height = fbo.height;
 
-        texture_image_2D(texture, 0, internal_format, texture.width, texture.height, format, data_type, nullptr);
+        texture_image_2D(texture, 0, internal_format, texture->width, texture->height, format, data_type, nullptr);
 
         texture_parameter_i(texture, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         texture_parameter_i(texture, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -190,7 +191,7 @@ namespace Vultr
         texture_parameter_i(texture, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         texture_parameter_i(texture, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + slot, texture.type, texture.id, 0);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + slot, texture->type, texture->id, 0);
 
         fbo.color_attachments[slot] = new_texture_object(texture);
     }
@@ -224,7 +225,7 @@ namespace Vultr
         if (t_or_rbo.type == TextureOrRBO::TEXTURE)
         {
             auto &texture = t_or_rbo.data.texture;
-            glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + slot, texture.type, 0, 0);
+            glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + slot, texture->type, 0, 0);
         }
         else if (t_or_rbo.type == TextureOrRBO::RENDERBUFFER)
         {
@@ -239,20 +240,20 @@ namespace Vultr
         t_or_rbo = invalid_texture_or_rbo();
     }
 
-    void attach_stencil_depth_texture_framebuffer(Framebuffer &fbo, Texture &texture)
+    void attach_stencil_depth_texture_framebuffer(Framebuffer &fbo, Texture *texture)
     {
         assert(is_valid_framebuffer(fbo) && "Invalid framebuffer!");
-        assert(texture.type == GL_TEXTURE_2D && "Only a texture 2D can be depth-stencil attached to a framebuffer");
+        assert(texture->type == GL_TEXTURE_2D && "Only a texture 2D can be depth-stencil attached to a framebuffer");
         assert(!is_valid_texture_or_rbo(fbo.depth_stencil_attachment) && "Depth-stencil attachment already taken!");
 
         bind_framebuffer(fbo);
 
         bind_texture(texture, GL_TEXTURE0);
 
-        texture.width = fbo.width;
-        texture.height = fbo.height;
+        texture->width = fbo.width;
+        texture->height = fbo.height;
 
-        texture_image_2D(texture, 0, GL_DEPTH24_STENCIL8, texture.width, texture.height, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, nullptr);
+        texture_image_2D(texture, 0, GL_DEPTH24_STENCIL8, texture->width, texture->height, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, nullptr);
 
         texture_parameter_i(texture, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         texture_parameter_i(texture, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -260,7 +261,7 @@ namespace Vultr
         texture_parameter_i(texture, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         texture_parameter_i(texture, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, texture.type, texture.id, 0);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, texture->type, texture->id, 0);
 
         fbo.depth_stencil_attachment = new_texture_object(texture);
     }
@@ -291,7 +292,7 @@ namespace Vultr
         if (t_or_rbo.type == TextureOrRBO::TEXTURE)
         {
             auto &texture = t_or_rbo.data.texture;
-            glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, texture.type, 0, 0);
+            glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, texture->type, 0, 0);
         }
         else if (t_or_rbo.type == TextureOrRBO::RENDERBUFFER)
         {
@@ -317,16 +318,11 @@ namespace Vultr
             {
                 if (t_or_rbo.type == TextureOrRBO::TEXTURE)
                 {
-                    auto old_texture = t_or_rbo.data.texture;
-                    auto texture = generate_texture(old_texture.type);
-                    texture.width = old_texture.width;
-                    texture.height = old_texture.height;
-                    texture.level = old_texture.level;
-                    texture.internal_format = old_texture.internal_format;
-                    texture.format = old_texture.format;
-                    texture.pixel_data_type = old_texture.pixel_data_type;
+                    auto *old_texture = t_or_rbo.data.texture;
+                    auto texture = generate_texture(old_texture->type);
+                    old_texture->id = texture.id;
 
-                    attach_color_texture_framebuffer(fbo, texture, i, texture.internal_format, texture.format, texture.pixel_data_type);
+                    attach_color_texture_framebuffer(fbo, old_texture, i, texture.internal_format, texture.format, texture.pixel_data_type);
                 }
                 else
                 {
@@ -343,11 +339,12 @@ namespace Vultr
         {
             if (t_or_rbo.type == TextureOrRBO::TEXTURE)
             {
-                auto old_texture = t_or_rbo.data.texture;
-                auto texture = generate_texture(old_texture.type);
+                auto *old_texture = t_or_rbo.data.texture;
+                auto texture = generate_texture(old_texture->type);
+                old_texture->id = texture.id;
 
-                bind_texture(texture, GL_TEXTURE0);
-                attach_stencil_depth_texture_framebuffer(fbo, texture);
+                bind_texture(old_texture, GL_TEXTURE0);
+                attach_stencil_depth_texture_framebuffer(fbo, old_texture);
             }
             else
             {

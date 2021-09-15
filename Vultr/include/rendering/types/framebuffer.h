@@ -29,7 +29,7 @@ namespace Vultr
             Type type;
 
             union TextureOrRBOData {
-                Texture texture;
+                Texture *texture;
                 Renderbuffer rbo;
 
                 TextureOrRBOData()
@@ -68,14 +68,14 @@ namespace Vultr
     bool is_valid_framebuffer(const Framebuffer &fbo);
     bool confirm_complete_framebuffer(const Framebuffer &fbo);
 
-    Texture &get_framebuffer_color_texture(Framebuffer &fbo, s16 slot);
-    Texture &get_framebuffer_depth_stencil_texture(Framebuffer &fbo, s16 slot);
+    Texture *get_framebuffer_color_texture(Framebuffer &fbo, s16 slot);
+    Texture *get_framebuffer_depth_stencil_texture(Framebuffer &fbo, s16 slot);
 
-    void attach_color_texture_framebuffer(Framebuffer &fbo, Texture &texture, s16 slot, GLenum internal_format, GLenum format, GLenum data_type);
+    void attach_color_texture_framebuffer(Framebuffer &fbo, Texture *texture, s16 slot, GLenum internal_format, GLenum format, GLenum data_type);
     void attach_color_renderbuffer_framebuffer(Framebuffer &fbo, Renderbuffer rbo, s16 slot);
     void remove_color_attachment_framebuffer(Framebuffer &fbo, s16 slot, bool dealloc = true);
 
-    void attach_stencil_depth_texture_framebuffer(Framebuffer &fbo, Texture &texture);
+    void attach_stencil_depth_texture_framebuffer(Framebuffer &fbo, Texture *texture);
     void attach_stencil_depth_renderbuffer_framebuffer(Framebuffer &fbo, Renderbuffer rbo);
     void remove_stencil_depth_attachment_framebuffer(Framebuffer &fbo, bool dealloc = true);
 

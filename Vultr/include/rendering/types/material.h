@@ -45,7 +45,7 @@ namespace Vultr
         };
 
         Type type = EMPTY;
-        std::string location;
+        char *location;
     };
     // typedef std::function<void(Shader)> MaterialBindCallback;
 
@@ -54,8 +54,8 @@ namespace Vultr
         struct TextureResource
         {
             TextureSource file;
-            std::string location = "";
-            std::string is_set_location = "";
+            char *location = str("");
+            char *is_set_location = str("");
         };
 
         MaterialUniform uniforms[MAX_UNIFORMS];

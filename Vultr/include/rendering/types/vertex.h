@@ -19,7 +19,7 @@ namespace Vultr
 
         bool operator<(const Vertex that) const
         {
-            return std::memcmp((void *)this, (void *)&that, sizeof(Vertex)) > 0;
+            return memcmp((void *)this, (void *)&that, sizeof(Vertex)) > 0;
         };
     };
 
