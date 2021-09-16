@@ -44,16 +44,16 @@ namespace Vultr
 
     struct VirtualFilesystem
     {
-        static const u32 magic_asset_info_number = CRC32_STR("VultrAssetInfo");
-        static const u32 magic_asset_package_number = CRC32_STR("VultrAssetPackage");
-        static const u32 version = 0;
+        static const u32 magic_number = CRC32_STR("VultrAssetPackage");
+        u32 version = 0;
 
         VultrAssetPackage asset_package;
-        VultrAssetInfo asset_info;
 
         vtl::HashTable<u32, VFile> files;
 
-        VirtualFilesystem(const VultrAssetPackage *asset_package, const VultrAssetInfo *asset_info);
+	FILE *fp = nullptr;
+
+        VirtualFilesystem(const VultrAssetPackage *asset_package);
         ~VirtualFilesystem();
     };
 
