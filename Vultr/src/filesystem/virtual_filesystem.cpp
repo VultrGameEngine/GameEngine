@@ -27,7 +27,7 @@ namespace Vultr
             fwrite(&info_header, sizeof(info_header), 1, aif);
             fclose(aif);
 
-            VFSSerialize::VAssetHeader package_header = {VirtualFilesystem::magic_asset_info_number, VirtualFilesystem::version};
+            VFSSerialize::VAssetHeader package_header = {VirtualFilesystem::magic_asset_package_number, VirtualFilesystem::version};
             package_header.size = sizeof(package_header);
 
             FILE *apf = fopen(asset_package->path, "w+");
