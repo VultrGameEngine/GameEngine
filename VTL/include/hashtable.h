@@ -55,8 +55,7 @@ namespace vtl
             }
             else
             {
-                internal_array[index] =
-                    (HashNode<k, v> *)malloc(sizeof(HashNode<k, v>));
+                internal_array[index] = (HashNode<k, v> *)malloc(sizeof(HashNode<k, v>));
                 internal_array[index]->key = key;
             }
             return internal_array[index]->value;
@@ -197,8 +196,7 @@ namespace vtl
     template <typename k, typename v>
     bool hashtable_delete(HashTable<k, v> &t, k key)
     {
-        assert(hashtable_exists(t, key) &&
-               "Cannot delete nonexistent key-value pair inhashtable!");
+        assert(hashtable_exists(t, key) && "Cannot delete nonexistent key-value pair inhashtable!");
         int index = hash(key);
         auto *node = t.internal_array[index];
         free(node);
@@ -213,10 +211,10 @@ namespace vtl
     //
     //
     template <>
-    inline uint hash<const char *>(const char *key)
+    inline u32 hash<const char *>(const char *key)
     {
         int length = strlen(key);
-        uint hash_value = 0;
+        u32 hash_value = 0;
         for (int i = 0; i < length; i++)
         {
             hash_value += key[i];

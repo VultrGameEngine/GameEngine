@@ -23,13 +23,13 @@ namespace Vultr
         Vec2 size;
         Vec2 bearing;
         Vec2 advance;
-        float uv;
+        f32 uv;
     };
 
     class Font
     {
       public:
-        Texture texture;
+        Texture *texture;
 
         Vec2 texture_dimensions = Vec2(0, 0);
         Font()

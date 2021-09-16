@@ -10,14 +10,13 @@ namespace Vultr::ShaderLoaderSystem
         return *get_global_system_provider<Component>(e);
     }
 
-    // TODO: AHHH FUCK YOU STL STD::STRING MY ASS
-    Shader get_shader(Engine *e, const ShaderSource &source)
+    Shader *get_shader(Engine *e, const ShaderSource *source)
     {
         auto &p = get_provider(e);
-        if (p.loaded_shaders.find(std::string(source.path)) == p.loaded_shaders.end())
-            return invalid_shader();
+        // if (p.loaded_shaders.find(std::string(source.path)) == p.loaded_shaders.end())
+        //     return invalid_shader();
 
-        return p.loaded_shaders[std::string(source.path)];
+        // return p.loaded_shaders[std::string(source.path)];
     }
 
     void bind_camera_uniform(Engine *e)

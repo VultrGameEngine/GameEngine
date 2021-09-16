@@ -21,6 +21,7 @@
 #include <rendering/renderers/forward_renderer_3d.h>
 #include <core/models/update_tick.h>
 #include <rendering/render_context.h>
+#include <rendering/types/internal/internal_texture.h>
 
 namespace Vultr::RenderSystem
 {
@@ -34,21 +35,21 @@ namespace Vultr::RenderSystem
         d.dimensions.x = width;
         d.dimensions.y = height;
         {
-            d.render_fbo = new_framebuffer(width, height);
+            new_framebuffer(&d.render_fbo, width, height);
 
             // Attach our color texture
-            auto color_texture = generate_texture(GL_TEXTURE_2D);
-            attach_color_texture_framebuffer(d.render_fbo, color_texture, 0, GL_RGBA16F, GL_RGBA, GL_FLOAT);
+            Texture *color_texture = new Texture(GL_TEXTURE_2D);
+            attach_color_texture_framebuffer(&d.render_fbo, color_texture, 0, GL_RGBA16F, GL_RGBA, GL_FLOAT);
 
             // Attach a brightness texture for bloom
-            auto bright_texture = generate_texture(GL_TEXTURE_2D);
-            attach_color_texture_framebuffer(d.render_fbo, color_texture, 1, GL_RGBA16F, GL_RGBA, GL_FLOAT);
+            Texture *bright_texture = new Texture(GL_TEXTURE_2D);
+            attach_color_texture_framebuffer(&d.render_fbo, color_texture, 1, GL_RGBA16F, GL_RGBA, GL_FLOAT);
 
             // Attach our depth/stencil rbo
             auto rbo = new_renderbuffer();
-            attach_stencil_depth_renderbuffer_framebuffer(d.render_fbo, rbo);
+            attach_stencil_depth_renderbuffer_framebuffer(&d.render_fbo, rbo);
 
-            confirm_complete_framebuffer(d.render_fbo);
+            confirm_complete_framebuffer();
         }
         // Initialize bloom frame buffers
         {
@@ -56,12 +57,12 @@ namespace Vultr::RenderSystem
             Vec2 downsample_dimensions = Vec2(width, height);
             for (s8 i = 1; i <= PING_PONG_FRAMEBUFFERS; i++)
             {
-                auto &fbo = d.ping_pong_blur_framebuffers[i - 1];
-                fbo = new_framebuffer(width, height);
+                auto *fbo = &d.ping_pong_blur_framebuffers[i - 1];
+                new_framebuffer(fbo, width, height);
 
-                auto texture = generate_texture(GL_TEXTURE_2D);
-                texture.width = downsample_dimensions.x;
-                texture.height = downsample_dimensions.y;
+                auto *texture = new Texture(GL_TEXTURE_2D);
+                texture->width = downsample_dimensions.x;
+                texture->height = downsample_dimensions.y;
 
                 attach_color_texture_framebuffer(fbo, texture, 0, GL_RGBA16F, GL_RGBA, GL_FLOAT);
 
@@ -70,21 +71,21 @@ namespace Vultr::RenderSystem
                     downsample_dimensions /= Vec2(2);
                 }
 
-                assert(confirm_complete_framebuffer(fbo) && "Framebuffer incomplete!");
+                assert(confirm_complete_framebuffer() && "Framebuffer incomplete!");
             }
         }
         {
-            d.post_processed_fbo = new_framebuffer(width, height);
+            new_framebuffer(&d.post_processed_fbo, width, height);
 
             // Attach our color texture
-            auto texture = generate_texture(GL_TEXTURE_2D);
-            attach_color_texture_framebuffer(d.post_processed_fbo, texture, 0, GL_RGBA16F, GL_RGBA, GL_FLOAT);
+            auto texture = new Texture(GL_TEXTURE_2D);
+            attach_color_texture_framebuffer(&d.post_processed_fbo, texture, 0, GL_RGBA16F, GL_RGBA, GL_FLOAT);
 
             // Attach our depth/stencil rbo
             auto rbo = new_renderbuffer();
-            attach_stencil_depth_renderbuffer_framebuffer(d.post_processed_fbo, rbo);
+            attach_stencil_depth_renderbuffer_framebuffer(&d.post_processed_fbo, rbo);
 
-            confirm_complete_framebuffer(d.post_processed_fbo);
+            confirm_complete_framebuffer();
         }
     }
 
@@ -92,17 +93,17 @@ namespace Vultr::RenderSystem
     {
         d.dimensions.x = width;
         d.dimensions.y = height;
-        d.render_fbo = new_framebuffer(width, height);
+        new_framebuffer(&d.render_fbo, width, height);
 
         // Attach our color texture
-        auto texture = generate_texture(GL_TEXTURE_2D);
-        attach_color_texture_framebuffer(d.render_fbo, texture, 0, GL_RGBA16F, GL_RGBA, GL_FLOAT);
+        auto texture = new Texture(GL_TEXTURE_2D);
+        attach_color_texture_framebuffer(&d.render_fbo, texture, 0, GL_RGBA16F, GL_RGBA, GL_FLOAT);
 
         // Attach our depth/stencil rbo
         auto rbo = new_renderbuffer();
-        attach_stencil_depth_renderbuffer_framebuffer(d.render_fbo, rbo);
+        attach_stencil_depth_renderbuffer_framebuffer(&d.render_fbo, rbo);
 
-        confirm_complete_framebuffer(d.render_fbo);
+        confirm_complete_framebuffer();
     }
 
     void register_system(Engine *e)
@@ -168,25 +169,25 @@ namespace Vultr::RenderSystem
 
     static void perform_resize(ViewportData &d)
     {
-        resize_framebuffer(d.render_fbo, d.dimensions.x, d.dimensions.y);
+        resize_framebuffer(&d.render_fbo, d.dimensions.x, d.dimensions.y);
 
-        if (is_valid_framebuffer(d.post_processed_fbo))
-            resize_framebuffer(d.post_processed_fbo, d.dimensions.x, d.dimensions.y);
+        if (is_valid_framebuffer(&d.post_processed_fbo))
+            resize_framebuffer(&d.post_processed_fbo, d.dimensions.x, d.dimensions.y);
 
         Vec2 downsample_dimensions = d.dimensions;
         for (s8 i = 1; i <= PING_PONG_FRAMEBUFFERS; i++)
         {
             auto &fbo = d.ping_pong_blur_framebuffers[i - 1];
-            if (is_valid_framebuffer(fbo))
+            if (is_valid_framebuffer(&fbo))
             {
-                resize_framebuffer(fbo, downsample_dimensions.x, downsample_dimensions.y);
+                resize_framebuffer(&fbo, downsample_dimensions.x, downsample_dimensions.y);
 
                 if (i % 2 == 0)
                 {
                     downsample_dimensions /= Vec2(2);
                 }
 
-                assert(confirm_complete_framebuffer(fbo) && "Framebuffer incomplete!");
+                assert(confirm_complete_framebuffer() && "Framebuffer incomplete!");
             }
         }
     }
@@ -209,7 +210,7 @@ namespace Vultr::RenderSystem
             if (camera != INVALID_ENTITY)
             {
                 // This renders to the game scene, important for the editor
-                bind_framebuffer(p.game.render_fbo);
+                bind_framebuffer(&p.game.render_fbo);
                 glDrawBuffers(2, attachments);
 
                 // Clear the screen
@@ -262,7 +263,7 @@ namespace Vultr::RenderSystem
             auto &camera_component = camera_system_provider.scene_camera.camera_component;
 
             // Always will have a scene camera, render to the editor scene view
-            bind_framebuffer(p.scene.render_fbo);
+            bind_framebuffer(&p.scene.render_fbo);
             glDrawBuffers(2, attachments);
 
             // Clear the screen
@@ -305,7 +306,7 @@ namespace Vultr::RenderSystem
             unbind_all_framebuffers();
 
             // Render the elements again for mouse picking
-            bind_framebuffer(p.input_data.render_fbo);
+            bind_framebuffer(&p.input_data.render_fbo);
 
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -319,7 +320,7 @@ namespace Vultr::RenderSystem
         }
     }
 
-    static Texture &bloom_pass(Engine *e, ViewportData &data)
+    static Texture *bloom_pass(Engine *e, ViewportData &data)
     {
         // Get the providers
         auto &p = get_provider(e);
@@ -334,8 +335,8 @@ namespace Vultr::RenderSystem
 
         for (s8 i = 0; i < PING_PONG_FRAMEBUFFERS; i += 2)
         {
-            auto &downsampled_fbo = data.ping_pong_blur_framebuffers[i];
-            auto &upsampled_fbo = i == 0 ? data.render_fbo : data.ping_pong_blur_framebuffers[i - 2];
+            auto *downsampled_fbo = &data.ping_pong_blur_framebuffers[i];
+            auto *upsampled_fbo = i == 0 ? &data.render_fbo : &data.ping_pong_blur_framebuffers[i - 2];
 
             glDisable(GL_DEPTH_TEST);
 
@@ -345,12 +346,12 @@ namespace Vultr::RenderSystem
             bind_framebuffer(downsampled_fbo, GL_DRAW_FRAMEBUFFER);
             glDrawBuffer(GL_COLOR_ATTACHMENT0);
 
-            glViewport(0, 0, downsampled_fbo.width, downsampled_fbo.height);
+            glViewport(0, 0, downsampled_fbo->width, downsampled_fbo->height);
             glClearColor(0.0, 0.0, 0.0, 0.0);
             glClear(GL_COLOR_BUFFER_BIT);
 
             // Downsample with bilinear filtering
-            glBlitFramebuffer(0, 0, upsampled_fbo.width, upsampled_fbo.height, 0, 0, downsampled_fbo.width, downsampled_fbo.height, GL_COLOR_BUFFER_BIT, GL_LINEAR);
+            glBlitFramebuffer(0, 0, upsampled_fbo->width, upsampled_fbo->height, 0, 0, downsampled_fbo->width, downsampled_fbo->height, GL_COLOR_BUFFER_BIT, GL_LINEAR);
         }
 
         // for (u8 i = 0; i < bloom_quality; i++)
@@ -377,10 +378,10 @@ namespace Vultr::RenderSystem
         unbind_all_framebuffers();
         glEnable(GL_DEPTH_TEST);
 
-        return get_framebuffer_color_texture(data.ping_pong_blur_framebuffers[PING_PONG_FRAMEBUFFERS - 2], 0);
+        return get_framebuffer_color_texture(&data.ping_pong_blur_framebuffers[PING_PONG_FRAMEBUFFERS - 2], 0);
     }
 
-    static void post_processing_pass(Engine *e, const UpdateTick &tick, Texture &game_bloom, Texture &scene_bloom)
+    static void post_processing_pass(Engine *e, const UpdateTick &tick, Texture *game_bloom, Texture *scene_bloom)
     {
         // Get the providers
         auto &p = get_provider(e);
@@ -391,7 +392,7 @@ namespace Vultr::RenderSystem
 
         // Run post processing pass on the game
         {
-            bind_framebuffer(p.game.post_processed_fbo);
+            bind_framebuffer(&p.game.post_processed_fbo);
 
             glViewport(0, 0, p.game.dimensions.x, p.game.dimensions.y);
             glClearColor(0.0, 0.0, 0.0, 0.0);
@@ -399,7 +400,7 @@ namespace Vultr::RenderSystem
 
             bind_shader(p.post_processing_shader);
             set_uniform_1i(p.post_processing_shader, "u_Render_texture", 0);
-            bind_texture(get_framebuffer_color_texture(p.game.render_fbo, 0), GL_TEXTURE0);
+            bind_texture(get_framebuffer_color_texture(&p.game.render_fbo, 0), GL_TEXTURE0);
 
             set_uniform_1i(p.post_processing_shader, "u_Bloom_texture", 1);
             bind_texture(game_bloom, GL_TEXTURE1);
@@ -415,7 +416,7 @@ namespace Vultr::RenderSystem
         }
         if (tick.debug)
         {
-            bind_framebuffer(p.scene.post_processed_fbo);
+            bind_framebuffer(&p.scene.post_processed_fbo);
 
             glViewport(0, 0, p.scene.dimensions.x, p.scene.dimensions.y);
             glClearColor(0.0, 0.0, 0.0, 0.0);
@@ -424,7 +425,7 @@ namespace Vultr::RenderSystem
             bind_shader(p.post_processing_shader);
             set_uniform_1i(p.post_processing_shader, "u_Render_texture", 0);
 
-            bind_texture(get_framebuffer_color_texture(p.scene.render_fbo, 0), GL_TEXTURE0);
+            bind_texture(get_framebuffer_color_texture(&p.scene.render_fbo, 0), GL_TEXTURE0);
 
             set_uniform_1i(p.post_processing_shader, "u_Bloom_texture", 1);
             bind_texture(scene_bloom, GL_TEXTURE1);
@@ -451,8 +452,8 @@ namespace Vultr::RenderSystem
         ShaderLoaderSystem::bind_point_lights_uniform(e);
 
         draw_pass(e, meta_data);
-        auto game_bloom = bloom_pass(e, provider.game);
-        auto scene_bloom = invalid_texture();
+        auto *game_bloom = bloom_pass(e, provider.game);
+        Texture *scene_bloom = nullptr;
         if (meta_data.debug)
         {
             scene_bloom = bloom_pass(e, provider.scene);
@@ -509,7 +510,7 @@ namespace Vultr::RenderSystem
             if (is_valid_mesh(mesh_obj))
             {
                 // Use the input shader
-                Shader shader = provider.input_shader;
+                Shader *shader = provider.input_shader;
                 bind_shader(shader);
 
                 // Set MVP uniforms

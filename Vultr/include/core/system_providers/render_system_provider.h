@@ -33,9 +33,9 @@ namespace Vultr
             ViewportData game;
             ViewportData input_data;
 
-            Shader post_processing_shader = invalid_shader();
-            Shader input_shader = invalid_shader();
-            Shader gaussian_blur_shader = invalid_shader();
+            Shader *post_processing_shader = nullptr;
+            Shader *input_shader = nullptr;
+            Shader *gaussian_blur_shader = nullptr;
 
             Mesh render_quad;
             Mesh skybox;

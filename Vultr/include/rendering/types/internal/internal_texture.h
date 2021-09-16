@@ -13,9 +13,13 @@ namespace Vultr
         u32 internal_format = GL_RGB;
         u32 format = GL_RGB;
         u32 pixel_data_type = GL_UNSIGNED_BYTE;
+
+        InternalTexture() = default;
+        InternalTexture(u32 type);
     };
 
-    InternalTexture generate_texture(GLenum type);
+    void generate_texture(InternalTexture *texture, GLenum type);
+
 #define invalid_texture()                                                                                                                                                                                             \
     InternalTexture                                                                                                                                                                                                   \
     {                                                                                                                                                                                                                 \

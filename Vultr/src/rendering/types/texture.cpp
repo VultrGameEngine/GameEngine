@@ -4,11 +4,15 @@
 
 namespace Vultr
 {
-    Texture generate_texture(u32 type)
+    InternalTexture::InternalTexture(u32 type)
     {
-        Texture texture = {.type = type};
-        glGenTextures(1, &texture.id);
-        return texture;
+        generate_texture(this, type);
+    }
+
+    void generate_texture(InternalTexture *texture, GLenum type)
+    {
+        texture->type = type;
+        glGenTextures(1, &texture->id);
     }
 
     void texture_image_2D(Texture *texture, u32 level, GLenum internalformat, u32 width, u32 height, GLenum format, GLenum type, const void *data)

@@ -11,7 +11,7 @@ namespace Vultr
     {
         struct Component : public SystemProvider
         {
-            std::unordered_map<std::string, Texture> textures;
+            // std::unordered_map<std::string, InternalTexture> textures;
         };
         Component &get_provider(Engine *e);
         Texture *get_texture(Engine *e, const TextureSource &texture);

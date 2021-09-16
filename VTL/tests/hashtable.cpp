@@ -4,20 +4,6 @@
 #include <hashtable.h>
 
 using namespace vtl;
-void print_table(const HashTable<const char *, const char *> &t)
-{
-    for (int i = 0; i < TABLE_SIZE; i++)
-    {
-        if (t.internal_array[i] == nullptr)
-        {
-            printf("\t%i\t---\n", i);
-        }
-        else
-        {
-            printf("\t%i\t%s\n", i, t.internal_array[i]->value);
-        }
-    }
-}
 
 TEST(HashTable, Iterator)
 {

@@ -7,6 +7,7 @@
 #include <rendering/types/shader.h>
 #include <rendering/types/uniform_buffer.h>
 #include <filesystem/file.h>
+#include <hashtable.h>
 
 namespace Vultr
 {
@@ -51,8 +52,6 @@ namespace Vultr
 
         struct Component : public SystemProvider
         {
-            std::unordered_map<std::string, Shader> loaded_shaders;
-
 #define UNIFORM_BUFFER_COUNT 3
             UniformBuffer ubos[UNIFORM_BUFFER_COUNT] = {
                 new_uniform_buffer("Camera", 0, sizeof(Vec4) + sizeof(Mat4) + sizeof(Mat4) + sizeof(f32)),
@@ -63,16 +62,16 @@ namespace Vultr
 
         Component &get_provider(Engine *e);
 
-        Shader get_shader(Engine *e, const ShaderSource &source);
+        Shader *get_shader(Engine *e, const ShaderSource *source);
 
         void bind_camera_uniform(Engine *e);
-        void set_camera_uniform(Engine *e, const CameraUniform &uniform);
+        void set_camera_uniform(Engine *e, const CameraUniform *uniform);
 
         void bind_directional_light_uniform(Engine *e);
-        void set_directional_light_uniform(Engine *e, const DirectionalLightUniform &uniform);
+        void set_directional_light_uniform(Engine *e, const DirectionalLightUniform *uniform);
 
         void bind_point_lights_uniform(Engine *e);
-        void set_point_lights_uniform(Engine *e, const PointLightsUniform &uniform);
+        void set_point_lights_uniform(Engine *e, const PointLightsUniform *uniform);
     } // namespace ShaderLoaderSystem
 
     template <>
