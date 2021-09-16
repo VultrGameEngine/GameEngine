@@ -163,10 +163,11 @@ IMGUI::Renderer IMGUI::new_imgui_renderer()
                           "}\n",
     };
 
-    renderer.default_gui_shader = ShaderImporter::import_engine_shader(DEFAULT_GUI);
-    renderer.texture_gui_shader = ShaderImporter::import_engine_shader(TEXTURE_GUI);
-    renderer.batch_gui_shader = ShaderImporter::import_engine_shader(BATCH_GUI);
-    renderer.rounded_gui_shader = ShaderImporter::import_engine_shader(ROUNDED_CORNER_GUI);
+    // TODO: Reimplement
+    // renderer.default_gui_shader = ShaderImporter::import_engine_shader(DEFAULT_GUI);
+    // renderer.texture_gui_shader = ShaderImporter::import_engine_shader(TEXTURE_GUI);
+    // renderer.batch_gui_shader = ShaderImporter::import_engine_shader(BATCH_GUI);
+    // renderer.rounded_gui_shader = ShaderImporter::import_engine_shader(ROUNDED_CORNER_GUI);
     return renderer;
 }
 void IMGUI::destroy_imgui_renderer(Renderer &r)

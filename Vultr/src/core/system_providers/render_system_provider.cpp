@@ -28,7 +28,7 @@ namespace Vultr::RenderSystem
     {
         auto &p = get_provider(e);
         auto &input = p.input_data;
-        bind_framebuffer(input.render_fbo);
+        bind_framebuffer(&input.render_fbo);
         unsigned char data[4];
         glReadPixels(x, y, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, data);
 

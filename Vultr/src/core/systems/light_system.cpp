@@ -96,10 +96,11 @@ namespace Vultr::LightSystem
         {
             uniform.exists = 0;
         }
-        ShaderLoaderSystem::set_directional_light_uniform(e, uniform);
+        // TODO: Reimplement
+        // ShaderLoaderSystem::set_directional_light_uniform(e, uniform);
 
         p.internal_point_lights_uniform->count = point_light_index;
-        ShaderLoaderSystem::set_point_lights_uniform(e, *p.internal_point_lights_uniform);
+        // ShaderLoaderSystem::set_point_lights_uniform(e, *p.internal_point_lights_uniform);
     }
 
     void on_destroy_entity(Engine *e, Entity entity)

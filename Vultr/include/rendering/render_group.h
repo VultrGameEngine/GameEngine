@@ -9,14 +9,15 @@ namespace Vultr
     struct RenderEntity
     {
         Mesh *mesh;
-        Shader shader;
-        std::vector<Texture> textures;
+        Shader *shader;
+        // TODO: Reimplement??
+        // std::vector<Texture> textures;
     };
 
     class RenderGroup
     {
       public:
-        RenderGroup(Shader input_shader) : shader(input_shader)
+        RenderGroup(Shader *input_shader) : shader(input_shader)
         {
         }
 
@@ -30,6 +31,6 @@ namespace Vultr
 
       private:
         std::set<RenderEntity> entities;
-        Shader shader;
+        Shader *shader;
     };
 } // namespace Vultr

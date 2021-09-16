@@ -81,7 +81,7 @@ namespace Vultr
     void mat4_uniform(Material &material, const char *location, Mat4 value);
     void texture_uniform(Material &material, const char *location, const TextureSource &source, const char *is_set_location = "");
 
-    void material_bind_uniforms(const Material &material, Shader shader);
+    void material_bind_uniforms(const Material &material, Shader *shader);
 
     // void to_json(json &j, const Material &m);
     // void from_json(const json &j, Material &m);

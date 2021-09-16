@@ -126,9 +126,10 @@ namespace Vultr::RenderSystem
 
         init_input_texture(p.input_data, mode->width, mode->height);
 
-        p.post_processing_shader = ShaderImporter::import_shader(ShaderSource("shaders/post_processing.glsl"));
-        p.gaussian_blur_shader = ShaderImporter::import_shader(ShaderSource("shaders/gaussian_blur.glsl"));
-        p.input_shader = ShaderImporter::import_engine_shader(ShaderImporter::EDITOR_INPUT);
+        // TODO: Reimplement
+        // p.post_processing_shader = ShaderImporter::import_shader(ShaderSource("shaders/post_processing.glsl"));
+        // p.gaussian_blur_shader = ShaderImporter::import_shader(ShaderSource("shaders/gaussian_blur.glsl"));
+        // p.input_shader = ShaderImporter::import_engine_shader(ShaderImporter::EDITOR_INPUT);
 
         p.render_quad = MeshImporter::init_quad();
         p.skybox = MeshImporter::init_skybox();
@@ -192,132 +193,133 @@ namespace Vultr::RenderSystem
         }
     }
 
+    // TODO: Reimplement
     static void draw_pass(Engine *e, const UpdateTick &tick)
     {
-        // Get the providers
-        auto &p = get_provider(e);
-        const auto &camera_system_provider = CameraSystem::get_provider(e);
-        const auto &light_system_provider = LightSystem::get_provider(e);
+        // // Get the providers
+        // auto &p = get_provider(e);
+        // const auto &camera_system_provider = CameraSystem::get_provider(e);
+        // const auto &light_system_provider = LightSystem::get_provider(e);
 
-        u32 attachments[2] = {GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1};
+        // u32 attachments[2] = {GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1};
 
-        // Draw game onto render framebuffer
-        {
-            // Get the entities saved by other systems
-            Entity camera = camera_system_provider.camera;
+        // // Draw game onto render framebuffer
+        // {
+        //     // Get the entities saved by other systems
+        //     Entity camera = camera_system_provider.camera;
 
-            // If no camera is in the scene, then something is wrong and we can't render
-            if (camera != INVALID_ENTITY)
-            {
-                // This renders to the game scene, important for the editor
-                bind_framebuffer(&p.game.render_fbo);
-                glDrawBuffers(2, attachments);
+        //     // If no camera is in the scene, then something is wrong and we can't render
+        //     if (camera != INVALID_ENTITY)
+        //     {
+        //         // This renders to the game scene, important for the editor
+        //         bind_framebuffer(&p.game.render_fbo);
+        //         glDrawBuffers(2, attachments);
 
-                // Clear the screen
-                glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        //         // Clear the screen
+        //         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-                // Get the transform of the game camera that will actually be present
-                // in an entity, can be non existent which is why we check earlier to ensure
-                // that there actually is one
-                auto &camera_transform = entity_get_component<TransformComponent>(e, camera);
-                auto &camera_component = entity_get_component<CameraComponent>(e, camera);
+        //         // Get the transform of the game camera that will actually be present
+        //         // in an entity, can be non existent which is why we check earlier to ensure
+        //         // that there actually is one
+        //         auto &camera_transform = entity_get_component<TransformComponent>(e, camera);
+        //         auto &camera_component = entity_get_component<CameraComponent>(e, camera);
 
-                auto dimensions = get_dimensions(e, GAME);
+        //         auto dimensions = get_dimensions(e, GAME);
 
-                RenderContext context = {
-                    .dimensions = get_dimensions(e, GAME),
-                    .camera_transform = camera_transform,
-                    .camera_component = camera_component,
-                    .view_matrix = camera_transform.GetViewMatrix(),
-                    .projection_matrix = camera_component.GetProjectionMatrix(dimensions.x, dimensions.y),
-                };
+        //         RenderContext context = {
+        //             .dimensions = get_dimensions(e, GAME),
+        //             .camera_transform = camera_transform,
+        //             .camera_component = camera_component,
+        //             .view_matrix = camera_transform.GetViewMatrix(),
+        //             .projection_matrix = camera_component.GetProjectionMatrix(dimensions.x, dimensions.y),
+        //         };
 
-                ShaderLoaderSystem::set_camera_uniform(e, {
-                                                              .position = Vec4(camera_transform.position, 1),
-                                                              .view_matrix = context.view_matrix,
-                                                              .projection_matrix = context.projection_matrix,
-                                                              .bloom_threshold = camera_component.bloom_threshold,
-                                                          });
+        //         ShaderLoaderSystem::set_camera_uniform(e, {
+        //                                                       .position = Vec4(camera_transform.position, 1),
+        //                                                       .view_matrix = context.view_matrix,
+        //                                                       .projection_matrix = context.projection_matrix,
+        //                                                       .bloom_threshold = camera_component.bloom_threshold,
+        //                                                   });
 
-                // Set the vieport dimensions to match that in the editor
-                glViewport(0, 0, dimensions.x, dimensions.y);
+        //         // Set the vieport dimensions to match that in the editor
+        //         glViewport(0, 0, dimensions.x, dimensions.y);
 
-                // Render both the skybox an the static meshes in the scene
-                render_skybox(e, context, GAME);
-                render_elements(e, context, GAME);
+        //         // Render both the skybox an the static meshes in the scene
+        //         render_skybox(e, context, GAME);
+        //         render_elements(e, context, GAME);
 
-                // Unbind the frame buffer
-                unbind_all_framebuffers();
-            }
-            else
-            {
-                fprintf(stderr, "NO CAMERA FOUND\n");
-            }
-        }
+        //         // Unbind the frame buffer
+        //         unbind_all_framebuffers();
+        //     }
+        //     else
+        //     {
+        //         fprintf(stderr, "NO CAMERA FOUND\n");
+        //     }
+        // }
 
-        // Draw scene onto render framebuffer
-        if (tick.debug)
-        {
-            // Get the transform of the scene camera
-            auto &camera_transform = camera_system_provider.scene_camera.transform_component;
-            auto &camera_component = camera_system_provider.scene_camera.camera_component;
+        // // Draw scene onto render framebuffer
+        // if (tick.debug)
+        // {
+        //     // Get the transform of the scene camera
+        //     auto &camera_transform = camera_system_provider.scene_camera.transform_component;
+        //     auto &camera_component = camera_system_provider.scene_camera.camera_component;
 
-            // Always will have a scene camera, render to the editor scene view
-            bind_framebuffer(&p.scene.render_fbo);
-            glDrawBuffers(2, attachments);
+        //     // Always will have a scene camera, render to the editor scene view
+        //     bind_framebuffer(&p.scene.render_fbo);
+        //     glDrawBuffers(2, attachments);
 
-            // Clear the screen
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        //     // Clear the screen
+        //     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-            auto dimensions = get_dimensions(e, SCENE);
+        //     auto dimensions = get_dimensions(e, SCENE);
 
-            // Set the viewport to match that in the editor
-            glViewport(0, 0, dimensions.x, dimensions.y);
-            // Get the transform of the light
-            // auto &light_transform = entity_get_component<TransformComponent>(light);
+        //     // Set the viewport to match that in the editor
+        //     glViewport(0, 0, dimensions.x, dimensions.y);
+        //     // Get the transform of the light
+        //     // auto &light_transform = entity_get_component<TransformComponent>(light);
 
-            RenderContext context = {
-                .dimensions = get_dimensions(e, SCENE),
-                .camera_transform = camera_transform,
-                .camera_component = camera_component,
-                .view_matrix = camera_transform.GetViewMatrix(),
-                .projection_matrix = camera_component.GetProjectionMatrix(dimensions.x, dimensions.y),
-            };
+        //     RenderContext context = {
+        //         .dimensions = get_dimensions(e, SCENE),
+        //         .camera_transform = camera_transform,
+        //         .camera_component = camera_component,
+        //         .view_matrix = camera_transform.GetViewMatrix(),
+        //         .projection_matrix = camera_component.GetProjectionMatrix(dimensions.x, dimensions.y),
+        //     };
 
-            f32 bloom_threshold = 1.2f;
+        //     f32 bloom_threshold = 1.2f;
 
-            if (camera_system_provider.camera != INVALID_ENTITY)
-            {
-                bloom_threshold = entity_get_component<CameraComponent>(e, camera_system_provider.camera).bloom_threshold;
-            }
+        //     if (camera_system_provider.camera != INVALID_ENTITY)
+        //     {
+        //         bloom_threshold = entity_get_component<CameraComponent>(e, camera_system_provider.camera).bloom_threshold;
+        //     }
 
-            ShaderLoaderSystem::set_camera_uniform(e, {
-                                                          .position = Vec4(camera_transform.position, 1),
-                                                          .view_matrix = context.view_matrix,
-                                                          .projection_matrix = context.projection_matrix,
-                                                          .bloom_threshold = bloom_threshold,
-                                                      });
+        //     ShaderLoaderSystem::set_camera_uniform(e, {
+        //                                                   .position = Vec4(camera_transform.position, 1),
+        //                                                   .view_matrix = context.view_matrix,
+        //                                                   .projection_matrix = context.projection_matrix,
+        //                                                   .bloom_threshold = bloom_threshold,
+        //                                               });
 
-            // Render both the skybox and the static meshes in the scene
-            render_skybox(e, context, SCENE);
-            render_elements(e, context, SCENE);
+        //     // Render both the skybox and the static meshes in the scene
+        //     render_skybox(e, context, SCENE);
+        //     render_elements(e, context, SCENE);
 
-            // Unbind the frame buffer
-            unbind_all_framebuffers();
+        //     // Unbind the frame buffer
+        //     unbind_all_framebuffers();
 
-            // Render the elements again for mouse picking
-            bind_framebuffer(&p.input_data.render_fbo);
+        //     // Render the elements again for mouse picking
+        //     bind_framebuffer(&p.input_data.render_fbo);
 
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        //     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-            // Set the viewport to match that in the editor
-            glViewport(0, 0, get_dimensions(e, SCENE).x, get_dimensions(e, SCENE).y);
+        //     // Set the viewport to match that in the editor
+        //     glViewport(0, 0, get_dimensions(e, SCENE).x, get_dimensions(e, SCENE).y);
 
-            render_element_input(e, context);
+        //     render_element_input(e, context);
 
-            // Render both the skybox and the static meshes in the scene
-            unbind_all_framebuffers();
-        }
+        //     // Render both the skybox and the static meshes in the scene
+        //     unbind_all_framebuffers();
+        // }
     }
 
     static Texture *bloom_pass(Engine *e, ViewportData &data)
@@ -515,8 +517,9 @@ namespace Vultr::RenderSystem
 
                 // Set MVP uniforms
                 set_uniform_matrix_4fv(shader, "model", glm::value_ptr(transform.Matrix()));
-                set_uniform_matrix_4fv(shader, "projection", glm::value_ptr(context.camera_component.GetProjectionMatrix(context.dimensions.x, context.dimensions.y)));
-                set_uniform_matrix_4fv(shader, "view", glm::value_ptr(context.camera_transform.GetViewMatrix()));
+                // TODO: Reimplement
+                // set_uniform_matrix_4fv(shader, "projection", glm::value_ptr(context.camera_component.GetProjectionMatrix(context.dimensions.x, context.dimensions.y)));
+                // set_uniform_matrix_4fv(shader, "view", glm::value_ptr(context.camera_transform.GetViewMatrix()));
 
                 // Get an RGB value that will be used to represent our object using an entity id
                 int r = (entity & 0x000000FF) >> 0;
@@ -554,7 +557,8 @@ namespace Vultr::RenderSystem
             auto &material_component = entity_get_component<MaterialComponent>(e, camera);
             auto &skybox_component = entity_get_component<SkyBoxComponent>(e, camera);
 
-            Renderer3D::ForwardRenderer::bind_material(e, material_component, context.camera_transform.Matrix(), context, skybox_component.identifier);
+            // TODO: Reimplement
+            // Renderer3D::ForwardRenderer::bind_material(e, material_component, context.camera_transform.Matrix(), context, skybox_component.identifier);
 
             draw_mesh(get_provider(e).skybox);
             glDepthMask(GL_TRUE);

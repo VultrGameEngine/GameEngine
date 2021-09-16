@@ -23,5 +23,5 @@ namespace Vultr
 
     void unbind_all_uniform_buffers();
 
-    void attach_shader_uniform_buffer(Shader shader, UniformBuffer &ubo);
+    void attach_shader_uniform_buffer(Shader *shader, UniformBuffer &ubo);
 } // namespace Vultr

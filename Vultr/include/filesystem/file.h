@@ -105,6 +105,10 @@ namespace Vultr
         static const size_t FONT_SOURCE_LEN = sizeof(FONT_SOURCE) / sizeof(const char *);
         inline constexpr const char *const VULTR_SOURCE[] = {".vultr"};
         static const size_t VULTR_SOURCE_LEN = sizeof(VULTR_SOURCE) / sizeof(const char *);
+        inline constexpr const char *const VULTR_ASSET_PACKAGE[] = {".vasset"};
+        static const size_t VULTR_ASSET_PACKAGE_LEN = sizeof(VULTR_ASSET_PACKAGE) / sizeof(const char *);
+        inline constexpr const char *const VULTR_ASSET_INFO[] = {".vainfo"};
+        static const size_t VULTR_ASSET_INFO_LEN = sizeof(VULTR_ASSET_INFO) / sizeof(const char *);
         inline constexpr const char *const DLL_SOURCE[] = {".so", ".dll"};
         static const size_t DLL_SOURCE_LEN = sizeof(DLL_SOURCE) / sizeof(const char *);
     } // namespace FileTypes
@@ -118,6 +122,8 @@ namespace Vultr
     typedef File<FileTypes::SHADER> ShaderSource;
     typedef File<FileTypes::FONT_SOURCE> FontSource;
     typedef File<FileTypes::VULTR_SOURCE> VultrSource;
+    typedef File<FileTypes::VULTR_ASSET_PACKAGE> VultrAssetPackage;
+    typedef File<FileTypes::VULTR_ASSET_INFO> VultrAssetInfo;
     typedef File<FileTypes::DLL_SOURCE> DLLSource;
 
     // Get the name of the file, not the path.

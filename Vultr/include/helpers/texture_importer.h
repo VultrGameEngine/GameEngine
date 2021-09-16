@@ -6,8 +6,8 @@
 
 namespace Vultr::TextureImporter
 {
-    bool import(Texture &texture, const TextureSource &source);
-    void import(Texture &texture, const unsigned char *data, u32 size);
-    void import(Texture &texture, const unsigned char *data, u32 width, u32 height);
-    bool import_skybox(Texture &texture, const std::vector<TextureSource> &paths);
+    bool import(Texture *texture, const TextureSource &source);
+    void import(Texture *texture, const unsigned char *data, u32 size);
+    void import(Texture *texture, const unsigned char *data, u32 width, u32 height);
+    bool import_skybox(Texture *texture, const std::vector<TextureSource> &paths);
 } // namespace Vultr::TextureImporter

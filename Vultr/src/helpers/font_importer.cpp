@@ -87,11 +87,12 @@ namespace Vultr
             x += g->bitmap.width;
         }
 
-        Texture texture = {
-            .id = tex,
-            .type = GL_TEXTURE_2D,
-        };
-        font->texture = texture;
+        // TODO: Reimplement
+        // Texture texture = {
+        //     .id = tex,
+        //     .type = GL_TEXTURE_2D,
+        // };
+        // font->texture = texture;
         FT_Done_Face(face);
 
         return font;

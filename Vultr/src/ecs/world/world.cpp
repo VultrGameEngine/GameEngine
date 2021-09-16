@@ -180,11 +180,11 @@ namespace Vultr
         FROMJSON(file, Vultr::TextureSource)
         if (j.contains("location"))
         {
-            c.location = j["location"].get<std::string>();
+            c.location = str(j["location"].get<std::string>().c_str());
         }
         if (j.contains("is_set_location"))
         {
-            c.is_set_location = j["is_set_location"].get<std::string>();
+            c.is_set_location = str(j["is_set_location"].get<std::string>().c_str());
         }
     }
 
@@ -233,7 +233,7 @@ namespace Vultr
         FROMJSON(type, MaterialUniform::Type)
         if (j.contains("location"))
         {
-            c.location = j["location"].get<std::string>();
+            c.location = str(j["location"].get<std::string>().c_str());
         }
         switch (c.type)
         {

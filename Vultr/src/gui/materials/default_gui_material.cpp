@@ -3,7 +3,7 @@
 
 using namespace Vultr;
 
-IMGUI::DefaultGUIMaterial *IMGUI::new_gui_material(Context *c, Color color, Texture texture)
+IMGUI::DefaultGUIMaterial *IMGUI::new_gui_material(Context *c, Color color, Texture *texture)
 {
     auto *mat = new DefaultGUIMaterial();
     mat->shader = !is_valid_texture(texture) ? c->renderer.default_gui_shader : c->renderer.texture_gui_shader;

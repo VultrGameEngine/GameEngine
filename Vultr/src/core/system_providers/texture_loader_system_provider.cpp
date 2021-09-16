@@ -15,14 +15,15 @@ namespace Vultr::TextureLoaderSystem
 
     Texture *get_texture(Engine *e, const char *texture)
     {
-        if (is_loaded(e, texture))
-        {
-            return &get_provider(e).textures[texture];
-        }
-        else
-        {
-            return nullptr;
-        }
+        // TODO: Reimplement
+        // if (is_loaded(e, texture))
+        // {
+        //     return &get_provider(e).textures[texture];
+        // }
+        // else
+        // {
+        //     return nullptr;
+        // }
     }
 
     bool is_loaded(Engine *e, const TextureSource &texture)
@@ -32,7 +33,8 @@ namespace Vultr::TextureLoaderSystem
 
     bool is_loaded(Engine *e, const char *texture)
     {
+        // TODO: Reimplement
         auto &p = get_provider(e);
-        return p.textures.find(texture) != p.textures.end();
+        // return p.textures.find(texture) != p.textures.end();
     }
 } // namespace Vultr::TextureLoaderSystem

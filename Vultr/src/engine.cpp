@@ -425,7 +425,7 @@ namespace Vultr
             for (u16 i = 0; i < component.texture_count; i++)
             {
                 auto &texture = component.textures[i];
-                ImGui::PushID(texture.location.c_str());
+                ImGui::PushID(texture.location);
                 res = RenderMember(texture.location, texture.file);
                 ImGui::PopID();
             }
@@ -433,7 +433,7 @@ namespace Vultr
             for (u16 i = 0; i < component.uniform_count; i++)
             {
                 auto &uniform = component.uniforms[i];
-                ImGui::PushID(uniform.location.c_str());
+                ImGui::PushID(uniform.location);
                 res = RenderMember(uniform.location, uniform);
                 ImGui::PopID();
             }

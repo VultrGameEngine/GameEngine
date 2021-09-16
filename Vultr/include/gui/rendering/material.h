@@ -7,7 +7,7 @@ namespace Vultr
     {
         struct Material
         {
-            Shader shader;
+            Shader *shader;
             virtual void bind() = 0;
             virtual ~Material() = default;
         };

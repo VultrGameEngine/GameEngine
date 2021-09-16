@@ -7,26 +7,26 @@
 
 namespace Vultr
 {
-    Shader ShaderImporter::import_shader(const ShaderSource &source)
+    Shader *ShaderImporter::import_shader(const ShaderSource &source)
     {
-        Shader shader = create_shader(ShaderSource(source.path));
-        return shader;
+        // Shader shader = create_shader(ShaderSource(source.path));
+        // return shader;
     }
 
-    Shader ShaderImporter::import_engine_shader(ShaderProgramSource source)
+    Shader *ShaderImporter::import_engine_shader(ShaderProgramSource source)
     {
-        unsigned int program = glCreateProgram();
-        unsigned int vs = compile_shader(GL_VERTEX_SHADER, source.VertexSource);
-        unsigned int fs = compile_shader(GL_FRAGMENT_SHADER, source.FragmentSource);
+        // unsigned int program = glCreateProgram();
+        // unsigned int vs = compile_shader(GL_VERTEX_SHADER, source.VertexSource);
+        // unsigned int fs = compile_shader(GL_FRAGMENT_SHADER, source.FragmentSource);
 
-        glAttachShader(program, vs);
-        glAttachShader(program, fs);
-        glLinkProgram(program);
-        glValidateProgram(program);
+        // glAttachShader(program, vs);
+        // glAttachShader(program, fs);
+        // glLinkProgram(program);
+        // glValidateProgram(program);
 
-        glDeleteShader(vs);
-        glDeleteShader(fs);
-        return program;
+        // glDeleteShader(vs);
+        // glDeleteShader(fs);
+        // return program;
     }
 
     // TODO: Eventually, we need to get rid of the STL shit

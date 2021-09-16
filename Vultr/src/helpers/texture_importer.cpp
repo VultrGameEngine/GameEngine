@@ -3,10 +3,11 @@
 #include <iostream>
 #include <stb_image/stb_image.h>
 #include <string>
+#include <rendering/types/internal/internal_texture.h>
 
 namespace Vultr
 {
-    bool TextureImporter::import(Texture &texture, const TextureSource &source)
+    bool TextureImporter::import(Texture *texture, const TextureSource &source)
     {
         stbi_set_flip_vertically_on_load(1);
         s32 width;
@@ -22,7 +23,7 @@ namespace Vultr
             stbi_image_free(buffer);
         return true;
     }
-    void TextureImporter::import(Texture &texture, const unsigned char *data, u32 size)
+    void TextureImporter::import(Texture *texture, const unsigned char *data, u32 size)
     {
         s32 width = 0;
         s32 height = 0;
@@ -30,7 +31,7 @@ namespace Vultr
 
         TextureImporter::import(texture, buffer, width, height);
     }
-    void TextureImporter::import(Texture &texture, const unsigned char *data, u32 width, u32 height)
+    void TextureImporter::import(Texture *texture, const unsigned char *data, u32 width, u32 height)
     {
         bind_texture(texture, GL_TEXTURE0);
         texture_parameter_i(texture, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -41,9 +42,9 @@ namespace Vultr
         texture_image_2D(texture, 0, GL_SRGB_ALPHA, width, height, GL_RGBA, GL_UNSIGNED_BYTE, data);
     }
 
-    bool TextureImporter::import_skybox(Texture &texture, const std::vector<TextureSource> &paths)
+    bool TextureImporter::import_skybox(Texture *texture, const std::vector<TextureSource> &paths)
     {
-        assert(texture.type == GL_TEXTURE_CUBE_MAP && "Can only write to texture marked as a cube map");
+        assert(texture->type == GL_TEXTURE_CUBE_MAP && "Can only write to texture marked as a cube map");
 
         stbi_set_flip_vertically_on_load(0);
         bind_texture(texture, GL_TEXTURE0);

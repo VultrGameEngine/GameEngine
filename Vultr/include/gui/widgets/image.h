@@ -10,7 +10,7 @@ namespace Vultr
         {
         };
 
-        void image(Context *c, UI_ID id, Texture tex);
+        void image(Context *c, UI_ID id, Texture *tex);
 
     } // namespace IMGUI
 } // namespace Vultr

@@ -2,7 +2,7 @@
 
 using namespace Vultr;
 
-IMGUI::DefaultBatchMaterial *IMGUI::new_batch_material(Context *c, Texture texture)
+IMGUI::DefaultBatchMaterial *IMGUI::new_batch_material(Context *c, Texture *texture)
 {
     auto *mat = new DefaultBatchMaterial();
     mat->shader = c->renderer.batch_gui_shader;

@@ -1,4 +1,5 @@
 #include <rendering/types/uniform_buffer.h>
+#include <rendering/types/internal/internal_shader.h>
 
 namespace Vultr
 {
@@ -48,10 +49,10 @@ namespace Vultr
         glBindBuffer(GL_UNIFORM_BUFFER, 0);
     }
 
-    void attach_shader_uniform_buffer(Shader shader, UniformBuffer &ubo)
+    void attach_shader_uniform_buffer(Shader *shader, UniformBuffer &ubo)
     {
         // Get the shader uniform block
-        s32 uniform_block_index = glGetUniformBlockIndex(shader, ubo.label);
+        s32 uniform_block_index = glGetUniformBlockIndex(shader->id, ubo.label);
 
         if (uniform_block_index == -1)
         {
@@ -60,6 +61,6 @@ namespace Vultr
         }
 
         // Bind the block index to our binding point
-        glUniformBlockBinding(shader, uniform_block_index, ubo.binding_point);
+        glUniformBlockBinding(shader->id, uniform_block_index, ubo.binding_point);
     }
 } // namespace Vultr
