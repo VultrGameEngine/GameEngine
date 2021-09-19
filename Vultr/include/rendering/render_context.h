@@ -14,9 +14,9 @@ namespace Vultr
 #define MAX_TEXTURES 65536
     struct RenderContext
     {
-        vtl::HashTable<ResourceHash, Shader> shaders;
-        vtl::HashTable<ResourceHash, Texture> textures;
-        vtl::HashTable<ResourceHash, Mesh> meshes;
+        // vtl::HashTable<ResourceHash, Shader> shaders;
+        // vtl::HashTable<ResourceHash, Texture> textures;
+        // vtl::HashTable<ResourceHash, Mesh> meshes;
 
         RenderContext();
         ~RenderContext();

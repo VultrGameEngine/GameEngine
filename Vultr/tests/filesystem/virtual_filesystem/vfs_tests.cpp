@@ -9,6 +9,8 @@ using namespace Vultr;
 TEST(VirtualFilesystem, Init)
 {
     auto asset_package = VultrAssetPackage("assets.vasset");
-    auto vfs = VirtualFilesystem(&asset_package);
+    auto vfs = VirtualFilesystem(&asset_package, true);
     printf("Virtual file system version %d...\n", vfs.version);
+    auto file = VFILE("models/penis.fbx", 10);
+    vfcreate(&vfs, &file);
 }

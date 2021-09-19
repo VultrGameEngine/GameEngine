@@ -1,4 +1,5 @@
 #pragma once
+#define _FILE_OFFSET_BITS 64
 #include <json/json_fwd.hpp>
 #include <types/types.hpp>
 #include <utils/string/string.h>
