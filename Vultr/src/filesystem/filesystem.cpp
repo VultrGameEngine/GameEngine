@@ -7,6 +7,7 @@
 #include <ftw.h>
 #include <unistd.h>
 #include <dirent.h>
+#include <inttypes.h>
 
 namespace Vultr
 {
@@ -616,240 +617,13 @@ namespace Vultr
         return dirs;
     }
 
-    namespace VFSSerialize
+    static bool get_real_file(const VirtualFilesystem *vfs, const VFileHandle *handle, GenericFile *file)
     {
-        struct VAssetHeader
-        {
-            u32 magic_number = VirtualFilesystem::magic_number;
-            u32 version = 0;
-
-            u64 size = sizeof(VAssetHeader);
-            u64 file_table_offset = size;
-
-            bool write(u64 loc, FILE *f)
-            {
-                bool res = fseeko(f, loc, SEEK_SET) == 0;
-
-                u32 _magic_number = htole32(magic_number);
-                res = res && fwrite(&_magic_number, sizeof(_magic_number), 1, f) == 1;
-
-                u32 _version = htole32(version);
-                res = res && fwrite(&_version, sizeof(_version), 1, f) == 1;
-
-                u64 _size = htole64(size);
-                res = res && fwrite(&_size, sizeof(_size), 1, f) == 1;
-
-                u64 _file_table_offset = htole64(file_table_offset);
-                res = res && fwrite(&_file_table_offset, sizeof(_file_table_offset), 1, f) == 1;
-
-                return res;
-            }
-
-            bool read(u64 loc, FILE *f)
-            {
-                bool res = fseeko(f, loc, SEEK_SET) == 0;
-
-                res = res && fread(&magic_number, sizeof(magic_number), 1, f) == 1;
-                magic_number = le32toh(magic_number);
-
-                res = res && fread(&version, sizeof(version), 1, f) == 1;
-                version = le32toh(version);
-
-                res = res && fread(&size, sizeof(size), 1, f) == 1;
-                size = le64toh(size);
-
-                res = res && fread(&file_table_offset, sizeof(file_table_offset), 1, f) == 1;
-                file_table_offset = le64toh(file_table_offset);
-
-                return res;
-            }
-        };
-
-        struct VFileTable
-        {
-            u64 size = sizeof(size) + sizeof(entries);
-            u32 entries = 0;
-            u32 *ids = nullptr;
-            u64 *offsets = nullptr;
-            u64 *sizes = nullptr;
-
-            bool write(u64 loc, FILE *f)
-            {
-                bool res = fseeko(f, loc, SEEK_SET) == 0;
-
-                u64 _size = htole64(size);
-                res = res && fwrite(&_size, sizeof(_size), 1, f) == 1;
-
-                u32 _entries = htole32(entries);
-                res = res && fwrite(&_entries, sizeof(_entries), 1, f) == 1;
-
-                if (entries > 0)
-                {
-                    u32 *_ids = new u32[entries];
-                    u64 *_offsets = new u64[entries];
-                    u64 *_sizes = new u64[entries];
-                    for (u32 i = 0; i < entries; i++)
-                    {
-                        _ids[i] = htole32(ids[i]);
-                        _offsets[i] = htole64(offsets[i]);
-                        _sizes[i] = htole64(sizes[i]);
-                    }
-                    res = res && fwrite(_ids, sizeof(_ids), 1, f) == 1;
-                    res = res && fwrite(_offsets, sizeof(_offsets), 1, f) == 1;
-                    res = res && fwrite(_sizes, sizeof(_sizes), 1, f) == 1;
-
-                    delete[] _ids;
-                    delete[] _offsets;
-                    delete[] _sizes;
-                }
-
-                return res;
-            }
-
-            bool read(u64 loc, FILE *f)
-            {
-                bool res = fseeko(f, loc, SEEK_SET) == 0;
-
-                res = res && fread(&size, sizeof(size), 1, f) == 1;
-                size = le64toh(size);
-
-                res = res && fread(&entries, sizeof(entries), 1, f) == 1;
-                entries = le32toh(entries);
-
-                if (entries > 0)
-                {
-                    ids = new u32[entries];
-                    offsets = new u64[entries];
-                    sizes = new u64[entries];
-
-                    res = res && fread(ids, sizeof(ids), 1, f) == 1;
-                    res = res && fread(offsets, sizeof(offsets), 1, f) == 1;
-                    res = res && fread(sizes, sizeof(sizes), 1, f) == 1;
-
-                    for (u32 i = 0; i < entries; i++)
-                    {
-                        ids[i] = le32toh(ids[i]);
-                        offsets[i] = le64toh(offsets[i]);
-                        sizes[i] = le64toh(sizes[i]);
-                    }
-                }
-
-                return res;
-            }
-
-            ~VFileTable()
-            {
-                if (ids != nullptr)
-                {
-                    delete[] ids;
-                }
-
-                if (offsets != nullptr)
-                {
-                    delete[] offsets;
-                }
-
-                if (sizes != nullptr)
-                {
-                    delete[] sizes;
-                }
-
-                ids = nullptr;
-                offsets = nullptr;
-                sizes = nullptr;
-            }
-        };
-    } // namespace VFSSerialize
-
-    static bool vfs_write_header(VirtualFilesystem *vfs, FILE *f)
-    {
-        VFSSerialize::VAssetHeader header;
-        header.size = sizeof(header);
-        header.version = vfs->version;
-
-        // If the file table offset hasn't been set yet because this is a first time write then just set it to the size of the header since there will be no files or anything
-        if (vfs->file_table_offset == 0)
-        {
-            vfs->file_table_offset = header.size;
-        }
-
-        header.file_table_offset = vfs->file_table_offset;
-        header.magic_number = vfs->magic_number;
-
-        if (!header.write(0, f))
-            return false;
-        return true;
-    }
-
-    static bool vfs_read_header(VirtualFilesystem *vfs, FILE *f)
-    {
-        VFSSerialize::VAssetHeader header;
-        header.read(0, f);
-
-        if (header.magic_number != VirtualFilesystem::magic_number)
-        {
-            fprintf(stderr, "Failed to read asset package! File is not a Vultr Asset Package according to the magic number %u in the first 4 bytes of the header. Actual magic number is %u.\n", header.magic_number,
-                    VirtualFilesystem::magic_number);
-            return false;
-        }
-
-        switch (header.version)
-        {
-            case 0:
-            {
-                vfs->version = header.version;
-                vfs->file_table_offset = header.file_table_offset;
-                break;
-            }
-            default:
-            {
-                fprintf(stderr, "Failed to read asset package! Version %d is not found!\n", header.version);
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    static bool vfs_write_file_table(VirtualFilesystem *vfs, FILE *f)
-    {
-        VFSSerialize::VFileTable table;
-        table.entries = vfs->file_table.size();
-        table.size = sizeof(table.size) + sizeof(table.entries) + table.entries * (sizeof(u32) + sizeof(u64));
-
-        u32 *ids = new u32[table.entries];
-        u64 *offsets = new u64[table.entries];
-        u64 *sizes = new u64[table.entries];
-
-        u32 i = 0;
-
-        for (auto [id, file] : vfs->file_table)
-        {
-            ids[i] = file.id;
-            offsets[i] = file.offset;
-            sizes[i] = file.size;
-            i++;
-        }
-
-        table.ids = ids;
-        table.offsets = offsets;
-        table.sizes = sizes;
-
-        return table.write(vfs->file_table_offset, f);
-    }
-
-    static bool vfs_read_file_table(VirtualFilesystem *vfs, FILE *f)
-    {
-        VFSSerialize::VFileTable table;
-
-        if (!table.read(vfs->file_table_offset, f))
+        if (vfs->file_table_path.find(handle->id) == vfs->file_table_path.end())
             return false;
 
-        vfs->file_table.clear();
-        for (u32 i = 0; i < table.entries; i++)
-        {
-            vfs->file_table[table.ids[i]] = VFile(table.ids[i], table.sizes[i], table.offsets[i]);
-        }
+        *file = vfs->file_table_path.at(handle->id);
+
         return true;
     }
 
@@ -859,67 +633,163 @@ namespace Vultr
         id = crcdetail::compute(path, strlen(path));
     }
 
-    static bool vfs_write_file_entry(VirtualFilesystem *vfs, VFile *file, FILE *f)
+#ifdef USE_FILE_ARCHIVE
+    VirtualFilesystem::VirtualFilesystem(const VultrAssetPackage *asset_package)
     {
-        if (fseeko(f, file->offset, SEEK_SET) != 0)
+        this->asset_package = *asset_package;
+    }
+#else
+    struct InternalVFileStream
+    {
+        u32 id = 0;
+        FILE *fp = nullptr;
+        InternalVFileStream(FILE *fp)
+        {
+            this->fp = fp;
+        }
+        ~InternalVFileStream() = default;
+    };
+
+    inline constexpr const char *const VPATHS_SOURCE[] = {".vpaths"};
+    static const size_t VPATHS_SOURCE_LEN = sizeof(VPATHS_SOURCE) / sizeof(const char *);
+    typedef File<VPATHS_SOURCE> VPathsSource;
+
+    static bool read_cached_asset_hashes(VirtualFilesystem *vfs)
+    {
+        VPathsSource path_cache = VPathsSource(&vfs->resource_directory, ".cache.vpaths");
+        FILE *fp = fopen(path_cache.path, "r");
+        if (fp == nullptr)
             return false;
-        size_t size = sizeof(VFile);
-        if (fwrite(file, size, 1, f) != 1)
-            return false;
+
+        size_t len = 0;
+        ssize_t read;
+        char *line = nullptr;
+        while ((read = getline(&line, &len, fp)) != -1)
+        {
+            const char *delimiter = " \n";
+            char *token = strtok(line, delimiter);
+            u32 hash;
+            sscanf(token, "%" SCNu32, &hash);
+            token = strtok(nullptr, delimiter);
+            vfs->file_table_path[hash] = GenericFile(token);
+        }
+        fclose(fp);
+
+        if (line != nullptr)
+            free(line);
+
         return true;
     }
 
-    bool vfcreate(VirtualFilesystem *vfs, VFile *file)
+    static s32 on_asset_dir(const char *fpath, const struct stat *sb, s32 typeflag, struct FTW *ftwbuf)
     {
-        file->offset = vfs->file_table_offset;
-        vfs->file_table[file->id] = *file;
-        bool res = vfs_write_file_table(vfs, vfs->wfp);
-        res = res && vfs_write_file_entry(vfs, file, vfs->wfp);
-        fflush(vfs->wfp);
-        return res;
+        if (typeflag != 0)
+            return 0;
+
+        u32 hash = crcdetail::compute(fpath, strlen(fpath));
+        return 0;
     }
 
-    VirtualFilesystem::VirtualFilesystem(const VultrAssetPackage *asset_package, bool write)
+    static void recursive_hash_paths(VirtualFilesystem *vfs, Directory *current_dir)
     {
-        this->asset_package = *asset_package;
-
-        // If one or more of the asset files does not exist, then we need to create them
-        if (!fexists(asset_package))
+        size_t len;
+        auto *files = dirfiles(current_dir, &len);
+        for (s32 i = 0; i < len; i++)
         {
-            FILE *f = fopen(asset_package->path, "wb+");
-            assert(vfs_write_header(this, f) && "Failed to write header to new asset package!");
-            fflush(f);
+            const char *path = files[i].path;
+            u32 hash = crcdetail::compute(path, strlen(path));
+            vfs->file_table_path[hash] = files[i];
+        }
+        delete[] files;
 
-            assert(vfs_write_file_table(this, f) && "Failed to write file table to new asset package!");
+        auto *dirs = dirsubdirs(current_dir, &len);
+        for (s32 i = 0; i < len; i++)
+        {
+            recursive_hash_paths(vfs, &dirs[i]);
+        }
+        delete[] dirs;
+    }
 
-            fclose(f);
-            rfp = fopen(asset_package->path, "rb");
+    void reimport_assets(VirtualFilesystem *vfs)
+    {
+        VPathsSource path_cache = VPathsSource(&vfs->resource_directory, ".cache.vpaths");
+        FILE *fp = fopen(path_cache.path, "w+");
+        assert(fp != nullptr && "Failed to open .cache.vpath!");
+
+        recursive_hash_paths(vfs, &vfs->resource_directory);
+        for (const auto &[hash, file] : vfs->file_table_path)
+        {
+            size_t fpath_len = strlen(file.path);
+            u16 fhash_len = 0;
+            if (hash > 0)
+            {
+                u32 hash_copy = hash;
+                while (hash_copy > 0)
+                {
+                    fhash_len++;
+                    hash_copy /= 10;
+                }
+            }
+            char buf[fpath_len + fhash_len + 2];
+            sprintf(buf, "%u %s\n", hash, file.path);
+            assert(fwrite(buf, sizeof(buf), 1, fp) == 1 && "Failed to write to .cache.vpaths!");
+        }
+
+        fclose(fp);
+    }
+
+    VirtualFilesystem::VirtualFilesystem(const Directory *asset_directory)
+    {
+        this->resource_directory = *asset_directory;
+        VPathsSource path_cache = VPathsSource(&resource_directory, ".cache.vpaths");
+        if (!fexists(&path_cache))
+        {
+            reimport_assets(this);
         }
         else
         {
-            rfp = fopen(this->asset_package.path, "rb");
-            assert(vfs_read_header(this, rfp) && vfs_read_file_table(this, rfp) && "Failed to read asset package!");
-        }
-
-        if (write)
-        {
-            wfp = fopen(this->asset_package.path, "rb+");
+            read_cached_asset_hashes(this);
         }
     }
+#endif
 
     VirtualFilesystem::~VirtualFilesystem()
     {
-        if (rfp != nullptr)
+#ifdef USE_FILE_ARCHIVE
+        if (fp != nullptr)
         {
-            fclose(rfp);
-            rfp = nullptr;
+            free(fp);
         }
-
-        if (wfp != nullptr)
-        {
-            fclose(wfp);
-            wfp = nullptr;
-        }
+#else
+#endif
     }
 
+#ifdef USE_FILE_ARCHIVE
+    // TODO: Implement physfs
+#else
+    VFileStream *vfs_open(const VirtualFilesystem *vfs, const VFileHandle *handle, const char *mode)
+    {
+        GenericFile resource;
+        if (!get_real_file(vfs, handle, &resource))
+            return nullptr;
+
+        FILE *fp = fopen(resource.path, "r+");
+        if (fp == nullptr)
+            return nullptr;
+
+        // UGLY heap allocation but it isn't really that slow + this is what they literally do in the standard lib so it's fine
+        return new VFileStream(fp);
+    }
+
+    void vfs_close(VFileStream *stream)
+    {
+        fclose(stream->fp);
+        delete stream;
+    }
+
+    size_t vfs_read(char *ptr, size_t size, size_t nmemb, VFileStream *stream)
+    {
+        return fread(ptr, size, nmemb, stream->fp);
+    }
+#endif
 } // namespace Vultr

@@ -55,10 +55,16 @@ namespace Vultr
             strcreplace(path, '\\', '/');
         }
 
+        File(const File &other)
+        {
+            path = str(other.path);
+        }
+
         ~File()
         {
             if (path != nullptr)
                 free(path);
+            path = nullptr;
         }
 
         const char *const *get_file_extensions(size_t *size) const override
