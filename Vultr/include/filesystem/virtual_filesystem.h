@@ -9,6 +9,7 @@ namespace Vultr
     {
         u32 id = 0;
         VFileHandle() = default;
+        ~VFileHandle() = default;
         VFileHandle(u32 id);
         VFileHandle(const char *path);
     };

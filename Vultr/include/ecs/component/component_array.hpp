@@ -12,7 +12,6 @@ namespace Vultr
 {
     struct IComponentArray
     {
-      public:
         virtual ~IComponentArray() = default;
         virtual bool HasData(Entity entity)
         {

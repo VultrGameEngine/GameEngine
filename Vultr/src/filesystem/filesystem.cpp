@@ -767,13 +767,21 @@ namespace Vultr
 #ifdef USE_FILE_ARCHIVE
     // TODO: Implement physfs
 #else
+    bool vfs_file_exists(const VirtualFilesystem *vfs, const VFileHandle *handle)
+    {
+        GenericFile file;
+        if (!get_real_file(vfs, handle, &file))
+            return false;
+        return fexists(&file);
+    }
+
     VFileStream *vfs_open(const VirtualFilesystem *vfs, const VFileHandle *handle, const char *mode)
     {
         GenericFile resource;
         if (!get_real_file(vfs, handle, &resource))
             return nullptr;
 
-        FILE *fp = fopen(resource.path, "r+");
+        FILE *fp = fopen(resource.path, mode);
         if (fp == nullptr)
             return nullptr;
 
