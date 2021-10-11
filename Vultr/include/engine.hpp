@@ -2,6 +2,8 @@
 #include <ecs/component/component_registry.hpp>
 #include <platform/window/window.h>
 #include <ecs/world/world.hpp>
+#include <filesystem/resource_manager.h>
+#include <rendering/types/texture.h>
 #include <game.hpp>
 #include <GLFW/glfw3.h>
 
@@ -9,6 +11,9 @@ namespace Vultr
 {
     struct EditEvent;
     typedef void (*OnEdit)(void *editor, EditEvent *);
+
+    typedef InternalResourceManager<Texture, Mesh, Shader> ResourceManager;
+
     struct Engine
     {
         GLFWwindow *window;
@@ -19,6 +24,7 @@ namespace Vultr
         World *current_world;
         ComponentRegistry component_registry;
         SystemManager system_manager;
+        ResourceManager *resource_manager;
 
         // EDITOR ONLY
         OnEdit on_edit = nullptr;
@@ -169,5 +175,46 @@ namespace Vultr
     {
         return system_manager_get_system_provider<T>(e->system_manager);
     }
+
+    template <typename T>
+    struct Resource
+    {
+        ResourceManager *rm = nullptr;
+        AssetHash asset = 0;
+
+        Resource(AssetHash hash, Engine *e) : asset(hash), rm(e->resource_manager)
+        {
+            assert(asset != 0 && "Invalid asset!");
+            assert(rm != nullptr && "Invalid resource manager!");
+            rm->incr<T>(asset);
+        }
+
+        ~Resource()
+        {
+            assert(asset != 0 && "Invalid asset!");
+            assert(rm != nullptr && "Invalid resource manager!");
+            rm->decr<T>(asset);
+        }
+
+        bool is_loaded()
+        {
+            assert(asset != 0 && "Invalid asset!");
+            assert(rm != nullptr && "Invalid resource manager!");
+            return rm->is_asset_loaded<T>(asset);
+        }
+
+        operator bool()
+        {
+            return is_loaded();
+        }
+
+        T *operator*()
+        {
+            assert(asset != 0 && "Invalid asset!");
+            assert(rm != nullptr && "Invalid resource manager!");
+            assert(is_loaded() && "Asset not loaded!");
+            return rm->get_asset<T>(asset);
+        }
+    };
 
 } // namespace Vultr

@@ -6,8 +6,15 @@
 
 namespace Vultr
 {
-    struct InternalShader;
-    typedef InternalShader Shader;
+    struct Shader
+    {
+        u32 id = 0;
+    };
+
+#define invalid_shader()                                                                                                                                                                                              \
+    Shader                                                                                                                                                                                                            \
+    {                                                                                                                                                                                                                 \
+    }
 
     void bind_shader(Shader *shader);
     void unbind_all_shaders();

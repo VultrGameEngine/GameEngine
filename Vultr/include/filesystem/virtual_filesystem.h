@@ -20,6 +20,7 @@ namespace Vultr
 #endif
 
 #define VFILE(path, size) VFileHandle(CRC32_STR(path), size)
+#define FILE_ASSET(path) CRC32_STR(path)
 
     struct VirtualFilesystem
     {

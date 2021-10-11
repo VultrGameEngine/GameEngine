@@ -1,5 +1,4 @@
 #include <rendering/types/framebuffer.h>
-#include <rendering/types/internal/internal_texture.h>
 
 namespace Vultr
 {

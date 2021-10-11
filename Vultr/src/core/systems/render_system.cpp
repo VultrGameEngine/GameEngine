@@ -21,7 +21,6 @@
 #include <rendering/renderers/forward_renderer_3d.h>
 #include <core/models/update_tick.h>
 #include <rendering/render_context.h>
-#include <rendering/types/internal/internal_texture.h>
 
 namespace Vultr::RenderSystem
 {

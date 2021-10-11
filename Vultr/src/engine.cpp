@@ -172,6 +172,7 @@ namespace Vultr
         change_world(e, new_world(e->component_registry));
         engine_register_default_components(e);
         engine_init_default_systems(e);
+        e->resource_manager = new ResourceManager();
     }
 
     void engine_load_game(Engine *e, DLLSource *src)

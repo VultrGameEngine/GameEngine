@@ -1,5 +1,5 @@
 #include <rendering/types/uniform_buffer.h>
-#include <rendering/types/internal/internal_shader.h>
+#include <rendering/types/shader.h>
 
 namespace Vultr
 {

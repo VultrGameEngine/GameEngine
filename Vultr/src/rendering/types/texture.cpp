@@ -1,15 +1,14 @@
 #include <rendering/types/texture.h>
-#include <rendering/types/internal/internal_texture.h>
 #include <glad/glad.h>
 
 namespace Vultr
 {
-    InternalTexture::InternalTexture(u32 type)
+    Texture::Texture(u32 type)
     {
         generate_texture(this, type);
     }
 
-    void generate_texture(InternalTexture *texture, GLenum type)
+    void generate_texture(Texture *texture, GLenum type)
     {
         texture->type = type;
         glGenTextures(1, &texture->id);

@@ -1,7 +1,7 @@
 #include <rendering/render_context.h>
 #include <rendering/internal/internal_render_context.h>
-#include <rendering/types/internal/internal_shader.h>
-#include <rendering/types/internal/internal_texture.h>
+#include <rendering/types/shader.h>
+#include <rendering/types/texture.h>
 
 namespace Vultr
 {

@@ -135,6 +135,8 @@ namespace Vultr
 
         void EntityDestroyed(Entity entity) override
         {
+            // TODO: BIG MEMORY UNSAFTEY, this will lead to memory error if you delete an entity while reading a component and then try to read the component again, you will be reading an empty component
+            // This needs to be moved into a garbage collect step so that entities are only cleaned up at the end of the frame after all game logic is finished
             if (entity_to_index_map.find(entity) != entity_to_index_map.end())
             {
                 RemoveData(entity);
