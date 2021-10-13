@@ -14,6 +14,103 @@ namespace Vultr
     template <typename T>
     void free_resource(T *resource);
 
+    struct IResourceQueueItem
+    {
+    };
+
+    template <typename T>
+    struct ResourceQueueItem : IResourceQueueItem
+    {
+        AssetHash hash;
+
+        ResourceQueueItem(AssetHash hash)
+        {
+            this->hash = hash;
+        }
+
+        ~ResourceQueueItem()
+        {
+        }
+    };
+
+    template <typename T>
+    struct ResourceQueue
+    {
+        T *items = nullptr;
+        size_t len = 0;
+        std::mutex queue_mutex;
+
+        ResourceQueue()
+        {
+        }
+
+        ~ResourceQueue()
+        {
+            if (items != nullptr)
+            {
+                free(items);
+            }
+        }
+
+        ResourceQueue(const ResourceQueue &) = delete;
+        void operator=(const ResourceQueue &) = delete;
+
+        T *top()
+        {
+            queue_mutex.lock();
+            queue_mutex.unlock();
+        }
+
+        void resize()
+        {
+            items = static_cast<T *>(realloc(items, sizeof(T) * len));
+        }
+
+        void push(T *item)
+        {
+            queue_mutex.lock();
+            if (len == 0)
+            {
+                assert(items == nullptr && "Items already allocated for some reason?");
+                len++;
+                items = static_cast<T *>(malloc(sizeof(T)));
+            }
+            else
+            {
+                len++;
+                resize();
+                for (s32 i = 0; i < len - 1; i++)
+                {
+                    items[i + 1] = items[i];
+                }
+            }
+
+            items[len - 1] = *item;
+            queue_mutex.unlock();
+        }
+
+        T pop()
+        {
+            queue_mutex.lock();
+            T copy = items[len - 1];
+            if (len == 1)
+            {
+                len--;
+                free(items);
+                items = nullptr;
+            }
+            else
+            {
+                len--;
+                resize();
+            }
+
+            queue_mutex.unlock();
+
+            return copy;
+        }
+    };
+
     template <typename T>
     struct ResourceCache
     {
@@ -157,6 +254,7 @@ namespace Vultr
     {
         std::tuple<ResourceCache<ResourceType>...> resource_caches;
         std::mutex resource_mutex;
+        ResourceQueue<IResourceQueueItem *> queue;
 
         InternalResourceManager() = default;
 
