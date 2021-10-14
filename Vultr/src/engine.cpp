@@ -281,26 +281,57 @@ namespace Vultr
     static void resource_manager_load_thread(Engine *e, u8 index)
     {
         auto *rm = e->resource_manager;
-        auto *queue = &rm->queue;
-        while (true)
+
+        auto *load_queue = &rm->load_queue;
+        auto *finalize_queue = &rm->finalize_queue;
+
+        while (e->resource_loading_threads_alive)
         {
             printf("(Resource Thread %u): Waiting for item!\n", index);
-            IResourceQueueItem *item = queue->pop();
+            IResourceLoadItem *item = load_queue->pop();
 
             printf("(Resource Thread %u): Loading resource queue item!\n", index);
-            item->load();
+
+            rm->can_garbage_collect = false;
+            auto *finalize_item = item->load();
+            rm->can_garbage_collect = true;
+
+            if (finalize_item != nullptr)
+            {
+                rm->mutex.lock();
+                finalize_queue->push(&finalize_item);
+                rm->mutex.unlock();
+            }
 
             delete item;
         }
+
+        printf("(Resource Thread %u): Shutting down\n", index);
     }
 
     void engine_init_resource_threads(Engine *e)
     {
-        auto *rm = e->resource_manager;
+        bool resource_loading_threads_alive = true;
         for (s16 i = 0; i < RESOURCE_MANAGER_THREADS; i++)
         {
-            std::thread t(resource_manager_load_thread, e, i);
-            t.detach();
+            e->resource_loading_threads[i] = std::thread(resource_manager_load_thread, e, i);
+            e->resource_loading_threads[i].detach();
+        }
+    }
+
+    void engine_detach_resource_threads(Engine *e)
+    {
+        for (s16 i = 0; i < RESOURCE_MANAGER_THREADS; i++)
+        {
+            e->resource_loading_threads[i].detach();
+        }
+    }
+
+    void engine_join_resource_threads(Engine *e)
+    {
+        for (s16 i = 0; i < RESOURCE_MANAGER_THREADS; i++)
+        {
+            e->resource_loading_threads[i].join();
         }
     }
 
@@ -359,6 +390,12 @@ namespace Vultr
             on_edit(e->editor, event);
         }
     }
+
+    VFileHandle internal_vfile(u32 hash, const char *path, Engine *e)
+    {
+        return internal_vfile(hash, path, e->vfs);
+    }
+
     template <>
     void RenderComponent<MaterialComponent>(Engine *e, Vultr::Entity entity)
     {

@@ -617,33 +617,28 @@ namespace Vultr
         return dirs;
     }
 
-    static bool get_real_file(const VirtualFilesystem *vfs, const VFileHandle *handle, GenericFile *file)
+    bool vfs_get_file(const VirtualFilesystem *vfs, const VFileHandle handle, GenericFile *file)
     {
-        if (vfs->file_table_path.find(handle->id) == vfs->file_table_path.end())
+        if (vfs->file_table_path.find(handle) == vfs->file_table_path.end())
             return false;
 
-        *file = vfs->file_table_path.at(handle->id);
+        *file = vfs->file_table_path.at(handle);
 
         return true;
     }
 
-    VFileHandle::VFileHandle(u32 id)
+    VFileHandle internal_vfile(u32 hash, const char *path, VirtualFilesystem *vfs)
     {
-        this->id = id;
+        vfs->file_table_path[hash] = GenericFile(&vfs->resource_directory, path);
+        return hash;
     }
 
-    VFileHandle::VFileHandle(const char *path)
+    VFileHandle VFile(const char *path, VirtualFilesystem *vfs)
     {
-        fprintf(stderr, "Warning: hashing file path %s at runtime!", path);
-        id = crcdetail::compute(path, strlen(path));
+        fprintf(stderr, "Warning: hashing file path %s at runtime!\n", path);
+        return internal_vfile(crcdetail::compute(path, strlen(path)), path, vfs);
     }
 
-#ifdef USE_FILE_ARCHIVE
-    VirtualFilesystem::VirtualFilesystem(const VultrAssetPackage *asset_package)
-    {
-        this->asset_package = *asset_package;
-    }
-#else
     struct InternalVFileStream
     {
         u32 id = 0;
@@ -658,33 +653,6 @@ namespace Vultr
     inline constexpr const char *const VPATHS_SOURCE[] = {".vpaths"};
     static const size_t VPATHS_SOURCE_LEN = sizeof(VPATHS_SOURCE) / sizeof(const char *);
     typedef File<VPATHS_SOURCE> VPathsSource;
-
-    static bool read_cached_asset_hashes(VirtualFilesystem *vfs)
-    {
-        VPathsSource path_cache = VPathsSource(&vfs->resource_directory, ".cache.vpaths");
-        FILE *fp = fopen(path_cache.path, "r");
-        if (fp == nullptr)
-            return false;
-
-        size_t len = 0;
-        ssize_t read;
-        char *line = nullptr;
-        while ((read = getline(&line, &len, fp)) != -1)
-        {
-            const char *delimiter = " \n";
-            char *token = strtok(line, delimiter);
-            u32 hash;
-            sscanf(token, "%" SCNu32, &hash);
-            token = strtok(nullptr, delimiter);
-            vfs->file_table_path[hash] = GenericFile(token);
-        }
-        fclose(fp);
-
-        if (line != nullptr)
-            free(line);
-
-        return true;
-    }
 
     static s32 on_asset_dir(const char *fpath, const struct stat *sb, s32 typeflag, struct FTW *ftwbuf)
     {
@@ -715,76 +683,29 @@ namespace Vultr
         delete[] dirs;
     }
 
-    void reimport_assets(VirtualFilesystem *vfs)
-    {
-        VPathsSource path_cache = VPathsSource(&vfs->resource_directory, ".cache.vpaths");
-        FILE *fp = fopen(path_cache.path, "w+");
-        assert(fp != nullptr && "Failed to open .cache.vpath!");
-
-        recursive_hash_paths(vfs, &vfs->resource_directory);
-        for (const auto &[hash, file] : vfs->file_table_path)
-        {
-            size_t fpath_len = strlen(file.path);
-            u16 fhash_len = 0;
-            if (hash > 0)
-            {
-                u32 hash_copy = hash;
-                while (hash_copy > 0)
-                {
-                    fhash_len++;
-                    hash_copy /= 10;
-                }
-            }
-            char buf[fpath_len + fhash_len + 2];
-            sprintf(buf, "%u %s\n", hash, file.path);
-            assert(fwrite(buf, sizeof(buf), 1, fp) == 1 && "Failed to write to .cache.vpaths!");
-        }
-
-        fclose(fp);
-    }
-
     VirtualFilesystem::VirtualFilesystem(const Directory *asset_directory)
     {
         this->resource_directory = *asset_directory;
         VPathsSource path_cache = VPathsSource(&resource_directory, ".cache.vpaths");
         assert(direxists(asset_directory) && "Resource directory not found!");
-        // if (!fexists(&path_cache))
-        // {
-        reimport_assets(this);
-        // }
-        // else
-        // {
-        read_cached_asset_hashes(this);
-        // }
     }
-#endif
 
     VirtualFilesystem::~VirtualFilesystem()
     {
-#ifdef USE_FILE_ARCHIVE
-        if (fp != nullptr)
-        {
-            free(fp);
-        }
-#else
-#endif
     }
 
-#ifdef USE_FILE_ARCHIVE
-    // TODO: Implement physfs
-#else
-    bool vfs_file_exists(const VirtualFilesystem *vfs, const VFileHandle *handle)
+    bool vfs_file_exists(const VirtualFilesystem *vfs, const VFileHandle handle)
     {
         GenericFile file;
-        if (!get_real_file(vfs, handle, &file))
+        if (!vfs_get_file(vfs, handle, &file))
             return false;
         return fexists(&file);
     }
 
-    VFileStream *vfs_open(const VirtualFilesystem *vfs, const VFileHandle *handle, const char *mode)
+    VFileStream *vfs_open(const VirtualFilesystem *vfs, const VFileHandle handle, const char *mode)
     {
         GenericFile resource;
-        if (!get_real_file(vfs, handle, &resource))
+        if (!vfs_get_file(vfs, handle, &resource))
             return nullptr;
 
         FILE *fp = fopen(resource.path, mode);
@@ -805,5 +726,4 @@ namespace Vultr
     {
         return fread(ptr, size, nmemb, stream->fp);
     }
-#endif
 } // namespace Vultr

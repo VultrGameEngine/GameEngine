@@ -26,7 +26,11 @@ namespace Vultr
         World *current_world = nullptr;
         ComponentRegistry component_registry;
         SystemManager system_manager;
+
         ResourceManager *resource_manager = nullptr;
+        bool resource_loading_threads_alive = false;
+        vtl::thread resource_loading_threads[RESOURCE_MANAGER_THREADS];
+
         VirtualFilesystem *vfs = nullptr;
 
         // EDITOR ONLY
@@ -49,14 +53,21 @@ namespace Vultr
     void engine_detach_game(Engine *e);
     void engine_flush_game(Engine *e);
 
+    void engine_init_resource_threads(Engine *e);
+    void engine_detach_resource_threads(Engine *e);
+    void engine_join_resource_threads(Engine *e);
+
     void engine_register_default_components(Engine *e);
     void engine_init_default_systems(Engine *e);
-    void engine_init_resource_threads(Engine *e);
     void engine_init_game(Engine *e);
     UpdateTick engine_update_game(Engine *e, float &last_time, bool play);
     double engine_get_time_elapsed(Engine *e);
 
     void engine_send_update_event(Engine *e, EditEvent *event);
+
+    VFileHandle internal_vfile(u32 hash, const char *path, Engine *e);
+
+#define VFILE(path, e) internal_vfile(CRC32_STR(path), path, e)
 
 #define WORLD_DOESNT_EXIST_ERROR(function_name) "Cannot call " #function_name " because world does not exist! Make sure you create a world before calling this method."
 
@@ -185,13 +196,17 @@ namespace Vultr
     struct Resource
     {
         ResourceManager *rm = nullptr;
-        AssetHash asset = 0;
+        VFileHandle asset = 0;
 
-        Resource(AssetHash hash, Engine *e) : asset(hash), rm(e->resource_manager)
+        Resource(VFileHandle hash, Engine *e) : asset(hash), rm(e->resource_manager)
         {
             assert(asset != 0 && "Invalid asset!");
             assert(rm != nullptr && "Invalid resource manager!");
             rm->incr<T>(e->vfs, asset);
+        }
+
+        consteval Resource()
+        {
         }
 
         ~Resource()
@@ -221,5 +236,7 @@ namespace Vultr
             return rm->get_asset<T>(asset);
         }
     };
+
+#define RESOURCE(T, path, e) Resource<T>(VFILE(path, e), e)
 
 } // namespace Vultr

@@ -11,7 +11,8 @@ TEST(ResourceManager, Init)
 {
     auto *e = new Engine();
     e->resource_manager = new ResourceManager();
-    engine_init_resource_threads(e);
+    // engine_init_resource_threads(e);
+    // engine_detach_resource_threads(e);
     auto resource_directory = Directory("./res/");
 
     ASSERT_TRUE(dirmake(&resource_directory));
@@ -25,7 +26,7 @@ TEST(ResourceManager, Init)
     f = fopen(mesh_obj.path, "w+");
     fclose(f);
 
-    auto shader_glsl = ModelSource(&resource_directory, "shader_glsl.obj");
+    auto shader_glsl = ModelSource(&resource_directory, "shader.glsl");
     f = fopen(shader_glsl.path, "w+");
     fclose(f);
 
@@ -35,14 +36,19 @@ TEST(ResourceManager, Init)
 
     engine_init_vfs(e, &resource_directory);
 
-    auto texture = Resource<Texture>(FILE_ASSET("hello.png"), e);
-    auto m1 = Resource<Mesh>(FILE_ASSET("mesh.obj"), e);
-    auto shader = Resource<Shader>(FILE_ASSET("shader.glsl"), e);
+    auto texture = RESOURCE(Texture, "hello.png", e);
+    auto m1 = RESOURCE(Mesh, "mesh.obj", e);
 
-    sleep(1);
+    printf("Done\n");
+    return;
+    // auto shader = RESOURCE(Shader, "shader.glsl", e);
 
-    auto dup_m = Resource<Mesh>(FILE_ASSET("mesh.obj"), e);
-    auto m2 = Resource<Mesh>(FILE_ASSET("mesh2.obj"), e);
+    // sleep(1);
+
+    // auto dup_m = RESOURCE(Mesh, "mesh.obj", e);
+    // auto m2 = RESOURCE(Mesh, "mesh2.obj", e);
+
+    // sleep(2);
 
     // ASSERT_TRUE(dirremove(&resource_directory));
     // ASSERT_FALSE(direxists(&resource_directory));

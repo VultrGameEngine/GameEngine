@@ -7,11 +7,17 @@
 namespace Vultr
 {
     template <>
-    void load_resource(const VirtualFilesystem *vfs, AssetHash hash, Texture *resource)
+    ResourceFinalizeItem<Texture> *load_resource(const VirtualFilesystem *vfs, VFileHandle file, Texture *resource)
     {
-        VFileHandle handle(hash);
-        assert(vfs_file_exists(vfs, &handle) && "Cannot load texture, file does not exist!");
-        printf("Loading texture %s\n", vfs->file_table_path.at(hash).path);
+        assert(vfs_file_exists(vfs, file) && "Cannot load texture, file does not exist!");
+        printf("Loading texture %s\n", vfs->file_table_path.at(file).path);
+        return new ResourceFinalizeItem<Texture>(file);
+    }
+
+    template <>
+    void finalize_resource<Texture>(VFileHandle file, void *resource_manager)
+    {
+        printf("Finalizing texture on main thread!\n");
     }
 
     template <>
@@ -21,11 +27,17 @@ namespace Vultr
     }
 
     template <>
-    void load_resource(const VirtualFilesystem *vfs, AssetHash hash, Shader *resource)
+    ResourceFinalizeItem<Shader> *load_resource(const VirtualFilesystem *vfs, VFileHandle file, Shader *resource)
     {
-        VFileHandle handle(hash);
-        assert(vfs_file_exists(vfs, &handle) && "Cannot load shader, file does not exist!");
-        printf("Loading shader %s\n", vfs->file_table_path.at(hash).path);
+        assert(vfs_file_exists(vfs, file) && "Cannot load shader, file does not exist!");
+        printf("Loading shader %s\n", vfs->file_table_path.at(file).path);
+        return new ResourceFinalizeItem<Shader>(file);
+    }
+
+    template <>
+    void finalize_resource<Shader>(VFileHandle file, void *resource_manager)
+    {
+        printf("Finalizing shader on main thread!\n");
     }
 
     template <>
@@ -35,11 +47,17 @@ namespace Vultr
     }
 
     template <>
-    void load_resource(const VirtualFilesystem *vfs, AssetHash hash, Mesh *resource)
+    ResourceFinalizeItem<Mesh> *load_resource(const VirtualFilesystem *vfs, VFileHandle file, Mesh *resource)
     {
-        VFileHandle handle(hash);
-        assert(vfs_file_exists(vfs, &handle) && "Cannot load model, file does not exist!");
-        printf("Loading model %s\n", vfs->file_table_path.at(hash).path);
+        assert(vfs_file_exists(vfs, file) && "Cannot load model, file does not exist!");
+        printf("Loading model %s\n", vfs->file_table_path.at(file).path);
+        return new ResourceFinalizeItem<Mesh>(file);
+    }
+
+    template <>
+    void finalize_resource<Mesh>(VFileHandle file, void *resource_manager)
+    {
+        printf("Finalizing mesh on main thread!\n");
     }
 
     template <>
