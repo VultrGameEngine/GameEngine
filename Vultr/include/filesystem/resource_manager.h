@@ -1,8 +1,6 @@
 #pragma once
 #include <filesystem/virtual_filesystem.h>
-#include <types/types.hpp>
-#include <queue>
-#include <condition_variable>
+#include <queue.h>
 
 // TODO: This entire template system is extremely ugly to me. If there is a better way to do this I need to figure out a replacement. This is mostly unmaintainable, even though it does work.
 namespace Vultr
@@ -47,96 +45,6 @@ namespace Vultr
 
         ~ResourceQueueItem()
         {
-        }
-    };
-
-    template <typename T>
-    struct ResourceQueue
-    {
-        T *items = nullptr;
-        size_t len = 0;
-        std::mutex queue_mutex;
-        std::condition_variable queue_cond;
-
-        ResourceQueue()
-        {
-        }
-
-        ~ResourceQueue()
-        {
-            if (items != nullptr)
-            {
-                free(items);
-            }
-        }
-
-        ResourceQueue(const ResourceQueue &) = delete;
-        void operator=(const ResourceQueue &) = delete;
-
-        T *front()
-        {
-            std::unique_lock<std::mutex> lock(queue_mutex);
-            assert(len > 0 && "No items in queue!");
-            T *item = &items[len - 1];
-            return item;
-        }
-
-        void push(T *item)
-        {
-            std::unique_lock<std::mutex> lock(queue_mutex);
-            if (len == 0)
-            {
-                assert(items == nullptr && "Items already allocated for some reason?");
-                len++;
-                items = static_cast<T *>(malloc(sizeof(T)));
-            }
-            else
-            {
-                len++;
-                resize();
-                for (s32 i = 0; i < len - 1; i++)
-                {
-                    items[i + 1] = items[i];
-                }
-            }
-
-            items[0] = *item;
-            lock.unlock();
-            queue_cond.notify_one();
-        }
-
-        T pop()
-        {
-            std::unique_lock<std::mutex> lock(queue_mutex);
-            while (empty())
-            {
-                queue_cond.wait(lock);
-            }
-
-            T copy = items[len - 1];
-            if (len == 1)
-            {
-                len--;
-                free(items);
-                items = nullptr;
-            }
-            else
-            {
-                len--;
-                resize();
-            }
-
-            return copy;
-        }
-
-        void resize()
-        {
-            items = static_cast<T *>(realloc(items, sizeof(T) * len));
-        }
-
-        bool empty() const
-        {
-            return len == 0;
         }
     };
 
@@ -201,7 +109,7 @@ namespace Vultr
             auto count = asset_counter[asset]--;
             if (count < 1)
             {
-                asset_free_queue.push(asset);
+                asset_free_queue.push(&asset);
             }
             cache_mutex.unlock();
         }
@@ -252,7 +160,7 @@ namespace Vultr
             while (!asset_free_queue.empty())
             {
                 // Get the asset
-                AssetHash asset = asset_free_queue.front();
+                AssetHash asset = *asset_free_queue.front();
 
                 // Get the index for the specified asset
                 size_t index_of_removed_asset = asset_to_index_map[asset];
@@ -287,20 +195,19 @@ namespace Vultr
         std::unordered_map<size_t, AssetHash> index_to_asset_map{};
         std::unordered_map<AssetHash, u32> asset_counter{};
         std::unordered_map<AssetHash, bool> asset_loaded{};
-        std::queue<AssetHash> asset_free_queue{};
-        std::mutex cache_mutex;
+        vtl::Queue<AssetHash> asset_free_queue{};
+        vtl::mutex cache_mutex;
 
         // Not really sure if this memory usage is the correct decision :/
         T *cache = new T[MAX_RESOURCE_CACHE_SIZE];
         size_t len = 0;
     };
 
-    // Ok I must admit I went way overboard with the templates but I actually like the API that this creates so I'm keeping it
     template <typename... ResourceType>
     struct InternalResourceManager
     {
         std::tuple<ResourceCache<ResourceType>...> resource_caches;
-        ResourceQueue<IResourceQueueItem *> queue;
+        vtl::Queue<IResourceQueueItem *> queue;
 
         InternalResourceManager() = default;
 
