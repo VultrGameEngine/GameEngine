@@ -1,7 +1,10 @@
 #pragma once
+#include <filesystem/virtual_filesystem.h>
 #include <types/types.hpp>
 #include <queue>
+#include <condition_variable>
 
+// TODO: This entire template system is extremely ugly to me. If there is a better way to do this I need to figure out a replacement. This is mostly unmaintainable, even though it does work.
 namespace Vultr
 {
     typedef u32 AssetHash;
@@ -9,23 +12,37 @@ namespace Vultr
 #define MAX_RESOURCE_CACHE_SIZE 1024
 
     template <typename T>
-    void load_resource(T *resource);
+    void load_resource(const VirtualFilesystem *vfs, AssetHash hash, T *resource);
 
     template <typename T>
     void free_resource(T *resource);
 
     struct IResourceQueueItem
     {
+        virtual void load(){};
+        virtual ~IResourceQueueItem() = default;
     };
 
     template <typename T>
     struct ResourceQueueItem : IResourceQueueItem
     {
+        typedef std::function<void(AssetHash, T *)> LoadCallback;
         AssetHash hash;
+        LoadCallback load_callback;
+        const VirtualFilesystem *vfs = nullptr;
 
-        ResourceQueueItem(AssetHash hash)
+        ResourceQueueItem(const VirtualFilesystem *vfs, AssetHash hash, const LoadCallback &load_callback)
         {
             this->hash = hash;
+            this->load_callback = load_callback;
+            this->vfs = vfs;
+        }
+
+        void load()
+        {
+            T res;
+            load_resource<T>(vfs, hash, &res);
+            load_callback(hash, &res);
         }
 
         ~ResourceQueueItem()
@@ -39,6 +56,7 @@ namespace Vultr
         T *items = nullptr;
         size_t len = 0;
         std::mutex queue_mutex;
+        std::condition_variable queue_cond;
 
         ResourceQueue()
         {
@@ -55,20 +73,17 @@ namespace Vultr
         ResourceQueue(const ResourceQueue &) = delete;
         void operator=(const ResourceQueue &) = delete;
 
-        T *top()
+        T *front()
         {
-            queue_mutex.lock();
-            queue_mutex.unlock();
-        }
-
-        void resize()
-        {
-            items = static_cast<T *>(realloc(items, sizeof(T) * len));
+            std::unique_lock<std::mutex> lock(queue_mutex);
+            assert(len > 0 && "No items in queue!");
+            T *item = &items[len - 1];
+            return item;
         }
 
         void push(T *item)
         {
-            queue_mutex.lock();
+            std::unique_lock<std::mutex> lock(queue_mutex);
             if (len == 0)
             {
                 assert(items == nullptr && "Items already allocated for some reason?");
@@ -85,13 +100,19 @@ namespace Vultr
                 }
             }
 
-            items[len - 1] = *item;
-            queue_mutex.unlock();
+            items[0] = *item;
+            lock.unlock();
+            queue_cond.notify_one();
         }
 
         T pop()
         {
-            queue_mutex.lock();
+            std::unique_lock<std::mutex> lock(queue_mutex);
+            while (empty())
+            {
+                queue_cond.wait(lock);
+            }
+
             T copy = items[len - 1];
             if (len == 1)
             {
@@ -105,9 +126,17 @@ namespace Vultr
                 resize();
             }
 
-            queue_mutex.unlock();
-
             return copy;
+        }
+
+        void resize()
+        {
+            items = static_cast<T *>(realloc(items, sizeof(T) * len));
+        }
+
+        bool empty() const
+        {
+            return len == 0;
         }
     };
 
@@ -129,9 +158,10 @@ namespace Vultr
         ResourceCache(const ResourceCache<T> &other) = delete;
 
         template <typename InvalidType>
-        void incr_asset(AssetHash asset, InvalidType **asset_load){};
-        void incr_asset(AssetHash asset, T **asset_load)
+        void incr_asset(const VirtualFilesystem *, AssetHash, ResourceQueueItem<InvalidType> **){};
+        void incr_asset(const VirtualFilesystem *vfs, AssetHash asset, ResourceQueueItem<T> **resource_item)
         {
+            cache_mutex.lock();
             if (asset_to_index_map.find(asset) != asset_to_index_map.end())
             {
                 asset_counter[asset]++;
@@ -147,12 +177,22 @@ namespace Vultr
 
                 len++;
             }
-            *asset_load = &cache[asset_to_index_map[asset]];
+            std::function<void(AssetHash, T *)> cb = [&](AssetHash hash, T *data) {
+                bool has = false;
+                has_asset<T>(hash, &has);
+                if (has)
+                {
+                    load_asset(hash, data);
+                }
+            };
+            *resource_item = new ResourceQueueItem<T>(vfs, asset, cb);
+            cache_mutex.unlock();
         }
 
         template <typename RequestedType>
         void decr_asset(AssetHash asset)
         {
+            cache_mutex.lock();
             if (!std::is_same<T, RequestedType>::value)
                 return;
 
@@ -163,14 +203,18 @@ namespace Vultr
             {
                 asset_free_queue.push(asset);
             }
+            cache_mutex.unlock();
         }
 
         template <typename RequestedType>
         void load_asset(AssetHash asset, RequestedType *data){};
         void load_asset(AssetHash asset, T *data)
         {
+            cache_mutex.lock();
+            assert(asset_to_index_map.find(asset) != asset_to_index_map.end() && "Attempting to load nonexistent asset!");
             asset_loaded[asset] = true;
             cache[asset_to_index_map[asset]] = *data;
+            cache_mutex.unlock();
         }
 
         template <typename RequestedType>
@@ -204,6 +248,7 @@ namespace Vultr
 
         void garbage_collect()
         {
+            cache_mutex.lock();
             while (!asset_free_queue.empty())
             {
                 // Get the asset
@@ -235,6 +280,7 @@ namespace Vultr
                 len--;
                 asset_free_queue.pop();
             }
+            cache_mutex.unlock();
         }
 
         std::unordered_map<AssetHash, size_t> asset_to_index_map{};
@@ -242,6 +288,7 @@ namespace Vultr
         std::unordered_map<AssetHash, u32> asset_counter{};
         std::unordered_map<AssetHash, bool> asset_loaded{};
         std::queue<AssetHash> asset_free_queue{};
+        std::mutex cache_mutex;
 
         // Not really sure if this memory usage is the correct decision :/
         T *cache = new T[MAX_RESOURCE_CACHE_SIZE];
@@ -253,7 +300,6 @@ namespace Vultr
     struct InternalResourceManager
     {
         std::tuple<ResourceCache<ResourceType>...> resource_caches;
-        std::mutex resource_mutex;
         ResourceQueue<IResourceQueueItem *> queue;
 
         InternalResourceManager() = default;
@@ -261,62 +307,53 @@ namespace Vultr
         ~InternalResourceManager() = default;
 
         template <typename T>
-        void incr(AssetHash hash)
+        void incr(const VirtualFilesystem *vfs, AssetHash hash)
         {
-            resource_mutex.lock();
-            T *asset = nullptr;
-            std::apply([&](auto &...cache) { (..., cache.incr_asset(hash, &asset)); }, resource_caches);
+            ResourceQueueItem<T> *item = nullptr;
+            std::apply([&](auto &...cache) { (..., cache.incr_asset(vfs, hash, &item)); }, resource_caches);
 
-            assert(asset != nullptr && "Something went wrong, failed to allocate asset!");
-            resource_mutex.unlock();
+            assert(item != nullptr && "Something went wrong, failed to allocate asset!");
+
+            // ??? For some reason c++ really wants me to put this in a temp pointer
+            IResourceQueueItem *_ = static_cast<IResourceQueueItem *>(item);
+            queue.push(&_);
         }
 
         template <typename T>
         void decr(AssetHash hash)
         {
-            resource_mutex.lock();
             std::apply([&](auto &...cache) { (..., cache.template decr_asset<T>(hash)); }, resource_caches);
-            resource_mutex.unlock();
         }
 
         template <typename T>
         T *get_asset(AssetHash hash)
         {
-            resource_mutex.lock();
             T *asset = nullptr;
             std::apply([&](auto &...cache) { (..., cache.get_asset(hash, &asset)); }, resource_caches);
 
-            resource_mutex.unlock();
             return asset;
         }
         template <typename T>
         bool has_asset(AssetHash hash)
         {
-            resource_mutex.lock();
             bool has_asset = false;
             std::apply([&](auto &...cache) { (..., cache.template has_asset<T>(hash, &has_asset)); }, resource_caches);
 
-            resource_mutex.unlock();
             return has_asset;
         }
 
         template <typename T>
         bool is_asset_loaded(AssetHash hash)
         {
-            resource_mutex.lock();
             bool loaded = false;
             std::apply([&](auto &...cache) { (..., cache.template is_asset_loaded<T>(hash, &loaded)); }, resource_caches);
 
-            resource_mutex.unlock();
             return loaded;
         }
 
         void garbage_collect(AssetHash hash)
         {
-            resource_mutex.lock();
             std::apply([&](auto &...cache) { (..., cache.garbage_collect()); }, resource_caches);
-
-            resource_mutex.unlock();
         }
     };
 } // namespace Vultr

@@ -175,6 +175,11 @@ namespace Vultr
         e->resource_manager = new ResourceManager();
     }
 
+    void engine_init_vfs(Engine *e, const Directory *asset_dir)
+    {
+        e->vfs = new VirtualFilesystem(asset_dir);
+    }
+
     void engine_load_game(Engine *e, DLLSource *src)
     {
         void *DLL = load_dll(src->path);
@@ -271,6 +276,32 @@ namespace Vultr
         glfwSetWindowFocusCallback(e->window, ControllerSystem::window_focus_callback);
 
         Vec2 dimensions = RenderSystem::get_dimensions(e, GAME);
+    }
+
+    static void resource_manager_load_thread(Engine *e, u8 index)
+    {
+        auto *rm = e->resource_manager;
+        auto *queue = &rm->queue;
+        while (true)
+        {
+            printf("(Resource Thread %u): Waiting for item!\n", index);
+            IResourceQueueItem *item = queue->pop();
+
+            printf("(Resource Thread %u): Loading resource queue item!\n", index);
+            item->load();
+
+            delete item;
+        }
+    }
+
+    void engine_init_resource_threads(Engine *e)
+    {
+        auto *rm = e->resource_manager;
+        for (s16 i = 0; i < RESOURCE_MANAGER_THREADS; i++)
+        {
+            std::thread t(resource_manager_load_thread, e, i);
+            t.detach();
+        }
     }
 
     void engine_init_game(Engine *e)

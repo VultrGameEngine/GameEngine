@@ -627,6 +627,11 @@ namespace Vultr
         return true;
     }
 
+    VFileHandle::VFileHandle(u32 id)
+    {
+        this->id = id;
+    }
+
     VFileHandle::VFileHandle(const char *path)
     {
         fprintf(stderr, "Warning: hashing file path %s at runtime!", path);
@@ -742,14 +747,15 @@ namespace Vultr
     {
         this->resource_directory = *asset_directory;
         VPathsSource path_cache = VPathsSource(&resource_directory, ".cache.vpaths");
-        if (!fexists(&path_cache))
-        {
-            reimport_assets(this);
-        }
-        else
-        {
-            read_cached_asset_hashes(this);
-        }
+        assert(direxists(asset_directory) && "Resource directory not found!");
+        // if (!fexists(&path_cache))
+        // {
+        reimport_assets(this);
+        // }
+        // else
+        // {
+        read_cached_asset_hashes(this);
+        // }
     }
 #endif
 

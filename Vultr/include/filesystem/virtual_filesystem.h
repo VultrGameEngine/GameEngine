@@ -19,7 +19,7 @@ namespace Vultr
     typedef InternalVFileStream VFileStream;
 #endif
 
-#define VFILE(path, size) VFileHandle(CRC32_STR(path), size)
+#define VFILE(path, size) VFileHandle(CRC32_STR(path))
 #define FILE_ASSET(path) CRC32_STR(path)
 
     struct VirtualFilesystem

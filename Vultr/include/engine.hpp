@@ -3,6 +3,7 @@
 #include <platform/window/window.h>
 #include <ecs/world/world.hpp>
 #include <filesystem/resource_manager.h>
+#include <filesystem/virtual_filesystem.h>
 #include <rendering/types/texture.h>
 #include <game.hpp>
 #include <GLFW/glfw3.h>
@@ -12,6 +13,7 @@ namespace Vultr
     struct EditEvent;
     typedef void (*OnEdit)(void *editor, EditEvent *);
 
+#define RESOURCE_MANAGER_THREADS 8
     typedef InternalResourceManager<Texture, Mesh, Shader> ResourceManager;
 
     struct Engine
@@ -20,11 +22,12 @@ namespace Vultr
         bool should_close = false;
 
         bool debug;
-        Game *game;
-        World *current_world;
+        Game *game = nullptr;
+        World *current_world = nullptr;
         ComponentRegistry component_registry;
         SystemManager system_manager;
-        ResourceManager *resource_manager;
+        ResourceManager *resource_manager = nullptr;
+        VirtualFilesystem *vfs = nullptr;
 
         // EDITOR ONLY
         OnEdit on_edit = nullptr;
@@ -39,6 +42,7 @@ namespace Vultr
     void add_editor(Engine *e, void *editor);
 
     void engine_init(Engine *e, bool debug);
+    void engine_init_vfs(Engine *e, const Directory *asset_dir);
     void engine_load_game(Engine *e, DLLSource *src);
     void engine_load_game(Engine *e, Game *game);
 
@@ -47,6 +51,7 @@ namespace Vultr
 
     void engine_register_default_components(Engine *e);
     void engine_init_default_systems(Engine *e);
+    void engine_init_resource_threads(Engine *e);
     void engine_init_game(Engine *e);
     UpdateTick engine_update_game(Engine *e, float &last_time, bool play);
     double engine_get_time_elapsed(Engine *e);
@@ -186,7 +191,7 @@ namespace Vultr
         {
             assert(asset != 0 && "Invalid asset!");
             assert(rm != nullptr && "Invalid resource manager!");
-            rm->incr<T>(asset);
+            rm->incr<T>(e->vfs, asset);
         }
 
         ~Resource()
