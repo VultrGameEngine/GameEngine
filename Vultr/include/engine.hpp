@@ -54,8 +54,6 @@ namespace Vultr
     void engine_flush_game(Engine *e);
 
     void engine_init_resource_threads(Engine *e);
-    void engine_detach_resource_threads(Engine *e);
-    void engine_join_resource_threads(Engine *e);
 
     void engine_register_default_components(Engine *e);
     void engine_init_default_systems(Engine *e);

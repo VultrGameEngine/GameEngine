@@ -285,12 +285,12 @@ namespace Vultr
         auto *load_queue = &rm->load_queue;
         auto *finalize_queue = &rm->finalize_queue;
 
-        while (e->resource_loading_threads_alive)
+        while (true)
         {
             printf("(Resource Thread %u): Waiting for item!\n", index);
             IResourceLoadItem *item = load_queue->pop();
 
-            printf("(Resource Thread %u): Loading resource queue item!\n", index);
+            printf("(Resource Thread %u): Loading resource queue item %u!\n", index, item->file);
 
             rm->can_garbage_collect = false;
             auto *finalize_item = item->load();
@@ -311,27 +311,11 @@ namespace Vultr
 
     void engine_init_resource_threads(Engine *e)
     {
-        bool resource_loading_threads_alive = true;
+        e->resource_loading_threads_alive = true;
         for (s16 i = 0; i < RESOURCE_MANAGER_THREADS; i++)
         {
             e->resource_loading_threads[i] = std::thread(resource_manager_load_thread, e, i);
             e->resource_loading_threads[i].detach();
-        }
-    }
-
-    void engine_detach_resource_threads(Engine *e)
-    {
-        for (s16 i = 0; i < RESOURCE_MANAGER_THREADS; i++)
-        {
-            e->resource_loading_threads[i].detach();
-        }
-    }
-
-    void engine_join_resource_threads(Engine *e)
-    {
-        for (s16 i = 0; i < RESOURCE_MANAGER_THREADS; i++)
-        {
-            e->resource_loading_threads[i].join();
         }
     }
 

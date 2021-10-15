@@ -7,11 +7,6 @@ namespace vtl
     template <typename T>
     struct Queue
     {
-        T *items = nullptr;
-        size_t len = 0;
-        vtl::mutex queue_mutex;
-        vtl::condition_variable queue_cond;
-
         Queue()
         {
         }
@@ -21,11 +16,12 @@ namespace vtl
             if (items != nullptr)
             {
                 free(items);
+                items = nullptr;
             }
         }
 
         Queue(const Queue &) = delete;
-        void operator=(const Queue &) = delete;
+        Queue &operator=(const Queue &) = delete;
 
         T *front()
         {
@@ -48,13 +44,14 @@ namespace vtl
             {
                 len++;
                 resize();
-                for (s32 i = 0; i < len - 1; i++)
+                for (s32 i = len - 1; i >= 1; i--)
                 {
-                    items[i + 1] = items[i];
+                    items[i] = items[i - 1];
                 }
             }
 
             items[0] = *item;
+
             lock.unlock();
             queue_cond.notify_one();
         }
@@ -68,17 +65,8 @@ namespace vtl
             }
 
             T copy = items[len - 1];
-            if (len == 1)
-            {
-                len--;
-                free(items);
-                items = nullptr;
-            }
-            else
-            {
-                len--;
-                resize();
-            }
+            len--;
+            resize();
 
             return copy;
         }
@@ -92,5 +80,10 @@ namespace vtl
         {
             return len == 0;
         }
+
+        T *items = nullptr;
+        size_t len = 0;
+        vtl::mutex queue_mutex;
+        vtl::condition_variable queue_cond;
     };
 } // namespace vtl

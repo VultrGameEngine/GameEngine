@@ -16,6 +16,7 @@ namespace Vultr
 
     struct IResourceFinalizeItem
     {
+        VFileHandle file;
         virtual void finalize(void *resource_manager){};
         virtual ~IResourceFinalizeItem() = default;
     };
@@ -23,7 +24,6 @@ namespace Vultr
     template <typename T>
     struct ResourceFinalizeItem : IResourceFinalizeItem
     {
-        VFileHandle file;
 
         ResourceFinalizeItem(VFileHandle file)
         {
@@ -44,18 +44,19 @@ namespace Vultr
 
     struct IResourceLoadItem
     {
+        VFileHandle file;
         virtual IResourceFinalizeItem *load()
         {
             return nullptr;
         }
-        virtual ~IResourceLoadItem() = default;
+
+        virtual ~IResourceLoadItem(){};
     };
 
     template <typename T>
     struct ResourceLoadItem : IResourceLoadItem
     {
         typedef std::function<void(VFileHandle, T *)> LoadCallback;
-        VFileHandle file;
         LoadCallback load_callback;
         const VirtualFilesystem *vfs = nullptr;
 
@@ -69,12 +70,20 @@ namespace Vultr
         IResourceFinalizeItem *load() override
         {
             T res;
-            auto *finalize_res = static_cast<IResourceFinalizeItem *>(load_resource<T>(vfs, file, &res));
+            auto *finalize_res = load_resource<T>(vfs, file, &res);
             load_callback(file, &res);
-            return finalize_res;
+
+            if (finalize_res == nullptr)
+            {
+                return nullptr;
+            }
+            else
+            {
+                return static_cast<IResourceFinalizeItem *>(finalize_res);
+            }
         }
 
-        ~ResourceLoadItem() override{};
+        ~ResourceLoadItem() = default;
     };
 
     template <typename T>
@@ -136,9 +145,10 @@ namespace Vultr
         template <typename RequestedType>
         void decr_asset(VFileHandle asset)
         {
-            cache_mutex.lock();
             if (!std::is_same<T, RequestedType>::value)
                 return;
+
+            cache_mutex.lock();
 
             assert(asset_to_index_map.find(asset) != asset_to_index_map.end() && "Attempting to remove nonexistent asset");
 
@@ -147,6 +157,7 @@ namespace Vultr
             {
                 asset_free_queue.push(&asset);
             }
+
             cache_mutex.unlock();
         }
 
