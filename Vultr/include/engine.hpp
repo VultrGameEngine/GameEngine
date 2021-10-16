@@ -200,7 +200,7 @@ namespace Vultr
         {
             assert(asset != 0 && "Invalid asset!");
             assert(rm != nullptr && "Invalid resource manager!");
-            rm->incr<T>(e->vfs, asset);
+            rm->template incr<T>(e->vfs, asset);
         }
 
         consteval Resource()
@@ -211,7 +211,7 @@ namespace Vultr
         {
             assert(asset != 0 && "Invalid asset!");
             assert(rm != nullptr && "Invalid resource manager!");
-            rm->decr<T>(asset);
+            rm->template decr<T>(asset);
         }
 
         bool is_loaded()

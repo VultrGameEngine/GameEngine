@@ -686,7 +686,6 @@ namespace Vultr
     VirtualFilesystem::VirtualFilesystem(const Directory *asset_directory)
     {
         this->resource_directory = *asset_directory;
-        VPathsSource path_cache = VPathsSource(&resource_directory, ".cache.vpaths");
         assert(direxists(asset_directory) && "Resource directory not found!");
     }
 

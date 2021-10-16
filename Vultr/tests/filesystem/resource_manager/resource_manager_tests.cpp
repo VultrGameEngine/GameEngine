@@ -16,8 +16,10 @@ TEST(ResourceManager, Init)
 
     auto resource_directory = Directory("./res/");
 
-    dirmake(&resource_directory);
-    direxists(&resource_directory);
+    ASSERT_TRUE(dirmake(&resource_directory));
+    ASSERT_TRUE(direxists(&resource_directory));
+
+    engine_init_vfs(e, &resource_directory);
 
     auto hello_png = TextureSource(&resource_directory, "hello.png");
     FILE *f = fopen(hello_png.path, "w+");
@@ -35,8 +37,6 @@ TEST(ResourceManager, Init)
     f = fopen(mesh2_obj.path, "w+");
     fclose(f);
 
-    engine_init_vfs(e, &resource_directory);
-
     auto texture = RESOURCE(Texture, "hello.png", e);
     auto m1 = RESOURCE(Mesh, "mesh.obj", e);
 
@@ -47,6 +47,9 @@ TEST(ResourceManager, Init)
     auto dup_m = RESOURCE(Mesh, "mesh.obj", e);
     auto m2 = RESOURCE(Mesh, "mesh2.obj", e);
 
-    dirremove(&resource_directory);
-    direxists(&resource_directory);
+    // USleeps are necessary to make sure that we don't remove the files too early
+    usleep(1000);
+
+    ASSERT_TRUE(dirremove(&resource_directory));
+    ASSERT_FALSE(direxists(&resource_directory));
 }
