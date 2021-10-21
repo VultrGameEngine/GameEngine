@@ -45,6 +45,10 @@ namespace Vultr
     void delete_texture(Texture *texture)
     {
         glDeleteTextures(1, &texture->id);
+        if (texture->data != nullptr)
+        {
+            delete[] texture->data;
+        }
     }
 
     void bind_texture(Texture *texture, u32 slot)

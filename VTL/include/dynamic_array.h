@@ -8,6 +8,32 @@ namespace vtl
     template <typename T>
     struct DynamicArray
     {
+        // Initialize an empty dynamic_array
+        // Reserved specifies a size of the dynamic_array that will be reserved initially
+        // which will be empty
+        //
+        // Returns new dynamic_array
+        DynamicArray(uint reserved = 0)
+        {
+            if (reserved > 0)
+            {
+                internal_array = static_cast<T *>(malloc(reserved * sizeof(T)));
+            }
+        }
+
+        DynamicArray(T *array, size_t count)
+        {
+            assert(count != 0 && "Count must be greater than 0!");
+            assert(array != nullptr && "Array must not be null!");
+
+            internal_array = static_cast<T *>(malloc(sizeof(T) * count));
+            for (int i = 0; i < count; i++)
+            {
+                internal_array[i] = array[i];
+            }
+            used = count;
+        }
+
         // Destructor for dynamic array
         ~DynamicArray()
         {
@@ -102,9 +128,12 @@ namespace vtl
         T *internal_array;
 
         // Spaces used (not bytes)
-        uint used;
+        u32 used;
+
         // Space available (not bytes)
-        uint size;
+        u32 size;
+
+        f64 growth_factor = 1.3;
     };
 
     namespace internal
@@ -134,39 +163,6 @@ namespace vtl
             }
         }
     } // namespace internal
-
-    // Initialize an empty dynamic_array
-    // Reserved specifies a size of the dynamic_array that will be reserved initially
-    // which will be empty
-    //
-    // Returns new dynamic_array
-    template <typename T>
-    DynamicArray<T> new_dynamic_array(uint reserved = 0)
-    {
-        T *arr = nullptr;
-        if (reserved > 0)
-        {
-            arr = (T *)malloc(reserved * sizeof(T));
-        }
-        DynamicArray<T> list = {arr, 0, reserved};
-        return list;
-    }
-
-    // Initialize an dynamic_array with another array
-    // Count is the number of elements in the array
-    //
-    // Returns new dynamic_array
-    template <typename T>
-    DynamicArray<T> new_dynamic_array(T *array, uint count)
-    {
-        DynamicArray<T> a = new_dynamic_array<T>(count);
-        for (int i = 0; i < count; i++)
-        {
-            a.internal_array[i] = array[i];
-        }
-        a.used = count;
-        return a;
-    }
 
     // Push element to back of dynamic_array
     // If the dynamic_array does not have enough space, then a reallocation will

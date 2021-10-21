@@ -6,6 +6,7 @@
 
 namespace Vultr::ShaderImporter
 {
+    // TODO: Get rid of std::string
     struct ShaderProgramSource
     {
         std::string VertexSource;

@@ -58,17 +58,22 @@ namespace vtl
 
         T pop()
         {
-            std::unique_lock<vtl::mutex> lock(queue_mutex);
-            while (empty())
-            {
-                queue_cond.wait(lock);
-            }
-
+            assert(!empty() && "No elements to pop!");
             T copy = items[len - 1];
             len--;
             resize();
 
             return copy;
+        }
+
+        T pop_wait()
+        {
+            std::unique_lock<vtl::mutex> lock(queue_mutex);
+            while (empty())
+            {
+                queue_cond.wait(lock);
+            }
+            return pop();
         }
 
         void resize()

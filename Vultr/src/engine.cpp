@@ -288,7 +288,7 @@ namespace Vultr
         while (true)
         {
             printf("(Resource Thread %u): Waiting for item!\n", index);
-            IResourceLoadItem *item = load_queue->pop();
+            IResourceLoadItem *item = load_queue->pop_wait();
 
             printf("(Resource Thread %u): Loading resource queue item %u!\n", index, item->file);
 

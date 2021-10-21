@@ -1,5 +1,5 @@
 #include <fstream>
-#include <helpers/shader_importer.h>
+#include <filesystem/importers/shader_importer.h>
 #include <core/system_providers/light_system_provider.h>
 #include <iostream>
 #include <sstream>
@@ -7,10 +7,65 @@
 
 namespace Vultr
 {
+    template <>
+    struct ResourceFinalizeItem<Shader> : IResourceFinalizeItem
+    {
+        ResourceFinalizeItem(VFileHandle file)
+        {
+            this->file = file;
+        }
+
+        void finalize(void *_resource_manager) override
+        {
+            printf("Finalizing texture on main thread!\n");
+            auto *resource_manager = static_cast<ResourceManager *>(_resource_manager);
+            auto *shader = resource_manager->get_asset<Shader>(file);
+        }
+
+        ~ResourceFinalizeItem(){};
+    };
+
+    template <>
+    bool load_resource(const VirtualFilesystem *vfs, VFileHandle file, Shader *resource, ResourceFinalizeItem<Shader> **item)
+    {
+        assert(vfs_file_exists(vfs, file) && "Cannot load texture, file does not exist!");
+        const char *path = vfs->file_table_path.at(file).path;
+        printf("Loading texture %s\n", path);
+
+        VFileStream *stream = vfs_open(vfs, file, "rb");
+
+        u64 size = 0;
+        auto *buf = vfs_read_full(vfs, &size, stream);
+        vfs_close(stream);
+
+        if (buf == nullptr)
+        {
+            fprintf(stderr, "Failed to load texture %s! Something went wrong opening the file...\n", path);
+            return false;
+        }
+
+        unsigned char *loaded_buf = TextureImporter::texture_load_memory(resource, buf, size);
+        vfs_free_buf(buf);
+        if (loaded_buf == nullptr)
+        {
+            stbi_image_free(loaded_buf);
+            fprintf(stderr, "Failed to load texture %s! Something went wrong loading into memory...\n", path);
+            return false;
+        }
+
+        *item = new ResourceFinalizeItem<Texture>(file, loaded_buf);
+        return true;
+    }
+
+    template <>
+    void free_resource(Texture *resource)
+    {
+        delete_texture(resource);
+    }
     Shader *ShaderImporter::import_shader(const ShaderSource &source)
     {
-        // Shader shader = create_shader(ShaderSource(source.path));
-        // return shader;
+        Shader shader = create_shader(ShaderSource(source.path));
+        return shader;
     }
 
     Shader *ShaderImporter::import_engine_shader(ShaderProgramSource source)

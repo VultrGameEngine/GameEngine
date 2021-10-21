@@ -8,6 +8,7 @@
 #include <unistd.h>
 #include <dirent.h>
 #include <inttypes.h>
+#define _FILE_OFFSET_BITS 64
 
 namespace Vultr
 {
@@ -617,7 +618,7 @@ namespace Vultr
         return dirs;
     }
 
-    bool vfs_get_file(const VirtualFilesystem *vfs, const VFileHandle handle, GenericFile *file)
+    bool vfs_get_file(const VirtualFilesystem *vfs, VFileHandle handle, GenericFile *file)
     {
         if (vfs->file_table_path.find(handle) == vfs->file_table_path.end())
             return false;
@@ -693,7 +694,12 @@ namespace Vultr
     {
     }
 
-    bool vfs_file_exists(const VirtualFilesystem *vfs, const VFileHandle handle)
+    s32 vfs_seek(const VirtualFilesystem *vfs, VFileStream *stream, u64 offset)
+    {
+        return fseeko(stream->fp, offset, SEEK_SET);
+    }
+
+    bool vfs_file_exists(const VirtualFilesystem *vfs, VFileHandle handle)
     {
         GenericFile file;
         if (!vfs_get_file(vfs, handle, &file))
@@ -701,7 +707,33 @@ namespace Vultr
         return fexists(&file);
     }
 
-    VFileStream *vfs_open(const VirtualFilesystem *vfs, const VFileHandle handle, const char *mode)
+    u64 vfs_get_file_size(const VirtualFilesystem *vfs, VFileStream *f)
+    {
+        if (fseeko(f->fp, 0, SEEK_END))
+        {
+            vfs_close(f);
+            return 0;
+        }
+
+        u64 len = ftello(f->fp);
+        return len;
+    }
+
+    u64 vfs_get_file_size(const VirtualFilesystem *vfs, VFileHandle handle)
+    {
+        VFileStream *f = vfs_open(vfs, handle, "rb");
+
+        if (f == nullptr)
+        {
+            return -1;
+        }
+
+        u64 len = vfs_get_file_size(vfs, f);
+        vfs_close(f);
+        return len;
+    }
+
+    VFileStream *vfs_open(const VirtualFilesystem *vfs, VFileHandle handle, const char *mode)
     {
         GenericFile resource;
         if (!vfs_get_file(vfs, handle, &resource))
@@ -721,8 +753,33 @@ namespace Vultr
         delete stream;
     }
 
-    size_t vfs_read(char *ptr, size_t size, size_t nmemb, VFileStream *stream)
+    size_t vfs_read(unsigned char *ptr, size_t size, size_t nmemb, VFileStream *stream)
     {
         return fread(ptr, size, nmemb, stream->fp);
+    }
+
+    unsigned char *vfs_read_full(const VirtualFilesystem *vfs, u64 *size, VFileStream *stream)
+    {
+        auto len = vfs_get_file_size(vfs, stream);
+
+        *size = len;
+
+        vfs_seek(vfs, stream, 0);
+
+        auto *buf = new unsigned char[len];
+        if (vfs_read(buf, len, 1, stream) == 1)
+        {
+            return buf;
+        }
+        else
+        {
+            delete[] buf;
+            return nullptr;
+        }
+    }
+
+    void vfs_free_buf(unsigned char *buf)
+    {
+        delete[] buf;
     }
 } // namespace Vultr

@@ -13,6 +13,7 @@ namespace Vultr
         u32 internal_format = GL_RGB;
         u32 format = GL_RGB;
         u32 pixel_data_type = GL_UNSIGNED_BYTE;
+        unsigned char *data = nullptr;
 
         Texture() = default;
         Texture(u32 type);
