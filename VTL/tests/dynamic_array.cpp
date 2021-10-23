@@ -6,25 +6,25 @@
 using namespace vtl;
 TEST(ArrayList, EmptyInitialize)
 {
-    DynamicArray<const char *> string_list = new_dynamic_array<const char *>();
-    ASSERT_EQ(string_list.size, 0);
-    ASSERT_EQ(string_list.used, 0);
-    ASSERT_EQ(string_list.internal_array, nullptr);
+    DynamicArray<const char *, 15> string_list;
+    ASSERT_EQ(string_list.size, 15);
+    ASSERT_EQ(string_list.len, 0);
+    ASSERT_NE(string_list.internal_array, nullptr);
 }
 
 TEST(ArrayList, ArrayInitialize)
 {
     const char *string_array[] = {"hello", "world"};
-    DynamicArray<const char *> string_list = new_dynamic_array(string_array, 2);
-    ASSERT_EQ(string_list.size, 2);
-    ASSERT_EQ(string_list.used, 2);
+    DynamicArray<const char *, 10> string_list(string_array, 2);
+    ASSERT_EQ(string_list.size, 10);
+    ASSERT_EQ(string_list.len, 2);
     ASSERT_NE(string_list.internal_array, nullptr);
 }
 
 TEST(ArrayList, Operator)
 {
     const char *string_array[] = {"hello"};
-    DynamicArray<const char *> string_list = new_dynamic_array(string_array, 1);
+    DynamicArray<const char *> string_list(string_array, 1);
     ASSERT_EQ("hello", string_list[0]);
     string_list[0] = "world";
     ASSERT_EQ("world", string_list[0]);
@@ -34,32 +34,32 @@ TEST(ArrayList, Operator)
 TEST(ArrayList, PushBack)
 {
     const char *string_array[] = {"hello"};
-    DynamicArray<const char *> string_list = new_dynamic_array(string_array, 1);
+    DynamicArray<const char *, 10> string_list(string_array, 1);
 
-    dynamic_array_push_back(string_list, "world");
+    string_list.push_back("world");
     ASSERT_EQ(string_list[1], "world");
-    ASSERT_EQ(string_list.size, 2);
-    ASSERT_EQ(string_list.used, 2);
+    ASSERT_EQ(string_list.size, 10);
+    ASSERT_EQ(string_list.len, 2);
 }
 
 TEST(ArrayList, Insert)
 {
     const char *string_array[] = {"big", "big", "chungus", "big", "chungus"};
-    DynamicArray<const char *> string_list = new_dynamic_array(string_array, 5);
+    DynamicArray<const char *, 10> string_list(string_array, 5);
 
     // Insert middle
-    dynamic_array_insert(string_list, 1, "joe");
+    string_list.insert(1, "joe");
     ASSERT_EQ(string_list[0], "big");
     ASSERT_EQ(string_list[1], "joe");
     ASSERT_EQ(string_list[2], "big");
     ASSERT_EQ(string_list[3], "chungus");
     ASSERT_EQ(string_list[4], "big");
     ASSERT_EQ(string_list[5], "chungus");
-    ASSERT_EQ(string_list.size, 6);
-    ASSERT_EQ(string_list.used, 6);
+    ASSERT_EQ(string_list.size, 10);
+    ASSERT_EQ(string_list.len, 6);
 
     // Insert beginning
-    dynamic_array_insert(string_list, 0, "mama");
+    string_list.insert(0, "mama");
     ASSERT_EQ(string_list[0], "mama");
     ASSERT_EQ(string_list[1], "big");
     ASSERT_EQ(string_list[2], "joe");
@@ -67,11 +67,11 @@ TEST(ArrayList, Insert)
     ASSERT_EQ(string_list[4], "chungus");
     ASSERT_EQ(string_list[5], "big");
     ASSERT_EQ(string_list[6], "chungus");
-    ASSERT_EQ(string_list.size, 7);
-    ASSERT_EQ(string_list.used, 7);
+    ASSERT_EQ(string_list.size, 10);
+    ASSERT_EQ(string_list.len, 7);
 
     // Insert end / push_back
-    dynamic_array_insert(string_list, 7, "urmother");
+    string_list.insert(7, "urmother");
     ASSERT_EQ(string_list[0], "mama");
     ASSERT_EQ(string_list[1], "big");
     ASSERT_EQ(string_list[2], "joe");
@@ -80,43 +80,75 @@ TEST(ArrayList, Insert)
     ASSERT_EQ(string_list[5], "big");
     ASSERT_EQ(string_list[6], "chungus");
     ASSERT_EQ(string_list[7], "urmother");
-    ASSERT_EQ(string_list.size, 8);
-    ASSERT_EQ(string_list.used, 8);
+    ASSERT_EQ(string_list.size, 10);
+    ASSERT_EQ(string_list.len, 8);
+
+    string_list.insert(0, "mama");
+    string_list.insert(0, "mama");
+    string_list.insert(0, "mama");
+    ASSERT_EQ(string_list[0], "mama");
+    ASSERT_EQ(string_list[1], "mama");
+    ASSERT_EQ(string_list[2], "mama");
+    ASSERT_EQ(string_list[3], "mama");
+    ASSERT_EQ(string_list[4], "big");
+    ASSERT_EQ(string_list[5], "joe");
+    ASSERT_EQ(string_list[6], "big");
+    ASSERT_EQ(string_list[7], "chungus");
+    ASSERT_EQ(string_list[8], "big");
+    ASSERT_EQ(string_list[9], "chungus");
+    ASSERT_EQ(string_list[10], "urmother");
+    ASSERT_EQ(string_list.size, (int)(11 * 3 / 2));
+    ASSERT_EQ(string_list.len, 11);
 }
 
 TEST(ArrayList, Delete)
 {
     const char *string_array[] = {"big", "big", "chungus", "big", "chungus"};
-    DynamicArray<const char *> string_list = new_dynamic_array(string_array, 5);
 
-    dynamic_array_delete_element(string_list, 1);
+    const u32 decay_percentage = 50;
+    DynamicArray<const char *, 0, 3, 2, decay_percentage> string_list(string_array, 5);
+
+    ASSERT_EQ(string_list.size, (int)5 * 3 / 2);
+    ASSERT_EQ(string_list.len, 5);
+
+    string_list.remove(1);
     ASSERT_EQ(string_list[0], "big");
     ASSERT_EQ(string_list[1], "chungus");
     ASSERT_EQ(string_list[2], "big");
     ASSERT_EQ(string_list[3], "chungus");
-    ASSERT_EQ(string_list.size, 4);
-    ASSERT_EQ(string_list.used, 4);
-    dynamic_array_delete_element(string_list, 3);
+    ASSERT_EQ(string_list.size, (int)5 * 3 / 2);
+    ASSERT_EQ(string_list.len, 4);
+
+    // Less than decay factor 50%
+    string_list.remove(3);
     ASSERT_EQ(string_list[0], "big");
     ASSERT_EQ(string_list[1], "chungus");
     ASSERT_EQ(string_list[2], "big");
-    ASSERT_EQ(string_list.size, 3);
-    ASSERT_EQ(string_list.used, 3);
-    dynamic_array_delete_element(string_list, 0);
+
+    ASSERT_EQ(string_list.size, (int)3 * 3 / 2);
+    ASSERT_EQ(string_list.len, 3);
+
+    string_list.remove(0);
     ASSERT_EQ(string_list[0], "chungus");
     ASSERT_EQ(string_list[1], "big");
-    ASSERT_EQ(string_list.size, 2);
-    ASSERT_EQ(string_list.used, 2);
-    dynamic_array_delete_element(string_list, 0);
-    dynamic_array_delete_element(string_list, 0);
+    ASSERT_EQ(string_list.size, (int)3 * 3 / 2);
+    ASSERT_EQ(string_list.len, 2);
+
+    // Less than decay factor 50%
+    string_list.remove(0);
+    ASSERT_EQ(string_list.size, (int)1 * 3 / 2);
+    ASSERT_EQ(string_list.len, 1);
+
+    // Less than decay factor 50%
+    string_list.remove(0);
     ASSERT_EQ(string_list.size, 0);
-    ASSERT_EQ(string_list.used, 0);
+    ASSERT_EQ(string_list.len, 0);
 }
 
 TEST(ArrayList, Iterator)
 {
     const char *string_array[] = {"big", "big", "chungus", "big", "chungus"};
-    DynamicArray<const char *> string_list = new_dynamic_array(string_array, 5);
+    DynamicArray<const char *> string_list(string_array, 5);
 
     uint i = 0;
     for (const char *val : string_list)

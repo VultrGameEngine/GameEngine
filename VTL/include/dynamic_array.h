@@ -5,7 +5,7 @@
 
 namespace vtl
 {
-    template <typename T>
+    template <typename T, size_t reserved = 10, u32 growth_numerator = 3, u32 growth_denominator = 2, u32 decay_percent_threshold = 30>
     struct DynamicArray
     {
         // Initialize an empty dynamic_array
@@ -13,11 +13,13 @@ namespace vtl
         // which will be empty
         //
         // Returns new dynamic_array
-        DynamicArray(uint reserved = 0)
+        DynamicArray()
         {
+            size = reserved;
+            len = 0;
             if (reserved > 0)
             {
-                internal_array = static_cast<T *>(malloc(reserved * sizeof(T)));
+                internal_array = static_cast<T *>(malloc(size * sizeof(T)));
             }
         }
 
@@ -26,12 +28,19 @@ namespace vtl
             assert(count != 0 && "Count must be greater than 0!");
             assert(array != nullptr && "Array must not be null!");
 
-            internal_array = static_cast<T *>(malloc(sizeof(T) * count));
+            len = count;
+            size = len * growth_factor;
+            if (size < reserved)
+            {
+                size = reserved;
+            }
+
+            internal_array = static_cast<T *>(malloc(sizeof(T) * size));
+
             for (int i = 0; i < count; i++)
             {
                 internal_array[i] = array[i];
             }
-            len = count;
         }
 
         // Delete copy methods because we don't want this to be done on accident, we want it to be very very explicit since we are essentially duplicating a buffer
@@ -52,17 +61,14 @@ namespace vtl
         // Returns the element just inserted
         T *push_back(const T &element)
         {
-            // If there is not enough space in the dynamic_array, then reallocate
-            if (len >= size)
-            {
-                reallocate(size + 1);
-            }
+            len++;
+            reallocate();
 
             // Increase the len amount and assign the last element of array to the new
             // element
-            internal_array[len++] = element;
+            internal_array[len - 1] = element;
 
-            return &internal_array[len];
+            return &internal_array[len - 1];
         }
 
         // Inserts element at specific index in dynamic_array
@@ -74,28 +80,24 @@ namespace vtl
         // dynamic_array.size or if index is negative
         //
         // Returns the element just inserted
-        T *insert(size_t index, T element)
+        T *insert(s32 index, T element)
         {
             // Fail if the index is greater than the dynamic_array.size or negative
             assert(index <= size && index >= 0 && "Index out of bounds!");
 
-            // If there is not enough space in the DynamicArray, then reallocate
-            if (len >= size)
-            {
-                reallocate(size + 1);
-            }
+            // Increase the len amount
+            len++;
 
-            if (size > 1)
+            reallocate();
+
+            if (len > 1)
             {
                 // Shift all elements right
-                for (int i = size - 2; i >= index; i--)
+                for (s32 i = len - 2; i >= index; i--)
                 {
                     internal_array[i + 1] = internal_array[i];
                 }
             }
-
-            // Increase the len amount
-            len++;
 
             // Assign last element of array to new element
             internal_array[index] = element;
@@ -108,7 +110,7 @@ namespace vtl
         // If the dynamic_array len equals dynamic_array size, then it will assume
         // nothing is reserved and a reallocation will occur unless reallocate is
         // explicitly false
-        T remove(size_t index, bool reallocate = true)
+        T remove(size_t index)
         {
             // Fail if the index is greater than the dynamic_array.size or negative
             assert(index <= size && index >= 0 && "Index out of bounds!");
@@ -122,43 +124,66 @@ namespace vtl
                 internal_array[i - 1] = internal_array[i];
             }
 
-            // If the len == the size and reallocate is true, reallocate
-            if (len == size && reallocate)
-            {
-                this->reallocate(size - 1);
-            }
-
             // Decrease len even if no reallocation
             len--;
+
+            reallocate();
 
             return element;
         }
 
-        static DynamicArray<T> copy()
+        // Manually shrink size
+        void shrink()
         {
+            if (len < size)
+            {
+                size = len;
+            }
         }
+
+        // static DynamicArray<T> copy()
+        // {
+        // }
 
         // Ability to index into the array and assign and retreive elements by
         // reference
         T &operator[](int index) const
         {
-            assert(index < size && index >= 0 && "Index out of bounds");
+            assert(index < len && index >= 0 && "Index out of bounds");
             return internal_array[index];
         }
 
         // Spaces len (not bytes)
-        size_t len;
+        size_t len = 0;
 
         // Space available (not bytes)
-        size_t size;
+        size_t size = reserved;
 
         // To make sure that the buffer expansion is geometric
-        f64 growth_factor = 1.3;
+        f64 growth_factor = (f64)growth_numerator / (f64)growth_denominator;
 
       private:
-        void reallocate(size_t new_size)
+        void reallocate()
         {
-            size = new_size;
+            // Only reallocate and expand the array if we need to
+            if (len > size)
+            {
+                size = len * growth_factor;
+            }
+            else if ((f64)len / (f64)size < (f64)decay_percent_threshold / 100.0)
+            {
+                size = len * growth_factor;
+            }
+            else
+            {
+                return;
+            }
+
+            if (size < reserved)
+            {
+                size = reserved;
+            }
+
             if (size == 0)
             {
                 if (internal_array != nullptr)
@@ -171,11 +196,11 @@ namespace vtl
             {
                 if (internal_array == nullptr)
                 {
-                    internal_array = (T *)malloc(new_size * sizeof(T));
+                    internal_array = (T *)malloc(size * sizeof(T));
                 }
                 else
                 {
-                    internal_array = (T *)realloc(internal_array, new_size * sizeof(T));
+                    internal_array = (T *)realloc(internal_array, size * sizeof(T));
                 }
             }
         }
@@ -256,7 +281,7 @@ namespace vtl
 
         Iterator end() const
         {
-            return Iterator(internal_array + size);
+            return Iterator(internal_array + len);
         }
     };
 
