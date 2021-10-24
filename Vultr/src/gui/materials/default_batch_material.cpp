@@ -5,7 +5,7 @@ using namespace Vultr;
 IMGUI::DefaultBatchMaterial *IMGUI::new_batch_material(Context *c, Texture *texture)
 {
     auto *mat = new DefaultBatchMaterial();
-    mat->shader = c->renderer.batch_gui_shader;
+    mat->shader = &c->renderer.batch_gui_shader;
     mat->texture = texture;
     for (u32 i = 0; i < 16; i++)
     {

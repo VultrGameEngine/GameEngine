@@ -8,11 +8,9 @@
 #include <core/system_providers/light_system_provider.h>
 #include <core/system_providers/render_system_provider.h>
 #include <core/systems/shader_loader_system.h>
-#include <core/systems/texture_loader_system.h>
-#include <core/system_providers/mesh_loader_system_provider.h>
 #include <core/systems/gui_system.h>
-#include <helpers/shader_importer.h>
-#include <helpers/mesh_importer.h>
+#include <filesystem/importers/shader_importer.h>
+#include <filesystem/importers/mesh_importer.h>
 #include <core/systems/render_system.h>
 #include <core/system_providers/input_system_provider.h>
 #include <glm/gtc/type_ptr.hpp>
@@ -130,8 +128,8 @@ namespace Vultr::RenderSystem
         // p.gaussian_blur_shader = ShaderImporter::import_shader(ShaderSource("shaders/gaussian_blur.glsl"));
         // p.input_shader = ShaderImporter::import_engine_shader(ShaderImporter::EDITOR_INPUT);
 
-        p.render_quad = MeshImporter::init_quad();
-        p.skybox = MeshImporter::init_skybox();
+        MeshImporter::init_quad(&p.render_quad);
+        MeshImporter::init_skybox(&p.skybox);
     }
 
     void init_g_buffer(s32 width, s32 height)
@@ -413,7 +411,7 @@ namespace Vultr::RenderSystem
                 set_uniform_1f(p.post_processing_shader, "u_Bloom_intensity", camera_component.bloom_intensity);
             }
 
-            draw_mesh(p.render_quad);
+            draw_mesh(&p.render_quad);
         }
         if (tick.debug)
         {
@@ -431,7 +429,7 @@ namespace Vultr::RenderSystem
             set_uniform_1i(p.post_processing_shader, "u_Bloom_texture", 1);
             bind_texture(scene_bloom, GL_TEXTURE1);
 
-            draw_mesh(p.render_quad);
+            draw_mesh(&p.render_quad);
         }
 
         unbind_all_framebuffers();
@@ -483,11 +481,11 @@ namespace Vultr::RenderSystem
                 continue;
             TransformComponent &transform = entity_get_component<TransformComponent>(e, entity);
             StaticMeshComponent &mesh = entity_get_component<StaticMeshComponent>(e, entity);
-            Mesh mesh_obj = MeshLoaderSystem::get_mesh(e, mesh.source);
-            if (is_valid_mesh(mesh_obj))
-            {
-                Renderer3D::ForwardRenderer::submit(e, material, transform.Matrix(), mesh_obj, context);
-            }
+            // Mesh mesh_obj = MeshLoaderSystem::get_mesh(e, mesh.source);
+            // if (is_valid_mesh(mesh_obj))
+            // {
+            //     Renderer3D::ForwardRenderer::submit(e, material, transform.Matrix(), mesh_obj, context);
+            // }
         }
     }
 
@@ -505,32 +503,32 @@ namespace Vultr::RenderSystem
             // All the components we need
             auto &transform = entity_get_component<TransformComponent>(e, entity);
             auto &mesh = entity_get_component<StaticMeshComponent>(e, entity);
-            auto mesh_obj = MeshLoaderSystem::get_mesh(e, mesh.source);
+            // auto mesh_obj = MeshLoaderSystem::get_mesh(e, mesh.source);
 
-            // If the mesh has loaded
-            if (is_valid_mesh(mesh_obj))
-            {
-                // Use the input shader
-                Shader *shader = provider.input_shader;
-                bind_shader(shader);
+            // // If the mesh has loaded
+            // if (is_valid_mesh(mesh_obj))
+            // {
+            //     // Use the input shader
+            //     Shader *shader = provider.input_shader;
+            //     bind_shader(shader);
 
-                // Set MVP uniforms
-                set_uniform_matrix_4fv(shader, "model", glm::value_ptr(transform.Matrix()));
-                // TODO: Reimplement
-                // set_uniform_matrix_4fv(shader, "projection", glm::value_ptr(context.camera_component.GetProjectionMatrix(context.dimensions.x, context.dimensions.y)));
-                // set_uniform_matrix_4fv(shader, "view", glm::value_ptr(context.camera_transform.GetViewMatrix()));
+            //     // Set MVP uniforms
+            //     set_uniform_matrix_4fv(shader, "model", glm::value_ptr(transform.Matrix()));
+            //     // TODO: Reimplement
+            //     // set_uniform_matrix_4fv(shader, "projection", glm::value_ptr(context.camera_component.GetProjectionMatrix(context.dimensions.x, context.dimensions.y)));
+            //     // set_uniform_matrix_4fv(shader, "view", glm::value_ptr(context.camera_transform.GetViewMatrix()));
 
-                // Get an RGB value that will be used to represent our object using an entity id
-                int r = (entity & 0x000000FF) >> 0;
-                int g = (entity & 0x0000FF00) >> 8;
-                int b = (entity & 0x00FF0000) >> 16;
+            //     // Get an RGB value that will be used to represent our object using an entity id
+            //     int r = (entity & 0x000000FF) >> 0;
+            //     int g = (entity & 0x0000FF00) >> 8;
+            //     int b = (entity & 0x00FF0000) >> 16;
 
-                // And use that as the color for our object which will single color shaded
-                set_uniform_4f(shader, "color", Vec4(r / 255.0f, g / 255.0f, b / 255.0f, 1.0f));
+            //     // And use that as the color for our object which will single color shaded
+            //     set_uniform_4f(shader, "color", Vec4(r / 255.0f, g / 255.0f, b / 255.0f, 1.0f));
 
-                // Draw the mesh
-                draw_mesh(mesh_obj);
-            }
+            //     // Draw the mesh
+            //     draw_mesh(mesh_obj);
+            // }
         }
     }
 
@@ -559,7 +557,7 @@ namespace Vultr::RenderSystem
             // TODO: Reimplement
             // Renderer3D::ForwardRenderer::bind_material(e, material_component, context.camera_transform.Matrix(), context, skybox_component.identifier);
 
-            draw_mesh(get_provider(e).skybox);
+            draw_mesh(&get_provider(e).skybox);
             glDepthMask(GL_TRUE);
             glDepthFunc(GL_LESS); // Reset depth test
         }

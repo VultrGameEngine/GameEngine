@@ -9,6 +9,8 @@ namespace Vultr
     struct Shader
     {
         u32 id = 0;
+        Shader() = default;
+        Shader(const Shader &other) = delete;
     };
 
 #define invalid_shader()                                                                                                                                                                                              \

@@ -140,9 +140,11 @@ TEST(ArrayList, Delete)
     ASSERT_EQ(string_list.len, 1);
 
     // Less than decay factor 50%
-    string_list.remove(0);
+    string_list.remove_last();
     ASSERT_EQ(string_list.size, 0);
     ASSERT_EQ(string_list.len, 0);
+
+    EXPECT_DEATH(string_list.remove_last(), "Array is empty!");
 }
 
 TEST(ArrayList, Iterator)

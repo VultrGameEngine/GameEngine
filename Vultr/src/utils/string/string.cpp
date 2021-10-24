@@ -49,6 +49,22 @@ namespace Vultr
         return strcmp(str1, str2) == 0;
     }
 
+    bool strnequal(const char *str1, const char *str2, size_t len)
+    {
+        if (str1 == nullptr && str2 == nullptr)
+            return true;
+        if (str1 == nullptr)
+            return false;
+        if (str2 == nullptr)
+            return false;
+        for (size_t i = 0; i < len; i++)
+        {
+            if (str1[i] != str2[i])
+                return false;
+        }
+        return true;
+    }
+
     char *strappend(char *dest, const char *src)
     {
         size_t len = strlen(dest) + strlen(src);

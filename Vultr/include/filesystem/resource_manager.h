@@ -1,254 +1,320 @@
 #pragma once
 #include <filesystem/virtual_filesystem.h>
 #include <rendering/types/texture.h>
+#include <rendering/types/shader.h>
+#include <rendering/types/mesh.h>
 #include <queue.h>
+#include <dynamic_array.h>
 
 namespace Vultr
 {
-#define MAX_RESOURCE_CACHE_SIZE 1024
-
-    // Load file data asynchronously on separate thread
-    template <typename T>
-    bool load_resource(const VirtualFilesystem *vfs, VFileHandle file, T *resource);
-
-    template <typename T>
-    void free_resource(T *resource);
-
-    // struct ResourceCache
-    // {
-    //     ResourceCache() = default;
-
-    //     ~ResourceCache()
-    //     {
-    //         for (s32 i = 0; i < len; i++)
-    //         {
-    //             free_resource(&cache[i]);
-    //         }
-    //         delete[] cache;
-    //     }
-
-    //     void operator=(const ResourceCache<T> &other) = delete;
-    //     ResourceCache(const ResourceCache<T> &other) = delete;
-
-    //     ResourceLoadItem<T> *incr_asset(const VirtualFilesystem *vfs, VFileHandle asset)
-    //     {
-    //         cache_mutex.lock();
-    //         if (asset_to_index_map.find(asset) != asset_to_index_map.end())
-    //         {
-    //             asset_counter[asset]++;
-    //         }
-    //         else
-    //         {
-    //             size_t new_index = len;
-
-    //             asset_to_index_map[asset] = new_index;
-    //             index_to_asset_map[new_index] = asset;
-    //             asset_counter[asset] = 1;
-    //             asset_loaded[asset] = false;
-
-    //             len++;
-    //         }
-    //         std::function<void(VFileHandle, T *)> cb = [&](VFileHandle file, T *data) {
-    //             if (has_asset(file))
-    //             {
-    //                 load_asset(file, data);
-    //             }
-    //         };
-
-    //         cache_mutex.unlock();
-
-    //         if (asset_loaded.at(asset))
-    //         {
-    //             return nullptr;
-    //         }
-    //         else
-    //         {
-    //             return new ResourceLoadItem<T>(vfs, asset, cb);
-    //         }
-    //     }
-
-    //     void decr_asset(VFileHandle asset)
-    //     {
-    //         cache_mutex.lock();
-
-    //         assert(asset_to_index_map.find(asset) != asset_to_index_map.end() && "Attempting to remove nonexistent asset");
-
-    //         auto count = asset_counter[asset]--;
-    //         if (count < 1)
-    //         {
-    //             asset_free_queue.push(&asset);
-    //         }
-
-    //         cache_mutex.unlock();
-    //     }
-
-    //     void load_asset(VFileHandle asset, T *data)
-    //     {
-    //         cache_mutex.lock();
-    //         assert(asset_to_index_map.find(asset) != asset_to_index_map.end() && "Attempting to load nonexistent asset!");
-    //         asset_loaded[asset] = true;
-    //         cache[asset_to_index_map[asset]] = *data;
-    //         cache_mutex.unlock();
-    //     }
-
-    //     T *get_asset(VFileHandle file) const
-    //     {
-    //         assert(has_asset(file) && "Retreive nonexistent asset!");
-    //         assert(is_asset_loaded(file) && "Asset not loaded!");
-
-    //         return &cache[asset_to_index_map.at(file)];
-    //     }
-
-    //     bool has_asset(VFileHandle asset) const
-    //     {
-    //         return asset_to_index_map.find(asset) != asset_to_index_map.end();
-    //     }
-
-    //     bool is_asset_loaded(VFileHandle asset) const
-    //     {
-    //         assert(has_asset(asset) && "Nonexistent asset!");
-    //         return asset_loaded.at(asset);
-    //     }
-
-    //     void garbage_collect()
-    //     {
-    //         cache_mutex.lock();
-    //         while (!asset_free_queue.empty())
-    //         {
-    //             // Get the asset
-    //             VFileHandle asset = *asset_free_queue.front();
-
-    //             // Get the index for the specified asset
-    //             size_t index_of_removed_asset = asset_to_index_map[asset];
-
-    //             // Get the index of the last element of the component array
-    //             size_t index_of_last_element = len - 1;
-
-    //             // Free the resource
-    //             free_resource(&cache[index_of_removed_asset]);
-
-    //             // Move the last element of the component array into the removed asset's index
-    //             cache[index_of_removed_asset] = cache[index_of_last_element];
-
-    //             // Update the maps for the newly moved element
-    //             VFileHandle asset_of_last_element = index_to_asset_map[index_of_last_element];
-    //             asset_to_index_map[asset_of_last_element] = index_of_removed_asset;
-    //             index_to_asset_map[index_of_removed_asset] = asset_of_last_element;
-
-    //             // Remove the asset requested from the maps
-    //             asset_to_index_map.erase(asset);
-    //             index_to_asset_map.erase(index_of_last_element);
-    //             asset_counter.erase(asset);
-    //             asset_loaded.erase(asset);
-
-    //             len--;
-    //             asset_free_queue.pop();
-    //         }
-    //         cache_mutex.unlock();
-    //     }
-
-    //     std::unordered_map<VFileHandle, size_t> asset_to_index_map{};
-    //     std::unordered_map<size_t, VFileHandle> index_to_asset_map{};
-    //     std::unordered_map<VFileHandle, u32> asset_counter{};
-    //     std::unordered_map<VFileHandle, bool> asset_loaded{};
-    //     vtl::Queue<VFileHandle> asset_free_queue{};
-    //     vtl::mutex cache_mutex;
-
-    //     // Not really sure if this memory usage is the correct decision :/
-    //     T *cache = new T[MAX_RESOURCE_CACHE_SIZE];
-    //     size_t len = 0;
-    // };
     enum struct ResourceType : u8
     {
+        INVALID = 0x0,
         TEXTURE = 0x1,
         SHADER = 0x2,
         MESH = 0x4,
         FONT = 0x8,
-        INVALID = 0x10,
     };
+
+    template <typename T>
+    constexpr ResourceType get_resource_type();
+
+    template <>
+    inline constexpr ResourceType get_resource_type<Texture>()
+    {
+        return ResourceType::TEXTURE;
+    }
+
+    template <>
+    inline constexpr ResourceType get_resource_type<Shader>()
+    {
+        return ResourceType::SHADER;
+    }
+
+    template <>
+    inline constexpr ResourceType get_resource_type<Mesh>()
+    {
+        return ResourceType::MESH;
+    }
 
     struct ResourceQueueItem
     {
         ResourceType type = ResourceType::INVALID;
-        VFileHandle file;
+        VFileHandle file = 0;
+        void *temp_buf = nullptr;
     };
 
-    struct InternalResourceManager
+    // Load file data asynchronously on separate thread
+    template <typename T>
+    bool load_resource(const VirtualFilesystem *vfs, VFileHandle file, T *resource, ResourceQueueItem *item);
+
+    template <typename T>
+    bool finalize_resource(VFileHandle file, T *data, void *buffer);
+
+    template <typename T>
+    void free_resource(T *resource);
+
+    template <typename T>
+    struct ResourceData
     {
+        bool loaded = false;
+        u32 counter = 1;
+        T data;
+    };
+
+    template <typename T>
+    struct ResourceCache
+    {
+        vtl::DynamicArray<ResourceData<T>> cache;
+
+        std::unordered_map<size_t, VFileHandle> asset_to_index{};
+        std::unordered_map<VFileHandle, size_t> index_to_asset{};
+    };
+
+    struct ResourceManager
+    {
+        vtl::Queue<ResourceQueueItem> free_queue;
         vtl::Queue<ResourceQueueItem> load_queue;
         vtl::Queue<ResourceQueueItem> finalize_queue;
-        // std::atomic<bool> can_garbage_collect = true;
+
+        ResourceCache<Texture> texture_cache;
+        ResourceCache<Shader> shader_cache;
+        ResourceCache<Mesh> mesh_cache;
+
         vtl::mutex mutex;
 
-        InternalResourceManager() = default;
-        ~InternalResourceManager() = default;
-
-        void incr(const VirtualFilesystem *vfs, VFileHandle file, ResourceType type)
-        {
-        }
+        ResourceManager() = default;
+        ~ResourceManager() = default;
 
         template <typename T>
         void incr(const VirtualFilesystem *vfs, VFileHandle file)
         {
-            // auto *cache = &std::get<ResourceCache<T>>(resource_caches);
-            // ResourceLoadItem<T> *item = cache->incr_asset(vfs, file);
+            mutex.lock();
 
-            // if (item == nullptr)
-            //     return;
+            auto *c = get_cache<T>();
 
-            // // ??? For some reason c++ really wants me to put this in a temp pointer
-            // IResourceLoadItem *_ = static_cast<IResourceLoadItem *>(item);
-            // load_queue.push(&_);
+            if (c->asset_to_index.find(file) != c->asset_to_index.end())
+            {
+                c->cache[c->asset_to_index[file]].counter++;
+            }
+            else
+            {
+                size_t new_index = c->cache.len;
+
+                c->asset_to_index[file] = new_index;
+                c->index_to_asset[new_index] = file;
+
+                c->cache.push_back(ResourceData<T>());
+                ResourceQueueItem item;
+                item.file = file;
+                item.type = get_resource_type<T>();
+                load_queue.push(&item);
+            }
+
+            mutex.unlock();
         }
 
         template <typename T>
         void decr(VFileHandle file)
         {
-            auto *cache = &std::get<ResourceCache<T>>(resource_caches);
-            cache->decr_asset(file);
+            mutex.lock();
+            auto *c = get_cache<T>();
+
+            assert(c->asset_to_index.find(file) != c->asset_to_index.end() && "Attempting to remove nonexistent asset");
+
+            auto *count = &c->cache[c->asset_to_index[file]].counter;
+
+            if (*count > 0)
+            {
+                (*count)--;
+                ResourceQueueItem item;
+                item.file = file;
+                item.type = get_resource_type<T>();
+                free_queue.push(&item);
+            }
+
+            mutex.unlock();
         }
 
         template <typename T>
         T *get_asset(VFileHandle file)
         {
-            auto *cache = &std::get<ResourceCache<T>>(resource_caches);
+            auto *c = get_cache<T>();
 
-            return cache->get_asset(file);
+            assert(has_asset<T>(file) && "Retreive nonexistent asset!");
+            assert(is_asset_loaded<T>(file) && "Asset not loaded!");
+
+            return &c->cache[c->asset_to_index.at(file)].data;
         }
+
         template <typename T>
         bool has_asset(VFileHandle file)
         {
-            auto *cache = &std::get<ResourceCache<T>>(resource_caches);
-
-            return cache->has_asset();
+            auto *c = get_cache<T>();
+            return c->asset_to_index.find(file) != c->asset_to_index.end();
         }
 
         template <typename T>
         bool is_asset_loaded(VFileHandle file)
         {
-            auto *cache = &std::get<ResourceCache<T>>(resource_caches);
+            auto *c = get_cache<T>();
 
-            return cache->is_asset_loaded(file);
+            assert(has_asset<T>(file) && "Nonexistent asset!");
+            return c->cache[c->asset_to_index[file]].loaded;
         }
 
-        void finalize_assets()
+        template <typename T>
+        ResourceCache<T> *get_cache();
+
+        void load_asset(const VirtualFilesystem *vfs, ResourceQueueItem *item)
+        {
+            ResourceQueueItem res;
+            switch (item->type)
+            {
+                case ResourceType::TEXTURE:
+                    internal_load_asset<Texture>(vfs, item, &res);
+                    break;
+                case ResourceType::MESH:
+                    internal_load_asset<Mesh>(vfs, item, &res);
+                    break;
+                case ResourceType::SHADER:
+                    internal_load_asset<Shader>(vfs, item, &res);
+                    break;
+                case ResourceType::FONT:
+                    assert(item->type != ResourceType::FONT && "Not implemented!");
+                    break;
+                case ResourceType::INVALID:
+                default:
+                    assert(item->type != ResourceType::INVALID && "Attempting to free invalid type!");
+                    break;
+            }
+
+            if (res.type != ResourceType::INVALID)
+            {
+                finalize_queue.push(&res);
+            }
+        }
+
+        void finalize_assets(const VirtualFilesystem *vfs)
         {
             while (!finalize_queue.empty())
             {
-                IResourceFinalizeItem *item = finalize_queue.pop();
-                item->finalize(static_cast<void *>(this));
+                auto item = finalize_queue.pop();
+                switch (item.type)
+                {
+                    case ResourceType::TEXTURE:
+                        internal_finalize_asset<Texture>(vfs, &item);
+                        break;
+                    case ResourceType::MESH:
+                        internal_finalize_asset<Mesh>(vfs, &item);
+                        break;
+                    case ResourceType::SHADER:
+                        internal_finalize_asset<Shader>(vfs, &item);
+                        break;
+                    case ResourceType::FONT:
+                        assert(item.type != ResourceType::FONT && "Not implemented!");
+                        break;
+                    case ResourceType::INVALID:
+                    default:
+                        assert(item.type != ResourceType::INVALID && "Attempting to free invalid type!");
+                        break;
+                }
             }
         }
 
         void garbage_collect()
         {
-            if (can_garbage_collect)
+            // TODO: Dirty hack, this is not how this should be solved. This makes it so that if anything AT ALL is being queued to be loaded, then we can't remove any assets. The proper way of doing this would be
+            // to allow garbage collection only when we are not actively loading any assets, however I'm not versed enough in threading to know how to solve this properly.
+            if (load_queue.empty())
             {
-                (..., ([&]() {
-                     auto *cache = &std::get<ResourceCache<ResourceType>>(resource_caches);
-                     cache->garbage_collect();
-                 })());
+                while (!free_queue.empty())
+                {
+                    auto item = finalize_queue.pop();
+                    switch (item.type)
+                    {
+                        case ResourceType::TEXTURE:
+                            internal_garbage_collect<Texture>(&item);
+                            break;
+                        case ResourceType::MESH:
+                            internal_garbage_collect<Mesh>(&item);
+                            break;
+                        case ResourceType::SHADER:
+                            internal_garbage_collect<Shader>(&item);
+                            break;
+                        case ResourceType::FONT:
+                            assert(item.type != ResourceType::FONT && "Not implemented!");
+                            break;
+                        case ResourceType::INVALID:
+                        default:
+                            assert(item.type != ResourceType::INVALID && "Attempting to free invalid type!");
+                            break;
+                    }
+                }
             }
+        }
+
+        template <typename T>
+        void internal_garbage_collect(ResourceQueueItem *item)
+        {
+            auto *c = get_cache<T>();
+            assert(item->type == get_resource_type<T>() && "You've severely fucked up if you got to this point.");
+            auto asset = item->file;
+
+            auto index_of_removed_asset = c->asset_to_index[asset];
+            auto index_of_last_element = c->cache.len - 1;
+
+            // Free the resource first
+            T *resource = &c->cache[index_of_removed_asset].data;
+            free_resource<T>(resource);
+
+            // Then replace the removed data with data from the last element
+            c->cache[index_of_removed_asset] = c->cache[index_of_last_element];
+
+            // Update the maps for the newly moved element
+            VFileHandle asset_of_last_element = c->index_to_asset[index_of_last_element];
+            c->asset_to_index[asset_of_last_element] = index_of_removed_asset;
+            c->index_to_asset[index_of_removed_asset] = asset_of_last_element;
+
+            // Remove the asset requested from the maps
+            c->asset_to_index.erase(asset);
+            c->index_to_asset.erase(index_of_last_element);
+
+            // Remove the data from the last asset from our array
+            c->cache.remove_last();
+        }
+
+        template <typename T>
+        void internal_load_asset(const VirtualFilesystem *vfs, ResourceQueueItem *item, ResourceQueueItem *res)
+        {
+            auto *c = get_cache<T>();
+            load_resource<T>(vfs, item->file, &c->cache[c->asset_to_index[item->file]].data, res);
+        }
+
+        template <typename T>
+        void internal_finalize_asset(const VirtualFilesystem *vfs, ResourceQueueItem *item)
+        {
+            auto *c = get_cache<T>();
+            finalize_resource<T>(item->file, &c->cache[c->asset_to_index[item->file]].data, item->temp_buf);
+        }
+
+        template <>
+        ResourceCache<Texture> *get_cache()
+        {
+            return &texture_cache;
+        }
+
+        template <>
+        ResourceCache<Shader> *get_cache()
+        {
+            return &shader_cache;
+        }
+
+        template <>
+        ResourceCache<Mesh> *get_cache()
+        {
+            return &mesh_cache;
         }
     };
 } // namespace Vultr

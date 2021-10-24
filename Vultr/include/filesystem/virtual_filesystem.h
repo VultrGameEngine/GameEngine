@@ -32,6 +32,7 @@ namespace Vultr
     VFileStream *vfs_open(const VirtualFilesystem *vfs, VFileHandle handle, const char *mode);
     void vfs_close(VFileStream *stream);
     size_t vfs_read(unsigned char *ptr, size_t size, size_t nmemb, VFileStream *stream);
+
     unsigned char *vfs_read_full(const VirtualFilesystem *vfs, u64 *size, VFileStream *stream);
     void vfs_free_buf(unsigned char *buf);
 

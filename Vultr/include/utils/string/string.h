@@ -14,5 +14,6 @@ namespace Vultr
     char *strsreplace(char *string, const char *src, const char *dest);
 
     bool strequal(const char *str1, const char *str2);
+    bool strnequal(const char *str1, const char *str2, size_t len);
     char *strappend(char *dest, const char *src);
 } // namespace Vultr

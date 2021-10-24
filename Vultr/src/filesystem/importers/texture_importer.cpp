@@ -5,30 +5,7 @@
 namespace Vultr
 {
     template <>
-    struct ResourceFinalizeItem<Texture> : IResourceFinalizeItem
-    {
-        unsigned char *buf = nullptr;
-        ResourceFinalizeItem(VFileHandle file, unsigned char *buf)
-        {
-            this->file = file;
-            this->buf = buf;
-        }
-
-        void finalize(void *_resource_manager) override
-        {
-            printf("Finalizing texture on main thread!\n");
-            auto *resource_manager = static_cast<ResourceManager *>(_resource_manager);
-            auto *texture = resource_manager->get_asset<Texture>(file);
-
-            TextureImporter::texture_load_gpu(texture, buf);
-            stbi_image_free(this->buf);
-        }
-
-        ~ResourceFinalizeItem(){};
-    };
-
-    template <>
-    bool load_resource(const VirtualFilesystem *vfs, VFileHandle file, Texture *resource, ResourceFinalizeItem<Texture> **item)
+    bool load_resource<Texture>(const VirtualFilesystem *vfs, VFileHandle file, Texture *resource, ResourceQueueItem *item)
     {
         assert(vfs_file_exists(vfs, file) && "Cannot load texture, file does not exist!");
         const char *path = vfs->file_table_path.at(file).path;
@@ -55,12 +32,29 @@ namespace Vultr
             return false;
         }
 
-        *item = new ResourceFinalizeItem<Texture>(file, loaded_buf);
+        item->type = ResourceType::TEXTURE;
+        item->file = file;
+        item->temp_buf = loaded_buf;
+
         return true;
     }
 
     template <>
-    void free_resource(Texture *resource)
+    bool finalize_resource<Texture>(VFileHandle file, Texture *data, void *buffer)
+    {
+        printf("Finalizing texture on main thread!\n");
+
+        auto *buf = static_cast<unsigned char *>(buffer);
+
+        TextureImporter::texture_load_gpu(data, buf);
+
+        stbi_image_free(buf);
+
+        return true;
+    }
+
+    template <>
+    void free_resource<Texture>(Texture *resource)
     {
         delete_texture(resource);
     }
@@ -96,7 +90,7 @@ namespace Vultr
         return buffer;
     }
 
-    unsigned char *TextureImporter::texture_load_memory(Texture *texture, const unsigned char *data, u32 size)
+    unsigned char *TextureImporter::texture_load_memory(Texture *texture, const unsigned char *data, u64 size)
     {
         s32 width = 0;
         s32 height = 0;

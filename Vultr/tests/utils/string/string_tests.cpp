@@ -38,10 +38,12 @@ TEST(String_Utils, StrEqual)
     char *string = str(string_literal);
 
     ASSERT_TRUE(strequal(string, string_literal));
+    ASSERT_TRUE(strnequal(string, "Hello", strlen("Hello")));
     free(string);
 
     string = str("");
     ASSERT_TRUE(strequal(string, ""));
+    free(string);
 }
 
 TEST(String_Utils, Restr)

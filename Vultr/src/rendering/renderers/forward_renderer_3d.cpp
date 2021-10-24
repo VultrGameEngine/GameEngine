@@ -1,6 +1,5 @@
 #include <rendering/renderers/forward_renderer_3d.h>
 #include <core/system_providers/shader_loader_system_provider.h>
-#include <core/system_providers/texture_loader_system_provider.h>
 #include <core/system_providers/light_system_provider.h>
 #include <glm/gtc/type_ptr.hpp>
 #include <rendering/render_context.h>
@@ -10,7 +9,7 @@ namespace Vultr::Renderer3D
     void ForwardRenderer::submit(Engine *e, const MaterialComponent &material, const Mat4 &transform, const Mesh &mesh, const RenderContext &context, u32 skybox_identifier)
     {
         bind_material(e, material, transform, context, skybox_identifier);
-        draw_mesh(mesh);
+        draw_mesh(&mesh);
     }
 
     // TODO: Reimplement

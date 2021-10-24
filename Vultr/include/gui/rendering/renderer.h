@@ -10,13 +10,13 @@ namespace Vultr
         {
             Mesh quad;
 
-            Shader *default_gui_shader;
-            Shader *texture_gui_shader;
-            Shader *batch_gui_shader;
-            Shader *rounded_gui_shader;
+            Shader default_gui_shader;
+            Shader texture_gui_shader;
+            Shader batch_gui_shader;
+            Shader rounded_gui_shader;
         };
 
-        Renderer new_imgui_renderer();
-        void destroy_imgui_renderer(Renderer &r);
+        void new_imgui_renderer(Renderer *r);
+        void destroy_imgui_renderer(Renderer *r);
     } // namespace IMGUI
 } // namespace Vultr

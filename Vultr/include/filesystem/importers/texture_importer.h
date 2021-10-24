@@ -10,7 +10,7 @@ namespace Vultr
     {
         bool texture_import(Texture *texture, const TextureSource *source);
         unsigned char *texture_load_file(Texture *texture, const TextureSource *source);
-        unsigned char *texture_load_memory(Texture *texture, const unsigned char *data, u32 size);
+        unsigned char *texture_load_memory(Texture *texture, const unsigned char *data, u64 size);
         void texture_load_gpu(Texture *texture, const unsigned char *data);
         // bool import_skybox(Texture *texture, const std::vector<TextureSource> &paths);
     } // namespace TextureImporter

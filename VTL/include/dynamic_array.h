@@ -110,13 +110,10 @@ namespace vtl
         // If the dynamic_array len equals dynamic_array size, then it will assume
         // nothing is reserved and a reallocation will occur unless reallocate is
         // explicitly false
-        T remove(size_t index)
+        void remove(size_t index)
         {
             // Fail if the index is greater than the dynamic_array.size or negative
-            assert(index <= size && index >= 0 && "Index out of bounds!");
-
-            // Save the element we are removing for later
-            T element = internal_array[index];
+            assert(index <= len && index >= 0 && "Index out of bounds!");
 
             // Shift elements to the left
             for (uint i = index + 1; i < size; i++)
@@ -128,8 +125,13 @@ namespace vtl
             len--;
 
             reallocate();
+        }
 
-            return element;
+        // Shorthand of removing last element of the array
+        void remove_last()
+        {
+            assert(len > 0 && "Array is empty!");
+            remove(len - 1);
         }
 
         // Manually shrink size

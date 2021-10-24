@@ -258,9 +258,7 @@ namespace Vultr
 
     void engine_init_default_systems(Engine *e)
     {
-        MeshLoaderSystem::register_system(e);
         ShaderLoaderSystem::register_system(e);
-        TextureLoaderSystem::register_system(e);
         ControllerSystem::register_system(e);
         CameraSystem::register_system(e);
         LightSystem::register_system(e);
@@ -288,22 +286,11 @@ namespace Vultr
         while (true)
         {
             printf("(Resource Thread %u): Waiting for item!\n", index);
-            IResourceLoadItem *item = load_queue->pop_wait();
+            auto item = load_queue->pop_wait();
 
-            printf("(Resource Thread %u): Loading resource queue item %u!\n", index, item->file);
+            printf("(Resource Thread %u): Loading resource queue item %u!\n", index, item.file);
 
-            rm->can_garbage_collect = false;
-            auto *finalize_item = item->load();
-            rm->can_garbage_collect = true;
-
-            if (finalize_item != nullptr)
-            {
-                rm->mutex.lock();
-                finalize_queue->push(&finalize_item);
-                rm->mutex.unlock();
-            }
-
-            delete item;
+            rm->load_asset(e->vfs, &item);
         }
 
         printf("(Resource Thread %u): Shutting down\n", index);
@@ -333,6 +320,9 @@ namespace Vultr
         last_time = t;
         UpdateTick tick = UpdateTick(deltaTime, e->debug);
 
+        // We want to finalize any assets that were loaded between frames before we continue rendering
+        e->resource_manager->finalize_assets(e->vfs);
+
         if (e->game != nullptr && play)
             e->game->update(e, tick);
 
@@ -343,14 +333,16 @@ namespace Vultr
         if (e->debug)
         {
             ShaderLoaderSystem::update(e);
-            TextureLoaderSystem::update(e);
-            MeshLoaderSystem::update(e);
             ControllerSystem::update(e, tick.m_delta_time);
         }
 
         LightSystem::update(e);
         InputSystem::update(e, tick);
         RenderSystem::update(e, tick);
+
+        // Once we are done if we can (which occurs when there are no actively queued assets) the resource manager will garbage collect any assets that have become invalid (No resources references remain)
+        e->resource_manager->garbage_collect();
+
         return tick;
     }
 

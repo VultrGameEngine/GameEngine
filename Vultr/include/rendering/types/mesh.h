@@ -23,12 +23,18 @@ namespace Vultr
         VertexArray vao = 0;
         IndexBuffer ibo = 0;
         VertexBuffer vbo = 0;
+
+        Mesh() = default;
+        Mesh(const Mesh &other) = delete;
     };
 
-    bool is_valid_mesh(const Mesh &mesh);
-    Mesh new_mesh(Vec3 positions[], Vec2 uvs[], Vec3 normals[], size_t vertex_count, u16 indices[], size_t index_count);
-    Mesh new_mesh(Vertex vertices[], size_t vertex_count, u16 indices[], size_t index_count);
-    void delete_mesh(Mesh &mesh);
+    bool is_valid_mesh(const Mesh *mesh);
 
-    void draw_mesh(const Mesh &mesh);
+    void new_mesh(Mesh *mesh, Vec3 positions[], Vec2 uvs[], Vec3 normals[], size_t vertex_count, u16 indices[], size_t index_count, bool load_gpu);
+    void new_mesh(Mesh *mesh, Vertex vertices[], size_t vertex_count, u16 indices[], size_t index_count, bool load_gpu);
+    void mesh_init_gpu(Mesh *mesh);
+
+    void delete_mesh(Mesh *mesh);
+
+    void draw_mesh(const Mesh *mesh);
 } // namespace Vultr

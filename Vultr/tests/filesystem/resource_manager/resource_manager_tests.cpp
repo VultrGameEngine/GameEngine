@@ -12,44 +12,29 @@ TEST(ResourceManager, Init)
     auto *e = new Engine();
     e->resource_manager = new ResourceManager();
 
-    engine_init_resource_threads(e);
+    // engine_init_resource_threads(e);
 
-    auto resource_directory = Directory("./res/");
-
-    ASSERT_TRUE(dirmake(&resource_directory));
+    auto resource_directory = Directory("./.test_resources/");
     ASSERT_TRUE(direxists(&resource_directory));
 
     engine_init_vfs(e, &resource_directory);
 
-    auto hello_png = TextureSource(&resource_directory, "hello.png");
-    FILE *f = fopen(hello_png.path, "w+");
-    fclose(f);
+    auto texture = RESOURCE(Texture, "test.jpg", e);
+    // auto m1 = RESOURCE(Mesh, "mesh.obj", e);
 
-    auto mesh_obj = ModelSource(&resource_directory, "mesh.obj");
-    f = fopen(mesh_obj.path, "w+");
-    fclose(f);
+    // auto shader = RESOURCE(Shader, "shader.glsl", e);
 
-    auto shader_glsl = ModelSource(&resource_directory, "shader.glsl");
-    f = fopen(shader_glsl.path, "w+");
-    fclose(f);
+    // usleep(1000);
 
-    auto mesh2_obj = ModelSource(&resource_directory, "mesh2.obj");
-    f = fopen(mesh2_obj.path, "w+");
-    fclose(f);
+    // auto dup_m = RESOURCE(Mesh, "mesh.obj", e);
+    // auto m2 = RESOURCE(Mesh, "mesh2.obj", e);
 
-    auto texture = RESOURCE(Texture, "hello.png", e);
-    auto m1 = RESOURCE(Mesh, "mesh.obj", e);
+    auto item = e->resource_manager->load_queue.pop_wait();
 
-    auto shader = RESOURCE(Shader, "shader.glsl", e);
+    printf("Loading resource queue item %u!\n", item.file);
 
-    usleep(1000);
-
-    auto dup_m = RESOURCE(Mesh, "mesh.obj", e);
-    auto m2 = RESOURCE(Mesh, "mesh2.obj", e);
+    e->resource_manager->load_asset(e->vfs, &item);
 
     // USleeps are necessary to make sure that we don't remove the files too early
-    usleep(1000);
-
-    ASSERT_TRUE(dirremove(&resource_directory));
-    ASSERT_FALSE(direxists(&resource_directory));
+    // usleep(1000);
 }

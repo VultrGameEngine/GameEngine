@@ -1,6 +1,6 @@
 #include <core/systems/font_system.h>
 #include <core/system_providers/font_system_provider.h>
-#include <helpers/font_importer.h>
+#include <filesystem/importers/font_importer.h>
 #include <engine.hpp>
 
 namespace Vultr::FontSystem

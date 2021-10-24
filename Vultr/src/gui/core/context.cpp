@@ -4,7 +4,7 @@
 #include <core/system_providers/render_system_provider.h>
 
 #include <core/system_providers/input_system_provider.h>
-#include <helpers/font_importer.h>
+#include <filesystem/importers/font_importer.h>
 #include <core/system_providers/font_system_provider.h>
 #include <gui/materials/default_gui_material.h>
 #include <gui/utils/opengl.h>
@@ -72,10 +72,12 @@ IMGUI::Context *IMGUI::new_context(Engine *e, const IMGUI::Window &window)
     Context *context = new Context();
     context->window = window;
     context->engine = e;
-    context->renderer = new_imgui_renderer();
+    new_imgui_renderer(&context->renderer);
     auto default_font = FontSource("/home/brandon/Dev/Monopoly/res/fonts/Roboto-Regular.ttf");
     context->font = FontImporter::import_font(default_font, FontSystem::get_provider(e).library);
-    context->requests.reserve(512);
+
+    // TODO: AHHH
+    // context->requests.reserve(512);
     return context;
 }
 
@@ -161,7 +163,7 @@ static u8 apply_stencil(IMGUI::Context *c, IMGUI::StencilRequest *request, u8 in
         get_gl_transform(c, request->local_transform, global_transform, gl_global_pos, gl_global_size, full_transform);
 
         set_uniform_matrix_4fv(request->data.material->shader, "transform", glm::value_ptr(full_transform));
-        draw_mesh(request->data.mesh);
+        draw_mesh(&request->data.mesh);
 
         if (!is_recurse)
         {
@@ -273,7 +275,7 @@ void draw_render_request(IMGUI::Context *c, IMGUI::RenderRequestContext *context
 
     if (r.type == RenderRequest::ABSOLUTE_MESH_DRAW || r.type == RenderRequest::MESH_DRAW)
     {
-        draw_mesh(r.data.mesh);
+        draw_mesh(&r.data.mesh);
     }
     else
     {
@@ -288,7 +290,8 @@ void draw_render_request(IMGUI::Context *c, IMGUI::RenderRequestContext *context
 
 void IMGUI::end(Context *c)
 {
-    std::sort(c->requests.begin(), c->requests.end());
+    // TODO: AHHHH
+    // std::sort(c->requests.begin(), c->requests.end());
     c->widget_transforms.clear();
 
     // If there was an ID there before that did not have its state accessed this frame, then we should clean up the cache
@@ -308,7 +311,7 @@ void IMGUI::end(Context *c)
 
     // Cursor starts at the top left
     Vec2 cursor = Vec2(-1, 1);
-    for (auto request : c->requests)
+    for (auto &request : c->requests)
     {
         auto global_transform = get_widget_global_transform(c, request.id);
 
@@ -452,7 +455,8 @@ bool IMGUI::mouse_over(Context *c, UI_ID id, Vec2 size)
 
 void IMGUI::submit_render_request(Context *c, UI_ID id, const RenderRequest &r)
 {
-    c->requests.push_back(r);
+    // TODO: AHHH
+    // c->requests.push_back(r);
 }
 
 void IMGUI::draw_rect_absolute(Context *c, UI_ID id, Vec2 position, Vec2 size, Material *material)

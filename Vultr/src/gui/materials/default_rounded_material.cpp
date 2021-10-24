@@ -6,7 +6,7 @@ using namespace Vultr;
 IMGUI::DefaultRoundedMaterial *IMGUI::new_rounded_material(Context *c, Color color, Vec4 corner_radius)
 {
     auto *mat = new DefaultRoundedMaterial();
-    mat->shader = c->renderer.rounded_gui_shader;
+    mat->shader = &c->renderer.rounded_gui_shader;
     mat->color = color;
     mat->corner_radius = corner_radius;
     return mat;

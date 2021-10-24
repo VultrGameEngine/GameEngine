@@ -1,6 +1,6 @@
 #include <gui/core/context.h>
 #include <gui/widgets/text.h>
-#include <helpers/font_importer.h>
+#include <filesystem/importers/font_importer.h>
 #include <core/system_providers/render_system_provider.h>
 #include <gui/materials/default_gui_material.h>
 #include <gui/materials/default_batch_material.h>

@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 #include <rendering/types/material.h>
 #include <sys/resource.h>
+#include <filesystem/importers/shader_importer.h>
 
 int main(int argc, char **argv)
 {

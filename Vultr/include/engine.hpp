@@ -14,7 +14,6 @@ namespace Vultr
     typedef void (*OnEdit)(void *editor, EditEvent *);
 
 #define RESOURCE_MANAGER_THREADS 8
-    typedef InternalResourceManager<Texture, Mesh, Shader> ResourceManager;
 
     struct Engine
     {
@@ -200,7 +199,7 @@ namespace Vultr
         {
             assert(asset != 0 && "Invalid asset!");
             assert(rm != nullptr && "Invalid resource manager!");
-            rm->template incr<T>(e->vfs, asset);
+            rm->incr<T>(e->vfs, asset);
         }
 
         consteval Resource()
@@ -211,7 +210,7 @@ namespace Vultr
         {
             assert(asset != 0 && "Invalid asset!");
             assert(rm != nullptr && "Invalid resource manager!");
-            rm->template decr<T>(asset);
+            rm->decr<T>(asset);
         }
 
         bool is_loaded()
