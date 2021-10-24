@@ -4,7 +4,6 @@
 #include <fonts/fork_awesome.h>
 #define INCBIN_STYLE INCBIN_STYLE_SNAKE
 #include <incbin/incbin.h>
-#include <helpers/texture_importer.h>
 #include <windows/asset_browser.h>
 #include <windows/component_window.h>
 #include <windows/entity_window.h>

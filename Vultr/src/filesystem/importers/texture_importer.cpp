@@ -58,92 +58,107 @@ namespace Vultr
     {
         delete_texture(resource);
     }
-
-    bool TextureImporter::texture_import(Texture *texture, const TextureSource *source)
+    namespace TextureImporter
     {
-        u8 *buf = texture_load_file(texture, source);
-        if (buf == nullptr)
-            return false;
-
-        texture_load_gpu(texture, buf);
-
-        stbi_image_free(buf);
-        return true;
-    }
-
-    unsigned char *TextureImporter::texture_load_file(Texture *texture, const TextureSource *source)
-    {
-        stbi_set_flip_vertically_on_load(1);
-        s32 width;
-        s32 height;
-        s32 bpp;
-        u8 *buffer = stbi_load(source->path, &width, &height, &bpp, 4);
-
-        if (buffer == nullptr)
+        bool texture_import(Texture *texture, const TextureSource *source)
         {
-            return nullptr;
+            u8 *buf = texture_load_file(texture, source);
+            if (buf == nullptr)
+                return false;
+
+            texture_load_gpu(texture, buf);
+
+            stbi_image_free(buf);
+            return true;
         }
 
-        texture->width = width;
-        texture->height = height;
-
-        return buffer;
-    }
-
-    unsigned char *TextureImporter::texture_load_memory(Texture *texture, const unsigned char *data, u64 size)
-    {
-        s32 width = 0;
-        s32 height = 0;
-        u8 *buffer = stbi_load_from_memory(data, size, &width, &height, nullptr, 4);
-        if (buffer == nullptr)
+        bool texture_import(Texture *texture, const unsigned char *data, u64 size)
         {
-            return nullptr;
+            auto *buf = texture_load_memory(texture, data, size);
+            if (buf == nullptr)
+                return false;
+
+            texture_load_gpu(texture, buf);
+
+            stbi_image_free(buf);
+            return true;
         }
 
-        texture->width = width;
-        texture->height = height;
-        return buffer;
-    }
+        unsigned char *texture_load_file(Texture *texture, const TextureSource *source)
+        {
+            stbi_set_flip_vertically_on_load(1);
+            s32 width;
+            s32 height;
+            s32 bpp;
+            u8 *buffer = stbi_load(source->path, &width, &height, &bpp, 4);
 
-    void TextureImporter::texture_load_gpu(Texture *texture, const unsigned char *data)
-    {
-        bind_texture(texture, GL_TEXTURE0);
-        texture_parameter_i(texture, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        texture_parameter_i(texture, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        texture_parameter_i(texture, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        texture_parameter_i(texture, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+            if (buffer == nullptr)
+            {
+                return nullptr;
+            }
 
-        texture_image_2D(texture, 0, GL_SRGB_ALPHA, texture->width, texture->height, GL_RGBA, GL_UNSIGNED_BYTE, data);
-    }
+            texture->width = width;
+            texture->height = height;
 
-    // bool TextureImporter::import_skybox(Texture *texture, const std::vector<TextureSource> &paths)
-    // {
-    //     assert(texture->type == GL_TEXTURE_CUBE_MAP && "Can only write to texture marked as a cube map");
+            return buffer;
+        }
 
-    //     stbi_set_flip_vertically_on_load(0);
-    //     bind_texture(texture, GL_TEXTURE0);
+        unsigned char *texture_load_memory(Texture *texture, const unsigned char *data, u64 size)
+        {
+            s32 width = 0;
+            s32 height = 0;
+            u8 *buffer = stbi_load_from_memory(data, size, &width, &height, nullptr, 4);
+            if (buffer == nullptr)
+            {
+                return nullptr;
+            }
 
-    //     int width, height, nrChannels;
-    //     for (unsigned int i = 0; i < paths.size(); i++)
-    //     {
-    //         unsigned char *data = stbi_load(paths[i].path, &width, &height, &nrChannels, 0);
-    //         if (data)
-    //         {
-    //             texture_image_2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, width, height, GL_RGB, GL_UNSIGNED_BYTE, data);
-    //             stbi_image_free(data);
-    //         }
-    //         else
-    //         {
-    //             std::cout << "Cubemap texture failed to load at path: " << paths[i].path << std::endl;
-    //             stbi_image_free(data);
-    //             return false;
-    //         }
-    //     }
-    //     texture_parameter_i(texture, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    //     texture_parameter_i(texture, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    //     texture_parameter_i(texture, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    //     texture_parameter_i(texture, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    //     texture_parameter_i(texture, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-    //     return true;
-    // }
+            texture->width = width;
+            texture->height = height;
+            return buffer;
+        }
+
+        void texture_load_gpu(Texture *texture, const unsigned char *data)
+        {
+            bind_texture(texture, GL_TEXTURE0);
+            texture_parameter_i(texture, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            texture_parameter_i(texture, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+            texture_parameter_i(texture, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+            texture_parameter_i(texture, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+            texture_image_2D(texture, 0, GL_SRGB_ALPHA, texture->width, texture->height, GL_RGBA, GL_UNSIGNED_BYTE, data);
+        }
+
+        // bool TextureImporter::import_skybox(Texture *texture, const std::vector<TextureSource> &paths)
+        // {
+        //     assert(texture->type == GL_TEXTURE_CUBE_MAP && "Can only write to texture marked as a cube map");
+
+        //     stbi_set_flip_vertically_on_load(0);
+        //     bind_texture(texture, GL_TEXTURE0);
+
+        //     int width, height, nrChannels;
+        //     for (unsigned int i = 0; i < paths.size(); i++)
+        //     {
+        //         unsigned char *data = stbi_load(paths[i].path, &width, &height, &nrChannels, 0);
+        //         if (data)
+        //         {
+        //             texture_image_2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, width, height, GL_RGB, GL_UNSIGNED_BYTE, data);
+        //             stbi_image_free(data);
+        //         }
+        //         else
+        //         {
+        //             std::cout << "Cubemap texture failed to load at path: " << paths[i].path << std::endl;
+        //             stbi_image_free(data);
+        //             return false;
+        //         }
+        //     }
+        //     texture_parameter_i(texture, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        //     texture_parameter_i(texture, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        //     texture_parameter_i(texture, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        //     texture_parameter_i(texture, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        //     texture_parameter_i(texture, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+        //     return true;
+        // }
+    } // namespace TextureImporter
+
 } // namespace Vultr

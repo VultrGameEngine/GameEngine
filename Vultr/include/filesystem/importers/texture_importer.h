@@ -9,6 +9,7 @@ namespace Vultr
     namespace TextureImporter
     {
         bool texture_import(Texture *texture, const TextureSource *source);
+        bool texture_import(Texture *texture, const unsigned char *data, u64 size);
         unsigned char *texture_load_file(Texture *texture, const TextureSource *source);
         unsigned char *texture_load_memory(Texture *texture, const unsigned char *data, u64 size);
         void texture_load_gpu(Texture *texture, const unsigned char *data);

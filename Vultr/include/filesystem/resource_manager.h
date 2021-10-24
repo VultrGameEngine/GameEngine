@@ -88,7 +88,7 @@ namespace Vultr
         ~ResourceManager() = default;
 
         template <typename T>
-        void incr(const VirtualFilesystem *vfs, VFileHandle file)
+        void incr(VFileHandle file)
         {
             mutex.lock();
 

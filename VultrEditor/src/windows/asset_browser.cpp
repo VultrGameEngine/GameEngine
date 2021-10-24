@@ -23,17 +23,17 @@ static s32 get_num_cols()
 static void draw_directory(Editor *editor, const Directory &dir)
 {
     // All directories use the folder icon
-    auto &texture = editor->texture_manager.folder_icon;
+    auto *texture = &editor->texture_manager.folder_icon;
     bind_texture(texture, GL_TEXTURE0);
-    ImGui::Image((void *)(intptr_t)texture.id, ImVec2(125, 125));
+    ImGui::Image((void *)(intptr_t)texture->id, ImVec2(125, 125));
 }
 
 static void draw_file(Editor *editor, const GenericFile *file)
 {
     // Different files will have different textures
-    auto &texture = get_texture_from_file(editor, file);
+    auto *texture = &get_texture_from_file(editor, file);
     bind_texture(texture, GL_TEXTURE0);
-    ImGui::Image((void *)(intptr_t)texture.id, ImVec2(125, 125));
+    ImGui::Image((void *)(intptr_t)texture->id, ImVec2(125, 125));
 }
 
 #define DESELECT() selected = -1;

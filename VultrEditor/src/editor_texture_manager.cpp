@@ -2,7 +2,7 @@
 #include <editor.h>
 #define INCBIN_STYLE INCBIN_STYLE_SNAKE
 #include <incbin/incbin.h>
-#include <helpers/texture_importer.h>
+#include <filesystem/importers/texture_importer.h>
 
 #ifndef SOURCE_PATH
 #define SOURCE_PATH "INVALID SOURCE"
@@ -29,26 +29,27 @@ INCBIN(vultr_icon, "../res/temp_vultr_icon.png");
 using namespace Vultr;
 EditorTextureManager::EditorTextureManager()
 {
-    folder_icon = generate_texture(GL_TEXTURE_2D);
-    TextureImporter::import(folder_icon, gfolder_icon_data, gfolder_icon_size);
+    generate_texture(&folder_icon, GL_TEXTURE_2D);
+    TextureImporter::texture_import(&folder_icon, gfolder_icon_data, gfolder_icon_size);
 
-    file_icon = generate_texture(GL_TEXTURE_2D);
-    TextureImporter::import(file_icon, gfile_icon_data, gfile_icon_size);
+    generate_texture(&file_icon, GL_TEXTURE_2D);
+    TextureImporter::texture_import(&file_icon, gfile_icon_data, gfile_icon_size);
 
-    c_icon = generate_texture(GL_TEXTURE_2D);
-    TextureImporter::import(c_icon, gc_icon_data, gc_icon_size);
+    generate_texture(&c_icon, GL_TEXTURE_2D);
 
-    image_icon = generate_texture(GL_TEXTURE_2D);
-    TextureImporter::import(image_icon, gimage_icon_data, gimage_icon_size);
+    TextureImporter::texture_import(&c_icon, gc_icon_data, gc_icon_size);
 
-    shader_icon = generate_texture(GL_TEXTURE_2D);
-    TextureImporter::import(shader_icon, gshader_icon_data, gshader_icon_size);
+    generate_texture(&image_icon, GL_TEXTURE_2D);
+    TextureImporter::texture_import(&image_icon, gimage_icon_data, gimage_icon_size);
 
-    model_icon = generate_texture(GL_TEXTURE_2D);
-    TextureImporter::import(model_icon, gmodel_icon_data, gmodel_icon_size);
+    generate_texture(&shader_icon, GL_TEXTURE_2D);
+    TextureImporter::texture_import(&shader_icon, gshader_icon_data, gshader_icon_size);
 
-    vultr_icon = generate_texture(GL_TEXTURE_2D);
-    TextureImporter::import(vultr_icon, gvultr_icon_data, gvultr_icon_size);
+    generate_texture(&model_icon, GL_TEXTURE_2D);
+    TextureImporter::texture_import(&model_icon, gmodel_icon_data, gmodel_icon_size);
+
+    generate_texture(&vultr_icon, GL_TEXTURE_2D);
+    TextureImporter::texture_import(&vultr_icon, gvultr_icon_data, gvultr_icon_size);
 }
 
 Texture &get_texture_from_file(Editor *editor, const IFile *file)

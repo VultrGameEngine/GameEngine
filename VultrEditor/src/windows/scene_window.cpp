@@ -131,7 +131,7 @@ void scene_window_render(Engine *e, Editor *editor, const UpdateTick &tick, void
     auto &camera_system_provider = CameraSystem::get_provider(e);
 
     // For the scene window we will need the scene texture
-    auto texture = get_framebuffer_color_texture(render_system_provider.scene.post_processed_fbo, 0);
+    auto *texture = get_framebuffer_color_texture(&render_system_provider.scene.post_processed_fbo, 0);
     bind_texture(texture, GL_TEXTURE0);
 
     // Draw all imgui windows
@@ -146,7 +146,7 @@ void scene_window_render(Engine *e, Editor *editor, const UpdateTick &tick, void
 #pragma clang diagnostic ignored "-Wint-to-void-pointer-cast"
 
     // Draw the scene window texture
-    ImGui::Image((void *)texture.id, ImVec2{viewport_panel_size.x, viewport_panel_size.y}, ImVec2{0, 1}, ImVec2{1, 0});
+    ImGui::Image((void *)texture->id, ImVec2{viewport_panel_size.x, viewport_panel_size.y}, ImVec2{0, 1}, ImVec2{1, 0});
 
 #pragma clang diagnostic pop
 

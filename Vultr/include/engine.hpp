@@ -195,22 +195,51 @@ namespace Vultr
         ResourceManager *rm = nullptr;
         VFileHandle asset = 0;
 
+        Resource() = default;
+
         Resource(VFileHandle hash, Engine *e) : asset(hash), rm(e->resource_manager)
         {
             assert(asset != 0 && "Invalid asset!");
             assert(rm != nullptr && "Invalid resource manager!");
-            rm->incr<T>(e->vfs, asset);
+            rm->incr<T>(asset);
         }
 
-        consteval Resource()
+        Resource(const Resource<T> &other)
         {
+            if (asset != 0 && rm != nullptr)
+            {
+                rm->decr<T>(asset);
+            }
+            asset = other.asset;
+            rm = other.rm;
+            if (asset != 0 && rm != nullptr)
+            {
+                rm->incr<T>(asset);
+            }
+        }
+
+        Resource &operator=(const Resource<T> &other)
+        {
+            if (asset != 0 && rm != nullptr)
+            {
+                rm->decr<T>(asset);
+            }
+
+            asset = other.asset;
+            rm = other.rm;
+
+            if (asset != 0 && rm != nullptr)
+            {
+                rm->incr<T>(asset);
+            }
         }
 
         ~Resource()
         {
-            assert(asset != 0 && "Invalid asset!");
-            assert(rm != nullptr && "Invalid resource manager!");
-            rm->decr<T>(asset);
+            if (asset != 0 && rm != nullptr)
+            {
+                rm->decr<T>(asset);
+            }
         }
 
         bool is_loaded()
