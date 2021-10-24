@@ -338,7 +338,9 @@ namespace Vultr
 
         LightSystem::update(e);
         InputSystem::update(e, tick);
-        RenderSystem::update(e, tick);
+
+        // TODO: Fix the render system
+        // RenderSystem::update(e, tick);
 
         // Once we are done if we can (which occurs when there are no actively queued assets) the resource manager will garbage collect any assets that have become invalid (No resources references remain)
         e->resource_manager->garbage_collect();
