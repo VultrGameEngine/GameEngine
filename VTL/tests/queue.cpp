@@ -1,4 +1,3 @@
-// TODO: Implement these tests
 #include <gtest/gtest.h>
 #define private public
 #define protected public
@@ -6,38 +5,88 @@
 
 using namespace vtl;
 
-TEST(HashTable, Iterator)
+TEST(Queue, Initialize)
 {
-    // const char *string_keys[] = {"urmom", "chungus", "poop", "awoooga"};
-    // const char *string_vals[] = {"joe", "big", "shit", "eyes pop out"};
-    // auto table = new_hashtable<const char *, const char *>();
+    Queue<const char *, 15> queue;
+    ASSERT_EQ(queue._size, 15);
+    ASSERT_EQ(queue.len, 0);
+    ASSERT_NE(queue._array, nullptr);
+}
 
-    // for (int i = 0; i < 4; i++)
-    // {
-    //     table[string_keys[i]] = string_vals[i];
-    // }
+TEST(Queue, Push)
+{
+    Queue<const char *, 2, 3, 2> queue;
 
-    // uint i = 0;
-    // for (auto iterator = table.begin(); iterator != table.end(); iterator++)
-    // {
-    //     EXPECT_STREQ((*iterator).key, string_keys[i]) << "Index " << i;
-    //     EXPECT_STREQ((*iterator).value, string_vals[i]) << "Index " << i;
-    //     i++;
-    // }
+    queue.push("Hello");
+    ASSERT_EQ(queue._size, 2);
+    ASSERT_EQ(queue.len, 1);
 
-    // i = 0;
-    // for (auto pair : table)
-    // {
-    //     EXPECT_STREQ(pair.key, string_keys[i]) << "Index " << i;
-    //     EXPECT_STREQ(pair.value, string_vals[i]) << "Index " << i;
-    //     i++;
-    // }
+    queue.push(" my");
+    ASSERT_EQ(queue._size, 2);
+    ASSERT_EQ(queue.len, 2);
 
-    // i = 0;
-    // for (auto [key, value] : table)
-    // {
-    //     EXPECT_STREQ(key, string_keys[i]) << "Index " << i;
-    //     EXPECT_STREQ(value, string_vals[i]) << "Index " << i;
-    //     i++;
-    // }
+    queue.push(" baby");
+    ASSERT_EQ(queue._size, 4);
+    ASSERT_EQ(queue.len, 3);
+}
+
+TEST(Queue, Front)
+{
+    Queue<const char *, 2, 3, 2> queue;
+
+    queue.push("Hello");
+    ASSERT_EQ(queue._size, 2);
+    ASSERT_EQ(queue.len, 1);
+
+    ASSERT_STRCASEEQ("Hello", *queue.front());
+
+    queue.push(" my");
+    ASSERT_EQ(queue._size, 2);
+    ASSERT_EQ(queue.len, 2);
+
+    ASSERT_STRCASEEQ("Hello", *queue.front());
+
+    queue.push(" baby");
+    ASSERT_EQ(queue._size, 4);
+    ASSERT_EQ(queue.len, 3);
+
+    ASSERT_STRCASEEQ("Hello", *queue.front());
+}
+
+TEST(Queue, Pop)
+{
+    Queue<const char *, 2, 3, 2, 26> queue;
+    queue.push("Hello");
+    queue.push(" my");
+    queue.push(" baby");
+
+    ASSERT_EQ(queue._size, 4);
+    ASSERT_EQ(queue.len, 3);
+    ASSERT_STRCASEEQ("Hello", *queue.front());
+    queue.pop();
+    ASSERT_EQ(queue._size, 4);
+    ASSERT_EQ(queue.len, 2);
+    ASSERT_STRCASEEQ(" my", *queue.front());
+
+    queue.push(" hello");
+    ASSERT_EQ(queue._size, 4);
+    ASSERT_EQ(queue.len, 3);
+
+    queue.pop();
+    ASSERT_EQ(queue._size, 4);
+    ASSERT_EQ(queue.len, 2);
+    ASSERT_STRCASEEQ(" baby", *queue.front());
+
+    queue.pop();
+    ASSERT_EQ(queue._size, 2);
+    ASSERT_EQ(queue.len, 1);
+    ASSERT_STRCASEEQ(" hello", *queue.front());
+}
+
+TEST(Queue, Empty)
+{
+    Queue<const char *> queue;
+    ASSERT_TRUE(queue.empty());
+    queue.push("Hello");
+    ASSERT_FALSE(queue.empty());
 }

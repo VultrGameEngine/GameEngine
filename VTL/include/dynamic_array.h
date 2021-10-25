@@ -8,11 +8,9 @@ namespace vtl
     template <typename T, size_t reserved = 10, u32 growth_numerator = 3, u32 growth_denominator = 2, u32 decay_percent_threshold = 30>
     struct DynamicArray
     {
-        // Initialize an empty dynamic_array
-        // Reserved specifies a size of the dynamic_array that will be reserved initially
+        // Initialize an empty DynamicArray
+        // Reserved specifies a size of the DynamicArray that will be reserved initially
         // which will be empty
-        //
-        // Returns new dynamic_array
         DynamicArray()
         {
             size = reserved;
@@ -132,15 +130,6 @@ namespace vtl
         {
             assert(len > 0 && "Array is empty!");
             remove(len - 1);
-        }
-
-        // Manually shrink size
-        void shrink()
-        {
-            if (len < size)
-            {
-                size = len;
-            }
         }
 
         // static DynamicArray<T> copy()

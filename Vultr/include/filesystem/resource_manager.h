@@ -109,7 +109,7 @@ namespace Vultr
                 ResourceQueueItem item;
                 item.file = file;
                 item.type = get_resource_type<T>();
-                load_queue.push(&item);
+                load_queue.push(item);
             }
 
             mutex.unlock();
@@ -131,7 +131,7 @@ namespace Vultr
                 ResourceQueueItem item;
                 item.file = file;
                 item.type = get_resource_type<T>();
-                free_queue.push(&item);
+                free_queue.push(item);
             }
 
             mutex.unlock();
@@ -192,7 +192,7 @@ namespace Vultr
 
             if (res.type != ResourceType::INVALID)
             {
-                finalize_queue.push(&res);
+                finalize_queue.push(res);
             }
         }
 
@@ -200,7 +200,8 @@ namespace Vultr
         {
             while (!finalize_queue.empty())
             {
-                auto item = finalize_queue.pop();
+                auto item = *finalize_queue.front();
+                finalize_queue.pop();
                 switch (item.type)
                 {
                     case ResourceType::TEXTURE:
@@ -231,7 +232,9 @@ namespace Vultr
             {
                 while (!free_queue.empty())
                 {
-                    auto item = finalize_queue.pop();
+                    auto item = *finalize_queue.front();
+                    finalize_queue.pop();
+
                     switch (item.type)
                     {
                         case ResourceType::TEXTURE:

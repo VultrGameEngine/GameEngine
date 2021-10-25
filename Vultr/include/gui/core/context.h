@@ -5,7 +5,8 @@
 #include <gui/rendering/stencil_request.h>
 #include <gui/rendering/quad_batch.h>
 #include "ui_id.h"
-#include <stack>
+#include <stack.h>
+#include <dynamic_array.h>
 #include <input/input.h>
 #include "widget_cache.h"
 #include <core/models/update_tick.h>
@@ -52,15 +53,15 @@ namespace Vultr
             UI_ID parent = NO_ID;
 
             // This is the index that will increase every time that a widget is layed out when there is a parent
-            std::stack<s32> index;
+            vtl::Stack<s32> index;
 
             std::unordered_map<UI_ID, Layout> widget_layouts;
 
             std::unordered_map<UI_ID, Transform> widget_transforms;
 
-            std::vector<RenderRequest> requests;
+            vtl::DynamicArray<RenderRequest, 40, 2, 1> requests;
 
-            std::set<UI_ID> widget_ids_to_be_removed;
+            vtl::DynamicArray<UI_ID> widget_ids_to_be_removed;
 
             // The Z Index stack
             s32 z_index[MAX_WIDGET_DEPTH];

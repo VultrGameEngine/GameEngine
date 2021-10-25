@@ -4,19 +4,25 @@
 
 namespace vtl
 {
-    template <typename T>
+    template <typename T, size_t reserved = 10, u32 growth_numerator = 3, u32 growth_denominator = 2, u32 decay_percent_threshold = 30, bool threaded = false>
     struct Queue
     {
         Queue()
         {
+            _size = reserved;
+            len = 0;
+            if (reserved > 0)
+            {
+                _array = static_cast<T *>(malloc(_size * sizeof(T)));
+            }
         }
 
         ~Queue()
         {
-            if (items != nullptr)
+            if (_array != nullptr)
             {
-                free(items);
-                items = nullptr;
+                free(_array);
+                _array = nullptr;
             }
         }
 
@@ -25,60 +31,51 @@ namespace vtl
 
         T *front()
         {
-            std::unique_lock<vtl::mutex> lock(queue_mutex);
-            assert(len > 0 && "No items in queue!");
-            T *item = &items[len - 1];
+            if (threaded)
+                queue_mutex.lock();
+            assert(len > 0 && "No _array in queue!");
+            T *item = &_array[len - 1];
+            if (threaded)
+                queue_mutex.unlock();
             return item;
         }
 
-        void push(T *item)
+        void push(const T &item)
         {
-            std::unique_lock<vtl::mutex> lock(queue_mutex);
-            if (len == 0)
+            if (threaded)
+                queue_mutex.lock();
+            len++;
+            _reallocate();
+            for (s32 i = len - 1; i >= 1; i--)
             {
-                assert(items == nullptr && "Items already allocated for some reason?");
-                len++;
-                items = static_cast<T *>(malloc(sizeof(T)));
-            }
-            else
-            {
-                len++;
-                resize();
-                for (s32 i = len - 1; i >= 1; i--)
-                {
-                    items[i] = items[i - 1];
-                }
+                _array[i] = _array[i - 1];
             }
 
-            items[0] = *item;
+            _array[0] = item;
 
-            lock.unlock();
-            queue_cond.notify_one();
+            if (threaded)
+            {
+                queue_mutex.unlock();
+                queue_cond.notify_one();
+            }
         }
 
-        T pop()
+        void pop()
         {
             assert(!empty() && "No elements to pop!");
-            T copy = items[len - 1];
             len--;
-            resize();
-
-            return copy;
+            _reallocate();
         }
 
-        T pop_wait()
+        void pop_wait()
         {
+            assert(threaded && "Queue must be threaded before you can pop wait!");
             std::unique_lock<vtl::mutex> lock(queue_mutex);
             while (empty())
             {
                 queue_cond.wait(lock);
             }
-            return pop();
-        }
-
-        void resize()
-        {
-            items = static_cast<T *>(realloc(items, sizeof(T) * len));
+            pop();
         }
 
         bool empty() const
@@ -86,8 +83,60 @@ namespace vtl
             return len == 0;
         }
 
-        T *items = nullptr;
+        void _reallocate()
+        {
+            // Only reallocate and expand the array if we need to
+            if (len > _size)
+            {
+                _size = len * growth_factor;
+            }
+            else if ((f64)len / (f64)_size < (f64)decay_percent_threshold / 100.0)
+            {
+                _size = len * growth_factor;
+            }
+            else
+            {
+                return;
+            }
+
+            if (_size < reserved)
+            {
+                _size = reserved;
+            }
+
+            if (_size == 0)
+            {
+                if (_array != nullptr)
+                {
+                    free(_array);
+                    _array = nullptr;
+                }
+            }
+            else
+            {
+                if (_array == nullptr)
+                {
+                    _array = (T *)malloc(_size * sizeof(T));
+                }
+                else
+                {
+                    _array = (T *)realloc(_array, _size * sizeof(T));
+                }
+            }
+        }
+
+        // The internal array
+        T *_array = nullptr;
+
+        // Spaces len (not bytes)
         size_t len = 0;
+
+        // Space in _array (not bytes)
+        size_t _size = reserved;
+
+        // To make sure that the buffer expansion is geometric
+        f64 growth_factor = (f64)growth_numerator / (f64)growth_denominator;
+
         vtl::mutex queue_mutex;
         vtl::condition_variable queue_cond;
     };

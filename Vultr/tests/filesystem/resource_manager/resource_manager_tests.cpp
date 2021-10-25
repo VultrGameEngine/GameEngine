@@ -29,7 +29,8 @@ TEST(ResourceManager, Init)
     // auto dup_m = RESOURCE(Mesh, "mesh.obj", e);
     // auto m2 = RESOURCE(Mesh, "mesh2.obj", e);
 
-    auto item = e->resource_manager->load_queue.pop_wait();
+    auto item = *e->resource_manager->load_queue.front();
+    e->resource_manager->load_queue.pop_wait();
 
     printf("Loading resource queue item %u!\n", item.file);
 
