@@ -1,5 +1,5 @@
 #pragma once
-#include <types/types.hpp>
+#include <types/types.h>
 #include <assert.h>
 #include <glm/glm.hpp>
 #include <rendering/types/vertex.h>

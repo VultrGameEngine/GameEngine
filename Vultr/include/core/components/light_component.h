@@ -1,5 +1,5 @@
 #pragma once
-#include <types/types.hpp>
+#include <types/types.h>
 #include <core/models/color.h>
 
 namespace Vultr

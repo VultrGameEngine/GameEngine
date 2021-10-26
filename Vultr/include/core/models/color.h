@@ -1,6 +1,6 @@
 #pragma once
 #include <fundamental/types.h>
-#include <types/types.hpp>
+#include <types/types.h>
 
 namespace Vultr
 {

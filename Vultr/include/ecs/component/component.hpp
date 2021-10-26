@@ -1,7 +1,7 @@
 #pragma once
 #include <stdint.h>
 #include <bitset>
-#include <types/types.hpp>
+#include <types/types.h>
 #include <json/json_fwd.hpp>
 #define VCOMPONENT(...)
 #define VSYSTEM(...)

@@ -8,6 +8,7 @@ file(
   "src/*.cpp"
   "include/*.cpp"
   "vendor/*.cpp"
+  "vendor/*.c"
 )
 
 

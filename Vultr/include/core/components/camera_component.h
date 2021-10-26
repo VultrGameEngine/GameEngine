@@ -1,5 +1,5 @@
 #pragma once
-#include <types/types.hpp>
+#include <types/types.h>
 #include <glm/glm.hpp>
 #include <glm/gtx/quaternion.hpp>
 #include <glm/gtx/transform.hpp>

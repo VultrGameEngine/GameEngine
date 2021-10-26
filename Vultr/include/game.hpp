@@ -6,7 +6,7 @@ namespace Vultr
 #include <core/models/update_tick.h>
 #include <imgui/imgui.h>
 #include "scene.hpp"
-#include <types/types.hpp>
+#include <types/types.h>
 #include <ecs/world/world.hpp>
 
 struct Game

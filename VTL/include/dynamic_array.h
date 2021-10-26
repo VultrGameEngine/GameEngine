@@ -1,6 +1,6 @@
 #pragma once
 #include <assert.h>
-#include "types/types.hpp"
+#include "types/types.h"
 #include <memory>
 
 namespace vtl
@@ -9,15 +9,15 @@ namespace vtl
     struct DynamicArray
     {
         // Initialize an empty DynamicArray
-        // Reserved specifies a size of the DynamicArray that will be reserved initially
+        // Reserved specifies a _size of the DynamicArray that will be reserved initially
         // which will be empty
         DynamicArray()
         {
-            size = reserved;
+            _size = reserved;
             len = 0;
             if (reserved > 0)
             {
-                internal_array = static_cast<T *>(malloc(size * sizeof(T)));
+                _array = static_cast<T *>(malloc(_size * sizeof(T)));
             }
         }
 
@@ -27,17 +27,17 @@ namespace vtl
             assert(array != nullptr && "Array must not be null!");
 
             len = count;
-            size = len * growth_factor;
-            if (size < reserved)
+            _size = len * growth_factor;
+            if (_size < reserved)
             {
-                size = reserved;
+                _size = reserved;
             }
 
-            internal_array = static_cast<T *>(malloc(sizeof(T) * size));
+            _array = static_cast<T *>(malloc(sizeof(T) * _size));
 
             for (int i = 0; i < count; i++)
             {
-                internal_array[i] = array[i];
+                _array[i] = array[i];
             }
         }
 
@@ -48,8 +48,8 @@ namespace vtl
         // Destructor for dynamic array
         ~DynamicArray()
         {
-            if (internal_array != nullptr)
-                free(internal_array);
+            if (_array != nullptr)
+                free(_array);
         }
 
         // Push element to back of dynamic_array
@@ -64,9 +64,9 @@ namespace vtl
 
             // Increase the len amount and assign the last element of array to the new
             // element
-            internal_array[len - 1] = element;
+            _array[len - 1] = element;
 
-            return &internal_array[len - 1];
+            return &_array[len - 1];
         }
 
         // Inserts element at specific index in dynamic_array
@@ -75,13 +75,13 @@ namespace vtl
         // occur
         //
         // Throws index out of bounds error if index is greater than the
-        // dynamic_array.size or if index is negative
+        // dynamic_array._size or if index is negative
         //
         // Returns the element just inserted
         T *insert(s32 index, T element)
         {
-            // Fail if the index is greater than the dynamic_array.size or negative
-            assert(index <= size && index >= 0 && "Index out of bounds!");
+            // Fail if the index is greater than the dynamic_array._size or negative
+            assert(index <= _size && index >= 0 && "Index out of bounds!");
 
             // Increase the len amount
             len++;
@@ -93,30 +93,30 @@ namespace vtl
                 // Shift all elements right
                 for (s32 i = len - 2; i >= index; i--)
                 {
-                    internal_array[i + 1] = internal_array[i];
+                    _array[i + 1] = _array[i];
                 }
             }
 
             // Assign last element of array to new element
-            internal_array[index] = element;
+            _array[index] = element;
 
-            return &internal_array[index];
+            return &_array[index];
         }
 
         // Delete element at index in dynamic_array
         // Shifts all elements to the right of that index 1 to the left
-        // If the dynamic_array len equals dynamic_array size, then it will assume
+        // If the dynamic_array len equals dynamic_array _size, then it will assume
         // nothing is reserved and a reallocation will occur unless reallocate is
         // explicitly false
         void remove(size_t index)
         {
-            // Fail if the index is greater than the dynamic_array.size or negative
+            // Fail if the index is greater than the dynamic_array._size or negative
             assert(index <= len && index >= 0 && "Index out of bounds!");
 
             // Shift elements to the left
-            for (uint i = index + 1; i < size; i++)
+            for (uint i = index + 1; i < _size; i++)
             {
-                internal_array[i - 1] = internal_array[i];
+                _array[i - 1] = _array[i];
             }
 
             // Decrease len even if no reallocation
@@ -132,6 +132,28 @@ namespace vtl
             remove(len - 1);
         }
 
+        bool empty() const
+        {
+            return len == 0;
+        }
+
+        void clear()
+        {
+            len = 0;
+            _size = reserved;
+            if (reserved > 0)
+            {
+                if (_array == nullptr)
+                {
+                    _array = (T *)malloc(_size * sizeof(T));
+                }
+                else
+                {
+                    _array = (T *)realloc(_array, _size * sizeof(T));
+                }
+            }
+        }
+
         // static DynamicArray<T> copy()
         // {
         // }
@@ -141,14 +163,14 @@ namespace vtl
         T &operator[](int index) const
         {
             assert(index < len && index >= 0 && "Index out of bounds");
-            return internal_array[index];
+            return _array[index];
         }
 
         // Spaces len (not bytes)
         size_t len = 0;
 
         // Space available (not bytes)
-        size_t size = reserved;
+        size_t _size = reserved;
 
         // To make sure that the buffer expansion is geometric
         f64 growth_factor = (f64)growth_numerator / (f64)growth_denominator;
@@ -157,47 +179,47 @@ namespace vtl
         void reallocate()
         {
             // Only reallocate and expand the array if we need to
-            if (len > size)
+            if (len > _size)
             {
-                size = len * growth_factor;
+                _size = len * growth_factor;
             }
-            else if ((f64)len / (f64)size < (f64)decay_percent_threshold / 100.0)
+            else if ((f64)len / (f64)_size < (f64)decay_percent_threshold / 100.0)
             {
-                size = len * growth_factor;
+                _size = len * growth_factor;
             }
             else
             {
                 return;
             }
 
-            if (size < reserved)
+            if (_size < reserved)
             {
-                size = reserved;
+                _size = reserved;
             }
 
-            if (size == 0)
+            if (_size == 0)
             {
-                if (internal_array != nullptr)
+                if (_array != nullptr)
                 {
-                    free(internal_array);
-                    internal_array = nullptr;
+                    free(_array);
+                    _array = nullptr;
                 }
             }
             else
             {
-                if (internal_array == nullptr)
+                if (_array == nullptr)
                 {
-                    internal_array = (T *)malloc(size * sizeof(T));
+                    _array = (T *)malloc(_size * sizeof(T));
                 }
                 else
                 {
-                    internal_array = (T *)realloc(internal_array, size * sizeof(T));
+                    _array = (T *)realloc(_array, _size * sizeof(T));
                 }
             }
         }
 
         // The internal array
-        T *internal_array;
+        T *_array;
 
         // Dumbass C++ shit
       public:
@@ -267,12 +289,12 @@ namespace vtl
 
         Iterator begin() const
         {
-            return Iterator(internal_array);
+            return Iterator(_array);
         }
 
         Iterator end() const
         {
-            return Iterator(internal_array + len);
+            return Iterator(_array + len);
         }
     };
 

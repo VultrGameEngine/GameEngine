@@ -1,7 +1,7 @@
 #pragma once
 #include <core/models/color.h>
 #include <functional>
-#include <types/types.hpp>
+#include <types/types.h>
 #include "shader.h"
 #include <json/json_fwd.hpp>
 #include <filesystem/file.h>

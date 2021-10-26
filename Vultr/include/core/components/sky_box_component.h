@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 #include <memory>
-#include <types/types.hpp>
+#include <types/types.h>
 
 namespace Vultr
 {

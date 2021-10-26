@@ -1,6 +1,6 @@
 #pragma once
-#include <types/types.hpp>
-#include <thread.h>
+#include "types/types.h"
+#include "thread.h"
 
 namespace vtl
 {
@@ -81,6 +81,23 @@ namespace vtl
         bool empty() const
         {
             return len == 0;
+        }
+
+        void clear()
+        {
+            len = 0;
+            _size = reserved;
+            if (reserved > 0)
+            {
+                if (_array == nullptr)
+                {
+                    _array = (T *)malloc(_size * sizeof(T));
+                }
+                else
+                {
+                    _array = (T *)realloc(_array, _size * sizeof(T));
+                }
+            }
         }
 
         void _reallocate()

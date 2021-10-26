@@ -1,7 +1,7 @@
 #pragma once
 #include <rendering/types/shader.h>
 #include <string>
-#include <types/types.hpp>
+#include <types/types.h>
 #include <filesystem/file.h>
 
 namespace Vultr::ShaderImporter

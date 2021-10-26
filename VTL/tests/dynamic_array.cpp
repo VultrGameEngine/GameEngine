@@ -7,18 +7,18 @@ using namespace vtl;
 TEST(ArrayList, EmptyInitialize)
 {
     DynamicArray<const char *, 15> string_list;
-    ASSERT_EQ(string_list.size, 15);
+    ASSERT_EQ(string_list._size, 15);
     ASSERT_EQ(string_list.len, 0);
-    ASSERT_NE(string_list.internal_array, nullptr);
+    ASSERT_NE(string_list._array, nullptr);
 }
 
 TEST(ArrayList, ArrayInitialize)
 {
     const char *string_array[] = {"hello", "world"};
     DynamicArray<const char *, 10> string_list(string_array, 2);
-    ASSERT_EQ(string_list.size, 10);
+    ASSERT_EQ(string_list._size, 10);
     ASSERT_EQ(string_list.len, 2);
-    ASSERT_NE(string_list.internal_array, nullptr);
+    ASSERT_NE(string_list._array, nullptr);
 }
 
 TEST(ArrayList, Operator)
@@ -38,7 +38,7 @@ TEST(ArrayList, PushBack)
 
     string_list.push_back("world");
     ASSERT_EQ(string_list[1], "world");
-    ASSERT_EQ(string_list.size, 10);
+    ASSERT_EQ(string_list._size, 10);
     ASSERT_EQ(string_list.len, 2);
 }
 
@@ -55,7 +55,7 @@ TEST(ArrayList, Insert)
     ASSERT_EQ(string_list[3], "chungus");
     ASSERT_EQ(string_list[4], "big");
     ASSERT_EQ(string_list[5], "chungus");
-    ASSERT_EQ(string_list.size, 10);
+    ASSERT_EQ(string_list._size, 10);
     ASSERT_EQ(string_list.len, 6);
 
     // Insert beginning
@@ -67,7 +67,7 @@ TEST(ArrayList, Insert)
     ASSERT_EQ(string_list[4], "chungus");
     ASSERT_EQ(string_list[5], "big");
     ASSERT_EQ(string_list[6], "chungus");
-    ASSERT_EQ(string_list.size, 10);
+    ASSERT_EQ(string_list._size, 10);
     ASSERT_EQ(string_list.len, 7);
 
     // Insert end / push_back
@@ -80,7 +80,7 @@ TEST(ArrayList, Insert)
     ASSERT_EQ(string_list[5], "big");
     ASSERT_EQ(string_list[6], "chungus");
     ASSERT_EQ(string_list[7], "urmother");
-    ASSERT_EQ(string_list.size, 10);
+    ASSERT_EQ(string_list._size, 10);
     ASSERT_EQ(string_list.len, 8);
 
     string_list.insert(0, "mama");
@@ -97,7 +97,7 @@ TEST(ArrayList, Insert)
     ASSERT_EQ(string_list[8], "big");
     ASSERT_EQ(string_list[9], "chungus");
     ASSERT_EQ(string_list[10], "urmother");
-    ASSERT_EQ(string_list.size, (int)(11 * 3 / 2));
+    ASSERT_EQ(string_list._size, (int)(11 * 3 / 2));
     ASSERT_EQ(string_list.len, 11);
 }
 
@@ -108,7 +108,7 @@ TEST(ArrayList, Delete)
     const u32 decay_percentage = 50;
     DynamicArray<const char *, 0, 3, 2, decay_percentage> string_list(string_array, 5);
 
-    ASSERT_EQ(string_list.size, (int)5 * 3 / 2);
+    ASSERT_EQ(string_list._size, (int)5 * 3 / 2);
     ASSERT_EQ(string_list.len, 5);
 
     string_list.remove(1);
@@ -116,7 +116,7 @@ TEST(ArrayList, Delete)
     ASSERT_EQ(string_list[1], "chungus");
     ASSERT_EQ(string_list[2], "big");
     ASSERT_EQ(string_list[3], "chungus");
-    ASSERT_EQ(string_list.size, (int)5 * 3 / 2);
+    ASSERT_EQ(string_list._size, (int)5 * 3 / 2);
     ASSERT_EQ(string_list.len, 4);
 
     // Less than decay factor 50%
@@ -125,23 +125,23 @@ TEST(ArrayList, Delete)
     ASSERT_EQ(string_list[1], "chungus");
     ASSERT_EQ(string_list[2], "big");
 
-    ASSERT_EQ(string_list.size, (int)3 * 3 / 2);
+    ASSERT_EQ(string_list._size, (int)3 * 3 / 2);
     ASSERT_EQ(string_list.len, 3);
 
     string_list.remove(0);
     ASSERT_EQ(string_list[0], "chungus");
     ASSERT_EQ(string_list[1], "big");
-    ASSERT_EQ(string_list.size, (int)3 * 3 / 2);
+    ASSERT_EQ(string_list._size, (int)3 * 3 / 2);
     ASSERT_EQ(string_list.len, 2);
 
     // Less than decay factor 50%
     string_list.remove(0);
-    ASSERT_EQ(string_list.size, (int)1 * 3 / 2);
+    ASSERT_EQ(string_list._size, (int)1 * 3 / 2);
     ASSERT_EQ(string_list.len, 1);
 
     // Less than decay factor 50%
     string_list.remove_last();
-    ASSERT_EQ(string_list.size, 0);
+    ASSERT_EQ(string_list._size, 0);
     ASSERT_EQ(string_list.len, 0);
 
     EXPECT_DEATH(string_list.remove_last(), "Array is empty!");

@@ -1,5 +1,5 @@
 #pragma once
-#include <types/types.hpp>
+#include "types/types.h"
 #include <memory>
 #include <equals.h>
 
@@ -148,8 +148,7 @@ namespace vtl
     }
 
     template <typename T>
-    ListNode<T> *doubly_linked_list_insert(DoublyLinkedList<T> &l, T value,
-                                           int index)
+    ListNode<T> *doubly_linked_list_insert(DoublyLinkedList<T> &l, T value, int index)
     {
         assert(index >= 0 && "Index out of bounds!");
         auto *n = (ListNode<T> *)malloc(sizeof(ListNode<T>));

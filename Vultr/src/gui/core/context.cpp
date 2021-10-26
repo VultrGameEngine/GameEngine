@@ -120,7 +120,7 @@ void IMGUI::begin(Context *c, const UpdateTick &t)
     c->z_index[0] = 0;
     c->widget_depth = 0;
     c->drawing_id = NO_ID;
-    c->index = std::stack<s32>();
+    c->index.clear();
     c->index.push(0);
     c->layout_to_stencil.clear();
     c->current_stencil = nullptr;
@@ -129,7 +129,7 @@ void IMGUI::begin(Context *c, const UpdateTick &t)
 
 void IMGUI::widget_accessed(Context *c, UI_ID id)
 {
-    c->widget_ids_to_be_removed.erase(id);
+    c->widget_ids_to_be_removed.remove(id);
 }
 
 static void get_gl_transform(IMGUI::Context *c, const IMGUI::Transform &local_transform, const IMGUI::Transform &global_transform, Vec3 &gl_global_pos, Vec3 &gl_global_size, Mat4 &full_transform)
@@ -295,7 +295,7 @@ void IMGUI::end(Context *c)
     c->widget_transforms.clear();
 
     // If there was an ID there before that did not have its state accessed this frame, then we should clean up the cache
-    if (c->widget_ids_to_be_removed.size() > 0)
+    if (c->widget_ids_to_be_removed.len > 0)
     {
         for (auto id : c->widget_ids_to_be_removed)
         {
@@ -319,9 +319,10 @@ void IMGUI::end(Context *c)
         destroy_render_request(request);
     }
 
+    // TODO: Fix this
     for (auto &[_, array] : c->cache_arrays)
     {
-        array->add_active_ids(c->widget_ids_to_be_removed);
+        // array->add_active_ids(c->widget_ids_to_be_removed);
     }
 
     c->requests.clear();
@@ -331,7 +332,7 @@ void IMGUI::end(Context *c)
 void IMGUI::begin_layout_with_children(Context *c, UI_ID id, Layout &layout)
 {
     widget_accessed(c, id);
-    c->index.top()++;
+    (*c->index.top())++;
     if (c->parent != NO_ID)
     {
         auto &parent_layout = get_widget_layout(c, c->parent);
@@ -412,7 +413,7 @@ void IMGUI::layout_widget(Context *c, UI_ID id, Layout l)
 {
     assert(l.type == Layout::NO_CHILD && "To layout a widget with more than one child, use `begin_layout_with_children` and `end_layout_with_children`");
     widget_accessed(c, id);
-    c->index.top()++;
+    (*c->index.top())++;
     if (c->parent != NO_ID)
     {
         auto &parent_layout = get_widget_layout(c, c->parent);

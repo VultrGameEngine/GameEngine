@@ -5,7 +5,7 @@
 #include <string>
 #include <unordered_map>
 #include <glad/glad.h>
-#include <types/types.hpp>
+#include <types/types.h>
 #include <vector>
 #include <core/models/color.h>
 #include <rendering/types/material.h>

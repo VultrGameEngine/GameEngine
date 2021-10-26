@@ -1,6 +1,6 @@
 #pragma once
 #include "vertex.h"
-#include <types/types.hpp>
+#include <types/types.h>
 
 namespace Vultr
 {

@@ -4,7 +4,7 @@
 
 #pragma once
 #include <engine.hpp>
-#include <types/types.hpp>
+#include <types/types.h>
 
 namespace Vultr
 {

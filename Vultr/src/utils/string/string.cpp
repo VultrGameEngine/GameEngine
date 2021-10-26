@@ -1,5 +1,5 @@
 #include <utils/string/string.h>
-#include <types/types.hpp>
+#include <types/types.h>
 
 namespace Vultr
 {
