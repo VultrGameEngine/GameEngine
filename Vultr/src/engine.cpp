@@ -98,13 +98,16 @@ namespace Vultr
         system_manager_entity_destroyed(e, e->system_manager, entity);
     }
 
-    void engine_init(Engine *e, bool debug)
+    Engine *engine_alloc(bool debug)
     {
+        void *buf = malloc(sizeof(Engine));
+        auto *e = new (buf) Engine;
+
         if (!glfwInit())
         {
 
             printf("Failed to initialize glfw\n");
-            return;
+            return nullptr;
         }
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
@@ -136,15 +139,15 @@ namespace Vultr
         {
             std::cout << "Failed to create GLFW window" << std::endl;
             glfwTerminate();
-            return;
+            return nullptr;
         }
 
         glfwMakeContextCurrent(e->window);
 
         if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
         {
-            printf("Failed to initialize glad\n");
-            return;
+            fprintf(stderr, "Failed to initialize glad\n");
+            return nullptr;
         }
 
         // Add our engine to the window, that way GLFW callbacks can have our engine
@@ -170,9 +173,25 @@ namespace Vultr
         }
 
         change_world(e, new_world(e->component_registry));
+        // TODO: Reimplement
         engine_register_default_components(e);
-        engine_init_default_systems(e);
-        e->resource_manager = new ResourceManager();
+        // engine_init_default_systems(e);
+
+        e->resource_manager = static_cast<ResourceManager *>(malloc(sizeof(ResourceManager)));
+        return e;
+    }
+
+    void engine_free(Engine *e)
+    {
+        assert(e->game == nullptr && "Game must be flushed first!");
+
+        if (e->resource_manager != nullptr)
+        {
+            free(e->resource_manager);
+            e->resource_manager = nullptr;
+        }
+
+        free(e);
     }
 
     void engine_init_vfs(Engine *e, const Directory *asset_dir)

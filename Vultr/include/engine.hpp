@@ -17,7 +17,7 @@ namespace Vultr
 
     struct Engine
     {
-        GLFWwindow *window;
+        GLFWwindow *window = nullptr;
         bool should_close = false;
 
         bool debug;
@@ -44,8 +44,10 @@ namespace Vultr
     Engine *get_engine(GLFWwindow *window);
     void add_editor(Engine *e, void *editor);
 
-    void engine_init(Engine *e, bool debug);
+    Engine *engine_alloc(bool debug);
+    void engine_free(Engine *e);
     void engine_init_vfs(Engine *e, const Directory *asset_dir);
+
     void engine_load_game(Engine *e, DLLSource *src);
     void engine_load_game(Engine *e, Game *game);
 
