@@ -1,5 +1,6 @@
+// TODO: Reimplement in custom VTL
+#include <filesystem/resource_manager.h>
 #include <filesystem/importers/shader_importer.h>
-#include <core/system_providers/light_system_provider.h>
 #include <stdio.h>
 
 namespace Vultr
@@ -7,37 +8,37 @@ namespace Vultr
     template <>
     bool load_resource<Shader>(const VirtualFilesystem *vfs, VFileHandle file, Shader *resource, ResourceQueueItem *item)
     {
-        assert(vfs_file_exists(vfs, file) && "Cannot load shader, file does not exist!");
-        const char *path = vfs->file_table_path.at(file).path;
-        printf("Loading shader %s\n", path);
+        // assert(vfs_file_exists(vfs, file) && "Cannot load shader, file does not exist!");
+        // const char *path = vfs->file_table_path.at(file).path;
+        // printf("Loading shader %s\n", path);
 
-        VFileStream *stream = vfs_open(vfs, file, "rb");
+        // VFileStream *stream = vfs_open(vfs, file, "rb");
 
-        u64 size = 0;
-        auto *buf = vfs_read_full(vfs, &size, stream);
-        vfs_close(stream);
+        // u64 size = 0;
+        // auto *buf = vfs_read_full(vfs, &size, stream);
+        // vfs_close(stream);
 
-        if (buf == nullptr)
-        {
-            fprintf(stderr, "Failed to load shader %s! Something went wrong opening the file...\n", path);
-            return false;
-        }
+        // if (buf == nullptr)
+        // {
+        //     fprintf(stderr, "Failed to load shader %s! Something went wrong opening the file...\n", path);
+        //     return false;
+        // }
 
-        auto *source = new ShaderImporter::ShaderProgramSource();
-        bool res = ShaderImporter::shader_import_memory(source, buf, size);
-        vfs_free_buf(buf);
+        // auto *source = new ShaderImporter::ShaderProgramSource();
+        // bool res = ShaderImporter::shader_import_memory(source, buf, size);
+        // vfs_free_buf(buf);
 
-        if (!res)
-        {
-            fprintf(stderr, "Failed to load shader %s! Something went wrong loading into memory...\n", path);
-            return false;
-        }
+        // if (!res)
+        // {
+        //     fprintf(stderr, "Failed to load shader %s! Something went wrong loading into memory...\n", path);
+        //     return false;
+        // }
 
-        item->type = ResourceType::SHADER;
-        item->file = file;
-        item->temp_buf = source;
+        // item->type = ResourceType::SHADER;
+        // item->file = file;
+        // item->temp_buf = source;
 
-        return true;
+        // return true;
     }
 
     template <>
@@ -79,47 +80,47 @@ namespace Vultr
             const size_t frag_line_len = strlen(frag_line_identifier);
 
             // NOTE(Brandon): These are oversized, but there really is no point in trying to resize them properly since they are temporary and the memory difference is so negligble.
-            result->vert_src = str(len - 1);
-            char *vert_ptr = result->vert_src;
+            // result->vert_src = str(len - 1);
+            // char *vert_ptr = result->vert_src;
 
-            result->frag_src = str(len - 1);
-            char *frag_ptr = result->frag_src;
+            // result->frag_src = str(len - 1);
+            // char *frag_ptr = result->frag_src;
 
-            for (u64 i = 0; i < len; i++)
-            {
-                if (i < len - vert_line_len || i < len - frag_line_len)
-                {
-                    if (strnequal(data + i, vert_line_identifier, vert_line_len))
-                    {
-                        type = ShaderType::VERTEX;
-                        i += vert_line_len - 1;
-                        continue;
-                    }
-                    else if (strnequal(data + i, frag_line_identifier, frag_line_len))
-                    {
-                        type = ShaderType::FRAGMENT;
-                        i += frag_line_len - 1;
-                        continue;
-                    }
-                }
-                if (type == ShaderType::VERTEX)
-                {
-                    *vert_ptr = data[i];
-                    vert_ptr++;
-                }
-                else if (type == ShaderType::FRAGMENT)
-                {
-                    *frag_ptr = data[i];
-                    frag_ptr++;
-                }
-            }
-            // Something went wrong if we never advanced these pointers
-            if (vert_ptr == result->vert_src)
-                return false;
-            if (frag_ptr == result->frag_src)
-                return false;
+            // for (u64 i = 0; i < len; i++)
+            // {
+            //     if (i < len - vert_line_len || i < len - frag_line_len)
+            //     {
+            //         if (strnequal(data + i, vert_line_identifier, vert_line_len))
+            //         {
+            //             type = ShaderType::VERTEX;
+            //             i += vert_line_len - 1;
+            //             continue;
+            //         }
+            //         else if (strnequal(data + i, frag_line_identifier, frag_line_len))
+            //         {
+            //             type = ShaderType::FRAGMENT;
+            //             i += frag_line_len - 1;
+            //             continue;
+            //         }
+            //     }
+            //     if (type == ShaderType::VERTEX)
+            //     {
+            //         *vert_ptr = data[i];
+            //         vert_ptr++;
+            //     }
+            //     else if (type == ShaderType::FRAGMENT)
+            //     {
+            //         *frag_ptr = data[i];
+            //         frag_ptr++;
+            //     }
+            // }
+            // // Something went wrong if we never advanced these pointers
+            // if (vert_ptr == result->vert_src)
+            //     return false;
+            // if (frag_ptr == result->frag_src)
+            //     return false;
 
-            return true;
+            // return true;
         }
 
         bool shader_import_file(ShaderProgramSource *result, const ShaderSource *source)
@@ -205,14 +206,14 @@ namespace Vultr
                 s32 len;
                 glGetShaderiv(id, GL_INFO_LOG_LENGTH, &len);
 
-                char *message = str(len);
-                glGetShaderInfoLog(id, len, &len, message);
+                // char *message = str(len);
+                // glGetShaderInfoLog(id, len, &len, message);
 
-                const char *shader_type = type == GL_VERTEX_SHADER ? "vertex" : "fragment";
+                // const char *shader_type = type == GL_VERTEX_SHADER ? "vertex" : "fragment";
 
-                fprintf(stderr, "Failed to compile %s shader: %s", shader_type, message);
+                // fprintf(stderr, "Failed to compile %s shader: %s", shader_type, message);
 
-                free(message);
+                // free(message);
 
                 glDeleteShader(id);
                 return 0;

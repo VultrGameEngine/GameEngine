@@ -1,5 +1,6 @@
 #include <rendering/types/vertex.h>
 #include <rendering/types/vertex_buffer.h>
+#include <glad/glad.h>
 
 namespace Vultr
 {

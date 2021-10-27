@@ -1,8 +1,7 @@
+// TODO: Reimplement String to be more safe
 #pragma once
 #define _FILE_OFFSET_BITS 64
-#include <json/json_fwd.hpp>
 #include <types/types.h>
-#include <utils/string/string.h>
 #include <cstring>
 #include <unistd.h>
 #include <sys/types.h>
@@ -36,9 +35,9 @@ namespace Vultr
             size_t len = strlen(path);
             assert(path[len - 1] != '/' && "File ends with a `/`!");
 
-            this->path = str(path);
+            // this->path = str(path);
 
-            strcreplace(this->path, '\\', '/');
+            // strcreplace(this->path, '\\', '/');
         }
 
         File(const Directory *dir, const char *fname)
@@ -49,10 +48,10 @@ namespace Vultr
             assert(fname[flen - 1] != '/' && "File ends with a `/`!");
             assert(fname[0] != '/' && "File name cannot start with a `/`!");
 
-            path = str(dir->path);
-            path = strappend(path, fname);
+            // path = str(dir->path);
+            // path = strappend(path, fname);
 
-            strcreplace(path, '\\', '/');
+            // strcreplace(path, '\\', '/');
         }
 
         File(const File &other)
@@ -75,19 +74,19 @@ namespace Vultr
 
         char *expected_extensions_string() override
         {
-            char *expected_extensions = str(100);
-            for (size_t i = 0; i < extensions_length; i++)
-            {
-                strcat(expected_extensions, extensions[i]);
-            }
-            return expected_extensions;
+            // char *expected_extensions = str(100);
+            // for (size_t i = 0; i < extensions_length; i++)
+            // {
+            //     strcat(expected_extensions, extensions[i]);
+            // }
+            // return expected_extensions;
         }
 
         void operator=(const File &other)
         {
             if (path != nullptr)
                 free(path);
-            path = str(other.path);
+            // path = str(other.path);
         }
     };
 
@@ -159,7 +158,7 @@ namespace Vultr
         size_t dest_extension_count = sizeof(extensions) / sizeof(char *const);
         if (dest_extension_count == 0)
         {
-            dest->path = str(src->path);
+            // dest->path = str(src->path);
             return true;
         }
 
@@ -176,7 +175,7 @@ namespace Vultr
             const char *dest_extension = extensions[i];
             if (strcmp(dest_extension, extension) == 0)
             {
-                dest->path = str(src->path);
+                // dest->path = str(src->path);
                 return true;
             }
         }
@@ -196,7 +195,4 @@ namespace Vultr
     {
         return strequal(a.path, b.path);
     }
-
-    void to_json(json &j, const IFile &f);
-    void from_json(const json &j, IFile &f);
 } // namespace Vultr

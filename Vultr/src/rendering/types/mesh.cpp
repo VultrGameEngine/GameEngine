@@ -1,4 +1,5 @@
 #include <rendering/types/mesh.h>
+#include <glad/glad.h>
 
 namespace Vultr
 {

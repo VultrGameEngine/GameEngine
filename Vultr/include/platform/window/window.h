@@ -34,8 +34,8 @@ namespace Vultr::Platform
     void window_set_context(Window *window);
     void window_set_hint(int hint, int value);
     WindowMode window_get_mode(Monitor *monitor);
-    Window *new_window(DisplayMode::Mode mode, Monitor *monitor, const char *title, std::vector<WindowHint> window_hints);
-    Window *new_window(int width, int height, const char *title, Monitor *monitor, Window *window, std::vector<WindowHint> window_hints);
+    // Window *new_window(DisplayMode::Mode mode, Monitor *monitor, const char *title, std::vector<WindowHint> window_hints);
+    // Window *new_window(int width, int height, const char *title, Monitor *monitor, Window *window, std::vector<WindowHint> window_hints);
 
     bool window_should_close(Window *window);
     void swap_buffers(Window *window);

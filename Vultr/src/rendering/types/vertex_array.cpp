@@ -1,4 +1,5 @@
 #include <rendering/types/vertex_array.h>
+#include <glad/glad.h>
 
 namespace Vultr
 {

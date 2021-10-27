@@ -1,13 +1,10 @@
 #pragma once
 #include <glm/glm.hpp>
-#include <helpers/loading_state.h>
 #include <rendering/types/index_buffer.h>
 #include <rendering/types/shader.h>
 #include <rendering/types/vertex.h>
 #include <rendering/types/vertex_array.h>
 #include <rendering/types/vertex_buffer.h>
-#include <vector>
-#include <fundamental/types.h>
 
 namespace Vultr
 {

@@ -1,4 +1,5 @@
-#include <engine.hpp>
+// TODO: Reimplement using custom hashtable implementation
+#include <filesystem/resource_manager.h>
 #include <filesystem/importers/texture_importer.h>
 #include <stb_image/stb_image.h>
 
@@ -7,36 +8,36 @@ namespace Vultr
     template <>
     bool load_resource<Texture>(const VirtualFilesystem *vfs, VFileHandle file, Texture *resource, ResourceQueueItem *item)
     {
-        assert(vfs_file_exists(vfs, file) && "Cannot load texture, file does not exist!");
-        const char *path = vfs->file_table_path.at(file).path;
-        printf("Loading texture %s\n", path);
+        // assert(vfs_file_exists(vfs, file) && "Cannot load texture, file does not exist!");
+        // const char *path = vfs->file_table_path.at(file).path;
+        // printf("Loading texture %s\n", path);
 
-        VFileStream *stream = vfs_open(vfs, file, "rb");
+        // VFileStream *stream = vfs_open(vfs, file, "rb");
 
-        u64 size = 0;
-        auto *buf = vfs_read_full(vfs, &size, stream);
-        vfs_close(stream);
+        // u64 size = 0;
+        // auto *buf = vfs_read_full(vfs, &size, stream);
+        // vfs_close(stream);
 
-        if (buf == nullptr)
-        {
-            fprintf(stderr, "Failed to load texture %s! Something went wrong opening the file...\n", path);
-            return false;
-        }
+        // if (buf == nullptr)
+        // {
+        //     fprintf(stderr, "Failed to load texture %s! Something went wrong opening the file...\n", path);
+        //     return false;
+        // }
 
-        unsigned char *loaded_buf = TextureImporter::texture_load_memory(resource, buf, size);
-        vfs_free_buf(buf);
-        if (loaded_buf == nullptr)
-        {
-            stbi_image_free(loaded_buf);
-            fprintf(stderr, "Failed to load texture %s! Something went wrong loading into memory...\n", path);
-            return false;
-        }
+        // unsigned char *loaded_buf = TextureImporter::texture_load_memory(resource, buf, size);
+        // vfs_free_buf(buf);
+        // if (loaded_buf == nullptr)
+        // {
+        //     stbi_image_free(loaded_buf);
+        //     fprintf(stderr, "Failed to load texture %s! Something went wrong loading into memory...\n", path);
+        //     return false;
+        // }
 
-        item->type = ResourceType::TEXTURE;
-        item->file = file;
-        item->temp_buf = loaded_buf;
+        // item->type = ResourceType::TEXTURE;
+        // item->file = file;
+        // item->temp_buf = loaded_buf;
 
-        return true;
+        // return true;
     }
 
     template <>

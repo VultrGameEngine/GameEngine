@@ -1,5 +1,7 @@
+// TODO: Reimplement in VTL
 #include <rendering/types/uniform_buffer.h>
 #include <rendering/types/shader.h>
+#include <glad/glad.h>
 
 namespace Vultr
 {
@@ -17,8 +19,8 @@ namespace Vultr
     {
         UniformBuffer ubo;
 
-        ubo.label = static_cast<char *>(malloc(sizeof(char) * strlen(label)));
-        strcpy(ubo.label, label);
+        ubo.label = static_cast<char *>(malloc(sizeof(char) * str_len(label)));
+        // strcpy(ubo.label, label);
 
         ubo.binding_point = binding_point;
 

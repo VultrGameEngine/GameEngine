@@ -1,5 +1,6 @@
 #pragma once
 #include <types/types.h>
+#include <glm/glm.hpp>
 
 namespace Vultr::Math
 {

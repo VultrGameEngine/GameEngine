@@ -32,11 +32,12 @@ include_directories(include vendor ../VTL/include)
 
 
 if(UNIX)
-  add_library(VultrShared SHARED ${Vultr_SRC})
-  target_link_libraries(VultrShared PUBLIC GL glfw3 X11 Xxf86vm Xrandr pthread Xi dl freetype ${ASSIMP_LIBRARIES} ${CMAKE_CURRENT_SOURCE_DIR}/vendor/libs/linux/libyaml-cpp.so)
-  target_precompile_headers(VultrShared PUBLIC pch.h)
-  target_include_directories(VultrShared PUBLIC include vendor)
-  add_subdirectory(tests)
+  # add_library(Vultr SHARED ${Vultr_SRC})
+  add_executable(Vultr ${Vultr_SRC})
+  target_link_libraries(Vultr PUBLIC GL glfw3 X11 Xxf86vm Xrandr pthread Xi dl freetype ${ASSIMP_LIBRARIES})
+  target_precompile_headers(Vultr PUBLIC pch.h)
+  target_include_directories(Vultr PUBLIC include vendor)
+  # add_subdirectory(tests)
 endif(UNIX)
 
 if(WIN32)

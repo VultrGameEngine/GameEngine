@@ -1,5 +1,5 @@
+// TODO: Reimplement using custom VTL
 #include <rendering/types/material.h>
-#include <json/json.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
 namespace Vultr
@@ -12,7 +12,7 @@ namespace Vultr
         auto &uniform = material.uniforms[material.uniform_count];
         uniform.type = MaterialUniform::BOOL;
         uniform.data.u_bool = value;
-        uniform.location = str(location);
+        // uniform.location = str(location);
         material.uniform_count++;
     }
     void u32_uniform(Material &material, const char *location, u32 value)
@@ -21,7 +21,7 @@ namespace Vultr
         auto &uniform = material.uniforms[material.uniform_count];
         uniform.type = MaterialUniform::U32;
         uniform.data.u_u32 = value;
-        uniform.location = str(location);
+        // uniform.location = str(location);
         material.uniform_count++;
     }
     void s32_uniform(Material &material, const char *location, s32 value)
@@ -30,7 +30,7 @@ namespace Vultr
         auto &uniform = material.uniforms[material.uniform_count];
         uniform.type = MaterialUniform::S32;
         uniform.data.u_s32 = value;
-        uniform.location = str(location);
+        // uniform.location = str(location);
         material.uniform_count++;
     }
     void f32_uniform(Material &material, const char *location, f32 value)
@@ -39,7 +39,7 @@ namespace Vultr
         auto &uniform = material.uniforms[material.uniform_count];
         uniform.type = MaterialUniform::F32;
         uniform.data.u_f32 = value;
-        uniform.location = str(location);
+        // uniform.location = str(location);
         material.uniform_count++;
     }
     void vec2_uniform(Material &material, const char *location, Vec2 value)
@@ -48,7 +48,7 @@ namespace Vultr
         auto &uniform = material.uniforms[material.uniform_count];
         uniform.type = MaterialUniform::VEC2;
         uniform.data.u_vec2 = value;
-        uniform.location = str(location);
+        // uniform.location = str(location);
         material.uniform_count++;
     }
     void vec3_uniform(Material &material, const char *location, Vec3 value)
@@ -57,7 +57,7 @@ namespace Vultr
         auto &uniform = material.uniforms[material.uniform_count];
         uniform.type = MaterialUniform::VEC3;
         uniform.data.u_vec3 = value;
-        uniform.location = str(location);
+        // uniform.location = str(location);
         material.uniform_count++;
     }
     void vec4_uniform(Material &material, const char *location, Vec4 value)
@@ -66,7 +66,7 @@ namespace Vultr
         auto &uniform = material.uniforms[material.uniform_count];
         uniform.type = MaterialUniform::VEC4;
         uniform.data.u_vec4 = value;
-        uniform.location = str(location);
+        // uniform.location = str(location);
         material.uniform_count++;
     }
 
@@ -76,7 +76,7 @@ namespace Vultr
         auto &uniform = material.uniforms[material.uniform_count];
         uniform.type = MaterialUniform::COLOR;
         uniform.data.u_color = value;
-        uniform.location = str(location);
+        // uniform.location = str(location);
         material.uniform_count++;
     }
 
@@ -86,7 +86,7 @@ namespace Vultr
         auto &uniform = material.uniforms[material.uniform_count];
         uniform.type = MaterialUniform::MAT4;
         uniform.data.u_mat4 = value;
-        uniform.location = str(location);
+        // uniform.location = str(location);
         material.uniform_count++;
     }
 
@@ -94,9 +94,9 @@ namespace Vultr
     {
         assert(material.texture_count < MAX_MATERIAL_TEXTURES && "Max textures added!");
         auto &texture = material.textures[material.texture_count];
-        texture.location = str(location);
+        // texture.location = str(location);
         texture.file = source;
-        texture.is_set_location = str(is_set_location);
+        // texture.is_set_location = str(is_set_location);
         material.texture_count++;
     }
 
@@ -131,7 +131,7 @@ namespace Vultr
                     set_uniform_4f(shader, location, data.u_vec4);
                     break;
                 case MaterialUniform::COLOR:
-                    set_uniform_4f(shader, location, data.u_color.value / Vec4(255));
+                    set_uniform_4f(shader, location, Vec4(data.u_color.red, data.u_color.green, data.u_color.blue, data.u_color.alpha) / Vec4(255));
                     break;
                 case MaterialUniform::MAT4:
                     set_uniform_matrix_4fv(shader, location, glm::value_ptr(data.u_mat4));
@@ -146,17 +146,17 @@ namespace Vultr
             auto &texture = material.textures[i];
 
             set_uniform_1i(shader, texture.location, i);
-            if (!strequal(texture.is_set_location, ""))
-            {
-                if (texture.file != TextureSource(""))
-                {
-                    set_uniform_1i(shader, texture.is_set_location, 1);
-                }
-                else
-                {
-                    set_uniform_1i(shader, texture.is_set_location, 0);
-                }
-            }
+            // if (!strequal(texture.is_set_location, ""))
+            // {
+            //     if (texture.file != TextureSource(""))
+            //     {
+            //         set_uniform_1i(shader, texture.is_set_location, 1);
+            //     }
+            //     else
+            //     {
+            //         set_uniform_1i(shader, texture.is_set_location, 0);
+            //     }
+            // }
         }
     }
 } // namespace Vultr

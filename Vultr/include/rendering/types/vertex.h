@@ -1,7 +1,6 @@
 #pragma once
 #include <cstring>
 #include <glm/glm.hpp>
-#include <fundamental/types.h>
 
 namespace Vultr
 {

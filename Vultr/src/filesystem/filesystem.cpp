@@ -1,3 +1,4 @@
+// TODO: Reimplement String to be more safe
 #include <filesystem/virtual_filesystem.h>
 #include <filesystem/file.h>
 #include <filesystem/directory.h>
@@ -23,11 +24,11 @@ namespace Vultr
 
         if (_len == 2)
         {
-            if (strequal(path, "./"))
-            {
-                *len = 2;
-                return path;
-            }
+            // if (strequal(path, "./"))
+            // {
+            //     *len = 2;
+            //     return path;
+            // }
         }
 
         size_t prev_slash_loc = _len;
@@ -75,9 +76,9 @@ namespace Vultr
         size_t path_len = strlen(path);
         if (path_len < 3)
         {
-            assert(!strequal(path, ".") && "File `.` does not have a file name!");
-            assert(!strequal(path, "./") && "File `./` does not have a file name!");
-            assert(!strequal(path, "/") && "File `/` does not have a file name!");
+            // assert(!strequal(path, ".") && "File `.` does not have a file name!");
+            // assert(!strequal(path, "./") && "File `./` does not have a file name!");
+            // assert(!strequal(path, "/") && "File `/` does not have a file name!");
             assert(path[path_len - 1] == '/' && "File ends with a `/`!");
         }
 
@@ -108,10 +109,10 @@ namespace Vultr
     {
         for (s32 i = 0; i < len; i++)
         {
-            if (strequal(extension, file_type[i]))
-            {
-                return true;
-            }
+            // if (strequal(extension, file_type[i]))
+            // {
+            //     return true;
+            // }
         }
         return false;
     }
@@ -130,23 +131,23 @@ namespace Vultr
         size_t path_size = strlen(path) - len;
         size_t new_path_len = path_size + strlen(new_name);
 
-        char *new_path = str(new_path_len);
+        // char *new_path = str(new_path_len);
 
-        strncat(new_path, path, path_size);
-        strcat(new_path, new_name);
+        // strncat(new_path, path, path_size);
+        // strcat(new_path, new_name);
 
-        bool successful = rename(path, new_path) == 0;
-        if (successful)
-        {
-            free(src->path);
-            src->path = new_path;
-        }
-        else
-        {
-            free(new_path);
-        }
+        // bool successful = rename(path, new_path) == 0;
+        // if (successful)
+        // {
+        //     free(src->path);
+        //     src->path = new_path;
+        // }
+        // else
+        // {
+        //     free(new_path);
+        // }
 
-        return successful;
+        // return successful;
     }
 
     bool fmove(const IFile *src, const IFile *destination)
@@ -161,7 +162,7 @@ namespace Vultr
         if (successful)
         {
             free(src->path);
-            src->path = str(destination);
+            // src->path = str(destination);
         }
         return successful;
     }
@@ -177,7 +178,7 @@ namespace Vultr
         if (successful)
         {
             free(src->path);
-            src->path = str(dest_file.path);
+            // src->path = str(dest_file.path);
         }
         return successful;
     }
@@ -216,7 +217,7 @@ namespace Vultr
         }
 
         free(src->path);
-        src->path = str(dest);
+        // src->path = str(dest);
 
         fclose(f_src);
         fclose(f_dest);
@@ -248,14 +249,14 @@ namespace Vultr
             len += 1;
             append_slash = true;
         }
-        char *res_path = strn(path, len);
-        if (append_slash)
-        {
-            res_path[len - 1] = '/';
-        }
+        // char *res_path = strn(path, len);
+        // if (append_slash)
+        // {
+        //     res_path[len - 1] = '/';
+        // }
 
-        strcreplace(res_path, '\\', '/');
-        return res_path;
+        // strcreplace(res_path, '\\', '/');
+        // return res_path;
     }
 
     Directory::Directory(const char *path)
@@ -291,7 +292,7 @@ namespace Vultr
     {
         if (path != nullptr)
             free(path);
-        path = str(other.path);
+        // path = str(other.path);
     }
 
     static s8 mkdir_p(const char *path, u32 mode)
@@ -544,8 +545,8 @@ namespace Vultr
             {
                 if (type == DT_DIR)
                 {
-                    if (strequal(entry->d_name, ".") || strequal(entry->d_name, ".."))
-                        continue;
+                    // if (strequal(entry->d_name, ".") || strequal(entry->d_name, ".."))
+                    //     continue;
                 }
                 count++;
             }
@@ -608,8 +609,8 @@ namespace Vultr
         {
             if (entry->d_type == DT_DIR)
             {
-                if (strequal(entry->d_name, ".") || strequal(entry->d_name, ".."))
-                    continue;
+                // if (strequal(entry->d_name, ".") || strequal(entry->d_name, ".."))
+                //     continue;
                 dirs[i] = Directory(dir, entry->d_name);
                 i++;
             }
@@ -620,17 +621,17 @@ namespace Vultr
 
     bool vfs_get_file(const VirtualFilesystem *vfs, VFileHandle handle, GenericFile *file)
     {
-        if (vfs->file_table_path.find(handle) == vfs->file_table_path.end())
-            return false;
+        // if (vfs->file_table_path.find(handle) == vfs->file_table_path.end())
+        //     return false;
 
-        *file = vfs->file_table_path.at(handle);
+        // *file = vfs->file_table_path.at(handle);
 
         return true;
     }
 
     VFileHandle internal_vfile(u32 hash, const char *path, VirtualFilesystem *vfs)
     {
-        vfs->file_table_path[hash] = GenericFile(&vfs->resource_directory, path);
+        // vfs->file_table_path[hash] = GenericFile(&vfs->resource_directory, path);
         return hash;
     }
 
@@ -672,7 +673,7 @@ namespace Vultr
         {
             const char *path = files[i].path;
             u32 hash = crcdetail::compute(path, strlen(path));
-            vfs->file_table_path[hash] = files[i];
+            // vfs->file_table_path[hash] = files[i];
         }
         delete[] files;
 

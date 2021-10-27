@@ -1,9 +1,6 @@
-#include <fstream>
-#include <engine.hpp>
+// TODO: Reimplement using VTL
+#include <filesystem/resource_manager.h>
 #include <filesystem/importers/mesh_importer.h>
-#include <iostream>
-#include <sstream>
-#include <stdio.h>
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
@@ -13,35 +10,35 @@ namespace Vultr
     template <>
     bool load_resource<Mesh>(const VirtualFilesystem *vfs, VFileHandle file, Mesh *resource, ResourceQueueItem *item)
     {
-        assert(vfs_file_exists(vfs, file) && "Cannot load model, file does not exist!");
-        const char *path = vfs->file_table_path.at(file).path;
-        printf("Loading model %s\n", path);
+        // assert(vfs_file_exists(vfs, file) && "Cannot load model, file does not exist!");
+        // const char *path = vfs->file_table_path.at(file).path;
+        // printf("Loading model %s\n", path);
 
-        VFileStream *stream = vfs_open(vfs, file, "rb");
+        // VFileStream *stream = vfs_open(vfs, file, "rb");
 
-        u64 size = 0;
-        auto *buf = vfs_read_full(vfs, &size, stream);
-        vfs_close(stream);
+        // u64 size = 0;
+        // auto *buf = vfs_read_full(vfs, &size, stream);
+        // vfs_close(stream);
 
-        if (buf == nullptr)
-        {
-            fprintf(stderr, "Failed to load model %s! Something went wrong opening the file...\n", path);
-            return false;
-        }
+        // if (buf == nullptr)
+        // {
+        //     fprintf(stderr, "Failed to load model %s! Something went wrong opening the file...\n", path);
+        //     return false;
+        // }
 
-        bool res = MeshImporter::mesh_import_memory(resource, buf, size);
-        vfs_free_buf(buf);
+        // bool res = MeshImporter::mesh_import_memory(resource, buf, size);
+        // vfs_free_buf(buf);
 
-        if (!res)
-        {
-            fprintf(stderr, "Failed to load model %s! Something went wrong loading into memory...\n", path);
-            return false;
-        }
+        // if (!res)
+        // {
+        //     fprintf(stderr, "Failed to load model %s! Something went wrong loading into memory...\n", path);
+        //     return false;
+        // }
 
-        item->type = ResourceType::MESH;
-        item->file = file;
+        // item->type = ResourceType::MESH;
+        // item->file = file;
 
-        return true;
+        // return true;
     }
 
     template <>

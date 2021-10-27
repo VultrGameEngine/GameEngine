@@ -1,5 +1,6 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <rendering/types/shader.h>
+#include <glad/glad.h>
 
 namespace Vultr
 {

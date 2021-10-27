@@ -17,7 +17,8 @@ namespace Vultr
 
     struct VirtualFilesystem
     {
-        std::unordered_map<VFileHandle, GenericFile> file_table_path;
+        // TODO: Reimplement using custom hashtable
+        // std::unordered_map<VFileHandle, GenericFile> file_table_path;
         Directory resource_directory;
 
         VirtualFilesystem(const Directory *asset_directory);

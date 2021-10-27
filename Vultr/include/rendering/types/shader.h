@@ -1,8 +1,6 @@
 #pragma once
 #include <glm/glm.hpp>
-#include <rendering/render_type.h>
 #include <types/types.h>
-#include <fundamental/types.h>
 
 namespace Vultr
 {

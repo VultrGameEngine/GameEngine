@@ -1,9 +1,9 @@
+// TODO: Reimplement using custom VTL
 #include <gtest/gtest.h>
 #define private public
 #define protected public
 
 #include <filesystem/directory.h>
-#include <utils/string/string.h>
 #include <filesystem/file.h>
 
 static const char *dir_path = "res";
@@ -270,11 +270,11 @@ TEST_F(DirectoryTests, Dirfiles)
         for (u32 j = 0; j < file_count; j++)
         {
             sprintf(filename, "createdfile%i.txt", j);
-            if (strequal(basename, filename))
-            {
-                found_file = true;
-                break;
-            }
+            // if (strequal(basename, filename))
+            // {
+            //     found_file = true;
+            //     break;
+            // }
         }
         EXPECT_TRUE(found_file) << "File name is " << basename;
     }
@@ -315,11 +315,11 @@ TEST_F(DirectoryTests, Dirsubdirs)
         for (u32 j = 0; j < dir_count; j++)
         {
             sprintf(dirname, "createdsubdir%i/", j);
-            if (strequal(basename, dirname))
-            {
-                found_dir = true;
-                break;
-            }
+            // if (strequal(basename, dirname))
+            // {
+            //     found_dir = true;
+            //     break;
+            // }
         }
         EXPECT_TRUE(found_dir) << "Subdir name is " << basename;
     }

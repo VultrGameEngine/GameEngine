@@ -1,4 +1,5 @@
 #include <rendering/types/index_buffer.h>
+#include <glad/glad.h>
 
 namespace Vultr
 {

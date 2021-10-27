@@ -1,5 +1,6 @@
 #pragma once
 #include <types/types.h>
+#include <glad/glad.h>
 
 namespace Vultr
 {

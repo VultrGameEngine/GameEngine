@@ -1,13 +1,19 @@
+// TODO: Reimplement color
 #pragma once
-#include <core/models/color.h>
 #include <functional>
 #include <types/types.h>
 #include "shader.h"
-#include <json/json_fwd.hpp>
 #include <filesystem/file.h>
 
 namespace Vultr
 {
+    struct Color
+    {
+        f64 red;
+        f64 green;
+        f64 blue;
+        f64 alpha;
+    };
 #define MAX_UNIFORMS 16
 #define MAX_MATERIAL_TEXTURES 8
     struct MaterialUniform
@@ -54,8 +60,8 @@ namespace Vultr
         struct TextureResource
         {
             TextureSource file;
-            char *location = str("");
-            char *is_set_location = str("");
+            char *location = nullptr;
+            char *is_set_location = nullptr;
         };
 
         MaterialUniform uniforms[MAX_UNIFORMS];

@@ -1,3 +1,4 @@
+// TODO: Reimplement using custom hashmap
 #pragma once
 #include <filesystem/virtual_filesystem.h>
 #include <rendering/types/texture.h>
@@ -68,8 +69,8 @@ namespace Vultr
     {
         vtl::DynamicArray<ResourceData<T>> cache;
 
-        std::unordered_map<size_t, VFileHandle> asset_to_index{};
-        std::unordered_map<VFileHandle, size_t> index_to_asset{};
+        // std::unordered_map<size_t, VFileHandle> asset_to_index{};
+        // std::unordered_map<VFileHandle, size_t> index_to_asset{};
     };
 
     struct ResourceManager
@@ -261,45 +262,45 @@ namespace Vultr
         template <typename T>
         void internal_garbage_collect(ResourceQueueItem *item)
         {
-            auto *c = get_cache<T>();
-            assert(item->type == get_resource_type<T>() && "You've severely fucked up if you got to this point.");
-            auto asset = item->file;
+            // auto *c = get_cache<T>();
+            // assert(item->type == get_resource_type<T>() && "You've severely fucked up if you got to this point.");
+            // auto asset = item->file;
 
-            auto index_of_removed_asset = c->asset_to_index[asset];
-            auto index_of_last_element = c->cache.len - 1;
+            // auto index_of_removed_asset = c->asset_to_index[asset];
+            // auto index_of_last_element = c->cache.len - 1;
 
-            // Free the resource first
-            T *resource = &c->cache[index_of_removed_asset].data;
-            free_resource<T>(resource);
+            // // Free the resource first
+            // T *resource = &c->cache[index_of_removed_asset].data;
+            // free_resource<T>(resource);
 
-            // Then replace the removed data with data from the last element
-            c->cache[index_of_removed_asset] = c->cache[index_of_last_element];
+            // // Then replace the removed data with data from the last element
+            // c->cache[index_of_removed_asset] = c->cache[index_of_last_element];
 
-            // Update the maps for the newly moved element
-            VFileHandle asset_of_last_element = c->index_to_asset[index_of_last_element];
-            c->asset_to_index[asset_of_last_element] = index_of_removed_asset;
-            c->index_to_asset[index_of_removed_asset] = asset_of_last_element;
+            // // Update the maps for the newly moved element
+            // VFileHandle asset_of_last_element = c->index_to_asset[index_of_last_element];
+            // c->asset_to_index[asset_of_last_element] = index_of_removed_asset;
+            // c->index_to_asset[index_of_removed_asset] = asset_of_last_element;
 
-            // Remove the asset requested from the maps
-            c->asset_to_index.erase(asset);
-            c->index_to_asset.erase(index_of_last_element);
+            // // Remove the asset requested from the maps
+            // c->asset_to_index.erase(asset);
+            // c->index_to_asset.erase(index_of_last_element);
 
-            // Remove the data from the last asset from our array
-            c->cache.remove_last();
+            // // Remove the data from the last asset from our array
+            // c->cache.remove_last();
         }
 
         template <typename T>
         void internal_load_asset(const VirtualFilesystem *vfs, ResourceQueueItem *item, ResourceQueueItem *res)
         {
             auto *c = get_cache<T>();
-            load_resource<T>(vfs, item->file, &c->cache[c->asset_to_index[item->file]].data, res);
+            // load_resource<T>(vfs, item->file, &c->cache[c->asset_to_index[item->file]].data, res);
         }
 
         template <typename T>
         void internal_finalize_asset(const VirtualFilesystem *vfs, ResourceQueueItem *item)
         {
             auto *c = get_cache<T>();
-            finalize_resource<T>(item->file, &c->cache[c->asset_to_index[item->file]].data, item->temp_buf);
+            // finalize_resource<T>(item->file, &c->cache[c->asset_to_index[item->file]].data, item->temp_buf);
         }
 
         template <>

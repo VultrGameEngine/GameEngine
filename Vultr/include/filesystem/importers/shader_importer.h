@@ -1,3 +1,4 @@
+// TODO: Reimplement using custom VTL
 #pragma once
 #include <rendering/types/shader.h>
 #include <string>
@@ -32,64 +33,64 @@ namespace Vultr::ShaderImporter
 
     u32 shader_compile(u32 type, const char *src);
 
-    const ShaderProgramSource OUTLINE = {
-        .vert_src = str("layout (location = 0) in vec3 position;\n"
-                        "layout (location = 1) in vec3 normal;\n"
-                        "layout (location = 2) in vec2 uv; \n"
-                        "out vec3 FragPos; \n"
-                        "uniform mat4 model; \n"
-                        "uniform mat4 view; \n"
-                        "uniform mat4 projection; \n"
-                        ""
-                        "void main() \n"
-                        "{\n"
-                        "   gl_Position = projection * view * model * vec4(position, 1.0f); \n"
-                        "   FragPos = vec3(model * vec4(position, 1.0f)); \n"
-                        ""
-                        ""
-                        "}\n"),
+    // const ShaderProgramSource OUTLINE = {
+    //     .vert_src = str("layout (location = 0) in vec3 position;\n"
+    //                     "layout (location = 1) in vec3 normal;\n"
+    //                     "layout (location = 2) in vec2 uv; \n"
+    //                     "out vec3 FragPos; \n"
+    //                     "uniform mat4 model; \n"
+    //                     "uniform mat4 view; \n"
+    //                     "uniform mat4 projection; \n"
+    //                     ""
+    //                     "void main() \n"
+    //                     "{\n"
+    //                     "   gl_Position = projection * view * model * vec4(position, 1.0f); \n"
+    //                     "   FragPos = vec3(model * vec4(position, 1.0f)); \n"
+    //                     ""
+    //                     ""
+    //                     "}\n"),
 
-        .frag_src = str("layout (location = 0) in vec3 FragPos;\n"
-                        "out vec4 FragColor; \n"
-                        "uniform vec4 color; \n"
-                        ""
-                        "void main() \n"
-                        "{\n"
-                        "   FragColor = color; \n"
-                        ""
-                        ""
-                        "}\n"),
-    };
-    const ShaderProgramSource EDITOR_INPUT = {
-        .vert_src = str("#version 330 core\n"
-                        "#extension GL_ARB_separate_shader_objects: enable\n"
-                        "layout (location = 0) in vec3 position;\n"
-                        "layout (location = 1) in vec3 normal;\n"
-                        "layout (location = 2) in vec2 uv; \n"
-                        "out vec3 FragPos; \n"
-                        "uniform mat4 model; \n"
-                        "uniform mat4 view; \n"
-                        "uniform mat4 projection; \n"
-                        ""
-                        "void main() \n"
-                        "{\n"
-                        "   gl_Position = projection * view * model * vec4(position, 1.0f); \n"
-                        "   FragPos = vec3(model * vec4(position, 1.0f)); \n"
-                        ""
-                        ""
-                        "}\n"),
-        .frag_src = str("#version 330 core\n"
-                        "#extension GL_ARB_separate_shader_objects: enable\n"
-                        "layout (location = 0) in vec3 FragPos;\n"
-                        "out vec4 FragColor; \n"
-                        "uniform vec4 color; \n"
-                        ""
-                        "void main() \n"
-                        "{\n"
-                        "   FragColor = color; \n"
-                        ""
-                        ""
-                        "}\n"),
-    };
+    //     .frag_src = str("layout (location = 0) in vec3 FragPos;\n"
+    //                     "out vec4 FragColor; \n"
+    //                     "uniform vec4 color; \n"
+    //                     ""
+    //                     "void main() \n"
+    //                     "{\n"
+    //                     "   FragColor = color; \n"
+    //                     ""
+    //                     ""
+    //                     "}\n"),
+    // };
+    // const ShaderProgramSource EDITOR_INPUT = {
+    //     .vert_src = str("#version 330 core\n"
+    //                     "#extension GL_ARB_separate_shader_objects: enable\n"
+    //                     "layout (location = 0) in vec3 position;\n"
+    //                     "layout (location = 1) in vec3 normal;\n"
+    //                     "layout (location = 2) in vec2 uv; \n"
+    //                     "out vec3 FragPos; \n"
+    //                     "uniform mat4 model; \n"
+    //                     "uniform mat4 view; \n"
+    //                     "uniform mat4 projection; \n"
+    //                     ""
+    //                     "void main() \n"
+    //                     "{\n"
+    //                     "   gl_Position = projection * view * model * vec4(position, 1.0f); \n"
+    //                     "   FragPos = vec3(model * vec4(position, 1.0f)); \n"
+    //                     ""
+    //                     ""
+    //                     "}\n"),
+    //     .frag_src = str("#version 330 core\n"
+    //                     "#extension GL_ARB_separate_shader_objects: enable\n"
+    //                     "layout (location = 0) in vec3 FragPos;\n"
+    //                     "out vec4 FragColor; \n"
+    //                     "uniform vec4 color; \n"
+    //                     ""
+    //                     "void main() \n"
+    //                     "{\n"
+    //                     "   FragColor = color; \n"
+    //                     ""
+    //                     ""
+    //                     "}\n"),
+    // };
 
 } // namespace Vultr::ShaderImporter

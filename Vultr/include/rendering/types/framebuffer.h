@@ -1,6 +1,10 @@
 #pragma once
 #include <types/types.h>
 #include "texture.h"
+#include <glm/glm.hpp>
+
+// For memset
+#include <cstring>
 
 namespace Vultr
 {
