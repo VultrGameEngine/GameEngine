@@ -37,8 +37,8 @@ namespace Vultr
 
             Renderer renderer;
 
-            UI_ID hot = NO_ID;
-            UI_ID active = NO_ID;
+            UI_ID hot = NO_ID();
+            UI_ID active = NO_ID();
 
             MouseState right_mb;
             MouseState left_mb;
@@ -50,7 +50,7 @@ namespace Vultr
 
             Font *font;
 
-            UI_ID parent = NO_ID;
+            UI_ID parent = NO_ID();
 
             // This is the index that will increase every time that a widget is layed out when there is a parent
             vtl::Stack<s32> index;
@@ -59,7 +59,7 @@ namespace Vultr
 
             std::unordered_map<UI_ID, Transform> widget_transforms;
 
-            vtl::DynamicArray<RenderRequest, 40, 2, 1> requests;
+            vtl::DynamicArray<RenderRequest, 512, 2, 1> requests;
 
             vtl::DynamicArray<UI_ID> widget_ids_to_be_removed;
 
@@ -67,7 +67,7 @@ namespace Vultr
             s32 z_index[MAX_WIDGET_DEPTH];
             size_t widget_depth;
 
-            UI_ID drawing_id = NO_ID;
+            UI_ID drawing_id = NO_ID();
 
             // Array of stencil requests
             StencilRequest stencil_requests[MAX_STENCIL_REQUESTS];

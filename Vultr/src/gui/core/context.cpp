@@ -53,7 +53,7 @@ void IMGUI::set_hot(Context *c, UI_ID id)
 void IMGUI::set_not_hot(Context *c, UI_ID id)
 {
     if (is_hot(c, id))
-        c->hot = NO_ID;
+        c->hot = NO_ID();
 }
 
 void IMGUI::set_active(Context *c, UI_ID id)
@@ -64,7 +64,7 @@ void IMGUI::set_active(Context *c, UI_ID id)
 void IMGUI::set_not_active(Context *c, UI_ID id)
 {
     if (is_active(c, id))
-        c->active = NO_ID;
+        c->active = NO_ID();
 }
 
 IMGUI::Context *IMGUI::new_context(Engine *e, const IMGUI::Window &window)
@@ -76,8 +76,6 @@ IMGUI::Context *IMGUI::new_context(Engine *e, const IMGUI::Window &window)
     auto default_font = FontSource("/home/brandon/Dev/Monopoly/res/fonts/Roboto-Regular.ttf");
     context->font = FontImporter::import_font(default_font, FontSystem::get_provider(e).library);
 
-    // TODO: AHHH
-    // context->requests.reserve(512);
     return context;
 }
 
@@ -119,7 +117,7 @@ void IMGUI::begin(Context *c, const UpdateTick &t)
     c->delta_time = t.m_delta_time;
     c->z_index[0] = 0;
     c->widget_depth = 0;
-    c->drawing_id = NO_ID;
+    c->drawing_id = NO_ID();
     c->index.clear();
     c->index.push(0);
     c->layout_to_stencil.clear();
@@ -333,7 +331,7 @@ void IMGUI::begin_layout_with_children(Context *c, UI_ID id, Layout &layout)
 {
     widget_accessed(c, id);
     (*c->index.top())++;
-    if (c->parent != NO_ID)
+    if (c->parent != NO_ID())
     {
         auto &parent_layout = get_widget_layout(c, c->parent);
         layout_add_child(parent_layout, id);
@@ -348,7 +346,7 @@ void IMGUI::begin_layout_with_children(Context *c, UI_ID id, Layout &layout)
 IMGUI::Layout &IMGUI::end_layout_with_children(Context *c, Widget_ID widget)
 {
     auto parent = c->parent;
-    assert(parent != NO_ID && "Cannot end layout! There is no parent widget!");
+    assert(parent != NO_ID() && "Cannot end layout! There is no parent widget!");
     auto &parent_layout = get_widget_layout(c, parent);
 
     assert(parent_layout.widget_type == widget && "Failed to end layout! Widget type does not match! Are you missing an `end` widget somewhere?");
@@ -370,7 +368,7 @@ IMGUI::Layout &IMGUI::end_layout_with_children(Context *c, Widget_ID widget)
 IMGUI::Constraints IMGUI::get_constraints(Context *c, UI_ID id)
 {
     auto parent = c->parent;
-    if (parent == NO_ID)
+    if (parent == NO_ID())
     {
         return Constraints(Vec2(0), c->window.dimensions);
     }
@@ -414,7 +412,7 @@ void IMGUI::layout_widget(Context *c, UI_ID id, Layout l)
     assert(l.type == Layout::NO_CHILD && "To layout a widget with more than one child, use `begin_layout_with_children` and `end_layout_with_children`");
     widget_accessed(c, id);
     (*c->index.top())++;
-    if (c->parent != NO_ID)
+    if (c->parent != NO_ID())
     {
         auto &parent_layout = get_widget_layout(c, c->parent);
         layout_add_child(parent_layout, id);
@@ -479,7 +477,7 @@ IMGUI::Transform IMGUI::get_widget_global_transform(Context *c, UI_ID id)
     if (c->widget_transforms.find(id) != c->widget_transforms.end())
         return c->widget_transforms[id];
     auto &layout = get_widget_layout(c, id);
-    if (layout.parent == NO_ID)
+    if (layout.parent == NO_ID())
     {
         c->widget_transforms.insert({id, Transform()});
         return Transform();
@@ -487,7 +485,7 @@ IMGUI::Transform IMGUI::get_widget_global_transform(Context *c, UI_ID id)
     auto &parent_layout = get_widget_layout(c, layout.parent);
     auto local_transform = get_child_transform(parent_layout, id);
     auto global_transform = local_transform;
-    if (parent_layout.parent != NO_ID)
+    if (parent_layout.parent != NO_ID())
     {
         global_transform = local_transform + get_widget_global_transform(c, layout.parent);
     }

@@ -18,7 +18,7 @@ namespace Vultr
         struct SingleChildLayout
         {
             // The UI_ID of the child of this single child layout
-            UI_ID child = UNSET_ID;
+            UI_ID child = UNSET_ID();
 
             // The constraints the child should receive when rendering/laying out
             Constraints child_constraints;
@@ -67,12 +67,12 @@ namespace Vultr
         struct Layout
         {
             // The widget that this layout belongs to
-            UI_ID owner = UNSET_ID;
+            UI_ID owner = UNSET_ID();
 
             // The parent widget of the layout/the widget this layout belongs to
-            UI_ID parent = NO_ID;
+            UI_ID parent = NO_ID();
 
-            Widget_ID widget_type = NO_ID;
+            Widget_ID widget_type = NO_ID();
 
             // The type of layout
             enum Type
@@ -107,9 +107,9 @@ namespace Vultr
         // stored in the data section of its layout which the child will then (hopefully) abide by, creating a size in its own layout
         Constraints layout_get_constraints(Layout &l, UI_ID id, u32 index = 0);
 
-        Layout new_no_child_layout(Widget_ID widget, UI_ID owner, Vec2 local_size, UI_ID parent = NO_ID);
-        Layout new_single_child_layout(Widget_ID widget, UI_ID owner, Vec2 local_size, Constraints constraints, UI_ID parent = NO_ID);
-        Layout new_multi_child_layout(Widget_ID widget, UI_ID owner, Vec2 local_size, Constraints default_constraints, Vec2 default_position, UI_ID parent = NO_ID);
+        Layout new_no_child_layout(Widget_ID widget, UI_ID owner, Vec2 local_size, UI_ID parent = NO_ID());
+        Layout new_single_child_layout(Widget_ID widget, UI_ID owner, Vec2 local_size, Constraints constraints, UI_ID parent = NO_ID());
+        Layout new_multi_child_layout(Widget_ID widget, UI_ID owner, Vec2 local_size, Constraints default_constraints, Vec2 default_position, UI_ID parent = NO_ID());
 
         // Get the layout data based on type safely using this. It is NOT recommended to do this through the layout directly, as that could very easily lead to bad data
         template <typename T>
