@@ -5,9 +5,8 @@ enable_testing()
 
 file(
   GLOB_RECURSE Vultr_SRC
-  "src/*.cpp"
-  "include/*.cpp"
   "vendor/*.cpp"
+  "src/main.cpp"
 )
 
 
@@ -28,7 +27,7 @@ if(WIN32)
   endif()
 endif(WIN32)
 
-include_directories(include vendor ../VTL/include)
+include_directories(src vendor ../VTL/include)
 
 
 if(UNIX)

@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include <rendering/types/material.h>
+#include <render/types/material.h>
 #include <sys/resource.h>
 #include <filesystem/importers/shader_importer.h>
 #include "gui/basic_rendering_test.h"
